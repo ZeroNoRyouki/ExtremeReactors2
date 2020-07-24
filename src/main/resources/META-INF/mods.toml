@@ -1,0 +1,39 @@
+# Extreme Reactors - mods.toml
+
+modLoader="javafml"
+loaderVersion="${forge_versionrange}"
+
+# A URL to refer people to when problems occur with this mod
+#issueTrackerURL="http://my.issue.tracker/" #optional
+
+[[mods]]
+
+	modId="extremereactors"
+	version="${mod_version}"
+	displayName="${mod_name}"	
+	authors="ZeroNoRyouki"
+	description="Adds large, multiblock power generation machines to Minecraft. This is a continuation of the 1.7.10 mod Big Reactors from ErogenousBeef"
+
+[[dependencies.extremereactors]]
+
+    modId="minecraft"
+    mandatory=true
+    versionRange="${minecraft_versionrange}"
+    ordering="NONE"
+    side="BOTH"
+	
+[[dependencies.extremereactors]]
+
+	modId="forge"
+	mandatory=true
+	versionRange="${forge_versionrange}"
+	ordering="NONE"
+	side="BOTH"
+
+[[dependencies.extremereactors]]
+
+    modId="zerocore"
+    mandatory=true
+    versionRange="${zerocore_versionrange}"
+    ordering="NONE"
+    side="BOTH"

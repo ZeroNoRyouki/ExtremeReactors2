@@ -1,0 +1,141 @@
+buildscript {
+    repositories {
+        maven { url = 'https://files.minecraftforge.net/maven' }
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
+    }
+}
+apply plugin: 'net.minecraftforge.gradle'
+apply plugin: 'maven-publish'
+
+file('build.properties').withReader {
+
+    def properties = new Properties()
+	
+    properties.load(it)
+    project.ext.config = new ConfigSlurper().parse properties
+}
+
+version = "${config.minecraft_version}-${config.mod_version_major}.${config.mod_version_minor}.${config.mod_version_patch}"
+group = 'it.zerono.mods.extremereactors'
+archivesBaseName = 'ExtremeReactors2'
+
+sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
+
+minecraft {
+
+    mappings channel: 'snapshot', version: config.minecraft_mappings
+
+	def runDir = file("${rootProject.projectDir}/runs/run-${config.minecraft_version}")
+
+    if (!runDir.exists()) {
+        runDir = file("run-${config.minecraft_version}")
+    }
+
+    runs {
+        client {
+
+            workingDirectory runDir
+			
+            mods {
+                zerocore {
+                    source project(':ZeroCore2-master').sourceSets.main
+                }
+
+                extremereactors {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        server {
+            
+			workingDirectory runDir
+			
+            mods {
+                zerocore {
+                    source project(':ZeroCore2-master').sourceSets.main
+                }
+
+                extremereactors {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        data {
+
+            workingDirectory runDir
+            args '--mod', 'zerocore', '--all', '--output', file('src/generated/resources/')
+
+            mods {
+                zerocore {
+                    source project(':ZeroCore2-master').sourceSets.main
+                }
+
+                extremereactors {
+                    source sourceSets.main
+                }
+            }
+        }
+    }
+}
+
+processResources {
+
+	inputs.property "mod_version", version
+	inputs.property "mod_name", config.mod_name
+    inputs.property "minecraft_versionrange", config.minecraft_versionrange
+	inputs.property "forge_versionrange", config.forge_versionrange
+	inputs.property "zerocore_versionrange", config.zerocore_versionrange
+
+    from(sourceSets.main.resources.srcDirs) {
+	
+        include 'META-INF/mods.toml'
+        expand 'mod_version': version, 
+				'mod_name': config.mod_name,
+				'minecraft_versionrange': config.minecraft_versionrange,
+				'forge_versionrange': config.forge_versionrange,
+				'zerocore_versionrange': config.zerocore_versionrange
+    }
+}
+
+dependencies {
+	minecraft "net.minecraftforge:forge:${config.minecraft_version}-${config.forge_version}"
+}
+
+jar {
+
+	classifier = 'universal'
+	finalizedBy 'reobfJar'
+
+    manifest {
+        attributes 'Specification-Title': config.mod_name
+        attributes 'Specification-Vendor': 'ZeroNoRyouki'
+        attributes 'Specification-Version': "2"
+        attributes 'Implementation-Title': config.mod_name
+        attributes 'Implementation-Vendor': 'ZeroNoRyouki'
+        attributes 'Implementation-Version': version
+        attributes 'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+    }	
+}
+
+publish.dependsOn('reobfJar')
+
+publishing {
+
+    publications {
+        mavenJava(MavenPublication) {
+            artifact jar
+        }
+    }
+	
+	repositories {
+        maven {
+            url "file:///${rootProject.projectDir}/maven"
+        }
+    }
+}
