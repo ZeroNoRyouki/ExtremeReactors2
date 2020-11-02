@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "down": "bigreactors:block/reactor/basic/glass.8",
+    "up": "bigreactors:block/reactor/basic/glass.15",
+    "north": "bigreactors:block/reactor/basic/glass.5",
+    "south": "bigreactors:block/reactor/basic/glass.9",
+    "east": "bigreactors:block/reactor/basic/glass.15",
+    "west": "bigreactors:block/reactor/basic/glass.1",
+    "particle": "bigreactors:block/reactor/basic/glass.0"
+  }
+}

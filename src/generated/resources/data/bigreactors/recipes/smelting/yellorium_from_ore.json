@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "bigreactors:yellorite_ore"
+  },
+  "result": "bigreactors:yellorium_ingot",
+  "experience": 1.0,
+  "cookingtime": 200
+}

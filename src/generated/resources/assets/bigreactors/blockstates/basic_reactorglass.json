@@ -1,0 +1,263 @@
+{
+  "variants": {
+    "facings=none": {
+      "model": "bigreactors:block/reactor/basic/glass_c0"
+    },
+    "facings=all": {
+      "model": "bigreactors:block/reactor/basic/glass_c5-6"
+    },
+    "facings=face_d": {
+      "model": "bigreactors:block/reactor/basic/glass_c1",
+      "x": 180
+    },
+    "facings=face_e": {
+      "model": "bigreactors:block/reactor/basic/glass_c1",
+      "x": 90,
+      "y": 90
+    },
+    "facings=face_n": {
+      "model": "bigreactors:block/reactor/basic/glass_c1",
+      "x": 90
+    },
+    "facings=face_s": {
+      "model": "bigreactors:block/reactor/basic/glass_c1",
+      "x": -90
+    },
+    "facings=face_u": {
+      "model": "bigreactors:block/reactor/basic/glass_c1"
+    },
+    "facings=face_w": {
+      "model": "bigreactors:block/reactor/basic/glass_c1",
+      "x": 90,
+      "y": -90
+    },
+    "facings=angle_de": {
+      "model": "bigreactors:block/reactor/basic/glass_c2angle",
+      "x": 180
+    },
+    "facings=angle_dn": {
+      "model": "bigreactors:block/reactor/basic/glass_c2angle",
+      "x": 180,
+      "y": -90
+    },
+    "facings=angle_ds": {
+      "model": "bigreactors:block/reactor/basic/glass_c2angle",
+      "x": 180,
+      "y": 90
+    },
+    "facings=angle_dw": {
+      "model": "bigreactors:block/reactor/basic/glass_c2angle",
+      "x": 180,
+      "y": 180
+    },
+    "facings=angle_en": {
+      "model": "bigreactors:block/reactor/basic/glass_c2angle",
+      "x": 90
+    },
+    "facings=angle_es": {
+      "model": "bigreactors:block/reactor/basic/glass_c2angle",
+      "x": -90
+    },
+    "facings=angle_eu": {
+      "model": "bigreactors:block/reactor/basic/glass_c2angle"
+    },
+    "facings=angle_nu": {
+      "model": "bigreactors:block/reactor/basic/glass_c2angle",
+      "y": -90
+    },
+    "facings=angle_nw": {
+      "model": "bigreactors:block/reactor/basic/glass_c2angle",
+      "x": 90,
+      "y": -90
+    },
+    "facings=angle_su": {
+      "model": "bigreactors:block/reactor/basic/glass_c2angle",
+      "y": 90
+    },
+    "facings=angle_sw": {
+      "model": "bigreactors:block/reactor/basic/glass_c2angle",
+      "x": -90,
+      "y": 90
+    },
+    "facings=angle_uw": {
+      "model": "bigreactors:block/reactor/basic/glass_c2angle",
+      "y": 180
+    },
+    "facings=opposite_du": {
+      "model": "bigreactors:block/reactor/basic/glass_c2"
+    },
+    "facings=opposite_ew": {
+      "model": "bigreactors:block/reactor/basic/glass_c2",
+      "x": -90,
+      "y": 90
+    },
+    "facings=opposite_ns": {
+      "model": "bigreactors:block/reactor/basic/glass_c2",
+      "x": -90
+    },
+    "facings=cshape_deu": {
+      "model": "bigreactors:block/reactor/basic/glass_c3t1",
+      "y": -180
+    },
+    "facings=cshape_dew": {
+      "model": "bigreactors:block/reactor/basic/glass_c3t2",
+      "x": 180
+    },
+    "facings=cshape_dns": {
+      "model": "bigreactors:block/reactor/basic/glass_c3t2",
+      "x": 180,
+      "y": 90
+    },
+    "facings=cshape_dnu": {
+      "model": "bigreactors:block/reactor/basic/glass_c3t1",
+      "y": 90
+    },
+    "facings=cshape_dsu": {
+      "model": "bigreactors:block/reactor/basic/glass_c3t1",
+      "y": -90
+    },
+    "facings=cshape_duw": {
+      "model": "bigreactors:block/reactor/basic/glass_c3t1"
+    },
+    "facings=cshape_ens": {
+      "model": "bigreactors:block/reactor/basic/glass_c3t1",
+      "x": -90,
+      "y": 180
+    },
+    "facings=cshape_enw": {
+      "model": "bigreactors:block/reactor/basic/glass_c3t2",
+      "x": 90
+    },
+    "facings=cshape_esw": {
+      "model": "bigreactors:block/reactor/basic/glass_c3t2",
+      "x": -90
+    },
+    "facings=cshape_euw": {
+      "model": "bigreactors:block/reactor/basic/glass_c3t2"
+    },
+    "facings=cshape_nsu": {
+      "model": "bigreactors:block/reactor/basic/glass_c3t2",
+      "y": 90
+    },
+    "facings=cshape_nsw": {
+      "model": "bigreactors:block/reactor/basic/glass_c3t1",
+      "x": -90
+    },
+    "facings=corner_den": {
+      "model": "bigreactors:block/reactor/basic/glass_c3angle",
+      "x": 180
+    },
+    "facings=corner_des": {
+      "model": "bigreactors:block/reactor/basic/glass_c3angle",
+      "x": 270
+    },
+    "facings=corner_dnw": {
+      "model": "bigreactors:block/reactor/basic/glass_c3angle",
+      "x": -90,
+      "y": -180
+    },
+    "facings=corner_dsw": {
+      "model": "bigreactors:block/reactor/basic/glass_c3angle",
+      "x": 180,
+      "y": -180
+    },
+    "facings=corner_enu": {
+      "model": "bigreactors:block/reactor/basic/glass_c3angle",
+      "x": 90
+    },
+    "facings=corner_esu": {
+      "model": "bigreactors:block/reactor/basic/glass_c3angle"
+    },
+    "facings=corner_nuw": {
+      "model": "bigreactors:block/reactor/basic/glass_c3angle",
+      "x": 90,
+      "y": -90
+    },
+    "facings=corner_suw": {
+      "model": "bigreactors:block/reactor/basic/glass_c3angle",
+      "y": 90
+    },
+    "facings=misc_dens": {
+      "model": "bigreactors:block/reactor/basic/glass_c4angle",
+      "x": 90,
+      "y": 180
+    },
+    "facings=misc_denu": {
+      "model": "bigreactors:block/reactor/basic/glass_c4angle",
+      "y": 90
+    },
+    "facings=misc_denw": {
+      "model": "bigreactors:block/reactor/basic/glass_c4angle",
+      "x": -270,
+      "y": -270
+    },
+    "facings=misc_desu": {
+      "model": "bigreactors:block/reactor/basic/glass_c4angle",
+      "y": 180
+    },
+    "facings=misc_desw": {
+      "model": "bigreactors:block/reactor/basic/glass_c4angle",
+      "x": -270,
+      "y": -90
+    },
+    "facings=misc_dnsw": {
+      "model": "bigreactors:block/reactor/basic/glass_c4angle",
+      "x": 90
+    },
+    "facings=misc_dnuw": {
+      "model": "bigreactors:block/reactor/basic/glass_c4angle"
+    },
+    "facings=misc_dsuw": {
+      "model": "bigreactors:block/reactor/basic/glass_c4angle",
+      "y": -90
+    },
+    "facings=misc_ensu": {
+      "model": "bigreactors:block/reactor/basic/glass_c4angle",
+      "x": -90,
+      "y": 180
+    },
+    "facings=misc_enuw": {
+      "model": "bigreactors:block/reactor/basic/glass_c4angle",
+      "x": -90,
+      "y": 90
+    },
+    "facings=misc_esuw": {
+      "model": "bigreactors:block/reactor/basic/glass_c4angle",
+      "x": -90,
+      "y": -90
+    },
+    "facings=misc_nsuw": {
+      "model": "bigreactors:block/reactor/basic/glass_c4angle",
+      "x": -90
+    },
+    "facings=pipe_deuw": {
+      "model": "bigreactors:block/reactor/basic/glass_c4x"
+    },
+    "facings=pipe_dnsu": {
+      "model": "bigreactors:block/reactor/basic/glass_c4x",
+      "y": 90
+    },
+    "facings=pipe_ensw": {
+      "model": "bigreactors:block/reactor/basic/glass_c4x",
+      "x": 90
+    },
+    "facings=pipeend_densu": {
+      "model": "bigreactors:block/reactor/basic/glass_c5-6"
+    },
+    "facings=pipeend_densw": {
+      "model": "bigreactors:block/reactor/basic/glass_c5-6"
+    },
+    "facings=pipeend_denuw": {
+      "model": "bigreactors:block/reactor/basic/glass_c5-6"
+    },
+    "facings=pipeend_desuw": {
+      "model": "bigreactors:block/reactor/basic/glass_c5-6"
+    },
+    "facings=pipeend_dnsuw": {
+      "model": "bigreactors:block/reactor/basic/glass_c5-6"
+    },
+    "facings=pipeend_ensuw": {
+      "model": "bigreactors:block/reactor/basic/glass_c5-6"
+    }
+  }
+}

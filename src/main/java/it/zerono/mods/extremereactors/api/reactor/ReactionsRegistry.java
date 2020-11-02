@@ -1,0 +1,107 @@
+/*
+ *
+ * ReactionsRegistry.java
+ *
+ * This file is part of Extreme Reactors 2 by ZeroNoRyouki, a Minecraft mod.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON INFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+ * DEALINGS IN THE SOFTWARE.
+ *
+ * DO NOT REMOVE OR EDIT THIS HEADER
+ *
+ */
+
+package it.zerono.mods.extremereactors.api.reactor;
+
+import com.google.common.base.Preconditions;
+import com.google.common.base.Strings;
+import com.google.common.collect.Maps;
+import it.zerono.mods.extremereactors.api.ExtremeReactorsAPI;
+import it.zerono.mods.extremereactors.api.InternalDispatcher;
+import org.apache.logging.log4j.Marker;
+import org.apache.logging.log4j.MarkerManager;
+
+import java.util.Map;
+import java.util.Optional;
+
+/**
+ * Keep track of all the Reactions that could happen inside a Reactor Fuel Rod
+ */
+public final class ReactionsRegistry {
+
+    /**
+     * Check if a Reaction for the given source Reactant is registered
+     *
+     * @param sourceReactant The source Reactant.
+     * @return true if the Reaction is registered, false otherwise.
+     */
+    public static boolean contains(final Reactant sourceReactant) {
+        return s_reactions.containsKey(sourceReactant);
+    }
+
+    /**
+     * Retrieve a registered Reaction for the given source Reactant.
+     *
+     * @param sourceReactant The source Reactant.
+     * @return the Reaction data if one is found, null otherwise
+     */
+    public static Optional<Reaction> get(final Reactant sourceReactant) {
+        return Optional.ofNullable(s_reactions.get(sourceReactant));
+    }
+
+    /**
+     * Register a new Reaction.
+     *
+     * @param sourceReactantName  The name of the source reactant.
+     * @param productReactantName The name of the product reactant.
+     * @param reactivity          The reactivity value.
+     * @param fissionRate         The fission rate value.
+     */
+    public static void register(final String sourceReactantName, final String productReactantName,
+                                final float reactivity, final float fissionRate) {
+
+        Preconditions.checkNotNull(sourceReactantName);
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(sourceReactantName));
+        Preconditions.checkNotNull(productReactantName);
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(productReactantName));
+
+        InternalDispatcher.dispatch("reaction-register", () -> {
+
+            final Reactant source = ReactantsRegistry.get(sourceReactantName).orElse(null);
+            final Reactant product = ReactantsRegistry.get(productReactantName).orElse(null);
+
+            if (null == source) {
+
+                ExtremeReactorsAPI.LOGGER.warn(MARKER, "Skipping registration for an unknown source reactant: {}", sourceReactantName);
+
+            } else if (null == product) {
+
+                ExtremeReactorsAPI.LOGGER.warn(MARKER, "Skipping registration for an unknown product reactant: {}", productReactantName);
+
+            } else {
+
+                if (s_reactions.containsKey(source)) {
+                    ExtremeReactorsAPI.LOGGER.warn(MARKER, "Overwriting {} => {} reaction", sourceReactantName, productReactantName);
+                }
+
+                s_reactions.put(source, new Reaction(source, product, reactivity, fissionRate));
+            }
+        });
+    }
+
+    //region internals
+
+    private ReactionsRegistry() {
+    }
+
+    private static Map<Reactant, Reaction> s_reactions = Maps.newHashMap();
+
+    private static final Marker MARKER = MarkerManager.getMarker("API/ReactionsRegistry").addParents(ExtremeReactorsAPI.MARKER);
+
+    //endregion
+}

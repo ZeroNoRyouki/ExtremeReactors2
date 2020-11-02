@@ -1,0 +1,21 @@
+{
+	"textures": {
+		"flowing": "bigreactors:fluid/fluid.fuelcolumn.flowing",
+		"still": "bigreactors:fluid/fluid.fuelcolumn.still"
+	},
+	"elements": [
+		{
+			"from": [1, 1, 1],
+			"to": [15, 15, 15],
+			"faces": {
+				"north": {"texture": "#flowing", "tintindex": 1},
+				"east": {"texture": "#flowing", "tintindex": 1},
+				"south": {"texture": "#flowing", "tintindex": 1},
+				"west": {"texture": "#flowing", "tintindex": 1},
+				"up": {"texture": "#still", "tintindex": 1},
+				"down": {"texture": "#still", "tintindex": 1}
+			}
+		}
+	],
+	"display": {}
+}

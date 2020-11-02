@@ -1,0 +1,13 @@
+{
+  "type": "thermal:pulverizer",
+  "ingredient": {
+    "item": "bigreactors:graphite_ingot"
+  },
+  "result": [
+    {
+      "item": "bigreactors:graphite_dust",
+      "count": 1
+    }
+  ],
+  "energy_mod": 0.5
+}

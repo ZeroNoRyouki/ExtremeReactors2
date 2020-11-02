@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "bigreactors:block/reactor/reinforced/powertap_fe_active"
+    }
+  }
+}

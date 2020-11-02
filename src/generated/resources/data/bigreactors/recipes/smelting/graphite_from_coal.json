@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "minecraft:coal"
+  },
+  "result": "bigreactors:graphite_ingot",
+  "experience": 1.0,
+  "cookingtime": 200
+}

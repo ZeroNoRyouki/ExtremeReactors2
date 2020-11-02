@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "bigreactors:graphite_component_to_storage"
+    ]
+  },
+  "criteria": {
+    "graphite_has_storage": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "bigreactors:graphite_block"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "bigreactors:graphite_component_to_storage"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "graphite_has_storage",
+      "has_the_recipe"
+    ]
+  ]
+}

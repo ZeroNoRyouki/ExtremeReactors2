@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "bigreactors:general",
+  "pattern": [
+    "DI ",
+    "WII",
+    "IW "
+  ],
+  "key": {
+    "I": {
+      "tag": "forge:ingots/iron"
+    },
+    "W": {
+      "tag": "minecraft:wool"
+    },
+    "D": {
+      "tag": "forge:dyes/green"
+    }
+  },
+  "result": {
+    "item": "bigreactors:wrench"
+  }
+}

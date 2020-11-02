@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:blasting",
+  "ingredient": {
+    "item": "bigreactors:yellorium_dust"
+  },
+  "result": "bigreactors:yellorium_ingot",
+  "experience": 1.0,
+  "cookingtime": 100
+}

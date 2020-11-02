@@ -1,0 +1,13 @@
+{
+  "type": "thermal:pulverizer",
+  "ingredient": {
+    "item": "bigreactors:yellorium_ingot"
+  },
+  "result": [
+    {
+      "item": "bigreactors:yellorium_dust",
+      "count": 1
+    }
+  ],
+  "energy_mod": 0.5
+}

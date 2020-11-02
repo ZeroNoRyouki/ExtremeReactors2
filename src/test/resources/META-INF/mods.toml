@@ -1,0 +1,43 @@
+# Extreme Reactors 2 TEST - mods.toml
+
+modLoader="javafml"
+loaderVersion="${forge_versionrange}"
+
+# The license for you mod. This is mandatory metadata and allows for easier comprehension of your redistributive properties.
+# Review your options at https://choosealicense.com/. All rights reserved is the default copyright stance, and is thus the default here.
+license="All rights reserved"
+
+# A URL to refer people to when problems occur with this mod
+#issueTrackerURL="http://my.issue.tracker/" #optional
+
+[[mods]]
+
+	modId="bigreactorstest"
+	version="${mod_version}"
+	displayName="${mod_name}"	
+	authors="ZeroNoRyouki"
+	description="Adds large, multiblock power generation machines to Minecraft. This is a continuation of the 1.7.10 mod Big Reactors from ErogenousBeef"
+
+[[dependencies.bigreactorstest]]
+
+    modId="minecraft"
+    mandatory=true
+    versionRange="${minecraft_versionrange}"
+    ordering="NONE"
+    side="BOTH"
+	
+[[dependencies.bigreactorstest]]
+
+	modId="forge"
+	mandatory=true
+	versionRange="${forge_versionrange}"
+	ordering="NONE"
+	side="BOTH"
+
+[[dependencies.bigreactorstest]]
+
+    modId="zerocore"
+    mandatory=true
+    versionRange="${zerocore_versionrange}"
+    ordering="AFTER"
+    side="BOTH"
