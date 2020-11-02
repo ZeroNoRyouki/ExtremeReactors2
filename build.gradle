@@ -11,6 +11,8 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'maven-publish'
 
+evaluationDependsOn(":ZeroCore2-master")
+
 file('build.properties').withReader {
 
     def properties = new Properties()
@@ -35,6 +37,12 @@ minecraft {
         runDir = file("run-${config.minecraft_version}")
     }
 
+    def serverDir = file("${rootProject.projectDir}/runs/server-${config.minecraft_version}")
+
+    if (!serverDir.exists()) {
+        serverDir = file("server-${config.minecraft_version}")
+    }
+
     runs {
         client {
 
@@ -45,23 +53,31 @@ minecraft {
                     source project(':ZeroCore2-master').sourceSets.main
                 }
 
-                extremereactors {
+                bigreactors {
                     source sourceSets.main
+                }
+
+                bigreactorstest {
+                    source sourceSets.test
                 }
             }
         }
 
         server {
             
-			workingDirectory runDir
+			workingDirectory serverDir
 			
             mods {
                 zerocore {
                     source project(':ZeroCore2-master').sourceSets.main
                 }
 
-                extremereactors {
+                bigreactors {
                     source sourceSets.main
+                }
+
+                bigreactorstest {
+                    source sourceSets.test
                 }
             }
         }
@@ -69,19 +85,30 @@ minecraft {
         data {
 
             workingDirectory runDir
-            args '--mod', 'zerocore', '--all', '--output', file('src/generated/resources/')
+            args '--mod', 'bigreactors', '--all',
+                    '--existing', file('src/main/resources/'),
+                    '--existing', file('src/generated/resources/'),
+                    '--output', file('src/generated/resources/')
 
             mods {
                 zerocore {
                     source project(':ZeroCore2-master').sourceSets.main
                 }
 
-                extremereactors {
+                bigreactors {
                     source sourceSets.main
+                }
+
+                bigreactorstest {
+                    source sourceSets.test
                 }
             }
         }
     }
+}
+
+sourceSets.main.resources {
+    srcDir 'src/generated/resources'
 }
 
 processResources {
@@ -103,13 +130,55 @@ processResources {
     }
 }
 
+repositories {
+
+    // jei
+    maven {
+        // location of the maven that hosts JEI files
+        name = "Progwml6 maven"
+        url = "https://dvs1.progwml6.com/files/maven/"
+    }
+
+    // jei alt
+    maven {
+        // location of a maven mirror for JEI files, as a fallback
+        name = "ModMaven"
+        url = "https://modmaven.k-4u.nl"
+    }
+
+    // cc-tweaked
+    maven {
+        url 'https://squiddev.cc/maven/'
+    }
+}
+
 dependencies {
 	minecraft "net.minecraftforge:forge:${config.minecraft_version}-${config.forge_version}"
+    implementation project(':ZeroCore2-master')
+
+    // compile against the JEI API but do not include it at runtime
+    compileOnly fg.deobf("mezz.jei:jei-${config.minecraft_version}:${config.jei_version}:api")
+    // at runtime, use the full JEI jar
+    runtimeOnly fg.deobf("mezz.jei:jei-${config.minecraft_version}:${config.jei_version}")
+
+    implementation fg.deobf("org.squiddev:cc-tweaked-${config.minecraft_version}:${config.cctweaked_version}")
+}
+
+task extremereactors_apiJar(type: Jar) {
+
+    from(sourceSets.main.allJava) {
+        include 'it/zerono/mods/extremereactors/api/**'
+    }
+    from (sourceSets.main.output) {
+        include 'it/zerono/mods/extremereactors/api/**'
+    }
+
+    classifier = 'api'
 }
 
 jar {
 
-	classifier = 'universal'
+	//classifier = 'universal'
 	finalizedBy 'reobfJar'
 
     manifest {

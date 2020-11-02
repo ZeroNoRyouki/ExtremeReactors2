@@ -1,20 +1,24 @@
-# Extreme Reactors - mods.toml
+# Extreme Reactors 2 - mods.toml
 
 modLoader="javafml"
 loaderVersion="${forge_versionrange}"
+
+# The license for you mod. This is mandatory metadata and allows for easier comprehension of your redistributive properties.
+# Review your options at https://choosealicense.com/. All rights reserved is the default copyright stance, and is thus the default here.
+license="All rights reserved"
 
 # A URL to refer people to when problems occur with this mod
 #issueTrackerURL="http://my.issue.tracker/" #optional
 
 [[mods]]
 
-	modId="extremereactors"
+	modId="bigreactors"
 	version="${mod_version}"
 	displayName="${mod_name}"	
 	authors="ZeroNoRyouki"
 	description="Adds large, multiblock power generation machines to Minecraft. This is a continuation of the 1.7.10 mod Big Reactors from ErogenousBeef"
 
-[[dependencies.extremereactors]]
+[[dependencies.bigreactors]]
 
     modId="minecraft"
     mandatory=true
@@ -22,7 +26,7 @@ loaderVersion="${forge_versionrange}"
     ordering="NONE"
     side="BOTH"
 	
-[[dependencies.extremereactors]]
+[[dependencies.bigreactors]]
 
 	modId="forge"
 	mandatory=true
@@ -30,10 +34,10 @@ loaderVersion="${forge_versionrange}"
 	ordering="NONE"
 	side="BOTH"
 
-[[dependencies.extremereactors]]
+[[dependencies.bigreactors]]
 
     modId="zerocore"
     mandatory=true
     versionRange="${zerocore_versionrange}"
-    ordering="NONE"
+    ordering="AFTER"
     side="BOTH"
