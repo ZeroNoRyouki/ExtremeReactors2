@@ -64,11 +64,17 @@ public enum ReactorPartType
     SolidAccessPort(() -> Content.TileEntityTypes.REACTOR_SOLID_ACCESSPORT::get,
             IOPortBlock::new, "part.bigreactors.reactor.solidaccessport"),
 
-    //TODO Fluid access ports
+    ActiveCoolantPortForge(() -> Content.TileEntityTypes.REACTOR_COOLANTPORT_FORGE_ACTIVE::get,
+            IOPortBlock::new, "part.bigreactors.reactor.coolantport_forge_active"),
 
-    CoolantPort(
-            () -> () -> null, //TODO fix!
-            IOPortBlock::new, "part.bigreactors.reactor.coolantport"),
+    PassiveCoolantPortForge(() -> Content.TileEntityTypes.REACTOR_COOLANTPORT_FORGE_PASSIVE::get,
+            IOPortBlock::new, "part.bigreactors.reactor.coolantport_forge_passive"),
+
+    ActiveCoolantPortMekanism(() -> null,//Content.TileEntityTypes.REACTOR_COOLANTPORT_MEKANISM_ACTIVE::get, //TODO mekanism coolant port
+            IOPortBlock::new, "part.bigreactors.reactor.coolantport_mekanism_active"),
+
+    PassiveCoolantPortMekanism(() -> null,//Content.TileEntityTypes.REACTOR_COOLANTPORT_MEKANISM_PASSIVE::get, //TODO mekanism coolant port
+            IOPortBlock::new, "part.bigreactors.reactor.coolantport_mekanism_passive"),
 
     CreativeCoolantPort(
             () -> () -> null, //TODO fix!

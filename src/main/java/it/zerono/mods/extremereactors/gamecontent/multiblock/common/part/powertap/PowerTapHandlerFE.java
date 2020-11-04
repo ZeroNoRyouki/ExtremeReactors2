@@ -20,16 +20,12 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.powert
 
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.AbstractGeneratorMultiblockController;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.variant.IMultiblockGeneratorVariant;
-import it.zerono.mods.zerocore.lib.CodeHelper;
 import it.zerono.mods.zerocore.lib.data.IoMode;
 import it.zerono.mods.zerocore.lib.energy.EnergySystem;
 import it.zerono.mods.zerocore.lib.multiblock.cuboid.AbstractCuboidMultiblockPart;
-import it.zerono.mods.zerocore.lib.world.WorldHelper;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.util.LazyOptional;
@@ -44,21 +40,12 @@ public class PowerTapHandlerFE<Controller extends AbstractGeneratorMultiblockCon
 
     public PowerTapHandlerFE(final AbstractCuboidMultiblockPart<Controller> part, final IoMode mode) {
 
-        super(part, mode);
+        super(EnergySystem.ForgeEnergy, part, mode);
         this._consumer = null;
         this._capability = LazyOptional.of(() -> this);
     }
 
     //region IPowerTapHandler
-
-    /**
-     * Get the {@link EnergySystem} supported by this IPowerTapHandler
-     *
-     * @return the supported {@link EnergySystem}
-     */
-    public EnergySystem getEnergySystem() {
-        return EnergySystem.ForgeEnergy;
-    }
 
     /**
      * Send energy to the connected consumer (if there is one and we are in active mode)
@@ -91,7 +78,9 @@ public class PowerTapHandlerFE<Controller extends AbstractGeneratorMultiblockCon
      * @param position the PowerTap position
      */
     public void checkConnections(@Nullable IBlockReader world, BlockPos position) {
-
+        this._consumer = this.lookupConsumer(world, position, CAPAP_FORGE_ENERGYSTORAGE,
+                te -> te instanceof IPowerTapHandler, this._consumer);
+        /*
         boolean wasConnected = null != this._consumer;
 
         if (null != world) {
@@ -128,6 +117,12 @@ public class PowerTapHandlerFE<Controller extends AbstractGeneratorMultiblockCon
         if (wasConnected != isConnected && null != partWorld && CodeHelper.calledByLogicalClient(partWorld)) {
             WorldHelper.notifyBlockUpdate(partWorld, this.getPart().getWorldPosition(), null, null);
         }
+        */
+    }
+
+    @Override
+    public void invalidate() {
+        this._capability.invalidate();
     }
 
     /**

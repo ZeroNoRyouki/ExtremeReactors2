@@ -72,6 +72,8 @@ public class ReactorBlockStateGenerator
         this.genRedstonePort(Content.Blocks.REACTOR_REDSTONEPORT_REINFORCED, variant);
         this.genericPart(Content.Blocks.REACTOR_POWERTAP_FE_ACTIVE_REINFORCED, "powertap_fe_active", variant, true);
         this.genericPart(Content.Blocks.REACTOR_POWERTAP_FE_PASSIVE_REINFORCED, "powertap_fe_passive", variant, true);
+        this.genCoolantPort(Content.Blocks.REACTOR_COOLANTPORT_FORGE_ACTIVE_REINFORCED, "coolantport_forge_active", variant);
+        this.genCoolantPort(Content.Blocks.REACTOR_COOLANTPORT_FORGE_PASSIVE_REINFORCED, "coolantport_forge_passive", variant);
         this.genComputerPort(Content.Blocks.REACTOR_COMPUTERPORT_REINFORCED, variant);
         //endregion
 
@@ -145,6 +147,15 @@ public class ReactorBlockStateGenerator
 
         this.simpleBlock(block.get(), mbp.cubeAll(fullResourceName + "_in", this.modLoc(fullResourceName + "_in")), true);
         this.genericPartSubModels(fullResourceName, "_in_connected", "_out", "_out_connected");
+    }
+
+    protected void genCoolantPort(final Supplier<? extends Block> block, final String resourceName, final String subFolder) {
+
+        final BlockModelProvider mbp = this.models();
+        final String fullResourceName = fullResourceName(resourceName, subFolder);
+
+        this.simpleBlock(block.get(), mbp.cubeAll(fullResourceName + "_cold", this.modLoc(fullResourceName + "_cold")), true);
+        this.genericPartSubModels(fullResourceName, "_cold_connected", "_hot", "_hot_connected");
     }
 
     protected void genRedstonePort(final Supplier<? extends Block> block, final String subFolder) {

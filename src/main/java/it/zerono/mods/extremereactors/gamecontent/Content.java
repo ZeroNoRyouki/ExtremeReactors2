@@ -23,6 +23,7 @@ import it.zerono.mods.extremereactors.config.Config;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.GenericDeviceBlock;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.GlassBlock;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.IOPortBlock;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.coolantport.CoolantPortType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.MultiblockReactor;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.ReactorPartType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.container.ReactorSolidAccessPortContainer;
@@ -154,6 +155,12 @@ public final class Content {
         public static final RegistryObject<GenericDeviceBlock<MultiblockReactor, ReactorPartType>> REACTOR_POWERTAP_FE_PASSIVE_REINFORCED =
                 registerReactorBlock("reinforced_reactorpowertapfe_passive", ReactorVariant.Reinforced, ReactorPartType.PassivePowerTapFE);
 
+        public static final RegistryObject<IOPortBlock<MultiblockReactor, ReactorPartType>> REACTOR_COOLANTPORT_FORGE_ACTIVE_REINFORCED =
+                registerReactorBlock("reinforced_reactorcoolantport_forge_active", ReactorVariant.Reinforced, ReactorPartType.ActiveCoolantPortForge);
+
+        public static final RegistryObject<IOPortBlock<MultiblockReactor, ReactorPartType>> REACTOR_COOLANTPORT_FORGE_PASSIVE_REINFORCED =
+                registerReactorBlock("reinforced_reactorcoolantport_forge_passive", ReactorVariant.Reinforced, ReactorPartType.PassiveCoolantPortForge);
+
         public static final RegistryObject<ReactorRedstonePortBlock> REACTOR_REDSTONEPORT_REINFORCED =
                 registerReactorBlock("reinforced_reactorredstoneport", ReactorVariant.Reinforced, ReactorPartType.RedstonePort);
 
@@ -284,6 +291,8 @@ public final class Content {
         public static final RegistryObject<BlockItem> REACTOR_POWERTAP_FE_PASSIVE_REINFORCED = registerItemBlock("reinforced_reactorpowertapfe_passive", () -> Blocks.REACTOR_POWERTAP_FE_PASSIVE_REINFORCED::get, ItemGroups.REACTOR);
         public static final RegistryObject<BlockItem> REACTOR_COMPUTERPORT_REINFORCED = registerItemBlock("reinforced_reactorcomputerport", () -> Blocks.REACTOR_COMPUTERPORT_REINFORCED::get, ItemGroups.REACTOR);
         public static final RegistryObject<BlockItem> REACTOR_REDSTONEPORT_REINFORCED = registerItemBlock("reinforced_reactorredstoneport", () -> Blocks.REACTOR_REDSTONEPORT_REINFORCED::get, ItemGroups.REACTOR);
+        public static final RegistryObject<BlockItem> REACTOR_COOLANTPORT_FORGE_ACTIVE_REINFORCED = registerItemBlock("reinforced_reactorcoolantport_forge_active", () -> Blocks.REACTOR_COOLANTPORT_FORGE_ACTIVE_REINFORCED::get, ItemGroups.REACTOR);
+        public static final RegistryObject<BlockItem> REACTOR_COOLANTPORT_FORGE_PASSIVE_REINFORCED = registerItemBlock("reinforced_reactorcoolantport_forge_passive", () -> Blocks.REACTOR_COOLANTPORT_FORGE_PASSIVE_REINFORCED::get, ItemGroups.REACTOR);
 
         //endregion
         //endregion
@@ -355,9 +364,17 @@ public final class Content {
                         () -> Blocks.REACTOR_SOLID_ACCESSPORT_BASIC::get,
                         () -> Blocks.REACTOR_SOLID_ACCESSPORT_REINFORCED::get);
 
-        //TODO imp 4 other variants
-//        public static final RegistryObject<TileEntityType<ReactorCoolantPortEntity>> REACTOR_COOLANTPORT =
-//                registerBlockEntity("reactorcoolantport", ReactorCoolantPortEntity::new, () -> Blocks.REACTOR_XXXXXX_BASIC::get);
+        public static final RegistryObject<TileEntityType<ReactorCoolantPortEntity>> REACTOR_COOLANTPORT_FORGE_ACTIVE =
+                registerBlockEntity("reactorcoolantport_forge_active",
+                        () -> new ReactorCoolantPortEntity(CoolantPortType.Forge, IoMode.Active, TileEntityTypes.REACTOR_COOLANTPORT_FORGE_ACTIVE.get()),
+                        () -> Blocks.REACTOR_COOLANTPORT_FORGE_ACTIVE_REINFORCED::get);
+
+        public static final RegistryObject<TileEntityType<ReactorCoolantPortEntity>> REACTOR_COOLANTPORT_FORGE_PASSIVE =
+                registerBlockEntity("reactorcoolantport_forge_passive",
+                        () -> new ReactorCoolantPortEntity(CoolantPortType.Forge, IoMode.Passive, TileEntityTypes.REACTOR_COOLANTPORT_FORGE_PASSIVE.get()),
+                        () -> Blocks.REACTOR_COOLANTPORT_FORGE_PASSIVE_REINFORCED::get);
+
+        //TODO coolant port mekanism TE
 
         //TODO imp 4 other variants
 //        public static final RegistryObject<TileEntityType<ReactorCreativeCoolantPortEntity>> REACTOR_CREATIVECOOLANTPORT =

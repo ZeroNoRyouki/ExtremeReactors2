@@ -27,6 +27,7 @@ import it.zerono.mods.extremereactors.api.reactor.*;
 import it.zerono.mods.extremereactors.api.reactor.radiation.EnergyConversion;
 import it.zerono.mods.extremereactors.api.reactor.radiation.IRadiationModerator;
 import it.zerono.mods.extremereactors.api.reactor.radiation.IrradiationData;
+import it.zerono.mods.extremereactors.config.Config;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.AbstractGeneratorMultiblockController;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.FluidContainer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.FluidType;
@@ -153,14 +154,7 @@ public class MultiblockReactor
 
     //region active-coolant system
 
-    public Optional<IFluidHandler> getLiquidHandler() {
-        return this.getFluidHandler(FluidType.Liquid);
-    }
-
-    public Optional<IFluidHandler> getGasHandler() {
-        return this.getFluidHandler(FluidType.Gas);
-    }
-
+    @Override
     public Optional<IFluidHandler> getFluidHandler(FluidType type) {
         return this.getOperationalMode().isActive() ? Optional.of(this._fluidContainer.getWrapper(type)) : Optional.empty();
     }
@@ -262,7 +256,8 @@ public class MultiblockReactor
 
             // Distribute available gas equally to all the Coolant Ports in output mode
             profiler.startSection("Gas");
-            this.distributeGas();
+//            this.distributeGas();
+            this.distributeGasEqually();
         }
 
         profiler.endSection();
@@ -326,7 +321,8 @@ public class MultiblockReactor
             case PassivePowerTapFE:
                 return this._attachedPowerTaps.size(); //TODO add other power taps count
 
-            case CoolantPort:
+            case ActiveCoolantPortForge:
+            case PassiveCoolantPortForge:
                 return this._attachedCoolantPorts.size();
 
             default:
@@ -1223,68 +1219,81 @@ public class MultiblockReactor
 
     /**
      * Reactor UPDATE
-     * Distribute the available energy equally between all the Power Taps
+     * Distribute the available energy equally between all the Active Power Taps
      */
     private void distributeEnergyEqually() {
 
         final EnergyBuffer energyBuffer = this.getEnergyBuffer();
-        final double energyDistributed = distributeEnergy(energyBuffer.getEnergyStored(),
+        final double amountDistributed = distributeEnergyEqually(energyBuffer.getEnergyStored(),
                 this._attachedPowerTaps);
 
-        if (energyDistributed > 0) {
-            energyBuffer.modifyEnergyStored(-energyDistributed);
+        if (amountDistributed > 0) {
+            energyBuffer.modifyEnergyStored(-amountDistributed);
         }
     }
 
     /**
      * Reactor UPDATE
-     * Distribute the available gas between all the Coolant Ports in output mode
+     * Distribute the available gas equally between all the Active Coolant Ports
      */
-    private void distributeGas() {
+    private void distributeGasEqually() {
 
-        final IFluidHandler gasSource = this.getFluidContainer().getWrapper(FluidType.Gas);
-        int outputCount = this._attachedOutgoingCoolantPorts.size();
-        int gasAmount = this.getFluidContainer().getGasAmount();
-        int consumedAmount = 0;
+        final int amountDistributed = distributeGasEqually(this._fluidContainer.getStackCopy(FluidType.Gas), this._attachedCoolantPorts);
 
-        if (gasAmount > 0) {
-
-            for (final ReactorCoolantPortEntity port : this._attachedOutgoingCoolantPorts) {
-
-                final FluidStack transferred = this.distributeGasTo(gasSource, port, gasAmount / outputCount);
-
-                if (!transferred.isEmpty()) {
-
-                    gasAmount -= transferred.getAmount();
-                    consumedAmount += transferred.getAmount();
-                }
-
-                --outputCount;
-
-                if (gasAmount <= 0) {
-                    break;
-                }
-            }
-
-            this.getFluidContainer().extract(FluidType.Gas, consumedAmount, OperationMode.Execute);
+        if (amountDistributed > 0) {
+            this._fluidContainer.extract(FluidType.Gas, amountDistributed, OperationMode.Execute);
         }
     }
 
-    /**
-     * Reactor UPDATE
-     * Distribute the specified amount of gas to the provided Coolant Port
-     *
-     * @param gasSource the gas source
-     * @param port      the destination Coolant Port
-     * @param maxAmount the maximum amount of gas to transfer
-     */
-    private FluidStack distributeGasTo(IFluidHandler gasSource, ReactorCoolantPortEntity port, int maxAmount) {
-        return port.getOutwardDirection()
-                .map(direction -> FluidHelper.tryFluidTransfer(gasSource, port.getPartWorldOrFail(),
-                        port.getWorldPosition().offset(direction),
-                        direction.getOpposite(), maxAmount, IFluidHandler.FluidAction.EXECUTE))
-                .orElse(FluidStack.EMPTY);
-    }
+//    /**
+//     * Reactor UPDATE
+//     * Distribute the available gas between all the Coolant Ports in output mode
+//     */
+//    private void distributeGas() {
+//
+//        final IFluidHandler gasSource = this.getFluidContainer().getWrapper(FluidType.Gas);
+//        int outputCount = this._attachedOutgoingCoolantPorts.size();
+//        int gasAmount = this.getFluidContainer().getGasAmount();
+//        int consumedAmount = 0;
+//
+//        if (gasAmount > 0) {
+//
+//            for (final ReactorCoolantPortEntity port : this._attachedOutgoingCoolantPorts) {
+//
+//                final FluidStack transferred = this.distributeGasTo(gasSource, port, gasAmount / outputCount);
+//
+//                if (!transferred.isEmpty()) {
+//
+//                    gasAmount -= transferred.getAmount();
+//                    consumedAmount += transferred.getAmount();
+//                }
+//
+//                --outputCount;
+//
+//                if (gasAmount <= 0) {
+//                    break;
+//                }
+//            }
+//
+//            this.getFluidContainer().extract(FluidType.Gas, consumedAmount, OperationMode.Execute);
+//        }
+//    }
+//
+//    /**
+//     * Reactor UPDATE
+//     * Distribute the specified amount of gas to the provided Coolant Port
+//     *
+//     * @param gasSource the gas source
+//     * @param port      the destination Coolant Port
+//     * @param maxAmount the maximum amount of gas to transfer
+//     */
+//    private FluidStack distributeGasTo(IFluidHandler gasSource, ReactorCoolantPortEntity port, int maxAmount) {
+//        return port.getOutwardDirection()
+//                .map(direction -> FluidHelper.tryFluidTransfer(gasSource, port.getPartWorldOrFail(),
+//                        port.getWorldPosition().offset(direction),
+//                        direction.getOpposite(), maxAmount, IFluidHandler.FluidAction.EXECUTE))
+//                .orElse(FluidStack.EMPTY);
+//    }
 
     //endregion
     //region internal data update
@@ -1298,11 +1307,11 @@ public class MultiblockReactor
 
         if (this.getOperationalMode().isActive()) {
 
-            int outerVolume = CodeHelper.optionalMap(this.getMinimumCoord(), this.getMaximumCoord(),
+            final int outerVolume = CodeHelper.optionalMap(this.getMinimumCoord(), this.getMaximumCoord(),
                     CodeHelper::mathVolume).orElse(0) - this.getReactorVolume();
 
-            //TODO variants
-            this._fluidContainer.setCapacity(Math.max(0, Math.min(50000, outerVolume * 100)));
+            this._fluidContainer.setCapacity(MathHelper.clamp(outerVolume * this.getVariant().getPartCoolantCapacity(),
+                    0, this.getVariant().getMaxCoolantCapacity()));
 
         } else {
 

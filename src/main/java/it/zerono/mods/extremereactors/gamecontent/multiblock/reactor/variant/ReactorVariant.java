@@ -52,7 +52,8 @@ public enum ReactorVariant
             .setMaxEnergyExtractionRate(5000000)
             .setRadiationAttenuation(0.75f)
             .setResidualRadiationAttenuation(0.15f)
-            .setPartSteamCapacity(4567)
+            .setPartCoolantCapacity(4567)
+            .setMaxCoolantCapacity(200000)
             .setSolidFuelConversionEfficiency(0.75f)
             .setFluidFuelConversionEfficiency(0.8f)),
     ;
@@ -139,8 +140,13 @@ public enum ReactorVariant
     }
 
     @Override
-    public int getPartSteamCapacity() {
-        return this._partSteamCapacity;
+    public int getPartCoolantCapacity() {
+        return this._partCoolantCapacity;
+    }
+
+    @Override
+    public int getMaxCoolantCapacity() {
+        return this._maxCoolantCapacity;
     }
 
     //endregion
@@ -161,7 +167,8 @@ public enum ReactorVariant
         this._residualRadiationAttenuation = builder._residualRadiationAttenuation;
         this._solidFuelConversionEfficiency = builder._solidFuelConversionEfficiency;
         this._fluidFuelConversionEfficiency = builder._fluidFuelConversionEfficiency;
-        this._partSteamCapacity = builder._partSteamCapacity;
+        this._partCoolantCapacity = builder._partCoolantCapacity;
+        this._maxCoolantCapacity = builder._maxCoolantCapacity;
         this._partTest = builder._partTest;
     }
 
@@ -245,10 +252,17 @@ public enum ReactorVariant
             return this;
         }
 
-        public Builder setPartSteamCapacity(final int capacity) {
+        public Builder setPartCoolantCapacity(final int capacity) {
 
             Preconditions.checkArgument(capacity > 0);
-            this._partSteamCapacity = capacity;
+            this._partCoolantCapacity = capacity;
+            return this;
+        }
+
+        public Builder setMaxCoolantCapacity(final int capacity) {
+
+            Preconditions.checkArgument(capacity > 0);
+            this._maxCoolantCapacity = capacity;
             return this;
         }
 
@@ -258,7 +272,7 @@ public enum ReactorVariant
             return this;
         }
 
-        public Builder setPartCompatibilityTest(final java.util.function.Predicate<ReactorPartType> test) {
+        public Builder setPartCompatibilityTest(final Predicate<ReactorPartType> test) {
 
             this._partTest = test;
             return this;
@@ -287,22 +301,23 @@ public enum ReactorVariant
         private int _partEnergyCapacity;
         private float _generationEfficiency;
         private double _maxEnergyExtractionRate;
+        private int _partCoolantCapacity;
+        private int _maxCoolantCapacity;
 
         private float _radiationAttenuation;
         private float _residualRadiationAttenuation;
         private float _solidFuelConversionEfficiency;
         private float _fluidFuelConversionEfficiency;
-        private int _partSteamCapacity;
 
         private Function<Block.Properties, Block.Properties> _blockPropertiesFixer;
 
-        private java.util.function.Predicate<ReactorPartType> _partTest;
+        private Predicate<ReactorPartType> _partTest;
 
         //endregion
     }
 
     private static final Set<ReactorPartType> BASIC_INVALID_PARTS = Sets.immutableEnumSet(ReactorPartType.ComputerPort,
-            ReactorPartType.CoolantPort, ReactorPartType.CreativeCoolantPort);
+            ReactorPartType.ActiveCoolantPortForge, ReactorPartType.PassiveCoolantPortForge, ReactorPartType.CreativeCoolantPort);
 
     private final String _translationKey;
 
@@ -314,12 +329,13 @@ public enum ReactorVariant
     private final int _partEnergyCapacity;
     private final float _generationEfficiency;
     private final double _maxEnergyExtractionRate;
+    private final int _partCoolantCapacity;
+    private final int _maxCoolantCapacity;
 
     private final float _radiationAttenuation;
     private final float _residualRadiationAttenuation;
     private final float _solidFuelConversionEfficiency;
     private final float _fluidFuelConversionEfficiency;
-    private final int _partSteamCapacity;
 
     private final Function<Block.Properties, Block.Properties> _blockPropertiesFixer;
 

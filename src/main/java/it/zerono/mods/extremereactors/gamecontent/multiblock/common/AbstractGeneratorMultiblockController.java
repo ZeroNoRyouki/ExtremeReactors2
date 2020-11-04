@@ -18,18 +18,24 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.common;
 
+import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.IIOPortHandler;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.coolantport.ICoolantPort;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.powertap.IPowerTap;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.powertap.IPowerTapHandler;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.variant.IMultiblockGeneratorVariant;
+import it.zerono.mods.zerocore.lib.data.IIoEntity;
 import it.zerono.mods.zerocore.lib.energy.EnergyBuffer;
 import it.zerono.mods.zerocore.lib.energy.EnergySystem;
 import it.zerono.mods.zerocore.lib.energy.IWideEnergyProvider;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Direction;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 
 import javax.annotation.Nullable;
 import java.util.Collection;
+import java.util.Optional;
 
 @SuppressWarnings({"WeakerAccess"})
 public abstract class AbstractGeneratorMultiblockController<Controller extends AbstractGeneratorMultiblockController<Controller, V>,
@@ -65,13 +71,13 @@ public abstract class AbstractGeneratorMultiblockController<Controller extends A
     }
 
     /**
-     * Distribute the given amount of energy equally between the specified Power Taps
+     * Distribute the given amount of energy equally between the specified Active Power Taps
      *
      * @param energyAmount the amount of energy to distribute
-     * @param powerTaps    the Power Taps
+     * @param powerTaps the Power Taps
      * @return the amount of energy distributed
      */
-    protected static double distributeEnergy(double energyAmount, final Collection<? extends IPowerTap> powerTaps) {
+    protected static double distributeEnergyEqually(double energyAmount, final Collection<? extends IPowerTap> powerTaps) {
 
         if (energyAmount <= 0 || powerTaps.isEmpty()) {
             return 0;
@@ -81,9 +87,47 @@ public abstract class AbstractGeneratorMultiblockController<Controller extends A
 
         return powerTaps.stream()
                 .map(IPowerTap::getPowerTapHandler)
-                .filter(IPowerTapHandler::isActive)
-                .filter(IPowerTapHandler::isConnected)
+                .filter(IIOPortHandler::isActive)
+                .filter(IIOPortHandler::isConnected)
                 .mapToDouble(handler -> handler.outputEnergy(energyPerTap))
+                .sum();
+    }
+
+    //endregion
+    //region active-coolant system
+
+    public Optional<IFluidHandler> getLiquidHandler() {
+        return this.getFluidHandler(FluidType.Liquid);
+    }
+
+    public Optional<IFluidHandler> getGasHandler() {
+        return this.getFluidHandler(FluidType.Gas);
+    }
+
+    public abstract Optional<IFluidHandler> getFluidHandler(FluidType type);
+
+    /**
+     * Distribute the given gas equally between the specified Active Coolant Ports
+     *
+     * @param availableGas the gas to distribute
+     * @param coolantPorts the Coolant Ports
+     * @return the amount of gas distributed
+     */
+    protected static <Controller extends AbstractGeneratorMultiblockController<Controller, V>, V extends IMultiblockGeneratorVariant>
+            int distributeGasEqually(final FluidStack availableGas, final Collection<? extends ICoolantPort<Controller, V>> coolantPorts) {
+
+        if (availableGas.isEmpty() || coolantPorts.isEmpty()) {
+            return 0;
+        }
+
+        final int gasPerPort = availableGas.getAmount() / coolantPorts.size();
+
+        return coolantPorts.stream()
+                .filter(p -> p.getIoDirection().isOutput())
+                .map(ICoolantPort::getCoolantPortHandler)
+                .filter(IIOPortHandler::isActive)
+                .filter(IIOPortHandler::isConnected)
+                .mapToInt(handler -> handler.outputFluid(new FluidStack(availableGas, gasPerPort)))
                 .sum();
     }
 

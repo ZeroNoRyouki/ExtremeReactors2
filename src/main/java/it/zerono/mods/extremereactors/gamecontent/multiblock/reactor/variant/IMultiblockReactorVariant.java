@@ -32,8 +32,6 @@ public interface IMultiblockReactorVariant
 
     float getFluidFuelConversionEfficiency();
 
-    int getPartSteamCapacity();
-
     default int solidSourceAmountToReactantAmount(int originalAmount) {
         return MathHelper.floor(originalAmount * this.getSolidFuelConversionEfficiency());
     }

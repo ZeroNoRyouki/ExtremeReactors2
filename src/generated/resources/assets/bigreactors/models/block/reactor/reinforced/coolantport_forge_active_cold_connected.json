@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "bigreactors:block/reactor/reinforced/coolantport_forge_active_cold_connected"
+  }
+}

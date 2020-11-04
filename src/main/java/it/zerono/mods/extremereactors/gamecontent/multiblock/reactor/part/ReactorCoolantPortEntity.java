@@ -18,39 +18,85 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part;
 
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.FluidType;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.coolantport.CoolantPortType;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.coolantport.ICoolantPort;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.coolantport.ICoolantPortHandler;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.MultiblockReactor;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.IMultiblockReactorVariant;
+import it.zerono.mods.zerocore.lib.block.INeighborChangeListener;
 import it.zerono.mods.zerocore.lib.data.IIoEntity;
 import it.zerono.mods.zerocore.lib.data.IoDirection;
+import it.zerono.mods.zerocore.lib.data.IoMode;
 import it.zerono.mods.zerocore.lib.fluid.FluidHelper;
 import it.zerono.mods.zerocore.lib.multiblock.ITickableMultiblockPart;
+import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.fluids.capability.templates.EmptyFluidHandler;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class ReactorCoolantPortEntity extends AbstractReactorEntity implements IIoEntity, ITickableMultiblockPart {
+public class ReactorCoolantPortEntity
+        extends AbstractReactorEntity
+        implements ICoolantPort<MultiblockReactor, IMultiblockReactorVariant>, ITickableMultiblockPart, INeighborChangeListener {
 
-    @SuppressWarnings("ConstantConditions")
-    public ReactorCoolantPortEntity() {
-        this(null); //TODO fix TE
-    }
+    public ReactorCoolantPortEntity(final CoolantPortType type, final IoMode mode, final TileEntityType<?> entityType) {
 
-    ReactorCoolantPortEntity(final TileEntityType<?> type) {
-
-        super(type);
+        super(entityType);
+        this._handler = ICoolantPortHandler.create(type, mode, this);
+//        this._fluidCapability = LazyOptional.of(this::createFluidCapability);
         this.setIoDirection(IoDirection.Input);
-        this._fluidCapability = LazyOptional.of(this::createFluidCapability);
     }
 
+    //region ICoolantPort
+
+    @Override
+    public ICoolantPortHandler<MultiblockReactor, IMultiblockReactorVariant> getCoolantPortHandler() {
+        return this._handler;
+    }
+
+    //endregion
+    //region INeighborChangeListener
+
+    /**
+     * Called when a neighboring Block on a side of this TileEntity changes
+     *
+     * @param state the BlockState of this TileEntity block
+     * @param neighborPosition position of neighbor
+     * @param isMoving ?
+     */
+    @Override
+    public void onNeighborBlockChanged(final BlockState state, final BlockPos neighborPosition, final boolean isMoving) {
+
+        if (this.isConnected()) {
+            this.getCoolantPortHandler().checkConnections(this.getWorld(), this.getWorldPosition());
+        }
+
+        this.requestClientRenderUpdate();
+    }
+
+    /**
+     * Called when a neighboring TileEntity on a side of this TileEntity changes, is created or is destroyed
+     *
+     * @param state the BlockState of this TileEntity block
+     * @param neighborPosition position of neighbor
+     */
+    @Override
+    public void onNeighborTileChanged(final BlockState state, final BlockPos neighborPosition) {
+
+        if (this.isConnected()) {
+            this.getCoolantPortHandler().checkConnections(this.getWorld(), this.getWorldPosition());
+        }
+
+        this.requestClientRenderUpdate();
+    }
+
+    //endregion
     //region IIoEntity
 
     @Override
@@ -66,16 +112,11 @@ public class ReactorCoolantPortEntity extends AbstractReactorEntity implements I
         }
 
         this._direction = direction;
-        this.updateCapabilityForwarder();
-        this.getMultiblockController().ifPresent(MultiblockReactor::onCoolantPortChanged);
+//        this.updateCapabilityForwarder();
+        this.getCoolantPortHandler().update();
+//        this.getMultiblockController().ifPresent(MultiblockReactor::onCoolantPortChanged);
+        this.executeOnController(MultiblockReactor::onCoolantPortChanged);
         this.notifyBlockUpdate();
-
-//        this.getPartWorld()
-//                .filter(CodeHelper::calledByLogicalServer)
-//                .ifPresent(world -> {
-//                    this.notifyOutwardNeighborsOfStateChange();
-//                    this.markDirty();
-//                });
 
         this.callOnLogicalSide(
                 () -> {
@@ -84,8 +125,6 @@ public class ReactorCoolantPortEntity extends AbstractReactorEntity implements I
                 },
                 this::markForRenderUpdate
         );
-
-        this.notifyNeighborsOfTileChange();
     }
 
     //endregion
@@ -106,14 +145,14 @@ public class ReactorCoolantPortEntity extends AbstractReactorEntity implements I
     //region ISyncableEntity
 
     @Override
-    public void syncDataFrom(CompoundNBT data, SyncReason syncReason) {
+    public void syncDataFrom(final CompoundNBT data, final SyncReason syncReason) {
 
         super.syncDataFrom(data, syncReason);
         this.setIoDirection(IoDirection.read(data, "iodir", IoDirection.Input));
     }
 
     @Override
-    public CompoundNBT syncDataTo(CompoundNBT data, SyncReason syncReason) {
+    public CompoundNBT syncDataTo(final CompoundNBT data, final SyncReason syncReason) {
 
         super.syncDataTo(data, syncReason);
         IoDirection.write(data, "iodir", this.getIoDirection());
@@ -127,6 +166,7 @@ public class ReactorCoolantPortEntity extends AbstractReactorEntity implements I
     public void onPostMachineAssembled(MultiblockReactor controller) {
 
         super.onPostMachineAssembled(controller);
+        this.getCoolantPortHandler().update();
         this.notifyOutwardNeighborsOfStateChange();
     }
 
@@ -134,6 +174,7 @@ public class ReactorCoolantPortEntity extends AbstractReactorEntity implements I
     public void onPostMachineBroken() {
 
         super.onPostMachineBroken();
+        this.getCoolantPortHandler().update();
         this.notifyOutwardNeighborsOfStateChange();
     }
 
@@ -141,21 +182,24 @@ public class ReactorCoolantPortEntity extends AbstractReactorEntity implements I
     public void onAttached(MultiblockReactor newController) {
 
         super.onAttached(newController);
-        this.updateCapabilityForwarder();
+//        this.updateCapabilityForwarder();
+        this.getCoolantPortHandler().update();
     }
 
     @Override
     public void onAssimilated(MultiblockReactor newController) {
 
         super.onAssimilated(newController);
-        this.updateCapabilityForwarder();
+//        this.updateCapabilityForwarder();
+        this.getCoolantPortHandler().update();
     }
 
     @Override
     public void onDetached(MultiblockReactor oldController) {
 
         super.onDetached(oldController);
-        this.updateCapabilityForwarder();
+//        this.updateCapabilityForwarder();
+        this.getCoolantPortHandler().update();
     }
 
     //endregion
@@ -165,11 +209,15 @@ public class ReactorCoolantPortEntity extends AbstractReactorEntity implements I
     @Override
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable Direction side) {
 
-        if (!this.isRemoved() && CAPAB_FLUID_HANDLER == capability) {
-            return this._fluidCapability.cast();
-        }
+        final LazyOptional<T> cap = this.getCoolantPortHandler().getCapability(capability, side);
 
-        return super.getCapability(capability, side);
+        return null != cap ? cap : super.getCapability(capability, side);
+
+//        if (!this.isRemoved() && CAPAB_FLUID_HANDLER == capability) {
+//            return this._fluidCapability.cast();
+//        }
+//
+//        return super.getCapability(capability, side);
     }
 
     /**
@@ -179,23 +227,24 @@ public class ReactorCoolantPortEntity extends AbstractReactorEntity implements I
     public void remove() {
 
         super.remove();
-        this._fluidCapability.invalidate();
+        this.getCoolantPortHandler().invalidate();
+//        this._fluidCapability.invalidate();
     }
 
     //endregion
     //region internals
 
-    private void updateCapabilityForwarder() {
-        this._fluidCapability.invalidate();
-    }
+//    private void updateCapabilityForwarder() {
+//        this._fluidCapability.invalidate();
+//    }
 
-    private IFluidHandler createFluidCapability() {
-        return this.getMultiblockController()
-                .flatMap(reactor -> reactor.getFluidHandler(FluidType.from(this.getIoDirection())))
-                .orElse(EmptyFluidHandler.INSTANCE);
-    }
+//    private IFluidHandler createFluidCapability() {
+//        return this.getMultiblockController()
+//                .flatMap(reactor -> reactor.getFluidHandler(FluidType.from(this.getIoDirection())))
+//                .orElse(EmptyFluidHandler.INSTANCE);
+//    }
 
-    private void transferGas(Direction direction) {
+    private void transferGas(final Direction direction) {
 
         final BlockPos targetPosition = this.getWorldPosition().offset(direction);
 
@@ -205,10 +254,12 @@ public class ReactorCoolantPortEntity extends AbstractReactorEntity implements I
                         direction.getOpposite(), Integer.MAX_VALUE, IFluidHandler.FluidAction.EXECUTE));
     }
 
-    @CapabilityInject(IFluidHandler.class)
-    private static Capability<IFluidHandler> CAPAB_FLUID_HANDLER = null;
+//    @CapabilityInject(IFluidHandler.class)
+//    private static Capability<IFluidHandler> CAPAB_FLUID_HANDLER = null;
 
-    private final LazyOptional<IFluidHandler> _fluidCapability;
+    private final ICoolantPortHandler<MultiblockReactor, IMultiblockReactorVariant> _handler;
+
+//    private final LazyOptional<IFluidHandler> _fluidCapability;
     private IoDirection _direction;
 
     //endregion
