@@ -19,10 +19,10 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part;
 
 import it.zerono.mods.extremereactors.Log;
+import it.zerono.mods.extremereactors.api.IMapping;
 import it.zerono.mods.extremereactors.api.reactor.Reactant;
 import it.zerono.mods.extremereactors.api.reactor.ReactantMappingsRegistry;
 import it.zerono.mods.extremereactors.api.reactor.ReactantType;
-import it.zerono.mods.extremereactors.api.reactor.SourceProductMapping;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.IFuelSource;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.MultiblockReactor;
@@ -234,7 +234,7 @@ public class ReactorSolidAccessPortEntity
         if (!outputStack.isEmpty()) {
 
             // Find matching mapping
-            final SourceProductMapping<ITag.INamedTag<Item>, Reactant> mapping = ReactantMappingsRegistry.getFromSolid(outputStack).orElse(null);
+            final IMapping<ITag.INamedTag<Item>, Reactant> mapping = ReactantMappingsRegistry.getFromSolid(outputStack).orElse(null);
 
             if (null == mapping || !reactant.equals(mapping.getProduct())) {
                 // The items in the output slot are not compatible with the Reactant
@@ -268,14 +268,14 @@ public class ReactorSolidAccessPortEntity
         We have no items in the output slot. We need to figure out candidate mappings.
         Below here, we're using the reactant >> source mappings. This means that source == reactant, and product == item.
         */
-        SourceProductMapping<Reactant, ITag.INamedTag<Item>> bestMapping = null;
-        final List<SourceProductMapping<Reactant, ITag.INamedTag<Item>>> mappings = ReactantMappingsRegistry.getToSolid(reactant).orElse(null);
+        IMapping<Reactant, ITag.INamedTag<Item>> bestMapping = null;
+        final List<IMapping<Reactant, ITag.INamedTag<Item>>> mappings = ReactantMappingsRegistry.getToSolid(reactant).orElse(null);
 
         if (null != mappings) {
 
             int bestReactantAmount = 0;
 
-            for (final SourceProductMapping<Reactant, ITag.INamedTag<Item>> mapping: mappings) {
+            for (final IMapping<Reactant, ITag.INamedTag<Item>> mapping: mappings) {
 
                 // How much product can we produce?
                 final int potentialProducts = mapping.getProductAmount(amount);

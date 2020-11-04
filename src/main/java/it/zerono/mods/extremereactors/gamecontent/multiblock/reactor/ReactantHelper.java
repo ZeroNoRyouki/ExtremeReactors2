@@ -18,10 +18,10 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor;
 
+import it.zerono.mods.extremereactors.api.IMapping;
 import it.zerono.mods.extremereactors.api.reactor.Reactant;
 import it.zerono.mods.extremereactors.api.reactor.ReactantMappingsRegistry;
 import it.zerono.mods.extremereactors.api.reactor.ReactantType;
-import it.zerono.mods.extremereactors.api.reactor.SourceProductMapping;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part.ReactorSolidAccessPortEntity;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.IMultiblockReactorVariant;
 import it.zerono.mods.zerocore.lib.data.stack.OperationMode;
@@ -47,7 +47,7 @@ public class ReactantHelper {
 
         return !stack.isEmpty() &&
                 ReactantMappingsRegistry.getFromSolid(stack)
-                        .map(SourceProductMapping::getProduct)
+                        .map(IMapping::getProduct)
                         .map(reactant -> type == reactant.getType())
                         .orElse(false);
     }
@@ -186,7 +186,7 @@ public class ReactantHelper {
 
     private static int refuelSolid(final FuelContainer container, final IFuelSource<ItemStack> fuelSource,
                                    final IMultiblockReactorVariant variant, final ItemStack fuelSourceStack,
-                                   final SourceProductMapping<ITag.INamedTag<Item>, Reactant> fuelMapping) {
+                                   final IMapping<ITag.INamedTag<Item>, Reactant> fuelMapping) {
 
         // convert the source items to the equivalent amount of Reactant
 

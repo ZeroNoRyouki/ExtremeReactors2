@@ -18,6 +18,8 @@
 
 package it.zerono.mods.extremereactors.api.reactor;
 
+import it.zerono.mods.extremereactors.api.IMapping;
+
 /**
  * This is the reaction of 1 unit of source Reactant to 1 unit of product Reactant.
  * Floating-point quantities will be used, so this registration
@@ -32,7 +34,8 @@ package it.zerono.mods.extremereactors.api.reactor;
  *  reactant to determine how much source reactant actually reacts.
  *  Raising this will cause the reactor to burn this reactant faster.
  */
-public class Reaction extends SourceProductMapping<Reactant, Reactant> {
+public class Reaction
+        extends IMapping.OneToOne<Reactant, Reactant> {
 
     public static final float STANDARD_REACTIVITY = 1.05f;
     public static final float STANDARD_FISSIONRATE = 0.01f;
@@ -63,8 +66,8 @@ public class Reaction extends SourceProductMapping<Reactant, Reactant> {
 
     //region internals
 
-    private float _reactivity;
-    private float _fissionRate;
+    private final float _reactivity;
+    private final float _fissionRate;
 
     //endregion
 }
