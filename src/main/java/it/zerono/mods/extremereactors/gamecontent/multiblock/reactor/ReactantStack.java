@@ -22,10 +22,10 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import it.zerono.mods.extremereactors.Log;
+import it.zerono.mods.extremereactors.api.IMapping;
 import it.zerono.mods.extremereactors.api.reactor.Reactant;
 import it.zerono.mods.extremereactors.api.reactor.ReactantType;
 import it.zerono.mods.extremereactors.api.reactor.ReactantsRegistry;
-import it.zerono.mods.extremereactors.api.reactor.SourceProductMapping;
 import it.zerono.mods.zerocore.lib.CodeHelper;
 import it.zerono.mods.zerocore.lib.data.nbt.ISyncableEntity;
 import it.zerono.mods.zerocore.lib.data.stack.IStackAdapter;
@@ -60,7 +60,7 @@ public class ReactantStack implements ISyncableEntity {
         this(other._reactant, other._amount);
     }
 
-    public ReactantStack(final SourceProductMapping<ITag.INamedTag<Item>, Reactant> mapping, final int itemCount) {
+    public ReactantStack(final IMapping<ITag.INamedTag<Item>, Reactant> mapping, final int itemCount) {
         this(mapping.getProduct(), mapping.getProductAmount(itemCount));
     }
 

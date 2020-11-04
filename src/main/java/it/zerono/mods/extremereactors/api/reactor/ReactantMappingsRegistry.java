@@ -23,6 +23,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import it.zerono.mods.extremereactors.api.ExtremeReactorsAPI;
+import it.zerono.mods.extremereactors.api.IMapping;
 import it.zerono.mods.extremereactors.api.InternalDispatcher;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -45,7 +46,7 @@ public final class ReactantMappingsRegistry {
      * @param stack The ItemStack
      * @return The Source-Product solid mapping, if one is found and the provided stack is not empty
      */
-    public static Optional<SourceProductMapping<ITag.INamedTag<Item>, Reactant>> getFromSolid(final ItemStack stack) {
+    public static Optional<IMapping<ITag.INamedTag<Item>, Reactant>> getFromSolid(final ItemStack stack) {
 
         if (stack.isEmpty()) {
             return Optional.empty();
@@ -65,7 +66,7 @@ public final class ReactantMappingsRegistry {
      * @param reactant The Reactant
      * @return A list of reactant => Item Tag mappings, if one is found. Note that reactant is the source and Item Tag is the product
      */
-    public static Optional<List<SourceProductMapping<Reactant, ITag.INamedTag<Item>>>> getToSolid(final Reactant reactant) {
+    public static Optional<List<IMapping<Reactant, ITag.INamedTag<Item>>>> getToSolid(final Reactant reactant) {
         return Optional.ofNullable(s_reactantToSolid.get(reactant));
     }
 
@@ -98,7 +99,7 @@ public final class ReactantMappingsRegistry {
 
             if (entry.isPresent()) {
 
-                final SourceProductMapping<ITag.INamedTag<Item>, Reactant> mapping = new SourceProductMapping<>(source, 1, entry.get(), qty);
+                final IMapping<ITag.INamedTag<Item>, Reactant> mapping = IMapping.of(source, 1, entry.get(), qty);
 
                 s_solidToReactant.put(mapping.getSource(), mapping);
                 s_reactantToSolid.computeIfAbsent(mapping.getProduct(), k -> Lists.newArrayList()).add(mapping.getReverse());
@@ -117,12 +118,12 @@ public final class ReactantMappingsRegistry {
 
     // 1:1 mappings
     // - solid source -> Item Tag : reactant name mapping
-    private static final Map<ITag.INamedTag<Item>, SourceProductMapping<ITag.INamedTag<Item>, Reactant>> s_solidToReactant = Maps.newHashMap();
+    private static final Map<ITag.INamedTag<Item>, IMapping<ITag.INamedTag<Item>, Reactant>> s_solidToReactant = Maps.newHashMap();
     //TODO fluids
 
     // 1:many mappings
     // - reactant name -> a list of reactant name : Item Tag mappings
-    private static final Map<Reactant, List<SourceProductMapping<Reactant, ITag.INamedTag<Item>>>> s_reactantToSolid = Maps.newHashMap();
+    private static final Map<Reactant, List<IMapping<Reactant, ITag.INamedTag<Item>>>> s_reactantToSolid = Maps.newHashMap();
     //TODO fluids
 
     private static final Marker MARKER = MarkerManager.getMarker("API/ReactantMappingsRegistry").addParents(ExtremeReactorsAPI.MARKER);

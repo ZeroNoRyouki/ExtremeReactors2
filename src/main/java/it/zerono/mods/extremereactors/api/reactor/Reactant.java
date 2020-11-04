@@ -18,6 +18,7 @@
 
 package it.zerono.mods.extremereactors.api.reactor;
 
+import it.zerono.mods.extremereactors.api.IMapping;
 import it.zerono.mods.zerocore.lib.data.gfx.Colour;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -77,7 +78,7 @@ public class Reactant {
         return ReactantMappingsRegistry.getToSolid(this)
                 .orElseGet(Collections::emptyList)
                 .stream()
-                .mapToInt(SourceProductMapping::getSourceAmount)
+                .mapToInt(IMapping::getSourceAmount)
                 .reduce(Integer::min)
                 .orElseThrow(() -> new IllegalArgumentException("No solid products mapped for reactant " + this.getName()));
     }
