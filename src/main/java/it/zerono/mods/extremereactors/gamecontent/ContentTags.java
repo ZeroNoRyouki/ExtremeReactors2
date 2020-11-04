@@ -21,7 +21,9 @@ package it.zerono.mods.extremereactors.gamecontent;
 import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.zerocore.lib.tag.TagsHelper;
 import net.minecraft.block.Block;
+import net.minecraft.fluid.Fluid;
 import net.minecraft.item.Item;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.ITag;
 
 public class ContentTags {
@@ -71,6 +73,20 @@ public class ContentTags {
 
         private static ITag.INamedTag<Item> forgeTag(final String name) {
             return TagsHelper.ITEMS.createForgeTag(name);
+        }
+
+        //endregion
+    }
+
+    public static final class Fluids {
+
+        public static final ITag.INamedTag<Fluid> STEAM = forgeTag("steam");
+        public static final ITag.INamedTag<Fluid> WATER = FluidTags.WATER;
+
+        //region internals
+
+        private static ITag.INamedTag<Fluid> forgeTag(final String name) {
+            return TagsHelper.FLUIDS.createForgeTag(name);
         }
 
         //endregion
