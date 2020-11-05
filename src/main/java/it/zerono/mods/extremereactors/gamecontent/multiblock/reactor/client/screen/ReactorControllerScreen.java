@@ -289,7 +289,7 @@ public class ReactorControllerScreen
                             this._outputEnergySystem.getUnit())).setStyle(STYLE_TOOLTIP_VALUE));
 
             final BindableTextComponent<Double> energyStoredPercentageText = new BindableTextComponent<>(
-                    percentage -> new StringTextComponent(String.format("%2.1f", percentage * 100)).setStyle(STYLE_TOOLTIP_VALUE));
+                    percentage -> new StringTextComponent(String.format("%d", (int)(percentage * 100))).setStyle(STYLE_TOOLTIP_VALUE));
 
             this._energyBar.setDesiredDimension(16, 64);
             this._energyBar.setBackground(CommonIcons.BarBackground.get());

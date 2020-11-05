@@ -1,5 +1,11 @@
 {
   "type": "thermal:pulverizer",
+  "conditions": [
+    {
+      "modid": "thermal_expansion",
+      "type": "forge:mod_loaded"
+    }
+  ],
   "ingredient": {
     "item": "bigreactors:graphite_ingot"
   },
