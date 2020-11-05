@@ -72,7 +72,7 @@ public enum SensorType
             SensorBehavior.ActiveWhileAbove, SensorBehavior.ActiveWhileBelow),
 
     // Output: Energy in the reactor's buffer, percentile (0-100, 100 = 100% full)
-    outputEnergyAmount(IoDirection.Output, r -> (int)r.getEnergyStoredPercentage(),
+    outputEnergyAmount(IoDirection.Output, r -> (int)(r.getEnergyStoredPercentage() * 100.0),
             SensorBehavior.ActiveWhileAbove, SensorBehavior.ActiveWhileBelow);
 
 //    public static final Predicate<SensorType> INPUT = SensorType::isInput;
