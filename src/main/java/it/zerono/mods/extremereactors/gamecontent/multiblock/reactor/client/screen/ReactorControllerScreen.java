@@ -23,7 +23,6 @@ import it.zerono.mods.extremereactors.api.reactor.ReactantType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.AbstractGeneratorMultiblockController;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.IFluidContainer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.AbstractMultiblockScreen;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.CachedSprites;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.CommonIcons;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.AbstractMultiblockEntity;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.MultiblockReactor;
@@ -50,14 +49,14 @@ import it.zerono.mods.zerocore.lib.energy.EnergySystem;
 import it.zerono.mods.zerocore.lib.item.inventory.PlayerInventoryUsage;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.Style;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.fluid.Fluid;
+import net.minecraft.item.DyeColor;
+import net.minecraft.util.text.*;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.util.NonNullSupplier;
 
+import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -99,11 +98,16 @@ public class ReactorControllerScreen
 
             this._lblEnergyRatio = this.infoLabel("energyRatioValue", "");
             this._energyBar = new GaugeBar(this, "energyBar", this._reactorCapacity, CommonIcons.PowerBar.get());
+            this._coolantBar = this._vaporBar = null;
+            this._lblVaporRatio = null;
 
         } else {
 
             this._lblEnergyRatio = null;
             this._energyBar = null;
+            this._coolantBar = this.liquidBar("coolantBar", this._reactor.getFluidContainer().getCapacity());
+            this._vaporBar = this.liquidBar("vaporBar", this._reactor.getFluidContainer().getCapacity());
+            this._lblVaporRatio = this.infoLabel("vaporRatioValue", "");
         }
     }
 
@@ -130,7 +134,6 @@ public class ReactorControllerScreen
         final Panel infoPanelRight = this.hInfoPanel();
 
         super.onScreenCreate();
-//        this.setContentPanelBackground(this._genericBarsBackgroundSprite);
         this.setIndicatorToolTip(true, new TranslationTextComponent("gui.bigreactors.reactor.active"));
         this.setIndicatorToolTip(false, new TranslationTextComponent("gui.bigreactors.reactor.inactive"));
 
@@ -161,11 +164,11 @@ public class ReactorControllerScreen
         // h-separator
 
         p = new Panel(this);
-        p.setDesiredDimension(this.getGuiWidth() - 26, 1);
+        p.setDesiredDimension(this.getGuiWidth() - 26+1, 1);
         p.setLayoutEngine(new FixedLayoutEngine());
 
         s = new Static(this, 0, 0).setColor(Colour.BLACK);
-        s.setLayoutEngineHint(FixedLayoutEngine.hint(0, 0, this.getGuiWidth() - 26, 1));
+        s.setLayoutEngineHint(FixedLayoutEngine.hint(0, 0, this.getGuiWidth() - 26+1, 1));
 
         p.addControl(s);
         outerPanel.addControl(p);
@@ -278,8 +281,14 @@ public class ReactorControllerScreen
 
         if (this._reactorMode.isPassive()) {
 
+            ////////////////////////////////////////////////////////////////////////////////////////////
+            //
+            // PASSIVE REACTOR GUI
+            //
+            ////////////////////////////////////////////////////////////////////////////////////////////
+
             p = new Panel(this);
-            p.setDesiredDimension(VBARPANEL_WIDTH * 2 + 11, VBARPANEL_HEIGHT);
+            p.setDesiredDimension(VBARPANEL_WIDTH * 2 + 11+2+2, VBARPANEL_HEIGHT);
             p.setLayoutEngine(new VerticalLayoutEngine()
                     .setHorizontalAlignment(HorizontalAlignment.Left)
                     .setZeroMargins()
@@ -361,83 +370,139 @@ public class ReactorControllerScreen
 
         } else {
 
-            final IFluidContainer fc = this._reactor.getFluidContainer();
+            ////////////////////////////////////////////////////////////////////////////////////////////
+            //
+            // ACTIVE REACTOR GUI
+            //
+            ////////////////////////////////////////////////////////////////////////////////////////////
 
-            GaugeBar bar;
+            final BindableTextComponent<Integer> tankCapacity = new BindableTextComponent<>(
+                    capacity -> new StringTextComponent(CodeHelper.formatAsHumanReadableNumber(capacity / 1000, "B")).setStyle(STYLE_TOOLTIP_VALUE));
+
+            this.addBinding((MultiblockReactor reactor) -> this._reactor.getFluidContainer().getCapacity(),
+                    v -> {
+
+                        this._coolantBar.setMaxValue(v);
+                        this._vaporBar.setMaxValue(v);
+
+                    }, tankCapacity);
 
             // - coolant bar
 
-            final BindableTextComponent<Double> coolantBarText = new BindableTextComponent<>(
-                    heat -> new StringTextComponent(String.format("%.0f C", heat)).setStyle(STYLE_TOOLTIP_VALUE));
+            final BindableTextComponent<ITextComponent> coolantFluidName = new BindableTextComponent<>((ITextComponent name) -> name);
+            final BindableTextComponent<Integer> coolantAmount = new BindableTextComponent<>(
+                    amount -> new StringTextComponent(CodeHelper.formatAsHumanReadableNumber(amount / 1000, "B")).setStyle(STYLE_TOOLTIP_VALUE));
+            final BindableTextComponent<Double> coolantStoredPercentage = new BindableTextComponent<>(
+                    percentage -> new StringTextComponent(String.format("%d", (int)(percentage * 100))).setStyle(STYLE_TOOLTIP_VALUE));
 
             p = this.vBarPanel();
-            this.addBarIcon(CommonIcons.ButtonSensorOutputFuelTemperature, p); //TODO fix icon
+            this.addBarIcon(CommonIcons.CoolantIcon, p);
 
-            bar = this.liquidBar("coolantBar", fc.getCapacity()); // TODO fix max & sprite
-            bar.setBarSprite(fc.getLiquid()
-                    .map(fluid -> AtlasSpriteTextureMap.BLOCKS.sprite(ModRenderHelper.getFluidFlowingSprite(fluid).getName()))
-                    .orElse(Sprite.EMPTY));
-
-//            bar.setValue(500);
-            bar.setValue((double)fc.getLiquidAmount() / (double)fc.getCapacity());
-            bar.setValue(0.5*fc.getCapacity());
-
-            //TODO fix tips
-            bar.setTooltips(ImmutableList.of(
-                    new TranslationTextComponent("gui.bigreactors.reactor.controller.coreheatbar.line1").setStyle(STYLE_TOOLTIP_TITLE),
-                    new TranslationTextComponent("gui.bigreactors.reactor.controller.coreheatbar.line2"),
+            this._coolantBar.setTooltips(ImmutableList.of(
+                    new TranslationTextComponent("gui.bigreactors.reactor.controller.coolantbar.line1").setStyle(STYLE_TOOLTIP_TITLE),
+                    new TranslationTextComponent("gui.bigreactors.reactor.controller.coreheatbar.line2").setStyle(STYLE_TOOLTIP_VALUE),
+                    new TranslationTextComponent("gui.bigreactors.reactor.controller.coolantbar.line3a").setStyle(STYLE_TOOLTIP_VALUE)
+                            .append(new TranslationTextComponent("gui.bigreactors.reactor.controller.coolantbar.line3b")),
+                    new TranslationTextComponent("gui.bigreactors.reactor.controller.coolantbar.line4a").setStyle(STYLE_TOOLTIP_VALUE)
+                            .append(new TranslationTextComponent("gui.bigreactors.reactor.controller.coolantbar.line4b")),
                     TEXT_EMPTY_LINE,
-                    new TranslationTextComponent("gui.bigreactors.reactor.controller.coreheatbar.line3"),
-                    new TranslationTextComponent("gui.bigreactors.reactor.controller.coreheatbar.line4"),
-                    TEXT_EMPTY_LINE,
-                    new TranslationTextComponent("gui.bigreactors.reactor.controller.coreheatbar.line5"),
-                    new TranslationTextComponent("gui.bigreactors.reactor.controller.coreheatbar.line6"),
-                    new TranslationTextComponent("gui.bigreactors.reactor.controller.coreheatbar.line7"),
-                    new TranslationTextComponent("gui.bigreactors.reactor.controller.coreheatbar.line8")),
+                    new TranslationTextComponent("gui.bigreactors.reactor.controller.coolantbar.line5"),
+                    new TranslationTextComponent("gui.bigreactors.reactor.controller.coolantbar.line6")
+                    ),
                     ImmutableList.of(
                             // @0
-                            coolantBarText
+                            coolantFluidName,
+                            // @1
+                            coolantAmount,
+                            // @2
+                            tankCapacity,
+                            // @3
+                            coolantStoredPercentage
                     )
             );
-            //TODO fix tips
-//            this.addBinding((MultiblockReactor reactor) -> reactor.getFuelHeat().get(),
-//                    (value) -> {
-//                        this._coreHeatBar.setValue(value);
-//                        this._lblTemperature.setText("%d C", value.intValue());
-//                    },
-//                    coreHeatText);
-            p.addControl(bar);
+            this.addBinding((MultiblockReactor reactor) -> getFluidName(reactor.getFluidContainer().getLiquid()),
+                    v -> this._coolantBar.setBarSprite(this._reactor.getFluidContainer().getLiquid()
+                            .map(fluid -> AtlasSpriteTextureMap.BLOCKS.sprite(ModRenderHelper.getFluidFlowingSprite(fluid)))
+                            .orElse(Sprite.EMPTY)), coolantFluidName);
+            this.addBinding((MultiblockReactor reactor) -> reactor.getFluidContainer().getLiquidAmount(), (Consumer<Integer>)this._coolantBar::setValue, coolantAmount);
+            this.addBinding((MultiblockReactor reactor) -> reactor.getFluidContainer().getLiquidStoredPercentage(), v -> {}, coolantStoredPercentage);
+
+            p.addControl(this._coolantBar);
             barsPanel.addControl(p);
 
             // - temperature scale
             barsPanel.addControl(this.vTempScalePanel());
 
-            // - casing heat bar
+            // - vapor bar
 
-            final BindableTextComponent<Double> vaportBarText = new BindableTextComponent<>(
-                    heat -> new StringTextComponent(String.format("%.0f C", heat)).setStyle(STYLE_TOOLTIP_VALUE));
+            final BindableTextComponent<ITextComponent> vaporFluidName = new BindableTextComponent<>((ITextComponent name) -> name);
+            final BindableTextComponent<Integer> vaporAmount = new BindableTextComponent<>(
+                    amount -> new StringTextComponent(CodeHelper.formatAsHumanReadableNumber(amount / 1000, "B")).setStyle(STYLE_TOOLTIP_VALUE));
+            final BindableTextComponent<Double> vaporStoredPercentage = new BindableTextComponent<>(
+                    percentage -> new StringTextComponent(String.format("%d", (int)(percentage * 100))).setStyle(STYLE_TOOLTIP_VALUE));
 
             p = this.vBarPanel();
-            this.addBarIcon(CommonIcons.ButtonSensorOutputCasingTemperature, p);
+            this.addBarIcon(CommonIcons.VaporIcon, p);
 
-            bar = this.liquidBar("vaporBar", fc.getCapacity()); // TODO fix max & sprite
-            //TODO fix tips
-            bar.setTooltips(ImmutableList.of(
-                    new TranslationTextComponent("gui.bigreactors.reactor.controller.casingheatbar.line1").setStyle(STYLE_TOOLTIP_TITLE),
-                    new TranslationTextComponent("gui.bigreactors.reactor.controller.casingheatbar.line2"),
+            this._vaporBar.setTooltips(ImmutableList.of(
+                    new TranslationTextComponent("gui.bigreactors.reactor.controller.vaporbar.line1").setStyle(STYLE_TOOLTIP_TITLE),
+                    new TranslationTextComponent("gui.bigreactors.reactor.controller.vaporbar.line2").setStyle(STYLE_TOOLTIP_VALUE),
+                    new TranslationTextComponent("gui.bigreactors.reactor.controller.vaporbar.line3a").setStyle(STYLE_TOOLTIP_VALUE)
+                            .append(new TranslationTextComponent("gui.bigreactors.reactor.controller.vaporbar.line3b")),
+                    new TranslationTextComponent("gui.bigreactors.reactor.controller.vaporbar.line4a").setStyle(STYLE_TOOLTIP_VALUE)
+                            .append(new TranslationTextComponent("gui.bigreactors.reactor.controller.vaporbar.line4b")),
                     TEXT_EMPTY_LINE,
-                    new TranslationTextComponent("gui.bigreactors.reactor.controller.casingheatbar.line3"),
-                    new TranslationTextComponent("gui.bigreactors.reactor.controller.casingheatbar.line4"),
-                    new TranslationTextComponent("gui.bigreactors.reactor.controller.casingheatbar.line5")),
+                    new TranslationTextComponent("gui.bigreactors.reactor.controller.vaporbar.line5"),
+                    new TranslationTextComponent("gui.bigreactors.reactor.controller.vaporbar.line6"),
+                    new TranslationTextComponent("gui.bigreactors.reactor.controller.vaporbar.line7")
+                    ),
                     ImmutableList.of(
                             // @0
-                            vaportBarText
+                            vaporFluidName,
+                            // @1
+                            vaporAmount,
+                            // @2
+                            tankCapacity,
+                            // @3
+                            vaporStoredPercentage
                     )
             );
-            //TODO fix tips
-//            this.addBinding((MultiblockReactor reactor) -> reactor.getReactorHeat().get(), this._casingHeatBar::setValue, reactorHeatText);
-            p.addControl(bar);
+            this.addBinding((MultiblockReactor reactor) -> getFluidName(reactor.getFluidContainer().getGas()),
+                    v -> this._vaporBar.setBarSprite(this._reactor.getFluidContainer().getGas()
+                            .map(fluid -> AtlasSpriteTextureMap.BLOCKS.sprite(ModRenderHelper.getFluidFlowingSprite(fluid)))
+                            .orElse(Sprite.EMPTY)), vaporFluidName);
+            this.addBinding((MultiblockReactor reactor) -> reactor.getFluidContainer().getGasAmount(), (Consumer<Integer>)this._vaporBar::setValue, vaporAmount);
+            this.addBinding((MultiblockReactor reactor) -> reactor.getFluidContainer().getGasStoredPercentage(), v -> {}, vaporStoredPercentage);
+
+            p.addControl(this._vaporBar);
             barsPanel.addControl(p);
+
+            // - vapor generation ratio
+
+            final BindableTextComponent<Double> vaporGeneratedText = new BindableTextComponent<>(
+                    generated -> new StringTextComponent(String.format("%.2f %s", generated, "B")).setStyle(STYLE_TOOLTIP_VALUE));
+
+            p = this.hInfoPanelSlot();
+            p.addControl(new Picture(this, "vaporRatio", CommonIcons.VaporIcon.get(), 16, 16)); //TODO fix icon
+
+            this._lblVaporRatio.setTooltips(ImmutableList.of(
+                    new TranslationTextComponent("gui.bigreactors.reactor.controller.vaporratio.line1").setStyle(STYLE_TOOLTIP_TITLE),
+                    new TranslationTextComponent("gui.bigreactors.reactor.controller.vaporratio.line2a").setStyle(STYLE_TOOLTIP_VALUE)
+                            .append(new TranslationTextComponent("gui.bigreactors.reactor.controller.vaporratio.line2b")),
+                    TEXT_EMPTY_LINE,
+                    new TranslationTextComponent("gui.bigreactors.reactor.controller.vaporratio.line3"),
+                    new TranslationTextComponent("gui.bigreactors.reactor.controller.vaporratio.line4"),
+                    new TranslationTextComponent("gui.bigreactors.reactor.controller.vaporratio.line5")),
+                    ImmutableList.of(
+                            // @0
+                            vaporGeneratedText
+                    )
+            );
+            this.addBinding((MultiblockReactor reactor) -> reactor.getUiStats().getAmountGeneratedLastTick(),
+                    value -> this._lblVaporRatio.setText(CodeHelper.formatAsHumanReadableNumber(value, "B" + "/t")),
+                    vaporGeneratedText);
+            p.addControl(this._lblVaporRatio);
+            infoPanelRight.addControl(p);
         }
 
         // - separator
@@ -494,7 +559,7 @@ public class ReactorControllerScreen
 
         // - machine on/off
 
-        int x = 1;
+        int x = 1-1;
         int y = 0;
         int w = 25;
 
@@ -623,10 +688,10 @@ public class ReactorControllerScreen
         final Panel p = new Panel(this);
         final Picture pic = new Picture(this, this.nextGenericName(), CommonIcons.TemperatureScale.get(), 5, 59);
 
-        p.setDesiredDimension(5+3+3+3+3, VBARPANEL_HEIGHT);
+        p.setDesiredDimension(5+3+3+3+3-2, VBARPANEL_HEIGHT);
         p.setLayoutEngine(new FixedLayoutEngine());
 
-        pic.setLayoutEngineHint(FixedLayoutEngine.hint(3+3, 16 + 4+3, 5, 59));
+        pic.setLayoutEngineHint(FixedLayoutEngine.hint(3+3-1, 16 + 4+3, 5, 59));
 
         p.addControl(pic);
 
@@ -690,6 +755,12 @@ public class ReactorControllerScreen
         parent.addControl(c);
     }
 
+    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
+    private static ITextComponent getFluidName(final Optional<Fluid> fluid) {
+        return fluid.map(f -> (ITextComponent)new TranslationTextComponent(f.getAttributes().getTranslationKey()).setStyle(STYLE_TOOLTIP_VALUE))
+                .orElse(TEXT_EMPTY);
+    }
+
     //endregion
 
     private void onActiveStateChanged(final SwitchButton button) {
@@ -708,7 +779,7 @@ public class ReactorControllerScreen
         this.sendCommandToServer(ReactorControllerEntity.COMMAND_SCRAM);
     }
 
-    private <Value> void addBinding(final Function<MultiblockReactor, Value> supplier, final Consumer<Value> consumer) {
+    private final <Value> void addBinding(final Function<MultiblockReactor, Value> supplier, final Consumer<Value> consumer) {
         this._bindings.addBinding(new MonoConsumerBinding<>(this._reactor, supplier, consumer));
     }
 
@@ -719,25 +790,26 @@ public class ReactorControllerScreen
 
     private static final ITextComponent TEXT_AUTOMATIC_WASTE_EJECT = new TranslationTextComponent("gui.bigreactors.reactor.controller.wasteeject.mode.automatic").setStyle(STYLE_TOOLTIP_VALUE);
     private static final ITextComponent TEXT_MANUAL_WASTE_EJECT = new TranslationTextComponent("gui.bigreactors.reactor.controller.wasteeject.mode.manual").setStyle(STYLE_TOOLTIP_VALUE);
+    private static final ITextComponent TEXT_EMPTY = new TranslationTextComponent("gui.bigreactors.generic.empty").setStyle(STYLE_TOOLTIP_VALUE);
 
     private final MultiblockReactor _reactor;
     private final OperationalMode _reactorMode;
     private final EnergySystem _outputEnergySystem;
     private final double _reactorCapacity;
 
-//    private final ISprite _genericBarsBackgroundSprite;
     private final BindingGroup _bindings;
 
-//    private final SwitchPictureButton _btnOnOff;
-//    private final SwitchPictureButton _btnWasteEjection;
     private final FuelGaugeBar _fuelBar;
     private final GaugeBar _coreHeatBar;
     private final GaugeBar _casingHeatBar;
     private final GaugeBar _energyBar;
+    private final GaugeBar _coolantBar;
+    private final GaugeBar _vaporBar;
     private final Label _lblTemperature;
     private final Label _lblFuelUsage;
     private final Label _lblFuelRichness;
     private final Label _lblEnergyRatio;
+    private final Label _lblVaporRatio;
 
     //endregion
 }

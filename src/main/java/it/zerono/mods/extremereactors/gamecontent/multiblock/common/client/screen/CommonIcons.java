@@ -34,6 +34,8 @@ public enum CommonIcons implements NonNullSupplier<ISprite> {
     EnergyRatioIcon(builder().from(160, 0).ofSize(32, 32).build()),
     FuelIcon(builder().from(64, 0).ofSize(32, 32).build()),
     ReactivityIcon(builder().from(96, 0).ofSize(32, 32).build()),
+    CoolantIcon(builder().from(112, 80).build()),
+    VaporIcon(builder().from(128, 80).build()),
 
     BarBackground(builder().from(0, 112).ofSize(16, 64).build()),
     PowerBar(builder().from(17, 113).ofSize(14, 62).build()),
