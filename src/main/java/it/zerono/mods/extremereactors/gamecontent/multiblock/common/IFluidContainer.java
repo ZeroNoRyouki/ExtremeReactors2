@@ -35,6 +35,14 @@ public interface IFluidContainer {
 
     int getLiquidAmount();
 
+    default double getGasStoredPercentage() {
+        return (double)this.getGasAmount() / (double)this.getCapacity();
+    }
+
+    default double getLiquidStoredPercentage() {
+        return (double)this.getLiquidAmount() / (double)this.getCapacity();
+    }
+
     int getCapacity();
 
     void setCapacity(int capacity);
