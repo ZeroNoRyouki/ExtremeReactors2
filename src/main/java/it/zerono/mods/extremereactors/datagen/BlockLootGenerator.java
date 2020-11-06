@@ -49,7 +49,7 @@ public class BlockLootGenerator
                 Content.Blocks.REACTOR_CONTROLLER_REINFORCED, Content.Blocks.REACTOR_FUELROD_REINFORCED,
                 Content.Blocks.REACTOR_CONTROLROD_REINFORCED, Content.Blocks.REACTOR_SOLID_ACCESSPORT_REINFORCED,
                 Content.Blocks.REACTOR_POWERTAP_FE_ACTIVE_REINFORCED,  Content.Blocks.REACTOR_POWERTAP_FE_PASSIVE_REINFORCED,
-                Content.Blocks.REACTOR_REDSTONEPORT_REINFORCED);
+                Content.Blocks.REACTOR_REDSTONEPORT_REINFORCED, Content.Blocks.REACTOR_COMPUTERPORT_REINFORCED);
         
         //this.addDrop(Holder.Blocks.REACTOR_COOLANTPORT_BASIC);
         //this.addDrop(Holder.Blocks.REACTOR_CREATIVECOOLANTPORT_BASIC);
