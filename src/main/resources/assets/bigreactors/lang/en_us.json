@@ -35,6 +35,7 @@
 
     "_comment": "Items - miscellanea",
     "item.bigreactors.wrench": "Extreme Wrench",
+    "item.bigreactors.steam_bucket": "Steam Bucket",
 
     "_comment": "Blocks - metal blocks / ores",
     "block.bigreactors.yellorium_block": "Yellorium Block",

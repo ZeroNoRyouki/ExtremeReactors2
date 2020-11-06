@@ -20,6 +20,7 @@ package it.zerono.mods.extremereactors.gamecontent;
 
 import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.config.Config;
+import it.zerono.mods.extremereactors.gamecontent.fluid.SteamFluid;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.GenericDeviceBlock;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.GlassBlock;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.IOPortBlock;
@@ -38,19 +39,20 @@ import it.zerono.mods.zerocore.lib.item.ModItem;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
 import it.zerono.mods.zerocore.lib.world.WorldGenManager;
 import net.minecraft.block.Block;
+import net.minecraft.block.FlowingFluidBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
+import net.minecraft.fluid.Fluid;
+import net.minecraft.fluid.FluidState;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.ContainerType;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.DyeColor;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
+import net.minecraft.item.*;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.extensions.IForgeContainerType;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fluids.ForgeFlowingFluid;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -66,6 +68,7 @@ public final class Content {
 
         Blocks.initialize();
         Items.initialize();
+        Fluids.initialize();
         TileEntityTypes.initialize();
         ContainerTypes.initialize();
 
@@ -96,6 +99,17 @@ public final class Content {
         public static final RegistryObject<ModBlock> YELLORITE_ORE_BLOCK = registerOreBlock("yellorite_ore", DyeColor.YELLOW);
         public static final RegistryObject<ModBlock> ANGLESITE_ORE_BLOCK = registerOreBlock("anglesite_ore", DyeColor.ORANGE);
         public static final RegistryObject<ModBlock> BENITOITE_ORE_BLOCK = registerOreBlock("benitoite_ore", DyeColor.LIGHT_BLUE);
+
+        //endregion
+        //region fluids
+
+        public static final RegistryObject<FlowingFluidBlock> STEAM = BLOCKS.register("steam",
+                () -> new FlowingFluidBlock(Fluids.STEAM_SOURCE,
+                        Block.Properties.create(Material.WATER)
+                                .doesNotBlockMovement()
+                                .hardnessAndResistance(100.0F)
+                                .noDrops()
+                ));
 
         //endregion
         //region reactor
@@ -268,6 +282,15 @@ public final class Content {
         public static final RegistryObject<BlockItem> BENITOITE_ORE_BLOCK = registerItemBlock("benitoite_ore", () -> Blocks.BENITOITE_ORE_BLOCK, ItemGroups.GENERAL);
 
         //endregion
+        //region fluids
+
+        public static final RegistryObject<Item> STEAM_BUCKET = ITEMS.register("steam_bucket",
+                () -> new BucketItem(Fluids.STEAM_SOURCE, new Item.Properties()
+                        .containerItem(net.minecraft.item.Items.BUCKET)
+                        .maxStackSize(1)
+                        .group(ItemGroup.MISC)));
+
+        //endregion
         //region reactor
         //region basic
         public static final RegistryObject<BlockItem> REACTOR_CASING_BASIC = registerItemBlock("basic_reactorcasing", () -> Blocks.REACTOR_CASING_BASIC::get, ItemGroups.REACTOR);
@@ -321,6 +344,18 @@ public final class Content {
         }
 
         //endregion
+    }
+
+    public static final class Fluids {
+
+        private static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(ForgeRegistries.FLUIDS, ExtremeReactors.MOD_ID);
+
+        static void initialize() {
+            FLUIDS.register(Mod.EventBusSubscriber.Bus.MOD.bus().get());
+        }
+
+        public static final RegistryObject<ForgeFlowingFluid> STEAM_SOURCE = FLUIDS.register("steam", SteamFluid.Source::new);
+        public static final RegistryObject<ForgeFlowingFluid> STEAM_FLOWING = FLUIDS.register("steam_flowing", SteamFluid.Flowing::new);
     }
 
     public static final class TileEntityTypes {
