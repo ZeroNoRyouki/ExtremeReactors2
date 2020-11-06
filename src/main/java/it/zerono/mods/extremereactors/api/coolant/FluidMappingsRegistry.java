@@ -38,6 +38,34 @@ import java.util.Optional;
 public final class FluidMappingsRegistry {
 
     /**
+     * @return true if there is a Coolant for the given FluidStack
+     */
+    public static boolean hasCoolantFrom(final FluidStack stack) {
+        return getCoolantFrom(stack).isPresent();
+    }
+
+    /**
+     * @return true if there is a Coolant for the given Fluid
+     */
+    public static boolean hasCoolantFrom(final Fluid stack) {
+        return getCoolantFrom(stack).isPresent();
+    }
+
+    /**
+     * @return true if there is a Vapor for the given FluidStack
+     */
+    public static boolean hasVaporFrom(final FluidStack stack) {
+        return getVaporFrom(stack).isPresent();
+    }
+
+    /**
+     * @return true if there is a Vapor for the given Fluid
+     */
+    public static boolean hasVaporFrom(final Fluid stack) {
+        return getVaporFrom(stack).isPresent();
+    }
+
+    /**
      * Get the ITag<Fluid> to Coolant mapping for the given FluidStack (if one exists)
      *
      * @param stack The FluidStack
