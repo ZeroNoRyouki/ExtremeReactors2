@@ -19,9 +19,8 @@
 package it.zerono.mods.extremereactors.api.reactor;
 
 import it.zerono.mods.extremereactors.api.IMapping;
+import it.zerono.mods.extremereactors.api.internal.AbstractNamedValue;
 import it.zerono.mods.zerocore.lib.data.gfx.Colour;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
 
 import java.util.Collections;
 
@@ -30,7 +29,8 @@ import java.util.Collections;
  * Reactor Fuel Rod to generate a controlled (or maybe not) reaction and that will eventually
  * produce a second reactant (Waste)
  */
-public class Reactant {
+public class Reactant
+    extends AbstractNamedValue {
 
     /**
      * Construct a new Reactant
@@ -42,14 +42,9 @@ public class Reactant {
      */
     Reactant(String name, ReactantType type, int rgbColour, String translationKey) {
 
-        this._name = name;
+        super(name, translationKey);
         this._type = type;
         this._colour = Colour.fromRGB(rgbColour);
-        this._translationKey = translationKey;
-    }
-
-    public String getName() {
-        return this._name;
     }
 
     public ReactantType getType() {
@@ -58,14 +53,6 @@ public class Reactant {
 
     public Colour getColour() {
         return this._colour;
-    }
-
-    public String getTranslationKey() {
-        return this._translationKey;
-    }
-
-    public ITextComponent getTranslatedName() {
-        return new TranslationTextComponent(this.getTranslationKey());
     }
 
     /**
@@ -86,35 +73,24 @@ public class Reactant {
     //region Object
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
 
-        if (obj instanceof  Reactant) {
+        if ((obj instanceof Reactant) && super.equals(obj)) {
 
             final Reactant other = (Reactant)obj;
 
-            return (this == other) || (this.getName().equals(other.getName()));
+            return this.getType() == other.getType() &&
+                    this.getColour() == other.getColour();
         }
 
         return false;
     }
 
-    @Override
-    public int hashCode() {
-        return this.getName().hashCode();
-    }
-
-    @Override
-    public String toString() {
-        return this.getName();
-    }
-
     //endregion
     //region internals
 
-    private final String _name;
     private final ReactantType _type;
     private final Colour _colour;
-    private final String _translationKey;
 
     //endregion
 }

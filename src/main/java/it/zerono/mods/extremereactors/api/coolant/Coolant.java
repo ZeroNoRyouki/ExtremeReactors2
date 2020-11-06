@@ -18,14 +18,14 @@
 
 package it.zerono.mods.extremereactors.api.coolant;
 
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import it.zerono.mods.extremereactors.api.internal.AbstractNamedValue;
 
 /**
  * Describe the properties of a coolant, ie a fluid that can be used inside a Reactor
  * to absorb heat and be converted to a gaseous fluid that can be used to drive a Turbine
  */
-public class Coolant {
+public class Coolant
+    extends AbstractNamedValue {
 
     /**
      * Construct a new Coolant
@@ -37,14 +37,9 @@ public class Coolant {
      */
     Coolant(final String name, final float boilingPoint, final float enthalpyOfVaporization, final String translationKey) {
 
-        this._name = name;
+        super(name, translationKey);
         this._boilingPoint = boilingPoint;
         this._enthalpyOfVaporization = enthalpyOfVaporization;
-        this._translationKey = translationKey;
-    }
-
-    public String getName() {
-        return this._name;
     }
 
     public float getBoilingPoint() {
@@ -55,46 +50,27 @@ public class Coolant {
         return this._enthalpyOfVaporization;
     }
 
-    public String getTranslationKey() {
-        return this._translationKey;
-    }
-
-    public ITextComponent getTranslatedName() {
-        return new TranslationTextComponent(this.getTranslationKey());
-    }
-
     //region Object
 
     @Override
     public boolean equals(final Object obj) {
 
-        if (obj instanceof Coolant) {
+        if ((obj instanceof Coolant) && super.equals(obj)) {
 
             final Coolant other = (Coolant)obj;
 
-            return (this == other) || (this.getName().equals(other.getName()));
+            return this.getBoilingPoint() == other.getBoilingPoint() &&
+                    this.getEnthalpyOfVaporization() == other.getEnthalpyOfVaporization();
         }
 
         return false;
     }
 
-    @Override
-    public int hashCode() {
-        return this.getName().hashCode();
-    }
-
-    @Override
-    public String toString() {
-        return this.getName();
-    }
-
     //endregion
     //region internals
 
-    private final String _name;
     private final float _boilingPoint;
     private final float _enthalpyOfVaporization;
-    private final String _translationKey;
 
     //endregion
 }

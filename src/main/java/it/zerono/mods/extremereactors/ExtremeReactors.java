@@ -109,8 +109,10 @@ public class ExtremeReactors implements IModInitializationHandler {
         imcProcessAPIMessages(event, "moderator-s-remove");
         imcProcessAPIMessages(event, "moderator-f-remove");
 
-        // - Coolants
-        imcProcessAPIMessages(event, "coolant-register");
+        // - Coolants / Vapors
+        imcProcessAPIMessages(event, "fluid-register");
+        imcProcessAPIMessages(event, "fluid-mapping-register");
+        imcProcessAPIMessages(event, "fluid-transition-register");
 
         // - Turbine CoilMaterials
         imcProcessAPIMessages(event, "coilmaterial-register");
