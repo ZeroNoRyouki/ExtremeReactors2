@@ -48,6 +48,16 @@ public final class FluidMappingsRegistry {
     }
 
     /**
+     * Get the ITag<Fluid> to Coolant mapping for the given Fluid (if one exists)
+     *
+     * @param fluid The Fluid
+     * @return The mapping, if one is found
+     */
+    public static Optional<IMapping<ITag.INamedTag<Fluid>, Coolant>> getCoolantFrom(final Fluid fluid) {
+        return getFrom(s_fluidToCoolant, fluid);
+    }
+
+    /**
      * Get the ITag<Fluid> to Vapor mapping for the given FluidStack (if one exists)
      *
      * @param stack The FluidStack
@@ -55,6 +65,16 @@ public final class FluidMappingsRegistry {
      */
     public static Optional<IMapping<ITag.INamedTag<Fluid>, Vapor>> getVaporFrom(final FluidStack stack) {
         return getFrom(s_fluidToVapor, stack);
+    }
+
+    /**
+     * Get the ITag<Fluid> to Vapor mapping for the given Fluid (if one exists)
+     *
+     * @param fluid The Fluid
+     * @return The mapping, if one is found
+     */
+    public static Optional<IMapping<ITag.INamedTag<Fluid>, Vapor>> getVaporFrom(final Fluid fluid) {
+        return getFrom(s_fluidToVapor, fluid);
     }
 
     /**
@@ -162,8 +182,13 @@ public final class FluidMappingsRegistry {
             return Optional.empty();
         }
 
+        return getFrom(map, stack.getFluid());
+    }
+
+    private static <T> Optional<IMapping<ITag.INamedTag<Fluid>, T>> getFrom(final Map<ITag.INamedTag<Fluid>, IMapping<ITag.INamedTag<Fluid>, T>> map,
+                                                                            final Fluid fluid) {
         return map.entrySet().stream()
-                .filter(entry -> entry.getKey().contains(stack.getFluid()))
+                .filter(entry -> entry.getKey().contains(fluid))
                 .map(Map.Entry::getValue)
                 .findAny();
     }
