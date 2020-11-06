@@ -55,10 +55,16 @@ public interface ICoolantPortHandler<Controller extends AbstractGeneratorMultibl
     CoolantPortType getCoolantPortType();
 
     /**
-     * Send fluid to the connected consumer (if there is one)
+     * If this is a Active Coolant Port in output mode, send fluid to the connected consumer (if there is one)
      *
      * @param stack FluidStack representing the Fluid and maximum amount of fluid to be sent out.
      * @return the amount of fluid accepted by the consumer
      */
     int outputFluid(FluidStack stack);
+
+
+    /**
+     * If this is a Active Coolant Port in input mode, try to get fluids from the connected consumer (if there is one)
+     */
+    void inputFluid();
 }

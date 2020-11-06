@@ -21,7 +21,9 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.scr
 import com.google.common.collect.ImmutableList;
 import it.zerono.mods.extremereactors.api.reactor.ReactantType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.AbstractGeneratorMultiblockController;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.common.IFluidContainer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.AbstractMultiblockScreen;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.CachedSprites;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.CommonIcons;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.AbstractMultiblockEntity;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.MultiblockReactor;
@@ -38,7 +40,10 @@ import it.zerono.mods.zerocore.lib.client.gui.databind.BindingGroup;
 import it.zerono.mods.zerocore.lib.client.gui.databind.MonoConsumerBinding;
 import it.zerono.mods.zerocore.lib.client.gui.databind.MultiConsumerBinding;
 import it.zerono.mods.zerocore.lib.client.gui.layout.*;
+import it.zerono.mods.zerocore.lib.client.gui.sprite.AtlasSpriteTextureMap;
 import it.zerono.mods.zerocore.lib.client.gui.sprite.ISprite;
+import it.zerono.mods.zerocore.lib.client.gui.sprite.Sprite;
+import it.zerono.mods.zerocore.lib.client.render.ModRenderHelper;
 import it.zerono.mods.zerocore.lib.client.text.BindableTextComponent;
 import it.zerono.mods.zerocore.lib.data.gfx.Colour;
 import it.zerono.mods.zerocore.lib.energy.EnergySystem;
@@ -356,8 +361,82 @@ public class ReactorControllerScreen
 
         } else {
 
-            p = this.vBarPanel();
+            final IFluidContainer fc = this._reactor.getFluidContainer();
 
+            GaugeBar bar;
+
+            // - coolant bar
+
+            final BindableTextComponent<Double> coolantBarText = new BindableTextComponent<>(
+                    heat -> new StringTextComponent(String.format("%.0f C", heat)).setStyle(STYLE_TOOLTIP_VALUE));
+
+            p = this.vBarPanel();
+            this.addBarIcon(CommonIcons.ButtonSensorOutputFuelTemperature, p); //TODO fix icon
+
+            bar = this.liquidBar("coolantBar", fc.getCapacity()); // TODO fix max & sprite
+            bar.setBarSprite(fc.getLiquid()
+                    .map(fluid -> AtlasSpriteTextureMap.BLOCKS.sprite(ModRenderHelper.getFluidFlowingSprite(fluid).getName()))
+                    .orElse(Sprite.EMPTY));
+
+//            bar.setValue(500);
+            bar.setValue((double)fc.getLiquidAmount() / (double)fc.getCapacity());
+            bar.setValue(0.5*fc.getCapacity());
+
+            //TODO fix tips
+            bar.setTooltips(ImmutableList.of(
+                    new TranslationTextComponent("gui.bigreactors.reactor.controller.coreheatbar.line1").setStyle(STYLE_TOOLTIP_TITLE),
+                    new TranslationTextComponent("gui.bigreactors.reactor.controller.coreheatbar.line2"),
+                    TEXT_EMPTY_LINE,
+                    new TranslationTextComponent("gui.bigreactors.reactor.controller.coreheatbar.line3"),
+                    new TranslationTextComponent("gui.bigreactors.reactor.controller.coreheatbar.line4"),
+                    TEXT_EMPTY_LINE,
+                    new TranslationTextComponent("gui.bigreactors.reactor.controller.coreheatbar.line5"),
+                    new TranslationTextComponent("gui.bigreactors.reactor.controller.coreheatbar.line6"),
+                    new TranslationTextComponent("gui.bigreactors.reactor.controller.coreheatbar.line7"),
+                    new TranslationTextComponent("gui.bigreactors.reactor.controller.coreheatbar.line8")),
+                    ImmutableList.of(
+                            // @0
+                            coolantBarText
+                    )
+            );
+            //TODO fix tips
+//            this.addBinding((MultiblockReactor reactor) -> reactor.getFuelHeat().get(),
+//                    (value) -> {
+//                        this._coreHeatBar.setValue(value);
+//                        this._lblTemperature.setText("%d C", value.intValue());
+//                    },
+//                    coreHeatText);
+            p.addControl(bar);
+            barsPanel.addControl(p);
+
+            // - temperature scale
+            barsPanel.addControl(this.vTempScalePanel());
+
+            // - casing heat bar
+
+            final BindableTextComponent<Double> vaportBarText = new BindableTextComponent<>(
+                    heat -> new StringTextComponent(String.format("%.0f C", heat)).setStyle(STYLE_TOOLTIP_VALUE));
+
+            p = this.vBarPanel();
+            this.addBarIcon(CommonIcons.ButtonSensorOutputCasingTemperature, p);
+
+            bar = this.liquidBar("vaporBar", fc.getCapacity()); // TODO fix max & sprite
+            //TODO fix tips
+            bar.setTooltips(ImmutableList.of(
+                    new TranslationTextComponent("gui.bigreactors.reactor.controller.casingheatbar.line1").setStyle(STYLE_TOOLTIP_TITLE),
+                    new TranslationTextComponent("gui.bigreactors.reactor.controller.casingheatbar.line2"),
+                    TEXT_EMPTY_LINE,
+                    new TranslationTextComponent("gui.bigreactors.reactor.controller.casingheatbar.line3"),
+                    new TranslationTextComponent("gui.bigreactors.reactor.controller.casingheatbar.line4"),
+                    new TranslationTextComponent("gui.bigreactors.reactor.controller.casingheatbar.line5")),
+                    ImmutableList.of(
+                            // @0
+                            vaportBarText
+                    )
+            );
+            //TODO fix tips
+//            this.addBinding((MultiblockReactor reactor) -> reactor.getReactorHeat().get(), this._casingHeatBar::setValue, reactorHeatText);
+            p.addControl(bar);
             barsPanel.addControl(p);
         }
 
@@ -586,6 +665,17 @@ public class ReactorControllerScreen
         l.setDesiredDimension(INFOPANEL_WIDTH - 16 - 4, 10);
 
         return l;
+    }
+
+    private GaugeBar liquidBar(final String name, final double maxValue) {
+
+        final GaugeBar bar = new GaugeBar(this, name, maxValue, CommonIcons.BarBackground.get());
+
+        bar.setDesiredDimension(16, 64);
+        bar.setBackground(CommonIcons.BarBackground.get());
+        bar.setPadding(1);
+
+        return bar;
     }
 
     private void addBarIcon(final NonNullSupplier<ISprite> icon, final Panel parent) {

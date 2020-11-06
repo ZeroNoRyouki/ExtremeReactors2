@@ -68,13 +68,13 @@ public enum ReactorPartType
             IOPortBlock::new, "part.bigreactors.reactor.coolantport_forge_active"),
 
     PassiveCoolantPortForge(() -> Content.TileEntityTypes.REACTOR_COOLANTPORT_FORGE_PASSIVE::get,
-            IOPortBlock::new, "part.bigreactors.reactor.coolantport_forge_passive"),
+            /*IOPortBlock::new*/PassiveCoolantPortBlock::new, "part.bigreactors.reactor.coolantport_forge_passive"),
 
     ActiveCoolantPortMekanism(() -> null,//Content.TileEntityTypes.REACTOR_COOLANTPORT_MEKANISM_ACTIVE::get, //TODO mekanism coolant port
             IOPortBlock::new, "part.bigreactors.reactor.coolantport_mekanism_active"),
 
     PassiveCoolantPortMekanism(() -> null,//Content.TileEntityTypes.REACTOR_COOLANTPORT_MEKANISM_PASSIVE::get, //TODO mekanism coolant port
-            IOPortBlock::new, "part.bigreactors.reactor.coolantport_mekanism_passive"),
+            /*IOPortBlock::new*/PassiveCoolantPortBlock::new, "part.bigreactors.reactor.coolantport_mekanism_passive"),
 
     CreativeCoolantPort(
             () -> () -> null, //TODO fix!

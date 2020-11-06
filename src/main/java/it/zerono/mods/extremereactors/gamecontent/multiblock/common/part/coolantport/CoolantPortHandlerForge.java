@@ -25,6 +25,7 @@ import it.zerono.mods.zerocore.lib.data.IIoEntity;
 import it.zerono.mods.zerocore.lib.data.IoMode;
 import it.zerono.mods.zerocore.lib.fluid.handler.FluidHandlerForwarder;
 import it.zerono.mods.zerocore.lib.multiblock.cuboid.AbstractCuboidMultiblockPart;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import net.minecraftforge.common.capabilities.Capability;
@@ -52,7 +53,7 @@ public class CoolantPortHandlerForge<Controller extends AbstractGeneratorMultibl
     //region ICoolantPortHandler
 
     /**
-     * Send fluid to the connected consumer (if there is one)
+     * If this is a Active Coolant Port in output mode, send fluid to the connected consumer (if there is one)
      *
      * @param stack FluidStack representing the Fluid and maximum amount of fluid to be sent out.
      * @return the amount of fluid accepted by the consumer
@@ -60,11 +61,24 @@ public class CoolantPortHandlerForge<Controller extends AbstractGeneratorMultibl
     @Override
     public int outputFluid(final FluidStack stack) {
 
-        if (null == this._consumer || this.isPassive()) {
+        if (null == this._consumer || this.isPassive() || this.getIoEntity().getIoDirection().isInput()) {
             return 0;
         }
 
         return this._consumer.fill(stack, IFluidHandler.FluidAction.EXECUTE);
+    }
+
+    /**
+     * If this is a Active Coolant Port in input mode, try to get fluids from the connected consumer (if there is one)
+     */
+    @Override
+    public void inputFluid() {
+
+        if (null == this._consumer || this.isPassive() || this.getIoEntity().getIoDirection().isOutput()) {
+            return;
+        }
+
+        //TODO imp
     }
 
     //endregion
@@ -126,6 +140,19 @@ public class CoolantPortHandlerForge<Controller extends AbstractGeneratorMultibl
             WorldHelper.notifyBlockUpdate(partWorld, this.getPart().getWorldPosition(), null, null);
         }
         */
+    }
+
+    /**
+     * Get the requested capability, if supported
+     *
+     * @param capability the capability
+     * @param direction  the direction the request is coming from
+     * @return the capability (if supported) or null (if not)
+     */
+    @Nullable
+    @Override
+    public <T> LazyOptional<T> getCapability(final Capability<T> capability, final @Nullable Direction direction) {
+        return this._capability.cast();
     }
 
     @Override
