@@ -52,6 +52,14 @@ public class CoolantPortHandlerMekanism<Controller extends AbstractGeneratorMult
         return 0; // TODO imp
     }
 
+    /**
+     * If this is a Active Coolant Port in input mode, try to get fluids from the connected consumer (if there is one)
+     */
+    @Override
+    public void inputFluid() {
+
+    }
+
     //endregion
     //region IIOPortHandler
 
