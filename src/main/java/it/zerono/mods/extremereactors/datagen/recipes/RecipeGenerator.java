@@ -18,6 +18,8 @@
 
 package it.zerono.mods.extremereactors.datagen.recipes;
 
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Sets;
 import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.gamecontent.Content.Items;
 import it.zerono.mods.extremereactors.gamecontent.ContentTags;
@@ -36,6 +38,7 @@ import net.minecraftforge.common.crafting.conditions.NotCondition;
 import net.minecraftforge.common.crafting.conditions.TagEmptyCondition;
 
 import javax.annotation.Nullable;
+import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -212,19 +215,21 @@ public class RecipeGenerator
     private void reactorController(final Consumer<IFinishedRecipe> c, final ReactorVariant variant,
                                    final Supplier<? extends IItemProvider> result,
                                    final Supplier<? extends IItemProvider> casing, final ITag<Item> diamond) {
-        ShapedRecipeBuilder.shapedRecipe(result.get())
-                .key('C', casing.get())
-                .key('Y', ContentTags.Items.INGOTS_YELLORIUM)
-                .key('R', Tags.Items.DUSTS_REDSTONE)
-                .key('D', diamond)
-                .key('X', net.minecraft.item.Items.COMPARATOR)
-                .patternLine("CXC")
-                .patternLine("YDY")
-                .patternLine("CRC")
-                .setGroup(GROUP_REACTOR)
-                .addCriterion("has_item", hasItem(casing.get()))
-                .addCriterion("has_item2", hasItem(ContentTags.Items.INGOTS_YELLORIUM))
-                .build(c, reactorRecipeName(variant, "controller"));
+
+        TAGS_YELLORIUM_INGOTS.forEach(yellorium -> ShapedRecipeBuilder.shapedRecipe(result.get())
+                    .key('C', casing.get())
+                    .key('Y', yellorium)
+                    .key('R', Tags.Items.DUSTS_REDSTONE)
+                    .key('D', diamond)
+                    .key('X', net.minecraft.item.Items.COMPARATOR)
+                    .patternLine("CXC")
+                    .patternLine("YDY")
+                    .patternLine("CRC")
+                    .setGroup(GROUP_REACTOR)
+                    .addCriterion("has_item", hasItem(casing.get()))
+                    .addCriterion("has_item2", hasItem(yellorium))
+                    .build(c, reactorRecipeName(variant, "controller", yellorium))
+        );
     }
 
     private void reactorFuelRod(final Consumer<IFinishedRecipe> c, final ReactorVariant variant,
@@ -232,18 +237,20 @@ public class RecipeGenerator
                                 final ITag.INamedTag<Item> metal, @Nullable final ITag.INamedTag<Item> alternativeMetal,
                                 final ITag<Item> glass) {
 
-        recipeWithAlternativeTag(c, reactorRecipeName(variant, "fuelrod"), reactorRecipeName(variant, "fuelrod_alt"),
-                metal, alternativeMetal, metalTag ->
-                        ShapedRecipeBuilder.shapedRecipe(result.get())
-                                .key('M', metalTag)
-                                .key('Y', ContentTags.Items.INGOTS_YELLORIUM)
-                                .key('G', ContentTags.Items.INGOTS_GRAPHITE)
-                                .key('L', glass)
-                                .patternLine("MGM")
-                                .patternLine("LYL")
-                                .patternLine("MGM")
-                                .setGroup(GROUP_REACTOR)
-                                .addCriterion("has_item", hasItem(ContentTags.Items.INGOTS_YELLORIUM)));
+        TAGS_YELLORIUM_INGOTS.forEach(yellorium ->
+                recipeWithAlternativeTag(c, reactorRecipeName(variant, "fuelrod", yellorium),
+                        reactorRecipeName(variant, "fuelrod_alt", yellorium),
+                        metal, alternativeMetal, metalTag ->
+                                ShapedRecipeBuilder.shapedRecipe(result.get())
+                                        .key('M', metalTag)
+                                        .key('Y', yellorium)
+                                        .key('G', ContentTags.Items.INGOTS_GRAPHITE)
+                                        .key('L', glass)
+                                        .patternLine("MGM")
+                                        .patternLine("LYL")
+                                        .patternLine("MGM")
+                                        .setGroup(GROUP_REACTOR)
+                                        .addCriterion("has_item", hasItem(yellorium))));
     }
 
     private void reactorControlRod(final Consumer<IFinishedRecipe> c, final ReactorVariant variant,
@@ -354,6 +361,10 @@ public class RecipeGenerator
         return ExtremeReactors.newID("reactor/" + variant.getName() + "/" + name);
     }
 
+    private static ResourceLocation reactorRecipeName(final ReactorVariant variant, final String name, final ITag.INamedTag<Item> tag) {
+        return ExtremeReactors.newID("reactor/" + variant.getName() + "/" + name + "_" + tag.getName().getPath().replace('/', '_'));
+    }
+
     //endregion
 
     protected void blastingAndSmelting(final Consumer<IFinishedRecipe> consumer, final String name,
@@ -418,6 +429,9 @@ public class RecipeGenerator
     private static final String GROUP_TURBINE = ExtremeReactors.MOD_ID + ":turbine";
 
     private static final Tags.IOptionalNamedTag<Item> TAG_INGOTS_STEEL = ItemTags.createOptional(new ResourceLocation("forge", "ingots/steel"));
+    private static final Tags.IOptionalNamedTag<Item> TAG_INGOTS_URANIUM = ItemTags.createOptional(new ResourceLocation("forge", "ingots/uranium"));
+
+    private static final Set<ITag.INamedTag<Item>> TAGS_YELLORIUM_INGOTS = ImmutableSet.of(ContentTags.Items.INGOTS_YELLORIUM, TAG_INGOTS_URANIUM);
 
     //endregion
 }

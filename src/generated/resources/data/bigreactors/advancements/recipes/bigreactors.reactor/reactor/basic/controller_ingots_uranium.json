@@ -2,7 +2,7 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "bigreactors:reactor/basic/controller"
+      "bigreactors:reactor/basic/controller_ingots_uranium"
     ]
   },
   "criteria": {
@@ -21,7 +21,7 @@
       "conditions": {
         "items": [
           {
-            "tag": "forge:ingots/yellorium"
+            "tag": "forge:ingots/uranium"
           }
         ]
       }
@@ -29,7 +29,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "bigreactors:reactor/basic/controller"
+        "recipe": "bigreactors:reactor/basic/controller_ingots_uranium"
       }
     }
   },

@@ -2,7 +2,7 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "bigreactors:reactor/reinforced/controller"
+      "bigreactors:reactor/basic/controller_ingots_yellorium"
     ]
   },
   "criteria": {
@@ -11,7 +11,7 @@
       "conditions": {
         "items": [
           {
-            "item": "bigreactors:reinforced_reactorcasing"
+            "item": "bigreactors:basic_reactorcasing"
           }
         ]
       }
@@ -29,7 +29,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "bigreactors:reactor/reinforced/controller"
+        "recipe": "bigreactors:reactor/basic/controller_ingots_yellorium"
       }
     }
   },
