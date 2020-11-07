@@ -37,6 +37,10 @@
     "item.bigreactors.wrench": "Extreme Wrench",
     "item.bigreactors.steam_bucket": "Steam Bucket",
 
+    "_comment": "Fluids",
+    "fluid.bigreactors.water": "Water",
+    "fluid.bigreactors.steam": "Steam",
+
     "_comment": "Blocks - metal blocks / ores",
     "block.bigreactors.yellorium_block": "Yellorium Block",
     "block.bigreactors.cyanite_block": "Cyanite Block",
