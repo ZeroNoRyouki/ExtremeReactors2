@@ -23,6 +23,8 @@ import it.zerono.mods.extremereactors.api.internal.AbstractNamedValue;
 public class Vapor
         extends AbstractNamedValue {
 
+    public static final Vapor EMPTY = new Vapor("empty", 0.0f, "gui.bigreactors.generic.empty");
+
     /**
      * Construct a new Vapor
      *

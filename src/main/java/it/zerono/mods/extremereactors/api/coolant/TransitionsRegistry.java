@@ -35,6 +35,9 @@ import java.util.Optional;
  */
 public final class TransitionsRegistry {
 
+    public static final IMapping<Coolant, Vapor> EMPTY_VAPORIZATION = IMapping.of(Coolant.EMPTY, 0, Vapor.EMPTY, 0);
+    public static final IMapping<Vapor, Coolant> EMPTY_CONDENSATION = IMapping.of(Vapor.EMPTY, 0, Coolant.EMPTY, 0);
+
     /**
      * Check if a transition exists for the given Coolant
      *
@@ -115,7 +118,11 @@ public final class TransitionsRegistry {
             } else {
 
                 if (s_vaporizations.containsKey(coolant)) {
-                    ExtremeReactorsAPI.LOGGER.warn(MARKER, "Overwriting {} => {} transition", coolantName, vaporName);
+                    ExtremeReactorsAPI.LOGGER.warn(MARKER, "Overwriting {} => {} vaporization transition", coolantName, vaporName);
+                }
+
+                if (s_condensations.containsKey(vapor)) {
+                    ExtremeReactorsAPI.LOGGER.warn(MARKER, "Overwriting {} => {} condensation transition", vaporName, coolantName);
                 }
 
                 final IMapping<Coolant, Vapor> vaporization = IMapping.of(coolant, coolantAmount, vapor, vaporAmount);
