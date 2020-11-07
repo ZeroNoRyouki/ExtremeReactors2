@@ -79,17 +79,9 @@ public class ReactorControllerScreen
 
         this._bindings = new BindingGroup();
 
-//        final ISpriteTextureMap textureMap = this._reactorMode.isPassive() ?
-//                new SpriteTextureMap(ExtremeReactors.newID("textures/gui/multiblock/reactor/generic_controller_passive.png"), 256, 256) :
-//                new SpriteTextureMap(ExtremeReactors.newID("textures/gui/multiblock/reactor/generic_controller_active.png"), 256, 256);
-
-//        this._genericBarsBackgroundSprite = textureMap.sprite().from(0, 21).ofSize(182-10, /*166 - 21*/120).build();
-
-//        this._btnOnOff = new SwitchPictureButton(this, "on-off", false);
-//        this._btnWasteEjection = new SwitchPictureButton(this, "wasteeject", false);
         this._fuelBar = new FuelGaugeBar(this, "fuelBar", this._reactor);
-        this._coreHeatBar = new GaugeBar(this, "coreHeatBar", 2000.0, CommonIcons.TemperatureBar.get());
-        this._casingHeatBar = new GaugeBar(this, "casingHeatBar", 2000.0, CommonIcons.TemperatureBar.get());
+        this._coreHeatBar = this.heatBar("coreHeatBar", 2000.0);
+        this._casingHeatBar = this.heatBar("casingHeatBar", 2000.0);
         this._lblTemperature = this.infoLabel("temperatureValue", "0 C");
         this._lblFuelUsage = this.infoLabel("fuelUsageValue", "0 mB/t");
         this._lblFuelRichness = this.infoLabel("fuelRichnessValue", "0%");
@@ -144,7 +136,7 @@ public class ReactorControllerScreen
 
         // OUTER PANEL
 
-        outerPanel.setDesiredDimension(this.getGuiWidth() - 26, VBARPANEL_HEIGHT + 50 + 7);
+        outerPanel.setDesiredDimension(this.getGuiWidth() - 26, VBARPANEL_HEIGHT + 57);
         outerPanel.setLayoutEngine(new VerticalLayoutEngine()
                 .setZeroMargins()
                 .setControlsSpacing(2)
@@ -164,11 +156,11 @@ public class ReactorControllerScreen
         // h-separator
 
         p = new Panel(this);
-        p.setDesiredDimension(this.getGuiWidth() - 26+1, 1);
+        p.setDesiredDimension(this.getGuiWidth() - 29, 1);
         p.setLayoutEngine(new FixedLayoutEngine());
 
         s = new Static(this, 0, 0).setColor(Colour.BLACK);
-        s.setLayoutEngineHint(FixedLayoutEngine.hint(0, 0, this.getGuiWidth() - 26+1, 1));
+        s.setLayoutEngineHint(FixedLayoutEngine.hint(0, 0, this.getGuiWidth() - 29, 1));
 
         p.addControl(s);
         outerPanel.addControl(p);
@@ -187,7 +179,7 @@ public class ReactorControllerScreen
         p = this.vBarPanel();
         this.addBarIcon(CommonIcons.FuelIcon, p);
 
-        this._fuelBar.setDesiredDimension(16, 64);
+        this._fuelBar.setDesiredDimension(18, 66);
         this._fuelBar.setBackground(CommonIcons.BarBackground.get());
         this._fuelBar.setPadding(1);
         this.addBinding(MultiblockReactor::getFuelAmount, value -> this._fuelBar.setValue(ReactantType.Fuel, value));
@@ -218,9 +210,6 @@ public class ReactorControllerScreen
         p = this.vBarPanel();
         this.addBarIcon(CommonIcons.ButtonSensorOutputFuelTemperature, p);
 
-        this._coreHeatBar.setDesiredDimension(16, 64);
-        this._coreHeatBar.setBackground(CommonIcons.BarBackground.get());
-        this._coreHeatBar.setPadding(1);
         this._coreHeatBar.setTooltips(ImmutableList.of(
                 new TranslationTextComponent("gui.bigreactors.reactor.controller.coreheatbar.line1").setStyle(STYLE_TOOLTIP_TITLE),
                 new TranslationTextComponent("gui.bigreactors.reactor.controller.coreheatbar.line2"),
@@ -257,9 +246,6 @@ public class ReactorControllerScreen
         p = this.vBarPanel();
         this.addBarIcon(CommonIcons.ButtonSensorOutputCasingTemperature, p);
 
-        this._casingHeatBar.setDesiredDimension(16, 64);
-        this._casingHeatBar.setBackground(CommonIcons.BarBackground.get());
-        this._casingHeatBar.setPadding(1);
         this._casingHeatBar.setTooltips(ImmutableList.of(
                 new TranslationTextComponent("gui.bigreactors.reactor.controller.casingheatbar.line1").setStyle(STYLE_TOOLTIP_TITLE),
                 new TranslationTextComponent("gui.bigreactors.reactor.controller.casingheatbar.line2"),
@@ -288,7 +274,7 @@ public class ReactorControllerScreen
             ////////////////////////////////////////////////////////////////////////////////////////////
 
             p = new Panel(this);
-            p.setDesiredDimension(VBARPANEL_WIDTH * 2 + 11+2+2, VBARPANEL_HEIGHT);
+            p.setDesiredDimension(VBARPANEL_WIDTH * 2 + 11, VBARPANEL_HEIGHT);
             p.setLayoutEngine(new VerticalLayoutEngine()
                     .setHorizontalAlignment(HorizontalAlignment.Left)
                     .setZeroMargins()
@@ -305,7 +291,7 @@ public class ReactorControllerScreen
             final BindableTextComponent<Double> energyStoredPercentageText = new BindableTextComponent<>(
                     percentage -> new StringTextComponent(String.format("%d", (int)(percentage * 100))).setStyle(STYLE_TOOLTIP_VALUE));
 
-            this._energyBar.setDesiredDimension(16, 64);
+            this._energyBar.setDesiredDimension(18, 66);
             this._energyBar.setBackground(CommonIcons.BarBackground.get());
             this._energyBar.setPadding(1);
             this._energyBar.setTooltips(ImmutableList.of(
@@ -421,9 +407,16 @@ public class ReactorControllerScreen
                     )
             );
             this.addBinding((MultiblockReactor reactor) -> getFluidName(reactor.getFluidContainer().getLiquid()),
-                    v -> this._coolantBar.setBarSprite(this._reactor.getFluidContainer().getLiquid()
-                            .map(fluid -> AtlasSpriteTextureMap.BLOCKS.sprite(ModRenderHelper.getFluidFlowingSprite(fluid)))
-                            .orElse(Sprite.EMPTY)), coolantFluidName);
+                    v -> {
+                        this._coolantBar.setBarSprite(Sprite.EMPTY);
+                        this._coolantBar.setBarSpriteTint(Colour.WHITE);
+                        this._reactor.getFluidContainer().getLiquid()
+                                .ifPresent(fluid -> {
+
+                                    this._coolantBar.setBarSprite(ModRenderHelper.getFlowingFluidSprite(fluid));
+                                    this._coolantBar.setBarSpriteTint(Colour.fromARGB(fluid.getAttributes().getColor()));
+                                });
+                    }, coolantFluidName);
             this.addBinding((MultiblockReactor reactor) -> reactor.getFluidContainer().getLiquidAmount(), (Consumer<Integer>)this._coolantBar::setValue, coolantAmount);
             this.addBinding((MultiblockReactor reactor) -> reactor.getFluidContainer().getLiquidStoredPercentage(), v -> {}, coolantStoredPercentage);
 
@@ -468,9 +461,16 @@ public class ReactorControllerScreen
                     )
             );
             this.addBinding((MultiblockReactor reactor) -> getFluidName(reactor.getFluidContainer().getGas()),
-                    v -> this._vaporBar.setBarSprite(this._reactor.getFluidContainer().getGas()
-                            .map(fluid -> AtlasSpriteTextureMap.BLOCKS.sprite(ModRenderHelper.getFluidFlowingSprite(fluid)))
-                            .orElse(Sprite.EMPTY)), vaporFluidName);
+                    v -> {
+                        this._vaporBar.setBarSprite(Sprite.EMPTY);
+                        this._vaporBar.setBarSpriteTint(Colour.WHITE);
+                        this._reactor.getFluidContainer().getGas()
+                                .ifPresent(fluid -> {
+
+                                    this._vaporBar.setBarSprite(ModRenderHelper.getFlowingFluidSprite(fluid));
+                                    this._vaporBar.setBarSpriteTint(Colour.fromARGB(fluid.getAttributes().getColor()));
+                                });
+                    }, vaporFluidName);
             this.addBinding((MultiblockReactor reactor) -> reactor.getFluidContainer().getGasAmount(), (Consumer<Integer>)this._vaporBar::setValue, vaporAmount);
             this.addBinding((MultiblockReactor reactor) -> reactor.getFluidContainer().getGasStoredPercentage(), v -> {}, vaporStoredPercentage);
 
@@ -508,7 +508,11 @@ public class ReactorControllerScreen
         // - separator
         barsPanel.addControl(this.vSeparatorPanel());
 
-        // LEFT INFO PANEL
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
+        //
+        // TEXT INFO PANELS
+        //
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
 
         // - temperature
 
@@ -559,7 +563,7 @@ public class ReactorControllerScreen
 
         // - machine on/off
 
-        int x = 1-1;
+        int x = 0;
         int y = 0;
         int w = 25;
 
@@ -589,7 +593,7 @@ public class ReactorControllerScreen
         swp.Deactivated.subscribe(this::onWasteEjectionChanged);
         this.setButtonSpritesAndOverlayForState(swp, ButtonState.Default, CommonIcons.ButtonDumpWaste);
         this.setButtonSpritesAndOverlayForState(swp, ButtonState.Active, CommonIcons.ButtonDumpWasteActive);
-        swp.setLayoutEngineHint(FixedLayoutEngine.hint(x + /*4*/17, y, 18, 18));
+        swp.setLayoutEngineHint(FixedLayoutEngine.hint(x + 17, y, 18, 18));
         swp.setBackground(CommonIcons.ImageButtonBackground.get());
         swp.enablePaintBlending(true);
         swp.setPadding(1);
@@ -641,9 +645,9 @@ public class ReactorControllerScreen
     //region internals
     //region GUI controls helpers
 
-    private final static int VBARPANEL_WIDTH = 16;
-    private final static int VBARPANEL_HEIGHT = 82;
-    private final static int INFOPANEL_WIDTH = 91;
+    private final static int VBARPANEL_WIDTH = 18;
+    private final static int VBARPANEL_HEIGHT = 84;
+    private final static int INFOPANEL_WIDTH = 88;
 
     private Panel vCommandPanel() {
 
@@ -672,11 +676,11 @@ public class ReactorControllerScreen
         final Panel p = new Panel(this);
         final Static s = new Static(this, 1, VBARPANEL_HEIGHT);
 
-        p.setDesiredDimension(7+6, VBARPANEL_HEIGHT);
+        p.setDesiredDimension(11, VBARPANEL_HEIGHT);
         p.setLayoutEngine(new FixedLayoutEngine());
 
         s.setColor(Colour.BLACK);
-        s.setLayoutEngineHint(FixedLayoutEngine.hint(3+3, 0, 1, VBARPANEL_HEIGHT));
+        s.setLayoutEngineHint(FixedLayoutEngine.hint(5, 0, 1, VBARPANEL_HEIGHT));
 
         p.addControl(s);
 
@@ -688,10 +692,10 @@ public class ReactorControllerScreen
         final Panel p = new Panel(this);
         final Picture pic = new Picture(this, this.nextGenericName(), CommonIcons.TemperatureScale.get(), 5, 59);
 
-        p.setDesiredDimension(5+3+3+3+3-2, VBARPANEL_HEIGHT);
+        p.setDesiredDimension(11, VBARPANEL_HEIGHT);
         p.setLayoutEngine(new FixedLayoutEngine());
 
-        pic.setLayoutEngineHint(FixedLayoutEngine.hint(3+3-1, 16 + 4+3, 5, 59));
+        pic.setLayoutEngineHint(FixedLayoutEngine.hint(3, 23, 5, 59));
 
         p.addControl(pic);
 
@@ -727,32 +731,44 @@ public class ReactorControllerScreen
         final Label l = new Label(this, name, value);
 
         l.setAutoSize(false);
-        l.setDesiredDimension(INFOPANEL_WIDTH - 16 - 4, 10);
+        l.setDesiredDimension(INFOPANEL_WIDTH - 20, 10);
 
         return l;
     }
 
-    private GaugeBar liquidBar(final String name, final double maxValue) {
+    private GaugeBar heatBar(final String name, final double maxValue) {
 
-        final GaugeBar bar = new GaugeBar(this, name, maxValue, CommonIcons.BarBackground.get());
+        final GaugeBar bar = new GaugeBar(this, name, maxValue, CommonIcons.TemperatureBar.get());
 
-        bar.setDesiredDimension(16, 64);
+        bar.setDesiredDimension(18, 66);
         bar.setBackground(CommonIcons.BarBackground.get());
         bar.setPadding(1);
 
         return bar;
     }
 
-    private void addBarIcon(final NonNullSupplier<ISprite> icon, final Panel parent) {
-        this.addBarIcon(icon, 16, 16, parent);
+    private GaugeBar liquidBar(final String name, final double maxValue) {
+
+        final GaugeBar bar = new GaugeBar(this, name, maxValue, CommonIcons.BarBackground.get());
+
+        bar.setDesiredDimension(18, 66);
+        bar.setBackground(CommonIcons.BarBackground.get());
+        bar.setPadding(1);
+
+        return bar;
     }
 
-    private void addBarIcon(final NonNullSupplier<ISprite> icon, final int width, final int height, final Panel parent) {
+    private IControl addBarIcon(final NonNullSupplier<ISprite> icon, final Panel parent) {
+        return this.addBarIcon(icon, 16, 16, parent);
+    }
+
+    private IControl addBarIcon(final NonNullSupplier<ISprite> icon, final int width, final int height, final Panel parent) {
 
         final IControl c = new Picture(this, this.nextGenericName(), icon.get(), width, height);
 
         c.setDesiredDimension(width, height);
         parent.addControl(c);
+        return c;
     }
 
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")

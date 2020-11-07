@@ -37,13 +37,13 @@ public enum CommonIcons implements NonNullSupplier<ISprite> {
     CoolantIcon(builder().from(112, 80).build()),
     VaporIcon(builder().from(128, 80).build()),
 
-    BarBackground(builder().from(0, 112).ofSize(16, 64).build()),
-    PowerBar(builder().from(17, 113).ofSize(14, 62).build()),
-    TemperatureBar(builder().from(33, 113).ofSize(14, 62).build()),
-    TemperatureScale(builder().from(54, 114).ofSize(5, 59).build()),
+    BarBackground(builder().from(174, 90).ofSize(18, 66).build()),
+    PowerBar(builder().from(0, 112).ofSize(16, 64).build()),
+    TemperatureBar(builder().from(16, 112).ofSize(16, 64).build()),
+    TemperatureScale(builder().from(38, 114).ofSize(5, 59).build()),
     PowerBattery(builder().from(128, 96).build()),
     FuelMix(builder().from(144, 96).build()),
-    LabelEdit(builder().from(160, 96).build()),
+    LabelEdit(builder().from(144, 80).build()),
 
     ButtonInputDirection(builder().from(0, 96).build()),
     ButtonInputDirectionActive(builder().from(16, 96).build()),
