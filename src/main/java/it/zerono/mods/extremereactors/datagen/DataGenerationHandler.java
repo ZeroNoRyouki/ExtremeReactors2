@@ -36,22 +36,21 @@ public class DataGenerationHandler {
     public static void gatherData(final GatherDataEvent event) {
 
         final DataGenerator generator = event.getGenerator();
+        final ExistingFileHelper existing = event.getExistingFileHelper();
 
         if (event.includeServer()) {
 
             generator.addProvider(new BlockLootGenerator(generator));
 
-            final BlockTagGenerator blockTagGenerator = new BlockTagGenerator(generator);
+            final BlockTagGenerator blockTagGenerator = new BlockTagGenerator(generator, existing);
 
             generator.addProvider(blockTagGenerator);
-            generator.addProvider(new ItemTagGenerator(generator, blockTagGenerator));
+            generator.addProvider(new ItemTagGenerator(generator, blockTagGenerator, existing));
 
             generator.addProvider(new RecipeGenerator(generator));
         }
 
         if (event.includeClient()) {
-
-            final ExistingFileHelper existing = event.getExistingFileHelper();
 
             generator.addProvider(new BlockStateGenerator(generator, existing));
             generator.addProvider(new ReactorBlockStateGenerator(generator, existing));

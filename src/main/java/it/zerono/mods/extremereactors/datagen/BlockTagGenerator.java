@@ -28,14 +28,16 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.data.TagsProvider;
 import net.minecraft.tags.ITag;
 import net.minecraftforge.common.Tags;
+import net.minecraftforge.common.data.ExistingFileHelper;
 
+import javax.annotation.Nullable;
 import java.util.function.Supplier;
 
 public class BlockTagGenerator
         extends BlockTagsProvider {
 
-    public BlockTagGenerator(final DataGenerator generator) {
-        super(generator, ExtremeReactors.MOD_ID, null);
+    public BlockTagGenerator(final DataGenerator generator, final @Nullable ExistingFileHelper existingFileHelper) {
+        super(generator, ExtremeReactors.MOD_ID, existingFileHelper);
     }
 
     //region IDataProvider

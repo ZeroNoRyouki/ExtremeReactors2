@@ -31,7 +31,9 @@ public interface IMapping<Source, Product> {
     static <Source, Product> IMapping<Source, Product> of(final Source source, final int sourceAmount,
                                                           final Product product, final int productAmount) {
 
-        if (sourceAmount == productAmount) {
+        if (0 == sourceAmount || 0 == productAmount) {
+            return new IMapping.NoneToNone<>(source, product);
+        } else if (sourceAmount == productAmount) {
             return new IMapping.OneToOne<>(source, sourceAmount, product, productAmount);
         } else {
             return new IMapping.ManyToMany<>(source, sourceAmount, product, productAmount);
@@ -70,7 +72,7 @@ public interface IMapping<Source, Product> {
     }
 
     abstract class Impl<Source, Product>
-        implements IMapping<Source, Product> {
+            implements IMapping<Source, Product> {
 
         Impl(final Source source, final int sourceAmount, final Product product, final int productAmount) {
 
@@ -99,6 +101,14 @@ public interface IMapping<Source, Product> {
         }
 
         //endregion
+        //region Object
+
+        @Override
+        public String toString() {
+            return String.format("%d %s to %d %s", this.getSourceAmount(), this.getSource(), this.getProductAmount(), this.getProduct());
+        }
+
+        //endregion
         //region internals
 
         private final Source _source;
@@ -110,7 +120,7 @@ public interface IMapping<Source, Product> {
     }
 
     class OneToOne<Source, Product>
-        extends Impl<Source, Product> {
+            extends Impl<Source, Product> {
 
         public OneToOne(final Source source, final int sourceAmount, final Product product, final int productAmount) {
             super(source, sourceAmount, product, productAmount);
@@ -148,6 +158,28 @@ public interface IMapping<Source, Product> {
         @Override
         public int getSourceAmount(final int productQty) {
             return (productQty / this.getProductAmount()) * this.getSourceAmount();
+        }
+
+        //endregion
+    }
+
+    class NoneToNone<Source, Product>
+            extends Impl<Source, Product> {
+
+        public NoneToNone(final Source source, final Product product) {
+            super(source, 0, product, 0);
+        }
+
+        //region IMapping
+
+        @Override
+        public int getProductAmount(final int sourceQty) {
+            return 0;
+        }
+
+        @Override
+        public int getSourceAmount(final int productQty) {
+            return 0;
         }
 
         //endregion

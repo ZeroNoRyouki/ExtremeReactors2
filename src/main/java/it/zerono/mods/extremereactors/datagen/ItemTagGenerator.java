@@ -29,14 +29,17 @@ import net.minecraft.data.TagsProvider;
 import net.minecraft.item.Item;
 import net.minecraft.tags.ITag;
 import net.minecraftforge.common.Tags;
+import net.minecraftforge.common.data.ExistingFileHelper;
 
+import javax.annotation.Nullable;
 import java.util.function.Supplier;
 
 public class ItemTagGenerator
         extends ItemTagsProvider {
 
-    public ItemTagGenerator(final DataGenerator generator, final BlockTagsProvider blockTagProvider) {
-        super(generator, blockTagProvider, ExtremeReactors.MOD_ID, null);
+    public ItemTagGenerator(final DataGenerator generator, final BlockTagsProvider blockTagProvider,
+                            @Nullable ExistingFileHelper existingFileHelper) {
+        super(generator, blockTagProvider, ExtremeReactors.MOD_ID, existingFileHelper);
     }
 
     //region IDataProvider
