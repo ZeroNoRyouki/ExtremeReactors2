@@ -18,6 +18,9 @@
 
 package it.zerono.mods.extremereactors.gamecontent;
 
+import it.zerono.mods.extremereactors.api.coolant.FluidMappingsRegistry;
+import it.zerono.mods.extremereactors.api.coolant.FluidsRegistry;
+import it.zerono.mods.extremereactors.api.coolant.TransitionsRegistry;
 import it.zerono.mods.extremereactors.api.reactor.*;
 import net.minecraft.item.Item;
 import net.minecraft.tags.ITag;
@@ -30,6 +33,9 @@ final class ReactorGameData {
         registerReactantMappings();
         registerReactions();
         registerModerators();
+
+        // register coolants and vapors
+        registerCoolantsAndVapors();
     }
 
     //region internals
@@ -104,6 +110,21 @@ final class ReactorGameData {
 //            ReactorInterior.registerBlock("blockTartarite", 0.65f, 0.90f, 1.62f, 4f); // Between diamond and graphene
 //            ReactorInterior.registerBlock("blockManyullyn", 0.68f, 0.88f, 1.75f, 4.5f);
 
+    }
+
+    private static void registerCoolantsAndVapors() {
+
+        // water -> steam (and vice versa)
+
+        FluidsRegistry.registerCoolant("water", 100.0f,
+                4.0f, // Thermal Expansion converts 1 mB steam into 2 RF of work in a steam turbine, so we assume it's 50% efficient.
+                "fluid.bigreactors.water");
+        FluidMappingsRegistry.registerCoolantMapping("water", 1, ContentTags.Fluids.WATER);
+
+        FluidsRegistry.registerVapor("steam", 10.0f, "fluid.bigreactors.steam");
+        FluidMappingsRegistry.registerCoolantMapping("steam", 1, ContentTags.Fluids.STEAM);
+
+        TransitionsRegistry.register("water", "steam");
     }
 
     //region helpers
