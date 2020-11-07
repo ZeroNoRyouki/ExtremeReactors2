@@ -36,9 +36,11 @@ import net.minecraft.tags.ITag;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.*;
 
 @SuppressWarnings({"WeakerAccess"})
-public class ReactantStack implements ISyncableEntity {
+public class ReactantStack
+        implements ISyncableEntity {
 
     public static final ReactantStack EMPTY = new ReactantStack();
 
@@ -364,6 +366,45 @@ public class ReactantStack implements ISyncableEntity {
             @Override
             public String toString(final ReactantStack stack) {
                 return stack.toString();
+            }
+
+            @Override
+            public <T> T map(ReactantStack stack, Function<Reactant, T> mapper, T defaultValue) {
+                return stack.isEmpty() ? defaultValue : mapper.apply(stack._reactant);
+            }
+
+            @Override
+            public <T> T map(ReactantStack stack, IntFunction<T> mapper, T defaultValue) {
+                return stack.isEmpty() ? defaultValue : mapper.apply(stack._amount);
+            }
+
+            @Override
+            public <T> T map(ReactantStack stack, BiFunction<Reactant, Integer, T> mapper, T defaultValue) {
+                return stack.isEmpty() ? defaultValue : mapper.apply(stack._reactant, stack._amount);
+            }
+
+            @Override
+            public void accept(ReactantStack stack, Consumer<Reactant> consumer) {
+
+                if (!stack.isEmpty()) {
+                    consumer.accept(stack._reactant);
+                }
+            }
+
+            @Override
+            public void accept(ReactantStack stack, IntConsumer consumer) {
+
+                if (!stack.isEmpty()) {
+                    consumer.accept(stack._amount);
+                }
+            }
+
+            @Override
+            public void accept(ReactantStack stack, BiConsumer<Reactant, Integer> consumer) {
+
+                if (!stack.isEmpty()) {
+                    consumer.accept(stack._reactant, stack._amount);
+                }
             }
         };
     }
