@@ -41,6 +41,14 @@ public abstract class AbstractCoolantPortHandler<Controller extends AbstractGene
         return (P)this.getPart();
     }
 
+    public boolean isInput() {
+        return this.getIoEntity().getIoDirection().isInput();
+    }
+
+    public boolean isOutput() {
+        return this.getIoEntity().getIoDirection().isOutput();
+    }
+
     //region ICoolantPortHandler
 
     /**

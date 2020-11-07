@@ -26,6 +26,14 @@ public enum FluidType {
     Gas,
     Liquid;
 
+    public boolean isGas() {
+        return this == Gas;
+    }
+
+    public boolean isLiquid() {
+        return this == Liquid;
+    }
+
     public AllowedHandlerAction getAllowedAction() {
 
         switch (this) {
