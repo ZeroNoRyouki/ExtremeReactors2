@@ -276,7 +276,7 @@ public class ReactorLogic
 
             } else {
 
-                energyTransferred -= this.getFluidContainer().onAbsorbHeat(energyTransferred);
+                energyTransferred -= this.getFluidContainer().onAbsorbHeat(energyTransferred, this._reactor.getVariant());
                 // Piggyback so we don't have useless stuff in the update packet
                 this.getUiStats().setAmountGeneratedLastTick(this.getFluidContainer().getLiquidVaporizedLastTick());
             }

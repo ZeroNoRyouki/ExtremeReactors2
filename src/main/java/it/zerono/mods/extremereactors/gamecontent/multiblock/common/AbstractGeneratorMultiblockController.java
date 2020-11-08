@@ -21,9 +21,8 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.common;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.IIOPortHandler;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.coolantport.ICoolantPort;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.powertap.IPowerTap;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.powertap.IPowerTapHandler;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.variant.IMultiblockGeneratorVariant;
-import it.zerono.mods.zerocore.lib.data.IIoEntity;
+import it.zerono.mods.zerocore.lib.data.IoDirection;
 import it.zerono.mods.zerocore.lib.energy.EnergyBuffer;
 import it.zerono.mods.zerocore.lib.energy.EnergySystem;
 import it.zerono.mods.zerocore.lib.energy.IWideEnergyProvider;
@@ -96,15 +95,11 @@ public abstract class AbstractGeneratorMultiblockController<Controller extends A
     //endregion
     //region active-coolant system
 
-    public Optional<IFluidHandler> getLiquidHandler() {
-        return this.getFluidHandler(FluidType.Liquid);
-    }
+    public abstract Optional<IFluidHandler> getLiquidHandler();
 
-    public Optional<IFluidHandler> getGasHandler() {
-        return this.getFluidHandler(FluidType.Gas);
-    }
+    public abstract Optional<IFluidHandler> getGasHandler();
 
-    public abstract Optional<IFluidHandler> getFluidHandler(FluidType type);
+    public abstract Optional<IFluidHandler> getFluidHandler(IoDirection portDirection);
 
     /**
      * Distribute the given gas equally between the specified Active Coolant Ports

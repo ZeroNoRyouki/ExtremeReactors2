@@ -27,11 +27,7 @@ import it.zerono.mods.extremereactors.api.reactor.*;
 import it.zerono.mods.extremereactors.api.reactor.radiation.EnergyConversion;
 import it.zerono.mods.extremereactors.api.reactor.radiation.IRadiationModerator;
 import it.zerono.mods.extremereactors.api.reactor.radiation.IrradiationData;
-import it.zerono.mods.extremereactors.config.Config;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.AbstractGeneratorMultiblockController;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.FluidContainer;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.FluidType;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.IFluidContainer;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.common.*;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.powertap.IPowerTap;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.powertap.IPowerTapHandler;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.ClientFuelRodsLayout;
@@ -42,10 +38,11 @@ import it.zerono.mods.zerocore.lib.IDebugMessages;
 import it.zerono.mods.zerocore.lib.IDebuggable;
 import it.zerono.mods.zerocore.lib.block.ModBlock;
 import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockPartTypeProvider;
+import it.zerono.mods.zerocore.lib.data.IoDirection;
 import it.zerono.mods.zerocore.lib.data.IteratorTracker;
+import it.zerono.mods.zerocore.lib.data.stack.AllowedHandlerAction;
 import it.zerono.mods.zerocore.lib.data.stack.OperationMode;
 import it.zerono.mods.zerocore.lib.energy.EnergyBuffer;
-import it.zerono.mods.zerocore.lib.fluid.FluidHelper;
 import it.zerono.mods.zerocore.lib.multiblock.IMultiblockController;
 import it.zerono.mods.zerocore.lib.multiblock.IMultiblockPart;
 import it.zerono.mods.zerocore.lib.multiblock.ITickableMultiblockPart;
@@ -63,7 +60,6 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidBlock;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fml.LogicalSide;
@@ -85,7 +81,7 @@ public class MultiblockReactor
         this._variant = variant;
 
         this._fuelContainer = new FuelContainer();
-        this._fluidContainer = new FluidContainer();
+        this._fluidContainer = new FluidContainer(FLUID_CONTAINER_ACCESS);
         this._fuelHeat = new Heat();
         this._reactorHeat = new Heat();
         this._fuelRodsLayout = FuelRodsLayout.DEFAULT;
@@ -155,8 +151,18 @@ public class MultiblockReactor
     //region active-coolant system
 
     @Override
-    public Optional<IFluidHandler> getFluidHandler(FluidType type) {
-        return this.getOperationalMode().isActive() ? Optional.of(this._fluidContainer.getWrapper(type)) : Optional.empty();
+    public Optional<IFluidHandler> getLiquidHandler() {
+        return this.getFluidHandler(IoDirection.Input);
+    }
+
+    @Override
+    public Optional<IFluidHandler> getGasHandler() {
+        return this.getFluidHandler(IoDirection.Output);
+    }
+
+    @Override
+    public Optional<IFluidHandler> getFluidHandler(final IoDirection portDirection) {
+        return this.getOperationalMode().isActive() ? Optional.of(this._fluidContainer.getWrapper(portDirection)) : Optional.empty();
     }
 
     //endregion
@@ -1532,6 +1538,37 @@ public class MultiblockReactor
     }
 
     //endregion
+
+    private static final IFluidContainerAccess FLUID_CONTAINER_ACCESS = new IFluidContainerAccess() {
+
+        @Override
+        public AllowedHandlerAction getAllowedActionFor(final FluidType fluidType) {
+
+            switch (fluidType) {
+
+                default:
+                case Gas:
+                    return AllowedHandlerAction.ExtractOnly;
+
+                case Liquid:
+                    return AllowedHandlerAction.InsertOnly;
+            }
+        }
+
+        @Override
+        public FluidType getFluidTypeFrom(final IoDirection portDirection) {
+
+            switch (portDirection) {
+
+                default:
+                case Input:
+                    return FluidType.Liquid;
+
+                case Output:
+                    return FluidType.Gas;
+            }
+        }
+    };
 
     // circa 1FE per tick per external surface block
     private static final float REACTOR_HEAT_LOSS_CONDUCTIVITY = 0.001f;

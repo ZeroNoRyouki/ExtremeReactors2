@@ -19,7 +19,6 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.coolantport;
 
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.AbstractGeneratorMultiblockController;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.FluidType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.variant.IMultiblockGeneratorVariant;
 import it.zerono.mods.zerocore.lib.data.IIoEntity;
 import it.zerono.mods.zerocore.lib.data.IoMode;
@@ -269,7 +268,7 @@ public class CoolantPortHandlerForge<Controller extends AbstractGeneratorMultibl
 
     private void updateCapabilityForwarder() {
         this._capabilityForwarder.setHandler(this.getPart().evalOnController(
-                        c -> c.getFluidHandler(FluidType.from(this.getIoEntity().getIoDirection())).orElse(EmptyFluidHandler.INSTANCE),
+                        c -> c.getFluidHandler(this.getIoEntity().getIoDirection()).orElse(EmptyFluidHandler.INSTANCE),
                         EmptyFluidHandler.INSTANCE));
     }
 

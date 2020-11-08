@@ -1,6 +1,6 @@
 /*
  *
- * FluidType.java
+ * IFluidContainerAccess.java
  *
  * This file is part of Extreme Reactors 2 by ZeroNoRyouki, a Minecraft mod.
  *
@@ -18,16 +18,12 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.common;
 
-public enum FluidType {
+import it.zerono.mods.zerocore.lib.data.IoDirection;
+import it.zerono.mods.zerocore.lib.data.stack.AllowedHandlerAction;
 
-    Gas,
-    Liquid;
+public interface IFluidContainerAccess {
 
-    public boolean isGas() {
-        return this == Gas;
-    }
+    AllowedHandlerAction getAllowedActionFor(FluidType fluidType);
 
-    public boolean isLiquid() {
-        return this == Liquid;
-    }
+    FluidType getFluidTypeFrom(IoDirection portDirection);
 }

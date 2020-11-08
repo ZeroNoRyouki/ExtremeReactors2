@@ -24,7 +24,9 @@ import it.zerono.mods.extremereactors.api.coolant.Coolant;
 import it.zerono.mods.extremereactors.api.coolant.FluidMappingsRegistry;
 import it.zerono.mods.extremereactors.api.coolant.TransitionsRegistry;
 import it.zerono.mods.extremereactors.api.coolant.Vapor;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.common.variant.IMultiblockGeneratorVariant;
 import it.zerono.mods.zerocore.lib.TestResult;
+import it.zerono.mods.zerocore.lib.data.IoDirection;
 import it.zerono.mods.zerocore.lib.data.stack.IndexedStackContainer;
 import it.zerono.mods.zerocore.lib.data.stack.OperationMode;
 import it.zerono.mods.zerocore.lib.data.stack.StackAdapters;
@@ -43,9 +45,10 @@ public class FluidContainer
         extends IndexedStackContainer<FluidType, Fluid, FluidStack>
         implements IFluidContainer {
 
-    public FluidContainer() {
+    public FluidContainer(final IFluidContainerAccess accessGovernor) {
 
         super(0, StackAdapters.FLUIDSTACK, FluidType.Gas, FluidType.Liquid);
+        this._accessGovernor = accessGovernor;
         this._liquidVaporizedLastTick = 0;
     }
 
@@ -60,10 +63,12 @@ public class FluidContainer
         this.voidLiquid();
     }
 
+    @Override
     public Optional<Fluid> getGas() {
         return this.getContent(FluidType.Gas);
     }
 
+    @Override
     public Optional<Fluid> getLiquid() {
         return this.getContent(FluidType.Liquid);
     }
@@ -116,10 +121,12 @@ public class FluidContainer
         this.accept(FluidType.Gas, consumer);
     }
 
+    @Override
     public int getGasAmount() {
         return this.getContentAmount(FluidType.Gas);
     }
 
+    @Override
     public int getLiquidAmount() {
         return this.getContentAmount(FluidType.Liquid);
     }
@@ -144,14 +151,15 @@ public class FluidContainer
         return this.clear(FluidType.Liquid).getAmount();
     }
 
-    public IFluidHandler getWrapper(FluidType index) {
+    @Override
+    public IFluidHandler getWrapper(final IoDirection portDirection) {
 
         if (null == this._wrappers) {
             this._wrappers = Maps.newHashMap();
         }
 
-        return this._wrappers.computeIfAbsent(index,
-                idx -> new IndexedFluidHandlerForwarder<>(this, idx, idx.getAllowedAction()));
+        return this._wrappers.computeIfAbsent(this._accessGovernor.getFluidTypeFrom(portDirection),
+                idx -> new IndexedFluidHandlerForwarder<>(this, idx, this._accessGovernor.getAllowedActionFor(idx)));
     }
 
     /**
@@ -194,10 +202,12 @@ public class FluidContainer
 
     //region Reactor UPDATE logic
 
+    @Override
     public int getLiquidVaporizedLastTick() {
         return this._liquidVaporizedLastTick;
     }
 
+    @Override
     public double getLiquidTemperature(final double reactorTemperature) {
         return this.getLiquidAmount() > 0 ? Math.min(reactorTemperature, this.getCurrentCoolant().getBoilingPoint()) : reactorTemperature;
     }
@@ -210,13 +220,15 @@ public class FluidContainer
      * @param energyAbsorbed amount of energy to transfer into the coolant system
      * @return amount of energy remaining after absorption
      */
-    public double onAbsorbHeat(final double energyAbsorbed) {
+    @Override
+    public double onAbsorbHeat(final double energyAbsorbed, final IMultiblockGeneratorVariant variant) {
 
         if (energyAbsorbed <= 0 || this.getLiquidAmount() <= 0) {
             return energyAbsorbed;
         }
 
-        return this.mapLiquidAmount(amount -> this.absorbHeat(energyAbsorbed, amount, this.getCurrentVaporization()), energyAbsorbed);
+        return this.mapLiquidAmount(amount ->
+                this.absorbHeat(energyAbsorbed, variant, amount, this.getCurrentVaporization()), energyAbsorbed);
     }
 
     //endregion
@@ -253,7 +265,8 @@ public class FluidContainer
      * @param vaporization the vaporization mapping for the Coolant
      * @return FE remaining after absorption.
      */
-    private double absorbHeat(final double energyAbsorbed, final int liquidAmount, final IMapping<Coolant, Vapor> vaporization) {
+    private double absorbHeat(final double energyAbsorbed, final IMultiblockGeneratorVariant variant,
+                              final int liquidAmount, final IMapping<Coolant, Vapor> vaporization) {
 
         // do we have some gas around already?
 
@@ -268,7 +281,7 @@ public class FluidContainer
             }
 
             // yes, vaporize using the current gas as the target fluid
-            return this.mapGas(gas -> this.vaporize(energyAbsorbed, vaporization, liquidAmount, gas), energyAbsorbed);
+            return this.mapGas(gas -> this.vaporize(energyAbsorbed, variant, vaporization, liquidAmount, gas), energyAbsorbed);
 
         } else {
 
@@ -278,13 +291,14 @@ public class FluidContainer
                     .map(list -> list.get(0))
                     .map(IMapping::getProduct)
                     .map(TagsHelper::getTagFirstElement)
-                    .map(gas -> this.vaporize(energyAbsorbed, vaporization, liquidAmount, gas))
+                    .map(gas -> this.vaporize(energyAbsorbed, variant, vaporization, liquidAmount, gas))
                     .orElse(energyAbsorbed);
         }
     }
 
-    private double vaporize(final double energyAbsorbed, final IMapping<Coolant, Vapor> vaporization,
-                            final int availableLiquidAmount, final Fluid targetGas) {
+    private double vaporize(final double energyAbsorbed, final IMultiblockGeneratorVariant variant,
+                            final IMapping<Coolant, Vapor> vaporization, final int availableLiquidAmount,
+                            final Fluid targetGas) {
 
         final IMapping<Vapor, Coolant> condensation = vaporization.getReverse();
         final Coolant coolant = vaporization.getSource();
@@ -299,7 +313,7 @@ public class FluidContainer
         int vaporGenerated = Math.min(vaporization.getProductAmount(liquidVaporized), (int)(energyAbsorbed / enthalpyOfVaporization));
 
         liquidVaporized = condensation.getSourceAmount(vaporGenerated);
-        vaporGenerated *= 0.9; // TODO variants!
+        vaporGenerated *= variant.getVaporGenerationEfficiency();
 
         if (liquidVaporized < 1) {
             return energyAbsorbed;
@@ -441,6 +455,7 @@ public class FluidContainer
 
     //endregion
 
+    private final IFluidContainerAccess _accessGovernor;
     private Map<FluidType, IndexedFluidHandlerForwarder<FluidType>> _wrappers;
     private int _liquidVaporizedLastTick;
 
