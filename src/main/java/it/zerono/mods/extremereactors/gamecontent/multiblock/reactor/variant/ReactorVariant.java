@@ -37,7 +37,7 @@ public enum ReactorVariant
             .setTranslationKey("variant.bigreactors.reactor.basic")
             .setBlockPropertiesFixer(bp -> bp.hardnessAndResistance(3.0F, 6.0F))
             .setPartEnergyCapacity(10000)
-            .setGenerationEfficiency(0.8f)
+            .setEnergyGenerationEfficiency(0.8f)
             .setMaxEnergyExtractionRate(50000)
             .setRadiationAttenuation(0.85f)
             .setResidualRadiationAttenuation(0.1f)
@@ -48,12 +48,13 @@ public enum ReactorVariant
             .setTranslationKey("variant.bigreactors.reactor.reinforced")
             .setBlockPropertiesFixer(bp -> bp.hardnessAndResistance(6.0F, 6.0F))
             .setPartEnergyCapacity(30000)
-            .setGenerationEfficiency(0.75f)
+            .setEnergyGenerationEfficiency(0.75f)
             .setMaxEnergyExtractionRate(5000000)
             .setRadiationAttenuation(0.75f)
             .setResidualRadiationAttenuation(0.15f)
             .setPartCoolantCapacity(4567)
             .setMaxCoolantCapacity(200000)
+            .setVaporGenerationEfficiency(0.85f)
             .setSolidFuelConversionEfficiency(0.75f)
             .setFluidFuelConversionEfficiency(0.8f)),
     ;
@@ -111,7 +112,7 @@ public enum ReactorVariant
 
     @Override
     public float getEnergyGenerationEfficiency() {
-        return this._generationEfficiency;
+        return this._energyGenerationEfficiency;
     }
 
     @Override
@@ -149,6 +150,11 @@ public enum ReactorVariant
         return this._maxCoolantCapacity;
     }
 
+    @Override
+    public float getVaporGenerationEfficiency() {
+        return this._vaporGenerationEfficiency;
+    }
+
     //endregion
     //region internals
 
@@ -161,7 +167,7 @@ public enum ReactorVariant
         this._maxZ = builder._maxZ;
         this._minParts = builder._minParts;
         this._partEnergyCapacity = builder._partEnergyCapacity;
-        this._generationEfficiency = builder._generationEfficiency;
+        this._energyGenerationEfficiency = builder._energyGenerationEfficiency;
         this._maxEnergyExtractionRate = builder._maxEnergyExtractionRate;
         this._radiationAttenuation = builder._radiationAttenuation;
         this._residualRadiationAttenuation = builder._residualRadiationAttenuation;
@@ -169,6 +175,7 @@ public enum ReactorVariant
         this._fluidFuelConversionEfficiency = builder._fluidFuelConversionEfficiency;
         this._partCoolantCapacity = builder._partCoolantCapacity;
         this._maxCoolantCapacity = builder._maxCoolantCapacity;
+        this._vaporGenerationEfficiency = builder._vaporGenerationEfficiency;
         this._partTest = builder._partTest;
     }
 
@@ -210,10 +217,10 @@ public enum ReactorVariant
             return this;
         }
 
-        public Builder setGenerationEfficiency(final float efficiency) {
+        public Builder setEnergyGenerationEfficiency(final float efficiency) {
 
             Preconditions.checkArgument(efficiency > 0.0f && efficiency < 1.0f);
-            this._generationEfficiency = efficiency;
+            this._energyGenerationEfficiency = efficiency;
             return this;
         }
 
@@ -266,6 +273,13 @@ public enum ReactorVariant
             return this;
         }
 
+        public Builder setVaporGenerationEfficiency(final float efficiency) {
+
+            Preconditions.checkArgument(efficiency > 0.0f && efficiency < 1.0f);
+            this._vaporGenerationEfficiency = efficiency;
+            return this;
+        }
+
         public Builder setBlockPropertiesFixer(final Function<Block.Properties, Block.Properties> fixer) {
 
             this._blockPropertiesFixer = fixer;
@@ -299,10 +313,11 @@ public enum ReactorVariant
         private int _minParts;
 
         private int _partEnergyCapacity;
-        private float _generationEfficiency;
+        private float _energyGenerationEfficiency;
         private double _maxEnergyExtractionRate;
         private int _partCoolantCapacity;
         private int _maxCoolantCapacity;
+        private float _vaporGenerationEfficiency;
 
         private float _radiationAttenuation;
         private float _residualRadiationAttenuation;
@@ -327,10 +342,11 @@ public enum ReactorVariant
     private final int _minParts;
 
     private final int _partEnergyCapacity;
-    private final float _generationEfficiency;
+    private final float _energyGenerationEfficiency;
     private final double _maxEnergyExtractionRate;
     private final int _partCoolantCapacity;
     private final int _maxCoolantCapacity;
+    private final float _vaporGenerationEfficiency;
 
     private final float _radiationAttenuation;
     private final float _residualRadiationAttenuation;

@@ -32,4 +32,6 @@ public interface IMultiblockGeneratorVariant
     int getPartCoolantCapacity();
 
     int getMaxCoolantCapacity();
+
+    float getVaporGenerationEfficiency();
 }
