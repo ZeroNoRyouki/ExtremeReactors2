@@ -200,10 +200,6 @@ public class FluidContainer
 
     public double getLiquidTemperature(final double reactorTemperature) {
         return this.getLiquidAmount() > 0 ? Math.min(reactorTemperature, this.getCurrentCoolant().getBoilingPoint()) : reactorTemperature;
-//        return this.getLiquid()
-//                .filter(fluid -> this.getLiquidAmount() > 0)
-//                .map(fluid -> Math.min(reactorTemperature, getBoilingPoint(fluid)))
-//                .orElse(reactorTemperature);
     }
 
     /**
@@ -288,168 +284,36 @@ public class FluidContainer
     }
 
     private double vaporize(final double energyAbsorbed, final IMapping<Coolant, Vapor> vaporization,
-                            final int liquidAmount, final Fluid targetGas) {
+                            final int availableLiquidAmount, final Fluid targetGas) {
 
+        final IMapping<Vapor, Coolant> condensation = vaporization.getReverse();
+        final Coolant coolant = vaporization.getSource();
+        final double enthalpyOfVaporization = coolant.getEnthalpyOfVaporization();
 
-        if(getFluidAmount(COLD) <= 0 || rfAbsorbed <= 0) { return rfAbsorbed; }
+        // how much vapor can we generate and how much coolant should we consume?
 
-        Fluid coolantType = getCoolantType();
-        int coolantAmt = getFluidAmount(COLD);
+        int maxVaporGenerable = this.getFreeSpace(FluidType.Gas);
+        int maxLiquidVaporizable = condensation.getSourceAmount(maxVaporGenerable);
 
-        float heatOfVaporization = getHeatOfVaporization(coolantType);
+        int liquidVaporized = Math.min(maxLiquidVaporizable, availableLiquidAmount);
+        int vaporGenerated = Math.min(vaporization.getProductAmount(liquidVaporized), (int)(energyAbsorbed / enthalpyOfVaporization));
 
-        int mbVaporized = Math.min(coolantAmt, (int)(rfAbsorbed / heatOfVaporization));
+        liquidVaporized = condensation.getSourceAmount(vaporGenerated);
+        vaporGenerated *= 0.9; // TODO variants!
 
-        // Cap by the available space in the vapor chamber
-        mbVaporized = Math.min(mbVaporized, getRemainingSpaceForFluid(HOT));
-
-        // We don't do partial vaporization. Just return all the heat.
-        if(mbVaporized < 1) { return rfAbsorbed; }
-
-        // Make sure we either have an empty vapor chamber or the vapor types match
-        Fluid newVaporType = getVaporizedCoolantFluid(coolantType);
-        if(newVaporType == null) {
-            BRLog.warning("Coolant in tank (%s) has no registered vapor type!", coolantType.getName());
-            return rfAbsorbed;
-        }
-
-        Fluid existingVaporType = getVaporType();
-        if(existingVaporType != null && !newVaporType.getName().equals(existingVaporType.getName())) {
-            // Can't vaporize anything with incompatible vapor in the vapor tank
-            return rfAbsorbed;
-        }
-
-        // Vaporize! -- POINT OF NO RETURN
-        fluidVaporizedLastTick = mbVaporized;
-        this.drainCoolant(mbVaporized);
-
-        if(existingVaporType != null) {
-            addFluidToStack(HOT, mbVaporized);
-        }
-        else {
-            fill(HOT, new FluidStack(newVaporType, mbVaporized), true);
-        }
-
-        // Calculate how much we actually absorbed via vaporization
-        float energyConsumed = (float)mbVaporized * heatOfVaporization;
-
-        // And return energy remaining after absorption
-        return Math.max(0f, rfAbsorbed - energyConsumed);
-
-    }
-
-
-    /**
-     *
-     * @param energyAbsorbed
-     * @param liquidAmount
-     * @param vaporization
-     * @return
-     */
-    private int computeVaporizableAmount(final double energyAbsorbed, final int liquidAmount,
-                                         final IMapping<Coolant, Vapor> vaporization) {
-
-        if (liquidAmount > 0) {
-
-            int mbVaporized = Math.min(vaporization.getProductAmount(liquidAmount),
-                    (int)(energyAbsorbed / vaporization.getSource().getEnthalpyOfVaporization()));
-
-            // Cap by the available space in the gas stack
-            return Math.min(mbVaporized, this.getFreeSpace(FluidType.Gas));
-        }
-
-        return 0;
-    }
-
-    private double absorbHeat(double energyAbsorbed, Fluid liquid) {
-
-        final double enthalpyOfVaporization = this.getCurrentCoolant().getEnthalpyOfVaporization(); //getHeatOfVaporization(liquid);
-        final int mbVaporizable = this.computeVaporizableAmount(enthalpyOfVaporization, energyAbsorbed);
-
-        // We don't do partial vaporization. Just return all the heat.
-        if (mbVaporizable < 1) {
+        if (liquidVaporized < 1) {
             return energyAbsorbed;
         }
 
-        // Vaporize the liquid and return the amount of energy remaining after absorption, if vaporization is possible
-        return this.getVaporizationTarget(liquid)
-                .map(gas -> this.vaporize(liquid, gas, mbVaporizable, enthalpyOfVaporization))
-                .map(energyConsumed -> Math.max(0d, energyAbsorbed - energyConsumed))
-                .orElse(energyAbsorbed);
-    }
+        // vaporize!
 
-    private int computeVaporizableAmount(final double heatOfVaporization, final double energyAbsorbed) {
+        this._liquidVaporizedLastTick = liquidVaporized;
+        this.extract(FluidType.Liquid, liquidVaporized, OperationMode.Execute);
+        this.insert(FluidType.Gas, targetGas, vaporGenerated, OperationMode.Execute);
 
-        final int liquidAmount = this.getLiquidAmount();
+        // return the energy not absorbed via vaporization
 
-        if (liquidAmount > 0) {
-
-            int mbVaporized = Math.min(liquidAmount, (int)(energyAbsorbed / heatOfVaporization));
-
-            // Cap by the available space in the gas stack
-            return Math.min(mbVaporized, this.getFreeSpace(FluidType.Gas));
-        }
-
-        return 0;
-    }
-
-    /**
-     * Return which the gas we should vaporize the liquid in to
-     *
-     * @param liquid the source liquid
-     * @return an {@link Optional} containing the gas
-     */
-    private Optional<Fluid> getVaporizationTarget(Fluid liquid) {
-
-        // Make sure we either have an empty gas stack or the gas types match
-        final Optional<Fluid> resultingGas = Optional.empty(); //getVaporizationMappingFor(liquid); //TODO fix
-
-        if (!resultingGas.isPresent()) {
-
-            // the source liquid can't be vaporized at all!
-            //TODO restore
-//            Log.LOGGER.warn(Log.REACTOR, "Coolant fluid {} has no registered gas conversions!", liquid);
-            return Optional.empty();
-        }
-
-        // is there any gas already in the container? does it mach with what the liquid vaporize in to?
-        final Optional<Fluid> existingGas = this.getGas();
-
-        if (existingGas.isPresent()) {
-            return resultingGas.flatMap(resulting -> existingGas.filter(existing -> existing.isEquivalentTo(resulting)));
-        } else {
-            return resultingGas;
-        }
-    }
-
-    private double vaporize(final Fluid liquid, final Fluid gas, final int amountToVaporize, final double heatOfVaporization) {
-
-        this.extract(FluidType.Liquid, liquid, amountToVaporize, OperationMode.Execute);
-        this.insert(FluidType.Gas, gas, amountToVaporize, OperationMode.Execute);
-
-        this._liquidVaporizedLastTick = amountToVaporize;
-
-        // return how much we actually absorbed via vaporization
-        return (double)amountToVaporize * heatOfVaporization;
-    }
-
-    private static Optional<Coolant> getCoolantFrom(final Fluid fluid) {
-        return FluidMappingsRegistry.getCoolantFrom(fluid)
-                .map(IMapping::getProduct);
-    }
-
-    /**
-     * Returns the amount of heat (in FE) needed to convert 1mB of liquid into 1mB of vapor.
-     * @return
-     */
-    private static double getHeatOfVaporization(Fluid fluid) {
-        //TODO: Make a registry for this, do a lookup
-        return 4f; // TE converts 1mB steam into 2 RF of work in a steam turbine, so we assume it's 50% efficient.
-    }
-
-    private static Optional<IMapping<Coolant, Vapor>> getVaporizationMappingFor(final Fluid fluid) {
-        return getCoolantFrom(fluid)
-                .flatMap(TransitionsRegistry::get);
+        return Math.max(0.0, energyAbsorbed - ((double)liquidVaporized * enthalpyOfVaporization));
     }
 
     //endregion
@@ -576,14 +440,6 @@ public class FluidContainer
     }
 
     //endregion
-
-//    private static double getBoilingPoint(final Fluid fluid) {
-//        return getCoolantFrom(fluid)
-//                .map(Coolant::getBoilingPoint)
-//                .orElse(Float.MAX_VALUE);
-////        return 100f;
-//    }
-
 
     private Map<FluidType, IndexedFluidHandlerForwarder<FluidType>> _wrappers;
     private int _liquidVaporizedLastTick;
