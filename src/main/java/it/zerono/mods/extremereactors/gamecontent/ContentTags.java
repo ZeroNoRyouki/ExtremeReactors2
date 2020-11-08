@@ -23,6 +23,8 @@ import it.zerono.mods.zerocore.lib.tag.TagsHelper;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.tags.ITag;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.util.ResourceLocation;
 
 public class ContentTags {
 
@@ -62,6 +64,9 @@ public class ContentTags {
         public static final ITag.INamedTag<Item> BLOCKS_GRAPHITE = forgeTag("storage_blocks/graphite");
 
         public static final ITag.INamedTag<Item> WRENCH = forgeTag("tools/wrench");
+
+        public static final ITag.INamedTag<Item> COMPAT_INGOTS_URANIUM = TagsHelper.ITEMS.createOptionalForgeTag("ingots/uranium");
+        public static final ITag.INamedTag<Item> COMPAT_BLOCKS_URANIUM = TagsHelper.ITEMS.createOptionalForgeTag("storage_blocks/uranium");
 
         //region internals
 
