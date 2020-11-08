@@ -52,7 +52,9 @@ final class ReactorGameData {
     private static void registerReactantMappings() {
 
         registerIngotReactantMapping(REACTANT_YELLORIUM, ContentTags.Items.INGOTS_YELLORIUM, 1);
+        registerIngotReactantMapping(REACTANT_YELLORIUM, ContentTags.Items.COMPAT_INGOTS_URANIUM, 1);
         registerIngotReactantMapping(REACTANT_YELLORIUM, ContentTags.Items.BLOCKS_YELLORIUM, 9);
+        registerIngotReactantMapping(REACTANT_YELLORIUM, ContentTags.Items.COMPAT_BLOCKS_URANIUM, 9);
 
         registerIngotReactantMapping(REACTANT_CYANITE, ContentTags.Items.INGOTS_CYANITE, 1);
         registerIngotReactantMapping(REACTANT_CYANITE, ContentTags.Items.BLOCKS_CYANITE, 9);
