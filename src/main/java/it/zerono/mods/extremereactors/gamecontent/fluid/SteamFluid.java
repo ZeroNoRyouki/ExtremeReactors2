@@ -18,7 +18,6 @@
 
 package it.zerono.mods.extremereactors.gamecontent.fluid;
 
-import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
@@ -53,7 +52,7 @@ public abstract class SteamFluid
 
         //region internals
 
-        private static final ResourceLocation TEXTURE = ExtremeReactors.newID("fluid/steam_flowing"); //TODO define
+        private static final ResourceLocation TEXTURE = new ResourceLocation("block/water_flow");// ExtremeReactors.newID("fluid/steam_flowing"); //TODO define
 
         //endregion
     }
@@ -73,7 +72,7 @@ public abstract class SteamFluid
 
         //region internals
 
-        private static final ResourceLocation TEXTURE = ExtremeReactors.newID("fluid/steam"); //TODO define
+        private static final ResourceLocation TEXTURE = new ResourceLocation("block/water_still");// ExtremeReactors.newID("fluid/steam"); //TODO define
 
         //endregion
     }
@@ -83,15 +82,17 @@ public abstract class SteamFluid
     protected SteamFluid() {
         super(new ForgeFlowingFluid.Properties(Content.Fluids.STEAM_SOURCE, Content.Fluids.STEAM_FLOWING,
                 FluidAttributes.builder(Source.TEXTURE, Flowing.TEXTURE)
-//                        .overlay(OVERLAY_TEXTURE)
+                        .overlay(OVERLAY_TEXTURE)
                         .sound(SoundEvents.ITEM_BUCKET_FILL, SoundEvents.ITEM_BUCKET_EMPTY)
                         .density(1)
-                        .color(0x86bdfbff))
+                        .gaseous()
+                        .luminosity(6)
+                        .color(0xffffffff/*0x86bdfbff*/))
                 .bucket(Content.Items.STEAM_BUCKET)
                 .block(Content.Blocks.STEAM));
     }
 
-//    private static final ResourceLocation OVERLAY_TEXTURE = ExtremeReactors.newID(""); //TODO define
+    private static final ResourceLocation OVERLAY_TEXTURE = new ResourceLocation("block/water_overlay");
 
     //endregion
 }
