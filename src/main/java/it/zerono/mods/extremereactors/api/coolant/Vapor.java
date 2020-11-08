@@ -47,14 +47,19 @@ public class Vapor
     @Override
     public boolean equals(final Object obj) {
 
-        if ((obj instanceof Vapor) && super.equals(obj)) {
+        return (this == obj) ||
+                (obj instanceof Vapor &&
+                        super.equals(obj) &&
+                        this.getFluidEnergyDensity() == ((Vapor)obj).getFluidEnergyDensity());
 
-            final Vapor other = (Vapor)obj;
-
-            return this.getFluidEnergyDensity() == other.getFluidEnergyDensity();
-        }
-
-        return false;
+//        if ((obj instanceof Vapor) && super.equals(obj)) {
+//
+//            final Vapor other = (Vapor)obj;
+//
+//            return this.getFluidEnergyDensity() == other.getFluidEnergyDensity();
+//        }
+//
+//        return false;
     }
 
     //endregion

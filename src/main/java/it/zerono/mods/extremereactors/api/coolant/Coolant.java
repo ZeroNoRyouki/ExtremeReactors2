@@ -57,15 +57,21 @@ public class Coolant
     @Override
     public boolean equals(final Object obj) {
 
-        if ((obj instanceof Coolant) && super.equals(obj)) {
+        return (this == obj) ||
+                (obj instanceof Coolant &&
+                        super.equals(obj) &&
+                        this.getBoilingPoint() == ((Coolant)obj).getBoilingPoint() &&
+                        this.getEnthalpyOfVaporization() == ((Coolant)obj).getEnthalpyOfVaporization());
 
-            final Coolant other = (Coolant)obj;
-
-            return this.getBoilingPoint() == other.getBoilingPoint() &&
-                    this.getEnthalpyOfVaporization() == other.getEnthalpyOfVaporization();
-        }
-
-        return false;
+//        if ((obj instanceof Coolant) && super.equals(obj)) {
+//
+//            final Coolant other = (Coolant)obj;
+//
+//            return this.getBoilingPoint() == other.getBoilingPoint() &&
+//                    this.getEnthalpyOfVaporization() == other.getEnthalpyOfVaporization();
+//        }
+//
+//        return false;
     }
 
     //endregion
