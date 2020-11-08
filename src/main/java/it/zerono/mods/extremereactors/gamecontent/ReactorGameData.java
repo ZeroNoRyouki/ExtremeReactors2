@@ -122,7 +122,7 @@ final class ReactorGameData {
         FluidMappingsRegistry.registerCoolantMapping("water", 1, ContentTags.Fluids.WATER);
 
         FluidsRegistry.registerVapor("steam", 10.0f, "fluid.bigreactors.steam");
-        FluidMappingsRegistry.registerCoolantMapping("steam", 1, ContentTags.Fluids.STEAM);
+        FluidMappingsRegistry.registerVaporMapping("steam", 1, ContentTags.Fluids.STEAM);
 
         TransitionsRegistry.register("water", "steam");
     }
