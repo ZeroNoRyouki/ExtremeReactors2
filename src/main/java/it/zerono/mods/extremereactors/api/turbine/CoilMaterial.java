@@ -59,4 +59,6 @@ public class CoilMaterial {
     private float _efficiency;
     private float _bonus;
     private float _energyExtractionRate;
+
+    //endregion
 }

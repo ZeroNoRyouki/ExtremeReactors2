@@ -30,6 +30,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.tags.ITag;
 import net.minecraft.util.ResourceLocation;
+import org.apache.logging.log4j.Marker;
+import org.apache.logging.log4j.MarkerManager;
 
 import java.util.Map;
 import java.util.Optional;
@@ -39,6 +41,48 @@ import java.util.Optional;
  */
 @SuppressWarnings({"WeakerAccess"})
 public class CoilMaterialRegistry {
+
+    /**
+     * Check if a CoilMaterial is registered for the given BlockState
+     *
+     * @param state The block state
+     * @return true if a CoilMaterial is registered for the given BlockState, false otherwise
+     */
+    public static boolean contains(final BlockState state) {
+        return contains(state.getBlock());
+    }
+
+    /**
+     * Check if a CoilMaterial is registered for the given block Tag
+     *
+     * @param tag The block Tag
+     * @return true if a CoilMaterial is registered for the given block Tag, false otherwise
+     */
+    public static boolean contains(final ITag.INamedTag<Block> tag) {
+        return contains(tag.getName());
+    }
+
+    /**
+     * Check if a CoilMaterial is registered for the given block Tag id
+     *
+     * @param id The block Tag id
+     * @return true if a CoilMaterial is registered for the given block Tag id, false otherwise
+     */
+    public static boolean contains(final ResourceLocation id) {
+        return s_materials.containsKey(id);
+    }
+
+    /**
+     * Check if a CoilMaterial is registered for the given block
+     *
+     * @param block The block
+     * @return true if a CoilMaterial is registered for the given block, false otherwise
+     */
+    public static boolean contains(final Block block) {
+        return s_tags
+                .find(tag -> tag.contains(block))
+                .isPresent();
+    }
 
     /**
      * Retrieve the CoilMaterial for the given block state if one exist
@@ -102,7 +146,7 @@ public class CoilMaterialRegistry {
         InternalDispatcher.dispatch("coilmaterial-register", () -> CodeHelper.optionalIfPresentOrElse(get(tag),
                 material -> {
 
-                    ExtremeReactorsAPI.LOGGER.warn("Overriding existing coil part data for Tag <{}}>", tag);
+                    ExtremeReactorsAPI.LOGGER.warn(MARKER, "Overriding existing coil data for Tag <{}>", tag);
 
                     material.setEfficiency(efficiency);
                     material.setBonus(bonus);
@@ -130,7 +174,7 @@ public class CoilMaterialRegistry {
                                 final float bonus, final float extractionRate) {
 
         Preconditions.checkNotNull(tagId);
-        register(TagsHelper.BLOCKS.createTag(tagId), efficiency, bonus, extractionRate);
+        register(TagsHelper.BLOCKS.createOptionalTag(tagId), efficiency, bonus, extractionRate);
     }
 
     /**
@@ -165,6 +209,8 @@ public class CoilMaterialRegistry {
 
     private static TagList<Block> s_tags = new TagList<>(CollectionProviders.BLOCKS_PROVIDER);
     private static Map<ResourceLocation, CoilMaterial> s_materials = Maps.newHashMap();
+
+    private static final Marker MARKER = MarkerManager.getMarker("API/CoilMaterialRegistry").addParents(ExtremeReactorsAPI.MARKER);
 
     //endregion
 }
