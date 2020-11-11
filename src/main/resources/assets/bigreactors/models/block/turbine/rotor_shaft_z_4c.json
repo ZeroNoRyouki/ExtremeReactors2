@@ -1,0 +1,424 @@
+{
+    "__comment": "Model generated using MrCrayfish's Model Creator (http://mrcrayfish.com/modelcreator/)",
+    "textures": {
+        "0": "bigreactors:blocks/turbine/legacy/rotorshaft",
+		"-1": "bigreactors:blocks/turbine/legacy/rotorblade",
+        "particle": "bigreactors:blocks/turbine/legacy/rotorblade"
+    },
+    "elements": [
+        {
+            "name": "shaft side 1A",
+            "from": [ 6.0, 4.0, 0.0 ], 
+            "to": [ 10.0, 5.0, 16.0 ], 
+            "faces": {
+                "north": { "texture": "#0", "uv": [ 0.0, 0.0, 4.0, 1.0 ], "cullface": "north" },
+                "east": { "texture": "#0", "uv": [ 0.0, 0.0, 16.0, 1.0 ] },
+                "south": { "texture": "#0", "uv": [ 0.0, 0.0, 4.0, 1.0 ], "cullface": "south" },
+                "west": { "texture": "#0", "uv": [ 0.0, 0.0, 16.0, 1.0 ] },
+                "down": { "texture": "#0", "uv": [ 0.0, 0.0, 4.0, 16.0 ] }
+            }
+        },
+        {
+            "name": "shaft side 1B",
+            "from": [ 5.0, 5.0, 0.0 ], 
+            "to": [ 6.0, 6.0, 16.0 ], 
+            "faces": {
+                "north": { "texture": "#0", "uv": [ 0.0, 0.0, 1.0, 1.0 ], "cullface": "north" },
+                "south": { "texture": "#0", "uv": [ 0.0, 0.0, 1.0, 1.0 ], "cullface": "south" },
+                "west": { "texture": "#0", "uv": [ 0.0, 0.0, 16.0, 1.0 ] },
+                "down": { "texture": "#0", "uv": [ 0.0, 0.0, 1.0, 16.0 ] }
+            }
+        },
+        {
+            "name": "shaft side 2A",
+            "from": [ 4.0, 6.0, 0.0 ], 
+            "to": [ 5.0, 10.0, 16.0 ], 
+            "faces": {
+                "north": { "texture": "#0", "uv": [ 0.0, 0.0, 1.0, 4.0 ], "cullface": "north" },
+                "south": { "texture": "#0", "uv": [ 0.0, 0.0, 1.0, 4.0 ], "cullface": "south" },
+                "west": { "texture": "#0", "uv": [ 0.0, 0.0, 16.0, 4.0 ] },
+                "up": { "texture": "#0", "uv": [ 0.0, 0.0, 1.0, 16.0 ] },
+                "down": { "texture": "#0", "uv": [ 0.0, 0.0, 1.0, 16.0 ] }
+            }
+        },
+        {
+            "name": "shaft side 2B",
+            "from": [ 5.0, 10.0, 0.0 ], 
+            "to": [ 6.0, 11.0, 16.0 ], 
+            "faces": {
+                "north": { "texture": "#0", "uv": [ 0.0, 0.0, 1.0, 1.0 ], "cullface": "north" },
+                "east": { "texture": "#-1", "uv": [ 0.0, 0.0, 16.0, 1.0 ] },
+                "south": { "texture": "#0", "uv": [ 0.0, 0.0, 1.0, 1.0 ], "cullface": "south" },
+                "west": { "texture": "#0", "uv": [ 0.0, 0.0, 16.0, 1.0 ] },
+                "up": { "texture": "#0", "uv": [ 0.0, 0.0, 1.0, 16.0 ] }
+            }
+        },
+        {
+            "name": "shaft side 3A",
+            "from": [ 6.0, 11.0, 0.0 ], 
+            "to": [ 10.0, 12.0, 16.0 ], 
+            "faces": {
+                "north": { "texture": "#0", "uv": [ 0.0, 0.0, 4.0, 1.0 ], "cullface": "north" },
+                "east": { "texture": "#0", "uv": [ 0.0, 0.0, 16.0, 1.0 ] },
+                "south": { "texture": "#0", "uv": [ 0.0, 0.0, 4.0, 1.0 ], "cullface": "south" },
+                "west": { "texture": "#0", "uv": [ 0.0, 0.0, 16.0, 1.0 ] },
+                "up": { "texture": "#0", "uv": [ 0.0, 0.0, 4.0, 16.0 ] }
+            }
+        },
+        {
+            "name": "shaft side 3B",
+            "from": [ 10.0, 10.0, 0.0 ], 
+            "to": [ 11.0, 11.0, 16.0 ], 
+            "faces": {
+                "north": { "texture": "#0", "uv": [ 0.0, 0.0, 1.0, 1.0 ], "cullface": "north" },
+                "east": { "texture": "#0", "uv": [ 0.0, 0.0, 16.0, 1.0 ] },
+                "south": { "texture": "#0", "uv": [ 0.0, 0.0, 1.0, 1.0 ], "cullface": "south" },
+                "up": { "texture": "#0", "uv": [ 0.0, 0.0, 1.0, 16.0 ] }
+            }
+        },
+        {
+            "name": "shaft side 4A",
+            "from": [ 11.0, 6.0, 0.0 ], 
+            "to": [ 12.0, 10.0, 16.0 ], 
+            "faces": {
+                "north": { "texture": "#0", "uv": [ 0.0, 0.0, 1.0, 4.0 ], "cullface": "north" },
+                "east": { "texture": "#0", "uv": [ 0.0, 0.0, 16.0, 4.0 ] },
+                "south": { "texture": "#0", "uv": [ 0.0, 0.0, 1.0, 4.0 ], "cullface": "south" },
+                "up": { "texture": "#0", "uv": [ 0.0, 0.0, 1.0, 16.0 ] },
+                "down": { "texture": "#0", "uv": [ 0.0, 0.0, 1.0, 16.0 ] }
+            }
+        },
+        {
+            "name": "shaft side 4B",
+            "from": [ 10.0, 5.0, 0.0 ], 
+            "to": [ 11.0, 6.0, 16.0 ], 
+            "faces": {
+                "north": { "texture": "#0", "uv": [ 0.0, 0.0, 1.0, 1.0 ], "cullface": "north" },
+                "east": { "texture": "#0", "uv": [ 0.0, 0.0, 16.0, 1.0 ] },
+                "south": { "texture": "#0", "uv": [ 0.0, 0.0, 1.0, 1.0 ], "cullface": "south" },
+                "down": { "texture": "#0", "uv": [ 0.0, 0.0, 1.0, 16.0 ] }
+            }
+        },
+        {
+            "name": "bottom 1",
+            "from": [ 6.0, 5.0, 15.0 ], 
+            "to": [ 10.0, 6.0, 16.0 ], 
+            "faces": {
+                "south": { "texture": "#0", "uv": [ 0.0, 0.0, 4.0, 1.0 ], "cullface": "south" }
+            }
+        },
+        {
+            "name": "bottom 2",
+            "from": [ 5.0, 6.0, 15.0 ], 
+            "to": [ 11.0, 10.0, 16.0 ], 
+            "faces": {
+                "south": { "texture": "#0", "uv": [ 0.0, 0.0, 6.0, 4.0 ], "cullface": "south" }
+            }
+        },
+        {
+            "name": "bottom 3",
+            "from": [ 6.0, 10.0, 15.0 ], 
+            "to": [ 10.0, 11.0, 16.0 ], 
+            "faces": {
+                "south": { "texture": "#0", "uv": [ 0.0, 0.0, 4.0, 1.0 ], "cullface": "south" }
+            }
+        },
+        {
+            "name": "top 1",
+            "from": [ 6.0, 5.0, 0.0 ], 
+            "to": [ 10.0, 6.0, 1.0 ], 
+            "faces": {
+                "north": { "texture": "#0", "uv": [ 0.0, 0.0, 4.0, 1.0 ], "cullface": "north" }
+            }
+        },
+        {
+            "name": "top 2",
+            "from": [ 5.0, 6.0, 0.0 ], 
+            "to": [ 11.0, 10.0, 1.0 ], 
+            "faces": {
+                "north": { "texture": "#0", "uv": [ 0.0, 0.0, 6.0, 4.0 ], "cullface": "north" }
+            }
+        },
+        {
+            "name": "top 3",
+            "from": [ 6.0, 10.0, 0.0 ], 
+            "to": [ 10.0, 11.0, 1.0 ], 
+            "faces": {
+                "north": { "texture": "#0", "uv": [ 0.0, 0.0, 4.0, 1.0 ], "cullface": "north" }
+            }
+        },
+        {
+            "name": "connector dx 1",
+            "from": [ 10.0, 11.0, 6.0 ], 
+            "to": [ 16.0, 12.0, 7.0 ], 
+            "faces": {
+                "north": { "texture": "#0", "uv": [ 0.0, 0.0, 6.0, 1.0 ] },
+                "east": { "texture": "#0", "uv": [ 0.0, 0.0, 1.0, 1.0 ], "cullface": "east" },
+                "south": { "texture": "#0", "uv": [ 0.0, 0.0, 6.0, 1.0 ] },
+                "up": { "texture": "#0", "uv": [ 0.0, 0.0, 6.0, 1.0 ] }
+            }
+        },
+        {
+            "name": "connector dx 2",
+            "from": [ 11.0, 10.0, 6.0 ], 
+            "to": [ 16.0, 11.0, 7.0 ], 
+            "faces": {
+                "north": { "texture": "#0", "uv": [ 0.0, 0.0, 5.0, 1.0 ] },
+                "east": { "texture": "#0", "uv": [ 0.0, 0.0, 1.0, 1.0 ], "cullface": "east" },
+                "south": { "texture": "#0", "uv": [ 0.0, 0.0, 5.0, 1.0 ] },
+                "down": { "texture": "#0", "uv": [ 0.0, 0.0, 5.0, 1.0 ] }
+            }
+        },
+        {
+            "name": "connector dx 3",
+            "from": [ 12.0, 8.0, 7.0 ], 
+            "to": [ 16.0, 10.0, 8.0 ], 
+            "faces": {
+                "north": { "texture": "#0", "uv": [ 0.0, 0.0, 4.0, 2.0 ] },
+                "east": { "texture": "#0", "uv": [ 0.0, 0.0, 1.0, 2.0 ], "cullface": "east" },
+                "south": { "texture": "#0", "uv": [ 0.0, 0.0, 4.0, 2.0 ] },
+                "up": { "texture": "#0", "uv": [ 0.0, 0.0, 4.0, 1.0 ] },
+                "down": { "texture": "#0", "uv": [ 0.0, 0.0, 4.0, 1.0 ] }
+            }
+        },
+        {
+            "name": "connector dx 4",
+            "from": [ 12.0, 6.0, 8.0 ], 
+            "to": [ 16.0, 8.0, 9.0 ], 
+            "faces": {
+                "north": { "texture": "#0", "uv": [ 0.0, 0.0, 4.0, 2.0 ] },
+                "east": { "texture": "#0", "uv": [ 0.0, 0.0, 1.0, 2.0 ], "cullface": "east" },
+                "south": { "texture": "#0", "uv": [ 0.0, 0.0, 4.0, 2.0 ] },
+                "up": { "texture": "#0", "uv": [ 0.0, 0.0, 4.0, 1.0 ] },
+                "down": { "texture": "#0", "uv": [ 0.0, 0.0, 4.0, 1.0 ] }
+            }
+        },
+        {
+            "name": "connector dx 5",
+            "from": [ 11.0, 5.0, 9.0 ], 
+            "to": [ 16.0, 6.0, 10.0 ], 
+            "faces": {
+                "north": { "texture": "#0", "uv": [ 0.0, 0.0, 5.0, 1.0 ] },
+                "east": { "texture": "#0", "uv": [ 0.0, 0.0, 1.0, 1.0 ], "cullface": "east" },
+                "south": { "texture": "#0", "uv": [ 0.0, 0.0, 5.0, 1.0 ] },
+                "up": { "texture": "#0", "uv": [ 0.0, 0.0, 5.0, 1.0 ] }
+            }
+        },
+        {
+            "name": "connector dx 6",
+            "from": [ 10.0, 4.0, 9.0 ], 
+            "to": [ 16.0, 5.0, 10.0 ], 
+            "faces": {
+                "north": { "texture": "#0", "uv": [ 0.0, 0.0, 6.0, 1.0 ] },
+                "east": { "texture": "#0", "uv": [ 0.0, 0.0, 1.0, 1.0 ], "cullface": "east" },
+                "south": { "texture": "#0", "uv": [ 0.0, 0.0, 6.0, 1.0 ] },
+                "down": { "texture": "#0", "uv": [ 0.0, 0.0, 6.0, 1.0 ] }
+            }
+        },
+        {
+            "name": "connector sx 1",
+            "from": [ 0.0, 11.0, 9.0 ], 
+            "to": [ 6.0, 12.0, 10.0 ], 
+            "faces": {
+                "north": { "texture": "#0", "uv": [ 0.0, 0.0, 6.0, 1.0 ] },
+                "south": { "texture": "#0", "uv": [ 0.0, 0.0, 6.0, 1.0 ] },
+                "west": { "texture": "#0", "uv": [ 0.0, 0.0, 1.0, 1.0 ], "cullface": "west" },
+                "up": { "texture": "#0", "uv": [ 0.0, 0.0, 6.0, 1.0 ] }
+            }
+        },
+        {
+            "name": "connector sx 2",
+            "from": [ 0.0, 10.0, 9.0 ], 
+            "to": [ 5.0, 11.0, 10.0 ], 
+            "faces": {
+                "north": { "texture": "#0", "uv": [ 0.0, 0.0, 5.0, 1.0 ] },
+                "south": { "texture": "#0", "uv": [ 0.0, 0.0, 5.0, 1.0 ] },
+                "west": { "texture": "#0", "uv": [ 0.0, 0.0, 1.0, 1.0 ], "cullface": "west" },
+                "down": { "texture": "#0", "uv": [ 0.0, 0.0, 5.0, 1.0 ] }
+            }
+        },
+        {
+            "name": "connector sx 3",
+            "from": [ 0.0, 8.0, 8.0 ], 
+            "to": [ 4.0, 10.0, 9.0 ], 
+            "faces": {
+                "north": { "texture": "#0", "uv": [ 0.0, 0.0, 4.0, 2.0 ] },
+                "south": { "texture": "#0", "uv": [ 0.0, 0.0, 4.0, 2.0 ] },
+                "west": { "texture": "#0", "uv": [ 0.0, 0.0, 1.0, 2.0 ], "cullface": "west" },
+                "up": { "texture": "#0", "uv": [ 0.0, 0.0, 4.0, 1.0 ] },
+                "down": { "texture": "#0", "uv": [ 0.0, 0.0, 4.0, 1.0 ] }
+            }
+        },
+        {
+            "name": "connector sx 4",
+            "from": [ 0.0, 6.0, 7.0 ], 
+            "to": [ 4.0, 8.0, 8.0 ], 
+            "faces": {
+                "north": { "texture": "#0", "uv": [ 0.0, 0.0, 4.0, 2.0 ] },
+                "south": { "texture": "#0", "uv": [ 0.0, 0.0, 4.0, 2.0 ] },
+                "west": { "texture": "#0", "uv": [ 0.0, 0.0, 1.0, 2.0 ], "cullface": "west" },
+                "up": { "texture": "#0", "uv": [ 0.0, 0.0, 4.0, 1.0 ] },
+                "down": { "texture": "#0", "uv": [ 0.0, 0.0, 4.0, 1.0 ] }
+            }
+        },
+        {
+            "name": "connector sx 5",
+            "from": [ 0.0, 5.0, 6.0 ], 
+            "to": [ 5.0, 6.0, 7.0 ], 
+            "faces": {
+                "north": { "texture": "#0", "uv": [ 0.0, 0.0, 5.0, 1.0 ] },
+                "south": { "texture": "#0", "uv": [ 0.0, 0.0, 5.0, 1.0 ] },
+                "west": { "texture": "#0", "uv": [ 0.0, 0.0, 1.0, 1.0 ], "cullface": "west" },
+                "up": { "texture": "#0", "uv": [ 0.0, 0.0, 5.0, 1.0 ] }
+            }
+        },
+        {
+            "name": "connector sx 6",
+            "from": [ 0.0, 4.0, 6.0 ], 
+            "to": [ 6.0, 5.0, 7.0 ], 
+            "faces": {
+                "north": { "texture": "#0", "uv": [ 0.0, 0.0, 6.0, 1.0 ] },
+                "south": { "texture": "#0", "uv": [ 0.0, 0.0, 6.0, 1.0 ] },
+                "west": { "texture": "#0", "uv": [ 0.0, 0.0, 1.0, 1.0 ], "cullface": "west" },
+                "down": { "texture": "#0", "uv": [ 0.0, 0.0, 6.0, 1.0 ] }
+            }
+        },
+        {
+            "name": "connector up 1",
+            "from": [ 4.0, 10.0, 6.0 ], 
+            "to": [ 5.0, 16.0, 7.0 ], 
+            "faces": {
+                "north": { "texture": "#0", "uv": [ 0.0, 0.0, 1.0, 6.0 ] },
+                "south": { "texture": "#0", "uv": [ 0.0, 0.0, 1.0, 6.0 ] },
+                "west": { "texture": "#0", "uv": [ 0.0, 0.0, 1.0, 6.0 ] },
+                "up": { "texture": "#0", "uv": [ 0.0, 0.0, 1.0, 1.0 ], "cullface": "up" }
+            }
+        },
+        {
+            "name": "connector up 2",
+            "from": [ 5.0, 11.0, 6.0 ], 
+            "to": [ 6.0, 16.0, 7.0 ], 
+            "faces": {
+                "north": { "texture": "#0", "uv": [ 0.0, 0.0, 1.0, 5.0 ] },
+                "east": { "texture": "#0", "uv": [ 0.0, 0.0, 1.0, 5.0 ] },
+                "south": { "texture": "#0", "uv": [ 0.0, 0.0, 1.0, 5.0 ] },
+                "up": { "texture": "#0", "uv": [ 0.0, 0.0, 1.0, 1.0 ], "cullface": "up" }
+            }
+        },
+        {
+            "name": "connector up 3",
+            "from": [ 6.0, 12.0, 7.0 ], 
+            "to": [ 8.0, 16.0, 8.0 ], 
+            "faces": {
+                "north": { "texture": "#0", "uv": [ 0.0, 0.0, 2.0, 4.0 ] },
+                "east": { "texture": "#0", "uv": [ 0.0, 0.0, 1.0, 4.0 ] },
+                "south": { "texture": "#0", "uv": [ 0.0, 0.0, 2.0, 4.0 ] },
+                "west": { "texture": "#0", "uv": [ 0.0, 0.0, 1.0, 4.0 ] },
+                "up": { "texture": "#0", "uv": [ 0.0, 0.0, 2.0, 1.0 ], "cullface": "up" }
+            }
+        },
+        {
+            "name": "connector up 4",
+            "from": [ 8.0, 12.0, 8.0 ], 
+            "to": [ 10.0, 16.0, 9.0 ], 
+            "faces": {
+                "north": { "texture": "#0", "uv": [ 0.0, 0.0, 2.0, 4.0 ] },
+                "east": { "texture": "#0", "uv": [ 0.0, 0.0, 1.0, 4.0 ] },
+                "south": { "texture": "#0", "uv": [ 0.0, 0.0, 2.0, 4.0 ] },
+                "west": { "texture": "#0", "uv": [ 0.0, 0.0, 1.0, 4.0 ] },
+                "up": { "texture": "#0", "uv": [ 0.0, 0.0, 2.0, 1.0 ], "cullface": "up" }
+            }
+        },
+        {
+            "name": "connector up 5",
+            "from": [ 10.0, 11.0, 9.0 ], 
+            "to": [ 11.0, 16.0, 10.0 ], 
+            "faces": {
+                "north": { "texture": "#0", "uv": [ 0.0, 0.0, 1.0, 5.0 ] },
+                "south": { "texture": "#0", "uv": [ 0.0, 0.0, 1.0, 5.0 ] },
+                "west": { "texture": "#0", "uv": [ 0.0, 0.0, 1.0, 5.0 ] },
+                "up": { "texture": "#0", "uv": [ 0.0, 0.0, 1.0, 1.0 ], "cullface": "up" }
+            }
+        },
+        {
+            "name": "connector up 6",
+            "from": [ 11.0, 10.0, 9.0 ], 
+            "to": [ 12.0, 16.0, 10.0 ], 
+            "faces": {
+                "north": { "texture": "#0", "uv": [ 0.0, 0.0, 1.0, 6.0 ] },
+                "east": { "texture": "#0", "uv": [ 0.0, 0.0, 1.0, 6.0 ] },
+                "south": { "texture": "#0", "uv": [ 0.0, 0.0, 1.0, 6.0 ] },
+                "up": { "texture": "#0", "uv": [ 0.0, 0.0, 1.0, 1.0 ], "cullface": "up" }
+            }
+        },
+        {
+            "name": "connector down 1",
+            "from": [ 11.0, 0.0, 6.0 ], 
+            "to": [ 12.0, 6.0, 7.0 ], 
+            "faces": {
+                "north": { "texture": "#0", "uv": [ 0.0, 0.0, 1.0, 6.0 ] },
+                "east": { "texture": "#0", "uv": [ 0.0, 0.0, 1.0, 6.0 ] },
+                "south": { "texture": "#0", "uv": [ 0.0, 0.0, 1.0, 6.0 ] },
+                "west": { "texture": "#0", "uv": [ 0.0, 0.0, 1.0, 6.0 ] },
+                "down": { "texture": "#0", "uv": [ 0.0, 0.0, 1.0, 1.0 ], "cullface": "down" }
+            }
+        },
+        {
+            "name": "connector down 2",
+            "from": [ 10.0, 0.0, 6.0 ], 
+            "to": [ 11.0, 5.0, 7.0 ], 
+            "faces": {
+                "north": { "texture": "#0", "uv": [ 0.0, 0.0, 1.0, 5.0 ] },
+                "south": { "texture": "#0", "uv": [ 0.0, 0.0, 1.0, 5.0 ] },
+                "west": { "texture": "#0", "uv": [ 0.0, 0.0, 1.0, 5.0 ] },
+                "down": { "texture": "#0", "uv": [ 0.0, 0.0, 1.0, 1.0 ], "cullface": "down" }
+            }
+        },
+        {
+            "name": "connector down 3",
+            "from": [ 8.0, 0.0, 7.0 ], 
+            "to": [ 10.0, 4.0, 8.0 ], 
+            "faces": {
+                "north": { "texture": "#0", "uv": [ 0.0, 0.0, 2.0, 4.0 ] },
+                "east": { "texture": "#0", "uv": [ 0.0, 0.0, 1.0, 4.0 ] },
+                "south": { "texture": "#0", "uv": [ 0.0, 0.0, 2.0, 4.0 ] },
+                "west": { "texture": "#0", "uv": [ 0.0, 0.0, 1.0, 4.0 ] },
+                "down": { "texture": "#0", "uv": [ 0.0, 0.0, 2.0, 1.0 ], "cullface": "down" }
+            }
+        },
+        {
+            "name": "connector down 4",
+            "from": [ 6.0, 0.0, 8.0 ], 
+            "to": [ 8.0, 4.0, 9.0 ], 
+            "faces": {
+                "north": { "texture": "#0", "uv": [ 0.0, 0.0, 2.0, 4.0 ] },
+                "east": { "texture": "#0", "uv": [ 0.0, 0.0, 1.0, 4.0 ] },
+                "south": { "texture": "#0", "uv": [ 0.0, 0.0, 2.0, 4.0 ] },
+                "west": { "texture": "#0", "uv": [ 0.0, 0.0, 1.0, 4.0 ] },
+                "down": { "texture": "#0", "uv": [ 0.0, 0.0, 2.0, 1.0 ], "cullface": "down" }
+            }
+        },
+        {
+            "name": "connector down 5",
+            "from": [ 5.0, 0.0, 9.0 ], 
+            "to": [ 6.0, 5.0, 10.0 ], 
+            "faces": {
+                "north": { "texture": "#0", "uv": [ 0.0, 0.0, 1.0, 5.0 ] },
+                "east": { "texture": "#0", "uv": [ 0.0, 0.0, 1.0, 5.0 ] },
+                "south": { "texture": "#0", "uv": [ 0.0, 0.0, 1.0, 5.0 ] },
+                "down": { "texture": "#0", "uv": [ 0.0, 0.0, 1.0, 1.0 ], "cullface": "down" }
+            }
+        },
+        {
+            "name": "connector down 6",
+            "from": [ 4.0, 0.0, 9.0 ], 
+            "to": [ 5.0, 6.0, 10.0 ], 
+            "faces": {
+                "north": { "texture": "#0", "uv": [ 0.0, 0.0, 1.0, 6.0 ] },
+                "south": { "texture": "#0", "uv": [ 0.0, 0.0, 1.0, 6.0 ] },
+                "west": { "texture": "#0", "uv": [ 0.0, 0.0, 1.0, 6.0 ] },
+                "down": { "texture": "#0", "uv": [ 0.0, 0.0, 1.0, 1.0 ], "cullface": "down" }
+            }
+        }
+    ]
+}
