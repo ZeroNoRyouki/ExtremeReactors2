@@ -25,6 +25,7 @@ public enum SensorBehavior {
 
     Disabled,
     SetFromSignal,
+    SetFromSignalLevel,
     SetOnPulse,
     ToggleOnPulse,
     InsertOnPulse,

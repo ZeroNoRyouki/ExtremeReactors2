@@ -35,6 +35,7 @@ import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
 
@@ -52,6 +53,7 @@ public class ReactorRedstonePortEntity
         super(Content.TileEntityTypes.REACTOR_REDSTONEPORT.get());
         this._setting = SensorSetting.DISABLED;
         this._isExternallyPowered = false;
+        this._externalPowerLevel = 0;
         this._ticksSinceLastUpdate = 0;
         this._isLit = false;
 
@@ -101,21 +103,40 @@ public class ReactorRedstonePortEntity
 
         if (this.getSettings().Sensor.isInput()) {
 
+//            this.getOutwardDirection()
+//                    .map(direction -> this.isReceivingRedstonePowerFrom(this.getWorldPosition().offset(direction), direction))
+//                    .ifPresent(nowPowered -> {
+//
+//                        if (this._isExternallyPowered != nowPowered) {
+//
+//                            this._isExternallyPowered = nowPowered;
+//                            this.onRedstoneInputUpdated();
+//                            this.markDirty();
+//                            this.updateRedstoneStateAndNotify();
+//                        }
+//                    });
             this.getOutwardDirection()
-                    .map(direction -> this.isReceivingRedstonePowerFrom(this.getWorldPosition().offset(direction), direction))
-                    .ifPresent(nowPowered -> {
+                    .map(direction -> this.getRedstonePowerLevelFrom(this.getWorldPosition().offset(direction), direction))
+                    .ifPresent(powerLevel -> {
+
+                        final boolean nowPowered = powerLevel > 0;
 
                         if (this._isExternallyPowered != nowPowered) {
 
                             this._isExternallyPowered = nowPowered;
+                            this._externalPowerLevel = powerLevel;
                             this.onRedstoneInputUpdated();
                             this.markDirty();
                             this.updateRedstoneStateAndNotify();
                         }
                     });
+
+
+
         } else {
 
             this._isExternallyPowered = false;
+            this._externalPowerLevel = 0;
         }
     }
 
@@ -254,7 +275,7 @@ public class ReactorRedstonePortEntity
      * Called to do business logic when the redstone value has changed
       */
     private void onRedstoneInputUpdated() {
-        this.getMultiblockController().ifPresent(c -> this.getSettings().accept(c, this._isExternallyPowered));
+        this.getMultiblockController().ifPresent(c -> this.getSettings().inputAction(c, this._isExternallyPowered, this._externalPowerLevel));
     }
 
     private void updateRedstoneStateAndNotify() {
@@ -287,7 +308,13 @@ public class ReactorRedstonePortEntity
 
                 // Update inputs so we don't pulse/change automatically
 
-                this._isExternallyPowered = this.isReceivingRedstonePowerFrom(position.offset(outward), outward);
+//                this._isExternallyPowered = this.isReceivingRedstonePowerFrom(position.offset(outward), outward);
+//
+//                if (!this._setting.Behavior.onPulse()) {
+//                    this.onRedstoneInputUpdated();
+//                }
+                this._externalPowerLevel = this.getRedstonePowerLevelFrom(position.offset(outward), outward);
+                this._isExternallyPowered = this._externalPowerLevel > 0;
 
                 if (!this._setting.Behavior.onPulse()) {
                     this.onRedstoneInputUpdated();
@@ -296,6 +323,7 @@ public class ReactorRedstonePortEntity
             } else {
 
                 this._isExternallyPowered = false;
+                this._externalPowerLevel = 0;
             }
 //
 //            this.notifyTileEntityUpdate();
@@ -324,6 +352,19 @@ public class ReactorRedstonePortEntity
     }
 
     /**
+     * Call with the coordinates of the block to check and the direction
+     * towards that block from your block.
+     * If the block towards which this block is emitting power lies north,
+     * then pass in south.
+     */
+    private int getRedstonePowerLevelFrom(final BlockPos position, final Direction direction) {
+        return this.getPartWorld()
+                .map(w -> Math.max(w.getRedstonePowerFromNeighbors(position), w.getRedstonePower(position, direction)))
+                .map(level -> MathHelper.clamp(level, 0, 15))
+                .orElse(0);
+    }
+
+    /**
      * Update the "lit" state and return it
      * @return the lit state
      */
@@ -337,6 +378,7 @@ public class ReactorRedstonePortEntity
     private int _ticksSinceLastUpdate;
     private boolean _isLit;
     private boolean _isExternallyPowered;
+    private int _externalPowerLevel;
 
     //endregion
 }
