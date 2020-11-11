@@ -35,11 +35,13 @@ import java.util.function.Supplier;
 
 @SuppressWarnings("SpellCheckingInspection")
 public class ReactorBlockStateGenerator
-        extends AbstractCuboidMultiblockBlockStateProvider {
+        extends AbstractMultiblockBlockStateGenerator {
 
     public ReactorBlockStateGenerator(DataGenerator gen, ExistingFileHelper exFileHelper) {
-        super(gen, ExtremeReactors.MOD_ID, exFileHelper);
+        super(gen, exFileHelper);
     }
+
+    //region IDataProvider
 
     @Override
     protected void registerStatesAndModels() {
@@ -76,7 +78,6 @@ public class ReactorBlockStateGenerator
         this.genCoolantPort(Content.Blocks.REACTOR_COOLANTPORT_FORGE_PASSIVE_REINFORCED, "coolantport_forge_passive", variant);
         this.genComputerPort(Content.Blocks.REACTOR_COMPUTERPORT_REINFORCED, variant);
         //endregion
-
     }
 
     @Nonnull
@@ -85,16 +86,7 @@ public class ReactorBlockStateGenerator
         return ExtremeReactors.MOD_NAME + " Reactor blockstates and models";
     }
 
-    protected void genAssembledPlatingModel(final String subFolder) {
-
-        final String fullPath = fullResourceName("", subFolder);
-
-        this.models().cubeAll(fullPath + "assembledplating", this.modLoc(fullPath + "casing_single"));
-    }
-
-    protected void genController(final Supplier<? extends Block> block, final String subFolder) {
-        this.genericPart(block, "controller", subFolder, true, "_on", "_off");
-    }
+    //endregion
 
     protected void genControlRod(final Supplier<? extends Block> block, final String subFolder) {
         this.genericPart(block, "controlrod", subFolder, true);
@@ -147,51 +139,5 @@ public class ReactorBlockStateGenerator
 
         this.simpleBlock(block.get(), mbp.cubeAll(fullResourceName + "_in", this.modLoc(fullResourceName + "_in")), true);
         this.genericPartSubModels(fullResourceName, "_in_connected", "_out", "_out_connected");
-    }
-
-    protected void genCoolantPort(final Supplier<? extends Block> block, final String resourceName, final String subFolder) {
-
-        final BlockModelProvider mbp = this.models();
-        final String fullResourceName = fullResourceName(resourceName, subFolder);
-
-        this.simpleBlock(block.get(), mbp.cubeAll(fullResourceName + "_cold", this.modLoc(fullResourceName + "_cold")), true);
-        this.genericPartSubModels(fullResourceName, "_cold_connected", "_hot", "_hot_connected");
-    }
-
-    protected void genRedstonePort(final Supplier<? extends Block> block, final String subFolder) {
-        this.genericPart(block, "redstoneport", subFolder, true, "_on");
-    }
-
-    protected void genComputerPort(final Supplier<? extends Block> block, final String subFolder) {
-        this.genericPart(block, "computerport", subFolder, true, "_connected");
-    }
-
-    protected void genericPart(final Supplier<? extends Block> block, final String resourceName,
-                               final String subFolder, final String... variantSuffixes) {
-        this.genericPart(block, resourceName, subFolder, false, variantSuffixes);
-    }
-
-    protected void genericPart(final Supplier<? extends Block> block, final String resourceName,
-                               final String subFolder, final boolean genStandardItem,
-                               final String... variantSuffixes) {
-
-        final BlockModelProvider mbp = this.models();
-        final String fullResourceName = fullResourceName(resourceName, subFolder);
-
-        this.simpleBlock(block.get(), mbp.cubeAll(fullResourceName, this.modLoc(fullResourceName)), genStandardItem);
-        /*
-        for (String suffix : variantSuffixes) {
-            mbp.cubeAll(fullResourceName + suffix, this.modLoc(fullResourceName + suffix));
-        }*/
-        this.genericPartSubModels(fullResourceName, variantSuffixes);
-    }
-
-    protected void genericPartSubModels(final String fullResourceName, final String... variantSuffixes) {
-
-        final BlockModelProvider mbp = this.models();
-
-        for (String suffix : variantSuffixes) {
-            mbp.cubeAll(fullResourceName + suffix, this.modLoc(fullResourceName + suffix));
-        }
     }
 }

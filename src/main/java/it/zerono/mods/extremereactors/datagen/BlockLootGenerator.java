@@ -30,6 +30,8 @@ public class BlockLootGenerator
         super(dataGenerator);
     }
 
+    //region IDataProvider
+
     @Override
     protected void generateTables() {
 
@@ -50,13 +52,21 @@ public class BlockLootGenerator
                 Content.Blocks.REACTOR_CONTROLROD_REINFORCED, Content.Blocks.REACTOR_SOLID_ACCESSPORT_REINFORCED,
                 Content.Blocks.REACTOR_POWERTAP_FE_ACTIVE_REINFORCED,  Content.Blocks.REACTOR_POWERTAP_FE_PASSIVE_REINFORCED,
                 Content.Blocks.REACTOR_REDSTONEPORT_REINFORCED, Content.Blocks.REACTOR_COMPUTERPORT_REINFORCED);
-        
-        //this.addDrop(Holder.Blocks.REACTOR_COOLANTPORT_BASIC);
-        //this.addDrop(Holder.Blocks.REACTOR_CREATIVECOOLANTPORT_BASIC);
-        //this.addDrop(Holder.Blocks.REACTOR_COMPUTERPORT_BASIC);
-    }
 
-    //region IDataProvider
+        this.addDrop(Content.Blocks.TURBINE_CASING_BASIC, Content.Blocks.TURBINE_GLASS_BASIC,
+                Content.Blocks.TURBINE_CONTROLLER_BASIC, Content.Blocks.TURBINE_ROTORBEARING_BASIC,
+                Content.Blocks.TURBINE_ROTORSHAFT_BASIC, Content.Blocks.TURBINE_ROTORBLADE_BASIC,
+                Content.Blocks.TURBINE_POWERTAP_FE_ACTIVE_BASIC, Content.Blocks.TURBINE_POWERTAP_FE_PASSIVE_BASIC,
+                Content.Blocks.TURBINE_FLUIDPORT_FORGE_ACTIVE_BASIC, Content.Blocks.TURBINE_FLUIDPORT_FORGE_PASSIVE_BASIC,
+                Content.Blocks.TURBINE_REDSTONEPORT_BASIC);
+
+        this.addDrop(Content.Blocks.TURBINE_CASING_REINFORCED, Content.Blocks.TURBINE_GLASS_REINFORCED,
+                Content.Blocks.TURBINE_CONTROLLER_REINFORCED, Content.Blocks.TURBINE_ROTORBEARING_REINFORCED,
+                Content.Blocks.TURBINE_ROTORSHAFT_REINFORCED, Content.Blocks.TURBINE_ROTORBLADE_REINFORCED,
+                Content.Blocks.TURBINE_POWERTAP_FE_ACTIVE_REINFORCED, Content.Blocks.TURBINE_POWERTAP_FE_PASSIVE_REINFORCED,
+                Content.Blocks.TURBINE_FLUIDPORT_FORGE_ACTIVE_REINFORCED, Content.Blocks.TURBINE_FLUIDPORT_FORGE_PASSIVE_REINFORCED,
+                Content.Blocks.TURBINE_REDSTONEPORT_REINFORCED, Content.Blocks.TURBINE_COMPUTERPORT_REINFORCED);
+    }
 
     @Override
     public String getName() {

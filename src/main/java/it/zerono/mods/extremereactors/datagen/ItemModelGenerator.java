@@ -61,5 +61,4 @@ public class ItemModelGenerator
     protected void generated(final Supplier<? extends Item> item) {
         DataGenHelper.generatedItem(this, item.get());
     }
-
 }

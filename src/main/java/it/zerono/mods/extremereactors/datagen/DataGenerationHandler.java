@@ -27,6 +27,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.GatherDataEvent;
 
+@SuppressWarnings("unused")
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class DataGenerationHandler {
 
@@ -47,6 +48,8 @@ public class DataGenerationHandler {
             generator.addProvider(blockTagGenerator);
             generator.addProvider(new ItemTagGenerator(generator, blockTagGenerator, existing));
 
+            generator.addProvider(new FluidTagGenerator(generator, existing));
+
             generator.addProvider(new RecipeGenerator(generator));
         }
 
@@ -54,6 +57,7 @@ public class DataGenerationHandler {
 
             generator.addProvider(new BlockStateGenerator(generator, existing));
             generator.addProvider(new ReactorBlockStateGenerator(generator, existing));
+            generator.addProvider(new TurbineBlockStateGenerator(generator, existing));
 
             generator.addProvider(new ItemModelGenerator(generator, existing));
 
