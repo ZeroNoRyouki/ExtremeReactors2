@@ -45,8 +45,8 @@ public enum SensorType
     inputActive(IoDirection.Input, r -> 0, SensorBehavior.SetFromSignal, SensorBehavior.ToggleOnPulse),
 
     // Input: control rod insertion (0-100)
-    inputSetControlRod(IoDirection.Input, r -> 0, SensorBehavior.SetFromSignal, SensorBehavior.SetOnPulse,
-            SensorBehavior.InsertOnPulse, SensorBehavior.RetractOnPulse),
+    inputSetControlRod(IoDirection.Input, r -> 0, SensorBehavior.SetFromSignal, SensorBehavior.SetFromSignalLevel,
+            SensorBehavior.SetOnPulse, SensorBehavior.InsertOnPulse, SensorBehavior.RetractOnPulse),
 
     // Input: eject waste from the reactor
     inputEjectWaste(IoDirection.Input, r -> 0, SensorBehavior.EjectOnPulse),

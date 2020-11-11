@@ -27,7 +27,7 @@ import net.minecraftforge.common.util.NonNullPredicate;
 import java.util.function.BiConsumer;
 
 public class SensorSetting
-    implements NonNullPredicate<IReactorReader>, BiConsumer<IReactorWriter, Boolean> {
+    implements NonNullPredicate<IReactorReader>, InputSensorAction<IReactorWriter> {
 
     public static final SensorSetting DISABLED = new SensorSetting();
 
@@ -90,16 +90,17 @@ public class SensorSetting
     }
 
     //endregion
-    //region BiConsumer<IReactorWriter, Boolean>
+    //region InputSensorAction
 
     /**
-     * Performs the current (input) sensor action on the Reactor
+     * Performs the current (input) sensor action on the machine
      *
-     * @param reactor the Reactor
+     * @param reactor             the machine
      * @param isExternallyPowered true if the Redstone Port is receiving a signal, false otherwise
+     * @param externalPowerLevel  the signal level (0 - 15)
      */
     @Override
-    public void accept(final IReactorWriter reactor, final Boolean isExternallyPowered) {
+    public void inputAction(final IReactorWriter reactor, final Boolean isExternallyPowered, final int externalPowerLevel) {
 
         switch (this.Sensor) {
 
@@ -108,7 +109,7 @@ public class SensorSetting
                 break;
 
             case inputSetControlRod:
-                this.acceptInputSetControlRod(reactor, isExternallyPowered);
+                this.acceptInputSetControlRod(reactor, isExternallyPowered, externalPowerLevel);
                 break;
 
             case inputEjectWaste:
@@ -159,12 +160,17 @@ public class SensorSetting
         }
     }
 
-    private void acceptInputSetControlRod(final IReactorWriter reactor, final Boolean isExternallyPowered) {
+    private void acceptInputSetControlRod(final IReactorWriter reactor, final Boolean isExternallyPowered,
+                                          final int externalPowerLevel) {
 
         switch (this.Behavior) {
 
             case SetFromSignal:
                 reactor.setControlRodsInsertionRatio(isExternallyPowered ? this.Value1 : this.Value2);
+                break;
+
+            case SetFromSignalLevel:
+                reactor.setControlRodsInsertionRatio(isExternallyPowered ? (int)(externalPowerLevel / 15.0 * 100.0) : 0);
                 break;
 
             case SetOnPulse:

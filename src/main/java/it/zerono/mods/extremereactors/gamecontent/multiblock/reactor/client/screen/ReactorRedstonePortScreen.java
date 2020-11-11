@@ -204,6 +204,8 @@ public class ReactorRedstonePortScreen
         p.addControl(behaviorLabel("whileoff", "gui.bigreactors.reactor.redstoneport.sensortype.inputsetcontrolrod.whileoff", behaviorPanelWidth));
         p.addControl(this._inputSetControlRodWhileOff);
 
+        this.behaviorPanel(SensorBehavior.SetFromSignalLevel, behaviorPanelWidth, behaviorGroup);
+
         p = this.behaviorPanel(SensorBehavior.SetOnPulse, behaviorPanelWidth, behaviorGroup);
         p.addControl(behaviorLabel("setto", "gui.bigreactors.reactor.redstoneport.sensortype.inputsetcontrolrod.setto", behaviorPanelWidth));
         p.addControl(this._inputSetControlRodSetTo);
