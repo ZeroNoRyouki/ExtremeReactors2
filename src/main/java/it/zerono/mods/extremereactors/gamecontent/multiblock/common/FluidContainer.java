@@ -200,6 +200,26 @@ public class FluidContainer
         return TestResult.from(test, content).getAsBoolean();
     }
 
+    @Override
+    public Optional<Coolant> getCoolant() {
+        return (null == this._cachedCoolant || Coolant.EMPTY == this._cachedCoolant) ? Optional.empty() : Optional.of(this._cachedCoolant);
+    }
+
+    @Override
+    public Optional<Vapor> getVapor() {
+        return (null == this._cachedVapor || Vapor.EMPTY == this._cachedVapor) ? Optional.empty() : Optional.of(this._cachedVapor);
+    }
+
+    @Override
+    public <T> T mapCoolant(Function<Coolant, T> mapper, T defaultValue) {
+        return (null == this._cachedCoolant || Coolant.EMPTY == this._cachedCoolant) ? mapper.apply(this._cachedCoolant) : defaultValue;
+    }
+
+    @Override
+    public <T> T mapVapor(Function<Vapor, T> mapper, T defaultValue) {
+        return (null == this._cachedVapor || Vapor.EMPTY == this._cachedVapor) ? mapper.apply(this._cachedVapor) : defaultValue;
+    }
+
     //region Reactor UPDATE logic
 
     @Override
@@ -229,6 +249,21 @@ public class FluidContainer
 
         return this.mapLiquidAmount(amount ->
                 this.absorbHeat(energyAbsorbed, variant, amount, this.getCurrentVaporization()), energyAbsorbed);
+    }
+
+    public int onCondensation(final int vaporUsed, final boolean onlyDrainVapor, final IMultiblockGeneratorVariant variant) {
+
+        if (vaporUsed <= 0 || this.getGasAmount() <= 0) {
+            return vaporUsed;
+        }
+
+        if (onlyDrainVapor) {
+
+            this.extract(FluidType.Gas, vaporUsed, OperationMode.Execute);
+            return 0;
+        }
+
+        return this.mapGasAmount(amount -> this.condensate(vaporUsed, this.getCurrentCondensation()), vaporUsed);
     }
 
     //endregion
@@ -328,6 +363,43 @@ public class FluidContainer
         // return the energy not absorbed via vaporization
 
         return Math.max(0.0, energyAbsorbed - ((double)liquidVaporized * enthalpyOfVaporization));
+    }
+
+    //endregion
+    //region condensation
+
+    public int condensate(final int vaporUsed, final IMapping<Vapor, Coolant> condensation) {
+
+        // do we have some liquid around already?
+
+        if (this.getLiquidAmount() > 0) {
+
+            // is the existing liquid compatible with the requested condensation?
+
+            if (!this.getCurrentCoolant().equals(condensation.getProduct())) {
+
+                // no, give up
+                return vaporUsed;
+            }
+
+            // yes, condensate using the current gas as the target fluid
+            return this.mapLiquid(liquid -> this.condensate(vaporUsed, condensation, liquid), vaporUsed);
+
+        } else {
+
+            // no, condensate using the first fluid associated to the Coolant as the target fluid
+            return FluidMappingsRegistry.getFluidFrom(condensation.getProduct())
+                    .filter(list -> !list.isEmpty())
+                    .map(list -> list.get(0))
+                    .map(IMapping::getProduct)
+                    .map(TagsHelper::getTagFirstElement)
+                    .map(liquid -> this.condensate(vaporUsed, condensation, liquid))
+                    .orElse(vaporUsed);
+        }
+    }
+
+    public int condensate(final int vaporUsed, final IMapping<Vapor, Coolant> condensation, final Fluid targetLiquid) {
+        return this.insert(FluidType.Liquid, new FluidStack(targetLiquid, condensation.getProductAmount(vaporUsed)), OperationMode.Execute);
     }
 
     //endregion

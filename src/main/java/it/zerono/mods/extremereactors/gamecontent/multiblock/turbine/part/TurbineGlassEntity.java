@@ -1,6 +1,6 @@
 /*
  *
- * ReactorGlassEntity.java
+ * TurbineGlassEntity.java
  *
  * This file is part of Extreme Reactors 2 by ZeroNoRyouki, a Minecraft mod.
  *
@@ -16,16 +16,16 @@
  *
  */
 
-package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part;
+package it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part;
 
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.model.data.ModelTransformers;
 
-public class ReactorGlassEntity
-        extends AbstractReactorEntity {
+public class TurbineGlassEntity
+        extends AbstractTurbineEntity {
 
-    public ReactorGlassEntity() {
-        super(Content.TileEntityTypes.REACTOR_GLASS.get());
+    public TurbineGlassEntity() {
+        super(Content.TileEntityTypes.TURBINE_GLASS.get());
     }
 
     //region client render support

@@ -190,8 +190,6 @@ public class MultiblockReactor
 
         this._active = active;
 
-        this.callOnLogicalClient(() -> Log.LOGGER.info("setMachineActive on client"));
-
         if (active) {
             this.getConnectedParts().forEach(IMultiblockPart::onMachineActivated);
         } else {
@@ -262,7 +260,6 @@ public class MultiblockReactor
 
             // Distribute available gas equally to all the Coolant Ports in output mode
             profiler.startSection("Gas");
-//            this.distributeGas();
             this.distributeGasEqually();
         }
 
@@ -1095,6 +1092,8 @@ public class MultiblockReactor
             return;
         }
 
+        messages.addUnlocalized("Active: %s", this.isMachineActive());
+
         this.getEnergyBuffer().getDebugMessages(side, messages);
         messages.addUnlocalized("Casing Heat: %1$.4f C; Fuel Heat: %2$.4f C", this._reactorHeat.get(), this._fuelHeat.get());
         messages.add(side, this._fuelContainer, "Reactant Tanks:");
@@ -1106,7 +1105,7 @@ public class MultiblockReactor
         if (activeCooling) {
 
             messages.addUnlocalized("Coolant Tanks:");
-            this._fuelContainer.getDebugMessages(side, messages);
+            this._fluidContainer.getDebugMessages(side, messages);
         }
     }
 
@@ -1244,7 +1243,7 @@ public class MultiblockReactor
      */
     private void distributeGasEqually() {
 
-        final int amountDistributed = distributeGasEqually(this._fluidContainer.getStackCopy(FluidType.Gas), this._attachedCoolantPorts);
+        final int amountDistributed = distributeFluidEqually(this._fluidContainer.getStackCopy(FluidType.Gas), this._attachedCoolantPorts);
 
         if (amountDistributed > 0) {
             this._fluidContainer.extract(FluidType.Gas, amountDistributed, OperationMode.Execute);

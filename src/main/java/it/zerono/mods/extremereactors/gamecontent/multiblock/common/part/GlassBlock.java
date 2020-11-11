@@ -50,9 +50,10 @@ public class GlassBlock <Controller extends IMultiblockController<Controller>,
         return true;
     }
 
-    public boolean isNormalCube(BlockState state, IBlockReader worldIn, BlockPos pos) {
-        return false;
-    }
+//    @Override
+//    public boolean isNormalCube(BlockState state, IBlockReader worldIn, BlockPos pos) {
+//        return false;
+//    }
 
     public boolean causesSuffocation(BlockState state, IBlockReader worldIn, BlockPos pos) {
         return false;

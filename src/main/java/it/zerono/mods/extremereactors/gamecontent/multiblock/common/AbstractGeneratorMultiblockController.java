@@ -102,27 +102,27 @@ public abstract class AbstractGeneratorMultiblockController<Controller extends A
     public abstract Optional<IFluidHandler> getFluidHandler(IoDirection portDirection);
 
     /**
-     * Distribute the given gas equally between the specified Active Coolant Ports
+     * Distribute the given fluid equally between the specified Active Coolant Ports
      *
-     * @param availableGas the gas to distribute
+     * @param availableFluid the gas to distribute
      * @param coolantPorts the Coolant Ports
      * @return the amount of gas distributed
      */
     protected static <Controller extends AbstractGeneratorMultiblockController<Controller, V>, V extends IMultiblockGeneratorVariant>
-            int distributeGasEqually(final FluidStack availableGas, final Collection<? extends ICoolantPort<Controller, V>> coolantPorts) {
+            int distributeFluidEqually(final FluidStack availableFluid, final Collection<? extends ICoolantPort<Controller, V>> coolantPorts) {
 
-        if (availableGas.isEmpty() || coolantPorts.isEmpty()) {
+        if (availableFluid.isEmpty() || coolantPorts.isEmpty()) {
             return 0;
         }
 
-        final int gasPerPort = availableGas.getAmount() / coolantPorts.size();
+        final int fluidPerPort = availableFluid.getAmount() / coolantPorts.size();
 
         return coolantPorts.stream()
                 .filter(p -> p.getIoDirection().isOutput())
                 .map(ICoolantPort::getCoolantPortHandler)
                 .filter(IIOPortHandler::isActive)
                 .filter(IIOPortHandler::isConnected)
-                .mapToInt(handler -> handler.outputFluid(new FluidStack(availableGas, gasPerPort)))
+                .mapToInt(handler -> handler.outputFluid(new FluidStack(availableFluid, fluidPerPort)))
                 .sum();
     }
 

@@ -1,6 +1,6 @@
 /*
  *
- * ReactorCoolantPortEntity.java
+ * TurbineVaporPortEntity.java
  *
  * This file is part of Extreme Reactors 2 by ZeroNoRyouki, a Minecraft mod.
  *
@@ -16,15 +16,14 @@
  *
  */
 
-package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part;
+package it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part;
 
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.coolantport.CoolantPortType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.coolantport.ICoolantPort;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.coolantport.ICoolantPortHandler;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.MultiblockReactor;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.IMultiblockReactorVariant;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.MultiblockTurbine;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.IMultiblockTurbineVariant;
 import it.zerono.mods.zerocore.lib.block.INeighborChangeListener;
-import it.zerono.mods.zerocore.lib.data.IIoEntity;
 import it.zerono.mods.zerocore.lib.data.IoDirection;
 import it.zerono.mods.zerocore.lib.data.IoMode;
 import it.zerono.mods.zerocore.lib.fluid.FluidHelper;
@@ -41,11 +40,11 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class ReactorCoolantPortEntity
-        extends AbstractReactorEntity
-        implements ICoolantPort<MultiblockReactor, IMultiblockReactorVariant>, ITickableMultiblockPart, INeighborChangeListener {
+public class TurbineFluidPortEntity
+        extends AbstractTurbineEntity
+        implements ICoolantPort<MultiblockTurbine, IMultiblockTurbineVariant>, ITickableMultiblockPart, INeighborChangeListener {
 
-    public ReactorCoolantPortEntity(final CoolantPortType type, final IoMode mode, final TileEntityType<?> entityType) {
+    public TurbineFluidPortEntity(final CoolantPortType type, final IoMode mode, final TileEntityType<?> entityType) {
 
         super(entityType);
         this._handler = ICoolantPortHandler.create(type, mode, this);
@@ -56,7 +55,7 @@ public class ReactorCoolantPortEntity
     //region ICoolantPort
 
     @Override
-    public ICoolantPortHandler<MultiblockReactor, IMultiblockReactorVariant> getCoolantPortHandler() {
+    public ICoolantPortHandler<MultiblockTurbine, IMultiblockTurbineVariant> getCoolantPortHandler() {
         return this._handler;
     }
 
@@ -115,7 +114,7 @@ public class ReactorCoolantPortEntity
 //        this.updateCapabilityForwarder();
         this.getCoolantPortHandler().update();
 //        this.getMultiblockController().ifPresent(MultiblockReactor::onCoolantPortChanged);
-        this.executeOnController(MultiblockReactor::onCoolantPortChanged);
+        this.executeOnController(MultiblockTurbine::onFluidPortChanged);
         this.notifyBlockUpdate();
 
         this.callOnLogicalSide(
@@ -136,6 +135,7 @@ public class ReactorCoolantPortEntity
     @Override
     public void onMultiblockServerTick() {
 
+        //TODO fix
         if (this.getIoDirection().isOutput()) {
             this.getOutwardDirection().ifPresent(this::transferGas);
         }
@@ -163,7 +163,7 @@ public class ReactorCoolantPortEntity
     //region AbstractCuboidMultiblockPart
 
     @Override
-    public void onPostMachineAssembled(MultiblockReactor controller) {
+    public void onPostMachineAssembled(MultiblockTurbine controller) {
 
         super.onPostMachineAssembled(controller);
         this.getCoolantPortHandler().update();
@@ -179,7 +179,7 @@ public class ReactorCoolantPortEntity
     }
 
     @Override
-    public void onAttached(MultiblockReactor newController) {
+    public void onAttached(MultiblockTurbine newController) {
 
         super.onAttached(newController);
 //        this.updateCapabilityForwarder();
@@ -187,7 +187,7 @@ public class ReactorCoolantPortEntity
     }
 
     @Override
-    public void onAssimilated(MultiblockReactor newController) {
+    public void onAssimilated(MultiblockTurbine newController) {
 
         super.onAssimilated(newController);
 //        this.updateCapabilityForwarder();
@@ -195,7 +195,7 @@ public class ReactorCoolantPortEntity
     }
 
     @Override
-    public void onDetached(MultiblockReactor oldController) {
+    public void onDetached(MultiblockTurbine oldController) {
 
         super.onDetached(oldController);
 //        this.updateCapabilityForwarder();
@@ -230,15 +230,17 @@ public class ReactorCoolantPortEntity
 
     private void transferGas(final Direction direction) {
 
+        //TODO imp / fix ?
+
         final BlockPos targetPosition = this.getWorldPosition().offset(direction);
 
         this.getMultiblockController()
-                .flatMap(MultiblockReactor::getGasHandler)
+                .flatMap(MultiblockTurbine::getGasHandler)
                 .ifPresent(source -> FluidHelper.tryFluidTransfer(source, this.getPartWorldOrFail(), targetPosition,
                         direction.getOpposite(), Integer.MAX_VALUE, IFluidHandler.FluidAction.EXECUTE));
     }
 
-    private final ICoolantPortHandler<MultiblockReactor, IMultiblockReactorVariant> _handler;
+    private final ICoolantPortHandler<MultiblockTurbine, IMultiblockTurbineVariant> _handler;
     private IoDirection _direction;
 
     //endregion

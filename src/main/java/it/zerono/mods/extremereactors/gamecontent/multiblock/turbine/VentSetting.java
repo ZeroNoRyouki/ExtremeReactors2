@@ -1,6 +1,6 @@
 /*
  *
- * ReactorGlassEntity.java
+ * VentStatus.java
  *
  * This file is part of Extreme Reactors 2 by ZeroNoRyouki, a Minecraft mod.
  *
@@ -16,24 +16,28 @@
  *
  */
 
-package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part;
+package it.zerono.mods.extremereactors.gamecontent.multiblock.turbine;
 
-import it.zerono.mods.extremereactors.gamecontent.Content;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.model.data.ModelTransformers;
+public enum VentSetting {
 
-public class ReactorGlassEntity
-        extends AbstractReactorEntity {
+    VentOverflow,
+    VentAll,
+    DoNotVent
+    ;
 
-    public ReactorGlassEntity() {
-        super(Content.TileEntityTypes.REACTOR_GLASS.get());
+    public static VentSetting getDefault() {
+        return VentOverflow;
     }
 
-    //region client render support
-
-    @Override
-    protected int getUpdatedModelVariantIndex() {
-        return ModelTransformers.getGlassVariantIndexFrom(this);
+    public boolean isVentOverflow() {
+        return VentOverflow == this;
     }
 
-    //endregion
+    public boolean isVentAll() {
+        return VentAll == this;
+    }
+
+    public boolean isDoNotVent() {
+        return DoNotVent == this;
+    }
 }

@@ -18,6 +18,8 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.common;
 
+import it.zerono.mods.extremereactors.api.coolant.Coolant;
+import it.zerono.mods.extremereactors.api.coolant.Vapor;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.variant.IMultiblockGeneratorVariant;
 import it.zerono.mods.zerocore.lib.data.IoDirection;
 import it.zerono.mods.zerocore.lib.data.stack.OperationMode;
@@ -26,6 +28,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 
 import java.util.Optional;
+import java.util.function.Function;
 
 public interface IFluidContainer {
 
@@ -55,7 +58,17 @@ public interface IFluidContainer {
 
     double onAbsorbHeat(double energyAbsorbed, IMultiblockGeneratorVariant variant);
 
+    int onCondensation(int vaporUsed, boolean onlyDrainVapor, IMultiblockGeneratorVariant variant);
+
     int getLiquidVaporizedLastTick();
 
     IFluidHandler getWrapper(IoDirection portDirection);
+
+    Optional<Coolant> getCoolant();
+
+    Optional<Vapor> getVapor();
+
+    <T> T mapCoolant(final Function<Coolant, T> mapper, final T defaultValue);
+
+    <T> T mapVapor(final Function<Vapor, T> mapper, final T defaultValue);
 }

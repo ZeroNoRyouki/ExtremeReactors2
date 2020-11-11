@@ -1,6 +1,6 @@
 /*
  *
- * ReactorGlassEntity.java
+ * IMultiblockTurbineVariant.java
  *
  * This file is part of Extreme Reactors 2 by ZeroNoRyouki, a Minecraft mod.
  *
@@ -16,24 +16,26 @@
  *
  */
 
-package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part;
+package it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant;
 
-import it.zerono.mods.extremereactors.gamecontent.Content;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.model.data.ModelTransformers;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.common.variant.IMultiblockGeneratorVariant;
 
-public class ReactorGlassEntity
-        extends AbstractReactorEntity {
+public interface IMultiblockTurbineVariant
+        extends IMultiblockGeneratorVariant {
 
-    public ReactorGlassEntity() {
-        super(Content.TileEntityTypes.REACTOR_GLASS.get());
-    }
+    float getRadiationAttenuation();
 
-    //region client render support
+    float getResidualRadiationAttenuation();
 
-    @Override
-    protected int getUpdatedModelVariantIndex() {
-        return ModelTransformers.getGlassVariantIndexFrom(this);
-    }
+    int getRotorShaftMass();
 
-    //endregion
+    int getRotorBladeMass();
+
+    float getMaxRotorSpeed();
+
+    float getRotorDragCoefficient();
+
+    int getBaseFluidPerBlade();
+
+    int getMaxPermittedFlow();
 }

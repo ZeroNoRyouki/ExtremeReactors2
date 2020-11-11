@@ -1,6 +1,6 @@
 /*
  *
- * ReactorComputerPortEntity.java
+ * TurbineComputerPortEntity.java
  *
  * This file is part of Extreme Reactors 2 by ZeroNoRyouki, a Minecraft mod.
  *
@@ -16,12 +16,12 @@
  *
  */
 
-package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part;
+package it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part;
 
 import dan200.computercraft.api.peripheral.IPeripheral;
 import it.zerono.mods.extremereactors.gamecontent.Content;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.MultiblockReactor;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.computer.ReactorComputerPeripheral;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.MultiblockTurbine;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.computer.TurbineComputerPeripheral;
 import it.zerono.mods.zerocore.lib.compat.Mods;
 import it.zerono.mods.zerocore.lib.compat.computer.ConnectorComputerCraft;
 import it.zerono.mods.zerocore.lib.compat.computer.MultiblockComputerPeripheral;
@@ -34,15 +34,15 @@ import net.minecraftforge.common.util.LazyOptional;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class ReactorComputerPortEntity
-        extends AbstractReactorEntity {
+public class TurbineComputerPortEntity
+        extends AbstractTurbineEntity {
 
-    public ReactorComputerPortEntity() {
+    public TurbineComputerPortEntity() {
 
-        super(Content.TileEntityTypes.REACTOR_COMPUTERPORT.get());
+        super(Content.TileEntityTypes.TURBINE_COMPUTERPORT.get());
 
         this._ccConnector = Mods.COMPUTERCRAFT
-                .map(() -> LazyOptional.of(() -> ConnectorComputerCraft.create("BigReactors-Reactor", this.getPeripheral())))
+                .map(() -> LazyOptional.of(() -> ConnectorComputerCraft.create("BigReactors-Turbine", this.getPeripheral())))
                 .orElse(null);
         // TODO OC
     }
@@ -88,7 +88,7 @@ public class ReactorComputerPortEntity
     //region AbstractReactorEntity
 
     @Override
-    public void onAttached(MultiblockReactor newController) {
+    public void onAttached(MultiblockTurbine newController) {
 
         super.onAttached(newController);
 //        this.executeOnComputerCraftConnector(Connector::onAttachedToController);
@@ -100,7 +100,7 @@ public class ReactorComputerPortEntity
     }
 
     @Override
-    public void onDetached(MultiblockReactor oldController) {
+    public void onDetached(MultiblockTurbine oldController) {
 
         super.onDetached(oldController);
 //        this.executeOnComputerCraftConnector(Connector::onDetachedFromController);
@@ -117,7 +117,7 @@ public class ReactorComputerPortEntity
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable Direction side) {
 
         if (!this.isRemoved() && (null != this._ccConnector) && CAPABILITY_CC_PERIPHERAL == capability) {
-                return this._ccConnector.cast();
+            return this._ccConnector.cast();
         }
 
         return super.getCapability(capability, side);
@@ -134,10 +134,10 @@ public class ReactorComputerPortEntity
     //endregion
     //region internals
 
-    private ReactorComputerPeripheral getPeripheral() {
+    private TurbineComputerPeripheral getPeripheral() {
 
         if (null == this._peripheral) {
-            this._peripheral = new ReactorComputerPeripheral(this);
+            this._peripheral = new TurbineComputerPeripheral(this);
         }
 
         return this._peripheral;
@@ -154,9 +154,9 @@ public class ReactorComputerPortEntity
     @CapabilityInject(IPeripheral.class)
     public static Capability<IPeripheral> CAPABILITY_CC_PERIPHERAL = null;
 
-    private final LazyOptional<ConnectorComputerCraft<MultiblockComputerPeripheral<MultiblockReactor, ReactorComputerPortEntity>>> _ccConnector;
+    private final LazyOptional<ConnectorComputerCraft<MultiblockComputerPeripheral<MultiblockTurbine, TurbineComputerPortEntity>>> _ccConnector;
 
-    private ReactorComputerPeripheral _peripheral;
+    private TurbineComputerPeripheral _peripheral;
 
     //endregion
 }

@@ -19,6 +19,9 @@
 package it.zerono.mods.extremereactors.proxy;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Streams;
+import it.zerono.mods.extremereactors.config.Turbine;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.CachedSprites;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.FuelRodsLayout;
@@ -32,6 +35,9 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.scre
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.screen.ReactorRedstonePortScreen;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.screen.ReactorSolidAccessPortScreen;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.ReactorVariant;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.client.model.TurbineGlassModelBuilder;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.client.model.TurbineModelBuilder;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.TurbineVariant;
 import it.zerono.mods.zerocore.lib.client.model.ICustomModelBuilder;
 import net.minecraft.block.Block;
 import net.minecraft.client.gui.IHasContainer;
@@ -52,6 +58,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class ClientProxy implements IProxy {
@@ -98,14 +105,31 @@ public class ClientProxy implements IProxy {
     //region internals
 
     private static List<ICustomModelBuilder> initModels() {
+
         //noinspection UnstableApiUsage
-        return Arrays.stream(ReactorVariant.values())
-                .flatMap(v -> Stream.of(
-                        new ReactorModelBuilder(v),
-                        new ReactorGlassModelBuilder(v),
-                        new ReactorFuelRodModelBuilder(v)
-                ))
-                .collect(ImmutableList.toImmutableList());
+        return Streams.concat(
+                Arrays.stream(ReactorVariant.values())
+                        .flatMap(v -> Stream.of(
+                                new ReactorModelBuilder(v),
+                                new ReactorGlassModelBuilder(v),
+                                new ReactorFuelRodModelBuilder(v)
+                        )),
+                Arrays.stream(TurbineVariant.values())
+                        .flatMap(v -> Stream.of(
+                                new TurbineModelBuilder(v),
+                                new TurbineGlassModelBuilder(v)
+//                                new ReactorFuelRodModelBuilder(v) //TODO rotor?
+                        ))
+        ).collect(ImmutableList.toImmutableList());
+
+//        //noinspection UnstableApiUsage
+//        return Arrays.stream(ReactorVariant.values())
+//                .flatMap(v -> Stream.of(
+//                        new ReactorModelBuilder(v),
+//                        new ReactorGlassModelBuilder(v),
+//                        new ReactorFuelRodModelBuilder(v)
+//                ))
+//                .collect(ImmutableList.toImmutableList());
     }
 
     private static void registerScreens() {
@@ -115,6 +139,10 @@ public class ClientProxy implements IProxy {
         registerScreen(Content.ContainerTypes.REACTOR_SOLID_ACCESSPORT, ReactorSolidAccessPortScreen::new);
         registerScreen(Content.ContainerTypes.REACTOR_REDSTONEPORT, ReactorRedstonePortScreen::new);
         registerScreen(Content.ContainerTypes.REACTOR_CONTROLROD, ReactorControlRodScreen::new);
+
+        // Turbine GUIs
+//        registerScreen(Content.ContainerTypes.TURBINE_CONTROLLER, ReactorControllerScreen::new);
+//        registerScreen(Content.ContainerTypes.REACTOR_REDSTONEPORT, ReactorRedstonePortScreen::new);
     }
 
     private static void registerRenderTypes() {
@@ -123,7 +151,9 @@ public class ClientProxy implements IProxy {
                 Content.Blocks.REACTOR_GLASS_BASIC, Content.Blocks.REACTOR_GLASS_REINFORCED);
 
         registerRenderType(RenderType.getCutout(),
-                Content.Blocks.REACTOR_FUELROD_BASIC, Content.Blocks.REACTOR_FUELROD_REINFORCED);
+                Content.Blocks.REACTOR_FUELROD_BASIC, Content.Blocks.REACTOR_FUELROD_REINFORCED,
+                Content.Blocks.TURBINE_ROTORBLADE_BASIC, Content.Blocks.TURBINE_ROTORBLADE_REINFORCED,
+                Content.Blocks.TURBINE_ROTORSHAFT_BASIC, Content.Blocks.TURBINE_ROTORSHAFT_REINFORCED);
     }
 
     private static void registerTileRenderers() {
