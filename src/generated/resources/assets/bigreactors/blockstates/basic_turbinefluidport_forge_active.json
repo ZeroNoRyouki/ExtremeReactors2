@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "bigreactors:block/turbine/basic/coolantport_forge_active_cold"
+    }
+  }
+}

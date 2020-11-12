@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "bigreactors:block/turbine/reinforced/powertap_fe_passive"
+    }
+  }
+}

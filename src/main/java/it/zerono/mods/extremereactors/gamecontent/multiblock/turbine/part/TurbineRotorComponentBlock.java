@@ -34,6 +34,9 @@ import net.minecraft.world.IBlockReader;
 public class TurbineRotorComponentBlock
         extends GenericDeviceBlock<MultiblockTurbine, TurbinePartType> {
 
+    public static final EnumProperty<RotorShaftState> ROTOR_SHAFT_STATE = EnumProperty.create("state", RotorShaftState.class);
+    public static final EnumProperty<RotorBladeState> ROTOR_BLADE_STATE = EnumProperty.create("state", RotorBladeState.class);
+
     public static TurbineRotorComponentBlock shaft(final MultiblockPartProperties<TurbinePartType> properties) {
         return new TurbineRotorComponentBlock(properties) {
 
@@ -95,9 +98,6 @@ public class TurbineRotorComponentBlock
     protected TurbineRotorComponentBlock(final MultiblockPartProperties<TurbinePartType> properties) {
         super(properties);
     }
-
-    private static final EnumProperty<RotorShaftState> ROTOR_SHAFT_STATE = EnumProperty.create("state", RotorShaftState.class);
-    private static final EnumProperty<RotorBladeState> ROTOR_BLADE_STATE = EnumProperty.create("state", RotorBladeState.class);
 
     //endregion
 }

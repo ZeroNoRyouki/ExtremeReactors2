@@ -19,10 +19,14 @@
 package it.zerono.mods.extremereactors.datagen;
 
 import it.zerono.mods.extremereactors.ExtremeReactors;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part.TurbineRotorComponentBlock;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.rotor.RotorShaftState;
 import it.zerono.mods.zerocore.lib.datagen.provider.multiblock.AbstractCuboidMultiblockBlockStateProvider;
 import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.state.Property;
 import net.minecraftforge.client.model.generators.BlockModelProvider;
+import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
 import java.util.function.Supplier;
@@ -85,5 +89,29 @@ public abstract class AbstractMultiblockBlockStateGenerator
         for (String suffix : variantSuffixes) {
             mbp.cubeAll(fullResourceName + suffix, this.modLoc(fullResourceName + suffix));
         }
+    }
+
+    protected <T extends Comparable<T>> void genPropertyVariant(Block block, Property<T> property, T propertyValue,
+                                                                ModelFile model) {
+        this.genPropertyVariant(block, property, propertyValue, model, 0, 0, false);
+    }
+
+    protected <T extends Comparable<T>> void genPropertyVariant(Block block, Property<T> property, T propertyValue,
+                                                                ModelFile model, int rotationX, int rotationY) {
+        this.genPropertyVariant(block, property, propertyValue, model, rotationX, rotationY, false);
+    }
+
+    protected <T extends Comparable<T>> void genPropertyVariant(Block block, Property<T> property, T propertyValue,
+                                                                ModelFile model, int rotationX, int rotationY,
+                                                                boolean uvLock) {
+        this.getVariantBuilder(block)
+                .partialState()
+                .with(property, propertyValue)
+                .modelForState()
+                .modelFile(model)
+                .rotationX(rotationX)
+                .rotationY(rotationY)
+                .uvLock(uvLock)
+                .addModel();
     }
 }

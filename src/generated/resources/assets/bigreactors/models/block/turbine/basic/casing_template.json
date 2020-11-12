@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "down": "bigreactors:block/turbine/basic/plating",
+    "up": "bigreactors:block/turbine/basic/plating",
+    "north": "bigreactors:block/turbine/basic/plating",
+    "south": "bigreactors:block/turbine/basic/plating",
+    "east": "bigreactors:block/turbine/basic/plating",
+    "west": "bigreactors:block/turbine/basic/plating",
+    "particle": "bigreactors:block/turbine/basic/plating"
+  }
+}

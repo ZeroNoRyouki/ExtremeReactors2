@@ -1,0 +1,7 @@
+{
+  "parent": "bigreactors:block/turbine/basic/casing_template",
+  "textures": {
+    "south": "bigreactors:block/turbine/basic/casing_left",
+    "west": "bigreactors:block/turbine/basic/casing_right"
+  }
+}
