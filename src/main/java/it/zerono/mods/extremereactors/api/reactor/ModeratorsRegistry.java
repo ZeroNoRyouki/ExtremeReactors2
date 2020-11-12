@@ -30,13 +30,18 @@ import it.zerono.mods.zerocore.lib.tag.TagsHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.fluid.Fluid;
+import net.minecraft.item.Item;
 import net.minecraft.tags.ITag;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraftforge.common.util.NonNullSupplier;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
 
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * Keep track of all the Moderators that could be used inside a Reactor
@@ -230,6 +235,15 @@ public final class ModeratorsRegistry {
         });
     }
 
+    public static void fillModeratorsTooltips(final Map<Item, Set<ITextComponent>> tooltipsMap,
+                                              final NonNullSupplier<Set<ITextComponent>> setSupplier) {
+
+        s_moderatorBlocksTags.tagStream()
+                .flatMap(blockTag -> blockTag.getAllElements().stream())
+                .map(Block::asItem)
+                .forEach(item -> tooltipsMap.computeIfAbsent(item, k -> setSupplier.get()).add(TOOLTIP_MODERATOR));
+    }
+
 //    /**
 //     * Remove a previously registered radiation moderator block for the Reactor
 //     * If the moderator is not registered the operation will fail silently
@@ -258,6 +272,8 @@ public final class ModeratorsRegistry {
 
     private ModeratorsRegistry() {
     }
+
+    private static final ITextComponent TOOLTIP_MODERATOR = new TranslationTextComponent("api.bigreactors.reactor.tooltip.moderator").setStyle(ExtremeReactorsAPI.STYLE_TOOLTIP);
 
     static {
 

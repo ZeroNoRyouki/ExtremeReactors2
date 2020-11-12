@@ -28,12 +28,16 @@ import it.zerono.mods.extremereactors.api.InternalDispatcher;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tags.ITag;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraftforge.common.util.NonNullSupplier;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 public final class ReactantMappingsRegistry {
 
@@ -111,6 +115,16 @@ public final class ReactantMappingsRegistry {
         });
     }
 
+    public static void fillReactantsTooltips(final Map<Item, Set<ITextComponent>> tooltipsMap,
+                                             final NonNullSupplier<Set<ITextComponent>> setSupplier) {
+
+        s_solidToReactant.entrySet().stream()
+                .filter(entry -> entry.getValue().getProduct().getType().isFuel())
+                .map(Map.Entry::getKey)
+                .flatMap(itemTag -> itemTag.getAllElements().stream())
+                .forEach(item -> tooltipsMap.computeIfAbsent(item, k -> setSupplier.get()).add(TOOLTIP_FUEL_SOURCE));
+    }
+
     //region internals
 
     private ReactantMappingsRegistry() {
@@ -127,6 +141,8 @@ public final class ReactantMappingsRegistry {
     //TODO fluids
 
     private static final Marker MARKER = MarkerManager.getMarker("API/ReactantMappingsRegistry").addParents(ExtremeReactorsAPI.MARKER);
+
+    private static final ITextComponent TOOLTIP_FUEL_SOURCE = new TranslationTextComponent("api.bigreactors.reactor.tooltip.reactant.fuel").setStyle(ExtremeReactorsAPI.STYLE_TOOLTIP);
 
     //endregion
 }

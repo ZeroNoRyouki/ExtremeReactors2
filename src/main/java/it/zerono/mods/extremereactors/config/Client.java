@@ -27,6 +27,7 @@ public class Client {
 //    public final ForgeConfigSpec.BooleanValue disableTurbineRotorRender;
     public final ForgeConfigSpec.BooleanValue disableReactorParticles;
     public final ForgeConfigSpec.BooleanValue disableTurbineParticles;
+    public final ForgeConfigSpec.BooleanValue disableApiTooltips;
     public final boolean isValentinesDay;
 
     Client(final ForgeConfigSpec.Builder builder) {
@@ -47,6 +48,11 @@ public class Client {
         disableTurbineParticles = builder
                 .comment("If true, disables all particle effects in the Turbine.")
                 .translation("config.bigreactors.client.disableturbineparticles")
+                .define("disableTurbineParticles", false);
+
+        disableApiTooltips = builder
+                .comment("If true, no (advanced) tooltips will be added to blocks and items that can be used inside the Reactor or Turbine or as a fuel source.")
+                .translation("config.bigreactors.client.disableapitooltips")
                 .define("disableTurbineParticles", false);
 
         builder.pop();
