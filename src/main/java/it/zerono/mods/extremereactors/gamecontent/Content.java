@@ -99,7 +99,7 @@ public final class Content {
         //endregion
         //region ores
 
-        public static final RegistryObject<ModBlock> YELLORITE_ORE_BLOCK = registerOreBlock("yellorite_ore", DyeColor.YELLOW);
+        public static final RegistryObject<ModBlock> YELLORITE_ORE_BLOCK = registerOreBlock("yellorite_ore", DyeColor.YELLOW, 0, 0);
         public static final RegistryObject<ModBlock> ANGLESITE_ORE_BLOCK = registerOreBlock("anglesite_ore", DyeColor.ORANGE);
         public static final RegistryObject<ModBlock> BENITOITE_ORE_BLOCK = registerOreBlock("benitoite_ore", DyeColor.LIGHT_BLUE);
 
@@ -273,11 +273,16 @@ public final class Content {
         }
 
         private static RegistryObject<ModBlock> registerOreBlock(final String name, final DyeColor color) {
+            return registerOreBlock(name, color, 3, 5);
+        }
+
+        private static RegistryObject<ModBlock> registerOreBlock(final String name, final DyeColor color,
+                                                                 final int minDroppedXP, final int maxDroppedXP) {
             return BLOCKS.register(name,
                     () -> new ModOreBlock(Block.Properties.create(Material.ROCK, color)
                             .sound(SoundType.STONE)
                             .setRequiresTool()
-                            .hardnessAndResistance(3.0F, 3.0F), 3, 5));
+                            .hardnessAndResistance(3.0F, 3.0F), minDroppedXP, maxDroppedXP));
         }
 
         @SuppressWarnings("unchecked")
