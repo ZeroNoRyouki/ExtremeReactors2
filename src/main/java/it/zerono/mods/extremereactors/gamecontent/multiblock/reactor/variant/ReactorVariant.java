@@ -52,8 +52,8 @@ public enum ReactorVariant
             .setMaxEnergyExtractionRate(5000000)
             .setRadiationAttenuation(0.75f)
             .setResidualRadiationAttenuation(0.15f)
-            .setPartCoolantCapacity(4567)
-            .setMaxCoolantCapacity(200000)
+            .setPartFluidCapacity(4567)
+            .setMaxFluidCapacity(200000)
             .setVaporGenerationEfficiency(0.85f)
             .setSolidFuelConversionEfficiency(0.75f)
             .setFluidFuelConversionEfficiency(0.8f)),
@@ -141,13 +141,13 @@ public enum ReactorVariant
     }
 
     @Override
-    public int getPartCoolantCapacity() {
-        return this._partCoolantCapacity;
+    public int getPartFluidCapacity() {
+        return this._partFluidCapacity;
     }
 
     @Override
-    public int getMaxCoolantCapacity() {
-        return this._maxCoolantCapacity;
+    public int getMaxFluidCapacity() {
+        return this._maxFluidCapacity;
     }
 
     @Override
@@ -173,8 +173,8 @@ public enum ReactorVariant
         this._residualRadiationAttenuation = builder._residualRadiationAttenuation;
         this._solidFuelConversionEfficiency = builder._solidFuelConversionEfficiency;
         this._fluidFuelConversionEfficiency = builder._fluidFuelConversionEfficiency;
-        this._partCoolantCapacity = builder._partCoolantCapacity;
-        this._maxCoolantCapacity = builder._maxCoolantCapacity;
+        this._partFluidCapacity = builder._partFluidCapacity;
+        this._maxFluidCapacity = builder._maxFluidCapacity;
         this._vaporGenerationEfficiency = builder._vaporGenerationEfficiency;
         this._partTest = builder._partTest;
     }
@@ -259,17 +259,17 @@ public enum ReactorVariant
             return this;
         }
 
-        public Builder setPartCoolantCapacity(final int capacity) {
+        public Builder setPartFluidCapacity(final int capacity) {
 
             Preconditions.checkArgument(capacity > 0);
-            this._partCoolantCapacity = capacity;
+            this._partFluidCapacity = capacity;
             return this;
         }
 
-        public Builder setMaxCoolantCapacity(final int capacity) {
+        public Builder setMaxFluidCapacity(final int capacity) {
 
             Preconditions.checkArgument(capacity > 0);
-            this._maxCoolantCapacity = capacity;
+            this._maxFluidCapacity = capacity;
             return this;
         }
 
@@ -315,8 +315,8 @@ public enum ReactorVariant
         private int _partEnergyCapacity;
         private float _energyGenerationEfficiency;
         private double _maxEnergyExtractionRate;
-        private int _partCoolantCapacity;
-        private int _maxCoolantCapacity;
+        private int _partFluidCapacity;
+        private int _maxFluidCapacity;
         private float _vaporGenerationEfficiency;
 
         private float _radiationAttenuation;
@@ -332,7 +332,7 @@ public enum ReactorVariant
     }
 
     private static final Set<ReactorPartType> BASIC_INVALID_PARTS = Sets.immutableEnumSet(ReactorPartType.ComputerPort,
-            ReactorPartType.ActiveCoolantPortForge, ReactorPartType.PassiveCoolantPortForge, ReactorPartType.CreativeCoolantPort);
+            ReactorPartType.ActiveFluidPortForge, ReactorPartType.PassiveFluidPortForge, ReactorPartType.CreativeWaterGenerator);
 
     private final String _translationKey;
 
@@ -344,8 +344,8 @@ public enum ReactorVariant
     private final int _partEnergyCapacity;
     private final float _energyGenerationEfficiency;
     private final double _maxEnergyExtractionRate;
-    private final int _partCoolantCapacity;
-    private final int _maxCoolantCapacity;
+    private final int _partFluidCapacity;
+    private final int _maxFluidCapacity;
     private final float _vaporGenerationEfficiency;
 
     private final float _radiationAttenuation;

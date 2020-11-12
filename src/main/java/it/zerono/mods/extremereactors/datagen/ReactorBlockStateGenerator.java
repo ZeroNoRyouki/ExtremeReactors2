@@ -20,7 +20,6 @@ package it.zerono.mods.extremereactors.datagen;
 
 import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.gamecontent.Content;
-import it.zerono.mods.zerocore.lib.datagen.provider.multiblock.AbstractCuboidMultiblockBlockStateProvider;
 import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.state.properties.BlockStateProperties;
@@ -74,8 +73,8 @@ public class ReactorBlockStateGenerator
         this.genRedstonePort(Content.Blocks.REACTOR_REDSTONEPORT_REINFORCED, variant);
         this.genericPart(Content.Blocks.REACTOR_POWERTAP_FE_ACTIVE_REINFORCED, "powertap_fe_active", variant, true);
         this.genericPart(Content.Blocks.REACTOR_POWERTAP_FE_PASSIVE_REINFORCED, "powertap_fe_passive", variant, true);
-        this.genCoolantPort(Content.Blocks.REACTOR_COOLANTPORT_FORGE_ACTIVE_REINFORCED, "coolantport_forge_active", variant);
-        this.genCoolantPort(Content.Blocks.REACTOR_COOLANTPORT_FORGE_PASSIVE_REINFORCED, "coolantport_forge_passive", variant);
+        this.genCoolantPort(Content.Blocks.REACTOR_FLUIDTPORT_FORGE_ACTIVE_REINFORCED, "coolantport_forge_active", variant);
+        this.genCoolantPort(Content.Blocks.REACTOR_FLUIDPORT_FORGE_PASSIVE_REINFORCED, "coolantport_forge_passive", variant);
         this.genComputerPort(Content.Blocks.REACTOR_COMPUTERPORT_REINFORCED, variant);
         //endregion
     }

@@ -1,10 +1,5 @@
 {
     "__comment": "Model generated using MrCrayfish's Model Creator (http://mrcrayfish.com/modelcreator/)",
-    "textures": {
-        "0": "bigreactors:blocks/turbine/legacy/rotorshaft",
-        "-1": "bigreactors:blocks/turbine/legacy/rotorblade",
-        "particle": "bigreactors:blocks/turbine/legacy/rotorblade"
-    },
     "elements": [
         {
             "name": "shaft side 1A",

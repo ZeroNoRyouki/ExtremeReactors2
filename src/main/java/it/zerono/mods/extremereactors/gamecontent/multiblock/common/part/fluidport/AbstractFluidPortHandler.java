@@ -1,6 +1,6 @@
 /*
  *
- * AbstractCoolantPortHandler.java
+ * AbstractFluidPortHandler.java
  *
  * This file is part of Extreme Reactors 2 by ZeroNoRyouki, a Minecraft mod.
  *
@@ -16,7 +16,7 @@
  *
  */
 
-package it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.coolantport;
+package it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.fluidport;
 
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.AbstractGeneratorMultiblockController;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.AbstractIOPortHandler;
@@ -25,12 +25,12 @@ import it.zerono.mods.zerocore.lib.data.IIoEntity;
 import it.zerono.mods.zerocore.lib.data.IoMode;
 import it.zerono.mods.zerocore.lib.multiblock.cuboid.AbstractCuboidMultiblockPart;
 
-public abstract class AbstractCoolantPortHandler<Controller extends AbstractGeneratorMultiblockController<Controller, V>,
+public abstract class AbstractFluidPortHandler<Controller extends AbstractGeneratorMultiblockController<Controller, V>,
             V extends IMultiblockGeneratorVariant, P extends AbstractCuboidMultiblockPart<Controller> & IIoEntity>
         extends AbstractIOPortHandler<Controller, V>
-        implements ICoolantPortHandler<Controller, V> {
+        implements IFluidPortHandler<Controller, V> {
 
-    protected AbstractCoolantPortHandler(final CoolantPortType type, final P part, final IoMode mode) {
+    protected AbstractFluidPortHandler(final FluidPortType type, final P part, final IoMode mode) {
 
         super(part, mode);
         this._type = type;
@@ -49,22 +49,22 @@ public abstract class AbstractCoolantPortHandler<Controller extends AbstractGene
         return this.getIoEntity().getIoDirection().isOutput();
     }
 
-    //region ICoolantPortHandler
+    //region IFluidPortHandler
 
     /**
-     * Get the {@link CoolantPortType} supported by this ICoolantPortHandler
+     * Get the {@link FluidPortType} supported by this IFluidPortHandler
      *
-     * @return the supported {@link CoolantPortType}
+     * @return the supported {@link FluidPortType}
      */
     @Override
-    public CoolantPortType getCoolantPortType() {
+    public FluidPortType getFluidPortType() {
         return this._type;
     }
 
     //endregion
     //region internals
 
-    private final CoolantPortType _type;
+    private final FluidPortType _type;
 
 
     //endregion

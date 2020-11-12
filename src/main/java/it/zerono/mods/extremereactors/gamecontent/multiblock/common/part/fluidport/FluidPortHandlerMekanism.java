@@ -1,6 +1,6 @@
 /*
  *
- * CoolantPortHandlerMekanism.java
+ * FluidPortHandlerMekanism.java
  *
  * This file is part of Extreme Reactors 2 by ZeroNoRyouki, a Minecraft mod.
  *
@@ -16,7 +16,7 @@
  *
  */
 
-package it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.coolantport;
+package it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.fluidport;
 
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.AbstractGeneratorMultiblockController;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.variant.IMultiblockGeneratorVariant;
@@ -29,16 +29,16 @@ import net.minecraftforge.fluids.FluidStack;
 
 import javax.annotation.Nullable;
 
-public class CoolantPortHandlerMekanism<Controller extends AbstractGeneratorMultiblockController<Controller, V>,
+public class FluidPortHandlerMekanism<Controller extends AbstractGeneratorMultiblockController<Controller, V>,
         V extends IMultiblockGeneratorVariant, P extends AbstractCuboidMultiblockPart<Controller> & IIoEntity>
-        extends AbstractCoolantPortHandler<Controller, V, P> {
+        extends AbstractFluidPortHandler<Controller, V, P> {
 
-    public CoolantPortHandlerMekanism(final P part, final IoMode mode) {
+    public FluidPortHandlerMekanism(final P part, final IoMode mode) {
 
-        super(CoolantPortType.Mekanism, part, mode);
+        super(FluidPortType.Mekanism, part, mode);
     }
 
-    //region ICoolantPortHandler
+    //region IFluidPortHandler
 
     /**
      * Send fluid to the connected consumer (if there is one)
@@ -53,7 +53,7 @@ public class CoolantPortHandlerMekanism<Controller extends AbstractGeneratorMult
     }
 
     /**
-     * If this is a Active Coolant Port in input mode, try to get fluids from the connected consumer (if there is one)
+     * If this is a Active Fluid Port in input mode, try to get fluids from the connected consumer (if there is one)
      */
     @Override
     public void inputFluid() {

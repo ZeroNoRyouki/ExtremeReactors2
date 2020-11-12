@@ -1,6 +1,6 @@
 /*
  *
- * ICoolantPort.java
+ * ReactorCreativeCoolantPortEntity.java
  *
  * This file is part of Extreme Reactors 2 by ZeroNoRyouki, a Minecraft mod.
  *
@@ -16,15 +16,14 @@
  *
  */
 
-package it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.coolantport;
+package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part;
 
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.AbstractGeneratorMultiblockController;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.variant.IMultiblockGeneratorVariant;
-import it.zerono.mods.zerocore.lib.data.IIoEntity;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.fluidport.FluidPortType;
 
-public interface ICoolantPort<Controller extends AbstractGeneratorMultiblockController<Controller, V>,
-            V extends IMultiblockGeneratorVariant>
-        extends IIoEntity {
+public class ReactorCreativeFluidPortEntity extends ReactorFluidPortEntity {
 
-    ICoolantPortHandler<Controller, V> getCoolantPortHandler();
+    @SuppressWarnings("ConstantConditions")
+    public ReactorCreativeFluidPortEntity() {
+        super(FluidPortType.Forge, null, null); //TODO fix TE
+    }
 }

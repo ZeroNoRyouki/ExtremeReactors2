@@ -411,11 +411,15 @@ public class MultiblockTurbine
 
         this.getEnergyBuffer().getDebugMessages(side, messages);
 
-        messages.addUnlocalized("Internal data:");
-        this._data.getDebugMessages(side, messages);
+//        messages.addUnlocalized("Internal data:");
+//        this._data.getDebugMessages(side, messages);
 
-        messages.addUnlocalized("Fluids Tanks:");
-        this._fluidContainer.getDebugMessages(side, messages);
+        messages.addUnlocalized("begin");
+
+        messages.add(side, this._data, "Internal data:");
+        messages.add(side, this._fluidContainer, "Fluids Tanks:");
+
+        messages.addUnlocalized("end");
     }
 
     //endregion

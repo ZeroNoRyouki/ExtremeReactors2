@@ -1,6 +1,6 @@
 /*
  *
- * ForgeCoolantPortHandler.java
+ * FluidPortHandlerForge.java
  *
  * This file is part of Extreme Reactors 2 by ZeroNoRyouki, a Minecraft mod.
  *
@@ -16,7 +16,7 @@
  *
  */
 
-package it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.coolantport;
+package it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.fluidport;
 
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.AbstractGeneratorMultiblockController;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.variant.IMultiblockGeneratorVariant;
@@ -36,23 +36,23 @@ import net.minecraftforge.fluids.capability.templates.EmptyFluidHandler;
 
 import javax.annotation.Nullable;
 
-public class CoolantPortHandlerForge<Controller extends AbstractGeneratorMultiblockController<Controller, V>,
+public class FluidPortHandlerForge<Controller extends AbstractGeneratorMultiblockController<Controller, V>,
             V extends IMultiblockGeneratorVariant, P extends AbstractCuboidMultiblockPart<Controller> & IIoEntity>
-        extends AbstractCoolantPortHandler<Controller, V, P>
+        extends AbstractFluidPortHandler<Controller, V, P>
         implements IFluidHandler {
 
-    public CoolantPortHandlerForge(final P part, final IoMode mode) {
+    public FluidPortHandlerForge(final P part, final IoMode mode) {
 
-        super(CoolantPortType.Forge, part, mode);
+        super(FluidPortType.Forge, part, mode);
         this._capability = LazyOptional.of(() -> this);
         this._capabilityForwarder = new FluidHandlerForwarder(EmptyFluidHandler.INSTANCE);
         this._consumer = null;
     }
 
-    //region ICoolantPortHandler
+    //region IFluidPortHandler
 
     /**
-     * If this is a Active Coolant Port in output mode, send fluid to the connected consumer (if there is one)
+     * If this is a Active Fluid Port in output mode, send fluid to the connected consumer (if there is one)
      *
      * @param stack FluidStack representing the Fluid and maximum amount of fluid to be sent out.
      * @return the amount of fluid accepted by the consumer
@@ -68,7 +68,7 @@ public class CoolantPortHandlerForge<Controller extends AbstractGeneratorMultibl
     }
 
     /**
-     * If this is a Active Coolant Port in input mode, try to get fluids from the connected consumer (if there is one)
+     * If this is a Active Fluid Port in input mode, try to get fluids from the connected consumer (if there is one)
      */
     @Override
     public void inputFluid() {
@@ -100,7 +100,7 @@ public class CoolantPortHandlerForge<Controller extends AbstractGeneratorMultibl
     @Override
     public void checkConnections(@Nullable final IBlockReader world, final BlockPos position) {
         this._consumer = this.lookupConsumer(world, position, CAPAP_FORGE_FLUIDHANDLER,
-                te -> te instanceof ICoolantPortHandler, this._consumer);
+                te -> te instanceof IFluidPortHandler, this._consumer);
         /*
         boolean wasConnected = null != this._consumer;
 
@@ -120,7 +120,7 @@ public class CoolantPortHandlerForge<Controller extends AbstractGeneratorMultibl
 
                     final TileEntity te = world.getTileEntity(position.offset(approachDirection));
 
-                    if (null != te && !(te instanceof ICoolantPortHandler)) {
+                    if (null != te && !(te instanceof IFluidPortHandler)) {
 
                         final LazyOptional<IFluidHandler> capability = te.getCapability(CAPAP_FORGE_FLUIDHANDLER, approachDirection.getOpposite());
 

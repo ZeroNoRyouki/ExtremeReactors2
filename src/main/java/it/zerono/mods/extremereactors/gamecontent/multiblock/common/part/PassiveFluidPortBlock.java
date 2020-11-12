@@ -1,6 +1,6 @@
 /*
  *
- * PassiveCoolantPortBlock.java
+ * PassiveFluidPortBlock.java
  *
  * This file is part of Extreme Reactors 2 by ZeroNoRyouki, a Minecraft mod.
  *
@@ -30,11 +30,11 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidUtil;
 
-public class PassiveCoolantPortBlock<Controller extends IMultiblockController<Controller>,
+public class PassiveFluidPortBlock<Controller extends IMultiblockController<Controller>,
         PartType extends Enum<PartType> & IMultiblockPartType>
     extends IOPortBlock<Controller, PartType> {
 
-    public PassiveCoolantPortBlock(final MultiblockPartProperties<PartType> properties) {
+    public PassiveFluidPortBlock(final MultiblockPartProperties<PartType> properties) {
         super(properties);
     }
 

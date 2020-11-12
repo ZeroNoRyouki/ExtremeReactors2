@@ -34,7 +34,7 @@ import java.util.function.Predicate;
 public enum TurbineVariant
     implements IMultiblockTurbineVariant {
 
-    Basic(TurbineVariant.Builder.create(5)
+    Basic(TurbineVariant.Builder.create(5, 10)
             .setTranslationKey("variant.bigreactors.turbine.basic")
             .setBlockPropertiesFixer(bp -> bp.hardnessAndResistance(3.0F, 6.0F))
             .setPartEnergyCapacity(10000)
@@ -62,8 +62,8 @@ public enum TurbineVariant
             .setMaxRotorSpeed(2000.0f) //TODO new value
             .setRotorBladeMass(10) //TODO new value
             .setRotorShaftMass(10) //TODO new value
-            .setPartCoolantCapacity(4567) //TODO new value
-            .setMaxCoolantCapacity(200000) //TODO new value
+            .setPartFluidCapacity(4567) //TODO new value
+            .setMaxFluidCapacity(200000) //TODO new value
             .setVaporGenerationEfficiency(0.85f)),
     ;
 
@@ -169,13 +169,13 @@ public enum TurbineVariant
     }
 
     @Override
-    public int getPartCoolantCapacity() {
-        return this._partCoolantCapacity;
+    public int getPartFluidCapacity() {
+        return this._partFluidCapacity;
     }
 
     @Override
-    public int getMaxCoolantCapacity() {
-        return this._maxCoolantCapacity;
+    public int getMaxFluidCapacity() {
+        return this._maxFluidCapacity;
     }
 
     @Override
@@ -199,8 +199,8 @@ public enum TurbineVariant
         this._maxEnergyExtractionRate = builder._maxEnergyExtractionRate;
         this._radiationAttenuation = builder._radiationAttenuation;
         this._residualRadiationAttenuation = builder._residualRadiationAttenuation;
-        this._partCoolantCapacity = builder._partCoolantCapacity;
-        this._maxCoolantCapacity = builder._maxCoolantCapacity;
+        this._partFluidCapacity = builder._partFluidCapacity;
+        this._maxFluidCapacity = builder._maxFluidCapacity;
         this._vaporGenerationEfficiency = builder._vaporGenerationEfficiency;
         this._rotorShaftMass = builder._rotorShaftMass;
         this._rotorBladeMass = builder._rotorBladeMass;
@@ -277,17 +277,17 @@ public enum TurbineVariant
             return this;
         }
 
-        public Builder setPartCoolantCapacity(final int capacity) {
+        public Builder setPartFluidCapacity(final int capacity) {
 
             Preconditions.checkArgument(capacity > 0);
-            this._partCoolantCapacity = capacity;
+            this._partFluidCapacity = capacity;
             return this;
         }
 
-        public Builder setMaxCoolantCapacity(final int capacity) {
+        public Builder setMaxFluidCapacity(final int capacity) {
 
             Preconditions.checkArgument(capacity > 0);
-            this._maxCoolantCapacity = capacity;
+            this._maxFluidCapacity = capacity;
             return this;
         }
 
@@ -369,8 +369,8 @@ public enum TurbineVariant
         private int _partEnergyCapacity;
         private float _energyGenerationEfficiency;
         private double _maxEnergyExtractionRate;
-        private int _partCoolantCapacity;
-        private int _maxCoolantCapacity;
+        private int _partFluidCapacity;
+        private int _maxFluidCapacity;
         private float _vaporGenerationEfficiency;
 
         private float _radiationAttenuation;
@@ -391,7 +391,7 @@ public enum TurbineVariant
     }
 
     private static final Set<TurbinePartType> BASIC_INVALID_PARTS = Sets.immutableEnumSet(TurbinePartType.ComputerPort,
-            TurbinePartType.ActiveFluidPortForge, TurbinePartType.PassiveFluidPortForge, TurbinePartType.CreativeFluidPort);
+            TurbinePartType.ActiveFluidPortForge, TurbinePartType.PassiveFluidPortForge, TurbinePartType.CreativeSteamGenerator);
 
     private final String _translationKey;
 
@@ -403,8 +403,8 @@ public enum TurbineVariant
     private final int _partEnergyCapacity;
     private final float _energyGenerationEfficiency;
     private final double _maxEnergyExtractionRate;
-    private final int _partCoolantCapacity;
-    private final int _maxCoolantCapacity;
+    private final int _partFluidCapacity;
+    private final int _maxFluidCapacity;
     private final float _vaporGenerationEfficiency;
 
     private final float _radiationAttenuation;

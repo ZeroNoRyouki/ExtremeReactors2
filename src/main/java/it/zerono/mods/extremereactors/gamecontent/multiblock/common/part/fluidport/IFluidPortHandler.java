@@ -1,6 +1,6 @@
 /*
  *
- * ICoolantPortHandler.java
+ * IFluidPortHandler.java
  *
  * This file is part of Extreme Reactors 2 by ZeroNoRyouki, a Minecraft mod.
  *
@@ -16,7 +16,7 @@
  *
  */
 
-package it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.coolantport;
+package it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.fluidport;
 
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.AbstractGeneratorMultiblockController;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.IIOPortHandler;
@@ -26,36 +26,36 @@ import it.zerono.mods.zerocore.lib.data.IoMode;
 import it.zerono.mods.zerocore.lib.multiblock.cuboid.AbstractCuboidMultiblockPart;
 import net.minecraftforge.fluids.FluidStack;
 
-public interface ICoolantPortHandler<Controller extends AbstractGeneratorMultiblockController<Controller, V>,
+public interface IFluidPortHandler<Controller extends AbstractGeneratorMultiblockController<Controller, V>,
             V extends IMultiblockGeneratorVariant>
         extends IIOPortHandler {
 
     static <Controller extends AbstractGeneratorMultiblockController<Controller, V>, V extends IMultiblockGeneratorVariant,
             P extends AbstractCuboidMultiblockPart<Controller> & IIoEntity>
-        ICoolantPortHandler<Controller, V> create(final CoolantPortType type, final IoMode mode, final P part) {
+    IFluidPortHandler<Controller, V> create(final FluidPortType type, final IoMode mode, final P part) {
 
         switch (type) {
 
             case Forge:
-                return new CoolantPortHandlerForge<>(part, mode);
+                return new FluidPortHandlerForge<>(part, mode);
 
             case Mekanism:
-                return new CoolantPortHandlerMekanism<>(part, mode);
+                return new FluidPortHandlerMekanism<>(part, mode);
 
             default:
-                throw new IllegalArgumentException("Unsupported Coolant Port: " + type);
+                throw new IllegalArgumentException("Unsupported Fluid Port: " + type);
         }
     }
 
     /**
-     * Get the {@link CoolantPortType} supported by this ICoolantPortHandler
+     * Get the {@link FluidPortType} supported by this IFluidPortHandler
      *
-     * @return the supported {@link CoolantPortType}
+     * @return the supported {@link FluidPortType}
      */
-    CoolantPortType getCoolantPortType();
+    FluidPortType getFluidPortType();
 
     /**
-     * If this is a Active Coolant Port in output mode, send fluid to the connected consumer (if there is one)
+     * If this is a Active Fluid Port in output mode, send fluid to the connected consumer (if there is one)
      *
      * @param stack FluidStack representing the Fluid and maximum amount of fluid to be sent out.
      * @return the amount of fluid accepted by the consumer
@@ -64,7 +64,7 @@ public interface ICoolantPortHandler<Controller extends AbstractGeneratorMultibl
 
 
     /**
-     * If this is a Active Coolant Port in input mode, try to get fluids from the connected consumer (if there is one)
+     * If this is a Active Fluid Port in input mode, try to get fluids from the connected consumer (if there is one)
      */
     void inputFluid();
 }

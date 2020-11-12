@@ -1,6 +1,6 @@
 /*
  *
- * CoolantPortType.java
+ * IFluidPort.java
  *
  * This file is part of Extreme Reactors 2 by ZeroNoRyouki, a Minecraft mod.
  *
@@ -16,18 +16,15 @@
  *
  */
 
-package it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.coolantport;
+package it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.fluidport;
 
-public enum CoolantPortType {
+import it.zerono.mods.extremereactors.gamecontent.multiblock.common.AbstractGeneratorMultiblockController;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.common.variant.IMultiblockGeneratorVariant;
+import it.zerono.mods.zerocore.lib.data.IIoEntity;
 
-    /**
-     * Standard Forge IFluidHandler capability
-     */
-    Forge,
+public interface IFluidPort<Controller extends AbstractGeneratorMultiblockController<Controller, V>,
+            V extends IMultiblockGeneratorVariant>
+        extends IIoEntity {
 
-    /**
-     * Mekanism IGasHandler capability
-     */
-    Mekanism
-    ;
+    IFluidPortHandler<Controller, V> getFluidPortHandler();
 }

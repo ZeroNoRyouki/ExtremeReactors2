@@ -21,10 +21,10 @@ package it.zerono.mods.extremereactors.datagen;
 import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part.TurbineRotorComponentBlock;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.rotor.RotorBladeState;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.rotor.RotorShaftState;
 import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.state.EnumProperty;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.generators.BlockModelProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
@@ -38,7 +38,30 @@ public class TurbineBlockStateGenerator
         extends AbstractMultiblockBlockStateGenerator {
 
     public TurbineBlockStateGenerator(final DataGenerator gen, final ExistingFileHelper exFileHelper) {
+
         super(gen, exFileHelper);
+
+        final BlockModelProvider mbp = this.models();
+
+        this.TRANSPARENT_BLOCK_MODEL = mbp.getExistingFile(this.modLoc(ModelProvider.BLOCK_FOLDER + "/transparentblock"));
+//
+//        this.ROTOR_SHAFT_Z_0C_MODEL = mbp.getExistingFile(this.modLoc(fullResourceName("rotor_shaft_z_0c")));
+//        this.ROTOR_SHAFT_Z_2C_MODEL = mbp.getExistingFile(this.modLoc(fullResourceName("rotor_shaft_z_2c")));
+//        this.ROTOR_SHAFT_Z_2CY_MODEL = mbp.getExistingFile(this.modLoc(fullResourceName("rotor_shaft_z_2cy")));
+//        this.ROTOR_SHAFT_Z_4C_MODEL = mbp.getExistingFile(this.modLoc(fullResourceName("rotor_shaft_z_4c")));
+//
+//        this.ROTOR_BLADE_Z_MODEL = mbp.getExistingFile(this.modLoc(fullResourceName("rotor_blade_z")));
+//        this.ROTOR_BLADE_ZY_MODEL = mbp.getExistingFile(this.modLoc(fullResourceName("rotor_blade_zy")));
+
+//        this.TRANSPARENT_BLOCK_ID = this.modLoc(ModelProvider.BLOCK_FOLDER + "/transparentblock");
+
+        this.ROTOR_SHAFT_Z_0C_ID = this.modLoc(fullResourceName("rotor_shaft_z_0c"));
+        this.ROTOR_SHAFT_Z_2C_ID = this.modLoc(fullResourceName("rotor_shaft_z_2c"));
+        this.ROTOR_SHAFT_Z_2CY_ID = this.modLoc(fullResourceName("rotor_shaft_z_2cy"));
+        this.ROTOR_SHAFT_Z_4C_ID = this.modLoc(fullResourceName("rotor_shaft_z_4c"));
+
+        this.ROTOR_BLADE_Z_ID = this.modLoc(fullResourceName("rotor_blade_z"));
+        this.ROTOR_BLADE_ZY_ID = this.modLoc(fullResourceName("rotor_blade_zy"));
     }
 
     //region IDataProvider
@@ -62,9 +85,9 @@ public class TurbineBlockStateGenerator
         this.genGlass(Content.Blocks.TURBINE_GLASS_BASIC, "glass", variant);
         this.genController(Content.Blocks.TURBINE_CONTROLLER_BASIC, variant);
 
-        //TURBINE_ROTORBEARING_BASIC
-        //TURBINE_ROTORSHAFT_BASIC
-        //TURBINE_ROTORBLADE_BASIC
+        this.genericPart(Content.Blocks.TURBINE_ROTORBEARING_BASIC, "bearing", variant, true);
+        this.genShaft(Content.Blocks.TURBINE_ROTORSHAFT_BASIC, "rotorshaft", variant);
+        this.genBlade(Content.Blocks.TURBINE_ROTORBLADE_BASIC, "rotorblade", variant);
 
         this.genRedstonePort(Content.Blocks.TURBINE_REDSTONEPORT_BASIC, variant);
         this.genericPart(Content.Blocks.TURBINE_POWERTAP_FE_ACTIVE_BASIC, "powertap_fe_active", variant, true);
@@ -81,9 +104,9 @@ public class TurbineBlockStateGenerator
         this.genGlass(Content.Blocks.TURBINE_GLASS_REINFORCED, "glass", variant);
         this.genController(Content.Blocks.TURBINE_CONTROLLER_REINFORCED, variant);
 
-        //TURBINE_ROTORBEARING_REINFORCED
-        //TURBINE_ROTORSHAFT_REINFORCED
-        //TURBINE_ROTORBLADE_REINFORCED
+        this.genericPart(Content.Blocks.TURBINE_ROTORBEARING_REINFORCED, "bearing", variant, true);
+        this.genShaft(Content.Blocks.TURBINE_ROTORSHAFT_REINFORCED, "rotorshaft", variant);
+        this.genBlade(Content.Blocks.TURBINE_ROTORBLADE_REINFORCED, "rotorblade", variant);
 
         this.genRedstonePort(Content.Blocks.TURBINE_REDSTONEPORT_REINFORCED, variant);
         this.genericPart(Content.Blocks.TURBINE_POWERTAP_FE_ACTIVE_REINFORCED, "powertap_fe_active", variant, true);
@@ -97,145 +120,148 @@ public class TurbineBlockStateGenerator
 
     //endregion
     //region internals
-//
-//    protected void genShaft(final Supplier<? extends Block> block, final String resourceName, final String subFolder) {
-//        this.genShaft(block.get(), resourceName, subFolder);
+
+    protected void genShaft(final Supplier<? extends Block> block, final String resourceName, final String subFolder) {
+        this.genShaft(block.get(), resourceName, subFolder);
+    }
+
+    protected void genShaft(final Block block, final String resourceName, final String subFolder) {
+
+        final ResourceLocation textureId0 = this.modLoc(fullResourceName(resourceName, subFolder));
+        final ResourceLocation textureId1 = this.modLoc(fullResourceName(resourceName, subFolder));
+
+        final BlockModelProvider mbp = this.models();
+//        final ModelFile z0c = mbp.withExistingParent(fullResourceName(resourceName + "_z_0c", subFolder), this.ROTOR_SHAFT_Z_0C_ID).texture("0", textureId0).texture("1", textureId1);
+//        final ModelFile z2c = mbp.withExistingParent(fullResourceName(resourceName + "_z_2c", subFolder), this.ROTOR_SHAFT_Z_2C_ID).texture("0", textureId0).texture("1", textureId1);
+//        final ModelFile z2cy = mbp.withExistingParent(fullResourceName(resourceName + "_z_2cy", subFolder), this.ROTOR_SHAFT_Z_2CY_ID).texture("0", textureId0).texture("1", textureId1);
+//        final ModelFile z4c = mbp.withExistingParent(fullResourceName(resourceName + "_z_4c", subFolder), this.ROTOR_SHAFT_Z_4C_ID).texture("0", textureId0).texture("1", textureId1);
+
+        ResourceLocation i = new ResourceLocation("block/emerald_block");
+//        final ModelFile z0c = mbp.getExistingFile(i);
+//        final ModelFile z2c = mbp.getExistingFile(i);
+//        final ModelFile z2cy =mbp.getExistingFile(i);
+//        final ModelFile z4c = mbp.getExistingFile(i);
+
+        final ModelFile z0c = mbp.withExistingParent(fullResourceName(resourceName + "_z0c", subFolder), i);
+        final ModelFile z2c = mbp.withExistingParent(fullResourceName(resourceName + "_z2c", subFolder), i);
+        final ModelFile z2cy = mbp.withExistingParent(fullResourceName(resourceName + "_z2cy", subFolder), i);
+        final ModelFile z4c = mbp.withExistingParent(fullResourceName(resourceName + "_z4c", subFolder), i);
+
+        this.simpleBlockItem(block, z0c);
+
+        this.genShaftVariant(block, RotorShaftState.HIDDEN, this.TRANSPARENT_BLOCK_MODEL, 0, 0);
+
+        this.genShaftVariant(block, RotorShaftState.Y_NOBLADES, z0c, -90, 0);
+        this.genShaftVariant(block, RotorShaftState.Y_X, z2c, -90, 0);
+        this.genShaftVariant(block, RotorShaftState.Y_Z, z2c, -90, 90);
+        this.genShaftVariant(block, RotorShaftState.Y_XZ, z4c, -90, 0);
+
+        this.genShaftVariant(block, RotorShaftState.X_NOBLADES, z0c, 0, -90);
+        this.genShaftVariant(block, RotorShaftState.X_Y, z2cy, 0, 90);
+        this.genShaftVariant(block, RotorShaftState.X_Z, z2c, 0, -90);
+        this.genShaftVariant(block, RotorShaftState.X_YZ, z4c, 0, -90);
+
+        this.genShaftVariant(block, RotorShaftState.Z_NOBLADES, z0c, 0, 0);
+        this.genShaftVariant(block, RotorShaftState.Z_Y, z2cy, 0, 0);
+        this.genShaftVariant(block, RotorShaftState.Z_X, z2c, 0, 0);
+        this.genShaftVariant(block, RotorShaftState.Z_XY, z4c, 0, 0);
+    }
+
+    protected void genBlade(final Supplier<? extends Block> block, final String resourceName, final String subFolder) {
+        this.genBlade(block.get(), resourceName, subFolder);
+    }
+
+    protected void genBlade(final Block block, final String resourceName, final String subFolder) {
+
+        final ResourceLocation textureId0 = this.modLoc(fullResourceName(resourceName, subFolder));
+        final ResourceLocation textureId1 = this.modLoc(fullResourceName(resourceName, subFolder));
+
+        final BlockModelProvider mbp = this.models();
+//        final ModelFile z = mbp.withExistingParent(fullResourceName(resourceName + "_z", subFolder), this.ROTOR_BLADE_Z_ID).texture("0", textureId0).texture("1", textureId1);
+//        final ModelFile zy = mbp.withExistingParent(fullResourceName(resourceName + "_zy", subFolder), this.ROTOR_BLADE_ZY_ID).texture("0", textureId0).texture("1", textureId1);
+
+        ResourceLocation i = new ResourceLocation("block/gold_block");
+//        final ModelFile z = mbp.getExistingFile(i);
+//        final ModelFile zy = mbp.getExistingFile(i);
+
+        final ModelFile z = mbp.withExistingParent(fullResourceName(resourceName + "_z", subFolder), i);
+        final ModelFile zy = mbp.withExistingParent(fullResourceName(resourceName + "_zy", subFolder), i);
+
+        this.simpleBlockItem(block, z);
+
+        this.genBladeVariant(block, RotorBladeState.HIDDEN, this.TRANSPARENT_BLOCK_MODEL, 0, 0);
+
+        this.genBladeVariant(block, RotorBladeState.Y_X_POS, z, 90, 0);
+        this.genBladeVariant(block, RotorBladeState.Y_X_NEG, z, -90, 180);
+        this.genBladeVariant(block, RotorBladeState.Y_Z_POS, z, 90, 90);
+        this.genBladeVariant(block, RotorBladeState.Y_Z_NEG, z, -90, -90);
+        this.genBladeVariant(block, RotorBladeState.X_Y_POS, zy, 0, 90);
+        this.genBladeVariant(block, RotorBladeState.X_Y_NEG, zy, -180, -90);
+        this.genBladeVariant(block, RotorBladeState.X_Z_POS, z, 0, 90);
+        this.genBladeVariant(block, RotorBladeState.X_Z_NEG, z, 0, -90);
+        this.genBladeVariant(block, RotorBladeState.Z_Y_POS, zy, 0, 180);
+        this.genBladeVariant(block, RotorBladeState.Z_Y_NEG, zy, 180, 0);
+        this.genBladeVariant(block, RotorBladeState.Z_X_POS, z, 180, 0);
+        this.genBladeVariant(block, RotorBladeState.Z_X_NEG, zy, 180, 180);
+    }
+
+    private void genShaftVariant(final Block block, final RotorShaftState state, final ModelFile model,
+                                 final int rotateX, final int rotateY) {
+        this.genPropertyVariant(block, TurbineRotorComponentBlock.ROTOR_SHAFT_STATE, state, model, rotateX, rotateY, false);
+
+//        this.getVariantBuilder(block)
+//                .partialState()
+//                .with(TurbineRotorComponentBlock.ROTOR_SHAFT_STATE, state)
+//                .modelForState()
+//                .modelFile(model)
+//                .rotationX(rotateX)
+//                .rotationY(rotateY)
+//                .uvLock(false)
+//                .addModel();
+    }
+
+    private void genBladeVariant(final Block block, final RotorBladeState state, final ModelFile model,
+                                 final int rotateX, final int rotateY) {
+        this.genPropertyVariant(block, TurbineRotorComponentBlock.ROTOR_BLADE_STATE, state, model, rotateX, rotateY, false);
+    }
+
+//    private void genShaftVariant(Block block, RotorShaftState propertyValue, ModelFile model) {
+//        this.genPropertyVariant(block, TurbineRotorComponentBlock.ROTOR_SHAFT_STATE, propertyValue, model, 0, 0, false);
 //    }
 //
-//    protected void genShaft(final Block block, final String resourceName, final String subFolder) {
-//
-//        final BlockModelProvider mbp = this.models();
-//        final String fullResourceName = fullResourceName(resourceName, subFolder);
-//
-//        final ResourceLocation hidden = this.modLoc(ModelProvider.BLOCK_FOLDER + "/transparentblock");
-//        final ResourceLocation rotor_shaft_z_0c = this.modLoc(fullResourceName("rotor_shaft_z_0c"));
-//        final ResourceLocation rotor_shaft_z_2c = this.modLoc(fullResourceName("rotor_shaft_z_2c"));
-//        final ResourceLocation rotor_shaft_z_2cy = this.modLoc(fullResourceName("rotor_shaft_z_2cy"));
-//        final ResourceLocation rotor_shaft_z_4c = this.modLoc(fullResourceName("rotor_shaft_z_4c"));
-//
-//        ModelFile model;
-//
-//        // RotorShaftState.HIDDEN
-//
-//        model = mbp.cubeAll(hidden, glass0);
-//        this.genShaftVariant(block, RotorShaftState.HIDDEN, model);
-//        this.simpleBlockItem(block, model);
-//
-//        // BlockFacingsProperty.Face_* / glass_c1
-//
-//        model = mbp.cube(fullResourceName + "_c1", glass0, glass15, glass1, glass1, glass1, glass1).texture("particle", glass0);
-//        this.addGlassVariant(block, BlockFacingsProperty.Face_U, model);
-//        this.addGlassVariant(block, BlockFacingsProperty.Face_D, model, 180, 0);
-//        this.addGlassVariant(block, BlockFacingsProperty.Face_N, model, 90, 0);
-//        this.addGlassVariant(block, BlockFacingsProperty.Face_S, model, -90, 0);
-//        this.addGlassVariant(block, BlockFacingsProperty.Face_W, model, 90, -90);
-//        this.addGlassVariant(block, BlockFacingsProperty.Face_E, model, 90, 90);
-//
-//        // BlockFacingsProperty.Angle_* / glass_c2angle
-//
-//        model = mbp.cube(fullResourceName + "_c2angle", glass8, glass15, glass5, glass9, glass15, glass1).texture("particle", glass0);
-//        this.addGlassVariant(block, BlockFacingsProperty.Angle_EU, model);
-//        this.addGlassVariant(block, BlockFacingsProperty.Angle_UW, model, 0, 180);
-//        this.addGlassVariant(block, BlockFacingsProperty.Angle_DE, model, 180, 0);
-//        this.addGlassVariant(block, BlockFacingsProperty.Angle_DW, model, 180, 180);
-//        this.addGlassVariant(block, BlockFacingsProperty.Angle_NU, model, 0, -90);
-//        this.addGlassVariant(block, BlockFacingsProperty.Angle_SU, model, 0, 90);
-//        this.addGlassVariant(block, BlockFacingsProperty.Angle_DN, model, 180, -90);
-//        this.addGlassVariant(block, BlockFacingsProperty.Angle_DS, model, 180, 90);
-//        this.addGlassVariant(block, BlockFacingsProperty.Angle_EN, model, 90, 0);
-//        this.addGlassVariant(block, BlockFacingsProperty.Angle_ES, model, -90, 0);
-//        this.addGlassVariant(block, BlockFacingsProperty.Angle_NW, model, 90, -90);
-//        this.addGlassVariant(block, BlockFacingsProperty.Angle_SW, model, -90, 90);
-//
-//        // BlockFacingsProperty.Opposite_* / glass_c2
-//
-//        model = mbp.cube(fullResourceName + "_c2", glass15, glass15, glass3, glass3, glass3, glass3).texture("particle", glass0);
-//        this.addGlassVariant(block, BlockFacingsProperty.Opposite_DU, model);
-//        this.addGlassVariant(block, BlockFacingsProperty.Opposite_EW, model, -90, 90);
-//        this.addGlassVariant(block, BlockFacingsProperty.Opposite_NS, model, -90, 0);
-//
-//        // BlockFacingsProperty.CShape_* / glass_c3t1/glass_c3t2
-//
-//        model = mbp.cube(fullResourceName + "_c3t1", glass15, glass15, glass11, glass7, glass3, glass15).texture("particle", glass0);
-//        this.addGlassVariant(block, BlockFacingsProperty.CShape_DUW, model);
-//        this.addGlassVariant(block, BlockFacingsProperty.CShape_DSU, model, 0, -90);
-//        this.addGlassVariant(block, BlockFacingsProperty.CShape_DEU, model, 0, -180);
-//        this.addGlassVariant(block, BlockFacingsProperty.CShape_DNU, model, 0, 90);
-//        this.addGlassVariant(block, BlockFacingsProperty.CShape_NSW, model, -90, 0);
-//        this.addGlassVariant(block, BlockFacingsProperty.CShape_ENS, model, -90, 180);
-//
-//        model = mbp.cube(fullResourceName + "_c3t2", glass12, glass15, glass13, glass13, glass15, glass15).texture("particle", glass0);
-//        this.addGlassVariant(block, BlockFacingsProperty.CShape_EUW, model);
-//        this.addGlassVariant(block, BlockFacingsProperty.CShape_ESW, model, -90, 0);
-//        this.addGlassVariant(block, BlockFacingsProperty.CShape_DEW, model, 180, 0);
-//        this.addGlassVariant(block, BlockFacingsProperty.CShape_ENW, model, 90, 0);
-//        this.addGlassVariant(block, BlockFacingsProperty.CShape_NSU, model, 0, 90);
-//        this.addGlassVariant(block, BlockFacingsProperty.CShape_DNS, model, 180, 90);
-//
-//        // BlockFacingsProperty.Corner_* / glass_c3angle
-//
-//        model = mbp.cube(fullResourceName + "_c3angle", glass9, glass15, glass5, glass15, glass15, glass9).texture("particle", glass0);
-//        this.addGlassVariant(block, BlockFacingsProperty.Corner_ESU, model);
-//        this.addGlassVariant(block, BlockFacingsProperty.Corner_SUW, model, 0, 90);
-//        this.addGlassVariant(block, BlockFacingsProperty.Corner_ENU, model, 90, 0);
-//        this.addGlassVariant(block, BlockFacingsProperty.Corner_DEN, model, 180, 0);
-//        this.addGlassVariant(block, BlockFacingsProperty.Corner_DES, model, 270, 0);
-//        this.addGlassVariant(block, BlockFacingsProperty.Corner_DSW, model, 180, -180);
-//        this.addGlassVariant(block, BlockFacingsProperty.Corner_DNW, model, -90, -180);
-//        this.addGlassVariant(block, BlockFacingsProperty.Corner_NUW, model, 90, -90);
-//
-//        // BlockFacingsProperty.Pipe_* / glass_c4x
-//
-//        model = mbp.cube(fullResourceName + "_c4x", glass15, glass15, glass15, glass15, glass15, glass15).texture("particle", glass0);
-//        this.addGlassVariant(block, BlockFacingsProperty.Pipe_DEUW, model);
-//        this.addGlassVariant(block, BlockFacingsProperty.Pipe_ENSW, model, 90, 0);
-//        this.addGlassVariant(block, BlockFacingsProperty.Pipe_DNSU, model, 0, 90);
-//
-//        // BlockFacingsProperty.Misc_* / glass_c4angle
-//
-//        model = mbp.cube(fullResourceName + "_c4angle", glass15, glass15, glass15, glass7, glass11, glass15).texture("particle", glass0);
-//        this.addGlassVariant(block, BlockFacingsProperty.Misc_DNUW, model);
-//        this.addGlassVariant(block, BlockFacingsProperty.Misc_DNSW, model, 90, 0);
-//        this.addGlassVariant(block, BlockFacingsProperty.Misc_NSUW, model, -90, 0);
-//        this.addGlassVariant(block, BlockFacingsProperty.Misc_DSUW, model, 0, -90);
-//        this.addGlassVariant(block, BlockFacingsProperty.Misc_DENU, model, 0, 90);
-//        this.addGlassVariant(block, BlockFacingsProperty.Misc_DESU, model, 0, 180);
-//        this.addGlassVariant(block, BlockFacingsProperty.Misc_ENSU, model, -90, 180);
-//        this.addGlassVariant(block, BlockFacingsProperty.Misc_DENS, model, 90, 180);
-//        this.addGlassVariant(block, BlockFacingsProperty.Misc_ESUW, model, -90, -90);
-//        this.addGlassVariant(block, BlockFacingsProperty.Misc_DESW, model, -270, -90);
-//        this.addGlassVariant(block, BlockFacingsProperty.Misc_ENUW, model, -90, 90);
-//        this.addGlassVariant(block, BlockFacingsProperty.Misc_DENW, model, -270, -270);
-//
-//        // BlockFacingsProperty.PipeEnd_*/All / glass_c5-6
-//
-//        model = mbp.cubeAll(fullResourceName + "_c5-6", glass15);
-//        this.addGlassVariant(block, BlockFacingsProperty.PipeEnd_DENSW, model);
-//        this.addGlassVariant(block, BlockFacingsProperty.PipeEnd_DESUW, model);
-//        this.addGlassVariant(block, BlockFacingsProperty.PipeEnd_DNSUW, model);
-//        this.addGlassVariant(block, BlockFacingsProperty.PipeEnd_DENSU, model);
-//        this.addGlassVariant(block, BlockFacingsProperty.PipeEnd_DENUW, model);
-//        this.addGlassVariant(block, BlockFacingsProperty.PipeEnd_ENSUW, model);
-//        this.addGlassVariant(block, BlockFacingsProperty.All, model);
+//    private void genShaftVariant(Block block, RotorShaftState propertyValue, ModelFile model,
+//                                 int rotationX, int rotationY) {
+//        this.genPropertyVariant(block, TurbineRotorComponentBlock.ROTOR_SHAFT_STATE, propertyValue, model, rotationX, rotationY, false);
 //    }
-
-    private void genShaftVariant(Block block, RotorShaftState propertyValue, ModelFile model) {
-        this.genPropertyVariant(block, TurbineRotorComponentBlock.ROTOR_SHAFT_STATE, propertyValue, model, 0, 0, false);
-    }
-
-    private void genShaftVariant(Block block, RotorShaftState propertyValue, ModelFile model,
-                                 int rotationX, int rotationY) {
-        this.genPropertyVariant(block, TurbineRotorComponentBlock.ROTOR_SHAFT_STATE, propertyValue, model, rotationX, rotationY, false);
-    }
-
-    private void genShaftVariant(Block block, RotorShaftState propertyValue, ModelFile model,
-                                 int rotationX, int rotationY, boolean uvLock) {
-        this.genPropertyVariant(block, TurbineRotorComponentBlock.ROTOR_SHAFT_STATE, propertyValue, model, rotationX, rotationY, uvLock);
-    }
+//
+//    private void genShaftVariant(Block block, RotorShaftState propertyValue, ModelFile model,
+//                                 int rotationX, int rotationY, boolean uvLock) {
+//        this.genPropertyVariant(block, TurbineRotorComponentBlock.ROTOR_SHAFT_STATE, propertyValue, model, rotationX, rotationY, uvLock);
+//    }
 
     protected static String fullResourceName(final String resourceName) {
         return ModelProvider.BLOCK_FOLDER + "/turbine/" + resourceName;
     }
+
+    private final ModelFile TRANSPARENT_BLOCK_MODEL;
+//
+//    private final ModelFile ROTOR_SHAFT_Z_0C_MODEL;
+//    private final ModelFile ROTOR_SHAFT_Z_2C_MODEL;
+//    private final ModelFile ROTOR_SHAFT_Z_2CY_MODEL;
+//    private final ModelFile ROTOR_SHAFT_Z_4C_MODEL;
+//
+//    private final ModelFile ROTOR_BLADE_Z_MODEL;
+//    private final ModelFile ROTOR_BLADE_ZY_MODEL;
+
+//    private final ResourceLocation TRANSPARENT_BLOCK_ID;
+
+    private final ResourceLocation ROTOR_SHAFT_Z_0C_ID;
+    private final ResourceLocation ROTOR_SHAFT_Z_2C_ID;
+    private final ResourceLocation ROTOR_SHAFT_Z_2CY_ID;
+    private final ResourceLocation ROTOR_SHAFT_Z_4C_ID;
+
+    private final ResourceLocation ROTOR_BLADE_Z_ID;
+    private final ResourceLocation ROTOR_BLADE_ZY_ID;
 
     //endregion
 }

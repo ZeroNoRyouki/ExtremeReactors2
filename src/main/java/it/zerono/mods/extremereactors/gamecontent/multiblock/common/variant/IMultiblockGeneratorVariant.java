@@ -29,9 +29,9 @@ public interface IMultiblockGeneratorVariant
 
     double getMaxEnergyExtractionRate();
 
-    int getPartCoolantCapacity();
+    int getPartFluidCapacity();
 
-    int getMaxCoolantCapacity();
+    int getMaxFluidCapacity();
 
     float getVaporGenerationEfficiency();
 }

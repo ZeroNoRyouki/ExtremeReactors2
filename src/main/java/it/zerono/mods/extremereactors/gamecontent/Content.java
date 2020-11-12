@@ -24,7 +24,7 @@ import it.zerono.mods.extremereactors.gamecontent.fluid.SteamFluid;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.GenericDeviceBlock;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.GlassBlock;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.IOPortBlock;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.coolantport.CoolantPortType;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.fluidport.FluidPortType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.MultiblockReactor;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.ReactorPartType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.container.ReactorSolidAccessPortContainer;
@@ -172,11 +172,14 @@ public final class Content {
         public static final RegistryObject<GenericDeviceBlock<MultiblockReactor, ReactorPartType>> REACTOR_POWERTAP_FE_PASSIVE_REINFORCED =
                 registerReactorBlock("reinforced_reactorpowertapfe_passive", ReactorVariant.Reinforced, ReactorPartType.PassivePowerTapFE);
 
-        public static final RegistryObject<IOPortBlock<MultiblockReactor, ReactorPartType>> REACTOR_COOLANTPORT_FORGE_ACTIVE_REINFORCED =
-                registerReactorBlock("reinforced_reactorcoolantport_forge_active", ReactorVariant.Reinforced, ReactorPartType.ActiveCoolantPortForge);
+        public static final RegistryObject<IOPortBlock<MultiblockReactor, ReactorPartType>> REACTOR_FLUIDTPORT_FORGE_ACTIVE_REINFORCED =
+                registerReactorBlock("reinforced_reactorfluidport_forge_active", ReactorVariant.Reinforced, ReactorPartType.ActiveFluidPortForge);
 
-        public static final RegistryObject<IOPortBlock<MultiblockReactor, ReactorPartType>> REACTOR_COOLANTPORT_FORGE_PASSIVE_REINFORCED =
-                registerReactorBlock("reinforced_reactorcoolantport_forge_passive", ReactorVariant.Reinforced, ReactorPartType.PassiveCoolantPortForge);
+        public static final RegistryObject<IOPortBlock<MultiblockReactor, ReactorPartType>> REACTOR_FLUIDPORT_FORGE_PASSIVE_REINFORCED =
+                registerReactorBlock("reinforced_reactorfluidport_forge_passive", ReactorVariant.Reinforced, ReactorPartType.PassiveFluidPortForge);
+
+        public static final RegistryObject<GenericDeviceBlock<MultiblockReactor, ReactorPartType>> REACTOR_CREATIVE_WATER_GENERATOR_REINFORCED =
+                registerReactorBlock("reinforced_reactorcreativewatergenerator", ReactorVariant.Reinforced, ReactorPartType.CreativeWaterGenerator);
 
         public static final RegistryObject<ReactorRedstonePortBlock> REACTOR_REDSTONEPORT_REINFORCED =
                 registerReactorBlock("reinforced_reactorredstoneport", ReactorVariant.Reinforced, ReactorPartType.RedstonePort);
@@ -220,6 +223,9 @@ public final class Content {
         public static final RegistryObject<IOPortBlock<MultiblockTurbine, TurbinePartType>> TURBINE_FLUIDPORT_FORGE_PASSIVE_BASIC =
                 registerTurbineBlock("basic_turbinefluidport_forge_passive", TurbineVariant.Basic, TurbinePartType.PassiveFluidPortForge);
 
+        public static final RegistryObject<GenericDeviceBlock<MultiblockTurbine, TurbinePartType>> TURBINE_CREATIVE_STEAM_GENERATOR_BASIC =
+                registerTurbineBlock("basic_turbinecreativesteamgenerator", TurbineVariant.Basic, TurbinePartType.CreativeSteamGenerator);
+
         public static final RegistryObject<TurbineRedstonePortBlock> TURBINE_REDSTONEPORT_BASIC =
                 registerTurbineBlock("basic_turbineredstoneport", TurbineVariant.Basic, TurbinePartType.RedstonePort);
 
@@ -255,6 +261,9 @@ public final class Content {
 
         public static final RegistryObject<IOPortBlock<MultiblockTurbine, TurbinePartType>> TURBINE_FLUIDPORT_FORGE_PASSIVE_REINFORCED =
                 registerTurbineBlock("reinforced_turbinefluidport_forge_passive", TurbineVariant.Reinforced, TurbinePartType.PassiveFluidPortForge);
+
+        public static final RegistryObject<GenericDeviceBlock<MultiblockTurbine, TurbinePartType>> TURBINE_CREATIVE_STEAM_GENERATOR_REINFORCED =
+                registerTurbineBlock("reinforced_turbinecreativesteamgenerator", TurbineVariant.Reinforced, TurbinePartType.CreativeSteamGenerator);
 
         public static final RegistryObject<TurbineRedstonePortBlock> TURBINE_REDSTONEPORT_REINFORCED =
                 registerTurbineBlock("reinforced_turbineredstoneport", TurbineVariant.Reinforced, TurbinePartType.RedstonePort);
@@ -409,8 +418,9 @@ public final class Content {
         public static final RegistryObject<BlockItem> REACTOR_POWERTAP_FE_PASSIVE_REINFORCED = registerItemBlock("reinforced_reactorpowertapfe_passive", () -> Blocks.REACTOR_POWERTAP_FE_PASSIVE_REINFORCED::get, ItemGroups.REACTOR);
         public static final RegistryObject<BlockItem> REACTOR_COMPUTERPORT_REINFORCED = registerItemBlock("reinforced_reactorcomputerport", () -> Blocks.REACTOR_COMPUTERPORT_REINFORCED::get, ItemGroups.REACTOR);
         public static final RegistryObject<BlockItem> REACTOR_REDSTONEPORT_REINFORCED = registerItemBlock("reinforced_reactorredstoneport", () -> Blocks.REACTOR_REDSTONEPORT_REINFORCED::get, ItemGroups.REACTOR);
-        public static final RegistryObject<BlockItem> REACTOR_COOLANTPORT_FORGE_ACTIVE_REINFORCED = registerItemBlock("reinforced_reactorcoolantport_forge_active", () -> Blocks.REACTOR_COOLANTPORT_FORGE_ACTIVE_REINFORCED::get, ItemGroups.REACTOR);
-        public static final RegistryObject<BlockItem> REACTOR_COOLANTPORT_FORGE_PASSIVE_REINFORCED = registerItemBlock("reinforced_reactorcoolantport_forge_passive", () -> Blocks.REACTOR_COOLANTPORT_FORGE_PASSIVE_REINFORCED::get, ItemGroups.REACTOR);
+        public static final RegistryObject<BlockItem> REACTOR_FLUIDPORT_FORGE_ACTIVE_REINFORCED = registerItemBlock("reinforced_reactorfluidport_forge_active", () -> Blocks.REACTOR_FLUIDTPORT_FORGE_ACTIVE_REINFORCED::get, ItemGroups.REACTOR);
+        public static final RegistryObject<BlockItem> REACTOR_FLUIDPORT_FORGE_PASSIVE_REINFORCED = registerItemBlock("reinforced_reactorfluidport_forge_passive", () -> Blocks.REACTOR_FLUIDPORT_FORGE_PASSIVE_REINFORCED::get, ItemGroups.REACTOR);
+        public static final RegistryObject<BlockItem> REACTOR_CREATIVE_WATER_GENERATOR_REINFORCED = registerItemBlock("reinforced_reactorcreativewatergenerator", () -> Blocks.REACTOR_CREATIVE_WATER_GENERATOR_REINFORCED::get, ItemGroups.REACTOR);
         //endregion
         //endregion
 
@@ -427,6 +437,7 @@ public final class Content {
         public static final RegistryObject<BlockItem> TURBINE_FLUIDPORT_FORGE_ACTIVE_BASIC = registerItemBlock("basic_turbinefluidport_forge_active", () -> Blocks.TURBINE_FLUIDPORT_FORGE_ACTIVE_BASIC::get, ItemGroups.TURBINE);
         public static final RegistryObject<BlockItem> TURBINE_FLUIDPORT_FORGE_PASSIVE_BASIC = registerItemBlock("basic_turbinefluidport_forge_passive", () -> Blocks.TURBINE_FLUIDPORT_FORGE_PASSIVE_BASIC::get, ItemGroups.TURBINE);
         public static final RegistryObject<BlockItem> TURBINE_REDSTONEPORT_BASIC = registerItemBlock("basic_turbineredstoneport", () -> Blocks.TURBINE_REDSTONEPORT_BASIC::get, ItemGroups.TURBINE);
+        public static final RegistryObject<BlockItem> TURBINE_CREATIVE_STEAM_GENERATOR_BASIC = registerItemBlock("basic_turbinecreativesteamgenerator", () -> Blocks.TURBINE_CREATIVE_STEAM_GENERATOR_BASIC::get, ItemGroups.TURBINE);
         //endregion
         //region reinforced
         public static final RegistryObject<BlockItem> TURBINE_CASING_REINFORCED = registerItemBlock("reinforced_turbinecasing", () -> Blocks.TURBINE_CASING_REINFORCED::get, ItemGroups.TURBINE);
@@ -441,6 +452,7 @@ public final class Content {
         public static final RegistryObject<BlockItem> TURBINE_FLUIDPORT_FORGE_PASSIVE_REINFORCED = registerItemBlock("reinforced_turbinefluidport_forge_passive", () -> Blocks.TURBINE_FLUIDPORT_FORGE_PASSIVE_REINFORCED::get, ItemGroups.TURBINE);
         public static final RegistryObject<BlockItem> TURBINE_REDSTONEPORT_REINFORCED = registerItemBlock("reinforced_turbineredstoneport", () -> Blocks.TURBINE_REDSTONEPORT_REINFORCED::get, ItemGroups.TURBINE);
         public static final RegistryObject<BlockItem> TURBINE_COMPUTERPORT_REINFORCED = registerItemBlock("reinforced_turbinecomputerport", () -> Blocks.TURBINE_COMPUTERPORT_REINFORCED::get, ItemGroups.TURBINE);
+        public static final RegistryObject<BlockItem> TURBINE_CREATIVE_STEAM_GENERATOR_REINFORCED = registerItemBlock("reinforced_turbinecreativesteamgenerator", () -> Blocks.TURBINE_CREATIVE_STEAM_GENERATOR_REINFORCED::get, ItemGroups.TURBINE);
         //endregion
         //endregion
 
@@ -524,21 +536,22 @@ public final class Content {
                         () -> Blocks.REACTOR_SOLID_ACCESSPORT_BASIC::get,
                         () -> Blocks.REACTOR_SOLID_ACCESSPORT_REINFORCED::get);
 
-        public static final RegistryObject<TileEntityType<ReactorCoolantPortEntity>> REACTOR_COOLANTPORT_FORGE_ACTIVE =
-                registerBlockEntity("reactorcoolantport_forge_active",
-                        () -> new ReactorCoolantPortEntity(CoolantPortType.Forge, IoMode.Active, TileEntityTypes.REACTOR_COOLANTPORT_FORGE_ACTIVE.get()),
-                        () -> Blocks.REACTOR_COOLANTPORT_FORGE_ACTIVE_REINFORCED::get);
+        public static final RegistryObject<TileEntityType<ReactorFluidPortEntity>> REACTOR_FLUIDPORT_FORGE_ACTIVE =
+                registerBlockEntity("reactorfluidport_forge_active",
+                        () -> new ReactorFluidPortEntity(FluidPortType.Forge, IoMode.Active, TileEntityTypes.REACTOR_FLUIDPORT_FORGE_ACTIVE.get()),
+                        () -> Blocks.REACTOR_FLUIDTPORT_FORGE_ACTIVE_REINFORCED::get);
 
-        public static final RegistryObject<TileEntityType<ReactorCoolantPortEntity>> REACTOR_COOLANTPORT_FORGE_PASSIVE =
-                registerBlockEntity("reactorcoolantport_forge_passive",
-                        () -> new ReactorCoolantPortEntity(CoolantPortType.Forge, IoMode.Passive, TileEntityTypes.REACTOR_COOLANTPORT_FORGE_PASSIVE.get()),
-                        () -> Blocks.REACTOR_COOLANTPORT_FORGE_PASSIVE_REINFORCED::get);
+        public static final RegistryObject<TileEntityType<ReactorFluidPortEntity>> REACTOR_FLUIDPORT_FORGE_PASSIVE =
+                registerBlockEntity("reactorfluidport_forge_passive",
+                        () -> new ReactorFluidPortEntity(FluidPortType.Forge, IoMode.Passive, TileEntityTypes.REACTOR_FLUIDPORT_FORGE_PASSIVE.get()),
+                        () -> Blocks.REACTOR_FLUIDPORT_FORGE_PASSIVE_REINFORCED::get);
 
-        //TODO coolant port mekanism TE
+        //TODO fluid port mekanism TE
 
-        //TODO imp 4 other variants
-//        public static final RegistryObject<TileEntityType<ReactorCreativeCoolantPortEntity>> REACTOR_CREATIVECOOLANTPORT =
-//                registerBlockEntity("reactorcreativecoolantport", ReactorCreativeCoolantPortEntity::new, () -> Blocks.REACTOR_XXXXXX_BASIC::get);
+        public static final RegistryObject<TileEntityType<ReactorCreativeWaterGenerator>> REACTOR_CREATIVE_WATER_GENERATOR =
+                registerBlockEntity("reactorcreativewatergenerator",
+                        ReactorCreativeWaterGenerator::new,
+                        () -> Blocks.REACTOR_FLUIDPORT_FORGE_PASSIVE_REINFORCED::get); //TODO fix block
 
         public static final RegistryObject<TileEntityType<ReactorPowerTapEntity>> REACTOR_POWERTAP_FE_ACTIVE =
                 registerBlockEntity("reactorpowertap_fe_active",
@@ -596,21 +609,22 @@ public final class Content {
 
         public static final RegistryObject<TileEntityType<TurbineFluidPortEntity>> TURBINE_FLUIDPORT_FORGE_ACTIVE =
                 registerBlockEntity("turbinefluidport_forge_active",
-                        () -> new TurbineFluidPortEntity(CoolantPortType.Forge, IoMode.Active, TileEntityTypes.TURBINE_FLUIDPORT_FORGE_ACTIVE.get()),
+                        () -> new TurbineFluidPortEntity(FluidPortType.Forge, IoMode.Active, TileEntityTypes.TURBINE_FLUIDPORT_FORGE_ACTIVE.get()),
                         () -> Blocks.TURBINE_FLUIDPORT_FORGE_ACTIVE_BASIC::get,
                         () -> Blocks.TURBINE_FLUIDPORT_FORGE_ACTIVE_REINFORCED::get);
 
         public static final RegistryObject<TileEntityType<TurbineFluidPortEntity>> TURBINE_FLUIDPORT_FORGE_PASSIVE =
                 registerBlockEntity("turbinefluidport_forge_passive",
-                        () -> new TurbineFluidPortEntity(CoolantPortType.Forge, IoMode.Passive, TileEntityTypes.TURBINE_FLUIDPORT_FORGE_PASSIVE.get()),
+                        () -> new TurbineFluidPortEntity(FluidPortType.Forge, IoMode.Passive, TileEntityTypes.TURBINE_FLUIDPORT_FORGE_PASSIVE.get()),
                         () -> Blocks.TURBINE_FLUIDPORT_FORGE_PASSIVE_BASIC::get,
                         () -> Blocks.TURBINE_FLUIDPORT_FORGE_PASSIVE_REINFORCED::get);
 
-        //TODO coolant port mekanism TE
+        //TODO fluid port mekanism TE
 
-        //TODO imp 4 other variants
-//        public static final RegistryObject<TileEntityType<ReactorCreativeCoolantPortEntity>> REACTOR_CREATIVECOOLANTPORT =
-//                registerBlockEntity("reactorcreativecoolantport", ReactorCreativeCoolantPortEntity::new, () -> Blocks.REACTOR_XXXXXX_BASIC::get);
+        public static final RegistryObject<TileEntityType<TurbineCreativeSteamGenerator>> TURBINE_CREATIVE_STEAM_GENERATOR =
+                registerBlockEntity("turbinecreativesteamgenerator",
+                        TurbineCreativeSteamGenerator::new,
+                        () -> Blocks.REACTOR_FLUIDPORT_FORGE_PASSIVE_REINFORCED::get); //TODO fix block
 
         public static final RegistryObject<TileEntityType<TurbinePowerTapEntity>> TURBINE_POWERTAP_FE_ACTIVE =
                 registerBlockEntity("turbinepowertap_fe_active",

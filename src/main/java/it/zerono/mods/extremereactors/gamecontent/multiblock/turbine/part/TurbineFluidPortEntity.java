@@ -18,9 +18,9 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part;
 
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.coolantport.CoolantPortType;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.coolantport.ICoolantPort;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.coolantport.ICoolantPortHandler;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.fluidport.FluidPortType;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.fluidport.IFluidPort;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.fluidport.IFluidPortHandler;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.MultiblockTurbine;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.IMultiblockTurbineVariant;
 import it.zerono.mods.zerocore.lib.block.INeighborChangeListener;
@@ -42,12 +42,12 @@ import javax.annotation.Nullable;
 
 public class TurbineFluidPortEntity
         extends AbstractTurbineEntity
-        implements ICoolantPort<MultiblockTurbine, IMultiblockTurbineVariant>, ITickableMultiblockPart, INeighborChangeListener {
+        implements IFluidPort<MultiblockTurbine, IMultiblockTurbineVariant>, ITickableMultiblockPart, INeighborChangeListener {
 
-    public TurbineFluidPortEntity(final CoolantPortType type, final IoMode mode, final TileEntityType<?> entityType) {
+    public TurbineFluidPortEntity(final FluidPortType type, final IoMode mode, final TileEntityType<?> entityType) {
 
         super(entityType);
-        this._handler = ICoolantPortHandler.create(type, mode, this);
+        this._handler = IFluidPortHandler.create(type, mode, this);
 //        this._fluidCapability = LazyOptional.of(this::createFluidCapability);
         this.setIoDirection(IoDirection.Input);
     }
@@ -55,7 +55,7 @@ public class TurbineFluidPortEntity
     //region ICoolantPort
 
     @Override
-    public ICoolantPortHandler<MultiblockTurbine, IMultiblockTurbineVariant> getCoolantPortHandler() {
+    public IFluidPortHandler<MultiblockTurbine, IMultiblockTurbineVariant> getFluidPortHandler() {
         return this._handler;
     }
 
@@ -73,7 +73,7 @@ public class TurbineFluidPortEntity
     public void onNeighborBlockChanged(final BlockState state, final BlockPos neighborPosition, final boolean isMoving) {
 
         if (this.isConnected()) {
-            this.getCoolantPortHandler().checkConnections(this.getWorld(), this.getWorldPosition());
+            this.getFluidPortHandler().checkConnections(this.getWorld(), this.getWorldPosition());
         }
 
         this.requestClientRenderUpdate();
@@ -89,7 +89,7 @@ public class TurbineFluidPortEntity
     public void onNeighborTileChanged(final BlockState state, final BlockPos neighborPosition) {
 
         if (this.isConnected()) {
-            this.getCoolantPortHandler().checkConnections(this.getWorld(), this.getWorldPosition());
+            this.getFluidPortHandler().checkConnections(this.getWorld(), this.getWorldPosition());
         }
 
         this.requestClientRenderUpdate();
@@ -112,7 +112,7 @@ public class TurbineFluidPortEntity
 
         this._direction = direction;
 //        this.updateCapabilityForwarder();
-        this.getCoolantPortHandler().update();
+        this.getFluidPortHandler().update();
 //        this.getMultiblockController().ifPresent(MultiblockReactor::onCoolantPortChanged);
         this.executeOnController(MultiblockTurbine::onFluidPortChanged);
         this.notifyBlockUpdate();
@@ -166,7 +166,7 @@ public class TurbineFluidPortEntity
     public void onPostMachineAssembled(MultiblockTurbine controller) {
 
         super.onPostMachineAssembled(controller);
-        this.getCoolantPortHandler().update();
+        this.getFluidPortHandler().update();
         this.notifyOutwardNeighborsOfStateChange();
     }
 
@@ -174,7 +174,7 @@ public class TurbineFluidPortEntity
     public void onPostMachineBroken() {
 
         super.onPostMachineBroken();
-        this.getCoolantPortHandler().update();
+        this.getFluidPortHandler().update();
         this.notifyOutwardNeighborsOfStateChange();
     }
 
@@ -183,7 +183,7 @@ public class TurbineFluidPortEntity
 
         super.onAttached(newController);
 //        this.updateCapabilityForwarder();
-        this.getCoolantPortHandler().update();
+        this.getFluidPortHandler().update();
     }
 
     @Override
@@ -191,7 +191,7 @@ public class TurbineFluidPortEntity
 
         super.onAssimilated(newController);
 //        this.updateCapabilityForwarder();
-        this.getCoolantPortHandler().update();
+        this.getFluidPortHandler().update();
     }
 
     @Override
@@ -199,7 +199,7 @@ public class TurbineFluidPortEntity
 
         super.onDetached(oldController);
 //        this.updateCapabilityForwarder();
-        this.getCoolantPortHandler().update();
+        this.getFluidPortHandler().update();
     }
 
     //endregion
@@ -209,7 +209,7 @@ public class TurbineFluidPortEntity
     @Override
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable Direction side) {
 
-        final LazyOptional<T> cap = this.getCoolantPortHandler().getCapability(capability, side);
+        final LazyOptional<T> cap = this.getFluidPortHandler().getCapability(capability, side);
 
         return null != cap ? cap : super.getCapability(capability, side);
     }
@@ -221,7 +221,7 @@ public class TurbineFluidPortEntity
     public void remove() {
 
         super.remove();
-        this.getCoolantPortHandler().invalidate();
+        this.getFluidPortHandler().invalidate();
 //        this._fluidCapability.invalidate();
     }
 
@@ -240,7 +240,7 @@ public class TurbineFluidPortEntity
                         direction.getOpposite(), Integer.MAX_VALUE, IFluidHandler.FluidAction.EXECUTE));
     }
 
-    private final ICoolantPortHandler<MultiblockTurbine, IMultiblockTurbineVariant> _handler;
+    private final IFluidPortHandler<MultiblockTurbine, IMultiblockTurbineVariant> _handler;
     private IoDirection _direction;
 
     //endregion

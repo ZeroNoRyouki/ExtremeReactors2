@@ -100,8 +100,8 @@ public class MultiblockReactor
         this._attachedFuelRods = Sets.newHashSet();
         this._attachedSolidAccessPorts = Sets.newHashSet();
         this._attachedPowerTaps = Sets.newHashSet();
-        this._attachedCoolantPorts = Sets.newHashSet();
-        this._attachedOutgoingCoolantPorts = Sets.newHashSet();
+        this._attachedFluidPorts = Sets.newHashSet();
+        this._attachedOutgoingFluidPorts = Sets.newHashSet();
 
         this._irradiationSourceTracker = new IteratorTracker<>(this._attachedFuelRods::iterator);
         this._logic = new ReactorLogic(this, this.getEnergyBuffer());
@@ -144,8 +144,8 @@ public class MultiblockReactor
         }
     }
 
-    public void onCoolantPortChanged() {
-        this.rebuildOutgoingCoolantPorts();
+    public void onFluidPortChanged() {
+        this.rebuildOutgoingFluidPorts();
     }
 
     //region active-coolant system
@@ -324,9 +324,9 @@ public class MultiblockReactor
             case PassivePowerTapFE:
                 return this._attachedPowerTaps.size(); //TODO add other power taps count
 
-            case ActiveCoolantPortForge:
-            case PassiveCoolantPortForge:
-                return this._attachedCoolantPorts.size();
+            case ActiveFluidPortForge:
+            case PassiveFluidPortForge:
+                return this._attachedFluidPorts.size();
 
             default:
                 return this.getPartsCount(part -> part instanceof IMultiblockPartTypeProvider &&
@@ -718,8 +718,8 @@ public class MultiblockReactor
             this._attachedSolidAccessPorts.add((ReactorSolidAccessPortEntity) newPart);
         } else if (newPart instanceof ReactorPowerTapEntity) {
             this._attachedPowerTaps.add((ReactorPowerTapEntity) newPart);
-        } else if (newPart instanceof ReactorCoolantPortEntity) {
-            this._attachedCoolantPorts.add((ReactorCoolantPortEntity) newPart);
+        } else if (newPart instanceof ReactorFluidPortEntity) {
+            this._attachedFluidPorts.add((ReactorFluidPortEntity) newPart);
         }
     }
 
@@ -743,8 +743,8 @@ public class MultiblockReactor
             this._attachedSolidAccessPorts.remove(oldPart);
         } else if (oldPart instanceof ReactorPowerTapEntity) {
             this._attachedPowerTaps.remove(oldPart);
-        } else if (oldPart instanceof ReactorCoolantPortEntity) {
-            this._attachedCoolantPorts.remove(oldPart);
+        } else if (oldPart instanceof ReactorFluidPortEntity) {
+            this._attachedFluidPorts.remove(oldPart);
         }
     }
 
@@ -766,7 +766,7 @@ public class MultiblockReactor
         }
 
         // operation mode : if any coolant ports is present we are in active mode
-        this._mode = this.isAnyPartConnected(part -> part instanceof ReactorCoolantPortEntity) ?
+        this._mode = this.isAnyPartConnected(part -> part instanceof ReactorFluidPortEntity) ?
                 OperationalMode.Active : OperationalMode.Passive;
 
         // interior visible?
@@ -780,7 +780,7 @@ public class MultiblockReactor
         this._fuelRodsLayout.updateFuelRodsOcclusion(this._attachedFuelRods);
 
         // gather outgoing coolant ports
-        this.rebuildOutgoingCoolantPorts();
+        this.rebuildOutgoingFluidPorts();
 
         // update internal data
 
@@ -922,7 +922,7 @@ public class MultiblockReactor
         this._attachedFuelRods.clear();
         this._attachedSolidAccessPorts.clear();
         this._attachedPowerTaps.clear();
-        this._attachedCoolantPorts.clear();
+        this._attachedFluidPorts.clear();
         this._fuelRodsLayout = null;
     }
 
@@ -1124,12 +1124,12 @@ public class MultiblockReactor
                 .map(port -> port);
     }
 
-    private void rebuildOutgoingCoolantPorts() {
+    private void rebuildOutgoingFluidPorts() {
 
-        this._attachedOutgoingCoolantPorts.clear();
-        this._attachedCoolantPorts.stream()
+        this._attachedOutgoingFluidPorts.clear();
+        this._attachedFluidPorts.stream()
                 .filter(port -> port.getIoDirection().isOutput())
-                .collect(Collectors.toCollection(() -> this._attachedOutgoingCoolantPorts));
+                .collect(Collectors.toCollection(() -> this._attachedOutgoingFluidPorts));
     }
 
     private FuelRodsLayout createFuelRodsLayout() {
@@ -1243,7 +1243,7 @@ public class MultiblockReactor
      */
     private void distributeGasEqually() {
 
-        final int amountDistributed = distributeFluidEqually(this._fluidContainer.getStackCopy(FluidType.Gas), this._attachedCoolantPorts);
+        final int amountDistributed = distributeFluidEqually(this._fluidContainer.getStackCopy(FluidType.Gas), this._attachedFluidPorts);
 
         if (amountDistributed > 0) {
             this._fluidContainer.extract(FluidType.Gas, amountDistributed, OperationMode.Execute);
@@ -1315,8 +1315,8 @@ public class MultiblockReactor
             final int outerVolume = CodeHelper.optionalMap(this.getMinimumCoord(), this.getMaximumCoord(),
                     CodeHelper::mathVolume).orElse(0) - this.getReactorVolume();
 
-            this._fluidContainer.setCapacity(MathHelper.clamp(outerVolume * this.getVariant().getPartCoolantCapacity(),
-                    0, this.getVariant().getMaxCoolantCapacity()));
+            this._fluidContainer.setCapacity(MathHelper.clamp(outerVolume * this.getVariant().getPartFluidCapacity(),
+                    0, this.getVariant().getMaxFluidCapacity()));
 
         } else {
 
@@ -1595,8 +1595,8 @@ public class MultiblockReactor
     private final Set<ReactorFuelRodEntity> _attachedFuelRods;
     private final Set<ReactorSolidAccessPortEntity> _attachedSolidAccessPorts;
     private final Set<ReactorPowerTapEntity> _attachedPowerTaps;
-    private final Set<ReactorCoolantPortEntity> _attachedCoolantPorts;
-    private final Set<ReactorCoolantPortEntity> _attachedOutgoingCoolantPorts;
+    private final Set<ReactorFluidPortEntity> _attachedFluidPorts;
+    private final Set<ReactorFluidPortEntity> _attachedOutgoingFluidPorts;
 
     //endregion
 }

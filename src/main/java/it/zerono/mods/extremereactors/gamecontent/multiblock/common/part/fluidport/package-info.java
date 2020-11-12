@@ -19,7 +19,7 @@
 
  @ParametersAreNonnullByDefault
  @MethodsReturnNonnullByDefault
- package it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.coolantport;
+ package it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.fluidport;
 
  import mcp.MethodsReturnNonnullByDefault;
 

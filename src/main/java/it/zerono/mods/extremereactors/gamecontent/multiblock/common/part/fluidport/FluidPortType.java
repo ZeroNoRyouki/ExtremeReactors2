@@ -1,6 +1,6 @@
 /*
  *
- * ReactorCreativeCoolantPortEntity.java
+ * FluidPortType.java
  *
  * This file is part of Extreme Reactors 2 by ZeroNoRyouki, a Minecraft mod.
  *
@@ -16,14 +16,18 @@
  *
  */
 
-package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part;
+package it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.fluidport;
 
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.coolantport.CoolantPortType;
+public enum FluidPortType {
 
-public class ReactorCreativeCoolantPortEntity extends ReactorCoolantPortEntity {
+    /**
+     * Standard Forge IFluidHandler capability
+     */
+    Forge,
 
-    @SuppressWarnings("ConstantConditions")
-    public ReactorCreativeCoolantPortEntity() {
-        super(CoolantPortType.Forge, null, null); //TODO fix TE
-    }
+    /**
+     * Mekanism IGasHandler capability
+     */
+    Mekanism
+    ;
 }

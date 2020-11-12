@@ -19,7 +19,7 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.common;
 
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.IIOPortHandler;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.coolantport.ICoolantPort;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.fluidport.IFluidPort;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.powertap.IPowerTap;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.variant.IMultiblockGeneratorVariant;
 import it.zerono.mods.zerocore.lib.data.IoDirection;
@@ -109,7 +109,7 @@ public abstract class AbstractGeneratorMultiblockController<Controller extends A
      * @return the amount of gas distributed
      */
     protected static <Controller extends AbstractGeneratorMultiblockController<Controller, V>, V extends IMultiblockGeneratorVariant>
-            int distributeFluidEqually(final FluidStack availableFluid, final Collection<? extends ICoolantPort<Controller, V>> coolantPorts) {
+            int distributeFluidEqually(final FluidStack availableFluid, final Collection<? extends IFluidPort<Controller, V>> coolantPorts) {
 
         if (availableFluid.isEmpty() || coolantPorts.isEmpty()) {
             return 0;
@@ -119,7 +119,7 @@ public abstract class AbstractGeneratorMultiblockController<Controller extends A
 
         return coolantPorts.stream()
                 .filter(p -> p.getIoDirection().isOutput())
-                .map(ICoolantPort::getCoolantPortHandler)
+                .map(IFluidPort::getFluidPortHandler)
                 .filter(IIOPortHandler::isActive)
                 .filter(IIOPortHandler::isConnected)
                 .mapToInt(handler -> handler.outputFluid(new FluidStack(availableFluid, fluidPerPort)))

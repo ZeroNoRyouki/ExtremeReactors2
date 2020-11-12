@@ -64,21 +64,20 @@ public enum ReactorPartType
     SolidAccessPort(() -> Content.TileEntityTypes.REACTOR_SOLID_ACCESSPORT::get,
             IOPortBlock::new, "part.bigreactors.reactor.solidaccessport"),
 
-    ActiveCoolantPortForge(() -> Content.TileEntityTypes.REACTOR_COOLANTPORT_FORGE_ACTIVE::get,
-            IOPortBlock::new, "part.bigreactors.reactor.coolantport_forge_active"),
+    ActiveFluidPortForge(() -> Content.TileEntityTypes.REACTOR_FLUIDPORT_FORGE_ACTIVE::get,
+            IOPortBlock::new, "part.bigreactors.reactor.fluidport_forge_active"),
 
-    PassiveCoolantPortForge(() -> Content.TileEntityTypes.REACTOR_COOLANTPORT_FORGE_PASSIVE::get,
-            /*IOPortBlock::new*/PassiveCoolantPortBlock::new, "part.bigreactors.reactor.coolantport_forge_passive"),
+    PassiveFluidPortForge(() -> Content.TileEntityTypes.REACTOR_FLUIDPORT_FORGE_PASSIVE::get,
+            PassiveFluidPortBlock::new, "part.bigreactors.reactor.fluidport_forge_passive"),
 
-    ActiveCoolantPortMekanism(() -> null,//Content.TileEntityTypes.REACTOR_COOLANTPORT_MEKANISM_ACTIVE::get, //TODO mekanism coolant port
-            IOPortBlock::new, "part.bigreactors.reactor.coolantport_mekanism_active"),
+    ActiveFluidPortMekanism(() -> null,//Content.TileEntityTypes.REACTOR_FLUIDPORT_MEKANISM_ACTIVE::get, //TODO mekanism Fluid port
+            IOPortBlock::new, "part.bigreactors.reactor.fluidport_mekanism_active"),
 
-    PassiveCoolantPortMekanism(() -> null,//Content.TileEntityTypes.REACTOR_COOLANTPORT_MEKANISM_PASSIVE::get, //TODO mekanism coolant port
-            /*IOPortBlock::new*/PassiveCoolantPortBlock::new, "part.bigreactors.reactor.coolantport_mekanism_passive"),
+    PassiveFluidPortMekanism(() -> null,//Content.TileEntityTypes.REACTOR_FLUIDPORT_MEKANISM_PASSIVE::get, //TODO mekanism fluid port
+            PassiveFluidPortBlock::new, "part.bigreactors.reactor.fluidport_mekanism_passive"),
 
-    CreativeCoolantPort(
-            () -> () -> null, //TODO fix!
-            IOPortBlock::new, "part.bigreactors.reactor.creativecoolantport"),
+    CreativeWaterGenerator(() -> Content.TileEntityTypes.REACTOR_CREATIVE_WATER_GENERATOR::get,
+            GenericDeviceBlock::new, "part.bigreactors.reactor.creativewatergenerator"),
 
     ActivePowerTapFE(() -> Content.TileEntityTypes.REACTOR_POWERTAP_FE_ACTIVE::get,
             PowerTapBlock::new, "part.bigreactors.reactor.powertap_fe_active"),
