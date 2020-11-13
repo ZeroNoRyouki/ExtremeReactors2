@@ -805,11 +805,13 @@ public class MultiblockTurbine
     private boolean validateRotor(final TurbineRotorBearingEntity bearing, final IMultiblockValidator validatorCallback) {
 
         // clear cache of Coils positions so it can be filled again here
-        _validationFoundCoils.clear();
+        this._validationFoundCoils.clear();
 
-        return CodeHelper.optionalMap(this.getMinimumCoord(), this.getMaximumCoord(),
-                (min, max) -> validateRotor(bearing, validatorCallback, bearing.getRotorDirection(), min, max))
-                .orElse(false);
+        return this.mapBoundingBoxCoordinates(
+                (min, max) -> validateRotor(bearing, validatorCallback, bearing.getRotorDirection(), min, max), false);
+//        return CodeHelper.optionalMap(this.getMinimumCoord(), this.getMaximumCoord(),
+//                (min, max) -> validateRotor(bearing, validatorCallback, bearing.getRotorDirection(), min, max))
+//                .orElse(false);
     }
 
     /**

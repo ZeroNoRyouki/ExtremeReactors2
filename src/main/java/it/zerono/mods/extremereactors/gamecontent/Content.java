@@ -598,12 +598,12 @@ public final class Content {
                         () -> Blocks.TURBINE_ROTORBEARING_REINFORCED::get);
 
         public static final RegistryObject<TileEntityType<TurbineRotorComponentEntity>> TURBINE_ROTORSHAFT =
-                registerBlockEntity("turbinerotorshaft", TurbineRotorComponentEntity::new,
+                registerBlockEntity("turbinerotorshaft", TurbineRotorComponentEntity::shaft,
                         () -> Blocks.TURBINE_ROTORSHAFT_BASIC::get,
                         () -> Blocks.TURBINE_ROTORSHAFT_REINFORCED::get);
 
         public static final RegistryObject<TileEntityType<TurbineRotorComponentEntity>> TURBINE_ROTORBLADE =
-                registerBlockEntity("turbinerotorblade", TurbineRotorComponentEntity::new,
+                registerBlockEntity("turbinerotorblade", TurbineRotorComponentEntity::blade,
                         () -> Blocks.TURBINE_ROTORBLADE_BASIC::get,
                         () -> Blocks.TURBINE_ROTORBLADE_REINFORCED::get);
 

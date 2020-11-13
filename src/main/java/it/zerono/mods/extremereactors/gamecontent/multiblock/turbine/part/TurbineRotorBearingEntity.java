@@ -34,7 +34,6 @@ public class TurbineRotorBearingEntity
     public TurbineRotorBearingEntity() {
 
         super(Content.TileEntityTypes.TURBINE_ROTORBEARING.get());
-
         this._rotorAngle = 0.0f;
     }
 

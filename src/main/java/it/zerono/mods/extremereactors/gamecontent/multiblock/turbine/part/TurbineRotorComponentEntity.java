@@ -21,12 +21,17 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.zerocore.lib.multiblock.cuboid.PartPosition;
 import it.zerono.mods.zerocore.lib.multiblock.validation.IMultiblockValidator;
+import net.minecraft.tileentity.TileEntityType;
 
 public class TurbineRotorComponentEntity
         extends AbstractTurbineEntity {
 
-    public TurbineRotorComponentEntity() {
-        super(Content.TileEntityTypes.TURBINE_ROTORBEARING.get());
+    public static TurbineRotorComponentEntity shaft() {
+        return new TurbineRotorComponentEntity(Content.TileEntityTypes.TURBINE_ROTORSHAFT.get());
+    }
+
+    public static TurbineRotorComponentEntity blade() {
+        return new TurbineRotorComponentEntity(Content.TileEntityTypes.TURBINE_ROTORBLADE.get());
     }
 
     //region AbstractReactorEntity
@@ -41,6 +46,13 @@ public class TurbineRotorComponentEntity
         }
 
         return true;
+    }
+
+    //endregion
+    //region internals
+
+    protected TurbineRotorComponentEntity(final TileEntityType<?> type) {
+        super(type);
     }
 
     //endregion
