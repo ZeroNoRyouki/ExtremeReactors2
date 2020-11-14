@@ -18,7 +18,10 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.turbine;
 
-public enum VentSetting {
+import java.util.function.Predicate;
+
+public enum VentSetting
+    implements Predicate<VentSetting> {
 
     VentOverflow,
     VentAll,
@@ -40,4 +43,13 @@ public enum VentSetting {
     public boolean isDoNotVent() {
         return DoNotVent == this;
     }
+
+    //region Predicate<VentSetting>
+
+    @Override
+    public boolean test(final VentSetting ventSetting) {
+        return this == ventSetting;
+    }
+
+    //endregion
 }

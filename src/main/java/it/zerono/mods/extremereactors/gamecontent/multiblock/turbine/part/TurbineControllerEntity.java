@@ -21,8 +21,10 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.model.data.ModelTransformers;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.MultiblockTurbine;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.VentSetting;
 import it.zerono.mods.zerocore.lib.IDebugMessages;
 import it.zerono.mods.zerocore.lib.block.TileCommandDispatcher;
+import it.zerono.mods.zerocore.lib.data.nbt.NBTHelper;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
 import it.zerono.mods.zerocore.lib.network.INetworkTileEntitySyncProvider;
 import net.minecraft.block.BlockState;
@@ -31,6 +33,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
@@ -42,8 +45,9 @@ public class TurbineControllerEntity
         extends AbstractTurbineEntity
         implements INamedContainerProvider, INetworkTileEntitySyncProvider {
 
-//    public static String COMMAND_WASTE_AUTOMATIC = "autowaste";
-//    public static String COMMAND_WASTE_MANUAL = "manualwaste";
+    public static String COMMAND_ENGAGE_COILS = "coilon";
+    public static String COMMAND_DISENGAGE_COILS = "coiloff";
+    public static String COMMAND_SET_VENT = "vent";
     public static String COMMAND_SCRAM = "scram";
 
     public TurbineControllerEntity() {
@@ -53,9 +57,10 @@ public class TurbineControllerEntity
         this.setCommandDispatcher(TileCommandDispatcher.<TurbineControllerEntity>builder()
                 .addServerHandler(COMMAND_ACTIVATE, tce -> tce.setTurbineActive(true))
                 .addServerHandler(COMMAND_DEACTIVATE, tce -> tce.setTurbineActive(false))
-//                .addServerHandler(COMMAND_WASTE_AUTOMATIC, tce -> tce.setWasteEjectionMode(WasteEjectionSetting.Automatic))
-//                .addServerHandler(COMMAND_WASTE_MANUAL, tce -> tce.setWasteEjectionMode(WasteEjectionSetting.Manual))
-                .addServerHandler(COMMAND_SCRAM, TurbineControllerEntity::scram)
+                .addServerHandler(COMMAND_ENGAGE_COILS, tce -> tce.executeOnController(tc -> tc.setInductorEngaged(true)))
+                .addServerHandler(COMMAND_DISENGAGE_COILS, tce -> tce.executeOnController(tc -> tc.setInductorEngaged(false)))
+                .addServerHandler(COMMAND_SET_VENT, TurbineControllerEntity::setVent)
+                .addServerHandler(COMMAND_SCRAM, TurbineControllerEntity::scram) // TODO ?
                 .build(this)
         );
     }
@@ -176,9 +181,12 @@ public class TurbineControllerEntity
     //region internals
     //region Tile Commands
 
-//    private void setWasteEjectionMode(WasteEjectionSetting mode) {
-//        this.getMultiblockController().ifPresent(c -> c.setWasteEjectionMode(mode));
-//    }
+    private void setVent(CompoundNBT data) {
+
+        final VentSetting setting = NBTHelper.nbtGetEnum(data, "vent", VentSetting::valueOf, VentSetting.getDefault());
+
+        this.executeOnController(turbine -> turbine.setVentSetting(setting));
+    }
 
     private void scram() {
 

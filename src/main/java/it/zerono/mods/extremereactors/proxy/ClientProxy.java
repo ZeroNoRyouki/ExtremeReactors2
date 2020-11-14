@@ -41,6 +41,7 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.scre
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.ReactorVariant;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.client.model.TurbineGlassModelBuilder;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.client.model.TurbineModelBuilder;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.client.screen.TurbineControllerScreen;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.TurbineVariant;
 import it.zerono.mods.zerocore.lib.CodeHelper;
 import it.zerono.mods.zerocore.lib.client.model.ICustomModelBuilder;
@@ -179,7 +180,7 @@ public class ClientProxy
         registerScreen(Content.ContainerTypes.REACTOR_CONTROLROD, ReactorControlRodScreen::new);
 
         // Turbine GUIs
-//        registerScreen(Content.ContainerTypes.TURBINE_CONTROLLER, ReactorControllerScreen::new);
+        registerScreen(Content.ContainerTypes.TURBINE_CONTROLLER, TurbineControllerScreen::new);
 //        registerScreen(Content.ContainerTypes.REACTOR_REDSTONEPORT, ReactorRedstonePortScreen::new);
     }
 
