@@ -68,7 +68,7 @@ public class TurbineLogic {
 
             final float rotorSpeed = this._turbine.getRotorSpeed();
 
-            // RFs lost to aerodynamic drag.
+            // FEs lost to aerodynamic drag.
             float aerodynamicDragTorque = rotorSpeed * this._data.getBladeDrag();
             float liftTorque = 0f;
 

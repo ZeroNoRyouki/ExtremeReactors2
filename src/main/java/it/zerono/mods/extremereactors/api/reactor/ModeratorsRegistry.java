@@ -151,7 +151,7 @@ public final class ModeratorsRegistry {
 
         Preconditions.checkArgument(!Strings.isNullOrEmpty(id));
 //        registerSolid(BlockTags.createOptional(new ResourceLocation(id)), absorption, heatEfficiency, moderation, heatConductivity);
-        registerSolid(TagsHelper.BLOCKS.createOptionalTag(id), absorption, heatEfficiency, moderation, heatConductivity);
+        registerSolid(TagsHelper.BLOCKS.getTagOrCreateOptional(id), absorption, heatEfficiency, moderation, heatConductivity);
     }
 
 //    /**

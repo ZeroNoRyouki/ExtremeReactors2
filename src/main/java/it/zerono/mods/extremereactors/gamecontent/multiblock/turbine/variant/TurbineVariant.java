@@ -38,15 +38,18 @@ public enum TurbineVariant
             .setTranslationKey("variant.bigreactors.turbine.basic")
             .setBlockPropertiesFixer(bp -> bp.hardnessAndResistance(3.0F, 6.0F))
             .setPartEnergyCapacity(10000)
-            .setEnergyGenerationEfficiency(0.8f)
+            .setEnergyGenerationEfficiency(/*0.8f*/1)
             .setMaxEnergyExtractionRate(50000)
             .setRadiationAttenuation(0.85f)
             .setResidualRadiationAttenuation(0.1f)
-            .setBaseFluidPerBlade(25) // mB
+            .setMaxPermittedFlow(/*1000*/2000)
+            .setBaseFluidPerBlade(/*15*/25) // mB
             .setRotorDragCoefficient(0.01f)
-            .setMaxRotorSpeed(2000.0f)
-            .setRotorBladeMass(10)
-            .setRotorShaftMass(10)
+            .setMaxRotorSpeed(/*1000.0f*/2000.0f)
+            .setRotorBladeMass(/*8*/10)
+            .setRotorShaftMass(/*8*/10)
+            .setPartFluidCapacity(500)
+            .setMaxFluidCapacity(10000)
             .setPartCompatibilityTest(TurbineVariant::isBasicPart)),
 
     Reinforced(TurbineVariant.Builder.create(1000) // using 1000 here so the config values will win
@@ -57,14 +60,14 @@ public enum TurbineVariant
             .setMaxEnergyExtractionRate(5000000) //TODO new value
             .setRadiationAttenuation(0.75f)
             .setResidualRadiationAttenuation(0.15f)
+            .setMaxPermittedFlow(2000)
             .setBaseFluidPerBlade(25) // mB //TODO new value
             .setRotorDragCoefficient(0.01f) //TODO new value
             .setMaxRotorSpeed(2000.0f) //TODO new value
             .setRotorBladeMass(10) //TODO new value
             .setRotorShaftMass(10) //TODO new value
             .setPartFluidCapacity(4567) //TODO new value
-            .setMaxFluidCapacity(200000) //TODO new value
-            .setVaporGenerationEfficiency(0.85f)),
+            .setMaxFluidCapacity(200000)), //TODO new value
     ;
 
     public boolean isPartCompatible(final TurbinePartType partType) {
@@ -251,7 +254,7 @@ public enum TurbineVariant
 
         public Builder setEnergyGenerationEfficiency(final float efficiency) {
 
-            Preconditions.checkArgument(efficiency > 0.0f && efficiency < 1.0f);
+//            Preconditions.checkArgument(efficiency > 0.0f && efficiency < 1.0f);
             this._energyGenerationEfficiency = efficiency;
             return this;
         }

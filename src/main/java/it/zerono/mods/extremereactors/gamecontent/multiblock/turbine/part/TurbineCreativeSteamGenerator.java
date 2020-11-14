@@ -42,11 +42,13 @@ public class TurbineCreativeSteamGenerator
 
         this.executeOnController(turbine -> {
 
-            if (turbine.isMachineActive()) {
+            //TODO only fill if there is space
+
+            //if (turbine.isMachineActive()) {
                 turbine.getFluidHandler(IoDirection.Input)
-                        .ifPresent(handler -> handler.fill(new FluidStack(Content.Fluids.STEAM_SOURCE.get(), turbine.getMaxIntakeRate()),
+                        .ifPresent(handler -> handler.fill(new FluidStack(Content.Fluids.STEAM_SOURCE.get(), turbine.getMaxIntakeRateHardLimit()),
                                 IFluidHandler.FluidAction.EXECUTE));
-            }
+//            }
         });
     }
 

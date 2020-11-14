@@ -724,7 +724,9 @@ public final class Content {
     //region internals
 
     private static void onCommonInit(final FMLCommonSetupEvent event) {
+
         ReactorGameData.register();
+        TurbineGameData.register();
     }
 
     //endregion

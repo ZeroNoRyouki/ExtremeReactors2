@@ -49,6 +49,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.profiler.IProfiler;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fml.LogicalSide;
@@ -95,6 +96,8 @@ public class MultiblockTurbine
         this._fluidContainer.reset();
         this._data.reset();
         this.getEnergyBuffer().setEnergyStored(0);
+
+        this.resizeFluidContainer();
     }
 
     public void onFluidPortChanged() {
@@ -407,6 +410,8 @@ public class MultiblockTurbine
             return;
         }
 
+        messages.addUnlocalized("begin pre");
+
         messages.addUnlocalized("Active: %s", this.isMachineActive());
 
         this.getEnergyBuffer().getDebugMessages(side, messages);
@@ -588,6 +593,7 @@ public class MultiblockTurbine
         this.getEnergyBuffer().setCapacity(this.getVariant().getPartEnergyCapacity() * this.getPartsCount());
         this.getEnergyBuffer().setMaxExtract(this.getVariant().getMaxEnergyExtractionRate());
 
+        this.resizeFluidContainer();
         this.updateRotorAndCoilsParameters();
 
         this.callOnLogicalSide(
@@ -906,7 +912,7 @@ public class MultiblockTurbine
 
                 if (!bladeFound) {
 
-                    if (_validationFoundCoils.remove(checkCoord)) {
+                    if (this._validationFoundCoils.remove(checkCoord)) {
 
                         encounteredCoils = true;
 
@@ -925,11 +931,11 @@ public class MultiblockTurbine
 
                         rotatedDir = CodeHelper.directionRotateAround(bladeDirection, rotatedAxis);
                         coilCheck = checkCoord.offset(rotatedDir);
-                        _validationFoundCoils.remove(coilCheck);
+                        this._validationFoundCoils.remove(coilCheck);
 
                         rotatedDir = CodeHelper.directionRotateAround(CodeHelper.directionRotateAround(rotatedDir, rotatedAxis), rotatedAxis);
                         coilCheck = checkCoord.offset(rotatedDir);
-                        _validationFoundCoils.remove(coilCheck);
+                        this._validationFoundCoils.remove(coilCheck);
                     }
 
                     // Else: It must have been air.
@@ -957,12 +963,11 @@ public class MultiblockTurbine
             return false;
         }
 
-        if (!_validationFoundCoils.isEmpty()) {
+        if (!this._validationFoundCoils.isEmpty()) {
 
             validatorCallback.setLastError("multiblock.validation.turbine.invalid_metals_shape", _validationFoundCoils.size());
             return false;
         }
-
 
         if (WorldHelper.getTile(this.getWorld(), rotorCoord.offset(rotorDirection))
                 .map(te -> te instanceof TurbineCasingEntity)
@@ -1051,6 +1056,19 @@ public class MultiblockTurbine
                 min -> min.add(1, 1, 1), max -> max.add(-1, -1, -1));
     }
 
+    private int calculateTurbineVolume() {
+        return this.mapBoundingBoxCoordinates((min, max) -> CodeHelper.mathVolume(min.add(1, 1, 1), max.add(-1, -1, -1)), 0);
+    }
+
+    private void resizeFluidContainer() {
+
+        final int outerVolume = CodeHelper.optionalMap(this.getMinimumCoord(), this.getMaximumCoord(),
+                CodeHelper::mathVolume).orElse(0) - this.calculateTurbineVolume();
+
+        this._fluidContainer.setCapacity(MathHelper.clamp(outerVolume * this.getVariant().getPartFluidCapacity(),
+                0, this.getVariant().getMaxFluidCapacity()));
+    }
+
     private void rebuildOutgoingFluidPorts() {
 
         this._attachedOutgoingVaporPorts.clear();
@@ -1058,7 +1076,6 @@ public class MultiblockTurbine
                 .filter(port -> port.getIoDirection().isOutput())
                 .collect(Collectors.toCollection(() -> this._attachedOutgoingVaporPorts));
     }
-
 
 //    private void setEnergyStored(float newEnergy) {
 //        if(Float.isInfinite(newEnergy) || Float.isNaN(newEnergy)) { return; }
@@ -1222,8 +1239,6 @@ public class MultiblockTurbine
 //    public IFluidHandler getFluidHandler(IInputOutputPort.Direction direction) {
 //        return IInputOutputPort.Direction.Input == direction ? this._inputTank : this._outputTank;
 //    }
-
-
 
     private static final IFluidContainerAccess FLUID_CONTAINER_ACCESS = new IFluidContainerAccess() {
 

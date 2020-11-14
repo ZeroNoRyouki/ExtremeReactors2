@@ -174,7 +174,7 @@ public class CoilMaterialRegistry {
                                 final float bonus, final float extractionRate) {
 
         Preconditions.checkNotNull(tagId);
-        register(TagsHelper.BLOCKS.createOptionalTag(tagId), efficiency, bonus, extractionRate);
+        register(TagsHelper.BLOCKS.getTagOrCreateOptional(tagId), efficiency, bonus, extractionRate);
     }
 
     /**

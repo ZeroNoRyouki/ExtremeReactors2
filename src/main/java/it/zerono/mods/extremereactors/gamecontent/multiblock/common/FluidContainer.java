@@ -212,12 +212,12 @@ public class FluidContainer
 
     @Override
     public <T> T mapCoolant(Function<Coolant, T> mapper, T defaultValue) {
-        return (null == this._cachedCoolant || Coolant.EMPTY == this._cachedCoolant) ? mapper.apply(this._cachedCoolant) : defaultValue;
+        return (null == this._cachedCoolant || Coolant.EMPTY == this._cachedCoolant) ? defaultValue : mapper.apply(this._cachedCoolant);
     }
 
     @Override
     public <T> T mapVapor(Function<Vapor, T> mapper, T defaultValue) {
-        return (null == this._cachedVapor || Vapor.EMPTY == this._cachedVapor) ? mapper.apply(this._cachedVapor) : defaultValue;
+        return (null == this._cachedVapor || Vapor.EMPTY == this._cachedVapor) ? defaultValue : mapper.apply(this._cachedVapor);
     }
 
     //region Reactor UPDATE logic

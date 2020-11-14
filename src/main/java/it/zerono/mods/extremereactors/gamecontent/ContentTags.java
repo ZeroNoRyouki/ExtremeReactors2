@@ -67,8 +67,8 @@ public class ContentTags {
 
         public static final ITag.INamedTag<Item> WRENCH = forgeTag("tools/wrench");
 
-        public static final ITag.INamedTag<Item> COMPAT_INGOTS_URANIUM = TagsHelper.ITEMS.createOptionalForgeTag("ingots/uranium");
-        public static final ITag.INamedTag<Item> COMPAT_BLOCKS_URANIUM = TagsHelper.ITEMS.createOptionalForgeTag("storage_blocks/uranium");
+        public static final ITag.INamedTag<Item> COMPAT_INGOTS_URANIUM = TagsHelper.ITEMS.getForgeTagOrCreateOptional("ingots/uranium");
+        public static final ITag.INamedTag<Item> COMPAT_BLOCKS_URANIUM = TagsHelper.ITEMS.getForgeTagOrCreateOptional("storage_blocks/uranium");
 
         //region internals
 
