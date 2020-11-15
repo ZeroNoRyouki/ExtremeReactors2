@@ -75,8 +75,8 @@ public class ItemTagGenerator
         this.build(Tags.Items.INGOTS, Items.YELLORIUM_INGOT, Items.CYANITE_INGOT, Items.GRAPHITE_INGOT);
         this.build(Tags.Items.DUSTS, Items.YELLORIUM_DUST, Items.CYANITE_DUST, Items.GRAPHITE_DUST);
 
-        this.build(TagsHelper.ITEMS.getTagOrCreateOptional("dusts/uranium"), Items.YELLORIUM_DUST);
-        this.build(TagsHelper.ITEMS.getTagOrCreateOptional("ingots/uranium"), Items.YELLORIUM_INGOT);
+        this.build(TagsHelper.ITEMS.createForgeOptionalTag("dusts/uranium"), Items.YELLORIUM_DUST);
+        this.build(TagsHelper.ITEMS.createForgeOptionalTag("ingots/uranium"), Items.YELLORIUM_INGOT);
     }
 
     //endregion

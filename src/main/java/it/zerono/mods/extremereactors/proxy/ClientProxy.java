@@ -59,7 +59,9 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.client.event.ModelBakeEvent;
 import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.event.TagsUpdatedEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
@@ -80,6 +82,7 @@ public class ClientProxy
         this._modelBuilders = initModels();
         Mod.EventBusSubscriber.Bus.MOD.bus().get().register(this);
         Mod.EventBusSubscriber.Bus.FORGE.bus().get().addListener(this::onItemTooltip);
+        Mod.EventBusSubscriber.Bus.FORGE.bus().get().addListener(EventPriority.LOWEST, this::onVanillaTagsUpdated);
 
         CodeHelper.addResourceReloadListener(this);
     }
@@ -220,6 +223,10 @@ public class ClientProxy
 
     //endregion
     //region api tooltip cache
+
+    private void onVanillaTagsUpdated(final TagsUpdatedEvent.VanillaTagTypes event) {
+        this.invalidateApiTooltipCache();
+    }
 
     private Map<Item, Set<ITextComponent>> getApiTooltipCache() {
 

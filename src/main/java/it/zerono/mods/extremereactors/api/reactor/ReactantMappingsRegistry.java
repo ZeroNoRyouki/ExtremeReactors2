@@ -25,12 +25,22 @@ import com.google.common.collect.Maps;
 import it.zerono.mods.extremereactors.api.ExtremeReactorsAPI;
 import it.zerono.mods.extremereactors.api.IMapping;
 import it.zerono.mods.extremereactors.api.InternalDispatcher;
+import it.zerono.mods.zerocore.lib.CodeHelper;
+import it.zerono.mods.zerocore.lib.item.ItemHelper;
+import it.zerono.mods.zerocore.lib.tag.CollectionProviders;
+import it.zerono.mods.zerocore.lib.tag.TagList;
+import it.zerono.mods.zerocore.lib.tag.TagsHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tags.ITag;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.util.NonNullSupplier;
+import net.minecraftforge.event.TagsUpdatedEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
 
@@ -39,6 +49,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
+@Mod.EventBusSubscriber(modid = ExtremeReactorsAPI.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public final class ReactantMappingsRegistry {
 
     public static final int STANDARD_SOLID_REACTANT_AMOUNT = 1000; // 1 item = 1000 mB, standard
@@ -50,7 +61,7 @@ public final class ReactantMappingsRegistry {
      * @param stack The ItemStack
      * @return The Source-Product solid mapping, if one is found and the provided stack is not empty
      */
-    public static Optional<IMapping<ITag.INamedTag<Item>, Reactant>> getFromSolid(final ItemStack stack) {
+    public static Optional<IMapping<ResourceLocation, Reactant>> getFromSolid(final ItemStack stack) {
 
         if (stack.isEmpty()) {
             return Optional.empty();
@@ -58,10 +69,12 @@ public final class ReactantMappingsRegistry {
 
         final Item item = stack.getItem();
 
-        return s_solidToReactant.entrySet().stream()
-                .filter(entry -> entry.getKey().contains(item))
-                .map(Map.Entry::getValue)
-                .findAny();
+        return s_solidTags
+                .find(tag -> tag.contains(item))
+                .filter(t -> t instanceof ITag.INamedTag)
+                .map(t -> (ITag.INamedTag<Item>)t)
+                .map(ITag.INamedTag::getName)
+                .map(s_solidToReactant::get);
     }
 
     /**
@@ -70,59 +83,82 @@ public final class ReactantMappingsRegistry {
      * @param reactant The Reactant
      * @return A list of reactant => Item Tag mappings, if one is found. Note that reactant is the source and Item Tag is the product
      */
-    public static Optional<List<IMapping<Reactant, ITag.INamedTag<Item>>>> getToSolid(final Reactant reactant) {
+    public static Optional<List<IMapping<Reactant, ResourceLocation>>> getToSolid(final Reactant reactant) {
         return Optional.ofNullable(s_reactantToSolid.get(reactant));
     }
 
     /**
-     * Register an Item Tag as a valid Reactant source.
+     * Get an ItemStack filled with the given amount of the first available Item from the Item Tag associated with the provided mapping
+     *
+     * @param mapping the mapping
+     * @param amount the amount of items
+     * @return an ItemStack that contains the requested item, if any is found, or an empty ItemStack
+     */
+    public static ItemStack getSolidStackFrom(final IMapping<Reactant, ResourceLocation> mapping, final int amount) {
+        return s_solidTags.getTag(mapping.getProduct())
+                .map(TagsHelper::getTagFirstElement)
+                .map(item -> ItemHelper.stackFrom(item, amount))
+                .orElse(ItemStack.EMPTY);
+    }
+
+    /**
+     * Register an Item Tag id as a valid Reactant source.
      *
      * For fuels, it will allow access ports to accept Items in the inlet slot.
      * For wastes, it will allow access ports to eject Items into the outlet slot.
      *
      * @param reactantName The name of the Reactant produced by the source.
      * @param reactantQty The quantity of the Reactant produced for every unit of source (must be >= 0).
-     * @param source The source for the reactant.
+     * @param sourceItemTagId The Item Tag id of the source for the reactant.
      */
-    public static void register(final String reactantName, final int reactantQty, final ITag.INamedTag<Item> source) {
+    public static void register(final String reactantName, final int reactantQty, final ResourceLocation sourceItemTagId) {
 
         Preconditions.checkNotNull(reactantName);
         Preconditions.checkArgument(!Strings.isNullOrEmpty(reactantName));
 
         InternalDispatcher.dispatch("mapping-register", () -> {
 
-            int qty = reactantQty;
+            final int qty;
 
-            if (qty < 0) {
+            if (reactantQty < 0) {
 
-                ExtremeReactorsAPI.LOGGER.warn(MARKER, "Using default quantity for reactant {} instead of the provided, invalid, one: {}", reactantName, qty);
+                ExtremeReactorsAPI.LOGGER.warn(MARKER, "Using default quantity for reactant {} instead of the provided, invalid, one: {}", reactantName, reactantQty);
                 qty = STANDARD_SOLID_REACTANT_AMOUNT;
-            }
-            
-            final Optional<Reactant> entry = ReactantsRegistry.get(reactantName);
-
-            if (entry.isPresent()) {
-
-                final IMapping<ITag.INamedTag<Item>, Reactant> mapping = IMapping.of(source, 1, entry.get(), qty);
-
-                s_solidToReactant.put(mapping.getSource(), mapping);
-                s_reactantToSolid.computeIfAbsent(mapping.getProduct(), k -> Lists.newArrayList()).add(mapping.getReverse());
 
             } else {
 
-                ExtremeReactorsAPI.LOGGER.warn(MARKER, "Skipping registration for an unknown source reactant: {}", reactantName);
+                qty = reactantQty;
             }
+
+            CodeHelper.optionalIfPresentOrElse(ReactantsRegistry.get(reactantName),
+                    reactant -> {
+
+                        final IMapping<ResourceLocation, Reactant> mapping = IMapping.of(sourceItemTagId, 1, reactant, qty);
+
+                        s_solidToReactant.put(mapping.getSource(), mapping);
+                        s_reactantToSolid.computeIfAbsent(mapping.getProduct(), k -> Lists.newArrayList()).add(mapping.getReverse());
+
+                    },
+                    () -> ExtremeReactorsAPI.LOGGER.warn(MARKER, "Skipping registration for an unknown source reactant: {}", reactantName));
         });
     }
 
     public static void fillReactantsTooltips(final Map<Item, Set<ITextComponent>> tooltipsMap,
                                              final NonNullSupplier<Set<ITextComponent>> setSupplier) {
 
-        s_solidToReactant.entrySet().stream()
-                .filter(entry -> entry.getValue().getProduct().getType().isFuel())
-                .map(Map.Entry::getKey)
-                .flatMap(itemTag -> itemTag.getAllElements().stream())
-                .forEach(item -> tooltipsMap.computeIfAbsent(item, k -> setSupplier.get()).add(TOOLTIP_FUEL_SOURCE));
+        s_solidToReactant.values().stream()
+                .filter(mapping -> mapping.getProduct().getType().isFuel())
+                .map(IMapping::getSource)
+                .forEach(id -> s_solidTags.forTag(id,
+                        tag -> tag.getAllElements()
+                                .forEach(item -> tooltipsMap.computeIfAbsent(item, k -> setSupplier.get()).add(TOOLTIP_FUEL_SOURCE))));
+    }
+
+    @SubscribeEvent(priority = EventPriority.LOW)
+    public static void onVanillaTagsUpdated(final TagsUpdatedEvent.VanillaTagTypes event) {
+
+        updateTags(s_solidToReactant.keySet(), s_solidTags, TagsHelper.ITEMS);
+        //TODO fluids
     }
 
     //region internals
@@ -130,14 +166,26 @@ public final class ReactantMappingsRegistry {
     private ReactantMappingsRegistry() {
     }
 
+    private static <T> void updateTags(final Set<ResourceLocation> ids, final TagList<T> tagList, final TagsHelper<T> helper) {
+
+        tagList.clear();
+        ids.stream()
+                .filter(helper::tagExist)
+                .map(helper::createTag)
+                .forEach(tagList::addTag);
+    }
+
     // 1:1 mappings
     // - solid source -> Item Tag : reactant name mapping
-    private static final Map<ITag.INamedTag<Item>, IMapping<ITag.INamedTag<Item>, Reactant>> s_solidToReactant = Maps.newHashMap();
+    private static final Map<ResourceLocation, IMapping<ResourceLocation, Reactant>> s_solidToReactant = Maps.newHashMap();
     //TODO fluids
 
     // 1:many mappings
     // - reactant name -> a list of reactant name : Item Tag mappings
-    private static final Map<Reactant, List<IMapping<Reactant, ITag.INamedTag<Item>>>> s_reactantToSolid = Maps.newHashMap();
+    private static final Map<Reactant, List<IMapping<Reactant, ResourceLocation>>> s_reactantToSolid = Maps.newHashMap();
+    //TODO fluids
+
+    private static final TagList<Item> s_solidTags = new TagList<>(CollectionProviders.ITEMS_PROVIDER);
     //TODO fluids
 
     private static final Marker MARKER = MarkerManager.getMarker("API/ReactantMappingsRegistry").addParents(ExtremeReactorsAPI.MARKER);

@@ -25,8 +25,6 @@ import net.minecraft.fluid.Fluid;
 import net.minecraft.item.Item;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.ITag;
-import net.minecraft.tags.ItemTags;
-import net.minecraft.util.ResourceLocation;
 
 public class ContentTags {
 
@@ -67,8 +65,8 @@ public class ContentTags {
 
         public static final ITag.INamedTag<Item> WRENCH = forgeTag("tools/wrench");
 
-        public static final ITag.INamedTag<Item> COMPAT_INGOTS_URANIUM = TagsHelper.ITEMS.getForgeTagOrCreateOptional("ingots/uranium");
-        public static final ITag.INamedTag<Item> COMPAT_BLOCKS_URANIUM = TagsHelper.ITEMS.getForgeTagOrCreateOptional("storage_blocks/uranium");
+        public static final ITag.INamedTag<Item> COMPAT_INGOTS_URANIUM = TagsHelper.ITEMS.createForgeOptionalTag("ingots/uranium");
+        public static final ITag.INamedTag<Item> COMPAT_BLOCKS_URANIUM = TagsHelper.ITEMS.createForgeOptionalTag("storage_blocks/uranium");
 
         //region internals
 

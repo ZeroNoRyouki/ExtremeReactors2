@@ -63,7 +63,7 @@ public class BlockTagGenerator
         this.build(ContentTags.Blocks.ORE_YELLORITE, Blocks.YELLORITE_ORE_BLOCK);
 
         this.build(Tags.Blocks.ORES, Blocks.YELLORITE_ORE_BLOCK, Blocks.ANGLESITE_ORE_BLOCK, Blocks.BENITOITE_ORE_BLOCK);
-        this.build(TagsHelper.BLOCKS.getTagOrCreateOptional("ores/uranium"), Blocks.YELLORITE_ORE_BLOCK);
+        this.build(TagsHelper.BLOCKS.createForgeOptionalTag("ores/uranium"), Blocks.YELLORITE_ORE_BLOCK);
 
     }
 
