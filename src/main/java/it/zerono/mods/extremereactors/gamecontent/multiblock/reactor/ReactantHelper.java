@@ -26,9 +26,8 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part.Reacto
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.IMultiblockReactorVariant;
 import it.zerono.mods.zerocore.lib.data.stack.OperationMode;
 import it.zerono.mods.zerocore.lib.item.ItemHelper;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tags.ITag;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fluids.FluidStack;
 
@@ -186,7 +185,7 @@ public class ReactantHelper {
 
     private static int refuelSolid(final FuelContainer container, final IFuelSource<ItemStack> fuelSource,
                                    final IMultiblockReactorVariant variant, final ItemStack fuelSourceStack,
-                                   final IMapping<ITag.INamedTag<Item>, Reactant> fuelMapping) {
+                                   final IMapping<ResourceLocation, Reactant> fuelMapping) {
 
         // convert the source items to the equivalent amount of Reactant
 

@@ -112,7 +112,7 @@ final class ReactorGameData {
 
     private static void registerIngotReactantMapping(final String reactantName, final ITag.INamedTag<Item> tag, final int ingotsCount) {
         ReactantMappingsRegistry.register(reactantName,
-                ingotsCount * ReactantMappingsRegistry.STANDARD_SOLID_REACTANT_AMOUNT, tag);
+                ingotsCount * ReactantMappingsRegistry.STANDARD_SOLID_REACTANT_AMOUNT, tag.getName());
     }
 
 //    @Deprecated

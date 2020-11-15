@@ -25,7 +25,6 @@ import it.zerono.mods.extremereactors.proxy.IProxy;
 import it.zerono.mods.extremereactors.proxy.ServerProxy;
 import it.zerono.mods.zerocore.lib.init.IModInitializationHandler;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.InterModComms;
@@ -60,19 +59,11 @@ public class ExtremeReactors implements IModInitializationHandler {
         Content.initialize();
 
         s_proxy = DistExecutor.safeRunForDist(() -> ClientProxy::new, () -> ServerProxy::new);
-//        Mod.EventBusSubscriber.Bus.MOD.bus().get().register(this);
 
         final IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
 
-        modBus.addListener(this::onPreRegistries);
         modBus.addListener(this::onCommonInit);
         modBus.addListener(this::onInterModProcess);
-    }
-
-    private void onPreRegistries(RegistryEvent.NewRegistry event) {
-
-        // execute before registries population
-
     }
 
     /**
@@ -80,7 +71,6 @@ public class ExtremeReactors implements IModInitializationHandler {
      * @param event the event
      */
     @Override
-//    @SubscribeEvent
     public void onCommonInit(FMLCommonSetupEvent event) {
     }
 
@@ -92,7 +82,6 @@ public class ExtremeReactors implements IModInitializationHandler {
      * @param event the event
      */
     @Override
-//    @SubscribeEvent
     public void onInterModProcess(InterModProcessEvent event) {
 
         // API messages
