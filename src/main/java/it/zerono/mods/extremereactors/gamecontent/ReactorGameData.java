@@ -21,6 +21,7 @@ package it.zerono.mods.extremereactors.gamecontent;
 import it.zerono.mods.extremereactors.api.reactor.*;
 import net.minecraft.item.Item;
 import net.minecraft.tags.ITag;
+import net.minecraft.util.ResourceLocation;
 
 final class ReactorGameData {
 
@@ -46,9 +47,9 @@ final class ReactorGameData {
     private static void registerReactantMappings() {
 
         registerIngotReactantMapping(REACTANT_YELLORIUM, ContentTags.Items.INGOTS_YELLORIUM, 1);
-        registerIngotReactantMapping(REACTANT_YELLORIUM, ContentTags.Items.COMPAT_INGOTS_URANIUM, 1);
+        registerIngotReactantMapping(REACTANT_YELLORIUM, "forge:ingots/uranium", 1);
         registerIngotReactantMapping(REACTANT_YELLORIUM, ContentTags.Items.BLOCKS_YELLORIUM, 9);
-        registerIngotReactantMapping(REACTANT_YELLORIUM, ContentTags.Items.COMPAT_BLOCKS_URANIUM, 9);
+        registerIngotReactantMapping(REACTANT_YELLORIUM, "forge:storage_blocks/uranium", 9);
 
         registerIngotReactantMapping(REACTANT_CYANITE, ContentTags.Items.INGOTS_CYANITE, 1);
         registerIngotReactantMapping(REACTANT_CYANITE, ContentTags.Items.BLOCKS_CYANITE, 9);
@@ -111,9 +112,17 @@ final class ReactorGameData {
     //region helpers
 
     private static void registerIngotReactantMapping(final String reactantName, final ITag.INamedTag<Item> tag, final int ingotsCount) {
-        ReactantMappingsRegistry.register(reactantName,
-                ingotsCount * ReactantMappingsRegistry.STANDARD_SOLID_REACTANT_AMOUNT, tag.getName());
+        registerIngotReactantMapping(reactantName, tag.getName(), ingotsCount);
     }
+
+    private static void registerIngotReactantMapping(final String reactantName, final String itemTagId, final int ingotsCount) {
+        registerIngotReactantMapping(reactantName, new ResourceLocation(itemTagId), ingotsCount);
+    }
+
+    private static void registerIngotReactantMapping(final String reactantName, final ResourceLocation itemTagId, final int ingotsCount) {
+        ReactantMappingsRegistry.register(reactantName, ingotsCount * ReactantMappingsRegistry.STANDARD_SOLID_REACTANT_AMOUNT, itemTagId);
+    }
+
 
 //    @Deprecated
 //    private static void registerIngotReactantMapping(final String reactantName, final ResourceLocation tagId,

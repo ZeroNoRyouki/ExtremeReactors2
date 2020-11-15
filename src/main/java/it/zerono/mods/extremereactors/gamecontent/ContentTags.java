@@ -18,7 +18,6 @@
 
 package it.zerono.mods.extremereactors.gamecontent;
 
-import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.zerocore.lib.tag.TagsHelper;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
@@ -35,10 +34,6 @@ public class ContentTags {
         public static final ITag.INamedTag<Block> BLOCKS_GRAPHITE = forgeTag("storage_blocks/graphite");
 
         //region internals
-
-        private static ITag<Block> tag(final String name) {
-            return TagsHelper.BLOCKS.createModTag(ExtremeReactors.MOD_ID, name);
-        }
 
         private static ITag.INamedTag<Block> forgeTag(final String name) {
             return TagsHelper.BLOCKS.createForgeTag(name);
@@ -63,14 +58,7 @@ public class ContentTags {
 
         public static final ITag.INamedTag<Item> WRENCH = forgeTag("tools/wrench");
 
-        public static final ITag.INamedTag<Item> COMPAT_INGOTS_URANIUM = TagsHelper.ITEMS.createForgeOptionalTag("ingots/uranium");
-        public static final ITag.INamedTag<Item> COMPAT_BLOCKS_URANIUM = TagsHelper.ITEMS.createForgeOptionalTag("storage_blocks/uranium");
-
         //region internals
-
-        private static ITag.INamedTag<Item> tag(final String name) {
-            return TagsHelper.ITEMS.createModTag(ExtremeReactors.MOD_ID, name);
-        }
 
         private static ITag.INamedTag<Item> forgeTag(final String name) {
             return TagsHelper.ITEMS.createForgeTag(name);
