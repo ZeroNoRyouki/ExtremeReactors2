@@ -44,6 +44,8 @@ public enum CommonIcons implements NonNullSupplier<ISprite> {
     TemperatureScale(builder().from(38, 114).ofSize(5, 59).build()),
     PowerBattery(builder().from(128, 96).build()),
     FuelMix(builder().from(144, 96).build()),
+    RotorStatus(builder().from(160, 96).build()),
+    RotorRPM(builder().from(176, 96).build()),
     LabelEdit(builder().from(64, 176).build()),
 
     ButtonInputDirection(builder().from(0, 96).build()),

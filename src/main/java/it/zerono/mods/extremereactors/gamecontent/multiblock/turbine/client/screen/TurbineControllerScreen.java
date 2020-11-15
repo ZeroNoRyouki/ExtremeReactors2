@@ -48,11 +48,11 @@ import it.zerono.mods.zerocore.lib.item.inventory.PlayerInventoryUsage;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.fluid.Fluid;
-import net.minecraft.item.DyeColor;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.util.NonNullSupplier;
 
@@ -87,6 +87,7 @@ public class TurbineControllerScreen
         this._lblEnergyRatio = this.infoLabel("energyRatioValue", "");
         this._rpmBar = new GaugeBar(this, "rpmBar", this._turbine.getVariant().getMaxRotorSpeed(), CommonIcons.RpmBar.get());
         this._lblRpm = this.infoLabel("rpmInfo", "");
+        this._lblRotorStatus = this.infoLabel("rotorBlades", "");
         this._maxIntakeRate = new NumberInput.IntNumberInput(this, "maxIntakeRate", 0, this._turbine.getMaxIntakeRateHardLimit(), this._turbine.getMaxIntakeRate());
 
         this._inductorEngaged = new SwitchPictureButton(this, "inductorEngaged", false);
@@ -153,7 +154,7 @@ public class TurbineControllerScreen
         p.setLayoutEngine(new FixedLayoutEngine());
 
         s = new Static(this, 0, 0).setColor(Colour.BLACK);
-        s.setLayoutEngineHint(FixedLayoutEngine.hint(0, 0, this.getGuiWidth() - 29, 1));
+        s.setLayoutEngineHint(FixedLayoutEngine.hint(0, 0, this.getGuiWidth() - 29 - 3, 1));
 
         p.addControl(s);
         outerPanel.addControl(p);
@@ -298,7 +299,7 @@ public class TurbineControllerScreen
         this._maxIntakeRate.setDisplaySuffix(" mB/t");
         this._maxIntakeRate.setHorizontalAlignment(HorizontalAlignment.Right);
         this._maxIntakeRate.setDesiredDimension(INFOPANEL_WIDTH - 10, 14);
-        this._maxIntakeRate.Changed.subscribe((c, newRate) -> this._turbine.setMaxIntakeRate(newRate));
+        this._maxIntakeRate.Changed.subscribe(this::onMaxIntakeRateChanged);
         this._maxIntakeRate.setTooltips(ImmutableList.of(
                 new TranslationTextComponent("gui.bigreactors.turbine.controlrod.maxintake.input.tooltip.line1").setStyle(STYLE_TOOLTIP_TITLE),
                 TEXT_EMPTY_LINE,
@@ -332,7 +333,7 @@ public class TurbineControllerScreen
                 .setStyle(STYLE_TOOLTIP_VALUE));
 
         p = this.vBarPanel();
-        this.addBarIcon(CommonIcons.PowerBattery, 16, 16, p);
+        this.addBarIcon(CommonIcons.RotorRPM, 16, 16, p);
 
         this._rpmBar.setDesiredDimension(18, 66);
         this._rpmBar.setBackground(CommonIcons.BarBackground.get());
@@ -364,7 +365,7 @@ public class TurbineControllerScreen
         // - rpm info
 
         p = this.hInfoPanelSlot();
-        p.addControl(new Picture(this, "rpmInfoIcon", CommonIcons.EnergyRatioIcon.get(), 16, 16));
+        p.addControl(new Picture(this, "rpmInfoIcon", CommonIcons.RotorRPM.get(), 16, 16));
 
         this._lblRpm.setTooltips(this._rpmBar.getTooltips(), this._rpmBar.getTooltipsObjects());
 
@@ -378,11 +379,10 @@ public class TurbineControllerScreen
         p.addControl(this._lblRpm);
         infoPanelRight.addControl(p);
 
-        // - empty spearator
+        // - empty separator
         p = new Panel(this);
 
         p.setDesiredDimension(11, VBARPANEL_HEIGHT);
-//        empty.setBackground(Colour.from(DyeColor.GREEN));
         barsPanel.addControl(p);
 
         // - energy bar
@@ -457,6 +457,40 @@ public class TurbineControllerScreen
                 value -> this._lblEnergyRatio.setText(CodeHelper.formatAsHumanReadableNumber(value, this._outputEnergySystem.getUnit() + "/t")),
                 energyGeneratedText);
         p.addControl(this._lblEnergyRatio);
+        infoPanelRight.addControl(p);
+
+        // rotor status info
+
+        final BindableTextComponent<String> rotorEfficiencyText = new BindableTextComponent<>(text -> new StringTextComponent(text).setStyle(STYLE_TOOLTIP_VALUE));
+        final BindableTextComponent<String> rotorBlades = new BindableTextComponent<>(text -> new StringTextComponent(text).setStyle(STYLE_TOOLTIP_VALUE));
+
+        p = this.hInfoPanelSlot();
+        p.addControl(new Picture(this, "rotorStatusIcon", CommonIcons.RotorStatus.get(), 16, 16));
+
+        this._lblRotorStatus.setTooltips(ImmutableList.of(
+                new TranslationTextComponent("gui.bigreactors.turbine.controller.rotorstatus.line1").setStyle(STYLE_TOOLTIP_TITLE),
+                new TranslationTextComponent("gui.bigreactors.turbine.controller.rotorstatus.line2"),
+                CodeHelper.TEXT_EMPTY_LINE,
+                new TranslationTextComponent("gui.bigreactors.turbine.controller.rotorstatus.line3", String.format(TextFormatting.DARK_AQUA + "" + TextFormatting.BOLD + "%d", this._turbine.getVariant().getBaseFluidPerBlade())),
+                new TranslationTextComponent("gui.bigreactors.turbine.controller.rotorstatus.line4"),
+                CodeHelper.TEXT_EMPTY_LINE,
+                new TranslationTextComponent("gui.bigreactors.turbine.controller.rotorstatus.line5"),
+                new TranslationTextComponent("gui.bigreactors.turbine.controller.rotorstatus.line6"),
+                new TranslationTextComponent("gui.bigreactors.turbine.controller.rotorstatus.line7"),
+                CodeHelper.TEXT_EMPTY_LINE,
+                new TranslationTextComponent("gui.bigreactors.turbine.controller.rotorstatus.line8"),
+                new TranslationTextComponent("gui.bigreactors.turbine.controller.rotorstatus.line9")),
+                ImmutableList.of(
+                        // @0
+                        rotorEfficiencyText,
+                        // @1
+                        rotorBlades
+                )
+        );
+        this.addBinding(TurbineControllerScreen::getRotorEfficiencyText, this._lblRotorStatus::setText, rotorEfficiencyText);
+        this.addBinding(TurbineControllerScreen::getRotorBladesText, rotorBlades);
+
+        p.addControl(this._lblRotorStatus);
         infoPanelRight.addControl(p);
 
         // - separator
@@ -574,16 +608,16 @@ public class TurbineControllerScreen
 
         // - scram
 
-        final Button scram = new Button(this, "scram", "SCRAM");
-
-        scram.setLayoutEngineHint(FixedLayoutEngine.hint(x, y, w * 2, 25));
-        scram.setTooltips(new TranslationTextComponent("gui.bigreactors.reactor.controller.scram.line1").setStyle(STYLE_TOOLTIP_TITLE),
-                TEXT_EMPTY_LINE,
-                new TranslationTextComponent("gui.bigreactors.reactor.controller.scram.line2"),
-                new TranslationTextComponent("gui.bigreactors.reactor.controller.scram.line3"),
-                new TranslationTextComponent("gui.bigreactors.reactor.controller.scram.line4").setStyle(Style.EMPTY.setItalic(true)));
-        scram.Clicked.subscribe(this::onScram);
-        commandPanel.addControl(scram);
+//        final Button scram = new Button(this, "scram", "SCRAM");
+//
+//        scram.setLayoutEngineHint(FixedLayoutEngine.hint(x, y, w * 2, 25));
+//        scram.setTooltips(new TranslationTextComponent("gui.bigreactors.reactor.controller.scram.line1").setStyle(STYLE_TOOLTIP_TITLE),
+//                TEXT_EMPTY_LINE,
+//                new TranslationTextComponent("gui.bigreactors.reactor.controller.scram.line2"),
+//                new TranslationTextComponent("gui.bigreactors.reactor.controller.scram.line3"),
+//                new TranslationTextComponent("gui.bigreactors.reactor.controller.scram.line4").setStyle(Style.EMPTY.setItalic(true)));
+//        scram.Clicked.subscribe(this::onScram);
+//        commandPanel.addControl(scram);
     }
 
     /**
@@ -752,6 +786,18 @@ public class TurbineControllerScreen
                 .orElse(TEXT_EMPTY);
     }
 
+    private static String getRotorEfficiencyText(final MultiblockTurbine turbine) {
+        return String.format("%.1f%%", MathHelper.clamp(turbine.getRotorEfficiencyLastTick(), 0.0f, 1.0f) * 100);
+    }
+
+    private static String getRotorBladesText(final MultiblockTurbine turbine) {
+
+        final int numBlades = turbine.getRotorBladesCount();
+        final int neededBlades = turbine.getFluidConsumedLastTick() / turbine.getVariant().getBaseFluidPerBlade();
+
+        return String.format("%d / %d", numBlades, neededBlades);
+    }
+
     //endregion
 
     private void onActiveStateChanged(final SwitchButton button) {
@@ -769,6 +815,14 @@ public class TurbineControllerScreen
         this.sendCommandToServer(button.getActive() ?
                 TurbineControllerEntity.COMMAND_ENGAGE_COILS :
                 TurbineControllerEntity.COMMAND_DISENGAGE_COILS);
+    }
+
+    private void onMaxIntakeRateChanged(final NumberInput<Integer> inputControl, int newRate) {
+
+        final CompoundNBT data = new CompoundNBT();
+
+        data.putInt("rate", newRate);
+        this.sendCommandToServer(TurbineControllerEntity.COMMAND_SET_INTAKERATE, data);
     }
 
     private void onScram(final Button button, final Integer mouseButton) {
@@ -790,12 +844,14 @@ public class TurbineControllerScreen
     private static final ITextComponent TEXT_INDUCTOR_ENGAGED = new TranslationTextComponent("gui.bigreactors.turbine.controller.inductor.mode.engaged").setStyle(STYLE_TOOLTIP_VALUE);
     private static final ITextComponent TEXT_INDUCTOR_DISENGAGED = new TranslationTextComponent("gui.bigreactors.turbine.controller.inductor.mode.disengaged").setStyle(STYLE_TOOLTIP_VALUE);
 
+    private static final ITextComponent TEXT_ROTOR_EFFICIENCY_100 = new TranslationTextComponent("gui.bigreactors.turbine.controller.rotorstatus.100").setStyle(STYLE_TOOLTIP_VALUE);
+
+
     private final MultiblockTurbine _turbine;
     private final EnergySystem _outputEnergySystem;
     private final double _turbineEnergyCapacity;
 
     private final BindingGroup _bindings;
-
 
     private final GaugeBar _coolantBar;
     private final GaugeBar _vaporBar;
@@ -808,13 +864,9 @@ public class TurbineControllerScreen
     private final SwitchPictureButton _ventOverflow;
     private final SwitchPictureButton _ventDoNotVent;
 
-
-//    private final Label _lblTemperature;
-//    private final Label _lblFuelUsage;
-//    private final Label _lblFuelRichness;
     private final Label _lblEnergyRatio;
     private final Label _lblRpm;
-//    private final Label _lblVaporRatio;
+    private final Label _lblRotorStatus;
 
     //endregion
 }

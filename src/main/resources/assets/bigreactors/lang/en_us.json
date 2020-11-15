@@ -354,6 +354,17 @@
     "gui.bigreactors.turbine.controller.rpmbar.line7": "Speeds over 2000 RPM may cause",
     "gui.bigreactors.turbine.controller.rpmbar.line8": "a turbine to fail catastrophically.",
 
+    "gui.bigreactors.turbine.controller.rotorstatus.line1": "Rotor Efficiency",
+    "gui.bigreactors.turbine.controller.rotorstatus.line2": "  @0",
+    "gui.bigreactors.turbine.controller.rotorstatus.line3": "Blade Vapor Capacity: %1$d mB",
+    "gui.bigreactors.turbine.controller.rotorstatus.line4": "Blades: @1",
+    "gui.bigreactors.turbine.controller.rotorstatus.line5": "Rotor blades can only fully capture",
+    "gui.bigreactors.turbine.controller.rotorstatus.line6": "energy from an amount of vapor",
+    "gui.bigreactors.turbine.controller.rotorstatus.line7": "equals to their capacity.",
+    "gui.bigreactors.turbine.controller.rotorstatus.line8": "Efficiency drop if the flow of input",
+    "gui.bigreactors.turbine.controller.rotorstatus.line9": "fluid rises past capacity.",
+    "gui.bigreactors.turbine.controller.rotorstatus.100": "100%",
+
     "gui.bigreactors.turbine.controller.maxintake.label": "Flow rate:",
     "gui.bigreactors.turbine.controlrod.maxintake.input.tooltip.line1": "Flow Rate Governor",
     "gui.bigreactors.turbine.controlrod.maxintake.input.tooltip.line2": "Controls the maximum rate at",

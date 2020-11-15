@@ -47,6 +47,7 @@ public class TurbineControllerEntity
 
     public static String COMMAND_ENGAGE_COILS = "coilon";
     public static String COMMAND_DISENGAGE_COILS = "coiloff";
+    public static String COMMAND_SET_INTAKERATE = "rate";
     public static String COMMAND_SET_VENT = "vent";
     public static String COMMAND_SCRAM = "scram";
 
@@ -59,6 +60,7 @@ public class TurbineControllerEntity
                 .addServerHandler(COMMAND_DEACTIVATE, tce -> tce.setTurbineActive(false))
                 .addServerHandler(COMMAND_ENGAGE_COILS, tce -> tce.executeOnController(tc -> tc.setInductorEngaged(true)))
                 .addServerHandler(COMMAND_DISENGAGE_COILS, tce -> tce.executeOnController(tc -> tc.setInductorEngaged(false)))
+                .addServerHandler(COMMAND_SET_INTAKERATE, TurbineControllerEntity::setIntakeRate)
                 .addServerHandler(COMMAND_SET_VENT, TurbineControllerEntity::setVent)
                 .addServerHandler(COMMAND_SCRAM, TurbineControllerEntity::scram) // TODO ?
                 .build(this)
@@ -180,6 +182,10 @@ public class TurbineControllerEntity
     //endregion
     //region internals
     //region Tile Commands
+
+    private void setIntakeRate(CompoundNBT data) {
+        this.executeOnController(turbine -> turbine.setMaxIntakeRate(data.getInt("rate")));
+    }
 
     private void setVent(CompoundNBT data) {
 
