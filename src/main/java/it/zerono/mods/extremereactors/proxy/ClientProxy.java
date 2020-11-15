@@ -25,6 +25,7 @@ import com.google.common.collect.Streams;
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import it.zerono.mods.extremereactors.api.reactor.ModeratorsRegistry;
 import it.zerono.mods.extremereactors.api.reactor.ReactantMappingsRegistry;
+import it.zerono.mods.extremereactors.api.turbine.CoilMaterialRegistry;
 import it.zerono.mods.extremereactors.config.Config;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.CachedSprites;
@@ -249,6 +250,7 @@ public class ClientProxy
 
         ReactantMappingsRegistry.fillReactantsTooltips(wipCache, Sets::newHashSet);
         ModeratorsRegistry.fillModeratorsTooltips(wipCache, Sets::newHashSet);
+        CoilMaterialRegistry.fillModeratorsTooltips(wipCache, Sets::newHashSet);
 
         return new Object2ObjectArrayMap<>(wipCache);
     }

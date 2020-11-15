@@ -19,27 +19,37 @@
 package it.zerono.mods.extremereactors.api.turbine;
 
 import com.google.common.base.Preconditions;
+import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 import it.zerono.mods.extremereactors.api.ExtremeReactorsAPI;
 import it.zerono.mods.extremereactors.api.InternalDispatcher;
-import it.zerono.mods.zerocore.lib.CodeHelper;
 import it.zerono.mods.zerocore.lib.tag.CollectionProviders;
 import it.zerono.mods.zerocore.lib.tag.TagList;
 import it.zerono.mods.zerocore.lib.tag.TagsHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.item.Item;
 import net.minecraft.tags.ITag;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraftforge.common.util.NonNullSupplier;
+import net.minecraftforge.event.TagsUpdatedEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
 
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * Keep track of all the CoilMaterials that could be used inside a Turbine
  */
 @SuppressWarnings({"WeakerAccess"})
+@Mod.EventBusSubscriber(modid = ExtremeReactorsAPI.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class CoilMaterialRegistry {
 
     /**
@@ -134,38 +144,7 @@ public class CoilMaterialRegistry {
      * Register a Block Tag as permissible in a Turbine's inductor coil.
      * All blocks that match this Tag will be permissible.
      *
-     * @param tag            The Block Tag
-     * @param efficiency     Efficiency of the block. 1.0 == iron, 2.0 == gold, etc.
-     * @param bonus          Energy bonus of the block, if any. Normally 1.0. This is an exponential term and should only be used for EXTREMELY rare blocks!
-     * @param extractionRate
-     */
-    public static void register(final ITag.INamedTag<Block> tag, final float efficiency,
-                                final float bonus, final float extractionRate) {
-
-        Preconditions.checkNotNull(tag);
-        InternalDispatcher.dispatch("coilmaterial-register", () -> CodeHelper.optionalIfPresentOrElse(get(tag),
-                material -> {
-
-                    ExtremeReactorsAPI.LOGGER.warn(MARKER, "Overriding existing coil data for Tag <{}>", tag);
-
-                    material.setEfficiency(efficiency);
-                    material.setBonus(bonus);
-                    material.setEnergyExtractionRate(extractionRate);
-                },
-                () -> {
-
-                    s_materials.put(tag.getName(), new CoilMaterial(efficiency, bonus, extractionRate));
-                    s_tags.addTag(tag);
-                }));
-    }
-
-    /**
-     * Register a Block Tag Id as permissible in a turbine's inductor coil.
-     * All blocks that match this Tag will be permissible.
-     * <p>
-     * If the block Tag could not be found, the registration will be ignored
-     *
-     * @param tagId             The id of the Block Tag
+     * @param tagId          The id of the Block Tag
      * @param efficiency     Efficiency of the block. 1.0 == iron, 2.0 == gold, etc.
      * @param bonus          Energy bonus of the block, if any. Normally 1.0. This is an exponential term and should only be used for EXTREMELY rare blocks!
      * @param extractionRate
@@ -173,8 +152,20 @@ public class CoilMaterialRegistry {
     public static void register(final String tagId, final float efficiency,
                                 final float bonus, final float extractionRate) {
 
-        Preconditions.checkNotNull(tagId);
-        register(TagsHelper.BLOCKS.getTagOrCreateOptional(tagId), efficiency, bonus, extractionRate);
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(tagId));
+
+        InternalDispatcher.dispatch("coilmaterial-register", () -> {
+
+            final ResourceLocation id = new ResourceLocation(tagId);
+
+            if (s_materials.containsKey(id)) { ;
+                ExtremeReactorsAPI.LOGGER.warn(MARKER, "Overriding existing coil data for Tag {}", tagId);
+            }
+
+            final CoilMaterial c = new CoilMaterial(efficiency, bonus, extractionRate);
+
+            s_materials.merge(id, c, (o, n) -> c);
+        });
     }
 
     /**
@@ -198,17 +189,34 @@ public class CoilMaterialRegistry {
     public static void remove(final ResourceLocation id) {
 
         Preconditions.checkNotNull(id);
-        InternalDispatcher.dispatch("coilmaterial-remove", () -> {
+        InternalDispatcher.dispatch("coilmaterial-remove", () -> s_materials.remove(id));
+    }
 
-            s_tags.removeTag(id);
-            s_materials.remove(id);
-        });
+    public static void fillModeratorsTooltips(final Map<Item, Set<ITextComponent>> tooltipsMap,
+                                              final NonNullSupplier<Set<ITextComponent>> setSupplier) {
+
+        s_tags.tagStream()
+                .flatMap(blockTag -> blockTag.getAllElements().stream())
+                .map(Block::asItem)
+                .forEach(item -> tooltipsMap.computeIfAbsent(item, k -> setSupplier.get()).add(TOOLTIP_COIL));
+    }
+
+    @SubscribeEvent(priority = EventPriority.LOW)
+    public static void onVanillaTagsUpdated(final TagsUpdatedEvent.VanillaTagTypes event) {
+
+        s_tags.clear();
+        s_materials.keySet().stream()
+                .filter(TagsHelper.BLOCKS::tagExist)
+                .map(TagsHelper.BLOCKS::createTag)
+                .forEach(s_tags::addTag);
     }
 
     //region internals
 
     private static TagList<Block> s_tags = new TagList<>(CollectionProviders.BLOCKS_PROVIDER);
     private static Map<ResourceLocation, CoilMaterial> s_materials = Maps.newHashMap();
+
+    private static final ITextComponent TOOLTIP_COIL = new TranslationTextComponent("api.bigreactors.reactor.tooltip.coil").setStyle(ExtremeReactorsAPI.STYLE_TOOLTIP);
 
     private static final Marker MARKER = MarkerManager.getMarker("API/CoilMaterialRegistry").addParents(ExtremeReactorsAPI.MARKER);
 
