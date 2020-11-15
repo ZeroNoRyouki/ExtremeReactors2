@@ -142,31 +142,6 @@ public class TurbineData
                             environment.getCoilBlock(position).ifPresent(coilStats);
                             break;
                     }
-
-//                    final BlockState state = world.getBlockState(position);
-//                    final Block block = state.getBlock();
-//
-//                    if (block instanceof TurbineRotorComponentBlock) {
-//
-//                        final TurbineRotorComponentBlock<?> rotorBlock = (TurbineRotorComponentBlock<?>)block;
-//
-//                        switch (rotorBlock.getPartType()) {
-//
-//                            case RotorBlade:
-//
-//                                rotorMass += variant.getRotorBladeMass();
-//                                bladeSurfaceArea += 1;
-//                                break;
-//
-//                            case RotorShaft:
-//
-//                                rotorMass += variant.getRotorShaftMass();
-//                                break;
-//                        }
-//                    }
-//
-//                    environment.getCoilBlock(position).ifPresent(coilStats);
-
                 } // end z
             } // end y
         } // end x loop - looping over interior
@@ -187,7 +162,7 @@ public class TurbineData
         } else {
 
             this._inductionEfficiency = (coilStats.Efficiency * 0.33f) / coilStats.Size;
-            this._inductionEnergyExponentBonus = Math.max(1f, (coilStats.Bonus / coilStats.Size));
+            this._inductionEnergyExponentBonus = Math.max(1.0f, (coilStats.Bonus / coilStats.Size));
             this._inductorDragCoefficient = (coilStats.DragCoefficient / coilStats.Size) * this.getInductorBaseDragCoefficient();
         }
 
@@ -333,6 +308,18 @@ public class TurbineData
         if (data.contains("inductorengaged")) {
             this.setInductorEngaged(data.getBoolean("inductorengaged"));
         }
+
+        if (data.contains("energylast")) {
+            this.setEnergyGeneratedLastTick(data.getDouble("energylast"));
+        }
+
+        if (data.contains("fluidlast")) {
+            this.setFluidConsumedLastTick(data.getInt("fluidlast"));
+        }
+
+        if (data.contains("rotorlast")) {
+            this.setRotorEfficiencyLastTick(data.getFloat("rotorlast"));
+        }
     }
 
     /**
@@ -350,6 +337,9 @@ public class TurbineData
         data.putFloat("rotorenergy", this.getRotorEnergy());
         data.putInt("maxintake", this.getMaxIntakeRate());
         data.putBoolean("inductorengaged", this.isInductorEngaged());
+        data.putDouble("energylast", this.getEnergyGeneratedLastTick());
+        data.putInt("fluidlast", this.getFluidConsumedLastTick());
+        data.putFloat("rotorlast", this.getRotorEfficiencyLastTick());
 
         return data;
     }

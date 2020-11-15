@@ -133,7 +133,7 @@ public class TurbineLogic {
 
             if (vaporAmount > 0) {
 
-                fc.onCondensation(vaporAmount, !ventSetting.isVentAll(), this._turbine.getVariant());
+                fc.onCondensation(vaporAmount, ventSetting.isVentAll(), this._turbine.getVariant());
                 this._data.setFluidConsumedLastTick(vaporAmount);
             }
 
