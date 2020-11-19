@@ -4,49 +4,49 @@
       "model": "bigreactors:block/transparentblock"
     },
     "state=y_noblades": {
-      "model": "bigreactors:block/turbine/basic/rotorshaft_z0c",
+      "model": "bigreactors:block/turbine/basic/rotorshaft_z_0c",
       "x": -90
     },
     "state=y_x": {
-      "model": "bigreactors:block/turbine/basic/rotorshaft_z2c",
+      "model": "bigreactors:block/turbine/basic/rotorshaft_z_2c",
       "x": -90
     },
     "state=y_z": {
-      "model": "bigreactors:block/turbine/basic/rotorshaft_z2c",
+      "model": "bigreactors:block/turbine/basic/rotorshaft_z_2c",
       "x": -90,
       "y": 90
     },
     "state=y_xz": {
-      "model": "bigreactors:block/turbine/basic/rotorshaft_z4c",
+      "model": "bigreactors:block/turbine/basic/rotorshaft_z_4c",
       "x": -90
     },
     "state=x_noblades": {
-      "model": "bigreactors:block/turbine/basic/rotorshaft_z0c",
+      "model": "bigreactors:block/turbine/basic/rotorshaft_z_0c",
       "y": -90
     },
     "state=x_y": {
-      "model": "bigreactors:block/turbine/basic/rotorshaft_z2cy",
+      "model": "bigreactors:block/turbine/basic/rotorshaft_z_2cy",
       "y": 90
     },
     "state=x_z": {
-      "model": "bigreactors:block/turbine/basic/rotorshaft_z2c",
+      "model": "bigreactors:block/turbine/basic/rotorshaft_z_2c",
       "y": -90
     },
     "state=x_yz": {
-      "model": "bigreactors:block/turbine/basic/rotorshaft_z4c",
+      "model": "bigreactors:block/turbine/basic/rotorshaft_z_4c",
       "y": -90
     },
     "state=z_noblades": {
-      "model": "bigreactors:block/turbine/basic/rotorshaft_z0c"
+      "model": "bigreactors:block/turbine/basic/rotorshaft_z_0c"
     },
     "state=z_y": {
-      "model": "bigreactors:block/turbine/basic/rotorshaft_z2cy"
+      "model": "bigreactors:block/turbine/basic/rotorshaft_z_2cy"
     },
     "state=z_x": {
-      "model": "bigreactors:block/turbine/basic/rotorshaft_z2c"
+      "model": "bigreactors:block/turbine/basic/rotorshaft_z_2c"
     },
     "state=z_xy": {
-      "model": "bigreactors:block/turbine/basic/rotorshaft_z4c"
+      "model": "bigreactors:block/turbine/basic/rotorshaft_z_4c"
     }
   }
 }

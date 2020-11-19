@@ -1,0 +1,7 @@
+{
+  "parent": "bigreactors:block/turbine/rotor_shaft_z_2c",
+  "textures": {
+    "0": "bigreactors:block/turbine/basic/rotorshaft",
+    "1": "bigreactors:block/turbine/basic/rotorshaft"
+  }
+}

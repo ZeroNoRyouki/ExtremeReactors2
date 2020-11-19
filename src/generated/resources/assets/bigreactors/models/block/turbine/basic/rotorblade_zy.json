@@ -1,3 +1,7 @@
 {
-  "parent": "minecraft:block/gold_block"
+  "parent": "bigreactors:block/turbine/rotor_blade_zy",
+  "textures": {
+    "0": "bigreactors:block/turbine/basic/rotorblade",
+    "1": "bigreactors:block/turbine/basic/rotorblade"
+  }
 }

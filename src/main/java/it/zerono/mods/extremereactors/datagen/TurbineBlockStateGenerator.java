@@ -44,16 +44,6 @@ public class TurbineBlockStateGenerator
         final BlockModelProvider mbp = this.models();
 
         this.TRANSPARENT_BLOCK_MODEL = mbp.getExistingFile(this.modLoc(ModelProvider.BLOCK_FOLDER + "/transparentblock"));
-//
-//        this.ROTOR_SHAFT_Z_0C_MODEL = mbp.getExistingFile(this.modLoc(fullResourceName("rotor_shaft_z_0c")));
-//        this.ROTOR_SHAFT_Z_2C_MODEL = mbp.getExistingFile(this.modLoc(fullResourceName("rotor_shaft_z_2c")));
-//        this.ROTOR_SHAFT_Z_2CY_MODEL = mbp.getExistingFile(this.modLoc(fullResourceName("rotor_shaft_z_2cy")));
-//        this.ROTOR_SHAFT_Z_4C_MODEL = mbp.getExistingFile(this.modLoc(fullResourceName("rotor_shaft_z_4c")));
-//
-//        this.ROTOR_BLADE_Z_MODEL = mbp.getExistingFile(this.modLoc(fullResourceName("rotor_blade_z")));
-//        this.ROTOR_BLADE_ZY_MODEL = mbp.getExistingFile(this.modLoc(fullResourceName("rotor_blade_zy")));
-
-//        this.TRANSPARENT_BLOCK_ID = this.modLoc(ModelProvider.BLOCK_FOLDER + "/transparentblock");
 
         this.ROTOR_SHAFT_Z_0C_ID = this.modLoc(fullResourceName("rotor_shaft_z_0c"));
         this.ROTOR_SHAFT_Z_2C_ID = this.modLoc(fullResourceName("rotor_shaft_z_2c"));
@@ -127,25 +117,14 @@ public class TurbineBlockStateGenerator
 
     protected void genShaft(final Block block, final String resourceName, final String subFolder) {
 
-        final ResourceLocation textureId0 = this.modLoc(fullResourceName(resourceName, subFolder));
-        final ResourceLocation textureId1 = this.modLoc(fullResourceName(resourceName, subFolder));
+        final ResourceLocation texture0 = this.modLoc(fullResourceName(resourceName, subFolder));
+        final ResourceLocation texture1 = this.modLoc(fullResourceName(resourceName, subFolder));
 
         final BlockModelProvider mbp = this.models();
-//        final ModelFile z0c = mbp.withExistingParent(fullResourceName(resourceName + "_z_0c", subFolder), this.ROTOR_SHAFT_Z_0C_ID).texture("0", textureId0).texture("1", textureId1);
-//        final ModelFile z2c = mbp.withExistingParent(fullResourceName(resourceName + "_z_2c", subFolder), this.ROTOR_SHAFT_Z_2C_ID).texture("0", textureId0).texture("1", textureId1);
-//        final ModelFile z2cy = mbp.withExistingParent(fullResourceName(resourceName + "_z_2cy", subFolder), this.ROTOR_SHAFT_Z_2CY_ID).texture("0", textureId0).texture("1", textureId1);
-//        final ModelFile z4c = mbp.withExistingParent(fullResourceName(resourceName + "_z_4c", subFolder), this.ROTOR_SHAFT_Z_4C_ID).texture("0", textureId0).texture("1", textureId1);
-
-        ResourceLocation i = new ResourceLocation("block/emerald_block");
-//        final ModelFile z0c = mbp.getExistingFile(i);
-//        final ModelFile z2c = mbp.getExistingFile(i);
-//        final ModelFile z2cy =mbp.getExistingFile(i);
-//        final ModelFile z4c = mbp.getExistingFile(i);
-
-        final ModelFile z0c = mbp.withExistingParent(fullResourceName(resourceName + "_z0c", subFolder), i);
-        final ModelFile z2c = mbp.withExistingParent(fullResourceName(resourceName + "_z2c", subFolder), i);
-        final ModelFile z2cy = mbp.withExistingParent(fullResourceName(resourceName + "_z2cy", subFolder), i);
-        final ModelFile z4c = mbp.withExistingParent(fullResourceName(resourceName + "_z4c", subFolder), i);
+        final ModelFile z0c = mbp.withExistingParent(fullResourceName(resourceName + "_z_0c", subFolder), this.ROTOR_SHAFT_Z_0C_ID).texture("0", texture0).texture("1", texture1);
+        final ModelFile z2c = mbp.withExistingParent(fullResourceName(resourceName + "_z_2c", subFolder), this.ROTOR_SHAFT_Z_2C_ID).texture("0", texture0).texture("1", texture1);
+        final ModelFile z2cy = mbp.withExistingParent(fullResourceName(resourceName + "_z_2cy", subFolder), this.ROTOR_SHAFT_Z_2CY_ID).texture("0", texture0).texture("1", texture1);
+        final ModelFile z4c = mbp.withExistingParent(fullResourceName(resourceName + "_z_4c", subFolder), this.ROTOR_SHAFT_Z_4C_ID).texture("0", texture0).texture("1", texture1);
 
         this.simpleBlockItem(block, z0c);
 
@@ -177,15 +156,8 @@ public class TurbineBlockStateGenerator
         final ResourceLocation textureId1 = this.modLoc(fullResourceName(resourceName, subFolder));
 
         final BlockModelProvider mbp = this.models();
-//        final ModelFile z = mbp.withExistingParent(fullResourceName(resourceName + "_z", subFolder), this.ROTOR_BLADE_Z_ID).texture("0", textureId0).texture("1", textureId1);
-//        final ModelFile zy = mbp.withExistingParent(fullResourceName(resourceName + "_zy", subFolder), this.ROTOR_BLADE_ZY_ID).texture("0", textureId0).texture("1", textureId1);
-
-        ResourceLocation i = new ResourceLocation("block/gold_block");
-//        final ModelFile z = mbp.getExistingFile(i);
-//        final ModelFile zy = mbp.getExistingFile(i);
-
-        final ModelFile z = mbp.withExistingParent(fullResourceName(resourceName + "_z", subFolder), i);
-        final ModelFile zy = mbp.withExistingParent(fullResourceName(resourceName + "_zy", subFolder), i);
+        final ModelFile z = mbp.withExistingParent(fullResourceName(resourceName + "_z", subFolder), this.ROTOR_BLADE_Z_ID).texture("0", textureId0).texture("1", textureId1);
+        final ModelFile zy = mbp.withExistingParent(fullResourceName(resourceName + "_zy", subFolder), this.ROTOR_BLADE_ZY_ID).texture("0", textureId0).texture("1", textureId1);
 
         this.simpleBlockItem(block, z);
 
@@ -202,22 +174,12 @@ public class TurbineBlockStateGenerator
         this.genBladeVariant(block, RotorBladeState.Z_Y_POS, zy, 0, 180);
         this.genBladeVariant(block, RotorBladeState.Z_Y_NEG, zy, 180, 0);
         this.genBladeVariant(block, RotorBladeState.Z_X_POS, z, 180, 0);
-        this.genBladeVariant(block, RotorBladeState.Z_X_NEG, zy, 180, 180);
+        this.genBladeVariant(block, RotorBladeState.Z_X_NEG, z, 180, 180);
     }
 
     private void genShaftVariant(final Block block, final RotorShaftState state, final ModelFile model,
                                  final int rotateX, final int rotateY) {
         this.genPropertyVariant(block, TurbineRotorComponentBlock.ROTOR_SHAFT_STATE, state, model, rotateX, rotateY, false);
-
-//        this.getVariantBuilder(block)
-//                .partialState()
-//                .with(TurbineRotorComponentBlock.ROTOR_SHAFT_STATE, state)
-//                .modelForState()
-//                .modelFile(model)
-//                .rotationX(rotateX)
-//                .rotationY(rotateY)
-//                .uvLock(false)
-//                .addModel();
     }
 
     private void genBladeVariant(final Block block, final RotorBladeState state, final ModelFile model,
@@ -225,35 +187,11 @@ public class TurbineBlockStateGenerator
         this.genPropertyVariant(block, TurbineRotorComponentBlock.ROTOR_BLADE_STATE, state, model, rotateX, rotateY, false);
     }
 
-//    private void genShaftVariant(Block block, RotorShaftState propertyValue, ModelFile model) {
-//        this.genPropertyVariant(block, TurbineRotorComponentBlock.ROTOR_SHAFT_STATE, propertyValue, model, 0, 0, false);
-//    }
-//
-//    private void genShaftVariant(Block block, RotorShaftState propertyValue, ModelFile model,
-//                                 int rotationX, int rotationY) {
-//        this.genPropertyVariant(block, TurbineRotorComponentBlock.ROTOR_SHAFT_STATE, propertyValue, model, rotationX, rotationY, false);
-//    }
-//
-//    private void genShaftVariant(Block block, RotorShaftState propertyValue, ModelFile model,
-//                                 int rotationX, int rotationY, boolean uvLock) {
-//        this.genPropertyVariant(block, TurbineRotorComponentBlock.ROTOR_SHAFT_STATE, propertyValue, model, rotationX, rotationY, uvLock);
-//    }
-
     protected static String fullResourceName(final String resourceName) {
         return ModelProvider.BLOCK_FOLDER + "/turbine/" + resourceName;
     }
 
     private final ModelFile TRANSPARENT_BLOCK_MODEL;
-//
-//    private final ModelFile ROTOR_SHAFT_Z_0C_MODEL;
-//    private final ModelFile ROTOR_SHAFT_Z_2C_MODEL;
-//    private final ModelFile ROTOR_SHAFT_Z_2CY_MODEL;
-//    private final ModelFile ROTOR_SHAFT_Z_4C_MODEL;
-//
-//    private final ModelFile ROTOR_BLADE_Z_MODEL;
-//    private final ModelFile ROTOR_BLADE_ZY_MODEL;
-
-//    private final ResourceLocation TRANSPARENT_BLOCK_ID;
 
     private final ResourceLocation ROTOR_SHAFT_Z_0C_ID;
     private final ResourceLocation ROTOR_SHAFT_Z_2C_ID;

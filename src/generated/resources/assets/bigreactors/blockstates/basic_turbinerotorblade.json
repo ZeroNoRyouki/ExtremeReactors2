@@ -52,7 +52,7 @@
       "x": 180
     },
     "state=z_x_neg": {
-      "model": "bigreactors:block/turbine/basic/rotorblade_zy",
+      "model": "bigreactors:block/turbine/basic/rotorblade_z",
       "x": 180,
       "y": 180
     }
