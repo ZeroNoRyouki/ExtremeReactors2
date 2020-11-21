@@ -43,6 +43,10 @@ public class DebugTests {
                 resetReactorData(world, clickedPos);
                 break;
 
+            case 4:
+                highlightBlockShape(world, clickedPos);
+                break;
+
             default:
                 unknownTest(world, clickedPos);
                 break;
@@ -71,6 +75,15 @@ public class DebugTests {
                 .filter(controller -> controller instanceof MultiblockReactor)
                 .map(controller -> (MultiblockReactor)controller)
                 .ifPresent(MultiblockReactor::reset);
+    }
+
+    private static void highlightBlockShape(World world, BlockPos clickedPos) {
+
+        if (DebugHelper.VoxelShapeType.None != DebugHelper.getBlockVoxelShapeHighlight(world, clickedPos)) {
+            DebugHelper.removeVoxelShapeHighlight(world, clickedPos);
+        } else {
+            DebugHelper.addVoxelShapeHighlight(world, clickedPos, DebugHelper.VoxelShapeType.General);
+        }
     }
 
     private static void unknownTest(World world, BlockPos clickedPos) {
