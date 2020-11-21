@@ -45,11 +45,18 @@ final class RpmUpdateTracker {
 
         ++this._ticksSinceLastUpdate;
 
+        if ((0.0f == this._value && currentValue > 0.0f) || (0.0f == currentValue && this._value > 0)) {
+
+            this._ticksSinceLastUpdate = 0;
+            this._value = currentValue;
+            return true;
+        }
+
         if (this._ticksSinceLastUpdate < this._ticksBetweenUrgentUpdates) {
             return false;
         }
 
-        final float spread = Math.abs(currentValue - _value);
+        final float spread = Math.abs(currentValue - this._value);
 
         if (spread >= this._maximumDifference) {
 
