@@ -96,6 +96,14 @@ public class TurbineRotorBearingEntity
     }
 
     //endregion
+    //region client render support
+
+    @Override
+    protected int getUpdatedModelVariantIndex() {
+        return 0;
+    }
+
+    //endregion
     //region AbstractMultiblockEntity
 
     @Override
@@ -107,12 +115,7 @@ public class TurbineRotorBearingEntity
 
     //endregion
     //region TileEntity
-
-    @Override
-    public double getMaxRenderDistanceSquared() {
-        return super.getMaxRenderDistanceSquared();
-    }
-
+    
     @Override
     public AxisAlignedBB getRenderBoundingBox() {
         return this._renderBoundingBox;

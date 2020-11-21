@@ -47,6 +47,11 @@ public class TurbineRotorBearingBlock
     //region Block
 
     @Override
+    public boolean isSideInvisible(BlockState state, BlockState adjacentBlockState, Direction side) {
+        return false;
+    }
+
+    @Override
     @OnlyIn(Dist.CLIENT)
     public void animateTick(BlockState state, World world, BlockPos position, Random random) {
 

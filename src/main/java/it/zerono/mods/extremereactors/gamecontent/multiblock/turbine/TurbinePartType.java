@@ -21,6 +21,7 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.turbine;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.*;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part.TurbineRedstonePortBlock;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part.TurbineRotorBearingBlock;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part.TurbineRotorComponentBlock;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.TurbineVariant;
 import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockPartType;
@@ -52,7 +53,7 @@ public enum TurbinePartType
             GenericDeviceBlock::new, "part.bigreactors.turbine.controller"),
 
     RotorBearing(() -> Content.TileEntityTypes.TURBINE_ROTORBEARING::get,
-            GenericDeviceBlock::new, "part.bigreactors.turbine.rotorbearing",
+            TurbineRotorBearingBlock::new, "part.bigreactors.turbine.rotorbearing",
             bp -> bp.setLightLevel(state -> 15)),
 
     RotorShaft(() -> Content.TileEntityTypes.TURBINE_ROTORSHAFT::get,
