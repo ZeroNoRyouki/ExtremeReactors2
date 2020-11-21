@@ -42,6 +42,8 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.scre
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.ReactorVariant;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.client.model.TurbineGlassModelBuilder;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.client.model.TurbineModelBuilder;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.client.model.TurbineRotorModelBuilder;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.client.render.rotor.RotorBearingEntityRenderer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.client.screen.TurbineControllerScreen;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.TurbineVariant;
 import it.zerono.mods.zerocore.lib.CodeHelper;
@@ -63,6 +65,7 @@ import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.event.TagsUpdatedEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
@@ -81,9 +84,15 @@ public class ClientProxy
     public ClientProxy() {
 
         this._modelBuilders = initModels();
-        Mod.EventBusSubscriber.Bus.MOD.bus().get().register(this);
-        Mod.EventBusSubscriber.Bus.FORGE.bus().get().addListener(this::onItemTooltip);
-        Mod.EventBusSubscriber.Bus.FORGE.bus().get().addListener(EventPriority.LOWEST, this::onVanillaTagsUpdated);
+
+        IEventBus bus;
+
+        bus = Mod.EventBusSubscriber.Bus.MOD.bus().get();
+        bus.register(this);
+
+        bus = Mod.EventBusSubscriber.Bus.FORGE.bus().get();
+        bus.addListener(this::onItemTooltip);
+        bus.addListener(EventPriority.LOWEST, this::onVanillaTagsUpdated);
 
         CodeHelper.addResourceReloadListener(this);
     }
@@ -160,19 +169,10 @@ public class ClientProxy
                 Arrays.stream(TurbineVariant.values())
                         .flatMap(v -> Stream.of(
                                 new TurbineModelBuilder(v),
-                                new TurbineGlassModelBuilder(v)
-//                                new ReactorFuelRodModelBuilder(v) //TODO rotor?
+                                new TurbineGlassModelBuilder(v),
+                                new TurbineRotorModelBuilder(v)
                         ))
         ).collect(ImmutableList.toImmutableList());
-
-//        //noinspection UnstableApiUsage
-//        return Arrays.stream(ReactorVariant.values())
-//                .flatMap(v -> Stream.of(
-//                        new ReactorModelBuilder(v),
-//                        new ReactorGlassModelBuilder(v),
-//                        new ReactorFuelRodModelBuilder(v)
-//                ))
-//                .collect(ImmutableList.toImmutableList());
     }
 
     private static void registerScreens() {
@@ -203,7 +203,7 @@ public class ClientProxy
     private static void registerTileRenderers() {
 
         ClientRegistry.bindTileEntityRenderer(Content.TileEntityTypes.REACTOR_FUELROD.get(), FuelRodEntityRenderer::new);
-        //TODO turbine rotor
+        ClientRegistry.bindTileEntityRenderer(Content.TileEntityTypes.TURBINE_ROTORBEARING.get(), RotorBearingEntityRenderer::new);
     }
 
     //region registration helpers

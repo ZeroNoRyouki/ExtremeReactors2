@@ -29,10 +29,12 @@ import net.minecraft.particles.IParticleData;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import java.util.Optional;
 import java.util.Random;
 
 public class TurbineRotorBearingBlock
@@ -46,16 +48,13 @@ public class TurbineRotorBearingBlock
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void animateTick(BlockState state, World world, BlockPos pos, Random random) {
+    public void animateTick(BlockState state, World world, BlockPos position, Random random) {
 
         if (Config.CLIENT.disableTurbineParticles.get()) {
             return;
         }
 
-        WorldHelper.getTile(world, pos)
-                .filter(te -> te instanceof TurbineRotorBearingEntity)
-                .map(te -> (TurbineRotorBearingEntity)te)
-                .ifPresent(bearing -> this.animateTick(bearing, world, pos, random));
+        getTile(world, position).ifPresent(bearing -> this.animateTick(bearing, world, position, random));
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -105,6 +104,15 @@ public class TurbineRotorBearingBlock
                                 particleX, particleY, particleZ, 0, 0, 0);
                     }
                 }));
+    }
+
+    //endregion
+    //region internals
+
+    private static Optional<TurbineRotorBearingEntity> getTile(final IBlockReader world, final BlockPos position) {
+        return WorldHelper.getTile(world, position)
+                .filter(te -> te instanceof TurbineRotorBearingEntity)
+                .map(te -> (TurbineRotorBearingEntity)te);
     }
 
     //endregion

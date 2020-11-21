@@ -25,72 +25,37 @@ import net.minecraft.util.IStringSerializable;
 public enum RotorShaftState
     implements IStringSerializable {
 
-    HIDDEN,
+    HIDDEN(Direction.Axis.Y),
     // Shaft direction - blades direction
-    Y_NOBLADES,
-    Y_X,
-    Y_Z,
-    Y_XZ,
-    X_NOBLADES,
-    X_Y,
-    X_Z,
-    X_YZ,
-    Z_NOBLADES,
-    Z_Y,
-    Z_X,
-    Z_XY;
+    Y_NOBLADES(Direction.Axis.Y),
+    Y_X(Direction.Axis.Y),
+    Y_Z(Direction.Axis.Y),
+    Y_XZ(Direction.Axis.Y),
+    X_NOBLADES(Direction.Axis.X),
+    X_Y(Direction.Axis.X),
+    X_Z(Direction.Axis.X),
+    X_YZ(Direction.Axis.X),
+    Z_NOBLADES(Direction.Axis.Z),
+    Z_Y(Direction.Axis.Z),
+    Z_X(Direction.Axis.Z),
+    Z_XY(Direction.Axis.Z);
 
-    RotorShaftState() {
+    public static RotorShaftState[] VALUES = values();
+
+    RotorShaftState(final Direction.Axis axis) {
+
         this._name = CodeHelper.neutralLowercase(this.name());
+        this._axis = axis;
     }
 
-//    public static RotorShaftState from(final Direction.Axis shaftAxis) {
-//
-//        switch (shaftAxis) {
-//
-//            default:
-//            case Y:
-//                return Y_NOBLADES;
-//
-//            case X:
-//                return X_NOBLADES;
-//
-//            case Z:
-//                return Z_NOBLADES;
-//        }
-//    }
+    public Direction.Axis getAxis() {
+        return this._axis;
+    }
 
-//    public static RotorShaftState from(final Direction.Axis shaftAxis, final boolean... directionsWithBlades) {
-//
-//        RotorShaftState state;
-//        final Direction[] directions = RotorShaftState.getBladesDirections(shaftAxis);
-//        Direction.Axis[] bladesAxis = new Direction.Axis[2];
-//
-//        for (int i = 0; i < 2; ++i) {
-//
-//            if (directionsWithBlades[i] && directionsWithBlades[i + 2])
-//                bladesAxis[i] = directions[i].getAxis();
-//        }
-//
-//        switch (shaftAxis) {
-//
-//            default:
-//            case Y:
-//                state = Y_NOBLADES;
-//                break;
-//
-//            case X:
-//                state = X_NOBLADES;
-//                break;
-//
-//            case Z:
-//                state = Z_NOBLADES;
-//                break;
-//        }
-//
-//        return state;
-//    }
-
+    public static RotorShaftState getDefault() {
+        return RotorShaftState.Y_NOBLADES;
+    }
+    
     public static Direction[] getBladesDirections(final Direction.Axis axis) {
 
         switch (axis) {
@@ -130,6 +95,7 @@ public enum RotorShaftState
     private static final Direction[] BLADES_DIRECTIONS_Z = new Direction[] { Direction.UP, Direction.EAST, Direction.DOWN, Direction.WEST };
 
     private final String _name;
+    private final Direction.Axis _axis;
 
     //endregion
 }

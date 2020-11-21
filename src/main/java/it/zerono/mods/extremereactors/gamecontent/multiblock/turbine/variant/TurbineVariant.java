@@ -74,6 +74,10 @@ public enum TurbineVariant
         return this._partTest.test(partType);
     }
 
+    public static TurbineVariant from(final IMultiblockTurbineVariant variant) {
+        return (TurbineVariant)variant;
+    }
+
     //region IMultiblockGeneratorVariant
 
     @Override

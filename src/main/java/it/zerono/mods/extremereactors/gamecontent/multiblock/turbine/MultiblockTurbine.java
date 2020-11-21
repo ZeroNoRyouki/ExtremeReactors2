@@ -181,7 +181,7 @@ public class MultiblockTurbine
         this.distributeEnergyEqually();
 
         // Distribute available gas equally to all the Coolant Ports in output mode
-        profiler.startSection("Coolant");
+        profiler.endStartSection("Coolant");
         this.distributeCoolantEqually();
 
         profiler.endSection();
@@ -410,25 +410,33 @@ public class MultiblockTurbine
             return;
         }
 
-        messages.addUnlocalized("begin pre");
-
         messages.addUnlocalized("Active: %s", this.isMachineActive());
 
         this.getEnergyBuffer().getDebugMessages(side, messages);
 
-//        messages.addUnlocalized("Internal data:");
-//        this._data.getDebugMessages(side, messages);
-
-        messages.addUnlocalized("begin");
-
         messages.add(side, this._data, "Internal data:");
         messages.add(side, this._fluidContainer, "Fluids Tanks:");
-
-        messages.addUnlocalized("end");
     }
 
     //endregion
     //region AbstractGeneratorMultiblockController
+
+
+    /**
+     * Marks the reference coord dirty.
+     * <p>
+     * On the server, this marks the reference coord's chunk as dirty; the block (and chunk)
+     * will be saved to disk the next time chunks are saved. This does NOT mark it dirty for
+     * a description-packet update.
+     * <p>
+     * On the client, does nothing.
+     */
+    @Override
+    protected void markReferenceCoordDirty() {
+
+        this._rpmUpdateTracker.reset();
+        super.markReferenceCoordDirty();
+    }
 
     @Override
     public IMultiblockTurbineVariant getVariant() {
@@ -437,12 +445,7 @@ public class MultiblockTurbine
 
     @Override
     protected void sendClientUpdates() {
-
-        final IProfiler profiler = this.getWorld().getProfiler();
-
-        profiler.endStartSection("sendTickUpdate");
         this.sendUpdates();
-        profiler.endSection();
     }
 
     //endregion
@@ -476,7 +479,6 @@ public class MultiblockTurbine
 
         profiler.endStartSection("Distribute"); // close "Generate"
         this.performOutputCycle();
-        profiler.endSection();
 
         //////////////////////////////////////////////////////////////////////////////
         // TICKABLES
@@ -794,9 +796,6 @@ public class MultiblockTurbine
     }
 
     //endregion
-
-
-
     //region internals
     //region isMachineWhole helpers
 
@@ -815,9 +814,6 @@ public class MultiblockTurbine
 
         return this.mapBoundingBoxCoordinates(
                 (min, max) -> validateRotor(bearing, validatorCallback, bearing.getRotorDirection(), min, max), false);
-//        return CodeHelper.optionalMap(this.getMinimumCoord(), this.getMaximumCoord(),
-//                (min, max) -> validateRotor(bearing, validatorCallback, bearing.getRotorDirection(), min, max))
-//                .orElse(false);
     }
 
     /**
@@ -1076,169 +1072,6 @@ public class MultiblockTurbine
                 .filter(port -> port.getIoDirection().isOutput())
                 .collect(Collectors.toCollection(() -> this._attachedOutgoingVaporPorts));
     }
-
-//    private void setEnergyStored(float newEnergy) {
-//        if(Float.isInfinite(newEnergy) || Float.isNaN(newEnergy)) { return; }
-//
-//        energyStored = Math.max(0f, Math.min(maxEnergyStored, newEnergy));
-//    }
-//
-//    /**
-//     * Remove some energy from the internal storage buffer.
-//     * Will not reduce the buffer below 0.
-//     * @param energy Amount by which the buffer should be reduced.
-//     */
-//    protected void reduceStoredEnergy(float energy) {
-//        addStoredEnergy(-1f * energy);
-//    }
-//
-//    /**
-//     * Add some energy to the internal storage buffer.
-//     * Will not increase the buffer above the maximum or reduce it below 0.
-//     * @param newEnergy
-//     */
-//    protected void addStoredEnergy(float newEnergy) {
-//        if(Float.isNaN(newEnergy)) { return; }
-//
-//        energyStored += newEnergy;
-//        if(energyStored > maxEnergyStored) {
-//            energyStored = maxEnergyStored;
-//        }
-//        if(-0.00001f < energyStored && energyStored < 0.00001f) {
-//            // Clamp to zero
-//            energyStored = 0f;
-//        }
-//    }
-//
-//    public void setStoredEnergy(float oldEnergy) {
-//        energyStored = oldEnergy;
-//        if(energyStored < 0.0 || Float.isNaN(energyStored)) {
-//            energyStored = 0.0f;
-//        }
-//        else if(energyStored > maxEnergyStored) {
-//            energyStored = maxEnergyStored;
-//        }
-//    }
-//
-//    /**
-//     * Generate energy, internally. Will be multiplied by the BR Setting powerProductionMultiplier
-//     * @param newEnergy Base, unmultiplied energy to generate
-//     */
-//    protected void generateEnergy(float newEnergy) {
-//        newEnergy = newEnergy * BigReactors.CONFIG.powerProductionMultiplier * BigReactors.CONFIG.turbinePowerProductionMultiplier;
-//        energyGeneratedLastTick += newEnergy;
-//        addStoredEnergy(newEnergy);
-//    }
-//
-//    // Activity state
-//    public boolean getActive() {
-//        return active;
-//    }
-//
-//    public void setActive(boolean newValue) {
-//
-//        if (newValue == active)
-//            return;
-//
-//        //if(newValue != active) {
-//        this.active = newValue;
-//        for(IMultiblockPart part : connectedParts) {
-//            if(this.active) { part.onMachineActivated(); }
-//            else { part.onMachineDeactivated(); }
-//        }
-//
-//        WorldHelper.notifyBlockUpdate(WORLD, this.getReferenceCoord(), null, null);
-//        markReferenceCoordDirty();
-//        //}
-//
-//        if (WorldHelper.calledByLogicalClient(this.WORLD)) {
-//
-//            // Force controllers to re-render on client
-//
-//            for (IMultiblockPart part : this.attachedControllers)
-//                WorldHelper.notifyBlockUpdate(this.WORLD, part.getWorldPosition(), null, null);
-//
-//            for (TileEntityTurbineRotorBlade part : this.attachedRotorBlades)
-//                WorldHelper.notifyBlockUpdate(this.WORLD, part.getWorldPosition(), null, null);
-//
-//            for (TileEntityTurbineRotorShaft part : this.attachedRotorShafts)
-//                WorldHelper.notifyBlockUpdate(this.WORLD, part.getWorldPosition(), null, null);
-//
-//            for (TileEntityTurbineRotorBearing part : this.attachedRotorBearings)
-//                part.resetRotorInfo();
-//        }
-//    }
-//
-//
-//
-//    public void setVentStatus(VentSetting newStatus, boolean markReferenceCoordDirty) {
-//        ventStatus = newStatus;
-//        if(markReferenceCoordDirty)
-//            markReferenceCoordDirty();
-//    }
-//
-//    public boolean getInductorEngaged() {
-//        return inductorEngaged;
-//    }
-//
-//    public void setInductorEngaged(boolean engaged, boolean markReferenceCoordDirty) {
-//        inductorEngaged = engaged;
-//        if(markReferenceCoordDirty)
-//            markReferenceCoordDirty();
-//    }
-//
-//    private void setRotorEnergy(float newEnergy) {
-//        if(Float.isNaN(newEnergy) || Float.isInfinite(newEnergy)) { return; }
-//        rotorEnergy = Math.max(0f, newEnergy);
-//    }
-//    /*
-//     * Power exchange API (replacement for IEnergyProvider)
-//     */
-//    @Override
-//    public long getEnergyCapacity() {
-//        return Math.min((long)maxEnergyStored, this._powerSystem.maxCapacity);
-//    }
-//
-//    @Override
-//    public long getEnergyStored() {
-//        return (long)this.energyStored;
-//    }
-//
-//    @Override
-//    public long extractEnergy(long maxEnergy, boolean simulate) {
-//
-//        long removed = (long)Math.min(maxEnergy, this.energyStored);
-//
-//        if (!simulate)
-//            this.reduceStoredEnergy(removed);
-//
-//        return removed;
-//    }
-
-//    @Override
-//    public PowerSystem getPowerSystem() {
-//        return this._powerSystem;
-//    }
-//
-//    public PartTier getMachineTier() {
-//        return this._partsTier;
-//    }
-//
-//    protected void switchPowerSystem(PowerSystem newPowerSystem) {
-//
-//        this._powerSystem = newPowerSystem;
-//
-//        if (this.energyStored > this._powerSystem.maxCapacity)
-//            this.energyStored = this._powerSystem.maxCapacity;
-//    }
-
-    /*
-     * IFluidHandler capability support
-     */
-//
-//    public IFluidHandler getFluidHandler(IInputOutputPort.Direction direction) {
-//        return IInputOutputPort.Direction.Input == direction ? this._inputTank : this._outputTank;
-//    }
 
     private static final IFluidContainerAccess FLUID_CONTAINER_ACCESS = new IFluidContainerAccess() {
 

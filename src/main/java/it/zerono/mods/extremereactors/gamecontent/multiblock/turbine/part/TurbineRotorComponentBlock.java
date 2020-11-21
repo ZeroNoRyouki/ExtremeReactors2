@@ -23,6 +23,7 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.MultiblockT
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.TurbinePartType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.rotor.RotorBladeState;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.rotor.RotorShaftState;
+import it.zerono.mods.zerocore.lib.block.INeighborChangeListener;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.state.EnumProperty;
@@ -31,14 +32,25 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 
-public class TurbineRotorComponentBlock
-        extends GenericDeviceBlock<MultiblockTurbine, TurbinePartType> {
+public abstract class TurbineRotorComponentBlock
+        extends GenericDeviceBlock<MultiblockTurbine, TurbinePartType>
+        implements INeighborChangeListener.Notifier {
 
     public static final EnumProperty<RotorShaftState> ROTOR_SHAFT_STATE = EnumProperty.create("state", RotorShaftState.class);
     public static final EnumProperty<RotorBladeState> ROTOR_BLADE_STATE = EnumProperty.create("state", RotorBladeState.class);
 
     public static TurbineRotorComponentBlock shaft(final MultiblockPartProperties<TurbinePartType> properties) {
         return new TurbineRotorComponentBlock(properties) {
+
+            @Override
+            public boolean isShaft() {
+                return true;
+            }
+
+            @Override
+            public boolean isBlade() {
+                return false;
+            }
 
             @Override
             protected void buildBlockState(final StateContainer.Builder<Block, BlockState> builder) {
@@ -49,13 +61,23 @@ public class TurbineRotorComponentBlock
 
             @Override
             protected BlockState buildDefaultState(BlockState state) {
-                return super.buildDefaultState(state).with(ROTOR_SHAFT_STATE, RotorShaftState.Y_NOBLADES);
+                return super.buildDefaultState(state).with(ROTOR_SHAFT_STATE, RotorShaftState.getDefault());
             }
         };
     }
 
     public static TurbineRotorComponentBlock blade(final MultiblockPartProperties<TurbinePartType> properties) {
         return new TurbineRotorComponentBlock(properties) {
+
+            @Override
+            public boolean isShaft() {
+                return false;
+            }
+
+            @Override
+            public boolean isBlade() {
+                return true;
+            }
 
             @Override
             protected void buildBlockState(final StateContainer.Builder<Block, BlockState> builder) {
@@ -66,27 +88,26 @@ public class TurbineRotorComponentBlock
 
             @Override
             protected BlockState buildDefaultState(BlockState state) {
-                return super.buildDefaultState(state).with(ROTOR_BLADE_STATE, RotorBladeState.Z_X_POS);
+                return super.buildDefaultState(state).with(ROTOR_BLADE_STATE, RotorBladeState.getDefault());
             }
         };
     }
+
+    public abstract boolean isShaft();
+
+    public abstract boolean isBlade();
 
     //region Block
 
     @Override
     public boolean isSideInvisible(BlockState state, BlockState adjacentBlockState, Direction side) {
-        return this == adjacentBlockState.getBlock();
+        return this == adjacentBlockState.getBlock() || super.isSideInvisible(state, adjacentBlockState, side);
     }
 
     @Override
     public boolean propagatesSkylightDown(BlockState state, IBlockReader reader, BlockPos pos) {
         return true;
     }
-
-//    @Override
-//    public boolean isNormalCube(BlockState state, IBlockReader worldIn, BlockPos pos) {
-//        return false;
-//    }
 
     public boolean causesSuffocation(BlockState state, IBlockReader worldIn, BlockPos pos) {
         return false;

@@ -30,6 +30,7 @@ public enum RotorBladeState
         implements IStringSerializable {
 
     HIDDEN,
+    // [shaft axis]_[blade direction axis]_[positive/negative]
     Y_X_POS,
     Y_X_NEG,
     Y_Z_POS,
@@ -43,34 +44,40 @@ public enum RotorBladeState
     Z_X_POS,
     Z_X_NEG;
 
+    public static RotorBladeState[] VALUES = values();
+
     RotorBladeState() {
         this._name = CodeHelper.neutralLowercase(this.name());
+    }
+
+    public static RotorBladeState getDefault() {
+        return RotorBladeState.Z_X_POS;
     }
 
     public static RotorBladeState from(String name) {
         return NAME_LOOKUP.getOrDefault(CodeHelper.neutralLowercase(name), HIDDEN);
     }
 
-    public static RotorBladeState from(final RotorShaftState shaftState, final Direction bladeFacing) {
+    public static RotorBladeState from(final RotorShaftState shaftState, final Direction bladeDirection) {
 
-        String name;
+        final String name;
 
-        switch (shaftState) {
+        switch (shaftState.getAxis()) {
 
-            case X_YZ:
-                name = "x_" + bladeFacing.getAxis().getString() + (bladeFacing.getAxisDirection() == Direction.AxisDirection.POSITIVE ? "_neg" : "_pos");
+            case X:
+                name = "x_" + bladeDirection.getAxis().getString() + (bladeDirection.getAxisDirection() == Direction.AxisDirection.POSITIVE ? "_neg" : "_pos");
                 break;
 
-            case Y_XZ:
-                name = "y_" + bladeFacing.getAxis().getString() + (bladeFacing.getAxisDirection() == Direction.AxisDirection.POSITIVE ? "_neg" : "_pos");
+            case Y:
+                name = "y_" + bladeDirection.getAxis().getString() + (bladeDirection.getAxisDirection() == Direction.AxisDirection.POSITIVE ? "_neg" : "_pos");
                 break;
 
-            case Z_XY:
-                name = "z_" + bladeFacing.getAxis().getString() + (bladeFacing.getAxisDirection() == Direction.AxisDirection.POSITIVE ? "_neg" : "_pos");
+            case Z:
+                name = "z_" + bladeDirection.getAxis().getString() + (bladeDirection.getAxisDirection() == Direction.AxisDirection.POSITIVE ? "_neg" : "_pos");
                 break;
 
             default:
-                name = shaftState.getString() + (bladeFacing.getOpposite().getAxisDirection() == Direction.AxisDirection.POSITIVE ? "_pos" : "_neg");
+                name = shaftState.getString() + (bladeDirection.getOpposite().getAxisDirection() == Direction.AxisDirection.POSITIVE ? "_pos" : "_neg");
                 break;
         }
 

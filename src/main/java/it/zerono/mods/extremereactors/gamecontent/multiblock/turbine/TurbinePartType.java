@@ -52,13 +52,16 @@ public enum TurbinePartType
             GenericDeviceBlock::new, "part.bigreactors.turbine.controller"),
 
     RotorBearing(() -> Content.TileEntityTypes.TURBINE_ROTORBEARING::get,
-            GenericDeviceBlock::new, "part.bigreactors.turbine.rotorbearing"), //TODO fix
+            GenericDeviceBlock::new, "part.bigreactors.turbine.rotorbearing",
+            bp -> bp.setLightLevel(state -> 15)),
 
     RotorShaft(() -> Content.TileEntityTypes.TURBINE_ROTORSHAFT::get,
-            TurbineRotorComponentBlock::shaft, "part.bigreactors.turbine.rotorshaft"),
+            TurbineRotorComponentBlock::shaft, "part.bigreactors.turbine.rotorshaft",
+            TurbinePartType::rotorBlock),
 
     RotorBlade(() -> Content.TileEntityTypes.TURBINE_ROTORBLADE::get,
-            TurbineRotorComponentBlock::blade, "part.bigreactors.turbine.rotorblade"),
+            TurbineRotorComponentBlock::blade, "part.bigreactors.turbine.rotorblade",
+            TurbinePartType::rotorBlock),
 
     ActiveFluidPortForge(() -> Content.TileEntityTypes.TURBINE_FLUIDPORT_FORGE_ACTIVE::get,
             IOPortBlock::new, "part.bigreactors.turbine.fluidport_forge_active"),
@@ -141,6 +144,14 @@ public enum TurbinePartType
                 .notSolid()
                 .setOpaque((blockState, blockReader, pos) -> false)
                 .setBlocksVision((blockState, blockReader, pos) -> false);
+    }
+
+    private static AbstractBlock.Properties rotorBlock(AbstractBlock.Properties originals) {
+        return originals
+                .notSolid()
+                .setOpaque((blockState, blockReader, pos) -> false)
+                .setBlocksVision((blockState, blockReader, pos) -> false)
+                .setLightLevel(state -> 15);
     }
 
     private final Supplier<Supplier<TileEntityType<?>>> _tileTypeSupplier;
