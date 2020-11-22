@@ -49,13 +49,7 @@ public class IOPortBlock<Controller extends IMultiblockController<Controller>,
     public void onReplaced(BlockState state, World world, BlockPos position, BlockState newState, boolean isMoving) {
 
         if (state.getBlock() != newState.getBlock()) {
-
             this.getIIoEntity(world, position).ifPresent(ioe -> ioe.onBlockReplaced(state, world, position, newState, isMoving));
-
-//            WorldHelper.getTile(world, position)
-//                    .filter(te -> te instanceof IIoEntity)
-//                    .map(te -> (IIoEntity)te)
-//                    .ifPresent(ioe -> ioe.onBlockReplaced(state, world, position, newState, isMoving));
         }
 
         super.onReplaced(state, world, position, newState, isMoving);

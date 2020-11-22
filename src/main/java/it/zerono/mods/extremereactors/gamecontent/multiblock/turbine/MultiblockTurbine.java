@@ -852,12 +852,14 @@ public class MultiblockTurbine
         }
 
         final Set<BlockPos> shaftsPositions = this._attachedRotorComponents.stream()
-                .filter(c -> c.isTypeOfPart(TurbinePartType.RotorShaft))
+//                .filter(c -> c.isTypeOfPart(TurbinePartType.RotorShaft)) // use isShaft
+                .filter(TurbineRotorComponentEntity::isShaft)
                 .map(AbstractMultiblockPart::getWorldPosition)
                 .collect(Collectors.toSet());
 
         final Set<BlockPos> bladesPositions = this._attachedRotorComponents.stream()
-                .filter(c -> c.isTypeOfPart(TurbinePartType.RotorBlade))
+//                .filter(c -> c.isTypeOfPart(TurbinePartType.RotorBlade)) // use isBlade
+                .filter(TurbineRotorComponentEntity::isBlade)
                 .map(AbstractMultiblockPart::getWorldPosition)
                 .collect(Collectors.toSet());
 
@@ -870,7 +872,7 @@ public class MultiblockTurbine
 
             rotorCoord = rotorCoord.offset(rotorDirection);
 
-            // Ensure we find a rotor block along the length of the entire rotor
+            // Ensure we find a rotor shaft block along the length of the entire rotor
 
             if (!shaftsPositions.remove(rotorCoord)) {
 
@@ -883,7 +885,7 @@ public class MultiblockTurbine
             BlockPos checkCoord;
             boolean encounteredBlades = false;
 
-            for (final Direction bladeDirection : CodeHelper.perpendicularPlane(rotorDirection)) {
+            for (final Direction bladeDirection : CodeHelper.perpendicularDirections(rotorDirection)) {
 
                 boolean bladeFound = false;
 

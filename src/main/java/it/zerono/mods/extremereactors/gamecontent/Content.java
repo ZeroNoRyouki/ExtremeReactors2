@@ -226,8 +226,8 @@ public final class Content {
         public static final RegistryObject<GenericDeviceBlock<MultiblockTurbine, TurbinePartType>> TURBINE_CREATIVE_STEAM_GENERATOR_BASIC =
                 registerTurbineBlock("basic_turbinecreativesteamgenerator", TurbineVariant.Basic, TurbinePartType.CreativeSteamGenerator);
 
-        public static final RegistryObject<TurbineRedstonePortBlock> TURBINE_REDSTONEPORT_BASIC =
-                registerTurbineBlock("basic_turbineredstoneport", TurbineVariant.Basic, TurbinePartType.RedstonePort);
+//        public static final RegistryObject<TurbineRedstonePortBlock> TURBINE_REDSTONEPORT_BASIC =
+//                registerTurbineBlock("basic_turbineredstoneport", TurbineVariant.Basic, TurbinePartType.RedstonePort);
 
         //endregion
         //region reinforced
@@ -265,8 +265,8 @@ public final class Content {
         public static final RegistryObject<GenericDeviceBlock<MultiblockTurbine, TurbinePartType>> TURBINE_CREATIVE_STEAM_GENERATOR_REINFORCED =
                 registerTurbineBlock("reinforced_turbinecreativesteamgenerator", TurbineVariant.Reinforced, TurbinePartType.CreativeSteamGenerator);
 
-        public static final RegistryObject<TurbineRedstonePortBlock> TURBINE_REDSTONEPORT_REINFORCED =
-                registerTurbineBlock("reinforced_turbineredstoneport", TurbineVariant.Reinforced, TurbinePartType.RedstonePort);
+//        public static final RegistryObject<TurbineRedstonePortBlock> TURBINE_REDSTONEPORT_REINFORCED =
+//                registerTurbineBlock("reinforced_turbineredstoneport", TurbineVariant.Reinforced, TurbinePartType.RedstonePort);
 
         public static final RegistryObject<GenericDeviceBlock<MultiblockTurbine, TurbinePartType>> TURBINE_COMPUTERPORT_REINFORCED =
                 registerTurbineBlock("reinforced_turbinecomputerport", TurbineVariant.Reinforced, TurbinePartType.ComputerPort);
@@ -436,7 +436,7 @@ public final class Content {
         public static final RegistryObject<BlockItem> TURBINE_POWERTAP_FE_PASSIVE_BASIC = registerItemBlock("basic_turbinepowertapfe_passive", () -> Blocks.TURBINE_POWERTAP_FE_PASSIVE_BASIC::get, ItemGroups.TURBINE);
         public static final RegistryObject<BlockItem> TURBINE_FLUIDPORT_FORGE_ACTIVE_BASIC = registerItemBlock("basic_turbinefluidport_forge_active", () -> Blocks.TURBINE_FLUIDPORT_FORGE_ACTIVE_BASIC::get, ItemGroups.TURBINE);
         public static final RegistryObject<BlockItem> TURBINE_FLUIDPORT_FORGE_PASSIVE_BASIC = registerItemBlock("basic_turbinefluidport_forge_passive", () -> Blocks.TURBINE_FLUIDPORT_FORGE_PASSIVE_BASIC::get, ItemGroups.TURBINE);
-        public static final RegistryObject<BlockItem> TURBINE_REDSTONEPORT_BASIC = registerItemBlock("basic_turbineredstoneport", () -> Blocks.TURBINE_REDSTONEPORT_BASIC::get, ItemGroups.TURBINE);
+//        public static final RegistryObject<BlockItem> TURBINE_REDSTONEPORT_BASIC = registerItemBlock("basic_turbineredstoneport", () -> Blocks.TURBINE_REDSTONEPORT_BASIC::get, ItemGroups.TURBINE);
         public static final RegistryObject<BlockItem> TURBINE_CREATIVE_STEAM_GENERATOR_BASIC = registerItemBlock("basic_turbinecreativesteamgenerator", () -> Blocks.TURBINE_CREATIVE_STEAM_GENERATOR_BASIC::get, ItemGroups.TURBINE);
         //endregion
         //region reinforced
@@ -450,7 +450,7 @@ public final class Content {
         public static final RegistryObject<BlockItem> TURBINE_POWERTAP_FE_PASSIVE_REINFORCED = registerItemBlock("reinforced_turbinepowertapfe_passive", () -> Blocks.TURBINE_POWERTAP_FE_PASSIVE_REINFORCED::get, ItemGroups.TURBINE);
         public static final RegistryObject<BlockItem> TURBINE_FLUIDPORT_FORGE_ACTIVE_REINFORCED = registerItemBlock("reinforced_turbinefluidport_forge_active", () -> Blocks.TURBINE_FLUIDPORT_FORGE_ACTIVE_REINFORCED::get, ItemGroups.TURBINE);
         public static final RegistryObject<BlockItem> TURBINE_FLUIDPORT_FORGE_PASSIVE_REINFORCED = registerItemBlock("reinforced_turbinefluidport_forge_passive", () -> Blocks.TURBINE_FLUIDPORT_FORGE_PASSIVE_REINFORCED::get, ItemGroups.TURBINE);
-        public static final RegistryObject<BlockItem> TURBINE_REDSTONEPORT_REINFORCED = registerItemBlock("reinforced_turbineredstoneport", () -> Blocks.TURBINE_REDSTONEPORT_REINFORCED::get, ItemGroups.TURBINE);
+//        public static final RegistryObject<BlockItem> TURBINE_REDSTONEPORT_REINFORCED = registerItemBlock("reinforced_turbineredstoneport", () -> Blocks.TURBINE_REDSTONEPORT_REINFORCED::get, ItemGroups.TURBINE);
         public static final RegistryObject<BlockItem> TURBINE_COMPUTERPORT_REINFORCED = registerItemBlock("reinforced_turbinecomputerport", () -> Blocks.TURBINE_COMPUTERPORT_REINFORCED::get, ItemGroups.TURBINE);
         public static final RegistryObject<BlockItem> TURBINE_CREATIVE_STEAM_GENERATOR_REINFORCED = registerItemBlock("reinforced_turbinecreativesteamgenerator", () -> Blocks.TURBINE_CREATIVE_STEAM_GENERATOR_REINFORCED::get, ItemGroups.TURBINE);
         //endregion
@@ -642,10 +642,10 @@ public final class Content {
                 registerBlockEntity("turbinecomputerport", TurbineComputerPortEntity::new,
                         () -> Blocks.TURBINE_COMPUTERPORT_REINFORCED::get);
 
-        public static final RegistryObject<TileEntityType<TurbineRedstonePortEntity>> TURBINE_REDSTONEPORT =
-                registerBlockEntity("turbineredstoneport", TurbineRedstonePortEntity::new,
-                        () -> Blocks.TURBINE_REDSTONEPORT_BASIC::get,
-                        () -> Blocks.TURBINE_REDSTONEPORT_REINFORCED::get);
+//        public static final RegistryObject<TileEntityType<TurbineRedstonePortEntity>> TURBINE_REDSTONEPORT =
+//                registerBlockEntity("turbineredstoneport", TurbineRedstonePortEntity::new,
+//                        () -> Blocks.TURBINE_REDSTONEPORT_BASIC::get,
+//                        () -> Blocks.TURBINE_REDSTONEPORT_REINFORCED::get);
 
         //endregion
         //region internals
@@ -705,9 +705,9 @@ public final class Content {
                 registerContainer("turbinecontroller", (windowId, inv, data) ->
                         ModTileContainer.empty(Content.ContainerTypes.TURBINE_CONTROLLER.get(), windowId, data));
 
-        public static final RegistryObject<ContainerType<ModTileContainer<TurbineRedstonePortEntity>>> TURBINE_REDSTONEPORT =
-                registerContainer("turbineredstoneport", (windowId, inv, data) ->
-                        ModTileContainer.empty(Content.ContainerTypes.TURBINE_REDSTONEPORT.get(), windowId, data));
+//        public static final RegistryObject<ContainerType<ModTileContainer<TurbineRedstonePortEntity>>> TURBINE_REDSTONEPORT =
+//                registerContainer("turbineredstoneport", (windowId, inv, data) ->
+//                        ModTileContainer.empty(Content.ContainerTypes.TURBINE_REDSTONEPORT.get(), windowId, data));
 
         //endregion
         //region internals

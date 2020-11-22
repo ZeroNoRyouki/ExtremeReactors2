@@ -68,15 +68,17 @@ public class ReactorModelBuilder
                 "accessport_solid_out",
                 "accessport_solid_out_connected");
 
-        this.addBlockWithVariants(ReactorPartType.ActiveFluidPortForge, variant, isPartCompatible, "coolantport_forge_active",
-                "coolantport_forge_active_cold_connected",
-                "coolantport_forge_active_hot",
-                "coolantport_forge_active_hot_connected");
+        this.addBlockWithVariants(ReactorPartType.ActiveFluidPortForge, variant, isPartCompatible, "fluidport_forge_active",
+                "fluidport_forge_active_cold_connected",
+                "fluidport_forge_active_hot",
+                "fluidport_forge_active_hot_connected");
 
-        this.addBlockWithVariants(ReactorPartType.PassiveFluidPortForge, variant, isPartCompatible, "coolantport_forge_passive",
-                "coolantport_forge_passive_cold_connected",
-                "coolantport_forge_passive_hot",
-                "coolantport_forge_passive_hot_connected");
+        this.addBlockWithVariants(ReactorPartType.PassiveFluidPortForge, variant, isPartCompatible, "fluidport_forge_passive",
+                "fluidport_forge_passive_cold_connected",
+                "fluidport_forge_passive_hot",
+                "fluidport_forge_passive_hot_connected");
+
+        this.addBlockWithVariants(ReactorPartType.CreativeWaterGenerator, variant, isPartCompatible, "creativewatergenerator");
 
         this.addBlockWithVariants(ReactorPartType.Controller, variant, isPartCompatible, "controller",
                 "controller_on",

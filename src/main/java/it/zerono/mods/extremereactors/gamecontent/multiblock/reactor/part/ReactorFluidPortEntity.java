@@ -48,7 +48,6 @@ public class ReactorFluidPortEntity
 
         super(entityType);
         this._handler = IFluidPortHandler.create(type, mode, this);
-//        this._fluidCapability = LazyOptional.of(this::createFluidCapability);
         this.setIoDirection(IoDirection.Input);
     }
 
@@ -111,9 +110,7 @@ public class ReactorFluidPortEntity
         }
 
         this._direction = direction;
-//        this.updateCapabilityForwarder();
         this.getFluidPortHandler().update();
-//        this.getMultiblockController().ifPresent(MultiblockReactor::onFluidPortChanged);
         this.executeOnController(MultiblockReactor::onFluidPortChanged);
         this.notifyBlockUpdate();
 
@@ -156,6 +153,24 @@ public class ReactorFluidPortEntity
         super.syncDataTo(data, syncReason);
         IoDirection.write(data, "iodir", this.getIoDirection());
         return data;
+    }
+
+    //endregion
+    //region client render support
+
+    @Override
+    protected int getUpdatedModelVariantIndex() {
+
+        if (this.isMachineAssembled()) {
+
+            final int connectedOffset = this.getFluidPortHandler().isConnected() ? 1 : 0;
+
+            return this.getIoDirection().isInput() ? 0 + connectedOffset : 2 + connectedOffset;
+
+        } else {
+
+            return 0;
+        }
     }
 
     //endregion

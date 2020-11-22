@@ -355,27 +355,7 @@ public class ReactorSolidAccessPortEntity
 
         this._direction = direction;
         this.notifyBlockUpdate();
-//
-//        this.getPartWorld()
-//                .filter(CodeHelper::calledByLogicalServer)
-//                .ifPresent(world -> {
-//
-//                    this.notifyOutwardNeighborsOfStateChange();
-//                    this.distributeItems();
-//                    this.markDirty();
-//                });
 
-//        if (this.calledByLogicalServer()) {
-//
-//            this.notifyOutwardNeighborsOfStateChange();
-//            this.distributeItems();
-//            this.markDirty();
-//
-//        } else {
-//
-//            this.markForRenderUpdate();
-//        }
-//
         this.callOnLogicalSide(
                 () -> {
                     this.notifyOutwardNeighborsOfStateChange();
@@ -384,6 +364,8 @@ public class ReactorSolidAccessPortEntity
                 },
                 this::markForRenderUpdate
         );
+
+        Log.LOGGER.info("SOLID - direction is : {}", direction);
 
         this.notifyNeighborsOfTileChange();
 //        this.markForRenderUpdate();

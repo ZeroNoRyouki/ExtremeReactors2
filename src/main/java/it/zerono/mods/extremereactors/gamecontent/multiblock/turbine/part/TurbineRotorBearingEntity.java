@@ -51,10 +51,17 @@ public class TurbineRotorBearingEntity
     }
 
     public Direction getRotorDirection() {
-        return this.getOutwardFacings().firstIf(true)
-                .orElse(this.getOutwardFacingFromWorldPosition()
-                        .orElseThrow(IllegalStateException::new))
-                .getOpposite();
+        return this.getOutwardFacingFromWorldPosition(Direction.DOWN).getOpposite();
+
+//        return this.getOutwardFacingFromWorldPosition()
+//                .orElse(Direction.DOWN)
+//                .getOpposite();
+
+
+//        return this.getOutwardFacings().firstIf(true)
+//                .orElse(this.getOutwardFacingFromWorldPosition()
+//                        .orElseThrow(IllegalStateException::new))
+//                .getOpposite();
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -115,7 +122,7 @@ public class TurbineRotorBearingEntity
 
     //endregion
     //region TileEntity
-    
+
     @Override
     public AxisAlignedBB getRenderBoundingBox() {
         return this._renderBoundingBox;

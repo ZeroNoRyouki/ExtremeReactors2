@@ -16,80 +16,80 @@
  *
  */
 
-package it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part;
-
-import it.zerono.mods.extremereactors.config.Config;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.GenericDeviceBlock;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.MultiblockTurbine;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.TurbinePartType;
-import it.zerono.mods.zerocore.lib.block.INeighborChangeListener;
-import it.zerono.mods.zerocore.lib.multiblock.cuboid.AbstractCuboidMultiblockPart;
-import it.zerono.mods.zerocore.lib.world.WorldHelper;
-import net.minecraft.block.BlockState;
-import net.minecraft.particles.RedstoneParticleData;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-
-import java.util.Random;
-
-public class TurbineRedstonePortBlock
-        extends GenericDeviceBlock<MultiblockTurbine, TurbinePartType>
-        implements INeighborChangeListener.Notifier {
-
-    public TurbineRedstonePortBlock(final MultiblockPartProperties<TurbinePartType> properties) {
-        super(properties);
-    }
-
-    //region Block
-
-    /**
-     * Can this block provide power. Only wire currently seems to have this change based on its state..
-     */
-    @Override
-    public boolean canProvidePower(BlockState state) {
-        return true;
-    }
-
-    @Override
-    public int getStrongPower(BlockState blockState, IBlockReader blockAccess, BlockPos pos, Direction side) {
-        return this.getWeakPower(blockState, blockAccess, pos, side);
-    }
-
-    @Override
-    public int getWeakPower(BlockState blockState, IBlockReader blockAccess, BlockPos pos, Direction side) {
-        return WorldHelper.getTile(blockAccess, pos)
-                .filter(te -> te instanceof TurbineRedstonePortEntity)
-                .map(te -> (TurbineRedstonePortEntity)te)
-                .map(TurbineRedstonePortEntity::getOutputSignalPower)
-                .orElse(0);
-    }
-
-    @Override
-    @OnlyIn(Dist.CLIENT)
-    public void animateTick(BlockState state, World world, BlockPos pos, Random random) {
-
-        if (Config.CLIENT.disableTurbineParticles.get()) {
-            return;
-        }
-
-        // 1.15 bug MC-161917: Particles do not render underwater, behind water or behind other transparent blocks
-        // https://bugs.mojang.com/browse/MC-161917
-        // fixed in 20w22a (last pre-1.16 snapshot)
-        WorldHelper.getTile(world, pos)
-                .filter(te -> te instanceof TurbineRedstonePortEntity)
-                .map(te -> (TurbineRedstonePortEntity)te)
-                //.filter(port -> port.isLit())
-                .flatMap(AbstractCuboidMultiblockPart::getOutwardDirection)
-                .ifPresent(direction -> {
-
-                    WorldHelper.spawnVanillaParticles(world, RedstoneParticleData.REDSTONE_DUST, 1, 1,
-                            pos.getX(), pos.getY(), pos.getZ(), 0, 1, 0);
-                });
-    }
-
-    //endregion
-}
+//package it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part;
+//
+//import it.zerono.mods.extremereactors.config.Config;
+//import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.GenericDeviceBlock;
+//import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.MultiblockTurbine;
+//import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.TurbinePartType;
+//import it.zerono.mods.zerocore.lib.block.INeighborChangeListener;
+//import it.zerono.mods.zerocore.lib.multiblock.cuboid.AbstractCuboidMultiblockPart;
+//import it.zerono.mods.zerocore.lib.world.WorldHelper;
+//import net.minecraft.block.BlockState;
+//import net.minecraft.particles.RedstoneParticleData;
+//import net.minecraft.util.Direction;
+//import net.minecraft.util.math.BlockPos;
+//import net.minecraft.world.IBlockReader;
+//import net.minecraft.world.World;
+//import net.minecraftforge.api.distmarker.Dist;
+//import net.minecraftforge.api.distmarker.OnlyIn;
+//
+//import java.util.Random;
+//
+//public class TurbineRedstonePortBlock
+//        extends GenericDeviceBlock<MultiblockTurbine, TurbinePartType>
+//        implements INeighborChangeListener.Notifier {
+//
+//    public TurbineRedstonePortBlock(final MultiblockPartProperties<TurbinePartType> properties) {
+//        super(properties);
+//    }
+//
+//    //region Block
+//
+//    /**
+//     * Can this block provide power. Only wire currently seems to have this change based on its state..
+//     */
+//    @Override
+//    public boolean canProvidePower(BlockState state) {
+//        return true;
+//    }
+//
+//    @Override
+//    public int getStrongPower(BlockState blockState, IBlockReader blockAccess, BlockPos pos, Direction side) {
+//        return this.getWeakPower(blockState, blockAccess, pos, side);
+//    }
+//
+//    @Override
+//    public int getWeakPower(BlockState blockState, IBlockReader blockAccess, BlockPos pos, Direction side) {
+//        return WorldHelper.getTile(blockAccess, pos)
+//                .filter(te -> te instanceof TurbineRedstonePortEntity)
+//                .map(te -> (TurbineRedstonePortEntity)te)
+//                .map(TurbineRedstonePortEntity::getOutputSignalPower)
+//                .orElse(0);
+//    }
+//
+//    @Override
+//    @OnlyIn(Dist.CLIENT)
+//    public void animateTick(BlockState state, World world, BlockPos pos, Random random) {
+//
+//        if (Config.CLIENT.disableTurbineParticles.get()) {
+//            return;
+//        }
+//
+//        // 1.15 bug MC-161917: Particles do not render underwater, behind water or behind other transparent blocks
+//        // https://bugs.mojang.com/browse/MC-161917
+//        // fixed in 20w22a (last pre-1.16 snapshot)
+//        WorldHelper.getTile(world, pos)
+//                .filter(te -> te instanceof TurbineRedstonePortEntity)
+//                .map(te -> (TurbineRedstonePortEntity)te)
+//                //.filter(port -> port.isLit())
+//                .flatMap(AbstractCuboidMultiblockPart::getOutwardDirection)
+//                .ifPresent(direction -> {
+//
+//                    WorldHelper.spawnVanillaParticles(world, RedstoneParticleData.REDSTONE_DUST, 1, 1,
+//                            pos.getX(), pos.getY(), pos.getZ(), 0, 1, 0);
+//                });
+//    }
+//
+//    //endregion
+//}

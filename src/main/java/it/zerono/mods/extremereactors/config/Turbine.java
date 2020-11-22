@@ -44,7 +44,7 @@ public class Turbine {
                 .comment("The maximum valid size of a Turbine in the X/Z plane, in blocks.")
                 .translation("config.bigreactors.turbine.maxturbinesize")
                 .worldRestart()
-                .defineInRange("maxTurbineSize", 16, 5, 256);
+                .defineInRange("maxTurbineSize", 32, 5, 256);
 
         this.turbineAeroDragMultiplier = builder
                 .comment("A multiplier for balancing rotor sizes.",

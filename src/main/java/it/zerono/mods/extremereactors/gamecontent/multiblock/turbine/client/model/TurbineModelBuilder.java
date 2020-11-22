@@ -61,15 +61,19 @@ public class TurbineModelBuilder
         this.addBlockWithVariants(TurbinePartType.PassivePowerTapFE, variant, isPartCompatible, "powertapfe_passive");
         this.addBlockWithVariants(TurbinePartType.ActivePowerTapFE, variant, isPartCompatible, "powertapfe_active");
 
-        this.addBlockWithVariants(TurbinePartType.ActiveFluidPortForge, variant, isPartCompatible, "coolantport_forge_active",
-                "coolantport_forge_active_cold_connected",
-                "coolantport_forge_active_hot",
-                "coolantport_forge_active_hot_connected");
+        this.addBlockWithVariants(TurbinePartType.RotorBearing, variant, isPartCompatible, "rotorbearing");
 
-        this.addBlockWithVariants(TurbinePartType.PassiveFluidPortForge, variant, isPartCompatible, "coolantport_forge_passive",
-                "coolantport_forge_passive_cold_connected",
-                "coolantport_forge_passive_hot",
-                "coolantport_forge_passive_hot_connected");
+        this.addBlockWithVariants(TurbinePartType.ActiveFluidPortForge, variant, isPartCompatible, "fluidport_forge_active",
+                "fluidport_forge_active_cold_connected",
+                "fluidport_forge_active_hot",
+                "fluidport_forge_active_hot_connected");
+
+        this.addBlockWithVariants(TurbinePartType.PassiveFluidPortForge, variant, isPartCompatible, "fluidport_forge_passive",
+                "fluidport_forge_passive_cold_connected",
+                "fluidport_forge_passive_hot",
+                "fluidport_forge_passive_hot_connected");
+
+        this.addBlockWithVariants(TurbinePartType.CreativeSteamGenerator, variant, isPartCompatible, "creativesteamgenerator");
 
         this.addBlockWithVariants(TurbinePartType.Controller, variant, isPartCompatible, "controller",
                 "controller_on",
@@ -78,8 +82,8 @@ public class TurbineModelBuilder
         this.addBlockWithVariants(TurbinePartType.ComputerPort, variant, isPartCompatible, "computerport",
                 "computerport_connected");
 
-        this.addBlockWithVariants(TurbinePartType.RedstonePort, variant, isPartCompatible, "redstoneport",
-                "redstoneport_on");
+//        this.addBlockWithVariants(TurbinePartType.RedstonePort, variant, isPartCompatible, "redstoneport",
+//                "redstoneport_on");
     }
 
     //region AbstractMultiblockModelBuilder

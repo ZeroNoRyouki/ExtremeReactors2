@@ -18,6 +18,7 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part;
 
+import it.zerono.mods.extremereactors.Log;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.fluidport.FluidPortType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.fluidport.IFluidPort;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.fluidport.IFluidPortHandler;
@@ -48,7 +49,6 @@ public class TurbineFluidPortEntity
 
         super(entityType);
         this._handler = IFluidPortHandler.create(type, mode, this);
-//        this._fluidCapability = LazyOptional.of(this::createFluidCapability);
         this.setIoDirection(IoDirection.Input);
     }
 
@@ -111,9 +111,7 @@ public class TurbineFluidPortEntity
         }
 
         this._direction = direction;
-//        this.updateCapabilityForwarder();
         this.getFluidPortHandler().update();
-//        this.getMultiblockController().ifPresent(MultiblockReactor::onCoolantPortChanged);
         this.executeOnController(MultiblockTurbine::onFluidPortChanged);
         this.notifyBlockUpdate();
 
@@ -160,6 +158,24 @@ public class TurbineFluidPortEntity
     }
 
     //endregion
+    //region client render support
+
+    @Override
+    protected int getUpdatedModelVariantIndex() {
+
+        if (this.isMachineAssembled()) {
+
+            final int connectedOffset = this.getFluidPortHandler().isConnected() ? 1 : 0;
+
+            return this.getIoDirection().isInput() ? 0 + connectedOffset : 2 + connectedOffset;
+
+        } else {
+
+            return 0;
+        }
+    }
+
+    //endregion
     //region AbstractCuboidMultiblockPart
 
     @Override
@@ -182,7 +198,6 @@ public class TurbineFluidPortEntity
     public void onAttached(MultiblockTurbine newController) {
 
         super.onAttached(newController);
-//        this.updateCapabilityForwarder();
         this.getFluidPortHandler().update();
     }
 
@@ -190,7 +205,6 @@ public class TurbineFluidPortEntity
     public void onAssimilated(MultiblockTurbine newController) {
 
         super.onAssimilated(newController);
-//        this.updateCapabilityForwarder();
         this.getFluidPortHandler().update();
     }
 
@@ -198,7 +212,6 @@ public class TurbineFluidPortEntity
     public void onDetached(MultiblockTurbine oldController) {
 
         super.onDetached(oldController);
-//        this.updateCapabilityForwarder();
         this.getFluidPortHandler().update();
     }
 
@@ -222,7 +235,6 @@ public class TurbineFluidPortEntity
 
         super.remove();
         this.getFluidPortHandler().invalidate();
-//        this._fluidCapability.invalidate();
     }
 
     //endregion

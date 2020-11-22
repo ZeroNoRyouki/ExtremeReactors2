@@ -77,10 +77,6 @@ public class TurbineControllerScreen
 
         this._bindings = new BindingGroup();
 
-//        this._lblTemperature = this.infoLabel("temperatureValue", "0 C");
-//        this._lblFuelUsage = this.infoLabel("fuelUsageValue", "0 mB/t");
-//        this._lblFuelRichness = this.infoLabel("fuelRichnessValue", "0%");
-
         this._coolantBar = this.liquidBar("coolantBar", this._turbine.getFluidContainer().getCapacity());
         this._vaporBar = this.liquidBar("vaporBar", this._turbine.getFluidContainer().getCapacity());
         this._energyBar = new GaugeBar(this, "energyBar", this._turbineEnergyCapacity, CommonIcons.PowerBar.get());
