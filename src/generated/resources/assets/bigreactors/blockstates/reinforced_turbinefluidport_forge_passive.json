@@ -1,7 +1,7 @@
 {
   "variants": {
     "": {
-      "model": "bigreactors:block/turbine/reinforced/coolantport_forge_passive_cold"
+      "model": "bigreactors:block/turbine/reinforced/fluidport_forge_passive_cold"
     }
   }
 }

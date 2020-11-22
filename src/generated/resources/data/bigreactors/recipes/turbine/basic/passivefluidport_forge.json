@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "bigreactors:turbine",
+  "pattern": [
+    "CSC",
+    "SBS",
+    "CSC"
+  ],
+  "key": {
+    "C": {
+      "item": "bigreactors:basic_turbinecasing"
+    },
+    "B": {
+      "item": "minecraft:lava_bucket"
+    },
+    "S": {
+      "item": "minecraft:water_bucket"
+    }
+  },
+  "result": {
+    "item": "bigreactors:basic_turbinefluidport_forge_passive"
+  }
+}

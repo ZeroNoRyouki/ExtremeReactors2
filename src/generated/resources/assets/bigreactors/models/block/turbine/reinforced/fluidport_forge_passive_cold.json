@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "bigreactors:block/turbine/reinforced/fluidport_forge_passive_cold"
+  }
+}

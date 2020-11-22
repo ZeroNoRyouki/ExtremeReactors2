@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "bigreactors:turbine",
+  "pattern": [
+    "CXC",
+    "YDY",
+    "CRC"
+  ],
+  "key": {
+    "C": {
+      "item": "bigreactors:basic_turbinecasing"
+    },
+    "Y": {
+      "tag": "forge:storage_blocks/cyanite"
+    },
+    "R": {
+      "tag": "forge:dusts/redstone"
+    },
+    "D": {
+      "tag": "forge:gems/diamond"
+    },
+    "X": {
+      "item": "minecraft:comparator"
+    }
+  },
+  "result": {
+    "item": "bigreactors:basic_turbinecontroller"
+  }
+}

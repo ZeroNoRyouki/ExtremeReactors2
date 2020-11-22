@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "bigreactors:turbine",
+  "pattern": [
+    "CBC",
+    "BSB",
+    "CBC"
+  ],
+  "key": {
+    "C": {
+      "item": "bigreactors:reinforced_turbinecasing"
+    },
+    "B": {
+      "item": "minecraft:redstone_block"
+    },
+    "S": {
+      "item": "minecraft:redstone"
+    }
+  },
+  "result": {
+    "item": "bigreactors:reinforced_turbinepowertapfe_active"
+  }
+}

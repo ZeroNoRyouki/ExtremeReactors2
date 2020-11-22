@@ -77,7 +77,10 @@
     "block.bigreactors.reinforced_reactorcomputerport": "Reactor Computer Port (Reinforced)",
     "block.bigreactors.reinforced_reactorredstoneport": "Reactor Redstone Port (Reinforced)",
     "block.bigreactors.reinforced_reactorfuelrod": "Reactor Fuel Rod (Reinforced)",
-    "block.bigreactors.reinforced_reactorcreativecoolantport": "Reactor Creative Coolant Port (Reinforced)",
+    "block.bigreactors.reinforced_reactorcreativewatergenerator": "Reactor Creative Water Generator (Reinforced)",
+    "block.bigreactors.reinforced_reactorfluidport_forge_active": "Reactor Active Forge Fluid Port (Reinforced)",
+    "block.bigreactors.reinforced_reactorfluidport_forge_passive": "Reactor Passive Forge Fluid Port (Reinforced)",
+
 
     "_comment": "Blocks - turbine parts (basic)",
     "block.bigreactors.basic_turbineglass": "Turbine Glass (Basic)",
@@ -91,6 +94,7 @@
     "block.bigreactors.basic_turbinefluidport_forge_active": "Turbine Active Forge Fluid Port (Basic)",
     "block.bigreactors.basic_turbinefluidport_forge_passive": "Turbine Passive Forge Fluid Port (Basic)",
     "block.bigreactors.basic_turbineredstoneport": "Turbine Redstone Port (Basic)",
+    "block.bigreactors.basic_turbinecreativesteamgenerator": "Turbine Creative Steam Generator (Basic)",
 
     "_comment": "Blocks - turbine parts (reinforced)",
     "block.bigreactors.reinforced_turbineglass": "Turbine Glass (Reinforced)",
@@ -105,7 +109,7 @@
     "block.bigreactors.reinforced_turbinefluidport_forge_passive": "Turbine Passive Forge Fluid Port (Reinforced)",
     "block.bigreactors.reinforced_turbineredstoneport": "Turbine Redstone Port (Reinforced)",
     "block.bigreactors.reinforced_turbinecomputerport": "Turbine Computer Port (Reinforced)",
-    "x_block.bigreactors.turbinecreativesteamgenerator.basic": "Turbine Creative Steam Generator (Basic)",
+    "block.bigreactors.reinforced_turbinecreativesteamgenerator": "Turbine Creative Steam Generator (Reinforced)",
 
     "_comment": "Reactor parts names",
     "part.bigreactors.reactor.casing": "Casing",

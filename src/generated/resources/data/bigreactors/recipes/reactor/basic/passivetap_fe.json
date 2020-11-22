@@ -11,10 +11,10 @@
       "item": "bigreactors:basic_reactorcasing"
     },
     "B": {
-      "item": "minecraft:redstone"
+      "item": "minecraft:redstone_block"
     },
     "S": {
-      "item": "minecraft:redstone_block"
+      "item": "minecraft:redstone"
     }
   },
   "result": {
