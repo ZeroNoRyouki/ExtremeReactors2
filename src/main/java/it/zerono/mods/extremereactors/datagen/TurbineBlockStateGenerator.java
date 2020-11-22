@@ -79,11 +79,12 @@ public class TurbineBlockStateGenerator
         this.genShaft(Content.Blocks.TURBINE_ROTORSHAFT_BASIC, "rotorshaft", variant);
         this.genBlade(Content.Blocks.TURBINE_ROTORBLADE_BASIC, "rotorblade", variant);
 
-        this.genRedstonePort(Content.Blocks.TURBINE_REDSTONEPORT_BASIC, variant);
+//        this.genRedstonePort(Content.Blocks.TURBINE_REDSTONEPORT_BASIC, variant);
         this.genericPart(Content.Blocks.TURBINE_POWERTAP_FE_ACTIVE_BASIC, "powertap_fe_active", variant, true);
         this.genericPart(Content.Blocks.TURBINE_POWERTAP_FE_PASSIVE_BASIC, "powertap_fe_passive", variant, true);
-        this.genCoolantPort(Content.Blocks.TURBINE_FLUIDPORT_FORGE_ACTIVE_BASIC, "coolantport_forge_active", variant);
-        this.genCoolantPort(Content.Blocks.TURBINE_FLUIDPORT_FORGE_PASSIVE_BASIC, "coolantport_forge_passive", variant);
+        this.genFluidPort(Content.Blocks.TURBINE_FLUIDPORT_FORGE_ACTIVE_BASIC, "fluidport_forge_active", variant);
+        this.genFluidPort(Content.Blocks.TURBINE_FLUIDPORT_FORGE_PASSIVE_BASIC, "fluidport_forge_passive", variant);
+        this.genericPart(Content.Blocks.TURBINE_CREATIVE_STEAM_GENERATOR_BASIC, "creative_steam_generator", variant, true);
 
         //endregion
         //region reinforced
@@ -98,11 +99,12 @@ public class TurbineBlockStateGenerator
         this.genShaft(Content.Blocks.TURBINE_ROTORSHAFT_REINFORCED, "rotorshaft", variant);
         this.genBlade(Content.Blocks.TURBINE_ROTORBLADE_REINFORCED, "rotorblade", variant);
 
-        this.genRedstonePort(Content.Blocks.TURBINE_REDSTONEPORT_REINFORCED, variant);
+//        this.genRedstonePort(Content.Blocks.TURBINE_REDSTONEPORT_REINFORCED, variant);
         this.genericPart(Content.Blocks.TURBINE_POWERTAP_FE_ACTIVE_REINFORCED, "powertap_fe_active", variant, true);
         this.genericPart(Content.Blocks.TURBINE_POWERTAP_FE_PASSIVE_REINFORCED, "powertap_fe_passive", variant, true);
-        this.genCoolantPort(Content.Blocks.TURBINE_FLUIDPORT_FORGE_ACTIVE_REINFORCED, "coolantport_forge_active", variant);
-        this.genCoolantPort(Content.Blocks.TURBINE_FLUIDPORT_FORGE_PASSIVE_REINFORCED, "coolantport_forge_passive", variant);
+        this.genFluidPort(Content.Blocks.TURBINE_FLUIDPORT_FORGE_ACTIVE_REINFORCED, "fluidport_forge_active", variant);
+        this.genFluidPort(Content.Blocks.TURBINE_FLUIDPORT_FORGE_PASSIVE_REINFORCED, "fluidport_forge_passive", variant);
+        this.genericPart(Content.Blocks.TURBINE_CREATIVE_STEAM_GENERATOR_REINFORCED, "creative_steam_generator", variant, true);
         this.genComputerPort(Content.Blocks.TURBINE_COMPUTERPORT_REINFORCED, variant);
 
         //endregion
@@ -126,7 +128,16 @@ public class TurbineBlockStateGenerator
         final ModelFile z2cy = mbp.withExistingParent(fullResourceName(resourceName + "_z_2cy", subFolder), this.ROTOR_SHAFT_Z_2CY_ID).texture("0", texture0).texture("1", texture1);
         final ModelFile z4c = mbp.withExistingParent(fullResourceName(resourceName + "_z_4c", subFolder), this.ROTOR_SHAFT_Z_4C_ID).texture("0", texture0).texture("1", texture1);
 
-        this.simpleBlockItem(block, z0c);
+//        this.simpleBlockItem(block, z4c);
+        this.itemModels()
+                .getBuilder(block.getRegistryName().getPath())
+                .parent(z4c)
+//                .transforms()
+//                .transform(ModelBuilder.Perspective.FIXED)
+//                .rotation(45, 45, 45)
+//                .end()
+//                .end()
+                ;
 
         this.genShaftVariant(block, RotorShaftState.HIDDEN, this.TRANSPARENT_BLOCK_MODEL, 0, 0);
 

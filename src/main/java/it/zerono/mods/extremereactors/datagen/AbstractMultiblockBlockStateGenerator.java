@@ -19,8 +19,6 @@
 package it.zerono.mods.extremereactors.datagen;
 
 import it.zerono.mods.extremereactors.ExtremeReactors;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part.TurbineRotorComponentBlock;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.rotor.RotorShaftState;
 import it.zerono.mods.zerocore.lib.datagen.provider.multiblock.AbstractCuboidMultiblockBlockStateProvider;
 import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
@@ -42,14 +40,14 @@ public abstract class AbstractMultiblockBlockStateGenerator
 
         final String fullPath = fullResourceName("", subFolder);
 
-        this.models().cubeAll(fullPath + "assembledplating", this.modLoc(fullPath + "casing_single"));
+        this.models().cubeAll(fullPath + "assembledplating", this.modLoc(fullPath + /*"casing_single"*/"plating"));
     }
 
     protected void genController(final Supplier<? extends Block> block, final String subFolder) {
         this.genericPart(block, "controller", subFolder, true, "_on", "_off");
     }
 
-    protected void genCoolantPort(final Supplier<? extends Block> block, final String resourceName, final String subFolder) {
+    protected void genFluidPort(final Supplier<? extends Block> block, final String resourceName, final String subFolder) {
 
         final BlockModelProvider mbp = this.models();
         final String fullResourceName = fullResourceName(resourceName, subFolder);
