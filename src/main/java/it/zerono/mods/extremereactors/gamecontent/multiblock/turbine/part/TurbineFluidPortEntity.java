@@ -167,7 +167,7 @@ public class TurbineFluidPortEntity
 
             final int connectedOffset = this.getFluidPortHandler().isConnected() ? 1 : 0;
 
-            return this.getIoDirection().isInput() ? 0 + connectedOffset : 2 + connectedOffset;
+            return this.getIoDirection().isInput() ? 2 + connectedOffset : 0 + connectedOffset;
 
         } else {
 
