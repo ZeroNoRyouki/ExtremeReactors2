@@ -151,7 +151,12 @@ public class FluidPortHandlerForge<Controller extends AbstractGeneratorMultibloc
     @Nullable
     @Override
     public <T> LazyOptional<T> getCapability(final Capability<T> capability, final @Nullable Direction direction) {
-        return this._capability.cast();
+
+        if (CAPAP_FORGE_FLUIDHANDLER == capability) {
+            return this._capability.cast();
+        }
+
+        return null;
     }
 
     @Override
