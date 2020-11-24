@@ -150,6 +150,11 @@ repositories {
     maven {
         url 'https://squiddev.cc/maven/'
     }
+
+    // Patchouli
+    maven {
+        url 'https://maven.blamejared.com'
+    }
 }
 
 dependencies {
@@ -162,6 +167,9 @@ dependencies {
     runtimeOnly fg.deobf("mezz.jei:jei-${config.minecraft_version}:${config.jei_version}")
 
     implementation fg.deobf("org.squiddev:cc-tweaked-${config.minecraft_version}:${config.cctweaked_version}")
+
+    compileOnly fg.deobf("vazkii.patchouli:Patchouli:${config.patchouli_version}:api")
+    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${config.patchouli_version}")
 }
 
 task extremereactors_apiJar(type: Jar) {
