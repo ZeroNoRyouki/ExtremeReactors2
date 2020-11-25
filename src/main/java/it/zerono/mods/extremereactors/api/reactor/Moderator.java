@@ -18,6 +18,8 @@
 
 package it.zerono.mods.extremereactors.api.reactor;
 
+import net.minecraft.util.math.MathHelper;
+
 /**
  * Describe the properties of a material that can be used to moderate the reaction inside a Reactor
  */
@@ -48,7 +50,7 @@ public class Moderator {
     }
 
     public void setAbsorption(float value) {
-        this._absorption = Math.max(0f, Math.min(1f, value));
+        this._absorption = MathHelper.clamp(value, 0.0f, 1.0f);
     }
 
     public float getHeatEfficiency() {
@@ -56,7 +58,7 @@ public class Moderator {
     }
 
     public void setHeatEfficiency(float value) {
-        this._heatEfficiency = Math.max(0f, Math.min(1f, value));
+        this._heatEfficiency = MathHelper.clamp(value, 0.0f, 1.0f);
     }
 
     public float getModeration() {
@@ -64,7 +66,7 @@ public class Moderator {
     }
 
     public void setModeration(float value) {
-        this._moderation = Math.max(1f, value);
+        this._moderation = Math.max(1.0f, value);
     }
 
     public float getHeatConductivity() {
@@ -72,7 +74,7 @@ public class Moderator {
     }
 
     public void setHeatConductivity(float value) {
-        this._heatConductivity = Math.max(0f, value);
+        this._heatConductivity = Math.max(0.0f, value);
     }
 
     //region internals
