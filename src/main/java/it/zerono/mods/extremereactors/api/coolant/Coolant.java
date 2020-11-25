@@ -40,8 +40,8 @@ public class Coolant
     Coolant(final String name, final float boilingPoint, final float enthalpyOfVaporization, final String translationKey) {
 
         super(name, translationKey);
-        this._boilingPoint = boilingPoint;
-        this._enthalpyOfVaporization = enthalpyOfVaporization;
+        this._boilingPoint = Math.max(0.0f, boilingPoint);
+        this._enthalpyOfVaporization = Math.max(0.0f, enthalpyOfVaporization);
     }
 
     public float getBoilingPoint() {
