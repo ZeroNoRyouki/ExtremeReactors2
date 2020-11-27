@@ -21,8 +21,10 @@ package it.zerono.mods.extremereactors.api.turbine;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
+import it.zerono.mods.extremereactors.Log;
 import it.zerono.mods.extremereactors.api.ExtremeReactorsAPI;
 import it.zerono.mods.extremereactors.api.InternalDispatcher;
+import it.zerono.mods.extremereactors.api.internal.modpack.wrapper.ApiWrapper;
 import it.zerono.mods.zerocore.lib.tag.CollectionProviders;
 import it.zerono.mods.zerocore.lib.tag.TagList;
 import it.zerono.mods.zerocore.lib.tag.TagsHelper;
@@ -41,9 +43,7 @@ import net.minecraftforge.fml.common.Mod;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
 
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Keep track of all the CoilMaterials that could be used inside a Turbine
@@ -158,7 +158,7 @@ public class CoilMaterialRegistry {
 
             final ResourceLocation id = new ResourceLocation(tagId);
 
-            if (s_materials.containsKey(id)) { ;
+            if (s_materials.containsKey(id)) {
                 ExtremeReactorsAPI.LOGGER.warn(MARKER, "Overriding existing coil data for Tag {}", tagId);
             }
 
@@ -211,14 +211,45 @@ public class CoilMaterialRegistry {
                 .forEach(s_tags::addTag);
     }
 
+    public static void processWrapper(final ApiWrapper wrapper) {
+
+        if (!wrapper.Enabled) {
+            return;
+        }
+
+        if (wrapper.TurbineCoils.WipeExistingValuesBeforeAdding) {
+
+            // wipe all
+
+            Log.LOGGER.info(WRAPPER, "Wiping all existing Reactor reactants reactions");
+            s_materials.clear();
+
+        } else {
+
+            // remove from list
+
+            Arrays.stream(wrapper.TurbineCoils.Remove)
+                    .filter(name -> !Strings.isNullOrEmpty(name))
+                    .forEach(name -> CoilMaterialRegistry.remove(new ResourceLocation(name)));
+        }
+
+        // add new values
+
+        Arrays.stream(wrapper.TurbineCoils.Add)
+                .filter(Objects::nonNull)
+                .forEach((it.zerono.mods.extremereactors.api.internal.modpack.wrapper.CoilMaterial w) ->
+                        register(w.BlockTagId, w.Efficiency, w.Bonus, w.ExtractionRate));
+    }
+
     //region internals
 
-    private static TagList<Block> s_tags = new TagList<>(CollectionProviders.BLOCKS_PROVIDER);
-    private static Map<ResourceLocation, CoilMaterial> s_materials = Maps.newHashMap();
+    private static final TagList<Block> s_tags = new TagList<>(CollectionProviders.BLOCKS_PROVIDER);
+    private static final Map<ResourceLocation, CoilMaterial> s_materials = Maps.newHashMap();
 
     private static final ITextComponent TOOLTIP_COIL = new TranslationTextComponent("api.bigreactors.reactor.tooltip.coil").setStyle(ExtremeReactorsAPI.STYLE_TOOLTIP);
 
     private static final Marker MARKER = MarkerManager.getMarker("API/CoilMaterialRegistry").addParents(ExtremeReactorsAPI.MARKER);
+    private static final Marker WRAPPER = MarkerManager.getMarker("ModPack API Wrapper").addParents(MARKER);
 
     //endregion
 }

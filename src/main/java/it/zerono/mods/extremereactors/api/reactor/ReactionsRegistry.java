@@ -21,12 +21,16 @@ package it.zerono.mods.extremereactors.api.reactor;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
+import it.zerono.mods.extremereactors.Log;
 import it.zerono.mods.extremereactors.api.ExtremeReactorsAPI;
 import it.zerono.mods.extremereactors.api.InternalDispatcher;
+import it.zerono.mods.extremereactors.api.internal.modpack.wrapper.ApiWrapper;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
 
+import java.util.Arrays;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -65,9 +69,7 @@ public final class ReactionsRegistry {
     public static void register(final String sourceReactantName, final String productReactantName,
                                 final float reactivity, final float fissionRate) {
 
-        Preconditions.checkNotNull(sourceReactantName);
         Preconditions.checkArgument(!Strings.isNullOrEmpty(sourceReactantName));
-        Preconditions.checkNotNull(productReactantName);
         Preconditions.checkArgument(!Strings.isNullOrEmpty(productReactantName));
 
         InternalDispatcher.dispatch("reaction-register", () -> {
@@ -94,6 +96,45 @@ public final class ReactionsRegistry {
         });
     }
 
+    public static void remove(final String sourceReactantName) {
+
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(sourceReactantName));;
+
+        InternalDispatcher.dispatch("reaction-remove", () -> {
+            ReactantsRegistry.get(sourceReactantName).ifPresent(s_reactions::remove);
+        });
+    }
+
+    public static void processWrapper(final ApiWrapper wrapper) {
+
+        if (!wrapper.Enabled) {
+            return;
+        }
+
+        if (wrapper.ReactorReactantReaction.WipeExistingValuesBeforeAdding) {
+
+            // wipe all
+
+            Log.LOGGER.info(WRAPPER, "Wiping all existing Reactor reactants reactions");
+            s_reactions.clear();
+
+        } else {
+
+            // remove from list
+
+            Arrays.stream(wrapper.ReactorReactantReaction.Remove)
+                    .filter(name -> !Strings.isNullOrEmpty(name))
+                    .forEach(ReactionsRegistry::remove);
+        }
+
+        // add new values
+
+        Arrays.stream(wrapper.ReactorReactantReaction.Add)
+                .filter(Objects::nonNull)
+                .forEach((it.zerono.mods.extremereactors.api.internal.modpack.wrapper.Reaction w) ->
+                        register(w.SourceReactant, w.ProductReactant, w.Reactivity, w.FissionRate));
+    }
+
     //region internals
 
     private ReactionsRegistry() {
@@ -102,6 +143,7 @@ public final class ReactionsRegistry {
     private static Map<Reactant, Reaction> s_reactions = Maps.newHashMap();
 
     private static final Marker MARKER = MarkerManager.getMarker("API/ReactionsRegistry").addParents(ExtremeReactorsAPI.MARKER);
+    private static final Marker WRAPPER = MarkerManager.getMarker("ModPack API Wrapper").addParents(MARKER);
 
     //endregion
 }
