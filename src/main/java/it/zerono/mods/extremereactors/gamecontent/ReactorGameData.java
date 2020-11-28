@@ -141,7 +141,7 @@ final class ReactorGameData {
     }
 
     private static void registerIngotReactantMapping(final String reactantName, final ResourceLocation itemTagId, final int ingotsCount) {
-        ReactantMappingsRegistry.register(reactantName, ingotsCount * ReactantMappingsRegistry.STANDARD_SOLID_REACTANT_AMOUNT, itemTagId);
+        ReactantMappingsRegistry.registerSolid(reactantName, ingotsCount * ReactantMappingsRegistry.STANDARD_SOLID_REACTANT_AMOUNT, itemTagId);
     }
 
 

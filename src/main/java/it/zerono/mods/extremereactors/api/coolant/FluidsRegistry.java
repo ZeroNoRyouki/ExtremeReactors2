@@ -21,13 +21,19 @@ package it.zerono.mods.extremereactors.api.coolant;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
+import it.zerono.mods.extremereactors.Log;
 import it.zerono.mods.extremereactors.api.ExtremeReactorsAPI;
 import it.zerono.mods.extremereactors.api.InternalDispatcher;
+import it.zerono.mods.extremereactors.api.internal.modpack.wrapper.AddRemoveSection;
+import it.zerono.mods.extremereactors.api.internal.modpack.wrapper.ApiWrapper;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
 
+import java.util.Arrays;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 /**
  * Keep track of all the coolants and vapors that could be used in an active Reactor / Turbine setup
@@ -85,7 +91,6 @@ public final class FluidsRegistry {
     public static void registerCoolant(final String name, final float boilingPoint, final float enthalpyOfVaporization,
                                        final String translationKey) {
 
-        Preconditions.checkNotNull(name);
         Preconditions.checkArgument(!Strings.isNullOrEmpty(name));
 
         InternalDispatcher.dispatch("fluid-register", () -> {
@@ -99,6 +104,20 @@ public final class FluidsRegistry {
     }
 
     /**
+     * Remove a registered Coolant.
+     *
+     * @param name The name of this Coolant.
+     */
+    public static void removeCoolant(final String name) {
+
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(name));
+
+        InternalDispatcher.dispatch("fluid-remove", () -> {
+            s_coolants.remove(name);
+        });
+    }
+
+    /**
      * Register a new Vapor.
      *
      * @param name The name of this Vapor. Must be unique.
@@ -107,7 +126,6 @@ public final class FluidsRegistry {
      */
     public static void registerVapor(final String name, final float fluidEnergyDensity, final String translationKey) {
 
-        Preconditions.checkNotNull(name);
         Preconditions.checkArgument(!Strings.isNullOrEmpty(name));
 
         InternalDispatcher.dispatch("fluid-register", () -> {
@@ -120,9 +138,62 @@ public final class FluidsRegistry {
         });
     }
 
+    /**
+     * Remove a registered Vapor.
+     *
+     * @param name The name of this Vapor.
+     */
+    public static void removeVapor(final String name) {
+
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(name));
+        InternalDispatcher.dispatch("fluid-remove", () -> s_vapors.remove(name));
+    }
+
+    public static void processWrapper(final ApiWrapper wrapper) {
+
+        if (!wrapper.Enabled) {
+            return;
+        }
+
+        processWrapper("Coolants", wrapper.Coolants, s_coolants, FluidsRegistry::removeCoolant,
+                (it.zerono.mods.extremereactors.api.internal.modpack.wrapper.Coolant w) ->
+                        registerCoolant(w.Name, w.BoilingPoint, w.EnthalpyOfVaporization, w.TranslationKey));
+
+        processWrapper("Vapors", wrapper.Vapors, s_vapors, FluidsRegistry::removeVapor,
+                (it.zerono.mods.extremereactors.api.internal.modpack.wrapper.Vapor w) ->
+                        registerVapor(w.Name, w.FluidEnergyDensity, w.TranslationKey));
+    }
+
     //region internals
 
     private FluidsRegistry() {
+    }
+
+    private static <X, XWrapper> void processWrapper(final String objectName, final AddRemoveSection<XWrapper> wrapperSection,
+                                                     final Map<String, X> registry, final Consumer<String> removeAction,
+                                                     final Consumer<XWrapper> addAction) {
+
+        if (wrapperSection.WipeExistingValuesBeforeAdding) {
+
+            // wipe all
+
+            Log.LOGGER.info(WRAPPER, "Wiping all existing {} sources", objectName);
+            registry.clear();
+
+        } else {
+
+            // remove from list
+
+            Arrays.stream(wrapperSection.Remove)
+                    .filter(name -> !Strings.isNullOrEmpty(name))
+                    .forEach(removeAction);
+        }
+
+        // add new values
+
+        Arrays.stream(wrapperSection.Add)
+                .filter(Objects::nonNull)
+                .forEach(addAction);
     }
 
     // - registered Coolants
@@ -131,6 +202,7 @@ public final class FluidsRegistry {
     private static final Map<String, Vapor> s_vapors = new Object2ObjectArrayMap<>(2);
 
     private static final Marker MARKER = MarkerManager.getMarker("API/FluidsRegistry").addParents(ExtremeReactorsAPI.MARKER);
+    private static final Marker WRAPPER = MarkerManager.getMarker("ModPack API Wrapper").addParents(MARKER);
 
     //endregion
 }

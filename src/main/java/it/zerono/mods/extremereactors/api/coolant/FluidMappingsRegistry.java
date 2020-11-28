@@ -22,18 +22,24 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
+import it.zerono.mods.extremereactors.Log;
 import it.zerono.mods.extremereactors.api.ExtremeReactorsAPI;
 import it.zerono.mods.extremereactors.api.IMapping;
 import it.zerono.mods.extremereactors.api.InternalDispatcher;
+import it.zerono.mods.extremereactors.api.internal.modpack.wrapper.AddRemoveSection;
+import it.zerono.mods.extremereactors.api.internal.modpack.wrapper.ApiWrapper;
+import it.zerono.mods.extremereactors.api.internal.modpack.wrapper.SourceTag;
+import it.zerono.mods.zerocore.lib.tag.TagsHelper;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.tags.ITag;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.FluidStack;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 public final class FluidMappingsRegistry {
 
@@ -146,11 +152,11 @@ public final class FluidMappingsRegistry {
                 qty = 1;
             }
 
-            final Optional<Coolant> entry = FluidsRegistry.getCoolant(name);
+            final Optional<Coolant> coolant = FluidsRegistry.getCoolant(name);
 
-            if (entry.isPresent()) {
+            if (coolant.isPresent()) {
 
-                final IMapping<ITag.INamedTag<Fluid>, Coolant> mapping = IMapping.of(source, 1, entry.get(), qty);
+                final IMapping<ITag.INamedTag<Fluid>, Coolant> mapping = IMapping.of(source, 1, coolant.get(), qty);
 
                 s_fluidToCoolant.put(mapping.getSource(), mapping);
                 s_coolantToFluid.computeIfAbsent(mapping.getProduct(), k -> Lists.newArrayList()).add(mapping.getReverse());
@@ -160,6 +166,24 @@ public final class FluidMappingsRegistry {
                 ExtremeReactorsAPI.LOGGER.warn(MARKER, "Skipping registration for an unknown source Coolant: {}", name);
             }
         });
+    }
+
+    /**
+     * Remove a Fluid Tag as a valid Coolant source
+     *
+     * @param sourceFluidTag the Fluid Tag to remove
+     */
+    public static void removeCoolantMapping(final ITag.INamedTag<Fluid> sourceFluidTag) {
+        removeSourceMapping(sourceFluidTag.getName(), s_fluidToCoolant, s_coolantToFluid);
+    }
+
+    /**
+     * Remove a Fluid Tag as a valid Coolant source
+     *
+     * @param sourceFluidTagId the id of the Fluid Tag to remove
+     */
+    public static void removeCoolantMapping(final String sourceFluidTagId) {
+        removeSourceMapping(new ResourceLocation(sourceFluidTagId), s_fluidToCoolant, s_coolantToFluid);
     }
 
     /**
@@ -199,6 +223,39 @@ public final class FluidMappingsRegistry {
         });
     }
 
+    /**
+     * Remove a Fluid Tag as a valid Vapor source
+     *
+     * @param sourceFluidTag the Fluid Tag to remove
+     */
+    public static void removeVaporMapping(final ITag.INamedTag<Fluid> sourceFluidTag) {
+        removeSourceMapping(sourceFluidTag.getName(), s_fluidToVapor, s_vaporToFluid);
+    }
+
+    /**
+     * Remove a Fluid Tag as a valid Vapor source
+     *
+     * @param sourceFluidTagId the id of the Fluid Tag to remove
+     */
+    public static void removeVaporMapping(final String sourceFluidTagId) {
+        removeSourceMapping(new ResourceLocation(sourceFluidTagId), s_fluidToVapor, s_vaporToFluid);
+    }
+
+    public static void processWrapper(final ApiWrapper wrapper) {
+
+        if (!wrapper.Enabled) {
+            return;
+        }
+
+        processWrapper("Coolants", wrapper.CoolantSources, s_fluidToCoolant, s_coolantToFluid,
+                FluidMappingsRegistry::removeCoolantMapping,
+                (source -> registerCoolantMapping(source.ProductName, source.ProductQuantity, TagsHelper.FLUIDS.createOptionalTag(source.SourceTagId))));
+
+        processWrapper("Vapors", wrapper.VaporSources, s_fluidToVapor, s_vaporToFluid,
+                FluidMappingsRegistry::removeVaporMapping,
+                (source -> registerVaporMapping(source.ProductName, source.ProductQuantity, TagsHelper.FLUIDS.createOptionalTag(source.SourceTagId))));
+    }
+
     //region internals
 
     private FluidMappingsRegistry() {
@@ -221,6 +278,68 @@ public final class FluidMappingsRegistry {
                 .findAny();
     }
 
+    private static <X> void removeSourceMapping(final ResourceLocation sourceFluidTagId,
+                                                final Map<ITag.INamedTag<Fluid>, IMapping<ITag.INamedTag<Fluid>, X>> fluidToX,
+                                                final Map<X, List<IMapping<X, ITag.INamedTag<Fluid>>>> xToFluid) {
+
+        Preconditions.checkNotNull(sourceFluidTagId);
+        Preconditions.checkNotNull(fluidToX);
+        Preconditions.checkNotNull(xToFluid);
+
+        InternalDispatcher.dispatch("fluid-mapping-remove", () -> {
+
+            final Optional<ITag.INamedTag<Fluid>> fluidTag = fluidToX.keySet().stream()
+                    .filter(tag -> tag.getName().equals(sourceFluidTagId))
+                    .findFirst();
+
+            fluidTag.ifPresent(tag -> {
+
+                final IMapping<ITag.INamedTag<Fluid>, X> removedMapping = fluidToX.remove(tag);
+
+                if (null != removedMapping) {
+
+                    xToFluid.getOrDefault(removedMapping.getProduct(), Collections.emptyList())
+                            .removeIf(xToTagMapping -> xToTagMapping.getProduct().equals(tag));
+
+                    xToFluid.entrySet().stream()
+                            .filter(entry -> entry.getValue().isEmpty())
+                            .map(Map.Entry::getKey)
+                            .collect(Collectors.toSet())
+                            .forEach(xToFluid::remove);
+                }
+            });
+        });
+    }
+
+    private static <X> void processWrapper(final String objectName, final AddRemoveSection<SourceTag> wrapperSection,
+                                           final Map<ITag.INamedTag<Fluid>, IMapping<ITag.INamedTag<Fluid>, X>> fluidToX,
+                                           final Map<X, List<IMapping<X, ITag.INamedTag<Fluid>>>> xToFluid,
+                                           final Consumer<String> removeAction, final Consumer<SourceTag> addAction) {
+
+        if (wrapperSection.WipeExistingValuesBeforeAdding) {
+
+            // wipe all
+
+            Log.LOGGER.info(WRAPPER, "Wiping all existing {} sources", objectName);
+            fluidToX.clear();
+            xToFluid.clear();
+
+        } else {
+
+            // remove from list
+
+            Arrays.stream(wrapperSection.Remove)
+                    .filter(name -> !Strings.isNullOrEmpty(name))
+                    .forEach(removeAction);
+        }
+
+        // add new values
+
+        Arrays.stream(wrapperSection.Add)
+                .filter(Objects::nonNull)
+                .forEach(addAction);
+    }
+
     // 1:1 mappings
 
     // - fluid source -> Fluid Tag to Coolant mapping
@@ -236,6 +355,7 @@ public final class FluidMappingsRegistry {
     private static final Map<Vapor, List<IMapping<Vapor, ITag.INamedTag<Fluid>>>> s_vaporToFluid = new Object2ObjectArrayMap<>(2);
 
     private static final Marker MARKER = MarkerManager.getMarker("API/FluidMappingsRegistry").addParents(ExtremeReactorsAPI.MARKER);
+    private static final Marker WRAPPER = MarkerManager.getMarker("ModPack API Wrapper").addParents(MARKER);
 
     //endregion
 }
