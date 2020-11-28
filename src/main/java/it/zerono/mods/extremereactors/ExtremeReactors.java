@@ -18,6 +18,7 @@
 
 package it.zerono.mods.extremereactors;
 
+import it.zerono.mods.extremereactors.api.internal.modpack.wrapper.ApiWrapper;
 import it.zerono.mods.extremereactors.config.Config;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.proxy.ClientProxy;
@@ -111,6 +112,9 @@ public class ExtremeReactors implements IModInitializationHandler {
         // - Turbine CoilMaterials
         imcProcessAPIMessages(event, "coilmaterial-register");
         imcProcessAPIMessages(event, "coilmaterial-remove");
+
+        // ModPack API Wrapper
+        ApiWrapper.processFile();
     }
 
     //region internals

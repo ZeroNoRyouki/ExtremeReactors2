@@ -97,7 +97,7 @@ public final class ApiWrapper {
                 new Coolant("coolantA", "key.for.coolantA.name", 100.0f, 24.3f),
                 new Coolant("coolantB", "key.for.coolantB.name.translation", 85.34f, 12.0f)
         ).toArray(new Coolant[0]);
-        wrapper.Coolants.Remove = new String[] {"someCoolant", "anotherCoolantName"};
+        wrapper.Coolants.Remove = new String[] {"someCoolant", "water", "anotherCoolantName"};
 
         wrapper.Vapors.Add = ImmutableList.of(
                 new Vapor("vapor1", "vapor1.name.translation.key", 2.0f),
@@ -112,7 +112,7 @@ public final class ApiWrapper {
         wrapper.CoolantSources.Remove = new String[] {"minecraft:water", "minecraft:lava", "anothermod:fluid"};
 
         wrapper.VaporSources.Add = ImmutableList.of(
-                new SourceTag("bigreactors:steam", "vapor2", 1),
+                new SourceTag("forge:steam", "vapor2", 1),
                 new SourceTag("modid:fluidid2", "vapor1", 2)
         ).toArray(new SourceTag[0]);
         wrapper.VaporSources.Remove = new String[] {"minecraft:water", "minecraft:lava", "anothermod:fluid"};
@@ -128,9 +128,9 @@ public final class ApiWrapper {
 
         wrapper.ReactorReactants.Add = ImmutableList.of(
                 new Reactant("newReactant2", "mod.reactant2.name.key", true, 0xc6ba54),
-                new Reactant("mywaste", "mywaste.name.key", true, 0x00cd35)
+                new Reactant("mywaste", "mywaste.name.key", false, 0x00cd35)
         ).toArray(new Reactant[0]);
-        wrapper.ReactorReactants.Remove = new String[] {"yellorium", "cyanite"};
+        wrapper.ReactorReactants.Remove = new String[] {"cyanite"};
 
         wrapper.ReactorReactantSources.Add = ImmutableList.of(
                 new SourceTag("forge:ingots/yellorium", "yellorium", 1),
