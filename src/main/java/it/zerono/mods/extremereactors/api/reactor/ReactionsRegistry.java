@@ -140,7 +140,7 @@ public final class ReactionsRegistry {
     private ReactionsRegistry() {
     }
 
-    private static Map<Reactant, Reaction> s_reactions = Maps.newHashMap();
+    private static final Map<Reactant, Reaction> s_reactions = Maps.newHashMap();
 
     private static final Marker MARKER = MarkerManager.getMarker("API/ReactionsRegistry").addParents(ExtremeReactorsAPI.MARKER);
     private static final Marker WRAPPER = MarkerManager.getMarker("ModPack API Wrapper").addParents(MARKER);
