@@ -182,7 +182,7 @@ public final class TransitionsRegistry {
 
             // wipe all
 
-            Log.LOGGER.info(WRAPPER, "Wiping all existing values");
+            Log.LOGGER.info(WRAPPER, "Wiping all fluids transitions existing values");
 
             s_vaporizations.clear();
             s_condensations.clear();

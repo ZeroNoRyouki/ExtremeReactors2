@@ -23,6 +23,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
 import it.zerono.mods.extremereactors.Log;
+import it.zerono.mods.extremereactors.api.ExtremeReactorsAPI;
 import it.zerono.mods.extremereactors.api.coolant.FluidMappingsRegistry;
 import it.zerono.mods.extremereactors.api.coolant.FluidsRegistry;
 import it.zerono.mods.extremereactors.api.coolant.TransitionsRegistry;
@@ -32,6 +33,8 @@ import it.zerono.mods.extremereactors.api.reactor.ReactantsRegistry;
 import it.zerono.mods.extremereactors.api.reactor.ReactionsRegistry;
 import it.zerono.mods.extremereactors.api.turbine.CoilMaterialRegistry;
 import net.minecraftforge.fml.loading.FMLPaths;
+import org.apache.logging.log4j.Marker;
+import org.apache.logging.log4j.MarkerManager;
 
 import javax.annotation.Nullable;
 import java.io.FileNotFoundException;
@@ -169,6 +172,8 @@ public final class ApiWrapper {
             return;
         }
 
+        ExtremeReactorsAPI.LOGGER.info(WRAPPER, "Processing ModPack API Wrapper config");
+
         ReactantsRegistry.processWrapper(wrapper);
         ReactantMappingsRegistry.processWrapper(wrapper);
         ReactionsRegistry.processWrapper(wrapper);
@@ -238,6 +243,8 @@ public final class ApiWrapper {
             .serializeNulls()
             .disableHtmlEscaping()
             .create();
+
+    private static final Marker WRAPPER = MarkerManager.getMarker("ModPack API Wrapper").addParents(ExtremeReactorsAPI.MARKER);
 
     //endregion
 }
