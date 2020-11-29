@@ -18,8 +18,8 @@
 
 package it.zerono.mods.extremereactors;
 
-import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.MultiblockReactor;
 import it.zerono.mods.extremereactors.api.internal.modpack.wrapper.ApiWrapper;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.MultiblockReactor;
 import it.zerono.mods.zerocore.lib.CodeHelper;
 import it.zerono.mods.zerocore.lib.debug.DebugHelper;
 import it.zerono.mods.zerocore.lib.multiblock.IMultiblockController;
@@ -50,11 +50,11 @@ public class DebugTests {
                 break;
 
             case 5:
-                CodeHelper.callOnLogicalClient(world, ApiWrapper::generateSampleFile);
+                CodeHelper.callOnLogicalServer(world, ApiWrapper::generateSampleFile);
                 break;
 
             case 6:
-                CodeHelper.callOnLogicalClient(world, ApiWrapper::processFile);
+                CodeHelper.callOnLogicalServer(world, ApiWrapper::processFile);
                 break;
 
             default:

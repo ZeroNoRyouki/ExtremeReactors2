@@ -150,6 +150,11 @@ repositories {
     maven {
         url 'https://squiddev.cc/maven/'
     }
+
+    // mekanism
+    maven {
+        url 'https://modmaven.dev/'
+    }
 }
 
 dependencies {
@@ -162,6 +167,13 @@ dependencies {
     runtimeOnly fg.deobf("mezz.jei:jei-${config.minecraft_version}:${config.jei_version}")
 
     implementation fg.deobf("org.squiddev:cc-tweaked-${config.minecraft_version}:${config.cctweaked_version}")
+
+    // mekanism
+    compileOnly "mekanism:Mekanism:${config.mekanism_version}:api"
+    runtimeOnly fg.deobf("mekanism:Mekanism:${config.mekanism_version}")
+    runtimeOnly fg.deobf("mekanism:Mekanism:${config.mekanism_version}:additions")
+    runtimeOnly fg.deobf("mekanism:Mekanism:${config.mekanism_version}:generators")
+    runtimeOnly fg.deobf("mekanism:Mekanism:${config.mekanism_version}:tools")
 }
 
 task extremereactors_apiJar(type: Jar) {

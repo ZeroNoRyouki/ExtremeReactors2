@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "bigreactors:block/reactor/reinforced/fluidport_mekanism_passive_cold"
+    }
+  }
+}

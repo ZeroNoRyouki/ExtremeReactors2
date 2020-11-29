@@ -56,6 +56,7 @@ public final class ItemGroups {
                     stack(Content.Blocks.REACTOR_POWERTAP_FE_ACTIVE_REINFORCED), stack(Content.Blocks.REACTOR_POWERTAP_FE_PASSIVE_REINFORCED),
                     stack(Content.Blocks.REACTOR_REDSTONEPORT_REINFORCED), stack(Content.Blocks.REACTOR_COMPUTERPORT_REINFORCED),
                     stack(Content.Blocks.REACTOR_FLUIDTPORT_FORGE_ACTIVE_REINFORCED), stack(Content.Blocks.REACTOR_FLUIDPORT_FORGE_PASSIVE_REINFORCED),
+                    stack(Content.Blocks.REACTOR_FLUIDPORT_MEKANISM_PASSIVE_REINFORCED),
                     stack(Content.Blocks.REACTOR_CREATIVE_WATER_GENERATOR_REINFORCED)
             ));
 
