@@ -46,6 +46,8 @@ minecraft {
     runs {
         client {
 
+            properties 'mixin.env.disableRefMap': 'true'
+
             workingDirectory runDir
 			
             mods {
@@ -64,6 +66,8 @@ minecraft {
         }
 
         server {
+
+            properties 'mixin.env.disableRefMap': 'true'
             
 			workingDirectory serverDir
 			
@@ -83,6 +87,8 @@ minecraft {
         }
 
         data {
+
+            properties 'mixin.env.disableRefMap': 'true'
 
             workingDirectory runDir
             args '--mod', 'bigreactors', '--all',
