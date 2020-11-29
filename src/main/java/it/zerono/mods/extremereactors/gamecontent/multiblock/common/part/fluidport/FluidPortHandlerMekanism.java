@@ -59,7 +59,7 @@ public class FluidPortHandlerMekanism<Controller extends AbstractGeneratorMultib
 
     public FluidPortHandlerMekanism(final P part, final IoMode mode) {
 
-        super(FluidPortType.Mekanism, part, mode);
+        super(FluidPortType.Mekanism, part, IoMode.Passive);
         this._capability = LazyOptional.of(() -> this);
         this._capabilityForwarder = new FluidHandlerForwarder(EmptyFluidHandler.INSTANCE);
         this._consumer = null;

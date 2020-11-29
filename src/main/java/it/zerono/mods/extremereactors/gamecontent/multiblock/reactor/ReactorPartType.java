@@ -73,7 +73,7 @@ public enum ReactorPartType
     ActiveFluidPortMekanism(() -> null,//Content.TileEntityTypes.REACTOR_FLUIDPORT_MEKANISM_ACTIVE::get, //TODO mekanism Fluid port
             IOPortBlock::new, "part.bigreactors.reactor.fluidport_mekanism_active"),
 
-    PassiveFluidPortMekanism(() -> null,//Content.TileEntityTypes.REACTOR_FLUIDPORT_MEKANISM_PASSIVE::get, //TODO mekanism fluid port
+    PassiveFluidPortMekanism(() -> Content.TileEntityTypes.REACTOR_FLUIDPORT_MEKANISM_PASSIVE::get,
             PassiveFluidPortBlock::new, "part.bigreactors.reactor.fluidport_mekanism_passive"),
 
     CreativeWaterGenerator(() -> Content.TileEntityTypes.REACTOR_CREATIVE_WATER_GENERATOR::get,

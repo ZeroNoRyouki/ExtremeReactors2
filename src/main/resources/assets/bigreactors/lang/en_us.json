@@ -80,7 +80,7 @@
     "block.bigreactors.reinforced_reactorcreativewatergenerator": "Reactor Creative Water Generator (Reinforced)",
     "block.bigreactors.reinforced_reactorfluidport_forge_active": "Reactor Active Forge Fluid Port (Reinforced)",
     "block.bigreactors.reinforced_reactorfluidport_forge_passive": "Reactor Passive Forge Fluid Port (Reinforced)",
-
+    "block.bigreactors.reinforced_reactorfluidport_mekanism_passive": "Reactor Passive Mekanism Fluid Port (Reinforced)",
 
     "_comment": "Blocks - turbine parts (basic)",
     "block.bigreactors.basic_turbineglass": "Turbine Glass (Basic)",
