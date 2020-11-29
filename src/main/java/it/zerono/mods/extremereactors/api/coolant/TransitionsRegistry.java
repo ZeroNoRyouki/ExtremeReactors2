@@ -24,7 +24,7 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import it.zerono.mods.extremereactors.Log;
 import it.zerono.mods.extremereactors.api.ExtremeReactorsAPI;
 import it.zerono.mods.extremereactors.api.IMapping;
-import it.zerono.mods.extremereactors.api.InternalDispatcher;
+import it.zerono.mods.extremereactors.api.internal.InternalDispatcher;
 import it.zerono.mods.extremereactors.api.internal.modpack.wrapper.ApiWrapper;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
