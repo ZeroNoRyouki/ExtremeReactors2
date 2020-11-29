@@ -19,6 +19,7 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part;
 
 import it.zerono.mods.extremereactors.gamecontent.Content;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.common.AbstractMultiblockController;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.MultiblockTurbine;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.client.render.rotor.RotorDescriptor;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.client.render.rotor.ShaftSection;
@@ -51,6 +52,13 @@ public class TurbineRotorBearingEntity
     }
 
     public Direction getRotorDirection() {
+
+        final PartPosition partPosition = this.getPartPosition();
+
+        if (partPosition.isFace()) {
+            return partPosition.getDirection().map(Direction::getOpposite).orElse(Direction.UP);
+        }
+
         return this.getOutwardFacingFromWorldPosition(Direction.DOWN).getOpposite();
 
 //        return this.getOutwardFacingFromWorldPosition()
@@ -85,6 +93,11 @@ public class TurbineRotorBearingEntity
         return this._rotorDescriptor;
     }
 
+    @OnlyIn(Dist.CLIENT)
+    public boolean isTurbineInteriorInvisible() {
+        return this.evalOnController(AbstractMultiblockController::isInteriorInvisible, false);
+    }
+
     //region AbstractReactorEntity
 
     @Override
@@ -117,6 +130,13 @@ public class TurbineRotorBearingEntity
     public void onPostMachineAssembled(final MultiblockTurbine controller) {
 
         super.onPostMachineAssembled(controller);
+        this.resetRotorDescriptor();
+    }
+
+    @Override
+    public void onPostMachineBroken() {
+
+        super.onPostMachineBroken();
         this.resetRotorDescriptor();
     }
 

@@ -18,7 +18,9 @@
 
 package it.zerono.mods.extremereactors;
 
+import it.zerono.mods.extremereactors.api.internal.modpack.wrapper.ApiWrapper;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.MultiblockReactor;
+import it.zerono.mods.zerocore.lib.CodeHelper;
 import it.zerono.mods.zerocore.lib.debug.DebugHelper;
 import it.zerono.mods.zerocore.lib.multiblock.IMultiblockController;
 import it.zerono.mods.zerocore.lib.multiblock.IMultiblockPart;
@@ -45,6 +47,14 @@ public class DebugTests {
 
             case 4:
                 highlightBlockShape(world, clickedPos);
+                break;
+
+            case 5:
+                CodeHelper.callOnLogicalServer(world, ApiWrapper::generateSampleFile);
+                break;
+
+            case 6:
+                CodeHelper.callOnLogicalServer(world, ApiWrapper::processFile);
                 break;
 
             default:

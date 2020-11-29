@@ -46,7 +46,7 @@ public class RotorBearingEntityRenderer
     public void render(final TurbineRotorBearingEntity bearing, float partialTicks, final MatrixStack stack,
                        final IRenderTypeBuffer buffer, final int combinedLight, final int combinedOverlay) {
 
-        if (!bearing.isMachineAssembled()) {
+        if (!bearing.isMachineAssembled() || bearing.isTurbineInteriorInvisible()) {
             return;
         }
 

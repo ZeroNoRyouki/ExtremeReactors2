@@ -103,18 +103,6 @@ public class ReactorRedstonePortEntity
 
         if (this.getSettings().Sensor.isInput()) {
 
-//            this.getOutwardDirection()
-//                    .map(direction -> this.isReceivingRedstonePowerFrom(this.getWorldPosition().offset(direction), direction))
-//                    .ifPresent(nowPowered -> {
-//
-//                        if (this._isExternallyPowered != nowPowered) {
-//
-//                            this._isExternallyPowered = nowPowered;
-//                            this.onRedstoneInputUpdated();
-//                            this.markDirty();
-//                            this.updateRedstoneStateAndNotify();
-//                        }
-//                    });
             this.getOutwardDirection()
                     .map(direction -> this.getRedstonePowerLevelFrom(this.getWorldPosition().offset(direction), direction))
                     .ifPresent(powerLevel -> {
@@ -130,8 +118,6 @@ public class ReactorRedstonePortEntity
                             this.updateRedstoneStateAndNotify();
                         }
                     });
-
-
 
         } else {
 
@@ -285,7 +271,8 @@ public class ReactorRedstonePortEntity
             final boolean oldLitState = this._isLit;
 
             if (oldLitState != this.updateLitState()) {
-                this.getOutwardDirection().ifPresent(direction -> world.notifyNeighborsOfStateChange(this.getWorldPosition().offset(direction), this.getBlockType()));
+//                this.getOutwardDirection().ifPresent(direction -> world.notifyNeighborsOfStateChange(this.getWorldPosition().offset(direction), this.getBlockType()));
+                world.notifyNeighborsOfStateChange(this.getWorldPosition(), this.getBlockType());
             }
 
             this.notifyTileEntityUpdate();

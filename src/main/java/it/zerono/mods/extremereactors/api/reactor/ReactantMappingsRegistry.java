@@ -22,9 +22,13 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import it.zerono.mods.extremereactors.Log;
 import it.zerono.mods.extremereactors.api.ExtremeReactorsAPI;
 import it.zerono.mods.extremereactors.api.IMapping;
-import it.zerono.mods.extremereactors.api.InternalDispatcher;
+import it.zerono.mods.extremereactors.api.internal.InternalDispatcher;
+import it.zerono.mods.extremereactors.api.internal.modpack.wrapper.AddRemoveSection;
+import it.zerono.mods.extremereactors.api.internal.modpack.wrapper.ApiWrapper;
+import it.zerono.mods.extremereactors.api.internal.modpack.wrapper.SourceTag;
 import it.zerono.mods.zerocore.lib.CodeHelper;
 import it.zerono.mods.zerocore.lib.item.ItemHelper;
 import it.zerono.mods.zerocore.lib.tag.CollectionProviders;
@@ -44,10 +48,9 @@ import net.minecraftforge.fml.common.Mod;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 @Mod.EventBusSubscriber(modid = ExtremeReactorsAPI.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public final class ReactantMappingsRegistry {
@@ -101,6 +104,11 @@ public final class ReactantMappingsRegistry {
                 .orElse(ItemStack.EMPTY);
     }
 
+    @Deprecated // use registerSolid, this method will be removed soon
+    public static void register(final String reactantName, final int reactantQty, final ResourceLocation sourceItemTagId) {
+        registerSolid(reactantName, reactantQty, sourceItemTagId);
+    }
+
     /**
      * Register an Item Tag id as a valid Reactant source.
      *
@@ -111,10 +119,10 @@ public final class ReactantMappingsRegistry {
      * @param reactantQty The quantity of the Reactant produced for every unit of source (must be >= 0).
      * @param sourceItemTagId The Item Tag id of the source for the reactant.
      */
-    public static void register(final String reactantName, final int reactantQty, final ResourceLocation sourceItemTagId) {
+    public static void registerSolid(final String reactantName, final int reactantQty, final ResourceLocation sourceItemTagId) {
 
-        Preconditions.checkNotNull(reactantName);
         Preconditions.checkArgument(!Strings.isNullOrEmpty(reactantName));
+        Preconditions.checkNotNull(sourceItemTagId);
 
         InternalDispatcher.dispatch("mapping-register", () -> {
 
@@ -143,6 +151,34 @@ public final class ReactantMappingsRegistry {
         });
     }
 
+    public static void removeSolid(final String sourceItemTagId) {
+
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(sourceItemTagId));
+        removeSolid(new ResourceLocation(sourceItemTagId));
+    }
+
+    public static void removeSolid(final ResourceLocation sourceItemTagId) {
+
+        Preconditions.checkNotNull(sourceItemTagId);
+
+        InternalDispatcher.dispatch("mapping-remove", () -> {
+
+            final IMapping<ResourceLocation, Reactant> removedMapping = s_solidToReactant.remove(sourceItemTagId);
+
+            if (null != removedMapping) {
+
+                s_reactantToSolid.getOrDefault(removedMapping.getProduct(), Collections.emptyList())
+                        .removeIf(reactantToTagMapping -> reactantToTagMapping.getProduct().equals(sourceItemTagId));
+
+                s_reactantToSolid.entrySet().stream()
+                        .filter(entry -> entry.getValue().isEmpty())
+                        .map(Map.Entry::getKey)
+                        .collect(Collectors.toSet())
+                        .forEach(s_reactantToSolid::remove);
+            }
+        });
+    }
+
     public static void fillReactantsTooltips(final Map<Item, Set<ITextComponent>> tooltipsMap,
                                              final NonNullSupplier<Set<ITextComponent>> setSupplier) {
 
@@ -161,6 +197,19 @@ public final class ReactantMappingsRegistry {
         //TODO fluids
     }
 
+    public static void processWrapper(final ApiWrapper wrapper) {
+
+        if (!wrapper.Enabled) {
+            return;
+        }
+
+        processWrapper("solid", wrapper.ReactorReactantSources, s_solidToReactant, s_reactantToSolid,
+                ReactantMappingsRegistry::removeSolid,
+                (SourceTag w) -> registerSolid(w.ProductName, w.ProductQuantity, new ResourceLocation(w.SourceTagId)));
+
+        //TODO fluids
+    }
+
     //region internals
 
     private ReactantMappingsRegistry() {
@@ -173,6 +222,35 @@ public final class ReactantMappingsRegistry {
                 .filter(helper::tagExist)
                 .map(helper::createTag)
                 .forEach(tagList::addTag);
+    }
+
+    private static <X> void processWrapper(final String objectName, final AddRemoveSection<SourceTag> wrapperSection,
+                                           final Map<ResourceLocation, IMapping<ResourceLocation, Reactant>> sourceToReactant,
+                                           final Map<Reactant, List<IMapping<Reactant, ResourceLocation>>> reactantToSources,
+                                           final Consumer<String> removeAction, final Consumer<SourceTag> addAction) {
+
+        if (wrapperSection.WipeExistingValuesBeforeAdding) {
+
+            // wipe all
+
+            Log.LOGGER.info(WRAPPER, "Wiping all existing {} Reactor Reactant source mappings", objectName);
+            sourceToReactant.clear();
+            reactantToSources.clear();
+
+        } else {
+
+            // remove from list
+
+            Arrays.stream(wrapperSection.Remove)
+                    .filter(name -> !Strings.isNullOrEmpty(name))
+                    .forEach(removeAction);
+        }
+
+        // add new values
+
+        Arrays.stream(wrapperSection.Add)
+                .filter(Objects::nonNull)
+                .forEach(addAction);
     }
 
     // 1:1 mappings
@@ -189,6 +267,7 @@ public final class ReactantMappingsRegistry {
     //TODO fluids
 
     private static final Marker MARKER = MarkerManager.getMarker("API/ReactantMappingsRegistry").addParents(ExtremeReactorsAPI.MARKER);
+    private static final Marker WRAPPER = MarkerManager.getMarker("ModPack API Wrapper").addParents(MARKER);
 
     private static final ITextComponent TOOLTIP_FUEL_SOURCE = new TranslationTextComponent("api.bigreactors.reactor.tooltip.reactant.fuel").setStyle(ExtremeReactorsAPI.STYLE_TOOLTIP);
 

@@ -78,6 +78,11 @@ public class ReactorModelBuilder
                 "fluidport_forge_passive_hot",
                 "fluidport_forge_passive_hot_connected");
 
+        this.addBlockWithVariants(ReactorPartType.PassiveFluidPortMekanism, variant, isPartCompatible, "fluidport_mekanism_passive",
+                "fluidport_mekanism_passive_cold_connected",
+                "fluidport_mekanism_passive_hot",
+                "fluidport_mekanism_passive_hot_connected");
+
         this.addBlockWithVariants(ReactorPartType.CreativeWaterGenerator, variant, isPartCompatible, "creativewatergenerator");
 
         this.addBlockWithVariants(ReactorPartType.Controller, variant, isPartCompatible, "controller",

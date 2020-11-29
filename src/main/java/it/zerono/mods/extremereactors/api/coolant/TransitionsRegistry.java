@@ -21,13 +21,17 @@ package it.zerono.mods.extremereactors.api.coolant;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
+import it.zerono.mods.extremereactors.Log;
 import it.zerono.mods.extremereactors.api.ExtremeReactorsAPI;
 import it.zerono.mods.extremereactors.api.IMapping;
-import it.zerono.mods.extremereactors.api.InternalDispatcher;
+import it.zerono.mods.extremereactors.api.internal.InternalDispatcher;
+import it.zerono.mods.extremereactors.api.internal.modpack.wrapper.ApiWrapper;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
 
+import java.util.Arrays;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -133,6 +137,72 @@ public final class TransitionsRegistry {
         });
     }
 
+    /**
+     * Remove any transition that involve a Coolant or Vapor with the given name
+     *
+     * @param name the name of the Coolant or Vapor.
+     */
+    public static void remove(final String name) {
+
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(name));
+
+        InternalDispatcher.dispatch("fluid-transition-remove", () -> {
+
+            FluidsRegistry.getCoolant(name).ifPresent(coolant -> {
+
+                final IMapping<Coolant, Vapor> vaporization = s_vaporizations.get(coolant);
+
+                if (null != vaporization) {
+                    s_condensations.remove(vaporization.getProduct());
+                }
+
+                s_vaporizations.remove(coolant);
+            });
+
+            FluidsRegistry.getVapor(name).ifPresent(vapor -> {
+
+                final IMapping<Vapor, Coolant> condensation = s_condensations.get(vapor);
+
+                if (null != condensation) {
+                    s_vaporizations.remove(condensation.getProduct());
+                }
+
+                s_condensations.remove(vapor);
+            });
+        });
+    }
+
+    public static void processWrapper(final ApiWrapper wrapper) {
+
+        if (!wrapper.Enabled) {
+            return;
+        }
+
+        if (wrapper.FluidTransitions.WipeExistingValuesBeforeAdding) {
+
+            // wipe all
+
+            Log.LOGGER.info(WRAPPER, "Wiping all fluids transitions existing values");
+
+            s_vaporizations.clear();
+            s_condensations.clear();
+
+        } else {
+
+            // remove from list
+
+            Arrays.stream(wrapper.FluidTransitions.Remove)
+                    .filter(name -> !Strings.isNullOrEmpty(name))
+                    .forEach(TransitionsRegistry::remove);
+        }
+
+        // add new
+
+        Arrays.stream(wrapper.FluidTransitions.Add)
+                .filter(Objects::nonNull)
+                .forEach(mapping -> register(mapping.Source, mapping.SourceQuantity, mapping.Product, mapping.ProductQuantity));
+    }
+
     //region internals
 
     private TransitionsRegistry() {
@@ -142,6 +212,7 @@ public final class TransitionsRegistry {
     private static final Map<Vapor, IMapping<Vapor, Coolant>> s_condensations = new Object2ObjectArrayMap<>(2);
 
     private static final Marker MARKER = MarkerManager.getMarker("API/TransitionsRegistry").addParents(ExtremeReactorsAPI.MARKER);
+    private static final Marker WRAPPER = MarkerManager.getMarker("ModPack API Wrapper").addParents(MARKER);
 
     //endregion
 }

@@ -18,6 +18,7 @@
 
 package it.zerono.mods.extremereactors;
 
+import it.zerono.mods.extremereactors.api.internal.modpack.wrapper.ApiWrapper;
 import it.zerono.mods.extremereactors.config.Config;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.proxy.ClientProxy;
@@ -86,12 +87,14 @@ public class ExtremeReactors implements IModInitializationHandler {
 
         // API messages
 
-        // - Reactor Reactants
+        // - Reactor reactants/mapping/reactions
         imcProcessAPIMessages(event, "reactant-register");
-        // - Reactor Reactants mappings
         imcProcessAPIMessages(event, "mapping-register");
-        // - Reactor reactions
         imcProcessAPIMessages(event, "reaction-register");
+        imcProcessAPIMessages(event, "reaction-remove");
+        imcProcessAPIMessages(event, "mapping-remove");
+        imcProcessAPIMessages(event, "reactant-remove");
+
         // - Reactor Moderators
         imcProcessAPIMessages(event, "moderator-s-register");
         imcProcessAPIMessages(event, "moderator-f-register");
@@ -102,10 +105,16 @@ public class ExtremeReactors implements IModInitializationHandler {
         imcProcessAPIMessages(event, "fluid-register");
         imcProcessAPIMessages(event, "fluid-mapping-register");
         imcProcessAPIMessages(event, "fluid-transition-register");
+        imcProcessAPIMessages(event, "fluid-transition-remove");
+        imcProcessAPIMessages(event, "fluid-mapping-remove");
+        imcProcessAPIMessages(event, "fluid-remove");
 
         // - Turbine CoilMaterials
         imcProcessAPIMessages(event, "coilmaterial-register");
         imcProcessAPIMessages(event, "coilmaterial-remove");
+
+        // ModPack API Wrapper
+        ApiWrapper.processFile();
     }
 
     //region internals

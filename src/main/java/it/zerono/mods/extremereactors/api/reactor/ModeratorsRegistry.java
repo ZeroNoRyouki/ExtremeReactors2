@@ -21,8 +21,11 @@ package it.zerono.mods.extremereactors.api.reactor;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
+import it.zerono.mods.extremereactors.Log;
 import it.zerono.mods.extremereactors.api.ExtremeReactorsAPI;
-import it.zerono.mods.extremereactors.api.InternalDispatcher;
+import it.zerono.mods.extremereactors.api.internal.InternalDispatcher;
+import it.zerono.mods.extremereactors.api.internal.modpack.wrapper.AddRemoveSection;
+import it.zerono.mods.extremereactors.api.internal.modpack.wrapper.ApiWrapper;
 import it.zerono.mods.zerocore.ZeroCore;
 import it.zerono.mods.zerocore.lib.tag.CollectionProviders;
 import it.zerono.mods.zerocore.lib.tag.TagList;
@@ -43,9 +46,8 @@ import net.minecraftforge.fml.common.Mod;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
 
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
+import java.util.function.Consumer;
 
 /**
  * Keep track of all the Moderators that could be used inside a Reactor
@@ -239,6 +241,20 @@ public final class ModeratorsRegistry {
         updateTags(s_moderatorFluidsData.keySet(), s_moderatorFluidsTags, TagsHelper.FLUIDS);
     }
 
+    public static void processWrapper(final ApiWrapper wrapper) {
+
+        if (!wrapper.Enabled) {
+            return;
+        }
+
+        processWrapper("solid", wrapper.ReactorSolidModerators, s_moderatorBlocksData,
+                name -> removeSolid(new ResourceLocation(name)),
+                (it.zerono.mods.extremereactors.api.internal.modpack.wrapper.Moderator w) ->
+                        registerSolid(w.TagId, w.Absorption, w.HeatEfficiency, w.Moderation, w.HeatConductivity));
+
+        //TODO fluids
+    }
+
     //region internals
 
     private static final TagList<Block> s_moderatorBlocksTags;
@@ -247,6 +263,7 @@ public final class ModeratorsRegistry {
     private static final Map<ResourceLocation, Moderator> s_moderatorFluidsData;
 
     private static final Marker MARKER = MarkerManager.getMarker("API/ModeratorsRegistry").addParents(ExtremeReactorsAPI.MARKER);
+    private static final Marker WRAPPER = MarkerManager.getMarker("ModPack API Wrapper").addParents(MARKER);
 
     private ModeratorsRegistry() {
     }
@@ -258,6 +275,34 @@ public final class ModeratorsRegistry {
                 .filter(helper::tagExist)
                 .map(helper::createTag)
                 .forEach(tagList::addTag);
+    }
+
+    private static <X> void processWrapper(final String objectName,
+                                           final AddRemoveSection<it.zerono.mods.extremereactors.api.internal.modpack.wrapper.Moderator> wrapperSection,
+                                           final Map<ResourceLocation, Moderator> registry, final Consumer<String> removeAction,
+                                           final Consumer<it.zerono.mods.extremereactors.api.internal.modpack.wrapper.Moderator> addAction) {
+
+        if (wrapperSection.WipeExistingValuesBeforeAdding) {
+
+            // wipe all
+
+            Log.LOGGER.info(WRAPPER, "Wiping all existing {} Reactor Moderators", objectName);
+            registry.clear();
+
+        } else {
+
+            // remove from list
+
+            Arrays.stream(wrapperSection.Remove)
+                    .filter(name -> !Strings.isNullOrEmpty(name))
+                    .forEach(removeAction);
+        }
+
+        // add new values
+
+        Arrays.stream(wrapperSection.Add)
+                .filter(Objects::nonNull)
+                .forEach(addAction);
     }
 
     private static final ITextComponent TOOLTIP_MODERATOR = new TranslationTextComponent("api.bigreactors.reactor.tooltip.moderator").setStyle(ExtremeReactorsAPI.STYLE_TOOLTIP);

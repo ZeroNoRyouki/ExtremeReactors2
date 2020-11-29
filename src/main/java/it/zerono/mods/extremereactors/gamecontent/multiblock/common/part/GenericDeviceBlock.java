@@ -18,9 +18,11 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.common.part;
 
+import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part.TurbineRotorComponentBlock;
 import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockPartType;
 import it.zerono.mods.zerocore.lib.block.multiblock.MultiblockPartBlock;
 import it.zerono.mods.zerocore.lib.multiblock.IMultiblockController;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.Direction;
 
@@ -34,7 +36,11 @@ public class GenericDeviceBlock<Controller extends IMultiblockController<Control
 
     @Override
     public boolean isSideInvisible(BlockState state, BlockState adjacentBlockState, Direction side) {
-        return adjacentBlockState.getBlock() instanceof MultiblockPartBlock &&
-                !(adjacentBlockState.getBlock() instanceof GlassBlock);
+
+        final Block adjacentBlock = adjacentBlockState.getBlock();
+
+        return adjacentBlock instanceof MultiblockPartBlock &&
+                !(adjacentBlock instanceof GlassBlock) &&
+                !(adjacentBlock instanceof TurbineRotorComponentBlock);
     }
 }

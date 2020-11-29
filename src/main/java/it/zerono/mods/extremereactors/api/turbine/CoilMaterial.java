@@ -35,7 +35,7 @@ public class CoilMaterial {
     }
 
     public void setEfficiency(float value) {
-        this._efficiency = value;
+        this._efficiency = Math.max(0.0f, value);
     }
 
     public float getBonus() {

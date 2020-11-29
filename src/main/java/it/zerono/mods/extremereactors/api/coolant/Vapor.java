@@ -35,7 +35,7 @@ public class Vapor
     Vapor(final String name, final float fluidEnergyDensity, final String translationKey) {
 
         super(name, translationKey);
-        this._fluidEnergyDensity = fluidEnergyDensity;
+        this._fluidEnergyDensity = Math.max(0.0f, fluidEnergyDensity);
     }
 
     public float getFluidEnergyDensity() {

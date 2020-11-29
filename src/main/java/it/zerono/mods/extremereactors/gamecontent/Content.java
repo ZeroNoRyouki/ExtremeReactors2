@@ -54,6 +54,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.extensions.IForgeContainerType;
+import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
 import net.minecraftforge.fml.RegistryObject;
@@ -63,6 +64,7 @@ import net.minecraftforge.fml.network.IContainerFactory;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 public final class Content {
@@ -177,6 +179,9 @@ public final class Content {
 
         public static final RegistryObject<IOPortBlock<MultiblockReactor, ReactorPartType>> REACTOR_FLUIDPORT_FORGE_PASSIVE_REINFORCED =
                 registerReactorBlock("reinforced_reactorfluidport_forge_passive", ReactorVariant.Reinforced, ReactorPartType.PassiveFluidPortForge);
+
+        public static final RegistryObject<IOPortBlock<MultiblockReactor, ReactorPartType>> REACTOR_FLUIDPORT_MEKANISM_PASSIVE_REINFORCED =
+                registerReactorBlock("reinforced_reactorfluidport_mekanism_passive", ReactorVariant.Reinforced, ReactorPartType.PassiveFluidPortMekanism);
 
         public static final RegistryObject<GenericDeviceBlock<MultiblockReactor, ReactorPartType>> REACTOR_CREATIVE_WATER_GENERATOR_REINFORCED =
                 registerReactorBlock("reinforced_reactorcreativewatergenerator", ReactorVariant.Reinforced, ReactorPartType.CreativeWaterGenerator);
@@ -312,38 +317,32 @@ public final class Content {
 
         static void initializeWorldGen() {
 
-            if (Config.COMMON.worldgen.enableWorldGen.get()) {
+            final Predicate<BiomeLoadingEvent> yelloriteEnabled = e -> Config.COMMON.worldgen.enableWorldGen.get() && Config.COMMON.worldgen.yelloriteOreEnableWorldGen.get();
+            final Predicate<BiomeLoadingEvent> anglesiteEnabled = e -> Config.COMMON.worldgen.enableWorldGen.get() && Config.COMMON.worldgen.anglesiteOreEnableWorldGen.get();
+            final Predicate<BiomeLoadingEvent> benitoiteEnabled = e -> Config.COMMON.worldgen.enableWorldGen.get() && Config.COMMON.worldgen.benitoiteOreEnableWorldGen.get();
+            
+            // yellorite ore
+            WorldGenManager.INSTANCE.addOre(yelloriteEnabled.and(WorldGenManager.exceptNether()).and(WorldGenManager.exceptTheEnd()),
+                    WorldGenManager.oreFeature(Blocks.YELLORITE_ORE_BLOCK,
+                            WorldGenManager.oreMatch(Tags.Blocks.STONE),
+                            Config.COMMON.worldgen.yelloriteOreMaxClustersPerChunk.get(),
+                            Config.COMMON.worldgen.yelloriteOrePerCluster.get(),
+                            15, 5, Config.COMMON.worldgen.yelloriteOreMaxY.get()));
 
-                if (Config.COMMON.worldgen.yelloriteOreEnableWorldGen.get()) {
-                    // yellorite ore
-                    WorldGenManager.INSTANCE.addOre(WorldGenManager.exceptNether().and(WorldGenManager.exceptTheEnd()),
-                            WorldGenManager.oreFeature(Blocks.YELLORITE_ORE_BLOCK,
-                                    WorldGenManager.oreMatch(Tags.Blocks.STONE),
-                                    Config.COMMON.worldgen.yelloriteOreMaxClustersPerChunk.get(),
-                                    Config.COMMON.worldgen.yelloriteOrePerCluster.get(),
-                                    15, 5, Config.COMMON.worldgen.yelloriteOreMaxY.get()));
-                }
-
-                if (Config.COMMON.worldgen.anglesiteOreEnableWorldGen.get()) {
-                    // anglesite ore
-                    WorldGenManager.INSTANCE.addOre(WorldGenManager.onlyTheEnd(),
-                            WorldGenManager.oreFeature(Blocks.ANGLESITE_ORE_BLOCK,
-                                    WorldGenManager.oreMatch(Tags.Blocks.END_STONES),
-                                    Config.COMMON.worldgen.anglesiteOreMaxClustersPerChunk.get(),
-                                    Config.COMMON.worldgen.anglesiteOrePerCluster.get(),
-                                    5, 5, 200));
-                }
-
-                if (Config.COMMON.worldgen.benitoiteOreEnableWorldGen.get()) {
-                    // benitoite ore
-                    WorldGenManager.INSTANCE.addOre(WorldGenManager.onlyNether(),
-                            WorldGenManager.oreFeature(Blocks.BENITOITE_ORE_BLOCK,
-                                    WorldGenManager.oreMatch(Tags.Blocks.NETHERRACK),
-                                    Config.COMMON.worldgen.benitoiteOreMaxClustersPerChunk.get(),
-                                    Config.COMMON.worldgen.benitoiteOrePerCluster.get(),
-                                    5, 5, 256));
-                }
-            }
+            // anglesite ore
+            WorldGenManager.INSTANCE.addOre(anglesiteEnabled.and(WorldGenManager.onlyTheEnd()),
+                    WorldGenManager.oreFeature(Blocks.ANGLESITE_ORE_BLOCK,
+                            WorldGenManager.oreMatch(Tags.Blocks.END_STONES),
+                            Config.COMMON.worldgen.anglesiteOreMaxClustersPerChunk.get(),
+                            Config.COMMON.worldgen.anglesiteOrePerCluster.get(),
+                            5, 5, 200));
+            // benitoite ore
+            WorldGenManager.INSTANCE.addOre(benitoiteEnabled.and(WorldGenManager.onlyNether()),
+                    WorldGenManager.oreFeature(Blocks.BENITOITE_ORE_BLOCK,
+                            WorldGenManager.oreMatch(Tags.Blocks.NETHERRACK),
+                            Config.COMMON.worldgen.benitoiteOreMaxClustersPerChunk.get(),
+                            Config.COMMON.worldgen.benitoiteOrePerCluster.get(),
+                            5, 5, 256));
         }
 
         //endregion
@@ -420,6 +419,7 @@ public final class Content {
         public static final RegistryObject<BlockItem> REACTOR_REDSTONEPORT_REINFORCED = registerItemBlock("reinforced_reactorredstoneport", () -> Blocks.REACTOR_REDSTONEPORT_REINFORCED::get, ItemGroups.REACTOR);
         public static final RegistryObject<BlockItem> REACTOR_FLUIDPORT_FORGE_ACTIVE_REINFORCED = registerItemBlock("reinforced_reactorfluidport_forge_active", () -> Blocks.REACTOR_FLUIDTPORT_FORGE_ACTIVE_REINFORCED::get, ItemGroups.REACTOR);
         public static final RegistryObject<BlockItem> REACTOR_FLUIDPORT_FORGE_PASSIVE_REINFORCED = registerItemBlock("reinforced_reactorfluidport_forge_passive", () -> Blocks.REACTOR_FLUIDPORT_FORGE_PASSIVE_REINFORCED::get, ItemGroups.REACTOR);
+        public static final RegistryObject<BlockItem> REACTOR_FLUIDPORT_MEKANISM_PASSIVE_REINFORCED = registerItemBlock("reinforced_reactorfluidport_mekanism_passive", () -> Blocks.REACTOR_FLUIDPORT_MEKANISM_PASSIVE_REINFORCED::get, ItemGroups.REACTOR);
         public static final RegistryObject<BlockItem> REACTOR_CREATIVE_WATER_GENERATOR_REINFORCED = registerItemBlock("reinforced_reactorcreativewatergenerator", () -> Blocks.REACTOR_CREATIVE_WATER_GENERATOR_REINFORCED::get, ItemGroups.REACTOR);
         //endregion
         //endregion
@@ -546,12 +546,15 @@ public final class Content {
                         () -> new ReactorFluidPortEntity(FluidPortType.Forge, IoMode.Passive, TileEntityTypes.REACTOR_FLUIDPORT_FORGE_PASSIVE.get()),
                         () -> Blocks.REACTOR_FLUIDPORT_FORGE_PASSIVE_REINFORCED::get);
 
-        //TODO fluid port mekanism TE
+        public static final RegistryObject<TileEntityType<ReactorMekanismFluidPortEntity>> REACTOR_FLUIDPORT_MEKANISM_PASSIVE =
+                registerBlockEntity("reactorfluidport_mekanism_passive",
+                        ReactorMekanismFluidPortEntity::new,
+                        () -> Blocks.REACTOR_FLUIDPORT_MEKANISM_PASSIVE_REINFORCED::get);
 
         public static final RegistryObject<TileEntityType<ReactorCreativeWaterGenerator>> REACTOR_CREATIVE_WATER_GENERATOR =
                 registerBlockEntity("reactorcreativewatergenerator",
                         ReactorCreativeWaterGenerator::new,
-                        () -> Blocks.REACTOR_FLUIDPORT_FORGE_PASSIVE_REINFORCED::get); //TODO fix block
+                        () -> Blocks.REACTOR_FLUIDPORT_FORGE_PASSIVE_REINFORCED::get);
 
         public static final RegistryObject<TileEntityType<ReactorPowerTapEntity>> REACTOR_POWERTAP_FE_ACTIVE =
                 registerBlockEntity("reactorpowertap_fe_active",

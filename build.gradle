@@ -151,9 +151,14 @@ repositories {
         url 'https://squiddev.cc/maven/'
     }
 
-    // Patchouli
+    // patchouli
     maven {
         url 'https://maven.blamejared.com'
+    }
+
+    // mekanism
+    maven {
+        url 'https://modmaven.dev/'
     }
 }
 
@@ -168,8 +173,17 @@ dependencies {
 
     implementation fg.deobf("org.squiddev:cc-tweaked-${config.minecraft_version}:${config.cctweaked_version}")
 
+
+	// patchouli
     compileOnly fg.deobf("vazkii.patchouli:Patchouli:${config.patchouli_version}:api")
     runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${config.patchouli_version}")
+
+    // mekanism
+    compileOnly "mekanism:Mekanism:${config.mekanism_version}:api"
+    runtimeOnly fg.deobf("mekanism:Mekanism:${config.mekanism_version}")
+    runtimeOnly fg.deobf("mekanism:Mekanism:${config.mekanism_version}:additions")
+    runtimeOnly fg.deobf("mekanism:Mekanism:${config.mekanism_version}:generators")
+    runtimeOnly fg.deobf("mekanism:Mekanism:${config.mekanism_version}:tools")
 }
 
 task extremereactors_apiJar(type: Jar) {

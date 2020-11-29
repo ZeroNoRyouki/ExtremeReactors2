@@ -30,6 +30,9 @@ public final class Config {
     public static final Common COMMON;
 
     public static void initialize() {
+
+        register(ModConfig.Type.CLIENT, Config.s_clientSpec);
+        register(ModConfig.Type.COMMON, Config.s_commonSpec);
     }
 
     //region internals
@@ -38,8 +41,6 @@ public final class Config {
     private static final ForgeConfigSpec s_commonSpec;
 
     static {
-
-//        Log.LOGGER.info("Init config");
 
         if (!CodeHelper.ioCreateModConfigDirectory("extremereactors")) {
             throw new RuntimeException("Unable to create a directory for the Extreme Reactors config files");
@@ -53,11 +54,6 @@ public final class Config {
 
         COMMON = pair2.getLeft();
         s_commonSpec = pair2.getRight();
-
-        register(ModConfig.Type.CLIENT, Config.s_clientSpec);
-        register(ModConfig.Type.COMMON, Config.s_commonSpec);
-
-//        Log.LOGGER.info("Init config DONE");
     }
 
     private static void register(final ModConfig.Type type, final ForgeConfigSpec spec) {
