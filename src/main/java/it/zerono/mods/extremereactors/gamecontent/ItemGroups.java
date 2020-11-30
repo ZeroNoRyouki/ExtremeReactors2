@@ -20,26 +20,37 @@ package it.zerono.mods.extremereactors.gamecontent;
 
 import com.google.common.collect.ImmutableList;
 import it.zerono.mods.extremereactors.ExtremeReactors;
+import it.zerono.mods.zerocore.lib.compat.Mods;
 import it.zerono.mods.zerocore.lib.item.ItemHelper;
 import it.zerono.mods.zerocore.lib.item.ModItemGroup;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IItemProvider;
+import net.minecraft.util.ResourceLocation;
+import vazkii.patchouli.api.PatchouliAPI;
 
 import java.util.function.Supplier;
 
 public final class ItemGroups {
 
+    private static ResourceLocation s_handBookId = ExtremeReactors.newID("erguide");
+
     public static final ItemGroup GENERAL = new ModItemGroup(ExtremeReactors.MOD_ID + ".general",
             () -> stack(Content.Items.YELLORITE_ORE_BLOCK),
-            () -> ImmutableList.of(
-                    stack(Content.Blocks.YELLORITE_ORE_BLOCK), stack(Content.Blocks.ANGLESITE_ORE_BLOCK), stack(Content.Blocks.BENITOITE_ORE_BLOCK),
-                    stack(Content.Items.YELLORIUM_INGOT), stack(Content.Items.YELLORIUM_DUST), stack(Content.Blocks.YELLORIUM_BLOCK),
-                    stack(Content.Items.CYANITE_INGOT), stack(Content.Items.CYANITE_DUST), stack(Content.Blocks.CYANITE_BLOCK),
-                    stack(Content.Items.GRAPHITE_INGOT), stack(Content.Items.GRAPHITE_DUST), stack(Content.Blocks.GRAPHITE_BLOCK),
-                    stack(Content.Items.ANGLESITE_CRYSTAL), stack(Content.Items.BENITOITE_CRYSTAL),
-                    stack(Content.Items.WRENCH)
-            ));
+            () -> {
+
+                final ImmutableList.Builder<ItemStack> builder = ImmutableList.<ItemStack>builder().add(
+                        stack(Content.Blocks.YELLORITE_ORE_BLOCK), stack(Content.Blocks.ANGLESITE_ORE_BLOCK), stack(Content.Blocks.BENITOITE_ORE_BLOCK),
+                        stack(Content.Items.YELLORIUM_INGOT), stack(Content.Items.YELLORIUM_DUST), stack(Content.Blocks.YELLORIUM_BLOCK),
+                        stack(Content.Items.CYANITE_INGOT), stack(Content.Items.CYANITE_DUST), stack(Content.Blocks.CYANITE_BLOCK),
+                        stack(Content.Items.GRAPHITE_INGOT), stack(Content.Items.GRAPHITE_DUST), stack(Content.Blocks.GRAPHITE_BLOCK),
+                        stack(Content.Items.ANGLESITE_CRYSTAL), stack(Content.Items.BENITOITE_CRYSTAL),
+                        stack(Content.Items.WRENCH));
+
+                Mods.PATCHOULI.map(() -> PatchouliAPI.instance.getBookStack(s_handBookId)).ifPresent(builder::add);
+
+                return builder.build();
+            });
 
     public static final ItemGroup REACTOR = new ModItemGroup(ExtremeReactors.MOD_ID + ".reactor",
             () -> stack(Content.Blocks.REACTOR_FUELROD_BASIC),
