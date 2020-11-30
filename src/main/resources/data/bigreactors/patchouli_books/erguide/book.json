@@ -1,5 +1,8 @@
 {
-    "name": "Extreme Reactors Fundamentals Handbook",
-    "landing_text": "LANDING TEXT",
-    "version": 1
+    "name": "The Extreme Book",
+    "version": 1,
+    "landing_text": "Welcome to the Extreme Reactors Fundamentals Handbook, or the Extreme Book for short. Extreme Reactors is a mod all about making extreme amounts of energy in an efficient way and this book will your guide in achieving that!",
+    "creative_tab": "bigreactors.general",
+    "show_progress": false,
+    "show_toasts": false
 }
