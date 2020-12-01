@@ -1,0 +1,12 @@
+{
+    "name": "Your First Reactor",
+    "icon": "bigreactors:basic_reactorcasing",
+    "category": "bigreactors:start",
+
+    "pages": [
+        {
+            "type": "text",
+            "text": "The Redstone Furnace is a machine that smelts your items like a traditional furnace."
+        }
+    ]
+}
