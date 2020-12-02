@@ -365,8 +365,6 @@ public class ReactorSolidAccessPortEntity
                 this::markForRenderUpdate
         );
 
-        Log.LOGGER.info("SOLID - direction is : {}", direction);
-
         this.notifyNeighborsOfTileChange();
 //        this.markForRenderUpdate();
     }
