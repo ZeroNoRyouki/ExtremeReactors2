@@ -510,6 +510,8 @@
     "config.bigreactors.worldgen.benitoiteoreenableworldgen": "Generate Benitoite Ore",
     "config.bigreactors.worldgen.benitoiteoremaxclustersperchunk": "Max number of cluster of Benitoite Ore per chunks",
     "config.bigreactors.worldgen.benitoiteorepercluster": "Maximum number of Benitoite Ores per cluster",
+    "config.bigreactors.worldgen.enableworldregeneration": "Enable chunks re-generation",
+    "config.bigreactors.worldgen.userworldgenversion": "User-set world generation version (increase to re-gen chunks again)",
 
     "config.bigreactors.client.disableturbinerotorrender": "Disable Turbine Rotor animation",
     "config.bigreactors.client.disablereactorparticles": "Disable all particle effects in the Reactor",

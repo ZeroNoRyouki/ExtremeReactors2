@@ -23,10 +23,10 @@ import net.minecraftforge.common.ForgeConfigSpec;
 public class Worldgen {
 
     public final ForgeConfigSpec.BooleanValue enableWorldGen;
-//    public final ForgeConfigSpec.BooleanValue enableWorldRegeneration;
+    public final ForgeConfigSpec.BooleanValue enableWorldRegeneration;
 //    public final ForgeConfigSpec.ConfigValue<List<Integer>> dimensionWhitelist;
 //    public final ForgeConfigSpec.BooleanValue useBlacklist;
-//    public final ForgeConfigSpec.IntValue userWorldGenVersion;
+    public final ForgeConfigSpec.IntValue userWorldGenVersion;
     public final ForgeConfigSpec.BooleanValue yelloriteOreEnableWorldGen;
     public final ForgeConfigSpec.IntValue yelloriteOreMaxClustersPerChunk;
     public final ForgeConfigSpec.IntValue yelloriteOrePerCluster;
@@ -49,13 +49,19 @@ public class Worldgen {
                 .worldRestart()
                 .define("enableWorldGen", true);
 
-//        this.enableWorldRegeneration = builder
-//                .comment("Run World Generation in chunks that have already been generated, ",
-//                        "but have not been modified by Extreme Reactors before. ",
-//                        "This is largely useful for worlds that existed before Extreme Reactors was released")
-//                .translation("config.bigreactors.worldgen.enableWorldRegeneration")
-//                .worldRestart()
-//                .define("enableWorldRegeneration", false);
+        this.enableWorldRegeneration = builder
+                .comment("Re-run world gen in chunks that have already been generated (once they have been loaded), ",
+                        "but have not been modified by Extreme Reactors before.")
+                .translation("config.bigreactors.worldgen.enableworldregeneration")
+                .worldRestart()
+                .define("enableWorldRegeneration", false);
+
+        this.userWorldGenVersion = builder
+                .comment("User-set world generation version.",
+                        "Increase this by one if you want Extreme Reactors to re-run world generation in already modified chunks.")
+                .translation("config.bigreactors.worldgen.userworldgenversion")
+                .worldRestart()
+                .defineInRange("userWorldGenVersion", 1, 0, Integer.MAX_VALUE);
 //
 //        this.dimensionWhitelist = builder
 //                .comment("World gen will be performed only in the dimensions listed here")
@@ -68,12 +74,6 @@ public class Worldgen {
 //                .worldRestart()
 //                .define("useBlacklist", false);
 //
-//        this.userWorldGenVersion = builder
-//                .comment("User-set world generation version.",
-//                        "Increase this by 1 if you want Extreme Reactors to re-run world generation in your world.")
-//                .translation("config.bigreactors.worldgen.userWorldGenVersion")
-//                .worldRestart()
-//                .defineInRange("userWorldGenVersion", 0, 0, Integer.MAX_VALUE);
 
         this.yelloriteOreEnableWorldGen = builder
                 .comment("Enable generation of Yellorite Ore.")
