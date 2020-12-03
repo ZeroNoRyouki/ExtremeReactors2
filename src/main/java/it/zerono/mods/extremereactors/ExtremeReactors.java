@@ -21,6 +21,7 @@ package it.zerono.mods.extremereactors;
 import it.zerono.mods.extremereactors.api.internal.modpack.wrapper.ApiWrapper;
 import it.zerono.mods.extremereactors.config.Config;
 import it.zerono.mods.extremereactors.gamecontent.Content;
+import it.zerono.mods.extremereactors.gamecontent.WorldGen;
 import it.zerono.mods.extremereactors.proxy.ClientProxy;
 import it.zerono.mods.extremereactors.proxy.IProxy;
 import it.zerono.mods.extremereactors.proxy.ServerProxy;
@@ -65,6 +66,8 @@ public class ExtremeReactors implements IModInitializationHandler {
 
         modBus.addListener(this::onCommonInit);
         modBus.addListener(this::onInterModProcess);
+
+        WorldGen.initialize();
     }
 
     /**

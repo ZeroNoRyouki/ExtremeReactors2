@@ -19,7 +19,6 @@
 package it.zerono.mods.extremereactors.gamecontent;
 
 import it.zerono.mods.extremereactors.ExtremeReactors;
-import it.zerono.mods.extremereactors.config.Config;
 import it.zerono.mods.extremereactors.gamecontent.fluid.SteamFluid;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.GenericDeviceBlock;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.GlassBlock;
@@ -41,7 +40,6 @@ import it.zerono.mods.zerocore.lib.data.IoMode;
 import it.zerono.mods.zerocore.lib.energy.EnergySystem;
 import it.zerono.mods.zerocore.lib.item.ModItem;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
-import it.zerono.mods.zerocore.lib.world.WorldGenManager;
 import net.minecraft.block.Block;
 import net.minecraft.block.FlowingFluidBlock;
 import net.minecraft.block.SoundType;
@@ -52,9 +50,7 @@ import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.*;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
-import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.extensions.IForgeContainerType;
-import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
 import net.minecraftforge.fml.RegistryObject;
@@ -64,7 +60,6 @@ import net.minecraftforge.fml.network.IContainerFactory;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
-import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 public final class Content {
@@ -77,11 +72,7 @@ public final class Content {
         TileEntityTypes.initialize();
         ContainerTypes.initialize();
 
-        Blocks.initializeWorldGen();
-
-        final IEventBus bus = Mod.EventBusSubscriber.Bus.MOD.bus().get();
-
-        bus.addListener(Content::onCommonInit);
+        Mod.EventBusSubscriber.Bus.MOD.bus().get().addListener(Content::onCommonInit);
     }
 
     public static final class Blocks {
@@ -313,36 +304,6 @@ public final class Content {
                                                final TurbineVariant variant,
                                                final TurbinePartType partType) {
             return BLOCKS.register(name, () -> (T) (partType.createBlock(variant)));
-        }
-
-        static void initializeWorldGen() {
-
-            final Predicate<BiomeLoadingEvent> yelloriteEnabled = e -> Config.COMMON.worldgen.enableWorldGen.get() && Config.COMMON.worldgen.yelloriteOreEnableWorldGen.get();
-            final Predicate<BiomeLoadingEvent> anglesiteEnabled = e -> Config.COMMON.worldgen.enableWorldGen.get() && Config.COMMON.worldgen.anglesiteOreEnableWorldGen.get();
-            final Predicate<BiomeLoadingEvent> benitoiteEnabled = e -> Config.COMMON.worldgen.enableWorldGen.get() && Config.COMMON.worldgen.benitoiteOreEnableWorldGen.get();
-            
-            // yellorite ore
-            WorldGenManager.INSTANCE.addOre(yelloriteEnabled.and(WorldGenManager.exceptNether()).and(WorldGenManager.exceptTheEnd()),
-                    WorldGenManager.oreFeature(Blocks.YELLORITE_ORE_BLOCK,
-                            WorldGenManager.oreMatch(Tags.Blocks.STONE),
-                            Config.COMMON.worldgen.yelloriteOreMaxClustersPerChunk.get(),
-                            Config.COMMON.worldgen.yelloriteOrePerCluster.get(),
-                            15, 5, Config.COMMON.worldgen.yelloriteOreMaxY.get()));
-
-            // anglesite ore
-            WorldGenManager.INSTANCE.addOre(anglesiteEnabled.and(WorldGenManager.onlyTheEnd()),
-                    WorldGenManager.oreFeature(Blocks.ANGLESITE_ORE_BLOCK,
-                            WorldGenManager.oreMatch(Tags.Blocks.END_STONES),
-                            Config.COMMON.worldgen.anglesiteOreMaxClustersPerChunk.get(),
-                            Config.COMMON.worldgen.anglesiteOrePerCluster.get(),
-                            5, 5, 200));
-            // benitoite ore
-            WorldGenManager.INSTANCE.addOre(benitoiteEnabled.and(WorldGenManager.onlyNether()),
-                    WorldGenManager.oreFeature(Blocks.BENITOITE_ORE_BLOCK,
-                            WorldGenManager.oreMatch(Tags.Blocks.NETHERRACK),
-                            Config.COMMON.worldgen.benitoiteOreMaxClustersPerChunk.get(),
-                            Config.COMMON.worldgen.benitoiteOrePerCluster.get(),
-                            5, 5, 256));
         }
 
         //endregion
