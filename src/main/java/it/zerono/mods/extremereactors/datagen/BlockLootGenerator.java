@@ -38,8 +38,8 @@ public class BlockLootGenerator
         this.addDrop(Content.Blocks.YELLORIUM_BLOCK, Content.Blocks.CYANITE_BLOCK, Content.Blocks.GRAPHITE_BLOCK,
                 Content.Blocks.YELLORITE_ORE_BLOCK);
 
-        this.addDrop(Content.Blocks.ANGLESITE_ORE_BLOCK, Content.Items.ANGLESITE_CRYSTAL, 1, 3);
-        this.addDrop(Content.Blocks.BENITOITE_ORE_BLOCK, Content.Items.BENITOITE_CRYSTAL, 1, 3);
+        this.addSilkDrop(Content.Blocks.ANGLESITE_ORE_BLOCK, Content.Items.ANGLESITE_CRYSTAL, 1, 3, Content.Blocks.ANGLESITE_ORE_BLOCK);
+        this.addSilkDrop(Content.Blocks.BENITOITE_ORE_BLOCK, Content.Items.BENITOITE_CRYSTAL, 1, 3, Content.Blocks.BENITOITE_ORE_BLOCK);
 
         this.addDrop(Content.Blocks.REACTOR_CASING_BASIC, Content.Blocks.REACTOR_GLASS_BASIC,
                 Content.Blocks.REACTOR_CONTROLLER_BASIC, Content.Blocks.REACTOR_FUELROD_BASIC,
