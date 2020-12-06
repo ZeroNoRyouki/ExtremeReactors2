@@ -47,7 +47,7 @@ public final class ItemGroups {
                         stack(Content.Items.ANGLESITE_CRYSTAL), stack(Content.Items.BENITOITE_CRYSTAL),
                         stack(Content.Items.WRENCH));
 
-                Mods.PATCHOULI.map(() -> PatchouliAPI.instance.getBookStack(s_handBookId)).ifPresent(builder::add);
+                Mods.PATCHOULI.map(() -> PatchouliAPI.get().getBookStack(s_handBookId)).ifPresent(builder::add);
 
                 return builder.build();
             });

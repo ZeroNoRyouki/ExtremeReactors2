@@ -1,0 +1,18 @@
+{
+    "components": [
+        {
+            "type": "zcsptCrafting",
+            "recipe": "#recipe1",
+            "title": "#title1",
+            "x": 0,
+            "y": 0
+        },
+        {
+            "type": "zcsptCrafting",
+            "recipe": "#recipe2",
+            "title": "#title2",
+            "x": 0,
+            "y": 78
+        }
+    ]
+}

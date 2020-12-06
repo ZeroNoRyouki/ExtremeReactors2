@@ -21,6 +21,7 @@ package it.zerono.mods.extremereactors;
 import it.zerono.mods.extremereactors.api.internal.modpack.wrapper.ApiWrapper;
 import it.zerono.mods.extremereactors.config.Config;
 import it.zerono.mods.extremereactors.gamecontent.Content;
+import it.zerono.mods.extremereactors.gamecontent.ModComp;
 import it.zerono.mods.extremereactors.gamecontent.WorldGen;
 import it.zerono.mods.extremereactors.proxy.ClientProxy;
 import it.zerono.mods.extremereactors.proxy.IProxy;
@@ -28,6 +29,7 @@ import it.zerono.mods.extremereactors.proxy.ServerProxy;
 import it.zerono.mods.zerocore.lib.init.IModInitializationHandler;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.DeferredWorkQueue;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.InterModComms;
 import net.minecraftforge.fml.common.Mod;
@@ -76,6 +78,7 @@ public class ExtremeReactors implements IModInitializationHandler {
      */
     @Override
     public void onCommonInit(FMLCommonSetupEvent event) {
+        event.enqueueWork(ModComp::initialize);
     }
 
     /**
