@@ -21,7 +21,6 @@ package it.zerono.mods.extremereactors.datagen.recipes;
 import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.ContentTags;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.ReactorVariant;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.TurbineVariant;
 import net.minecraft.block.Blocks;
 import net.minecraft.data.DataGenerator;
