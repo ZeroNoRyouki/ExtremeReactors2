@@ -107,9 +107,12 @@ public class ClientProxy
 
         CachedSprites.initialize();
 
-        registerRenderTypes();
-        registerTileRenderers();
-        registerScreens();
+        event.enqueueWork(() -> {
+
+            registerRenderTypes();
+            registerTileRenderers();
+            registerScreens();
+        });
     }
 
     @SubscribeEvent
