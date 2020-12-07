@@ -58,6 +58,10 @@
         {
             "type": "text",
             "text": "As the Reactor heats up, energy is slowly being produced and the internal energy buffer filled.$(br2)To use the energy stored inside the Reactor you need to connect some sort of energy pipe or a machine to the Active Forge Power Tap.$(br)The Power Tap will send out energy to the connected block (if it can accept it)"
+        },
+        {
+            "type": "text",
+            "text": "Congratulations, you have built your first Reactor!$(br2)Use it to generate all the energy you need for your early game needs and them move on to build other Reactors and Turbines after you have read the remainder of this handbook."
         }
     ]
 }
