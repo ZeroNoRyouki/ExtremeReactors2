@@ -19,6 +19,7 @@
 package it.zerono.mods.extremereactors.gamecontent.compat.patchouli;
 
 import it.zerono.mods.extremereactors.ExtremeReactors;
+import it.zerono.mods.extremereactors.config.Config;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.MultiblockReactor;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.ReactorPartType;
@@ -33,6 +34,12 @@ import vazkii.patchouli.api.PatchouliAPI;
 public final class PatchouliCompat {
 
     public static void initialize() {
+
+        if (Config.CLIENT.disablePatchouliTweaks.get()) {
+            return;
+        }
+
+        Patchouli.initialize();
 
         //noinspection unchecked
         Patchouli.registerMultiblock(ExtremeReactors.newID("bookfirstbasicreactor"),

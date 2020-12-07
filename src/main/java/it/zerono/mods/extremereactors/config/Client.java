@@ -28,6 +28,7 @@ public class Client {
     public final ForgeConfigSpec.BooleanValue disableReactorParticles;
     public final ForgeConfigSpec.BooleanValue disableTurbineParticles;
     public final ForgeConfigSpec.BooleanValue disableApiTooltips;
+    public final ForgeConfigSpec.BooleanValue disablePatchouliTweaks;
     public final boolean isValentinesDay;
 
     Client(final ForgeConfigSpec.Builder builder) {
@@ -54,6 +55,11 @@ public class Client {
                 .comment("If true, no (advanced) tooltips will be added to blocks and items that can be used inside the Reactor or Turbine or as a fuel source.")
                 .translation("config.bigreactors.client.disableapitooltips")
                 .define("disableTurbineParticles", false);
+
+        disablePatchouliTweaks = builder
+                .comment("If true, no custom Patchouli components will be added and the book will stop to work correctly. Enable this if you are having problems with newer versions of Patchouli")
+                .translation("config.bigreactors.client.disablepatchoulitweaks")
+                .define("disablePatchouliTweaks", false);
 
         builder.pop();
 
