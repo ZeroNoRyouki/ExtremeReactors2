@@ -1,5 +1,5 @@
 {
     "name": "The Reactor",
     "description": "This section contains all you need to known about the Reactor and how to use it to produce energy or vapors",
-    "icon": "minecraft:writable_book"
+    "icon": "bigreactors:basic_reactorfuelrod"
 }
