@@ -1,0 +1,193 @@
+{
+  "Enabled": false,
+  "Coolants": {
+    "WipeExistingValuesBeforeAdding": false,
+    "Add": [
+      {
+        "BoilingPoint": 100.0,
+        "EnthalpyOfVaporization": 24.3,
+        "Name": "coolantA",
+        "TranslationKey": "key.for.coolantA.name"
+      },
+      {
+        "BoilingPoint": 85.34,
+        "EnthalpyOfVaporization": 12.0,
+        "Name": "coolantB",
+        "TranslationKey": "key.for.coolantB.name.translation"
+      }
+    ],
+    "Remove": [
+      "someCoolant",
+      "water",
+      "anotherCoolantName"
+    ]
+  },
+  "Vapors": {
+    "WipeExistingValuesBeforeAdding": false,
+    "Add": [
+      {
+        "FluidEnergyDensity": 2.0,
+        "Name": "vapor1",
+        "TranslationKey": "vapor1.name.translation.key"
+      },
+      {
+        "FluidEnergyDensity": 1.25,
+        "Name": "vapor2",
+        "TranslationKey": "vapor2.the_name.translation.key.for_the_vapor"
+      }
+    ],
+    "Remove": [
+      "vaporA",
+      "theVapor4",
+      "steam"
+    ]
+  },
+  "CoolantSources": {
+    "WipeExistingValuesBeforeAdding": false,
+    "Add": [
+      {
+        "SourceTagId": "minecraft:lava",
+        "ProductName": "coolantA",
+        "ProductQuantity": 7
+      },
+      {
+        "SourceTagId": "modid:fluidid",
+        "ProductName": "coolantB",
+        "ProductQuantity": 1
+      }
+    ],
+    "Remove": [
+      "minecraft:water",
+      "minecraft:lava",
+      "anothermod:fluid"
+    ]
+  },
+  "VaporSources": {
+    "WipeExistingValuesBeforeAdding": false,
+    "Add": [
+      {
+        "SourceTagId": "forge:steam",
+        "ProductName": "vapor2",
+        "ProductQuantity": 1
+      },
+      {
+        "SourceTagId": "modid:fluidid2",
+        "ProductName": "vapor1",
+        "ProductQuantity": 2
+      }
+    ],
+    "Remove": [
+      "minecraft:water",
+      "minecraft:lava",
+      "anothermod:fluid"
+    ]
+  },
+  "FluidTransitions": {
+    "WipeExistingValuesBeforeAdding": true,
+    "Add": [
+      {
+        "Source": "coolantA",
+        "SourceQuantity": 1,
+        "Product": "vapor2",
+        "ProductQuantity": 1
+      },
+      {
+        "Source": "coolantB",
+        "SourceQuantity": 1,
+        "Product": "vapor1",
+        "ProductQuantity": 2
+      }
+    ],
+    "Remove": []
+  },
+  "ReactorReactants": {
+    "WipeExistingValuesBeforeAdding": false,
+    "Add": [
+      {
+        "IsFuel": true,
+        "RgbColour": 13023828,
+        "Name": "newReactant2",
+        "TranslationKey": "mod.reactant2.name.key"
+      },
+      {
+        "IsFuel": false,
+        "RgbColour": 52533,
+        "Name": "mywaste",
+        "TranslationKey": "mywaste.name.key"
+      }
+    ],
+    "Remove": [
+      "cyanite"
+    ]
+  },
+  "ReactorReactantSources": {
+    "WipeExistingValuesBeforeAdding": false,
+    "Add": [
+      {
+        "SourceTagId": "forge:ingots/yellorium",
+        "ProductName": "yellorium",
+        "ProductQuantity": 1
+      },
+      {
+        "SourceTagId": "forge:ingots/iron",
+        "ProductName": "yellorium",
+        "ProductQuantity": 2
+      }
+    ],
+    "Remove": [
+      "forge:ingots/cyanite"
+    ]
+  },
+  "ReactorReactantReaction": {
+    "WipeExistingValuesBeforeAdding": false,
+    "Add": [
+      {
+        "SourceReactant": "yellorium",
+        "ProductReactant": "cyanite",
+        "Reactivity": 1.05,
+        "FissionRate": 0.01
+      },
+      {
+        "SourceReactant": "newReactant2",
+        "ProductReactant": "mywaste",
+        "Reactivity": 1.5,
+        "FissionRate": 0.03
+      }
+    ],
+    "Remove": [
+      "yellorium",
+      "newReactant2"
+    ]
+  },
+  "ReactorSolidModerators": {
+    "WipeExistingValuesBeforeAdding": false,
+    "Add": [
+      {
+        "TagId": "forge:storage_blocks/iron",
+        "Absorption": 0.5,
+        "HeatEfficiency": 0.75,
+        "Moderation": 1.4,
+        "HeatConductivity": 0.6
+      }
+    ],
+    "Remove": [
+      "forge:storage_blocks/diamond",
+      "forge:storage_blocks/copper"
+    ]
+  },
+  "TurbineCoils": {
+    "WipeExistingValuesBeforeAdding": false,
+    "Add": [
+      {
+        "BlockTagId": "forge:storage_blocks/iron",
+        "Efficiency": 1.0,
+        "Bonus": 1.0,
+        "ExtractionRate": 1.0
+      }
+    ],
+    "Remove": [
+      "forge:storage_blocks/gold",
+      "forge:storage_blocks/copper"
+    ]
+  }
+}
