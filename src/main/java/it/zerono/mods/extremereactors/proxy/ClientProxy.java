@@ -28,6 +28,7 @@ import it.zerono.mods.extremereactors.api.reactor.ReactantMappingsRegistry;
 import it.zerono.mods.extremereactors.api.turbine.CoilMaterialRegistry;
 import it.zerono.mods.extremereactors.config.Config;
 import it.zerono.mods.extremereactors.gamecontent.Content;
+import it.zerono.mods.extremereactors.gamecontent.compat.patchouli.PatchouliCompat;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.CachedSprites;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.FuelRodsLayout;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.ClientFuelRodsLayout;
@@ -48,6 +49,7 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.client.scre
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.TurbineVariant;
 import it.zerono.mods.zerocore.lib.CodeHelper;
 import it.zerono.mods.zerocore.lib.client.model.ICustomModelBuilder;
+import it.zerono.mods.zerocore.lib.compat.Mods;
 import net.minecraft.block.Block;
 import net.minecraft.client.gui.IHasContainer;
 import net.minecraft.client.gui.ScreenManager;
@@ -110,6 +112,9 @@ public class ClientProxy
         registerRenderTypes();
         registerTileRenderers();
         registerScreens();
+
+        // Patchouli multiblock rendering do not support IModelData-based models
+        Mods.PATCHOULI.ifPresent(PatchouliCompat::initialize);
     }
 
     @SubscribeEvent
