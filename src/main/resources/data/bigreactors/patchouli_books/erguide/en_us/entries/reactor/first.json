@@ -53,7 +53,11 @@
         },
         {
             "type": "text",
-            "text": "Now that your Reactor is ready, it's time to put some fuel in it.$(br2)Pick up more Yellorium ingots and right-click on the Solid Access Port. Set the Port to Inlet mode and place your ingots in the input slot.$(br2)The ingots will be quickly consumed by the Reactor and turned into fuel."
+            "text": "Now that your Reactor is ready, it's time to put some fuel in it.$(br2)Pick up more Yellorium ingots and right-click on the Solid Access Port. Set the Port to Inlet mode and place your ingots in the input slot.$(br2)The ingots will be quickly consumed by the Reactor and turned into fuel.$(br2)Open the Controller interface and turn your Reactor on!"
+        },
+        {
+            "type": "text",
+            "text": "As the Reactor heats up, energy is slowly being produced and the internal energy buffer filled.$(br2)To use the energy stored inside the Reactor you need to connect some sort of energy pipe or a machine to the Active Forge Power Tap.$(br)The Power Tap will send out energy to the connected block (if it can accept it)"
         }
     ]
 }
