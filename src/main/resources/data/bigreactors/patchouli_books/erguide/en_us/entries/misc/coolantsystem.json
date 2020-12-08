@@ -1,0 +1,8 @@
+{
+    "name": "The Coolants System",
+    "icon": "minecraft:water_bucket",
+    "category": "bigreactors:misc",
+    "read_by_default": true,
+    "pages": [
+    ]
+}

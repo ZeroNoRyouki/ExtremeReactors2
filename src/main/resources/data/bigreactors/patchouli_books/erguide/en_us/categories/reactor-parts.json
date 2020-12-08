@@ -1,0 +1,7 @@
+{
+    "name": "Parts",
+    "description": "The Reactor is a multiblock machine that can be either build to generate power directly or to vaporize coolants into vapor that would be later used to drive a Turbine rotor.",
+    "icon": "bigreactors:basic_reactorfuelrod",
+    "parent": "bigreactors:reactor",
+    "sortnum": 3
+}
