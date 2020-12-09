@@ -1,0 +1,25 @@
+{
+    "name": "Mekanism Fluid Port",
+    "icon": "bigreactors:reinforced_reactorfluidport_mekanism_passive",
+    "category": "bigreactors:reactor-parts",
+    "read_by_default": true,
+    "sortnum": 11,
+    "pages": [
+        {
+            "type": "spotlight",
+            "item": "bigreactors:reinforced_reactorfluidport_mekanism_passive",
+            "link_recipe": true,
+            "title" : "Mekanism Fluid Port",
+            "text": "The Mekanism Fluid Port allow you to extract vapor from an $(l:bigreactors:reactor/active)actively cooled$(/l) Reactor as a Mekanism Gas.$(br2)This Port automatically convert the vapor into a gas if a Mekanism Rotary recipe exist for the fluid stored inside the Reactor. The conversion rate defined by the Rotary recipe is respected."
+        },
+        {
+            "type": "crafting2x",
+            "title1": "Reinforced (Passive)",
+            "recipe1": "bigreactors:reactor/reinforced/passivefluidport_mekanism"
+        },
+        {
+            "type": "part_usage",
+            "text": "$(l)Mandatory:$() no$(br)$(l)Valid positions:$() any face (not on frame)$(br)$(l)Variants:$() Reinforced$(br)$(l)Graphical interface:$() no"
+        }
+    ]
+}

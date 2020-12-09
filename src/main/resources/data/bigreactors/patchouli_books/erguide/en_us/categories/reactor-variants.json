@@ -1,7 +1,7 @@
 {
     "name": "Variants",
-    "description": "The Reactor is a multiblock machine that can be either build to generate power directly or to vaporize coolants into vapor that would be later used to drive a Turbine rotor.",
-    "icon": "bigreactors:basic_reactorfuelrod",
+    "description": "The Reactor parts comes in different variants and each is described in the following pages.$(br2)Not every Reactor parts is available in every variants because not every Reactor variants support their functionality.",
+    "icon": "bigreactors:basic_reactorpowertapfe_active",
     "parent": "bigreactors:reactor",
     "sortnum": 2
 }

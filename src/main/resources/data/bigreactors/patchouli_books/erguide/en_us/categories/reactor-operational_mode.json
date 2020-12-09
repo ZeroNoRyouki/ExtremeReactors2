@@ -1,7 +1,7 @@
 {
     "name": "Operational mode",
     "description": "The Reactor can be build to work in two different modes: Passive Cooling or Active Cooling.$(br2)The operational mode determine what the Reactor is generating while being active.",
-    "icon": "bigreactors:basic_reactorfuelrod",
+    "icon": "bigreactors:reinforced_reactorfluidport_forge_passive",
     "parent": "bigreactors:reactor",
     "sortnum": 1
 }

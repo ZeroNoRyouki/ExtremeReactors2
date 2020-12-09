@@ -1,7 +1,7 @@
 {
-    "name": "Parts",
-    "description": "The Reactor is a multiblock machine that can be either build to generate power directly or to vaporize coolants into vapor that would be later used to drive a Turbine rotor.",
-    "icon": "bigreactors:basic_reactorfuelrod",
+    "name": "Reactor parts",
+    "description": "A Reactor is build using the following parts.$(br2)Some parts are mandatory, some are optional. Some are available to all Reactor variants and some aren't. When this is the case, the part page will point it out.",
+    "icon": "bigreactors:basic_reactorcontroller",
     "parent": "bigreactors:reactor",
     "sortnum": 3
 }

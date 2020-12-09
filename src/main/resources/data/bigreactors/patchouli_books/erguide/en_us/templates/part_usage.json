@@ -1,0 +1,18 @@
+{
+    "components": [
+        {
+            "type": "header",
+            "text": "Part usage",
+            "centered": "false",
+            "scale": "1",
+            "x": 0,
+            "y": 0
+        },
+        {
+            "type": "text",
+            "text": "#text",
+            "x": 0,
+            "y": 15
+        }
+    ]
+}
