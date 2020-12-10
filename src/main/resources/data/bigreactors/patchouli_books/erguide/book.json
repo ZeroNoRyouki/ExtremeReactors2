@@ -5,5 +5,6 @@
     "creative_tab": "bigreactors.general",
     "show_progress": false,
     "show_toasts": false,
+    "model": "bigreactors:erguide",
     "book_texture": "patchouli:textures/gui/book_gray.png"
 }
