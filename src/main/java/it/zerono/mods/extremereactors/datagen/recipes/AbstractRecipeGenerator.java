@@ -31,6 +31,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.crafting.ConditionalRecipe;
 import net.minecraftforge.common.crafting.conditions.ICondition;
+import net.minecraftforge.common.crafting.conditions.ModLoadedCondition;
 import net.minecraftforge.common.crafting.conditions.NotCondition;
 import net.minecraftforge.common.crafting.conditions.TagEmptyCondition;
 
@@ -131,8 +132,12 @@ public abstract class AbstractRecipeGenerator
         }
     }
 
-    private static ICondition not(final ICondition condition) {
+    protected static ICondition not(final ICondition condition) {
         return new NotCondition(condition);
+    }
+
+    protected static ICondition modLoaded(final String modId) {
+        return new ModLoadedCondition(modId);
     }
 
     protected static final String GROUP_GENERAL = ExtremeReactors.MOD_ID + ":general";

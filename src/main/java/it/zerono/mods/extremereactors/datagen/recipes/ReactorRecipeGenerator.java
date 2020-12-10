@@ -22,6 +22,7 @@ import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.ContentTags;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.ReactorVariant;
+import it.zerono.mods.zerocore.lib.compat.Mods;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.IFinishedRecipe;
 import net.minecraft.data.ShapedRecipeBuilder;
@@ -31,6 +32,7 @@ import net.minecraft.tags.ITag;
 import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.Tags;
+import net.minecraftforge.common.crafting.ConditionalRecipe;
 
 import javax.annotation.Nullable;
 import java.util.function.Consumer;
@@ -101,6 +103,7 @@ public class ReactorRecipeGenerator
         this.reactorComputerPort(c, variant, Content.Items.REACTOR_COMPUTERPORT_REINFORCED, casing, metal, alternativeMetal);
         this.reactorFluidPort(c, variant, "forge", Content.Items.REACTOR_FLUIDPORT_FORGE_PASSIVE_REINFORCED, Content.Items.REACTOR_FLUIDPORT_FORGE_ACTIVE_REINFORCED,
                 casing, () -> Items.LAVA_BUCKET,  () -> Items.WATER_BUCKET);
+        this.reactorMekFluidPort(c, variant, Content.Items.REACTOR_FLUIDPORT_MEKANISM_PASSIVE_REINFORCED, casing, () -> Items.LAVA_BUCKET,  () -> Items.WATER_BUCKET);
     }
 
     //endregion
@@ -254,6 +257,29 @@ public class ReactorRecipeGenerator
                 .addCriterion("has_item", hasItem(casing.get()))
                 .addCriterion("has_item2", hasItem(lava.get()))
                 .build(c, reactorRecipeName(variant, "activefluidport_" + name));
+    }
+
+
+    private void reactorMekFluidPort(final Consumer<IFinishedRecipe> c, final ReactorVariant variant,
+                                     final Supplier<? extends IItemProvider> passiveResult,
+                                     final Supplier<? extends IItemProvider> casing, final Supplier<? extends IItemProvider> lava,
+                                     final Supplier<? extends IItemProvider> water) {
+
+        ConditionalRecipe.builder()
+                .addCondition(modLoaded(Mods.MEKANISM.id()))
+                .addRecipe(ShapedRecipeBuilder.shapedRecipe(passiveResult.get())
+                        .key('C', casing.get())
+                        .key('B', lava.get())
+                        .key('S', water.get())
+                        .key('X', Items.EMERALD_BLOCK)
+                        .patternLine("CSC")
+                        .patternLine("BXB")
+                        .patternLine("CSC")
+                        .setGroup(GROUP_REACTOR)
+                        .addCriterion("has_item", hasItem(casing.get()))
+                        .addCriterion("has_item2", hasItem(water.get()))
+                        ::build)
+                .build(c, reactorRecipeName(variant, "passivefluidport_mekanism"));
     }
 
     private void reactorSolidAccessPort(final Consumer<IFinishedRecipe> c, final ReactorVariant variant,

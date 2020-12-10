@@ -1,0 +1,39 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "modid": "mekanism",
+          "type": "forge:mod_loaded"
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shaped",
+        "group": "bigreactors:reactor",
+        "pattern": [
+          "CSC",
+          "BXB",
+          "CSC"
+        ],
+        "key": {
+          "C": {
+            "item": "bigreactors:reinforced_reactorcasing"
+          },
+          "B": {
+            "item": "minecraft:lava_bucket"
+          },
+          "S": {
+            "item": "minecraft:water_bucket"
+          },
+          "X": {
+            "item": "minecraft:emerald_block"
+          }
+        },
+        "result": {
+          "item": "bigreactors:reinforced_reactorfluidport_mekanism_passive"
+        }
+      }
+    }
+  ]
+}
