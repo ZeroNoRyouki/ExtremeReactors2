@@ -109,12 +109,15 @@ public class ClientProxy
 
         CachedSprites.initialize();
 
-        registerRenderTypes();
-        registerTileRenderers();
-        registerScreens();
+        event.enqueueWork(() -> {
 
-        // Patchouli multiblock rendering do not support IModelData-based models
-        Mods.PATCHOULI.ifPresent(PatchouliCompat::initialize);
+            registerRenderTypes();
+            registerTileRenderers();
+            registerScreens();
+            
+            // Patchouli multiblock rendering do not support IModelData-based models
+            Mods.PATCHOULI.ifPresent(PatchouliCompat::initialize);
+        });
     }
 
     @SubscribeEvent

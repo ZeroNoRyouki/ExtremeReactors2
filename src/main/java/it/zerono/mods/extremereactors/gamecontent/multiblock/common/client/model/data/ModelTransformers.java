@@ -20,7 +20,6 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.mode
 
 import com.google.common.collect.Lists;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.AbstractMultiblockEntity;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part.ReactorGlassEntity;
 import it.zerono.mods.zerocore.lib.block.BlockFacings;
 import it.zerono.mods.zerocore.lib.block.property.BlockFacingsProperty;
 import it.zerono.mods.zerocore.lib.multiblock.cuboid.AbstractCuboidMultiblockController;

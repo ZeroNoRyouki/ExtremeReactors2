@@ -18,7 +18,6 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part;
 
-import it.zerono.mods.extremereactors.Log;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.fluidport.FluidPortType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.fluidport.IFluidPort;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.fluidport.IFluidPortHandler;

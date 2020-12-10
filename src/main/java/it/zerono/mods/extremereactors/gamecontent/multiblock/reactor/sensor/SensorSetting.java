@@ -24,8 +24,6 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.IReactorWri
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.common.util.NonNullPredicate;
 
-import java.util.function.BiConsumer;
-
 public class SensorSetting
     implements NonNullPredicate<IReactorReader>, InputSensorAction<IReactorWriter> {
 
