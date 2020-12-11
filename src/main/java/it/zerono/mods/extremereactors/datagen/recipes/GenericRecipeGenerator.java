@@ -18,14 +18,26 @@
 
 package it.zerono.mods.extremereactors.datagen.recipes;
 
+import com.google.gson.JsonObject;
 import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.gamecontent.Content;
+import it.zerono.mods.extremereactors.gamecontent.compat.patchouli.PatchouliCompat;
+import it.zerono.mods.zerocore.lib.compat.Mods;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.IFinishedRecipe;
 import net.minecraft.data.ShapedRecipeBuilder;
+import net.minecraft.item.Items;
+import net.minecraft.item.crafting.IRecipeSerializer;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.util.IItemProvider;
+import net.minecraft.util.JSONUtils;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.Tags;
+import net.minecraftforge.common.crafting.ConditionalRecipe;
+import vazkii.patchouli.api.PatchouliAPI;
 
+import javax.annotation.Nullable;
 import java.util.function.Consumer;
 
 public class GenericRecipeGenerator
@@ -78,6 +90,135 @@ public class GenericRecipeGenerator
                 .setGroup(GROUP_GENERAL)
                 .addCriterion("has_item", hasItem(Content.Items.WRENCH.get()))
                 .build(c, ExtremeReactors.newID("misc/wrench"));
+
+        this.book(c, "erguide", PatchouliCompat.HANDBOOK_ID, Items.BOOK, Content.Items.YELLORIUM_INGOT.get());
+    }
+
+    //endregion
+    //region internals
+
+    private void book(final Consumer<IFinishedRecipe> c, final String name, final ResourceLocation patchouliBookId,
+                      final IItemProvider ingredientBook,
+                      final IItemProvider ingredientItem) {
+
+        Mods.PATCHOULI.map(() -> PatchouliAPI.get().getBookStack(patchouliBookId)).ifPresent(book -> {
+
+                    ConditionalRecipe.builder()
+                            .addCondition(modLoaded(Mods.PATCHOULI.id()))
+                            .addRecipe(fr -> ShapedRecipeBuilder.shapedRecipe(book.getItem())
+                                    .key('I', ingredientItem)
+                                    .key('B', ingredientBook)
+                                    .patternLine("I")
+                                    .patternLine("B")
+                                    .setGroup(GROUP_GENERAL)
+                                    .addCriterion("has_item", hasItem(ingredientItem))
+                                    .build(NbtResultRecipeAdapter.from(fr, IRecipeSerializer.CRAFTING_SHAPED,
+                                            nbt -> nbt.putString("patchouli:book", patchouliBookId.toString()))))
+                            .build(c, ExtremeReactors.newID("misc/book/" + name));
+                });
+    }
+
+    //TODO placed here temporarily, than move to ZC
+    private static abstract class RecipeAdapter
+            implements IFinishedRecipe {
+
+        //region IFinishedRecipe
+
+        @Override
+        public void serialize(final JsonObject json) {
+            this._originalRecipe.serialize(json);
+        }
+
+        /**
+         * Gets the ID for the recipe.
+         */
+        @Override
+        public ResourceLocation getID() {
+            return this._originalRecipe.getID();
+        }
+
+        @Override
+        public IRecipeSerializer<?> getSerializer() {
+            return this._serializer;
+        }
+
+        /**
+         * Gets the JSON for the advancement that unlocks this recipe. Null if there is no advancement.
+         */
+        @Nullable
+        @Override
+        public JsonObject getAdvancementJson() {
+            return this._originalRecipe.getAdvancementJson();
+        }
+
+        /**
+         * Gets the ID for the advancement associated with this recipe. Should not be null if {@link #getAdvancementJson} is
+         * non-null.
+         */
+        @Nullable
+        @Override
+        public ResourceLocation getAdvancementID() {
+            return this._originalRecipe.getAdvancementID();
+        }
+
+        //endregion
+        //region internals
+
+        protected RecipeAdapter(final IFinishedRecipe originalRecipe, final IRecipeSerializer<?> serializer) {
+
+            this._originalRecipe = originalRecipe;
+            this._serializer = serializer;
+        }
+
+        protected final IFinishedRecipe _originalRecipe;
+        protected final IRecipeSerializer<?> _serializer;
+
+        //endregion
+    }
+
+    //TODO placed here temporarily, than move to ZC
+    private static final class NbtResultRecipeAdapter
+        extends RecipeAdapter {
+
+        public static Consumer<IFinishedRecipe> from(final Consumer<IFinishedRecipe> originalRecipe, final IRecipeSerializer<?> serializer,
+                                                     final CompoundNBT data)  {
+            return fr -> originalRecipe.accept(new NbtResultRecipeAdapter(fr, serializer, data));
+        }
+
+        public static Consumer<IFinishedRecipe> from(final Consumer<IFinishedRecipe> originalRecipe, final IRecipeSerializer<?> serializer,
+                                                     final Consumer<CompoundNBT> data) {
+
+            final CompoundNBT nbt = new CompoundNBT();
+
+            data.accept(nbt);
+            return from(originalRecipe, serializer, nbt);
+        }
+
+        //region IFinishedRecipe
+
+        @Override
+        public void serialize(final JsonObject json) {
+
+            super.serialize(json);
+
+            if (null != this._data) {
+                JSONUtils.getJsonObject(json, "result").addProperty("nbt", this._data.toString());
+            }
+        }
+
+        //endregion
+        //region internals
+
+        private NbtResultRecipeAdapter(final IFinishedRecipe originalRecipe, final IRecipeSerializer<?> serializer,
+                                       final CompoundNBT resultData) {
+
+            super(originalRecipe, serializer);
+            this._data = resultData;
+        }
+
+        private final CompoundNBT _data;
+
+        //endregion
     }
 
     //endregion

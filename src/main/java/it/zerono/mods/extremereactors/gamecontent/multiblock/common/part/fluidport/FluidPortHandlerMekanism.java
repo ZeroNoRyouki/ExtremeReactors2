@@ -252,12 +252,13 @@ public class FluidPortHandlerMekanism<Controller extends AbstractGeneratorMultib
         CodeHelper.getMinecraftServer().ifPresent(server -> {
 
             final ResourceLocation typeId = new ResourceLocation(Mods.MEKANISM.id(), "rotary");
+            @SuppressWarnings("unchecked")
+            final IRecipeType<RotaryRecipe> type = (IRecipeType<RotaryRecipe>)Registry.RECIPE_TYPE.getOrDefault(typeId);
 
-            if (Registry.RECIPE_TYPE.containsKey(typeId)) {
+            if (null != type) {
 
-                //noinspection unchecked
                 server.getRecipeManager()
-                        .getRecipesForType((IRecipeType<RotaryRecipe>)Objects.requireNonNull(Registry.RECIPE_TYPE.getOrDefault(typeId))).stream()
+                        .getRecipesForType(type).stream()
                         .filter(RotaryRecipe::hasFluidToGas)
                         .forEach(rotaryRecipe -> {
 

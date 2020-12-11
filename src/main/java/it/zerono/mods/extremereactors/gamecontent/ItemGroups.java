@@ -20,6 +20,7 @@ package it.zerono.mods.extremereactors.gamecontent;
 
 import com.google.common.collect.ImmutableList;
 import it.zerono.mods.extremereactors.ExtremeReactors;
+import it.zerono.mods.extremereactors.gamecontent.compat.patchouli.PatchouliCompat;
 import it.zerono.mods.zerocore.lib.compat.Mods;
 import it.zerono.mods.zerocore.lib.item.ItemHelper;
 import it.zerono.mods.zerocore.lib.item.ModItemGroup;
@@ -33,8 +34,6 @@ import java.util.function.Supplier;
 
 public final class ItemGroups {
 
-    private static ResourceLocation s_handBookId = ExtremeReactors.newID("erguide");
-
     public static final ItemGroup GENERAL = new ModItemGroup(ExtremeReactors.MOD_ID + ".general",
             () -> stack(Content.Items.YELLORITE_ORE_BLOCK),
             () -> {
@@ -47,7 +46,7 @@ public final class ItemGroups {
                         stack(Content.Items.ANGLESITE_CRYSTAL), stack(Content.Items.BENITOITE_CRYSTAL),
                         stack(Content.Items.WRENCH));
 
-                Mods.PATCHOULI.map(() -> PatchouliAPI.get().getBookStack(s_handBookId)).ifPresent(builder::add);
+                Mods.PATCHOULI.map(() -> PatchouliAPI.get().getBookStack(PatchouliCompat.HANDBOOK_ID)).ifPresent(builder::add);
 
                 return builder.build();
             });

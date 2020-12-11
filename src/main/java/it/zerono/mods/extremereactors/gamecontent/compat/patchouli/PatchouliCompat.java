@@ -28,10 +28,13 @@ import it.zerono.mods.zerocore.lib.block.multiblock.MultiblockPartBlock;
 import it.zerono.mods.zerocore.lib.client.model.data.multiblock.CuboidPartVariantsModelData;
 import it.zerono.mods.zerocore.lib.compat.patchouli.Patchouli;
 import net.minecraft.block.Block;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.data.EmptyModelData;
 import vazkii.patchouli.api.PatchouliAPI;
 
 public final class PatchouliCompat {
+
+    public static final ResourceLocation HANDBOOK_ID = ExtremeReactors.newID("erguide");
 
     public static void initialize() {
 
