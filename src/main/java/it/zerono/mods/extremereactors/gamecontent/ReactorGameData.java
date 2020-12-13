@@ -101,6 +101,7 @@ final class ReactorGameData {
         // fluids
 
         ModeratorsRegistry.registerFluid("minecraft:water", Moderator.WATER.getAbsorption(), Moderator.WATER.getHeatEfficiency(), Moderator.WATER.getModeration(), Moderator.WATER.getHeatConductivity());
+        ModeratorsRegistry.registerFluid("minecraft:flowing_water", Moderator.WATER.getAbsorption(), Moderator.WATER.getHeatEfficiency(), Moderator.WATER.getModeration(), Moderator.WATER.getHeatConductivity());
 
         // Astral Sorcery
         ModeratorsRegistry.registerFluid("astralsorcery:liquid_starlight", 0.92f, 0.80f, 2.00f, IHeatEntity.CONDUCTIVITY_DIAMOND);
