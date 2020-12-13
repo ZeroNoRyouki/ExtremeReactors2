@@ -175,6 +175,21 @@
       "forge:storage_blocks/copper"
     ]
   },
+  "ReactorFluidModerators": {
+      "WipeExistingValuesBeforeAdding": false,
+      "Add": [
+          {
+              "TagId": "minecraft:water",
+              "Absorption": 0.5,
+              "HeatEfficiency": 0.75,
+              "Moderation": 1.4,
+              "HeatConductivity": 0.6
+          }
+      ],
+      "Remove": [
+          "minecraft:flowing_water"
+      ]
+  },
   "TurbineCoils": {
     "WipeExistingValuesBeforeAdding": false,
     "Add": [

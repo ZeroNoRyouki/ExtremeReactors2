@@ -282,7 +282,10 @@ public final class ModeratorsRegistry {
                 (it.zerono.mods.extremereactors.api.internal.modpack.wrapper.Moderator w) ->
                         registerSolid(w.TagId, w.Absorption, w.HeatEfficiency, w.Moderation, w.HeatConductivity));
 
-        //TODO fluids
+        processWrapper("fluid", wrapper.ReactorFluidModerators, s_moderatorFluidsData,
+                name -> removeFluid(new ResourceLocation(name)),
+                (it.zerono.mods.extremereactors.api.internal.modpack.wrapper.Moderator w) ->
+                        registerFluid(w.TagId, w.Absorption, w.HeatEfficiency, w.Moderation, w.HeatConductivity));
     }
 
     //region internals

@@ -122,7 +122,7 @@ The properties of the items you can add are:
 
 _ReactorSolidModerators_
 
-Manage the list of registered moderators.
+Manage the list of registered solid (blocks) moderators.
 The properties of the items you can add are:
 
 - TagId : the block tag id (in the form of modid:path) for the moderator block
@@ -131,6 +131,11 @@ The properties of the items you can add are:
 - Moderation : how well this material moderates radiation. This is a divisor; should not be below 1.0. (a float number)
 - HeatConductivity : how well this material conducts heat, in FE/t/m2. (a float number)
 
+_ReactorFluidModerators_
+
+Same as ReactorSolidModerators, but for fluids. 
+Instead of block tags ids you should provide the fluid registration id (for example, "minecraft:water" for the vanilla water fluid in still form)
+Keep in mind that if you want both the still and flowing version of the fluid to act as a moderator, you have to add both. This let you keep full control on what fluid is allowed and let you assign different values to each fluid version.
 
 _**The Turbine**_
 
