@@ -49,9 +49,7 @@ import it.zerono.mods.zerocore.lib.multiblock.ITickableMultiblockPart;
 import it.zerono.mods.zerocore.lib.multiblock.cuboid.AbstractCuboidMultiblockPart;
 import it.zerono.mods.zerocore.lib.multiblock.validation.IMultiblockValidator;
 import it.zerono.mods.zerocore.lib.world.WorldHelper;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.profiler.IProfiler;
@@ -60,7 +58,6 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-import net.minecraftforge.fluids.IFluidBlock;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fml.LogicalSide;
 
@@ -361,25 +358,15 @@ public class MultiblockReactor
 
         } else {
 
-            final Block block = blockState.getBlock();
             final IRadiationModerator moderator;
 
             if (blockState.isAir()) {
 
                 moderator = (data, packet) -> applyModerator(data, packet, Moderator.AIR);
 
-            } else if (Blocks.WATER == block) {
-
-                moderator = (data, packet) -> applyModerator(data, packet, Moderator.WATER);
-
-            } else if (block instanceof IFluidBlock) {
-
-                //TODO fluids moderators!
-                moderator = (data, packet) -> applyModerator(data, packet, Moderator.WATER);
-
             } else {
 
-                moderator = (data, packet) -> applyModerator(data, packet, ModeratorsRegistry.getFromSolid(block).orElse(Moderator.AIR));
+                moderator = (data, packet) -> applyModerator(data, packet, ModeratorsRegistry.getFrom(blockState).orElse(Moderator.AIR));
             }
 
             return Optional.of(moderator);
@@ -1045,40 +1032,20 @@ public class MultiblockReactor
 
         final BlockPos position = new BlockPos(x, y, z);
         final BlockState blockState = world.getBlockState(position);
-        final Block block = blockState.getBlock();
 
         if (blockState.isAir(world, position)) {
             // Air is OK
             return true;
         }
 
-        // Check against registered moderator blocks
-        if (ModeratorsRegistry.getFromSolid(block).isPresent()) {
+        // Check against registered moderators
+        if (ModeratorsRegistry.getFrom(blockState).isPresent()) {
             return true;
         }
-
-        // Check against registered moderator fluids
-
-        //TODO fluids?
-
-        if (block == Blocks.WATER /*|| block == Blocks.FLOWING_WATER*/) //TODO ignore flowing water?
-            return true;
-        /*
-        if (block instanceof IFluidBlock) {
-
-            final String fluidName = ((IFluidBlock)block).getFluid().getName();
-
-            if (ReactorInterior.getFluidData(fluidName) != null)
-                return true;
-
-            validatorCallback.setLastError("multiblock.validation.reactor.invalid_fluid_for_interior", x, y, z, fluidName);
-            return false;
-        }
-        */
 
         // Give up ...
         validatorCallback.setLastError("multiblock.validation.reactor.invalid_block_for_interior", x, y, z,
-                ModBlock.getNameForTranslation(block));
+                ModBlock.getNameForTranslation(blockState.getBlock()));
         return false;
     }
 
@@ -1145,20 +1112,20 @@ public class MultiblockReactor
             default:
             case X:
                 length = CodeHelper.optionalMap(this.getMinimumCoord(), this.getMaximumCoord(),
-                                (min, max) -> Math.max(1, max.getX() - min.getX() - 1))
-                            .orElse(0);
+                        (min, max) -> Math.max(1, max.getX() - min.getX() - 1))
+                        .orElse(0);
                 break;
 
             case Y:
                 length = CodeHelper.optionalMap(this.getMinimumCoord(), this.getMaximumCoord(),
-                                (min, max) -> Math.max(1, max.getY() - min.getY() - 1))
-                            .orElse(0);
+                        (min, max) -> Math.max(1, max.getY() - min.getY() - 1))
+                        .orElse(0);
                 break;
 
             case Z:
                 length = CodeHelper.optionalMap(this.getMinimumCoord(), this.getMaximumCoord(),
-                                (min, max) -> Math.max(1, max.getZ() - min.getZ() - 1))
-                            .orElse(0);
+                        (min, max) -> Math.max(1, max.getZ() - min.getZ() - 1))
+                        .orElse(0);
                 break;
         }
 

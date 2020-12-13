@@ -520,7 +520,7 @@
     "config.bigreactors.client.disableapitooltips": "Do not add (advanced) tooltips to fuels, moderators, coils, etc",
     "config.bigreactors.client.disablepatchoulitweaks": "Enable this if you are having problems with newer versions of Patchouli",
 
-    "api.bigreactors.reactor.tooltip.moderator": "Extreme Reactors: this block can be used as a radiation moderator inside a Reactor",
+    "api.bigreactors.reactor.tooltip.moderator": "Extreme Reactors: this block or fluid can be used as a radiation moderator inside a Reactor",
     "api.bigreactors.reactor.tooltip.reactant.fuel": "Extreme Reactors: this item can be used to produce fuel for a Reactor",
     "api.bigreactors.reactor.tooltip.coil": "Extreme Reactors: this block can be used as a coil inside a Turbine"
 }

@@ -64,6 +64,7 @@ public final class ApiWrapper {
     public AddRemoveSection<SourceTag> ReactorReactantSources;
     public AddRemoveSection<Reaction> ReactorReactantReaction;
     public AddRemoveSection<Moderator> ReactorSolidModerators;
+    public AddRemoveSection<Moderator> ReactorFluidModerators;
 
     //endregion
     //region api.turbine
@@ -86,6 +87,7 @@ public final class ApiWrapper {
         this.ReactorReactantSources = new AddRemoveSection<>(SourceTag[]::new);
         this.ReactorReactantReaction = new AddRemoveSection<>(Reaction[]::new);
         this.ReactorSolidModerators = new AddRemoveSection<>(Moderator[]::new);
+        this.ReactorFluidModerators = new AddRemoveSection<>(Moderator[]::new);
 
         this.TurbineCoils = new AddRemoveSection<>(CoilMaterial[]::new);
     }
@@ -151,6 +153,11 @@ public final class ApiWrapper {
                 new Moderator("forge:storage_blocks/iron", 0.50f, 0.75f, 1.40f, 0.6f)
         ).toArray(new Moderator[0]);
         wrapper.ReactorSolidModerators.Remove = new String[] {"forge:storage_blocks/diamond", "forge:storage_blocks/copper"};
+
+        wrapper.ReactorFluidModerators.Add = ImmutableList.of(
+                new Moderator("minecraft:water", 0.50f, 0.75f, 1.40f, 0.6f)
+        ).toArray(new Moderator[0]);
+        wrapper.ReactorFluidModerators.Remove = new String[] {"minecraft:flowing_water"};
 
         // sample turbine data values
 
