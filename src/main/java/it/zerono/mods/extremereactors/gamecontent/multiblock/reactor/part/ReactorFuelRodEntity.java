@@ -37,7 +37,6 @@ import it.zerono.mods.zerocore.lib.world.WorldHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.particles.ParticleTypes;
-import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -306,18 +305,7 @@ public class ReactorFuelRodEntity
     }
 
     private double getConductivityFromBlock(BlockState blockState) {
-
-        final Block block = blockState.getBlock();
-        Moderator moderator;
-
-        if (WorldHelper.isFluidStateTagged(blockState, FluidTags.WATER)) {
-            moderator = Moderator.WATER;
-        } else {
-            //TODO fluids!
-            moderator = ModeratorsRegistry.getFromSolid(block).orElse(Moderator.AIR);
-        }
-
-        return moderator.getHeatConductivity();
+        return ModeratorsRegistry.getFrom(blockState).orElse(Moderator.AIR).getHeatConductivity();
     }
 
     @Nullable

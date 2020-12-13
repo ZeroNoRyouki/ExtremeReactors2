@@ -26,13 +26,13 @@ import it.zerono.mods.extremereactors.api.ExtremeReactorsAPI;
 import it.zerono.mods.extremereactors.api.internal.InternalDispatcher;
 import it.zerono.mods.extremereactors.api.internal.modpack.wrapper.AddRemoveSection;
 import it.zerono.mods.extremereactors.api.internal.modpack.wrapper.ApiWrapper;
-import it.zerono.mods.zerocore.ZeroCore;
 import it.zerono.mods.zerocore.lib.tag.CollectionProviders;
 import it.zerono.mods.zerocore.lib.tag.TagList;
 import it.zerono.mods.zerocore.lib.tag.TagsHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.fluid.Fluid;
+import net.minecraft.fluid.FluidState;
 import net.minecraft.item.Item;
 import net.minecraft.tags.ITag;
 import net.minecraft.util.ResourceLocation;
@@ -43,6 +43,7 @@ import net.minecraftforge.event.TagsUpdatedEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
 
@@ -57,11 +58,33 @@ import java.util.function.Consumer;
 public final class ModeratorsRegistry {
 
     /**
+     * Retrieve the (solid or fluid) radiation moderation data for the given block state
+     *
+     * @param state The block state
+     * @return The Moderator or null if nothing could be found
+     */
+    public static Optional<Moderator> getFrom(final BlockState state) {
+
+        if (state.isAir()) {
+            return Optional.of(Moderator.AIR);
+        }
+
+        final FluidState fs = state.getFluidState();
+
+        if (!fs.isEmpty() && s_moderatorFluidsData.containsKey(getFluidId(fs.getFluid()))) {
+            return Optional.of(s_moderatorFluidsData.get(getFluidId(fs.getFluid())));
+        }
+
+        return getFromSolid(state.getBlock());
+    }
+
+    /**
      * Retrieve the radiation moderation data for the given block state
      *
      * @param state The block state
      * @return The Moderator or null if nothing could be found
      */
+    @Deprecated // use getFrom()
     public static Optional<Moderator> getFromSolid(final BlockState state) {
         return getFromSolid(state.getBlock());
     }
@@ -97,8 +120,9 @@ public final class ModeratorsRegistry {
      * @param tag The Fluid Tag
      * @return The Moderator or null if nothing could be found
      */
+    @Deprecated // use getFrom()
     public static Optional<Moderator> getFromFluid(final ITag.INamedTag<Fluid> tag) {
-        return Optional.ofNullable(s_moderatorFluidsData.get(tag.getName()));
+        return Optional.empty();
     }
 
     /**
@@ -132,45 +156,51 @@ public final class ModeratorsRegistry {
         });
     }
 
-//    /**
-//     * Register a fluid Tag as a radiation moderator for the Reactor.
-//     * All fluids that match this Tag will be permissible
-//     * <p>
-//     * If the Tag is already registered, the provided values will replace the existing ones
-//     *
-//     * @param tag              The fluid Tag
-//     * @param absorption       How much radiation this material absorbs and converts to heat. 0.0 = none, 1.0 = all.
-//     * @param heatEfficiency   How efficiently radiation is converted to heat. 0 = no heat, 1 = all heat.
-//     * @param moderation       How well this material moderates radiation. This is a divisor; should not be below 1.
-//     * @param heatConductivity How well this material conducts heat, in FE/t/m2.
-//     */
-//    public static void registerFluid(final ITag.INamedTag<Fluid> tag, final float absorption, final float heatEfficiency,
-//                                     final float moderation, final float heatConductivity) {
-//
-//        Preconditions.checkNotNull(tag);
-//
-//        InternalDispatcher.dispatch("moderator-f-register", () -> {
-//
-//            final Optional<Moderator> entry = getFromFluid(tag);
-//
-//            if (entry.isPresent()) {
-//
-//                final Moderator moderator = entry.get();
-//
-//                ExtremeReactorsAPI.LOGGER.warn(MARKER, "Overriding existing radiation moderator for {}", tag.getName());
-//
-//                moderator.setAbsorption(absorption);
-//                moderator.setHeatEfficiency(heatEfficiency);
-//                moderator.setModeration(moderation);
-//                moderator.setHeatConductivity(heatConductivity);
-//
-//            } else {
-//
-//                s_moderatorFluidsData.put(tag.getName(), new Moderator(absorption, heatEfficiency, moderation, heatConductivity));
-//                s_moderatorFluidssTags.addTag(tag);
-//            }
-//        });
-//    }
+    /**
+     * Register a Fluid as a radiation moderator for the Reactor
+     * <p>
+     * If the Fluid is already registered, the provided values will replace the existing ones
+     *
+     * @param fluid            The Fluid
+     * @param absorption       How much radiation this material absorbs and converts to heat. 0.0 = none, 1.0 = all.
+     * @param heatEfficiency   How efficiently radiation is converted to heat. 0 = no heat, 1 = all heat.
+     * @param moderation       How well this material moderates radiation. This is a divisor; should not be below 1.
+     * @param heatConductivity How well this material conducts heat, in FE/t/m2.
+     */
+    public static void registerFluid(final Fluid fluid, final float absorption, final float heatEfficiency,
+                                     final float moderation, final float heatConductivity) {
+        registerFluid(getFluidIdString(fluid), absorption, heatEfficiency, moderation, heatConductivity);
+    }
+
+    /**
+     * Register a Fluid as a radiation moderator for the Reactor
+     * <p>
+     * If the Fluid is already registered, the provided values will replace the existing ones
+     *
+     * @param fluidId          The Id of the Fluid in the form modid:path (ie, it's registration ResourceLocation)
+     * @param absorption       How much radiation this material absorbs and converts to heat. 0.0 = none, 1.0 = all.
+     * @param heatEfficiency   How efficiently radiation is converted to heat. 0 = no heat, 1 = all heat.
+     * @param moderation       How well this material moderates radiation. This is a divisor; should not be below 1.
+     * @param heatConductivity How well this material conducts heat, in FE/t/m2.
+     */
+    public static void registerFluid(final String fluidId, final float absorption, final float heatEfficiency,
+                                     final float moderation, final float heatConductivity) {
+
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(fluidId));
+
+        InternalDispatcher.dispatch("moderator-f-register", () -> {
+
+            final ResourceLocation id = new ResourceLocation(fluidId);
+
+            if (s_moderatorFluidsData.containsKey(id)) {
+                ExtremeReactorsAPI.LOGGER.warn(MARKER, "Overriding existing radiation moderator for {}", id);
+            }
+
+            final Moderator m = new Moderator(absorption, heatEfficiency, moderation, heatConductivity);
+
+            s_moderatorFluidsData.merge(id, m, (o, n) -> m);
+        });
+    }
 
     /**
      * Remove a previously registered radiation moderator block for the Reactor
@@ -184,18 +214,6 @@ public final class ModeratorsRegistry {
         removeSolid(tag.getName());
     }
 
-//    /**
-//     * Remove a previously registered radiation moderator block for the Reactor
-//     * If the moderator is not registered the operation will fail silently
-//     *
-//     * @param tag The fluid Tag
-//     */
-//    public static void removeFluid(final ITag.INamedTag<Fluid> tag) {
-//
-//        Preconditions.checkNotNull(tag);
-//        removeFluid(tag.getName());
-//    }
-
     /**
      * Remove a previously registered radiation moderator block for the Reactor
      * If the moderator is not registered the operation will fail silently
@@ -208,6 +226,30 @@ public final class ModeratorsRegistry {
         InternalDispatcher.dispatch("moderator-s-remove", () -> s_moderatorBlocksData.remove(id));
     }
 
+    /**
+     * Remove a previously registered radiation moderator Fluid for the Reactor
+     * If the moderator is not registered the operation will fail silently
+     *
+     * @param fluid The Fluid to remove
+     */
+    public static void removeFluid(final Fluid fluid) {
+
+        Preconditions.checkNotNull(fluid);
+        removeFluid(getFluidId(fluid));
+    }
+
+    /**
+     * Remove a previously registered radiation moderator Fluid for the Reactor
+     * If the moderator is not registered the operation will fail silently
+     *
+     * @param id The Id of the Fluid in the form modid:path (ie, it's registration ResourceLocation)
+     */
+    public static void removeFluid(final ResourceLocation id) {
+
+        Preconditions.checkNotNull(id);
+        InternalDispatcher.dispatch("moderator-f-remove", () -> s_moderatorFluidsData.remove(id));
+    }
+
     public static void fillModeratorsTooltips(final Map<Item, Set<ITextComponent>> tooltipsMap,
                                               final NonNullSupplier<Set<ITextComponent>> setSupplier) {
 
@@ -215,30 +257,18 @@ public final class ModeratorsRegistry {
                 .flatMap(blockTag -> blockTag.getAllElements().stream())
                 .map(Block::asItem)
                 .forEach(item -> tooltipsMap.computeIfAbsent(item, k -> setSupplier.get()).add(TOOLTIP_MODERATOR));
-    }
 
-//    /**
-//     * Remove a previously registered radiation moderator block for the Reactor
-//     * If the moderator is not registered the operation will fail silently
-//     *
-//     * @param id The id of the block Tag
-//     */
-//    public static void removeFluid(final ResourceLocation id) {
-//
-//        Preconditions.checkNotNull(id);
-//
-//        InternalDispatcher.dispatch("moderator-f-remove", () -> {
-//
-//            s_moderatorFluidssTags.removeTag(id);
-//            s_moderatorFluidsData.remove(id);
-//        });
-//    }
+        s_moderatorFluidsData.keySet().stream()
+                .filter(ForgeRegistries.FLUIDS::containsKey)
+                .map(ForgeRegistries.FLUIDS::getValue)
+                .filter(Objects::nonNull)
+                .map(Fluid::getFilledBucket)
+                .forEach(item -> tooltipsMap.computeIfAbsent(item, k -> setSupplier.get()).add(TOOLTIP_MODERATOR));
+    }
 
     @SubscribeEvent(priority = EventPriority.LOW)
     public static void onVanillaTagsUpdated(final TagsUpdatedEvent.VanillaTagTypes event) {
-
         updateTags(s_moderatorBlocksData.keySet(), s_moderatorBlocksTags, TagsHelper.BLOCKS);
-        updateTags(s_moderatorFluidsData.keySet(), s_moderatorFluidsTags, TagsHelper.FLUIDS);
     }
 
     public static void processWrapper(final ApiWrapper wrapper) {
@@ -259,7 +289,6 @@ public final class ModeratorsRegistry {
 
     private static final TagList<Block> s_moderatorBlocksTags;
     private static final Map<ResourceLocation, Moderator> s_moderatorBlocksData;
-    private static final TagList<Fluid> s_moderatorFluidsTags;
     private static final Map<ResourceLocation, Moderator> s_moderatorFluidsData;
 
     private static final Marker MARKER = MarkerManager.getMarker("API/ModeratorsRegistry").addParents(ExtremeReactorsAPI.MARKER);
@@ -305,22 +334,21 @@ public final class ModeratorsRegistry {
                 .forEach(addAction);
     }
 
+    private static ResourceLocation getFluidId(final Fluid fluid) {
+        return Objects.requireNonNull(fluid.getRegistryName());
+    }
+
+    private static String getFluidIdString(final Fluid fluid) {
+        return getFluidId(fluid).toString();
+    }
+
     private static final ITextComponent TOOLTIP_MODERATOR = new TranslationTextComponent("api.bigreactors.reactor.tooltip.moderator").setStyle(ExtremeReactorsAPI.STYLE_TOOLTIP);
 
     static {
 
         s_moderatorBlocksTags = new TagList<>(CollectionProviders.BLOCKS_PROVIDER);
         s_moderatorBlocksData = Maps.newHashMap();
-
-        s_moderatorFluidsTags = new TagList<>(CollectionProviders.FLUIDS_PROVIDER);
         s_moderatorFluidsData = Maps.newHashMap();
-
-        // register Air and Water moderators
-
-        //TODO re-valutate
-        //TODO fluids
-        s_moderatorBlocksData.put(ZeroCore.newID("air"), Moderator.AIR);
-        s_moderatorBlocksData.put(ZeroCore.newID("water"), Moderator.WATER);
     }
 
     //endregion
