@@ -98,6 +98,54 @@ final class ReactorGameData {
 
         ModeratorsRegistry.registerSolid("minecraft:ice", 0.33f, 0.33f, 1.15f, IHeatEntity.CONDUCTIVITY_WATER);
 
+        // fluids
+
+        ModeratorsRegistry.registerFluid("minecraft:water", Moderator.WATER.getAbsorption(), Moderator.WATER.getHeatEfficiency(), Moderator.WATER.getModeration(), Moderator.WATER.getHeatConductivity());
+
+        // Astral Sorcery
+        ModeratorsRegistry.registerFluid("astralsorcery:liquid_starlight", 0.92f, 0.80f, 2.00f, IHeatEntity.CONDUCTIVITY_DIAMOND);
+        ModeratorsRegistry.registerFluid("astralsorcery:liquid_starlight_flowing", 0.80f, 0.85f, 2.00f, IHeatEntity.CONDUCTIVITY_DIAMOND);
+
+        // Blood Magic
+        ModeratorsRegistry.registerFluid("bloodmagic:life_essence_fluid", 0.80f, 0.55f, 1.75f, IHeatEntity.CONDUCTIVITY_EMERALD);
+        ModeratorsRegistry.registerFluid("bloodmagic:life_essence_fluid_flowing", 0.70f, 0.55f, 1.75f, IHeatEntity.CONDUCTIVITY_EMERALD);
+
+        // Mekanism
+        ModeratorsRegistry.registerFluid("mekanism:hydrofluoric_acid", 0.68f, 0.45f, 1.40f, IHeatEntity.CONDUCTIVITY_EMERALD);
+        ModeratorsRegistry.registerFluid("mekanism:flowing_hydrofluoric_acid", 0.60f, 0.45f, 1.40f, IHeatEntity.CONDUCTIVITY_EMERALD);
+        ModeratorsRegistry.registerFluid("mekanism:sodium", 0.28f, 0.60f, 1.70f, IHeatEntity.CONDUCTIVITY_COPPER);
+        ModeratorsRegistry.registerFluid("mekanism:flowing_sodium", 0.23f, 0.60f, 1.70f, IHeatEntity.CONDUCTIVITY_COPPER);
+        ModeratorsRegistry.registerFluid("mekanism:hydrogen_chloride", 0.38f, 0.65f, 1.70f, IHeatEntity.CONDUCTIVITY_COPPER);
+        ModeratorsRegistry.registerFluid("mekanism:flowing_hydrogen_chloride", 0.31f, 0.65f, 1.70f, IHeatEntity.CONDUCTIVITY_COPPER);
+        ModeratorsRegistry.registerFluid("mekanism:ethene", 0.45f, 0.65f, 1.90f, IHeatEntity.CONDUCTIVITY_SILVER); // Etilene
+        ModeratorsRegistry.registerFluid("mekanism:flowing_ethene", 0.37f, 0.65f, 1.90f, IHeatEntity.CONDUCTIVITY_SILVER); // Etilene
+
+        /*
+
+        ReactorInterior.registerFluid("redstone", 0.75f, 0.55f, 1.60f, IHeatEntity.conductivityEmerald); // Thermal Foundation Destabilized Redstone
+        ReactorInterior.registerFluid("liquidredstone", 0.65f, 0.45f, 1.50f, IHeatEntity.conductivityEmerald); // Substratum Liquid Redstone (toned down because a bit cheap on the crafting side)
+
+        ReactorInterior.registerFluid("fluidtesla", 0.75f, 0.55f, 1.60f, IHeatEntity.conductivityEmerald); // Modularity
+
+        ReactorInterior.registerFluid("glowstone", 0.20f, 0.60f, 1.75f, IHeatEntity.conductivityCopper); // Thermal Foundation Energised Glowstone
+        ReactorInterior.registerFluid("liquidglowstone", 0.18f, 0.50f, 1.55f, IHeatEntity.conductivityCopper); // Substratum Liquid Glowstone (toned down because a bit cheap on the crafting side)
+
+        ReactorInterior.registerFluid("cryotheum", 0.66f, 0.95f, 6.00f, IHeatEntity.conductivityDiamond); // Thermal Foundation Gelid Cryotheum: an amazing moderator!
+
+        ReactorInterior.registerFluid("ender", 0.90f, 0.75f, 2.00f, IHeatEntity.conductivityGold); // Thermal Foundation Resonant Ender
+        ReactorInterior.registerFluid("liquidenderpearl", 0.75f, 0.60f, 1.80f, IHeatEntity.conductivityGold); // Substratum Liquid Ender Pearl (toned down because a bit cheap on the crafting side)
+
+        ReactorInterior.registerFluid("pyrotheum", 0.66f, 0.90f, 1.00f, IHeatEntity.conductivityIron); // Thermal Foundation Blazing Pyrotheum
+
+        if (Config.SERVER.general.enableComedy.get()) {
+
+            ReactorInterior.registerFluid("blueslime", 0.33f, 0.50f, 1.35f, IHeatEntity.conductivityGold); // From Tinker's Construct
+            ReactorInterior.registerFluid("purpleslime", 0.56f, 0.75f, 1.65f, IHeatEntity.conductivityGold); // From Tinker's Construct
+            ReactorInterior.registerFluid("meat", 0.40f, 0.60f, 1.33f, IHeatEntity.conductivityStone);
+            ReactorInterior.registerFluid("pinkSlime", 0.45f, 0.70f, 1.50f, IHeatEntity.conductivityIron);
+            ReactorInterior.registerFluid("sewage", 0.50f, 0.65f, 1.44f, IHeatEntity.conductivityIron);
+        }
+         */
 
 //        ReactorInterior.registerBlock("blockSnow", 0.15f, 0.33f, 1.05f, IHeatEntity.conductivityWater / 2f);
 //        ReactorInterior.registerBlock("blockElectrumFlux", 0.54f, 0.83f, 1.48f, 2.4f); // Between gold and emerald
@@ -143,19 +191,6 @@ final class ReactorGameData {
     private static void registerIngotReactantMapping(final String reactantName, final ResourceLocation itemTagId, final int ingotsCount) {
         ReactantMappingsRegistry.registerSolid(reactantName, ingotsCount * ReactantMappingsRegistry.STANDARD_SOLID_REACTANT_AMOUNT, itemTagId);
     }
-
-
-//    @Deprecated
-//    private static void registerIngotReactantMapping(final String reactantName, final ResourceLocation tagId,
-//                                                     final int ingotsCount) {
-//        ReactantMappingsRegistry.register(reactantName, ingotsCount * ReactantMappingsRegistry.STANDARD_SOLID_REACTANT_AMOUNT,
-//                TagsHelper.ITEMS.createTag(tagId));
-//    }
-
-//    @Deprecated
-//    private static void registerIngotReactantMapping(final String reactantName, final String tagName, final int ingotsCount) {
-//        registerIngotReactantMapping(reactantName, ExtremeReactors.newID(tagName), ingotsCount);
-//    }
 
     //endregion
 
