@@ -23,6 +23,11 @@ import it.zerono.mods.extremereactors.config.Config;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.MultiblockReactor;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.ReactorPartType;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.MultiblockTurbine;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.TurbinePartType;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part.TurbineRotorComponentBlock;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.rotor.RotorBladeState;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.rotor.RotorShaftState;
 import it.zerono.mods.zerocore.lib.block.BlockFacings;
 import it.zerono.mods.zerocore.lib.block.multiblock.MultiblockPartBlock;
 import it.zerono.mods.zerocore.lib.client.model.data.multiblock.CuboidPartVariantsModelData;
@@ -70,10 +75,132 @@ public final class PatchouliCompat {
                     'A', Content.Blocks.REACTOR_SOLID_ACCESSPORT_BASIC.get(),
                     'E', Content.Blocks.REACTOR_POWERTAP_FE_ACTIVE_BASIC.get(),
                     'X', Content.Blocks.REACTOR_CONTROLLER_BASIC.get()),
-                Block::getDefaultState,
-                b -> (b instanceof MultiblockPartBlock) ?
-                        new CuboidPartVariantsModelData(((MultiblockPartBlock<MultiblockReactor, ReactorPartType>)b).getPartType().ordinal(), 0, BlockFacings.ALL) :
+                bs -> bs.getBlock().getDefaultState(),
+                bs -> (bs.getBlock() instanceof MultiblockPartBlock) ?
+                        new CuboidPartVariantsModelData(((MultiblockPartBlock<MultiblockReactor, ReactorPartType>)bs.getBlock()).getPartType().ordinal(), 0, BlockFacings.ALL) :
                         EmptyModelData.INSTANCE
+        );
+
+        //noinspection unchecked
+        Patchouli.registerMultiblock(ExtremeReactors.newID("bookturbinerotor"),
+                PatchouliAPI.get().makeMultiblock(new String[][] {
+                                {
+                                        "       ",
+                                        "       ",
+                                        "       ",
+                                        "   X   ",
+                                        "       ",
+                                        "       ",
+                                        "       ",
+                                },
+                                {
+                                        "       ",
+                                        "       ",
+                                        "       ",
+                                        "   S   ",
+                                        "       ",
+                                        "       ",
+                                        "       ",
+                                },
+                                {
+                                        "       ",
+                                        "       ",
+                                        "   1   ",
+                                        "  2A4  ",
+                                        "   3   ",
+                                        "       ",
+                                        "       ",
+                                },
+                                {
+                                        "       ",
+                                        "   1   ",
+                                        "   1   ",
+                                        " 22A44 ",
+                                        "   3   ",
+                                        "   3   ",
+                                        "       ",
+                                },
+                                {
+                                        "   1   ",
+                                        "   1   ",
+                                        "   1   ",
+                                        "   C   ",
+                                        "   3   ",
+                                        "   3   ",
+                                        "   3   ",
+                                },
+                                {
+                                        "       ",
+                                        "       ",
+                                        "       ",
+                                        "222B444",
+                                        "       ",
+                                        "       ",
+                                        "       ",
+                                },
+                                {
+                                        "   1   ",
+                                        "   1   ",
+                                        "   1   ",
+                                        "222A444",
+                                        "   3   ",
+                                        "   3   ",
+                                        "   3   ",
+                                },
+                                {
+                                        "       ",
+                                        "       ",
+                                        "       ",
+                                        "   S   ",
+                                        "       ",
+                                        "       ",
+                                        "       ",
+                                },
+                                {
+                                        "       ",
+                                        "       ",
+                                        "       ",
+                                        "   0   ",
+                                        "       ",
+                                        "       ",
+                                        "       ",
+                                }
+                        },
+                        '0', Content.Blocks.TURBINE_ROTORBEARING_BASIC.get().getDefaultState(),
+                        'S', Content.Blocks.TURBINE_ROTORSHAFT_BASIC.get().getDefaultState().with(TurbineRotorComponentBlock.ROTOR_SHAFT_STATE, RotorShaftState.Y_NOBLADES),
+                        'A', Content.Blocks.TURBINE_ROTORSHAFT_BASIC.get().getDefaultState().with(TurbineRotorComponentBlock.ROTOR_SHAFT_STATE, RotorShaftState.Y_XZ),
+                        'B', Content.Blocks.TURBINE_ROTORSHAFT_BASIC.get().getDefaultState().with(TurbineRotorComponentBlock.ROTOR_SHAFT_STATE, RotorShaftState.Y_Z),
+                        'C', Content.Blocks.TURBINE_ROTORSHAFT_BASIC.get().getDefaultState().with(TurbineRotorComponentBlock.ROTOR_SHAFT_STATE, RotorShaftState.Y_X),
+                        '1', Content.Blocks.TURBINE_ROTORBLADE_BASIC.get().getDefaultState().with(TurbineRotorComponentBlock.ROTOR_BLADE_STATE, RotorBladeState.Y_X_NEG),
+                        '3', Content.Blocks.TURBINE_ROTORBLADE_BASIC.get().getDefaultState().with(TurbineRotorComponentBlock.ROTOR_BLADE_STATE, RotorBladeState.Y_X_POS),
+                        '2', Content.Blocks.TURBINE_ROTORBLADE_BASIC.get().getDefaultState().with(TurbineRotorComponentBlock.ROTOR_BLADE_STATE, RotorBladeState.Y_Z_NEG),
+                        '4', Content.Blocks.TURBINE_ROTORBLADE_BASIC.get().getDefaultState().with(TurbineRotorComponentBlock.ROTOR_BLADE_STATE, RotorBladeState.Y_Z_POS),
+                        'X', Content.Blocks.TURBINE_CASING_BASIC.get().getDefaultState()),
+                bs -> bs.getBlock().getDefaultState(),
+                bs -> {
+
+                    final Block block = bs.getBlock();
+
+                    if (block instanceof MultiblockPartBlock) {
+
+                        @SuppressWarnings("unchecked")
+                        final MultiblockPartBlock<MultiblockTurbine, TurbinePartType> part = (MultiblockPartBlock<MultiblockTurbine, TurbinePartType>)block;
+
+                        switch (part.getPartType()) {
+
+                            case RotorShaft:
+                                return new CuboidPartVariantsModelData(TurbinePartType.RotorShaft.ordinal(), bs.get(TurbineRotorComponentBlock.ROTOR_SHAFT_STATE).ordinal(), BlockFacings.ALL);
+
+                            case RotorBlade:
+                                return new CuboidPartVariantsModelData(TurbinePartType.RotorBlade.ordinal(), bs.get(TurbineRotorComponentBlock.ROTOR_BLADE_STATE).ordinal(), BlockFacings.ALL);
+
+                            default:
+                                return new CuboidPartVariantsModelData(part.getPartType().ordinal(), 0, BlockFacings.ALL);
+                        }
+                    }
+
+                    return EmptyModelData.INSTANCE;
+                }
         );
     }
 }

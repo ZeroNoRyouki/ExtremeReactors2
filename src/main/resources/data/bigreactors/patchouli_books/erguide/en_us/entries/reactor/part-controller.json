@@ -14,7 +14,7 @@
         },
         {
             "type": "text",
-            "text": "Depending on the operational mode of the Reactor, you can also check the status of it's internal energy buffer and production ratio for $(l:bigreactors:reactor/passive)passively cooled$(/l) Reactors or the amount of coolants and vapors present in an $(l:bigreactors:reactor/active)actively cooled$(/l) Reactor.$(br2)If you hover on a control in the interface, a tooltip will be displayed with additional informations or an explanatory text for that control."
+            "text": "Depending on the operational mode of the Reactor, you can also check the status of it's internal energy buffer and production ratio for $(l:bigreactors:reactor/passive)passively cooled$(/l) Reactors or the amount of coolants and vapors present in an $(l:bigreactors:reactor/active)actively cooled$(/l) Reactor.$(br2)If you hover on a control in the interface, a tooltip will be displayed with additional information or an explanatory text for that control."
         },
         {
             "type": "crafting2x",
