@@ -33,8 +33,11 @@ import it.zerono.mods.zerocore.lib.block.multiblock.MultiblockPartBlock;
 import it.zerono.mods.zerocore.lib.client.model.data.multiblock.CuboidPartVariantsModelData;
 import it.zerono.mods.zerocore.lib.compat.patchouli.Patchouli;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.data.EmptyModelData;
+import net.minecraftforge.client.model.data.IModelData;
 import vazkii.patchouli.api.PatchouliAPI;
 
 public final class PatchouliCompat {
@@ -177,30 +180,138 @@ public final class PatchouliCompat {
                         '4', Content.Blocks.TURBINE_ROTORBLADE_BASIC.get().getDefaultState().with(TurbineRotorComponentBlock.ROTOR_BLADE_STATE, RotorBladeState.Y_Z_POS),
                         'X', Content.Blocks.TURBINE_CASING_BASIC.get().getDefaultState()),
                 bs -> bs.getBlock().getDefaultState(),
-                bs -> {
+                PatchouliCompat::turbineRotorModelDataMapper
+        );
 
-                    final Block block = bs.getBlock();
 
-                    if (block instanceof MultiblockPartBlock) {
-
-                        @SuppressWarnings("unchecked")
-                        final MultiblockPartBlock<MultiblockTurbine, TurbinePartType> part = (MultiblockPartBlock<MultiblockTurbine, TurbinePartType>)block;
-
-                        switch (part.getPartType()) {
-
-                            case RotorShaft:
-                                return new CuboidPartVariantsModelData(TurbinePartType.RotorShaft.ordinal(), bs.get(TurbineRotorComponentBlock.ROTOR_SHAFT_STATE).ordinal(), BlockFacings.ALL);
-
-                            case RotorBlade:
-                                return new CuboidPartVariantsModelData(TurbinePartType.RotorBlade.ordinal(), bs.get(TurbineRotorComponentBlock.ROTOR_BLADE_STATE).ordinal(), BlockFacings.ALL);
-
-                            default:
-                                return new CuboidPartVariantsModelData(part.getPartType().ordinal(), 0, BlockFacings.ALL);
-                        }
-                    }
-
-                    return EmptyModelData.INSTANCE;
-                }
+        //noinspection unchecked
+        Patchouli.registerMultiblock(ExtremeReactors.newID("bookturbinerotor_coil"),
+                PatchouliAPI.get().makeMultiblock(new String[][] {
+                                {
+                                        "       ",
+                                        "       ",
+                                        "       ",
+                                        "   X   ",
+                                        "       ",
+                                        "       ",
+                                        "       ",
+                                },
+                                {
+                                        "       ",
+                                        "       ",
+                                        "  IGG  ",
+                                        "  GSI  ",
+                                        "  GII  ",
+                                        "       ",
+                                        "       ",
+                                },
+                                {
+                                        "       ",
+                                        "       ",
+                                        "   1   ",
+                                        "  2A4  ",
+                                        "   3   ",
+                                        "       ",
+                                        "       ",
+                                },
+                                {
+                                        "       ",
+                                        "   1   ",
+                                        "   1   ",
+                                        " 22A44 ",
+                                        "   3   ",
+                                        "   3   ",
+                                        "       ",
+                                },
+                                {
+                                        "   1   ",
+                                        "   1   ",
+                                        "   1   ",
+                                        "   C   ",
+                                        "   3   ",
+                                        "   3   ",
+                                        "   3   ",
+                                },
+                                {
+                                        "       ",
+                                        "       ",
+                                        "       ",
+                                        "222B444",
+                                        "       ",
+                                        "       ",
+                                        "       ",
+                                },
+                                {
+                                        "   1   ",
+                                        "   1   ",
+                                        "   1   ",
+                                        "222A444",
+                                        "   3   ",
+                                        "   3   ",
+                                        "   3   ",
+                                },
+                                {
+                                        "       ",
+                                        "       ",
+                                        "       ",
+                                        "   S   ",
+                                        "       ",
+                                        "       ",
+                                        "       ",
+                                },
+                                {
+                                        "       ",
+                                        "       ",
+                                        "       ",
+                                        "   0   ",
+                                        "       ",
+                                        "       ",
+                                        "       ",
+                                }
+                        },
+                        '0', Content.Blocks.TURBINE_ROTORBEARING_BASIC.get().getDefaultState(),
+                        'S', Content.Blocks.TURBINE_ROTORSHAFT_BASIC.get().getDefaultState().with(TurbineRotorComponentBlock.ROTOR_SHAFT_STATE, RotorShaftState.Y_NOBLADES),
+                        'A', Content.Blocks.TURBINE_ROTORSHAFT_BASIC.get().getDefaultState().with(TurbineRotorComponentBlock.ROTOR_SHAFT_STATE, RotorShaftState.Y_XZ),
+                        'B', Content.Blocks.TURBINE_ROTORSHAFT_BASIC.get().getDefaultState().with(TurbineRotorComponentBlock.ROTOR_SHAFT_STATE, RotorShaftState.Y_Z),
+                        'C', Content.Blocks.TURBINE_ROTORSHAFT_BASIC.get().getDefaultState().with(TurbineRotorComponentBlock.ROTOR_SHAFT_STATE, RotorShaftState.Y_X),
+                        '1', Content.Blocks.TURBINE_ROTORBLADE_BASIC.get().getDefaultState().with(TurbineRotorComponentBlock.ROTOR_BLADE_STATE, RotorBladeState.Y_X_NEG),
+                        '3', Content.Blocks.TURBINE_ROTORBLADE_BASIC.get().getDefaultState().with(TurbineRotorComponentBlock.ROTOR_BLADE_STATE, RotorBladeState.Y_X_POS),
+                        '2', Content.Blocks.TURBINE_ROTORBLADE_BASIC.get().getDefaultState().with(TurbineRotorComponentBlock.ROTOR_BLADE_STATE, RotorBladeState.Y_Z_NEG),
+                        '4', Content.Blocks.TURBINE_ROTORBLADE_BASIC.get().getDefaultState().with(TurbineRotorComponentBlock.ROTOR_BLADE_STATE, RotorBladeState.Y_Z_POS),
+                        'X', Content.Blocks.TURBINE_CASING_BASIC.get().getDefaultState(),
+                        'I', Blocks.IRON_BLOCK.getDefaultState(),
+                        'G', Blocks.GOLD_BLOCK.getDefaultState()),
+                bs -> bs.getBlock().getDefaultState(),
+                PatchouliCompat::turbineRotorModelDataMapper
         );
     }
+
+    //region internals
+
+    private static IModelData turbineRotorModelDataMapper(final BlockState state) {
+
+        final Block block = state.getBlock();
+
+        if (block instanceof MultiblockPartBlock) {
+
+            @SuppressWarnings("unchecked")
+            final MultiblockPartBlock<MultiblockTurbine, TurbinePartType> part = (MultiblockPartBlock<MultiblockTurbine, TurbinePartType>)block;
+
+            switch (part.getPartType()) {
+
+                case RotorShaft:
+                    return new CuboidPartVariantsModelData(TurbinePartType.RotorShaft.ordinal(), state.get(TurbineRotorComponentBlock.ROTOR_SHAFT_STATE).ordinal(), BlockFacings.ALL);
+
+                case RotorBlade:
+                    return new CuboidPartVariantsModelData(TurbinePartType.RotorBlade.ordinal(), state.get(TurbineRotorComponentBlock.ROTOR_BLADE_STATE).ordinal(), BlockFacings.ALL);
+
+                default:
+                    return new CuboidPartVariantsModelData(part.getPartType().ordinal(), 0, BlockFacings.ALL);
+            }
+        }
+
+        return EmptyModelData.INSTANCE;
+    }
+
+    //endregion
 }
