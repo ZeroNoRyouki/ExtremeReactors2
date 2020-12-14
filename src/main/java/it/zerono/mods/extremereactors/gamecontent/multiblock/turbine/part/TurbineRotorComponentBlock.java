@@ -23,12 +23,24 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.MultiblockT
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.TurbinePartType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.rotor.RotorBladeState;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.rotor.RotorShaftState;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.IMultiblockTurbineVariant;
+import it.zerono.mods.zerocore.lib.CodeHelper;
 import it.zerono.mods.zerocore.lib.block.INeighborChangeListener;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.item.ItemStack;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.util.Direction;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.IBlockReader;
+
+import javax.annotation.Nullable;
+import java.util.List;
 
 public abstract class TurbineRotorComponentBlock
         extends GenericDeviceBlock<MultiblockTurbine, TurbinePartType>
@@ -102,12 +114,39 @@ public abstract class TurbineRotorComponentBlock
         return this == adjacentBlockState.getBlock();
     }
 
+    @Override
+    public void addInformation(ItemStack stack, @Nullable IBlockReader worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+
+        super.addInformation(stack, worldIn, tooltip, flagIn);
+
+        if (this.isBlade()) {
+
+            if (null == this._bladeTooltipInfo) {
+
+                this._bladeTooltipInfo = this.getMultiblockVariant()
+                        .filter(v -> v instanceof IMultiblockTurbineVariant)
+                        .map(v -> (IMultiblockTurbineVariant) v)
+                        .map(variant -> (ITextComponent)new TranslationTextComponent("gui.bigreactors.turbine.controller.rotorstatus.line3",
+                                String.format(TextFormatting.DARK_AQUA + "" + TextFormatting.BOLD + "%d", variant.getBaseFluidPerBlade()))
+                                .setStyle(Style.EMPTY
+                                        .setFormatting(TextFormatting.GRAY)
+                                        .setItalic(true))
+                        )
+                        .orElse(CodeHelper.TEXT_EMPTY_LINE);
+            }
+
+            tooltip.add(this._bladeTooltipInfo);
+        }
+    }
+
     //endregion
     //region internals
 
     protected TurbineRotorComponentBlock(final MultiblockPartProperties<TurbinePartType> properties) {
         super(properties);
     }
+
+    private ITextComponent _bladeTooltipInfo;
 
     //endregion
 }
