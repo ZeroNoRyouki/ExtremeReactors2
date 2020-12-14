@@ -27,7 +27,6 @@ import it.zerono.mods.zerocore.lib.item.ModItemGroup;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IItemProvider;
-import net.minecraft.util.ResourceLocation;
 import vazkii.patchouli.api.PatchouliAPI;
 
 import java.util.function.Supplier;
@@ -71,7 +70,7 @@ public final class ItemGroups {
             ));
 
     public static final ItemGroup TURBINE = new ModItemGroup(ExtremeReactors.MOD_ID + ".turbine",
-            () -> stack(Content.Blocks.TURBINE_ROTORBEARING_BASIC),
+            () -> stack(Content.Blocks.TURBINE_ROTORSHAFT_BASIC),
             () -> ImmutableList.of(
                     stack(Content.Blocks.TURBINE_CONTROLLER_BASIC), stack(Content.Blocks.TURBINE_CASING_BASIC),
                     stack(Content.Blocks.TURBINE_GLASS_BASIC), stack(Content.Blocks.TURBINE_ROTORBEARING_BASIC),
