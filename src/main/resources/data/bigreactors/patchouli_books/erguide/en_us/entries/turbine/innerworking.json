@@ -7,11 +7,11 @@
     "pages": [
         {
             "type": "text",
-            "text": "How does a Turbine generate energy?$(br2)By spinning its $(l:bigreactors:turbine/rotor)Rotor$(/l).$(br2)Irradiated $(l:bigreactors:reactor/reactants)fuel$(/l) heats up, $(l:bigreactors:reactor/moderators)moderators$(/l) absorb part of the radiation and move heat away from the $(l:bigreactors:reactor/part-fuelrod)Fuel Rods$(/l) and toward the $(l:bigreactors:reactor/part-casing)Casing$(/l).$(br2)The Casing Heat is what, in the end, generate energy or vaporize $(l:bigreactors:misc/coolantsystem)coolants$(/l)."
+            "text": "How does a Turbine generate energy?$(br2)By spinning its $(l:bigreactors:turbine/rotor)Rotor$(/l).$(br2)The fluid from the Turbine Vapor Fluid Tank is pumped in the $(l:bigreactors:turbine/rotor)Rotor$(/l) chamber, at the rate you configured in the $(l:bigreactors:turbine/part-controller)Controller$(/l) graphical interface.$(br2)A small amount of the vapor it's captured by each $(l:bigreactors:turbine/part-rotorblade)Rotor Blade$(/l) making the $(l:bigreactors:turbine/rotor)Rotor$(/l) spin."
         },
         {
             "type": "text",
-            "text": "Moving heat away from the $(l:bigreactors:reactor/part-fuelrod)Fuel Rods$(/l) is a very important aspect of your Reactor design and $(l:bigreactors:reactor/moderators)moderators$(/l) play a key role in it. It is also important to mention that radiation travel in every direction perpendicular to the $(l:bigreactors:reactor/part-fuelrod)Fuel Rods$(/l) pile axis.$(br2)$(italic)Please note that, while being close enough to let you create the best Reactors possible, this is an oversimplification of what's really going on inside your Reactor.$()"
+            "text": "When the $(l:bigreactors:turbine/coils)Induction Coils$(/l) are $(l:bigreactors:turbine/part-controller)engaged$(/l), energy is generated depending on the $(l:bigreactors:turbine/rotor)Rotor$(/l) speed and the average values of properties like efficiency and drag amount of all your your coil blocks.$(br2)$(italic)Please note that, while being close enough to let you create the best Reactors possible, this is an oversimplification of what's really going on inside your Reactor.$() "
         }
     ]
 }

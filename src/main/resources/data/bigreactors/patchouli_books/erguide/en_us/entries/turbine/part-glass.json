@@ -10,7 +10,7 @@
             "item": "bigreactors:reinforced_turbineglass",
             "link_recipe": true,
             "title" : "Glass",
-            "text": "Glass blocks are decorative blocks that can be used, instead of a Housing block, to show the interior of the Turbine."
+            "text": "Glass blocks are decorative blocks that can be used, instead of a $(l:bigreactors:turbine/part-casing)Housing$(/l) block, to show the interior of the Turbine."
         },
         {
             "type": "crafting2x",
