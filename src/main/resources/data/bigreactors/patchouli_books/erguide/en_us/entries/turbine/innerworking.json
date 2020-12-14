@@ -7,7 +7,7 @@
     "pages": [
         {
             "type": "text",
-            "text": "How does a Reactor $(l:bigreactors:reactor/passive)generate energy$(/l) or $(l:bigreactors:reactor/active)vaporize coolants$(/l)?$(br2)With heat.$(br2)Irradiated $(l:bigreactors:reactor/reactants)fuel$(/l) heats up, $(l:bigreactors:reactor/moderators)moderators$(/l) absorb part of the radiation and move heat away from the $(l:bigreactors:reactor/part-fuelrod)Fuel Rods$(/l) and toward the $(l:bigreactors:reactor/part-casing)Casing$(/l).$(br2)The Casing Heat is what, in the end, generate energy or vaporize $(l:bigreactors:misc/coolantsystem)coolants$(/l)."
+            "text": "How does a Turbine generate energy?$(br2)By spinning its $(l:bigreactors:turbine/rotor)Rotor$(/l).$(br2)Irradiated $(l:bigreactors:reactor/reactants)fuel$(/l) heats up, $(l:bigreactors:reactor/moderators)moderators$(/l) absorb part of the radiation and move heat away from the $(l:bigreactors:reactor/part-fuelrod)Fuel Rods$(/l) and toward the $(l:bigreactors:reactor/part-casing)Casing$(/l).$(br2)The Casing Heat is what, in the end, generate energy or vaporize $(l:bigreactors:misc/coolantsystem)coolants$(/l)."
         },
         {
             "type": "text",
