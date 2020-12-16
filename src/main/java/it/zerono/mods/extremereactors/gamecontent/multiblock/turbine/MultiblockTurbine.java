@@ -1060,8 +1060,7 @@ public class MultiblockTurbine
 
     private void resizeFluidContainer() {
 
-        final int outerVolume = CodeHelper.optionalMap(this.getMinimumCoord(), this.getMaximumCoord(),
-                CodeHelper::mathVolume).orElse(0) - this.calculateTurbineVolume();
+        final int outerVolume = this.mapBoundingBoxCoordinates(CodeHelper::mathVolume, 0) - this.calculateTurbineVolume();
 
         this._fluidContainer.setCapacity(MathHelper.clamp(outerVolume * this.getVariant().getPartFluidCapacity(),
                 0, this.getVariant().getMaxFluidCapacity()));

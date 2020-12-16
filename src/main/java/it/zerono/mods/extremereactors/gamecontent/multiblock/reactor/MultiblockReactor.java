@@ -1111,21 +1111,15 @@ public class MultiblockReactor
 
             default:
             case X:
-                length = CodeHelper.optionalMap(this.getMinimumCoord(), this.getMaximumCoord(),
-                        (min, max) -> Math.max(1, max.getX() - min.getX() - 1))
-                        .orElse(0);
+                length = this.mapBoundingBoxCoordinates((min, max) -> Math.max(1, max.getX() - min.getX() - 1), 0);
                 break;
 
             case Y:
-                length = CodeHelper.optionalMap(this.getMinimumCoord(), this.getMaximumCoord(),
-                        (min, max) -> Math.max(1, max.getY() - min.getY() - 1))
-                        .orElse(0);
+                length = this.mapBoundingBoxCoordinates((min, max) -> Math.max(1, max.getY() - min.getY() - 1), 0);
                 break;
 
             case Z:
-                length = CodeHelper.optionalMap(this.getMinimumCoord(), this.getMaximumCoord(),
-                        (min, max) -> Math.max(1, max.getZ() - min.getZ() - 1))
-                        .orElse(0);
+                length = this.mapBoundingBoxCoordinates((min, max) -> Math.max(1, max.getZ() - min.getZ() - 1), 0);
                 break;
         }
 
@@ -1279,8 +1273,7 @@ public class MultiblockReactor
 
         if (this.getOperationalMode().isActive()) {
 
-            final int outerVolume = CodeHelper.optionalMap(this.getMinimumCoord(), this.getMaximumCoord(),
-                    CodeHelper::mathVolume).orElse(0) - this.getReactorVolume();
+            final int outerVolume = this.mapBoundingBoxCoordinates(CodeHelper::mathVolume, 0) - this.getReactorVolume();
 
             this._fluidContainer.setCapacity(MathHelper.clamp(outerVolume * this.getVariant().getPartFluidCapacity(),
                     0, this.getVariant().getMaxFluidCapacity()));
@@ -1292,8 +1285,7 @@ public class MultiblockReactor
     }
 
     private void calculateReactorVolume() {
-        this._reactorVolume = CodeHelper.optionalMap(this.getMinimumCoord(), this.getMaximumCoord(),
-                (min, max) -> CodeHelper.mathVolume(min.add(1, 1, 1), max.add(-1, -1, -1))).orElse(0);
+        this._reactorVolume = this.mapBoundingBoxCoordinates(CodeHelper::mathVolume, 0, min -> min.add(1, 1, 1), max -> max.add(-1, -1, -1));
     }
 
     private void updateFuelToReactorHeatTransferCoefficient() {
@@ -1307,17 +1299,13 @@ public class MultiblockReactor
         // Calculate heat transfer to coolant system based on reactor interior surface area.
         // This is pretty simple to start with - surface area of the rectangular prism defining the interior.
         this._reactorToCoolantSystemHeatTransferCoefficient = IHeatEntity.CONDUCTIVITY_IRON *
-                CodeHelper.optionalMap(this.getMinimumCoord(), this.getMaximumCoord(),
-                        MultiblockReactor::internalSurfaceArea)
-                        .orElse(0);
+                this.mapBoundingBoxCoordinates(MultiblockReactor::internalSurfaceArea, 0);
     }
 
     private void updateReactorHeatLossCoefficient() {
         // Calculate passive heat loss to external surface area
         this._reactorHeatLossCoefficient = REACTOR_HEAT_LOSS_CONDUCTIVITY *
-                CodeHelper.optionalMap(this.getMinimumCoord(), this.getMaximumCoord(),
-                        MultiblockReactor::externalSurfaceArea)
-                        .orElse(0);
+                this.mapBoundingBoxCoordinates(MultiblockReactor::externalSurfaceArea, 0);
     }
 
     private static int internalSurfaceArea(final BlockPos min, final BlockPos max) {

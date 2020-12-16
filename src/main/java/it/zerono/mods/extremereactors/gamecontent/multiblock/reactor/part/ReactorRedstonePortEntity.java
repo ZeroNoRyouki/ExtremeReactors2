@@ -333,9 +333,7 @@ public class ReactorRedstonePortEntity
      * then pass in south.
      */
     private boolean isReceivingRedstonePowerFrom(final BlockPos position, final Direction direction) {
-        return this.getPartWorld()
-                .map(w -> w.getRedstonePowerFromNeighbors(position) > 0 || w.getRedstonePower(position, direction) > 0)
-                .orElse(false);
+        return this.mapPartWorld(w -> w.getRedstonePowerFromNeighbors(position) > 0 || w.getRedstonePower(position, direction) > 0, false);
     }
 
     /**
@@ -345,10 +343,7 @@ public class ReactorRedstonePortEntity
      * then pass in south.
      */
     private int getRedstonePowerLevelFrom(final BlockPos position, final Direction direction) {
-        return this.getPartWorld()
-                .map(w -> Math.max(w.getRedstonePowerFromNeighbors(position), w.getRedstonePower(position, direction)))
-                .map(level -> MathHelper.clamp(level, 0, 15))
-                .orElse(0);
+        return this.mapPartWorld(w -> MathHelper.clamp(Math.max(w.getRedstonePowerFromNeighbors(position), w.getRedstonePower(position, direction)), 0, 15), 0);
     }
 
     /**

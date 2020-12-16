@@ -68,7 +68,7 @@ public class ReactorFuelRodEntity
                 .map(CodeHelper::perpendicularPlane)
                 .orElseThrow(IllegalStateException::new);
 
-        final World world = this.getPartWorld().orElseThrow(IllegalStateException::new);
+        final World world = this.getPartWorldOrFail();
         final BlockPos rodPosition = this.getPos();
         double heatTransferRate = 0d;
 
@@ -189,7 +189,7 @@ public class ReactorFuelRodEntity
     }
 
     private void sparkle() {
-        this.getPartWorld().ifPresent(w -> w.addBlockEvent(this.getWorldPosition(), this.getBlockType(), 1, 0));
+        this.forPartWorld(w -> w.addBlockEvent(this.getWorldPosition(), this.getBlockType(), 1, 0));
     }
 
     //endregion

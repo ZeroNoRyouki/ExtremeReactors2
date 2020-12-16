@@ -22,7 +22,6 @@ import it.zerono.mods.extremereactors.config.Config;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.GenericDeviceBlock;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.MultiblockTurbine;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.TurbinePartType;
-import it.zerono.mods.zerocore.lib.CodeHelper;
 import it.zerono.mods.zerocore.lib.world.WorldHelper;
 import net.minecraft.block.BlockState;
 import net.minecraft.particles.IParticleData;
@@ -69,7 +68,7 @@ public class TurbineRotorBearingBlock
         bearing.getMultiblockController()
                 .filter(turbine -> !turbine.isInteriorInvisible())
                 .filter(MultiblockTurbine::isAssembledAndActive)
-                .ifPresent(turbine ->  CodeHelper.optionalIfPresent(turbine.getMinimumCoord(), turbine.getMaximumCoord(), (min, max) -> {
+                .ifPresent(turbine -> turbine.forBoundingBoxCoordinates((min, max) -> {
 
                     // Spawn particles!
 

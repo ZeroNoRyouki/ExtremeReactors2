@@ -556,15 +556,6 @@ public class ReactorSolidAccessPortEntity
     }
 
     private LazyOptional<IItemHandler> getNeighborCapability() {
-        /*
-        return this.callOnLogicalServer(
-                () -> CodeHelper.optionalFlatMap(this.getPartWorld(), this.getOutwardDirection(),
-                        (world, direction) -> WorldHelper.getTile(world, this.getWorldPosition().offset(direction))
-                                .map(te -> te.getCapability(ITEM_HANDLER_CAPABILITY, direction.getOpposite())))
-                        .orElse(LazyOptional.empty()),
-                LazyOptional::empty
-        );
-        */
         return CodeHelper.optionalFlatMap(this.getPartWorld(), this.getOutwardDirection(),
                 (world, direction) -> WorldHelper.getTile(world, this.getWorldPosition().offset(direction))
                         .map(te -> te.getCapability(ITEM_HANDLER_CAPABILITY, direction.getOpposite())))

@@ -287,9 +287,7 @@ public class ReactorControlRodEntity
     }
 
     private boolean checkForFuelRod(Direction rodDirection) {
-        return this.getPartWorld()
-                .map(world -> world.getTileEntity(this.getWorldPosition().offset(rodDirection)) instanceof ReactorFuelRodEntity)
-                .orElse(false);
+        return this.mapPartWorld(world -> world.getTileEntity(this.getWorldPosition().offset(rodDirection)) instanceof ReactorFuelRodEntity, false);
     }
 
     //endregion
