@@ -42,6 +42,7 @@ import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.util.NonNullSupplier;
@@ -308,7 +309,12 @@ public abstract class AbstractMultiblockScreen<Controller extends AbstractCuboid
     private ISprite createInventorySingleSprite() {
         return this._mainTextMap.sprite().from(0, 202).ofSize(18, 18).build();
     }
-    
+
+    protected static final ITextComponent INDICATOR_ACTIVE_REACTOR = new TranslationTextComponent("gui.bigreactors.reactor.active");
+    protected static final ITextComponent INDICATOR_INACTIVE_REACTOR = new TranslationTextComponent("gui.bigreactors.reactor.inactive");
+    protected static final ITextComponent INDICATOR_ACTIVE_TURBINE = new TranslationTextComponent("gui.bigreactors.turbine.active");
+    protected static final ITextComponent INDICATOR_INACTIVE_TURBINE = new TranslationTextComponent("gui.bigreactors.turbine.inactive");
+
     private static final int DEFAULT_GUI_WIDTH = 224;
     private static final int DEFAULT_GUI_HEIGHT = 166;
     private static final int TITLE_PANEL_HEIGHT = 21;

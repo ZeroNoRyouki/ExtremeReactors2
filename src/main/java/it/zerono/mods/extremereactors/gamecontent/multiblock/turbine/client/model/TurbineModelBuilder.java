@@ -84,6 +84,8 @@ public class TurbineModelBuilder
 
 //        this.addBlockWithVariants(TurbinePartType.RedstonePort, variant, isPartCompatible, "redstoneport",
 //                "redstoneport_on");
+
+        this.addBlockWithVariants(TurbinePartType.ChargingPortFE, variant, isPartCompatible, "chargingportfe");
     }
 
     //region AbstractMultiblockModelBuilder

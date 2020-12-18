@@ -1,6 +1,6 @@
 /*
  *
- * IPowerTapHandler.java
+ * IChargingPortHandler.java
  *
  * This file is part of Extreme Reactors 2 by ZeroNoRyouki, a Minecraft mod.
  *
@@ -16,43 +16,32 @@
  *
  */
 
-package it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.powertap;
+package it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.powertap.chargingport;
 
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.AbstractGeneratorMultiblockController;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.IIOPortHandler;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.powertap.IPowerTapHandler;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.variant.IMultiblockGeneratorVariant;
-import it.zerono.mods.zerocore.lib.data.IoMode;
+import it.zerono.mods.zerocore.lib.data.IoDirection;
+import it.zerono.mods.zerocore.lib.data.nbt.ISyncableEntity;
 import it.zerono.mods.zerocore.lib.energy.EnergySystem;
 import it.zerono.mods.zerocore.lib.multiblock.cuboid.AbstractCuboidMultiblockPart;
+import net.minecraftforge.items.IItemHandlerModifiable;
 
-public interface IPowerTapHandler
-        extends IIOPortHandler {
+public interface IChargingPortHandler
+        extends IPowerTapHandler, ISyncableEntity {
 
     static <Controller extends AbstractGeneratorMultiblockController<Controller, V>, V extends IMultiblockGeneratorVariant>
-    IPowerTapHandler create(final EnergySystem system, final IoMode mode, final AbstractCuboidMultiblockPart<Controller> part) {
+    IChargingPortHandler create(final EnergySystem system, final AbstractCuboidMultiblockPart<Controller> part) {
 
         switch (system) {
 
             case ForgeEnergy:
-                return new PowerTapHandlerFE<>(part, mode);
+                return new ChargingPortHandlerFE<>(part);
 
             default:
                 throw new IllegalArgumentException("Unsupported energy system: " + system);
         }
     }
 
-    /**
-     * Get the {@link EnergySystem} supported by this IPowerTapHandler
-     *
-     * @return the supported {@link EnergySystem}
-     */
-    EnergySystem getEnergySystem();
-
-    /**
-     * Send energy to the connected consumer (if there is one)
-     *
-     * @param amount amount of energy to send
-     * @return the amount of energy accepted by the consumer
-     */
-    double outputEnergy(double amount);
+    IItemHandlerModifiable getItemStackHandler(IoDirection direction);
 }

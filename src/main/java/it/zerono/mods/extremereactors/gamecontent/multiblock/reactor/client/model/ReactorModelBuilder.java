@@ -94,6 +94,8 @@ public class ReactorModelBuilder
 
         this.addBlockWithVariants(ReactorPartType.RedstonePort, variant, isPartCompatible, "redstoneport",
                 "redstoneport_on");
+
+        this.addBlockWithVariants(ReactorPartType.ChargingPortFE, variant, isPartCompatible, "chargingportfe");
     }
 
     //region AbstractMultiblockModelBuilder
@@ -109,50 +111,6 @@ public class ReactorModelBuilder
     protected static ResourceLocation getModelRL(final ReactorVariant variant, final String modelName) {
         return ExtremeReactors.newID("block/reactor/" + variant.getName() + "/" + modelName);
     }
-
-//    private void addBlockWithVariants(final ReactorPartType type, final ReactorVariant variant,
-//                                      final String blockCommonName, final String... additionalVariantsModelNames) {
-//
-//        this.addBlock(type, variant, blockCommonName);
-//        this.addBlockVariants(type, variant, blockCommonName, additionalVariantsModelNames);
-//    }
-//
-//    private void addBlock(final ReactorPartType type, final ReactorVariant variant, final String blockCommonName) {
-//
-//        if (variant.isPartCompatible(type)) {
-//            super.addBlock(type.ordinal(), getBlockStateRL(variant, blockCommonName), 0, false);
-//        }
-//    }
-//
-//    private void addBlockVariants(final ReactorPartType type, final ReactorVariant variant,
-//                                  final String blockCommonName, final String... additionalVariantsModelNames) {
-//
-//        if (variant.isPartCompatible(type)) {
-//
-//            final List<ResourceLocation> variants = Lists.newArrayListWithCapacity(1 + additionalVariantsModelNames.length);
-//
-//            variants.add(getBlockStateRL(variant, blockCommonName));
-//            Arrays.stream(additionalVariantsModelNames)
-//                    .map(name -> getModelRL(variant, name))
-//                    .collect(Collectors.toCollection(() -> variants));
-//
-//            this.addModels(type.ordinal(), variants);
-//        }
-//    }
-//
-//    private static ResourceLocation getBlockStateRL(final ReactorVariant variant, final String blockCommonName) {
-//        return getBlockStateRL(variant, blockCommonName, "");
-//    }
-//
-//    private static ResourceLocation getBlockStateRL(final ReactorVariant variant, final String blockCommonName,
-//                                                    final String blockStateVariant) {
-//        return new ModelResourceLocation(ExtremeReactors.newID(variant.getName() + "_reactor" + blockCommonName),
-//                blockStateVariant);
-//    }
-//
-//    private static ResourceLocation getModelRL(final ReactorVariant variant, final String modelName) {
-//        return ExtremeReactors.newID("block/reactor/" + variant.getName() + "/" + modelName);
-//    }
 
     //endregion
 }

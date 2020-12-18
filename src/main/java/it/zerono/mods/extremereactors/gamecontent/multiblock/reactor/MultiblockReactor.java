@@ -319,7 +319,8 @@ public class MultiblockReactor
 
             case ActivePowerTapFE:
             case PassivePowerTapFE:
-                return this._attachedPowerTaps.size(); //TODO add other power taps count
+            case ChargingPortFE:
+                return this._attachedPowerTaps.size();
 
             case ActiveFluidPortForge:
             case PassiveFluidPortForge:
@@ -703,8 +704,8 @@ public class MultiblockReactor
             this._attachedFuelRods.add((ReactorFuelRodEntity) newPart);
         } else if (newPart instanceof ReactorSolidAccessPortEntity) {
             this._attachedSolidAccessPorts.add((ReactorSolidAccessPortEntity) newPart);
-        } else if (newPart instanceof ReactorPowerTapEntity) {
-            this._attachedPowerTaps.add((ReactorPowerTapEntity) newPart);
+        } else if (newPart instanceof ReactorPowerTapEntity || newPart instanceof ReactorChargingPortEntity) {
+            this._attachedPowerTaps.add((IPowerTap) newPart);
         } else if (newPart instanceof ReactorFluidPortEntity) {
             this._attachedFluidPorts.add((ReactorFluidPortEntity) newPart);
         }
@@ -728,7 +729,7 @@ public class MultiblockReactor
             this._attachedFuelRods.remove(oldPart);
         } else if (oldPart instanceof ReactorSolidAccessPortEntity) {
             this._attachedSolidAccessPorts.remove(oldPart);
-        } else if (oldPart instanceof ReactorPowerTapEntity) {
+        } else if (oldPart instanceof ReactorPowerTapEntity || oldPart instanceof ReactorChargingPortEntity) {
             this._attachedPowerTaps.remove(oldPart);
         } else if (oldPart instanceof ReactorFluidPortEntity) {
             this._attachedFluidPorts.remove(oldPart);
@@ -1561,7 +1562,7 @@ public class MultiblockReactor
     private final List<ReactorControlRodEntity> _attachedControlRods;
     private final Set<ReactorFuelRodEntity> _attachedFuelRods;
     private final Set<ReactorSolidAccessPortEntity> _attachedSolidAccessPorts;
-    private final Set<ReactorPowerTapEntity> _attachedPowerTaps;
+    private final Set<IPowerTap> _attachedPowerTaps;
     private final Set<ReactorFluidPortEntity> _attachedFluidPorts;
     private final Set<ReactorFluidPortEntity> _attachedOutgoingFluidPorts;
 

@@ -81,6 +81,7 @@
     "block.bigreactors.reinforced_reactorfluidport_forge_active": "Reactor Active Forge Fluid Port (Reinforced)",
     "block.bigreactors.reinforced_reactorfluidport_forge_passive": "Reactor Passive Forge Fluid Port (Reinforced)",
     "block.bigreactors.reinforced_reactorfluidport_mekanism_passive": "Reactor Passive Mekanism Fluid Port (Reinforced)",
+    "block.bigreactors.reinforced_reactorchargingportfe": "Reactor Forge Energy Charging Port (Reinforced)",
 
     "_comment": "Blocks - turbine parts (basic)",
     "block.bigreactors.basic_turbineglass": "Turbine Glass (Basic)",
@@ -95,6 +96,7 @@
     "block.bigreactors.basic_turbinefluidport_forge_passive": "Turbine Passive Forge Fluid Port (Basic)",
     "block.bigreactors.basic_turbineredstoneport": "Turbine Redstone Port (Basic)",
     "block.bigreactors.basic_turbinecreativesteamgenerator": "Turbine Creative Steam Generator (Basic)",
+    "block.bigreactors.basic_turbinechargingportfe": "Turbine Forge Energy Charging Port (Basic)",
 
     "_comment": "Blocks - turbine parts (reinforced)",
     "block.bigreactors.reinforced_turbineglass": "Turbine Glass (Reinforced)",
@@ -110,6 +112,7 @@
     "block.bigreactors.reinforced_turbineredstoneport": "Turbine Redstone Port (Reinforced)",
     "block.bigreactors.reinforced_turbinecomputerport": "Turbine Computer Port (Reinforced)",
     "block.bigreactors.reinforced_turbinecreativesteamgenerator": "Turbine Creative Steam Generator (Reinforced)",
+    "block.bigreactors.reinforced_turbinechargingportfe": "Turbine Forge Energy Charging Port (Reinforced)",
 
     "_comment": "Reactor parts names",
     "part.bigreactors.reactor.casing": "Casing",
@@ -127,6 +130,7 @@
     "part.bigreactors.reactor.powertap_fe": "Power Tap (FE)",
     "part.bigreactors.reactor.computerport": "Computer Port",
     "part.bigreactors.reactor.redstoneport": "Redstone Port",
+    "part.bigreactors.reactor.chargingport_fe": "Charging Port (FE)",
 
     "_comment": "Turbine parts names",
     "part.bigreactors.turbine.casing": "Casing",
@@ -141,6 +145,7 @@
     "part.bigreactors.turbine.powertap_fe": "Power Tap (FE)",
     "part.bigreactors.turbine.computerport": "Computer Port",
     "part.bigreactors.turbine.redstoneport": "Redstone Port",
+    "part.bigreactors.turbine.chargingport_fe": "Charging Port (FE)",
 
     "_comment": "variants names",
     "variant.bigreactors.reactor.basic": "Basic",

@@ -30,7 +30,7 @@ import it.zerono.mods.zerocore.lib.multiblock.cuboid.AbstractCuboidMultiblockPar
 public abstract class AbstractPowerTapHandler<Controller extends AbstractGeneratorMultiblockController<Controller, V>,
             V extends IMultiblockGeneratorVariant>
         extends AbstractIOPortHandler<Controller, V>
-        implements IPowerTapHandler<Controller, V> {
+        implements IPowerTapHandler {
 
     protected AbstractPowerTapHandler(final EnergySystem energySystem, final AbstractCuboidMultiblockPart<Controller> part, final IoMode mode) {
 

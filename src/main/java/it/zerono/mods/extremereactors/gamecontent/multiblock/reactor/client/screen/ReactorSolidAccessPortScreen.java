@@ -60,9 +60,6 @@ public class ReactorSolidAccessPortScreen
                 mainTextureFromVariant(container.getTileEntity().getMultiblockVariant().orElse(ReactorVariant.Basic)));
         this._bindings = new BindingGroup();
 
-//        this._textureMap = new SpriteTextureMap(ExtremeReactors.newID("textures/gui/multiblock/reactor/generic_solidaccessport.png"), 256, 256);
-//        this._slotsSprite = this._textureMap.sprite().from(0, 32).ofSize(176, 48).build();
-
         this._btnInputDirection = new SwitchPictureButton(this, "directionInput", false, "direction");
         this._btnOutputDirection = new SwitchPictureButton(this, "directionOutput", false, "direction");
         this._btnDumpFuel = new Button(this, "dumpFuel", "");
@@ -79,14 +76,13 @@ public class ReactorSolidAccessPortScreen
     protected void onScreenCreate() {
 
         super.onScreenCreate();
-        this.setIndicatorToolTip(true, new TranslationTextComponent("gui.bigreactors.reactor.active"));
-        this.setIndicatorToolTip(false, new TranslationTextComponent("gui.bigreactors.reactor.inactive"));
+        this.setIndicatorToolTip(true, INDICATOR_ACTIVE_REACTOR);
+        this.setIndicatorToolTip(false, INDICATOR_INACTIVE_REACTOR);
 
         final Panel panel = new Panel(this, "solidaccessport");
         SlotsGroup slotsGroup;
 
-        panel.setLayoutEngineHint(FixedLayoutEngine.hint(21, 13, /*this._slotsSprite.getWidth()*/168, /*this._slotsSprite.getHeight()*/38));
-//        panel.setBackground(this._slotsSprite);
+        panel.setLayoutEngineHint(FixedLayoutEngine.hint(21, 13, 168, 38));
         this.addControl(panel);
 
         // - fuel input slot
@@ -253,8 +249,6 @@ public class ReactorSolidAccessPortScreen
         return p;
     }
 
-//    private final ISpriteTextureMap _textureMap;
-//    private final ISprite _slotsSprite;
     private final BindingGroup _bindings;
 
     private final SwitchPictureButton _btnInputDirection;

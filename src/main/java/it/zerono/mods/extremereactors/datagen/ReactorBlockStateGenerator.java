@@ -78,6 +78,7 @@ public class ReactorBlockStateGenerator
         this.genFluidPort(Content.Blocks.REACTOR_FLUIDPORT_MEKANISM_PASSIVE_REINFORCED, "fluidport_mekanism_passive", variant);
         this.genericPart(Content.Blocks.REACTOR_CREATIVE_WATER_GENERATOR_REINFORCED, "creative_water_generator", variant, true);
         this.genComputerPort(Content.Blocks.REACTOR_COMPUTERPORT_REINFORCED, variant);
+        this.genericPart(Content.Blocks.REACTOR_CHARGINGPORT_FE_REINFORCED, "charging", variant, true);
         //endregion
     }
 
