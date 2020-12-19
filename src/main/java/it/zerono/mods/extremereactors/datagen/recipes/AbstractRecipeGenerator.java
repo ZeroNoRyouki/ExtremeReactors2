@@ -21,6 +21,7 @@ package it.zerono.mods.extremereactors.datagen.recipes;
 import com.google.common.collect.ImmutableSet;
 import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.gamecontent.ContentTags;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.common.variant.IMultiblockGeneratorVariant;
 import net.minecraft.data.*;
 import net.minecraft.item.Item;
 import net.minecraft.item.crafting.Ingredient;
@@ -37,6 +38,7 @@ import net.minecraftforge.common.crafting.conditions.TagEmptyCondition;
 
 import javax.annotation.Nullable;
 import java.util.Set;
+import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -130,6 +132,28 @@ public abstract class AbstractRecipeGenerator
                     .addRecipe(recipe.apply(alternativeTag)::build)
                     .build(c, alternativeName);
         }
+    }
+
+    protected <V extends IMultiblockGeneratorVariant>
+    void generatorChargingPort(final Consumer<IFinishedRecipe> c, final V variant,
+                               final String name, final String group,
+                               final BiFunction<V, String, ResourceLocation> nameProvider,
+                               final Supplier<? extends IItemProvider> result,
+                               final Supplier<? extends IItemProvider> powerTap,
+                               final IItemProvider item1,
+                               final IItemProvider item2) {
+
+        ShapedRecipeBuilder.shapedRecipe(result.get())
+                .key('T', powerTap.get())
+                .key('G', Tags.Items.GLASS)
+                .key('1', item1)
+                .key('2', item2)
+                .patternLine("212")
+                .patternLine("GTG")
+                .patternLine("212")
+                .setGroup(group)
+                .addCriterion("has_item", hasItem(powerTap.get()))
+                .build(c, nameProvider.apply(variant, name));
     }
 
     protected static ICondition not(final ICondition condition) {

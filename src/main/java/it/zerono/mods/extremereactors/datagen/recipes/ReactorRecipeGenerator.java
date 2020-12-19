@@ -21,6 +21,7 @@ package it.zerono.mods.extremereactors.datagen.recipes;
 import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.ContentTags;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.common.variant.IMultiblockGeneratorVariant;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.ReactorVariant;
 import it.zerono.mods.zerocore.lib.compat.Mods;
 import net.minecraft.data.DataGenerator;
@@ -82,6 +83,9 @@ public class ReactorRecipeGenerator
         this.reactorPowerTap(c, variant, "fe", Content.Items.REACTOR_POWERTAP_FE_PASSIVE_BASIC, Content.Items.REACTOR_POWERTAP_FE_ACTIVE_BASIC,
                 casing, () -> net.minecraft.item.Items.REDSTONE_BLOCK, () -> net.minecraft.item.Items.REDSTONE);
         this.reactorRedstonePort(c, variant, Content.Items.REACTOR_REDSTONEPORT_BASIC, casing, metal, alternativeMetal, Tags.Items.INGOTS_GOLD);
+        this.generatorChargingPort(c, variant, "chargingfe", GROUP_REACTOR, ReactorRecipeGenerator::reactorRecipeName,
+                Content.Items.REACTOR_CHARGINGPORT_FE_BASIC, Content.Items.REACTOR_POWERTAP_FE_ACTIVE_BASIC,
+                Items.LAPIS_LAZULI, Items.REDSTONE);
 
         // Reinforced parts
 
@@ -104,6 +108,9 @@ public class ReactorRecipeGenerator
         this.reactorFluidPort(c, variant, "forge", Content.Items.REACTOR_FLUIDPORT_FORGE_PASSIVE_REINFORCED, Content.Items.REACTOR_FLUIDPORT_FORGE_ACTIVE_REINFORCED,
                 casing, () -> Items.LAVA_BUCKET,  () -> Items.WATER_BUCKET);
         this.reactorMekFluidPort(c, variant, Content.Items.REACTOR_FLUIDPORT_MEKANISM_PASSIVE_REINFORCED, casing, () -> Items.LAVA_BUCKET,  () -> Items.WATER_BUCKET);
+        this.generatorChargingPort(c, variant, "chargingfe", GROUP_REACTOR, ReactorRecipeGenerator::reactorRecipeName,
+                Content.Items.REACTOR_CHARGINGPORT_FE_REINFORCED, Content.Items.REACTOR_POWERTAP_FE_ACTIVE_REINFORCED,
+                Items.LAPIS_BLOCK, Items.REDSTONE_BLOCK);
     }
 
     //endregion
@@ -337,11 +344,12 @@ public class ReactorRecipeGenerator
                                 .addCriterion("has_item", hasItem(casing.get())));
     }
 
-    private static ResourceLocation reactorRecipeName(final ReactorVariant variant, final String name) {
+    private static ResourceLocation reactorRecipeName(final IMultiblockGeneratorVariant variant, final String name) {
         return ExtremeReactors.newID("reactor/" + variant.getName() + "/" + name);
     }
 
-    private static ResourceLocation reactorRecipeName(final ReactorVariant variant, final String name, final ITag.INamedTag<Item> tag) {
+    private static ResourceLocation reactorRecipeName(final IMultiblockGeneratorVariant variant, final String name,
+                                                      final ITag.INamedTag<Item> tag) {
         return ExtremeReactors.newID("reactor/" + variant.getName() + "/" + name + "_" + tag.getName().getPath().replace('/', '_'));
     }
 
