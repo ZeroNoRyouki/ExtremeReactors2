@@ -126,8 +126,6 @@ public class ReactorControllerScreen
         final Panel infoPanelRight = this.hInfoPanel();
 
         super.onScreenCreate();
-        this.setIndicatorToolTip(true, INDICATOR_ACTIVE_REACTOR);
-        this.setIndicatorToolTip(false, INDICATOR_INACTIVE_REACTOR);
 
         this.setContentLayoutEngine(new VerticalLayoutEngine()
                 .setVerticalMargin(1)

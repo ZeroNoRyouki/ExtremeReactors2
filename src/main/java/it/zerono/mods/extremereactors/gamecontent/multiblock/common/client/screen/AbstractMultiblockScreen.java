@@ -21,6 +21,8 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.scre
 import com.google.common.collect.ImmutableList;
 import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.AbstractMultiblockEntity;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part.AbstractReactorEntity;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part.AbstractTurbineEntity;
 import it.zerono.mods.zerocore.lib.IActivableMachine;
 import it.zerono.mods.zerocore.lib.client.gui.*;
 import it.zerono.mods.zerocore.lib.client.gui.control.*;
@@ -78,6 +80,19 @@ public abstract class AbstractMultiblockScreen<Controller extends AbstractCuboid
                                        final PlayerInventoryUsage inventoryUsage, final ITextComponent title,
                                        final NonNullSupplier<SpriteTextureMap> mainTextureSupplier) {
         this(container, inventory, inventoryUsage, title, DEFAULT_GUI_WIDTH, DEFAULT_GUI_HEIGHT, mainTextureSupplier.get());
+
+        final T tile = container.getTileEntity();
+
+        if (tile instanceof AbstractReactorEntity) {
+
+            this.setIndicatorToolTip(true, INDICATOR_ACTIVE_REACTOR);
+            this.setIndicatorToolTip(false, INDICATOR_INACTIVE_REACTOR);
+
+        } else if (tile instanceof AbstractTurbineEntity) {
+
+            this.setIndicatorToolTip(true, INDICATOR_ACTIVE_TURBINE);
+            this.setIndicatorToolTip(false, INDICATOR_INACTIVE_TURBINE);
+        }
     }
 
     protected static NonNullSupplier<SpriteTextureMap> mainTextureFromVariant(final IMultiblockVariant variant) {

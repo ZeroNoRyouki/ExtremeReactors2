@@ -76,8 +76,6 @@ public class ReactorSolidAccessPortScreen
     protected void onScreenCreate() {
 
         super.onScreenCreate();
-        this.setIndicatorToolTip(true, INDICATOR_ACTIVE_REACTOR);
-        this.setIndicatorToolTip(false, INDICATOR_INACTIVE_REACTOR);
 
         final Panel panel = new Panel(this, "solidaccessport");
         SlotsGroup slotsGroup;

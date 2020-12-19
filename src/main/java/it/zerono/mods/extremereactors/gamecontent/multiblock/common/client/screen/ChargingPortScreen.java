@@ -22,8 +22,6 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.common.container.Ch
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.AbstractMultiblockEntity;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.powertap.chargingport.AbstractChargingPortHandler;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.powertap.chargingport.IChargingPort;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part.ReactorChargingPortEntity;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part.TurbineChargingPortEntity;
 import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockVariantProvider;
 import it.zerono.mods.zerocore.lib.client.gui.ButtonState;
 import it.zerono.mods.zerocore.lib.client.gui.IControl;
@@ -55,19 +53,6 @@ public class ChargingPortScreen<Controller extends AbstractCuboidMultiblockContr
                 mainTextureFromVariant(container.getTileEntity().getMultiblockVariant().orElseThrow(IllegalStateException::new)));
 
         this._btnEject = new Button(this, "eject", "");
-
-        final T tile = container.getTileEntity();
-
-        if (tile instanceof ReactorChargingPortEntity) {
-
-            this.setIndicatorToolTip(true, INDICATOR_ACTIVE_REACTOR);
-            this.setIndicatorToolTip(false, INDICATOR_INACTIVE_REACTOR);
-
-        } else if (tile instanceof TurbineChargingPortEntity) {
-
-            this.setIndicatorToolTip(true, INDICATOR_ACTIVE_TURBINE);
-            this.setIndicatorToolTip(false, INDICATOR_INACTIVE_TURBINE);
-        }
     }
 
     //region AbstractMultiblockScreen

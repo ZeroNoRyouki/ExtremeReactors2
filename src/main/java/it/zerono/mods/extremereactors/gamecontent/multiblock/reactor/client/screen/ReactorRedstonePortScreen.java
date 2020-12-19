@@ -132,9 +132,6 @@ public class ReactorRedstonePortScreen
 
         super.onScreenCreate();
 
-        this.setIndicatorToolTip(true, INDICATOR_ACTIVE_REACTOR);
-        this.setIndicatorToolTip(false, INDICATOR_INACTIVE_REACTOR);
-
         // - sensor panel
 
         final Panel sensorsPanel = new Panel(this, "sensorsPanel");

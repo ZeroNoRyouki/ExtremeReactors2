@@ -77,8 +77,6 @@ public class ReactorControlRodScreen
                 .setControlsSpacing(7)
                 .setHorizontalMargin(13)
                 .setVerticalMargin(8));
-        this.setIndicatorToolTip(true, INDICATOR_ACTIVE_REACTOR);
-        this.setIndicatorToolTip(false, INDICATOR_INACTIVE_REACTOR);
 
         // name
 
