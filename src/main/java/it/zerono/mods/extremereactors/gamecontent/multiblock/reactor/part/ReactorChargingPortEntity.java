@@ -20,8 +20,10 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part;
 
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.container.ChargingPortContainer;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.powertap.chargingport.AbstractChargingPortHandler;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.powertap.chargingport.IChargingPort;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.powertap.chargingport.IChargingPortHandler;
+import it.zerono.mods.zerocore.lib.block.TileCommandDispatcher;
 import it.zerono.mods.zerocore.lib.energy.EnergySystem;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -43,6 +45,10 @@ public class ReactorChargingPortEntity
 
         super(system, entityType);
         this.setHandler(IChargingPortHandler.create(system, this));
+
+        this.setCommandDispatcher(TileCommandDispatcher.<ReactorChargingPortEntity>builder()
+                .addServerHandler(AbstractChargingPortHandler.TILE_COMMAND_EJECT, tile -> tile.getChargingPortHandler().eject())
+                .build(this));
     }
 
     //region IChargingPort

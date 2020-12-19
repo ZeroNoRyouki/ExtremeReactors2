@@ -20,19 +20,21 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.powert
 
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.AbstractGeneratorMultiblockController;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.AbstractIOPortHandler;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.AbstractMultiblockEntity;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.variant.IMultiblockGeneratorVariant;
+import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockVariantProvider;
 import it.zerono.mods.zerocore.lib.data.IoMode;
 import it.zerono.mods.zerocore.lib.energy.EnergySystem;
 import it.zerono.mods.zerocore.lib.energy.IWideEnergyProvider;
 import it.zerono.mods.zerocore.lib.energy.NullEnergyHandlers;
-import it.zerono.mods.zerocore.lib.multiblock.cuboid.AbstractCuboidMultiblockPart;
 
 public abstract class AbstractPowerTapHandler<Controller extends AbstractGeneratorMultiblockController<Controller, V>,
-            V extends IMultiblockGeneratorVariant>
-        extends AbstractIOPortHandler<Controller, V>
+            V extends IMultiblockGeneratorVariant,
+            T extends AbstractMultiblockEntity<Controller> & IMultiblockVariantProvider<? extends IMultiblockGeneratorVariant>>
+        extends AbstractIOPortHandler<Controller, V, T>
         implements IPowerTapHandler {
 
-    protected AbstractPowerTapHandler(final EnergySystem energySystem, final AbstractCuboidMultiblockPart<Controller> part, final IoMode mode) {
+    protected AbstractPowerTapHandler(final EnergySystem energySystem, final T part, final IoMode mode) {
 
         super(part, mode);
         this._system = energySystem;

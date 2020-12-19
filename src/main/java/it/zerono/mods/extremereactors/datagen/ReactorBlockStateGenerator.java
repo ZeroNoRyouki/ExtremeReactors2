@@ -59,6 +59,7 @@ public class ReactorBlockStateGenerator
         this.genRedstonePort(Content.Blocks.REACTOR_REDSTONEPORT_BASIC, variant);
         this.genericPart(Content.Blocks.REACTOR_POWERTAP_FE_ACTIVE_BASIC, "powertap_fe_active", variant, true);
         this.genericPart(Content.Blocks.REACTOR_POWERTAP_FE_PASSIVE_BASIC, "powertap_fe_passive", variant, true);
+        this.genericPart(Content.Blocks.REACTOR_CHARGINGPORT_FE_BASIC, "charging", variant, true);
         //endregion
 
         //region reinforced

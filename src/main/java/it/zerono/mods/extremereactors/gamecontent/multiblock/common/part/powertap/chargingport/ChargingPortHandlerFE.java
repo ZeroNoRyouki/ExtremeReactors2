@@ -19,18 +19,20 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.powertap.chargingport;
 
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.AbstractGeneratorMultiblockController;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.AbstractMultiblockEntity;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.variant.IMultiblockGeneratorVariant;
+import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockVariantProvider;
 import it.zerono.mods.zerocore.lib.energy.EnergySystem;
-import it.zerono.mods.zerocore.lib.multiblock.cuboid.AbstractCuboidMultiblockPart;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.energy.IEnergyStorage;
 
 public class ChargingPortHandlerFE<Controller extends AbstractGeneratorMultiblockController<Controller, V>,
-            V extends IMultiblockGeneratorVariant>
-        extends AbstractChargingPortHandler<Controller, V> {
+            V extends IMultiblockGeneratorVariant,
+            T extends AbstractMultiblockEntity<Controller> & IMultiblockVariantProvider<? extends IMultiblockGeneratorVariant>>
+        extends AbstractChargingPortHandler<Controller, V, T> {
 
-    public ChargingPortHandlerFE(final AbstractCuboidMultiblockPart<Controller> part) {
+    public ChargingPortHandlerFE(final T part) {
         super(EnergySystem.ForgeEnergy, part);
     }
 
@@ -44,7 +46,7 @@ public class ChargingPortHandlerFE<Controller extends AbstractGeneratorMultibloc
      */
     public double outputEnergy(double amount) {
 
-        final int transfer = (int)Math.min(amount, 5000);
+        final int transfer = (int)Math.min(amount, this.getChargingRate());
         final double used = this.getCapabilityFromInventory(CAPAP_FORGE_ENERGYSTORAGE, true)
                 .map(cap -> (double)recharge(cap, transfer))
                 .orElse(amount);

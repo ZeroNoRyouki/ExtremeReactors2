@@ -19,14 +19,15 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.powertap.chargingport;
 
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.AbstractGeneratorMultiblockController;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.AbstractMultiblockEntity;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.powertap.AbstractPowerTapHandler;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.variant.IMultiblockGeneratorVariant;
+import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockVariantProvider;
 import it.zerono.mods.zerocore.lib.data.IoDirection;
 import it.zerono.mods.zerocore.lib.data.IoMode;
 import it.zerono.mods.zerocore.lib.data.nbt.ISyncableEntity;
 import it.zerono.mods.zerocore.lib.energy.EnergySystem;
 import it.zerono.mods.zerocore.lib.item.inventory.handler.TileEntityItemStackHandler;
-import it.zerono.mods.zerocore.lib.multiblock.cuboid.AbstractCuboidMultiblockPart;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.BlockPos;
@@ -39,15 +40,28 @@ import net.minecraftforge.items.ItemStackHandler;
 import javax.annotation.Nullable;
 
 public abstract class AbstractChargingPortHandler<Controller extends AbstractGeneratorMultiblockController<Controller, V>,
-            V extends IMultiblockGeneratorVariant>
-        extends AbstractPowerTapHandler<Controller, V>
+            V extends IMultiblockGeneratorVariant,
+            T extends AbstractMultiblockEntity<Controller> & IMultiblockVariantProvider<? extends IMultiblockGeneratorVariant>>
+        extends AbstractPowerTapHandler<Controller, V, T>
         implements IChargingPortHandler, ISyncableEntity {
 
-    protected AbstractChargingPortHandler(final EnergySystem energySystem, final AbstractCuboidMultiblockPart<Controller> part) {
+    public static String TILE_COMMAND_EJECT = "eject";
+
+    protected AbstractChargingPortHandler(final EnergySystem energySystem, final T part) {
 
         super(energySystem, part,IoMode.Active);
         this._input = new TileEntityItemStackHandler(part, 1);
         this._output = new TileEntityItemStackHandler(part, 1);
+        this._chargingRate = 0.0f;
+    }
+
+    protected double getChargingRate() {
+
+        if (0.0 == this._chargingRate) {
+            this._chargingRate = this.getPart().getMultiblockVariant().map(IMultiblockGeneratorVariant::getChargerMaxRate).orElse(0.0);
+        }
+
+        return this._chargingRate;
     }
 
     protected <T> LazyOptional<T> getCapabilityFromInventory(final Capability<T> capability, final boolean ejectIfNotFound) {
@@ -82,6 +96,11 @@ public abstract class AbstractChargingPortHandler<Controller extends AbstractGen
     @Override
     public IItemHandlerModifiable getItemStackHandler(final IoDirection direction) {
         return direction.isInput() ? this._input : this._output;
+    }
+
+    @Override
+    public void eject() {
+        this.onChargeComplete();
     }
 
     //endregion
@@ -168,6 +187,7 @@ public abstract class AbstractChargingPortHandler<Controller extends AbstractGen
 
     private final ItemStackHandler _input;
     private final ItemStackHandler _output;
+    private double _chargingRate;
 
     //endregion
 }

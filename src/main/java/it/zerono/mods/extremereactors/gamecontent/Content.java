@@ -138,6 +138,9 @@ public final class Content {
         public static final RegistryObject<ReactorRedstonePortBlock> REACTOR_REDSTONEPORT_BASIC =
                 registerReactorBlock("basic_reactorredstoneport", ReactorVariant.Basic, ReactorPartType.RedstonePort);
 
+        public static final RegistryObject<GenericDeviceBlock<MultiblockReactor, ReactorPartType>> REACTOR_CHARGINGPORT_FE_BASIC =
+                registerReactorBlock("basic_reactorchargingportfe", ReactorVariant.Basic, ReactorPartType.ChargingPortFE);
+
         //endregion
         //region reinforced
 
@@ -375,6 +378,7 @@ public final class Content {
         public static final RegistryObject<BlockItem> REACTOR_POWERTAP_FE_ACTIVE_BASIC = registerItemBlock("basic_reactorpowertapfe_active", () -> Blocks.REACTOR_POWERTAP_FE_ACTIVE_BASIC::get, ItemGroups.REACTOR);
         public static final RegistryObject<BlockItem> REACTOR_POWERTAP_FE_PASSIVE_BASIC = registerItemBlock("basic_reactorpowertapfe_passive", () -> Blocks.REACTOR_POWERTAP_FE_PASSIVE_BASIC::get, ItemGroups.REACTOR);
         public static final RegistryObject<BlockItem> REACTOR_REDSTONEPORT_BASIC = registerItemBlock("basic_reactorredstoneport", () -> Blocks.REACTOR_REDSTONEPORT_BASIC::get, ItemGroups.REACTOR);
+        public static final RegistryObject<BlockItem> REACTOR_CHARGINGPORT_FE_BASIC = registerItemBlock("basic_reactorchargingportfe", () -> Blocks.REACTOR_CHARGINGPORT_FE_BASIC::get, ItemGroups.REACTOR);
         //endregion
         //region reinforced
         public static final RegistryObject<BlockItem> REACTOR_CASING_REINFORCED = registerItemBlock("reinforced_reactorcasing", () -> Blocks.REACTOR_CASING_REINFORCED::get, ItemGroups.REACTOR);
@@ -553,6 +557,7 @@ public final class Content {
         public static final RegistryObject<TileEntityType<ReactorChargingPortEntity>> REACTOR_CHARGINGPORT_FE =
                 registerBlockEntity("reactorchargingport_fe",
                         () -> new ReactorChargingPortEntity(EnergySystem.ForgeEnergy, TileEntityTypes.REACTOR_CHARGINGPORT_FE.get()),
+                        () -> Blocks.REACTOR_CHARGINGPORT_FE_BASIC::get,
                         () -> Blocks.REACTOR_CHARGINGPORT_FE_REINFORCED::get);
 
         //endregion

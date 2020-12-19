@@ -19,10 +19,11 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.powertap;
 
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.AbstractGeneratorMultiblockController;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.AbstractMultiblockEntity;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.variant.IMultiblockGeneratorVariant;
+import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockVariantProvider;
 import it.zerono.mods.zerocore.lib.data.IoMode;
 import it.zerono.mods.zerocore.lib.energy.EnergySystem;
-import it.zerono.mods.zerocore.lib.multiblock.cuboid.AbstractCuboidMultiblockPart;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
@@ -34,11 +35,12 @@ import net.minecraftforge.energy.IEnergyStorage;
 import javax.annotation.Nullable;
 
 public class PowerTapHandlerFE<Controller extends AbstractGeneratorMultiblockController<Controller, V>,
-            V extends IMultiblockGeneratorVariant>
-        extends AbstractPowerTapHandler<Controller, V>
+            V extends IMultiblockGeneratorVariant,
+            T extends AbstractMultiblockEntity<Controller> & IMultiblockVariantProvider<? extends IMultiblockGeneratorVariant>>
+        extends AbstractPowerTapHandler<Controller, V, T>
         implements IEnergyStorage {
 
-    public PowerTapHandlerFE(final AbstractCuboidMultiblockPart<Controller> part, final IoMode mode) {
+    public PowerTapHandlerFE(final T part, final IoMode mode) {
 
         super(EnergySystem.ForgeEnergy, part, mode);
         this._consumer = null;
@@ -80,44 +82,6 @@ public class PowerTapHandlerFE<Controller extends AbstractGeneratorMultiblockCon
     public void checkConnections(@Nullable IBlockReader world, BlockPos position) {
         this._consumer = this.lookupConsumer(world, position, CAPAP_FORGE_ENERGYSTORAGE,
                 te -> te instanceof IPowerTapHandler, this._consumer);
-        /*
-        boolean wasConnected = null != this._consumer;
-
-        if (null != world) {
-
-            Direction approachDirection = this.getPart().getOutwardDirection().orElse(null);
-
-            this._consumer = null;
-
-            if (null == approachDirection) {
-
-                wasConnected = false;
-
-            } else {
-
-                if (null != CAPAP_FORGE_ENERGYSTORAGE) {
-
-                    final TileEntity te = world.getTileEntity(position.offset(approachDirection));
-
-                    if (null != te && !(te instanceof IPowerTapHandler)) {
-
-                        final LazyOptional<IEnergyStorage> capability = te.getCapability(CAPAP_FORGE_ENERGYSTORAGE, approachDirection.getOpposite());
-
-                        if (capability.isPresent()) {
-                            this._consumer = capability.orElseThrow(RuntimeException::new);
-                        }
-                    }
-                }
-            }
-        }
-
-        final boolean isConnected = this._consumer != null;
-        final World partWorld = this.getPart().getWorld();
-
-        if (wasConnected != isConnected && null != partWorld && CodeHelper.calledByLogicalClient(partWorld)) {
-            WorldHelper.notifyBlockUpdate(partWorld, this.getPart().getWorldPosition(), null, null);
-        }
-        */
     }
 
     @Override

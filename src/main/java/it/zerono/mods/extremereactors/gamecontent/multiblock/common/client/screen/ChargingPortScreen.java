@@ -20,11 +20,14 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.scre
 
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.container.ChargingPortContainer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.AbstractMultiblockEntity;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.powertap.chargingport.AbstractChargingPortHandler;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.powertap.chargingport.IChargingPort;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part.ReactorChargingPortEntity;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part.TurbineChargingPortEntity;
 import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockVariantProvider;
+import it.zerono.mods.zerocore.lib.client.gui.ButtonState;
 import it.zerono.mods.zerocore.lib.client.gui.IControl;
+import it.zerono.mods.zerocore.lib.client.gui.control.Button;
 import it.zerono.mods.zerocore.lib.client.gui.control.Panel;
 import it.zerono.mods.zerocore.lib.client.gui.control.Picture;
 import it.zerono.mods.zerocore.lib.client.gui.control.SlotsGroup;
@@ -37,6 +40,9 @@ import it.zerono.mods.zerocore.lib.multiblock.variant.IMultiblockVariant;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
+
+import static it.zerono.mods.zerocore.lib.CodeHelper.TEXT_EMPTY_LINE;
 
 public class ChargingPortScreen<Controller extends AbstractCuboidMultiblockController<Controller> & IMultiblockMachine,
                                 V extends IMultiblockVariant,
@@ -47,6 +53,8 @@ public class ChargingPortScreen<Controller extends AbstractCuboidMultiblockContr
                               final ITextComponent title) {
         super(container, inventory, PlayerInventoryUsage.Both, title,
                 mainTextureFromVariant(container.getTileEntity().getMultiblockVariant().orElseThrow(IllegalStateException::new)));
+
+        this._btnEject = new Button(this, "eject", "");
 
         final T tile = container.getTileEntity();
 
@@ -100,6 +108,23 @@ public class ChargingPortScreen<Controller extends AbstractCuboidMultiblockContr
         slotsGroup = this.createPlayerHotBarSlotsGroupControl();
         slotsGroup.setLayoutEngineHint(FixedLayoutEngine.hint(31, 121));
         this.addControl(slotsGroup);
+
+        // - manual eject button
+
+        this._btnEject.setPadding(1);
+        this._btnEject.setLayoutEngineHint(FixedLayoutEngine.hint(144, 2, 18, 18));
+        this._btnEject.setIconForState(CommonIcons.ButtonManualEject.get(), ButtonState.Default);
+        this._btnEject.setIconForState(CommonIcons.ButtonManualEjectActive.get(), ButtonState.Active, ButtonState.ActiveHighlighted, ButtonState.DefaultHighlighted);
+        this._btnEject.Clicked.subscribe(this::onManualEject);
+        this._btnEject.setTooltips(
+                new TranslationTextComponent("gui.bigreactors.generator.chargingport.dumpfuel.line1").setStyle(STYLE_TOOLTIP_TITLE),
+                TEXT_EMPTY_LINE,
+                new TranslationTextComponent("gui.bigreactors.generator.chargingport.dumpfuel.line2"),
+                new TranslationTextComponent("gui.bigreactors.generator.chargingport.dumpfuel.line3"),
+                new TranslationTextComponent("gui.bigreactors.generator.chargingport.dumpfuel.line4")
+        );
+
+        panel.addControl(this._btnEject);
     }
 
     //endregion
@@ -112,6 +137,12 @@ public class ChargingPortScreen<Controller extends AbstractCuboidMultiblockContr
         sg.setLayoutEngineHint(FixedLayoutEngine.hint(x, y, 18, 18));
         return sg;
     }
+
+    private void onManualEject(Button button, Integer mouseButton) {
+        this.sendCommandToServer(AbstractChargingPortHandler.TILE_COMMAND_EJECT);
+    }
+
+    private final Button _btnEject;
 
     //endregion
 }

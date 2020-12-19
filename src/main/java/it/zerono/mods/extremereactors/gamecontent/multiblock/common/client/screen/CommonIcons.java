@@ -64,6 +64,8 @@ public enum CommonIcons implements NonNullSupplier<ISprite> {
     ButtonVentOverflowActive(builder().from(144, 64).build()),
     ButtonVentDoNot(builder().from(160, 80).build()),
     ButtonVentDoNotActive(builder().from(160, 64).build()),
+    ButtonManualEject(builder().from(176, 80).build()),
+    ButtonManualEjectActive(builder().from(176, 64).build()),
 
     ButtonSensorInputActivate(builder().from(0, 0).ofSize(32, 32).build()),
     ButtonSensorOutputCasingTemperature(builder().from(0, 80).build()),

@@ -29,6 +29,8 @@ public interface IMultiblockGeneratorVariant
 
     double getMaxEnergyExtractionRate();
 
+    double getChargerMaxRate();
+
     int getPartFluidCapacity();
 
     int getMaxFluidCapacity();

@@ -56,6 +56,7 @@ public final class ItemGroups {
                     stack(Content.Blocks.REACTOR_CONTROLLER_BASIC), stack(Content.Blocks.REACTOR_CASING_BASIC),
                     stack(Content.Blocks.REACTOR_GLASS_BASIC), stack(Content.Blocks.REACTOR_FUELROD_BASIC),
                     stack(Content.Blocks.REACTOR_CONTROLROD_BASIC), stack(Content.Blocks.REACTOR_SOLID_ACCESSPORT_BASIC),
+                    stack(Content.Blocks.REACTOR_CHARGINGPORT_FE_BASIC),
                     stack(Content.Blocks.REACTOR_POWERTAP_FE_ACTIVE_BASIC), stack(Content.Blocks.REACTOR_POWERTAP_FE_PASSIVE_BASIC),
                     stack(Content.Blocks.REACTOR_REDSTONEPORT_BASIC),
 

@@ -19,19 +19,22 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.powertap.chargingport;
 
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.AbstractGeneratorMultiblockController;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.AbstractMultiblockEntity;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.powertap.IPowerTapHandler;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.variant.IMultiblockGeneratorVariant;
+import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockVariantProvider;
 import it.zerono.mods.zerocore.lib.data.IoDirection;
 import it.zerono.mods.zerocore.lib.data.nbt.ISyncableEntity;
 import it.zerono.mods.zerocore.lib.energy.EnergySystem;
-import it.zerono.mods.zerocore.lib.multiblock.cuboid.AbstractCuboidMultiblockPart;
 import net.minecraftforge.items.IItemHandlerModifiable;
 
 public interface IChargingPortHandler
         extends IPowerTapHandler, ISyncableEntity {
 
-    static <Controller extends AbstractGeneratorMultiblockController<Controller, V>, V extends IMultiblockGeneratorVariant>
-    IChargingPortHandler create(final EnergySystem system, final AbstractCuboidMultiblockPart<Controller> part) {
+    static <Controller extends AbstractGeneratorMultiblockController<Controller, V>,
+            V extends IMultiblockGeneratorVariant,
+            T extends AbstractMultiblockEntity<Controller> & IMultiblockVariantProvider<? extends IMultiblockGeneratorVariant>>
+    IChargingPortHandler create(final EnergySystem system, final T part) {
 
         switch (system) {
 
@@ -44,4 +47,6 @@ public interface IChargingPortHandler
     }
 
     IItemHandlerModifiable getItemStackHandler(IoDirection direction);
+
+    void eject();
 }
