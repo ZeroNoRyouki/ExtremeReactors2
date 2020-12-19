@@ -450,7 +450,7 @@
     "multiblock.validation.reactor.invalid_control_side": "Control Rods may only be placed on one side of the Reactor",
     "x_multiblock.validation.reactor.invalid_glass_position": "%1$d, %2$d, %3$d - Reactor glass may only be used on the exterior faces, not as part of a reactor's frame or interior",
     "multiblock.validation.reactor.invalid_frame_block": "%1$d, %2$d, %3$d - Only casing may be used as part of a Reactor's frame",
-    "x_multiblock.validation.reactor.invalid_block_in_fuel_assembly": "%1$d, %2$d, %3$d - Only fuel rods can be used here",
+    "multiblock.validation.reactor.invalid_block_in_fuel_assembly": "%1$d, %2$d, %3$d - Only fuel rods can be used here",
     "multiblock.validation.reactor.invalid_base_for_fuel_assembly": "%1$d, %2$d, %3$d - Only Reactor Casings can be used here",
     "multiblock.validation.reactor.invalid_fuel_rods": "All Fuel Rods must belong to a fuel assembly behind a Control Rod",
     "multiblock.validation.reactor.mixed_power_systems": "Only one type of energy system can be used in a Reactor",
