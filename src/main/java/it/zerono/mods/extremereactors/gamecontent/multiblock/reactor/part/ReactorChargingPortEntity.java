@@ -33,6 +33,7 @@ import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
@@ -49,6 +50,10 @@ public class ReactorChargingPortEntity
         this.setCommandDispatcher(TileCommandDispatcher.<ReactorChargingPortEntity>builder()
                 .addServerHandler(AbstractChargingPortHandler.TILE_COMMAND_EJECT, tile -> tile.getChargingPortHandler().eject())
                 .build(this));
+    }
+
+    public ITextComponent getDisplayName() {
+        return super.getDisplayName();
     }
 
     //region IChargingPort
