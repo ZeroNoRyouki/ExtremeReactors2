@@ -17,7 +17,7 @@
         ],
         "key": {
           "I": {
-            "item": "bigreactors:yellorium_ingot"
+            "tag": "forge:ingots/yellorium"
           },
           "B": {
             "item": "minecraft:book"

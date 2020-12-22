@@ -534,8 +534,8 @@ public class MultiblockTurbine
             this._attachedRotorBearings.add((TurbineRotorBearingEntity)newPart);
         } else if (newPart instanceof TurbineRotorComponentEntity) {
             this._attachedRotorComponents.add((TurbineRotorComponentEntity)newPart);
-        } else if (newPart instanceof TurbinePowerTapEntity) {
-            this._attachedPowerTaps.add((TurbinePowerTapEntity)newPart);
+        } else if (newPart instanceof TurbinePowerTapEntity || newPart instanceof TurbineChargingPortEntity) {
+            this._attachedPowerTaps.add((IPowerTap)newPart);
         } else if (newPart instanceof TurbineFluidPortEntity) {
             this._attachedVaporPorts.add((TurbineFluidPortEntity)newPart);
         }
@@ -557,7 +557,7 @@ public class MultiblockTurbine
             this._attachedRotorBearings.remove(oldPart);
         } else if (oldPart instanceof TurbineRotorComponentEntity) {
             this._attachedRotorComponents.remove(oldPart);
-        } else if (oldPart instanceof TurbinePowerTapEntity) {
+        } else if (oldPart instanceof TurbinePowerTapEntity || oldPart instanceof TurbineChargingPortEntity) {
             this._attachedPowerTaps.remove(oldPart);
         } else if (oldPart instanceof TurbineFluidPortEntity) {
             this._attachedVaporPorts.remove(oldPart);
@@ -1113,7 +1113,7 @@ public class MultiblockTurbine
     private final Set<ITickableMultiblockPart> _attachedTickables;
     private final List<TurbineRotorBearingEntity> _attachedRotorBearings;
     private final Set<TurbineRotorComponentEntity> _attachedRotorComponents;
-    private final Set<TurbinePowerTapEntity> _attachedPowerTaps;
+    private final Set<IPowerTap> _attachedPowerTaps;
     private final Set<TurbineFluidPortEntity> _attachedVaporPorts;
     private final Set<TurbineFluidPortEntity> _attachedOutgoingVaporPorts;
 

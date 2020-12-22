@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "bigreactors:reactor",
+  "pattern": [
+    "212",
+    "GTG",
+    "212"
+  ],
+  "key": {
+    "T": {
+      "item": "bigreactors:basic_reactorpowertapfe_active"
+    },
+    "G": {
+      "tag": "forge:glass"
+    },
+    "1": {
+      "item": "minecraft:lapis_lazuli"
+    },
+    "2": {
+      "item": "minecraft:redstone"
+    }
+  },
+  "result": {
+    "item": "bigreactors:basic_reactorchargingportfe"
+  }
+}

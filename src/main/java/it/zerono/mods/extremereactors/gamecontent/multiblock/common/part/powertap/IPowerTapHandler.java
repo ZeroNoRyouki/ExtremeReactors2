@@ -19,20 +19,20 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.powertap;
 
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.AbstractGeneratorMultiblockController;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.AbstractMultiblockEntity;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.IIOPortHandler;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.variant.IMultiblockGeneratorVariant;
+import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockVariantProvider;
 import it.zerono.mods.zerocore.lib.data.IoMode;
 import it.zerono.mods.zerocore.lib.energy.EnergySystem;
-import it.zerono.mods.zerocore.lib.multiblock.cuboid.AbstractCuboidMultiblockPart;
 
-public interface IPowerTapHandler<Controller extends AbstractGeneratorMultiblockController<Controller, V>,
-            V extends IMultiblockGeneratorVariant>
+public interface IPowerTapHandler
         extends IIOPortHandler {
 
-    static <Controller extends AbstractGeneratorMultiblockController<Controller, V>, V extends IMultiblockGeneratorVariant>
-    IPowerTapHandler<Controller, V> create(final EnergySystem system,
-                                           final IoMode mode,
-                                           final AbstractCuboidMultiblockPart<Controller> part) {
+    static <Controller extends AbstractGeneratorMultiblockController<Controller, V>,
+                V extends IMultiblockGeneratorVariant,
+                T extends AbstractMultiblockEntity<Controller> & IMultiblockVariantProvider<? extends IMultiblockGeneratorVariant>>
+    IPowerTapHandler create(final EnergySystem system, final IoMode mode, final T part) {
 
         switch (system) {
 

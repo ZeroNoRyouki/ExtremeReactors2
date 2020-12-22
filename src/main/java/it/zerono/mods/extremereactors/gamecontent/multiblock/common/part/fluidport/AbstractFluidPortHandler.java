@@ -20,25 +20,26 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.fluidp
 
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.AbstractGeneratorMultiblockController;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.AbstractIOPortHandler;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.AbstractMultiblockEntity;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.variant.IMultiblockGeneratorVariant;
+import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockVariantProvider;
 import it.zerono.mods.zerocore.lib.data.IIoEntity;
 import it.zerono.mods.zerocore.lib.data.IoMode;
-import it.zerono.mods.zerocore.lib.multiblock.cuboid.AbstractCuboidMultiblockPart;
 
 public abstract class AbstractFluidPortHandler<Controller extends AbstractGeneratorMultiblockController<Controller, V>,
-            V extends IMultiblockGeneratorVariant, P extends AbstractCuboidMultiblockPart<Controller> & IIoEntity>
-        extends AbstractIOPortHandler<Controller, V>
+            V extends IMultiblockGeneratorVariant,
+            T extends AbstractMultiblockEntity<Controller> & IMultiblockVariantProvider<? extends IMultiblockGeneratorVariant> & IIoEntity>
+        extends AbstractIOPortHandler<Controller, V, T>
         implements IFluidPortHandler<Controller, V> {
 
-    protected AbstractFluidPortHandler(final FluidPortType type, final P part, final IoMode mode) {
+    protected AbstractFluidPortHandler(final FluidPortType type, final T part, final IoMode mode) {
 
         super(part, mode);
         this._type = type;
     }
 
-    public P getIoEntity() {
-        //noinspection unchecked
-        return (P)this.getPart();
+    public T getIoEntity() {
+        return (T)this.getPart();
     }
 
     public boolean isInput() {

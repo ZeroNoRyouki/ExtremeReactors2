@@ -59,6 +59,7 @@ public class ReactorBlockStateGenerator
         this.genRedstonePort(Content.Blocks.REACTOR_REDSTONEPORT_BASIC, variant);
         this.genericPart(Content.Blocks.REACTOR_POWERTAP_FE_ACTIVE_BASIC, "powertap_fe_active", variant, true);
         this.genericPart(Content.Blocks.REACTOR_POWERTAP_FE_PASSIVE_BASIC, "powertap_fe_passive", variant, true);
+        this.genericPart(Content.Blocks.REACTOR_CHARGINGPORT_FE_BASIC, "charging", variant, true);
         //endregion
 
         //region reinforced
@@ -78,6 +79,7 @@ public class ReactorBlockStateGenerator
         this.genFluidPort(Content.Blocks.REACTOR_FLUIDPORT_MEKANISM_PASSIVE_REINFORCED, "fluidport_mekanism_passive", variant);
         this.genericPart(Content.Blocks.REACTOR_CREATIVE_WATER_GENERATOR_REINFORCED, "creative_water_generator", variant, true);
         this.genComputerPort(Content.Blocks.REACTOR_COMPUTERPORT_REINFORCED, variant);
+        this.genericPart(Content.Blocks.REACTOR_CHARGINGPORT_FE_REINFORCED, "charging", variant, true);
         //endregion
     }
 

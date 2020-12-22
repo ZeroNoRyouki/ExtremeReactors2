@@ -116,8 +116,6 @@ public class TurbineControllerScreen
         final Panel infoPanelRight = this.hInfoPanel();
 
         super.onScreenCreate();
-        this.setIndicatorToolTip(true, new TranslationTextComponent("gui.bigreactors.turbine.active"));
-        this.setIndicatorToolTip(false, new TranslationTextComponent("gui.bigreactors.turbine.inactive"));
 
         this.setContentLayoutEngine(new VerticalLayoutEngine()
                 .setVerticalMargin(1)

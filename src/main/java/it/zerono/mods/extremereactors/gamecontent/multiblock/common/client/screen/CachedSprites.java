@@ -31,7 +31,8 @@ public final class CachedSprites {
     public static final Supplier<ISprite> REACTOR_FUEL_COLUMN_STILL;
     public static final Supplier<ISprite> REACTOR_FUEL_COLUMN_FLOWING;
 
-    public static final Supplier<ISprite> DIRT;
+    public static final ResourceLocation GUI_CHARGINGPORT_SLOT_ID;
+    public static final Supplier<ISprite> GUI_CHARGINGPORT_SLOT;
 
     public static void initialize() {
     }
@@ -41,7 +42,8 @@ public final class CachedSprites {
         REACTOR_FUEL_COLUMN_STILL = AtlasSpriteSupplier.create(ExtremeReactors.newID("fluid/fluid.fuelcolumn.still"), AtlasSpriteTextureMap.BLOCKS, true);
         REACTOR_FUEL_COLUMN_FLOWING = AtlasSpriteSupplier.create(ExtremeReactors.newID("fluid/fluid.fuelcolumn.flowing"), AtlasSpriteTextureMap.BLOCKS, true);
 
-        DIRT = AtlasSpriteSupplier.create(new ResourceLocation("block/dirt"), AtlasSpriteTextureMap.BLOCKS);
+        GUI_CHARGINGPORT_SLOT_ID = ExtremeReactors.newID("gui/multiblock/charging");
+        GUI_CHARGINGPORT_SLOT = AtlasSpriteSupplier.create(GUI_CHARGINGPORT_SLOT_ID, AtlasSpriteTextureMap.BLOCKS);
     }
 
     //region internals

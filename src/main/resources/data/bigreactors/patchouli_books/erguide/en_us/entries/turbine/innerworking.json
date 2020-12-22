@@ -11,7 +11,7 @@
         },
         {
             "type": "text",
-            "text": "When the $(l:bigreactors:turbine/coils)Induction Coils$(/l) are $(l:bigreactors:turbine/part-controller)engaged$(/l), energy is generated depending on the $(l:bigreactors:turbine/rotor)Rotor$(/l) speed and the average values of properties like efficiency and drag amount of all your your coil blocks.$(br2)$(italic)Please note that, while being close enough to let you create the best Reactors possible, this is an oversimplification of what's really going on inside your Reactor.$() "
+            "text": "When the $(l:bigreactors:turbine/coils)Induction Coils$(/l) are $(l:bigreactors:turbine/part-controller)engaged$(/l), energy is generated depending on the $(l:bigreactors:turbine/rotor)Rotor$(/l) speed and the average values of properties like efficiency and drag amount of all your your coil blocks.$(br2)$(italic)Please note that, while being close enough to let you create the best Turbines possible, this is an oversimplification of what's really going on inside your Turbine.$() "
         }
     ]
 }

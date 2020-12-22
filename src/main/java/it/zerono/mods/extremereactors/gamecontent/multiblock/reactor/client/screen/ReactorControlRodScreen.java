@@ -77,8 +77,6 @@ public class ReactorControlRodScreen
                 .setControlsSpacing(7)
                 .setHorizontalMargin(13)
                 .setVerticalMargin(8));
-        this.setIndicatorToolTip(true, new TranslationTextComponent("gui.bigreactors.reactor.active"));
-        this.setIndicatorToolTip(false, new TranslationTextComponent("gui.bigreactors.reactor.inactive"));
 
         // name
 

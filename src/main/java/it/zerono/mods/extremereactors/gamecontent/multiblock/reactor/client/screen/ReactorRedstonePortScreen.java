@@ -132,9 +132,6 @@ public class ReactorRedstonePortScreen
 
         super.onScreenCreate();
 
-        this.setIndicatorToolTip(true, new TranslationTextComponent("gui.bigreactors.reactor.active"));
-        this.setIndicatorToolTip(false, new TranslationTextComponent("gui.bigreactors.reactor.inactive"));
-
         // - sensor panel
 
         final Panel sensorsPanel = new Panel(this, "sensorsPanel");

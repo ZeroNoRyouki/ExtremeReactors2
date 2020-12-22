@@ -21,6 +21,7 @@ package it.zerono.mods.extremereactors.datagen.recipes;
 import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.ContentTags;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.common.variant.IMultiblockGeneratorVariant;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.TurbineVariant;
 import net.minecraft.block.Blocks;
 import net.minecraft.data.DataGenerator;
@@ -82,6 +83,9 @@ public class TurbineRecipeGenerator
         this.turbineBlade(c, variant, Content.Items.TURBINE_ROTORBLADE_BASIC, metal, alternativeMetal);
         this.turbineShaft(c, variant, Content.Items.TURBINE_ROTORSHAFT_BASIC, metal, alternativeMetal);
         this.turbineBearing(c, variant, Content.Items.TURBINE_ROTORBEARING_BASIC, metal, alternativeMetal);
+        this.generatorChargingPort(c, variant, "chargingfe", GROUP_TURBINE, TurbineRecipeGenerator::turbineRecipeName,
+                Content.Items.TURBINE_CHARGINGPORT_FE_BASIC, Content.Items.TURBINE_POWERTAP_FE_ACTIVE_BASIC,
+                Items.GLOWSTONE_DUST, Items.REDSTONE);
 
         // Reinforced parts
 
@@ -102,6 +106,9 @@ public class TurbineRecipeGenerator
         this.turbineBlade(c, variant, Content.Items.TURBINE_ROTORBLADE_REINFORCED, metal, alternativeMetal);
         this.turbineShaft(c, variant, Content.Items.TURBINE_ROTORSHAFT_REINFORCED, metal, alternativeMetal);
         this.turbineBearing(c, variant, Content.Items.TURBINE_ROTORBEARING_REINFORCED, metal, alternativeMetal);
+        this.generatorChargingPort(c, variant, "chargingfe", GROUP_TURBINE, TurbineRecipeGenerator::turbineRecipeName,
+                Content.Items.TURBINE_CHARGINGPORT_FE_REINFORCED, Content.Items.TURBINE_POWERTAP_FE_ACTIVE_REINFORCED,
+                Items.GLOWSTONE, Items.REDSTONE_BLOCK);
     }
 
     //endregion
@@ -284,11 +291,11 @@ public class TurbineRecipeGenerator
 
 
 
-    private static ResourceLocation turbineRecipeName(final TurbineVariant variant, final String name) {
+    private static ResourceLocation turbineRecipeName(final IMultiblockGeneratorVariant variant, final String name) {
         return ExtremeReactors.newID("turbine/" + variant.getName() + "/" + name);
     }
 
-    private static ResourceLocation turbineRecipeName(final TurbineVariant variant, final String name, final ITag.INamedTag<Item> tag) {
+    private static ResourceLocation turbineRecipeName(final IMultiblockGeneratorVariant variant, final String name, final ITag.INamedTag<Item> tag) {
         return ExtremeReactors.newID("turbine/" + variant.getName() + "/" + name + "_" + tag.getName().getPath().replace('/', '_'));
     }
 

@@ -90,6 +90,9 @@ public enum ReactorPartType
 
     RedstonePort(() -> Content.TileEntityTypes.REACTOR_REDSTONEPORT::get,
             ReactorRedstonePortBlock::new, "part.bigreactors.reactor.redstoneport"),
+
+    ChargingPortFE(() -> Content.TileEntityTypes.REACTOR_CHARGINGPORT_FE::get,
+            GenericDeviceBlock::new, "part.bigreactors.reactor.chargingport_fe"),
     ;
 
     ReactorPartType(final Supplier<Supplier<TileEntityType<?>>> tileTypeSupplier,

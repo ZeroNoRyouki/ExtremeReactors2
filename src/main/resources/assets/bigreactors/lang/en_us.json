@@ -63,6 +63,7 @@
     "block.bigreactors.basic_reactorcontrolrod": "Reactor Control Rod (Basic)",
     "block.bigreactors.basic_reactorredstoneport": "Reactor Redstone Port (Basic)",
     "block.bigreactors.basic_reactorfuelrod": "Reactor Fuel Rod (Basic)",
+    "block.bigreactors.basic_reactorchargingportfe": "Reactor Forge Energy Charging Port (Basic)",
 
     "_comment": "Blocks - reactor parts (reinforced)",
     "block.bigreactors.reinforced_reactorglass": "Reactor Glass (Reinforced)",
@@ -81,6 +82,7 @@
     "block.bigreactors.reinforced_reactorfluidport_forge_active": "Reactor Active Forge Fluid Port (Reinforced)",
     "block.bigreactors.reinforced_reactorfluidport_forge_passive": "Reactor Passive Forge Fluid Port (Reinforced)",
     "block.bigreactors.reinforced_reactorfluidport_mekanism_passive": "Reactor Passive Mekanism Fluid Port (Reinforced)",
+    "block.bigreactors.reinforced_reactorchargingportfe": "Reactor Forge Energy Charging Port (Reinforced)",
 
     "_comment": "Blocks - turbine parts (basic)",
     "block.bigreactors.basic_turbineglass": "Turbine Glass (Basic)",
@@ -95,6 +97,7 @@
     "block.bigreactors.basic_turbinefluidport_forge_passive": "Turbine Passive Forge Fluid Port (Basic)",
     "block.bigreactors.basic_turbineredstoneport": "Turbine Redstone Port (Basic)",
     "block.bigreactors.basic_turbinecreativesteamgenerator": "Turbine Creative Steam Generator (Basic)",
+    "block.bigreactors.basic_turbinechargingportfe": "Turbine Forge Energy Charging Port (Basic)",
 
     "_comment": "Blocks - turbine parts (reinforced)",
     "block.bigreactors.reinforced_turbineglass": "Turbine Glass (Reinforced)",
@@ -110,6 +113,7 @@
     "block.bigreactors.reinforced_turbineredstoneport": "Turbine Redstone Port (Reinforced)",
     "block.bigreactors.reinforced_turbinecomputerport": "Turbine Computer Port (Reinforced)",
     "block.bigreactors.reinforced_turbinecreativesteamgenerator": "Turbine Creative Steam Generator (Reinforced)",
+    "block.bigreactors.reinforced_turbinechargingportfe": "Turbine Forge Energy Charging Port (Reinforced)",
 
     "_comment": "Reactor parts names",
     "part.bigreactors.reactor.casing": "Casing",
@@ -127,6 +131,7 @@
     "part.bigreactors.reactor.powertap_fe": "Power Tap (FE)",
     "part.bigreactors.reactor.computerport": "Computer Port",
     "part.bigreactors.reactor.redstoneport": "Redstone Port",
+    "part.bigreactors.reactor.chargingport_fe": "Charging Port (FE)",
 
     "_comment": "Turbine parts names",
     "part.bigreactors.turbine.casing": "Casing",
@@ -141,6 +146,7 @@
     "part.bigreactors.turbine.powertap_fe": "Power Tap (FE)",
     "part.bigreactors.turbine.computerport": "Computer Port",
     "part.bigreactors.turbine.redstoneport": "Redstone Port",
+    "part.bigreactors.turbine.chargingport_fe": "Charging Port (FE)",
 
     "_comment": "variants names",
     "variant.bigreactors.reactor.basic": "Basic",
@@ -328,7 +334,6 @@
     "gui.bigreactors.reactor.controlrod.insertion.setall.tooltip.line1": "Change the percentage of insertion of",
     "gui.bigreactors.reactor.controlrod.insertion.setall.tooltip.line2": "all Control Rods in the Reactor",
 
-
     "gui.bigreactors.turbine.controller.coolantbar.line1": "Coolant Fluid Tank",
     "gui.bigreactors.turbine.controller.coolantbar.line2": "  @0",
     "gui.bigreactors.turbine.controller.coolantbar.line3a": "  @1",
@@ -424,11 +429,13 @@
     "gui.bigreactors.turbine.controller.inductor.mode.engaged": "Engaged",
     "gui.bigreactors.turbine.controller.inductor.mode.disengaged": "Disengaged",
 
-
-
-
     "gui.bigreactors.turbine.controller.on.line1": "Turn the Turbine on",
     "gui.bigreactors.turbine.controller.off.line1": "Turn the Turbine off",
+
+    "gui.bigreactors.generator.chargingport.dumpfuel.line1": "Manual Ejection",
+    "gui.bigreactors.generator.chargingport.dumpfuel.line2": "Manually ejects the item from",
+    "gui.bigreactors.generator.chargingport.dumpfuel.line3": "the input slot and put it in",
+    "gui.bigreactors.generator.chargingport.dumpfuel.line4": "the output slot.",
 
     "_comment": "Multiblock validation errors (reactors)",
     "multiblock.validation.reactor.invalid_fuelrod_position": "%1$d, %2$d, %3$d - Fuel Rods may only be placed in the Reactor's interior",
@@ -443,7 +450,7 @@
     "multiblock.validation.reactor.invalid_control_side": "Control Rods may only be placed on one side of the Reactor",
     "x_multiblock.validation.reactor.invalid_glass_position": "%1$d, %2$d, %3$d - Reactor glass may only be used on the exterior faces, not as part of a reactor's frame or interior",
     "multiblock.validation.reactor.invalid_frame_block": "%1$d, %2$d, %3$d - Only casing may be used as part of a Reactor's frame",
-    "x_multiblock.validation.reactor.invalid_block_in_fuel_assembly": "%1$d, %2$d, %3$d - Only fuel rods can be used here",
+    "multiblock.validation.reactor.invalid_block_in_fuel_assembly": "%1$d, %2$d, %3$d - Only fuel rods can be used here",
     "multiblock.validation.reactor.invalid_base_for_fuel_assembly": "%1$d, %2$d, %3$d - Only Reactor Casings can be used here",
     "multiblock.validation.reactor.invalid_fuel_rods": "All Fuel Rods must belong to a fuel assembly behind a Control Rod",
     "multiblock.validation.reactor.mixed_power_systems": "Only one type of energy system can be used in a Reactor",

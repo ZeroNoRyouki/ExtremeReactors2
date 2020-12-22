@@ -39,6 +39,7 @@ public enum ReactorVariant
             .setPartEnergyCapacity(10000)
             .setEnergyGenerationEfficiency(0.8f)
             .setMaxEnergyExtractionRate(50000)
+            .setMaxChargerRate(250)
             .setRadiationAttenuation(0.85f)
             .setResidualRadiationAttenuation(0.1f)
             .setSolidFuelConversionEfficiency(0.5f)
@@ -50,6 +51,7 @@ public enum ReactorVariant
             .setPartEnergyCapacity(30000)
             .setEnergyGenerationEfficiency(0.75f)
             .setMaxEnergyExtractionRate(5000000)
+            .setMaxChargerRate(5000)
             .setRadiationAttenuation(0.75f)
             .setResidualRadiationAttenuation(0.15f)
             .setPartFluidCapacity(4567)
@@ -121,6 +123,11 @@ public enum ReactorVariant
     }
 
     @Override
+    public double getChargerMaxRate() {
+        return this._maxChargerRate;
+    }
+
+    @Override
     public float getRadiationAttenuation() {
         return this._radiationAttenuation;
     }
@@ -169,6 +176,7 @@ public enum ReactorVariant
         this._partEnergyCapacity = builder._partEnergyCapacity;
         this._energyGenerationEfficiency = builder._energyGenerationEfficiency;
         this._maxEnergyExtractionRate = builder._maxEnergyExtractionRate;
+        this._maxChargerRate = builder._maxChargerRate;
         this._radiationAttenuation = builder._radiationAttenuation;
         this._residualRadiationAttenuation = builder._residualRadiationAttenuation;
         this._solidFuelConversionEfficiency = builder._solidFuelConversionEfficiency;
@@ -228,6 +236,13 @@ public enum ReactorVariant
 
             Preconditions.checkArgument(rate > 0.0);
             this._maxEnergyExtractionRate = rate;
+            return this;
+        }
+
+        public Builder setMaxChargerRate(final double rate) {
+
+            Preconditions.checkArgument(rate > 0.0);
+            this._maxChargerRate = rate;
             return this;
         }
 
@@ -315,6 +330,7 @@ public enum ReactorVariant
         private int _partEnergyCapacity;
         private float _energyGenerationEfficiency;
         private double _maxEnergyExtractionRate;
+        private double _maxChargerRate;
         private int _partFluidCapacity;
         private int _maxFluidCapacity;
         private float _vaporGenerationEfficiency;
@@ -346,6 +362,7 @@ public enum ReactorVariant
     private final int _partEnergyCapacity;
     private final float _energyGenerationEfficiency;
     private final double _maxEnergyExtractionRate;
+    private final double _maxChargerRate;
     private final int _partFluidCapacity;
     private final int _maxFluidCapacity;
     private final float _vaporGenerationEfficiency;

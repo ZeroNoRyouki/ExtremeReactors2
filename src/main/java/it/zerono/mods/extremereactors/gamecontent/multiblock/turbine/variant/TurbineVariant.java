@@ -30,7 +30,6 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-//TODO fix values
 public enum TurbineVariant
     implements IMultiblockTurbineVariant {
 
@@ -38,16 +37,17 @@ public enum TurbineVariant
             .setTranslationKey("variant.bigreactors.turbine.basic")
             .setBlockPropertiesFixer(bp -> bp.hardnessAndResistance(3.0F, 6.0F))
             .setPartEnergyCapacity(10_000)
-            .setEnergyGenerationEfficiency(0.75f) //1
+            .setEnergyGenerationEfficiency(0.75f)
             .setMaxEnergyExtractionRate(50_000)
+            .setMaxChargerRate(500)
             .setRadiationAttenuation(0.85f)
             .setResidualRadiationAttenuation(0.1f)
-            .setMaxPermittedFlow(1000) //2000
-            .setBaseFluidPerBlade(15) // mB //25
+            .setMaxPermittedFlow(1000)
+            .setBaseFluidPerBlade(15) // mB
             .setRotorDragCoefficient(0.01f)
-            .setMaxRotorSpeed(1000.0f) //2000
-            .setRotorBladeMass(8) //10
-            .setRotorShaftMass(8) //10
+            .setMaxRotorSpeed(1000.0f)
+            .setRotorBladeMass(8)
+            .setRotorShaftMass(8)
             .setPartFluidCapacity(500)
             .setMaxFluidCapacity(10_000)
             .setPartCompatibilityTest(TurbineVariant::isBasicPart)),
@@ -58,6 +58,7 @@ public enum TurbineVariant
             .setPartEnergyCapacity(20_000)
             .setEnergyGenerationEfficiency(0.8f)
             .setMaxEnergyExtractionRate(5_000_000)
+            .setMaxChargerRate(5000)
             .setRadiationAttenuation(0.75f)
             .setResidualRadiationAttenuation(0.15f)
             .setMaxPermittedFlow(2000)
@@ -136,6 +137,11 @@ public enum TurbineVariant
     }
 
     @Override
+    public double getChargerMaxRate() {
+        return this._maxChargerRate;
+    }
+
+    @Override
     public float getRadiationAttenuation() {
         return this._radiationAttenuation;
     }
@@ -204,6 +210,7 @@ public enum TurbineVariant
         this._partEnergyCapacity = builder._partEnergyCapacity;
         this._energyGenerationEfficiency = builder._energyGenerationEfficiency;
         this._maxEnergyExtractionRate = builder._maxEnergyExtractionRate;
+        this._maxChargerRate = builder._maxChargerRate;
         this._radiationAttenuation = builder._radiationAttenuation;
         this._residualRadiationAttenuation = builder._residualRadiationAttenuation;
         this._partFluidCapacity = builder._partFluidCapacity;
@@ -267,6 +274,13 @@ public enum TurbineVariant
 
             Preconditions.checkArgument(rate > 0.0);
             this._maxEnergyExtractionRate = rate;
+            return this;
+        }
+
+        public Builder setMaxChargerRate(final double rate) {
+
+            Preconditions.checkArgument(rate > 0.0);
+            this._maxChargerRate = rate;
             return this;
         }
 
@@ -376,6 +390,7 @@ public enum TurbineVariant
         private int _partEnergyCapacity;
         private float _energyGenerationEfficiency;
         private double _maxEnergyExtractionRate;
+        private double _maxChargerRate;
         private int _partFluidCapacity;
         private int _maxFluidCapacity;
         private float _vaporGenerationEfficiency;
@@ -409,6 +424,7 @@ public enum TurbineVariant
     private final int _partEnergyCapacity;
     private final float _energyGenerationEfficiency;
     private final double _maxEnergyExtractionRate;
+    private final double _maxChargerRate;
     private final int _partFluidCapacity;
     private final int _maxFluidCapacity;
     private final float _vaporGenerationEfficiency;

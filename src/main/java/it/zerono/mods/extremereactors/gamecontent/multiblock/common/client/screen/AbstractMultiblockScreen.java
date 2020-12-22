@@ -21,6 +21,8 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.scre
 import com.google.common.collect.ImmutableList;
 import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.AbstractMultiblockEntity;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part.AbstractReactorEntity;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part.AbstractTurbineEntity;
 import it.zerono.mods.zerocore.lib.IActivableMachine;
 import it.zerono.mods.zerocore.lib.client.gui.*;
 import it.zerono.mods.zerocore.lib.client.gui.control.*;
@@ -42,6 +44,7 @@ import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.util.NonNullSupplier;
@@ -77,6 +80,19 @@ public abstract class AbstractMultiblockScreen<Controller extends AbstractCuboid
                                        final PlayerInventoryUsage inventoryUsage, final ITextComponent title,
                                        final NonNullSupplier<SpriteTextureMap> mainTextureSupplier) {
         this(container, inventory, inventoryUsage, title, DEFAULT_GUI_WIDTH, DEFAULT_GUI_HEIGHT, mainTextureSupplier.get());
+
+        final T tile = container.getTileEntity();
+
+        if (tile instanceof AbstractReactorEntity) {
+
+            this.setIndicatorToolTip(true, INDICATOR_ACTIVE_REACTOR);
+            this.setIndicatorToolTip(false, INDICATOR_INACTIVE_REACTOR);
+
+        } else if (tile instanceof AbstractTurbineEntity) {
+
+            this.setIndicatorToolTip(true, INDICATOR_ACTIVE_TURBINE);
+            this.setIndicatorToolTip(false, INDICATOR_INACTIVE_TURBINE);
+        }
     }
 
     protected static NonNullSupplier<SpriteTextureMap> mainTextureFromVariant(final IMultiblockVariant variant) {
@@ -308,7 +324,12 @@ public abstract class AbstractMultiblockScreen<Controller extends AbstractCuboid
     private ISprite createInventorySingleSprite() {
         return this._mainTextMap.sprite().from(0, 202).ofSize(18, 18).build();
     }
-    
+
+    protected static final ITextComponent INDICATOR_ACTIVE_REACTOR = new TranslationTextComponent("gui.bigreactors.reactor.active");
+    protected static final ITextComponent INDICATOR_INACTIVE_REACTOR = new TranslationTextComponent("gui.bigreactors.reactor.inactive");
+    protected static final ITextComponent INDICATOR_ACTIVE_TURBINE = new TranslationTextComponent("gui.bigreactors.turbine.active");
+    protected static final ITextComponent INDICATOR_INACTIVE_TURBINE = new TranslationTextComponent("gui.bigreactors.turbine.inactive");
+
     private static final int DEFAULT_GUI_WIDTH = 224;
     private static final int DEFAULT_GUI_HEIGHT = 166;
     private static final int TITLE_PANEL_HEIGHT = 21;

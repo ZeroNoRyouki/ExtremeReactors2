@@ -8,7 +8,8 @@ loaderVersion="${forge_versionrange}"
 license="All rights reserved"
 
 # A URL to refer people to when problems occur with this mod
-#issueTrackerURL="http://my.issue.tracker/" #optional
+issueTrackerURL="https://github.com/ZeroNoRyouki/ExtremeReactors2"
+logoFile="logo.png"
 
 [[mods]]
 

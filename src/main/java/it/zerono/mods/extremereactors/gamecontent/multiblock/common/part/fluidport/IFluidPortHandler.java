@@ -19,11 +19,12 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.fluidport;
 
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.AbstractGeneratorMultiblockController;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.AbstractMultiblockEntity;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.IIOPortHandler;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.variant.IMultiblockGeneratorVariant;
+import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockVariantProvider;
 import it.zerono.mods.zerocore.lib.data.IIoEntity;
 import it.zerono.mods.zerocore.lib.data.IoMode;
-import it.zerono.mods.zerocore.lib.multiblock.cuboid.AbstractCuboidMultiblockPart;
 import net.minecraftforge.fluids.FluidStack;
 
 public interface IFluidPortHandler<Controller extends AbstractGeneratorMultiblockController<Controller, V>,
@@ -31,8 +32,8 @@ public interface IFluidPortHandler<Controller extends AbstractGeneratorMultibloc
         extends IIOPortHandler {
 
     static <Controller extends AbstractGeneratorMultiblockController<Controller, V>, V extends IMultiblockGeneratorVariant,
-            P extends AbstractCuboidMultiblockPart<Controller> & IIoEntity>
-    IFluidPortHandler<Controller, V> create(final FluidPortType type, final IoMode mode, final P part) {
+            T extends AbstractMultiblockEntity<Controller> & IMultiblockVariantProvider<? extends IMultiblockGeneratorVariant> & IIoEntity>
+    IFluidPortHandler<Controller, V> create(final FluidPortType type, final IoMode mode, final T part) {
 
         switch (type) {
 

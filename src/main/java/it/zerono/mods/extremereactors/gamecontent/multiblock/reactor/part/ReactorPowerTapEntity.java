@@ -18,10 +18,8 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part;
 
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.powertap.IPowerTap;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.powertap.IPowerTapHandler;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.MultiblockReactor;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.IMultiblockReactorVariant;
 import it.zerono.mods.zerocore.lib.block.INeighborChangeListener;
 import it.zerono.mods.zerocore.lib.data.IoMode;
 import it.zerono.mods.zerocore.lib.energy.EnergySystem;
@@ -36,23 +34,15 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class ReactorPowerTapEntity
-        extends AbstractReactorEntity
-        implements IPowerTap, INeighborChangeListener {
+        extends AbstractReactorPowerTapEntity
+        implements INeighborChangeListener {
 
     public ReactorPowerTapEntity(final EnergySystem system, final IoMode mode, final TileEntityType<?> entityType) {
 
-        super(entityType);
-        this._handler = IPowerTapHandler.create(system, mode, this);
+        super(system, entityType);
+        this.setHandler(IPowerTapHandler.create(system, mode, this));
     }
 
-    //region IPowerTap
-
-    @Override
-    public IPowerTapHandler<MultiblockReactor, IMultiblockReactorVariant> getPowerTapHandler() {
-        return this._handler;
-    }
-
-    //endregion
     //region INeighborChangeListener
 
     /**
@@ -113,10 +103,6 @@ public class ReactorPowerTapEntity
 
         return null != cap ? cap : super.getCapability(capability, side);
     }
-
-    //region internals
-
-    private final IPowerTapHandler<MultiblockReactor, IMultiblockReactorVariant> _handler;
 
     //endregion
 }

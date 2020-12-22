@@ -19,11 +19,12 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.fluidport;
 
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.AbstractGeneratorMultiblockController;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.AbstractMultiblockEntity;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.variant.IMultiblockGeneratorVariant;
+import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockVariantProvider;
 import it.zerono.mods.zerocore.lib.data.IIoEntity;
 import it.zerono.mods.zerocore.lib.data.IoMode;
 import it.zerono.mods.zerocore.lib.fluid.handler.FluidHandlerForwarder;
-import it.zerono.mods.zerocore.lib.multiblock.cuboid.AbstractCuboidMultiblockPart;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
@@ -37,11 +38,12 @@ import net.minecraftforge.fluids.capability.templates.EmptyFluidHandler;
 import javax.annotation.Nullable;
 
 public class FluidPortHandlerForge<Controller extends AbstractGeneratorMultiblockController<Controller, V>,
-            V extends IMultiblockGeneratorVariant, P extends AbstractCuboidMultiblockPart<Controller> & IIoEntity>
-        extends AbstractFluidPortHandler<Controller, V, P>
+            V extends IMultiblockGeneratorVariant,
+            T extends AbstractMultiblockEntity<Controller> & IMultiblockVariantProvider<? extends IMultiblockGeneratorVariant> & IIoEntity>
+        extends AbstractFluidPortHandler<Controller, V, T>
         implements IFluidHandler {
 
-    public FluidPortHandlerForge(final P part, final IoMode mode) {
+    public FluidPortHandlerForge(final T part, final IoMode mode) {
 
         super(FluidPortType.Forge, part, mode);
         this._capability = LazyOptional.of(() -> this);

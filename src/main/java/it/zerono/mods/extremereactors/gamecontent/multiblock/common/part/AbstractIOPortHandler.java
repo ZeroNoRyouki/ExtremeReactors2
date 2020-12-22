@@ -21,8 +21,8 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.common.part;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.AbstractGeneratorMultiblockController;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.variant.IMultiblockGeneratorVariant;
 import it.zerono.mods.zerocore.lib.CodeHelper;
+import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockVariantProvider;
 import it.zerono.mods.zerocore.lib.data.IoMode;
-import it.zerono.mods.zerocore.lib.multiblock.cuboid.AbstractCuboidMultiblockPart;
 import it.zerono.mods.zerocore.lib.world.WorldHelper;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
@@ -36,9 +36,10 @@ import net.minecraftforge.common.util.NonNullPredicate;
 import javax.annotation.Nullable;
 
 public abstract class AbstractIOPortHandler<Controller extends AbstractGeneratorMultiblockController<Controller, V>,
-        V extends IMultiblockGeneratorVariant> {
+        V extends IMultiblockGeneratorVariant,
+        T extends AbstractMultiblockEntity<Controller> & IMultiblockVariantProvider<? extends IMultiblockGeneratorVariant>> {
 
-    public AbstractCuboidMultiblockPart<Controller> getPart() {
+    public T getPart() {
         return this._part;
     }
 
@@ -50,7 +51,7 @@ public abstract class AbstractIOPortHandler<Controller extends AbstractGenerator
         return this._mode.isPassive();
     }
 
-    protected AbstractIOPortHandler(final AbstractCuboidMultiblockPart<Controller> part, final IoMode mode) {
+    protected AbstractIOPortHandler(final T part, final IoMode mode) {
 
         this._part = part;
         this._mode = mode;
@@ -103,7 +104,7 @@ public abstract class AbstractIOPortHandler<Controller extends AbstractGenerator
 
     //region internals
 
-    private final AbstractCuboidMultiblockPart<Controller> _part;
+    private final T _part;
     private final IoMode _mode;
 
     //endregion

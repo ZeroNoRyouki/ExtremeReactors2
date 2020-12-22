@@ -87,6 +87,9 @@ public enum TurbinePartType
     ComputerPort(() -> Content.TileEntityTypes.TURBINE_COMPUTERPORT::get,
             ComputerPortBlock::new, "part.bigreactors.turbine.computerport"),
 
+    ChargingPortFE(() -> Content.TileEntityTypes.TURBINE_CHARGINGPORT_FE::get,
+            GenericDeviceBlock::new, "part.bigreactors.turbine.chargingport_fe"),
+
 //    //TODO new? implement?
 //    RedstonePort(() -> Content.TileEntityTypes.TURBINE_REDSTONEPORT::get,
 //            TurbineRedstonePortBlock::new, "part.bigreactors.turbine.redstoneport"),
