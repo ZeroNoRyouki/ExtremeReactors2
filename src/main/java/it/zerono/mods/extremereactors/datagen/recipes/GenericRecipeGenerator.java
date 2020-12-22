@@ -21,14 +21,17 @@ package it.zerono.mods.extremereactors.datagen.recipes;
 import com.google.gson.JsonObject;
 import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.gamecontent.Content;
+import it.zerono.mods.extremereactors.gamecontent.ContentTags;
 import it.zerono.mods.extremereactors.gamecontent.compat.patchouli.PatchouliCompat;
 import it.zerono.mods.zerocore.lib.compat.Mods;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.IFinishedRecipe;
 import net.minecraft.data.ShapedRecipeBuilder;
+import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.tags.ITag;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.IItemProvider;
 import net.minecraft.util.JSONUtils;
@@ -91,7 +94,7 @@ public class GenericRecipeGenerator
                 .addCriterion("has_item", hasItem(Content.Items.WRENCH.get()))
                 .build(c, ExtremeReactors.newID("misc/wrench"));
 
-        this.book(c, "erguide", PatchouliCompat.HANDBOOK_ID, Items.BOOK, Content.Items.YELLORIUM_INGOT.get());
+        this.book(c, "erguide", PatchouliCompat.HANDBOOK_ID, Items.BOOK, ContentTags.Items.INGOTS_YELLORIUM);
     }
 
     //endregion
@@ -99,7 +102,7 @@ public class GenericRecipeGenerator
 
     private void book(final Consumer<IFinishedRecipe> c, final String name, final ResourceLocation patchouliBookId,
                       final IItemProvider ingredientBook,
-                      final IItemProvider ingredientItem) {
+                      final ITag<Item> ingredientItem) {
 
         Mods.PATCHOULI.map(() -> PatchouliAPI.get().getBookStack(patchouliBookId)).ifPresent(book -> {
 
