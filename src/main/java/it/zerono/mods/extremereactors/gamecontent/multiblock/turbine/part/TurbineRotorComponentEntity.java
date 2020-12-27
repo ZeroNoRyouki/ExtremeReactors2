@@ -98,7 +98,7 @@ public class TurbineRotorComponentEntity
 
         if (PartPosition.Interior != position) {
 
-            validatorCallback.setLastError("multiblock.validation.turbine.invalid_rotor_position", this.getWorldPosition());
+            validatorCallback.setLastError(this.getWorldPosition(), "multiblock.validation.turbine.invalid_rotor_position");
             return false;
         }
 

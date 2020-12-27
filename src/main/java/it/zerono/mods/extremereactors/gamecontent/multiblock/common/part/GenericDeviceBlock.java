@@ -19,19 +19,12 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.common.part;
 
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part.TurbineRotorComponentBlock;
-import it.zerono.mods.zerocore.lib.CodeHelper;
 import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockPartType;
 import it.zerono.mods.zerocore.lib.block.multiblock.MultiblockPartBlock;
 import it.zerono.mods.zerocore.lib.multiblock.IMultiblockController;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.world.World;
 
 public class GenericDeviceBlock<Controller extends IMultiblockController<Controller>,
                                 PartType extends Enum<PartType> & IMultiblockPartType>
@@ -49,11 +42,5 @@ public class GenericDeviceBlock<Controller extends IMultiblockController<Control
         return adjacentBlock instanceof MultiblockPartBlock &&
                 !(adjacentBlock instanceof GlassBlock) &&
                 !(adjacentBlock instanceof TurbineRotorComponentBlock);
-    }
-
-    public ActionResultType onBlockActivated(BlockState state, World world, BlockPos position, PlayerEntity player,
-                                             Hand hand, BlockRayTraceResult hit) {
-        return this.callOnLogicalServer(world, () -> super.onBlockActivated(state, world, position, player, hand, hit),
-                () -> ActionResultType.SUCCESS);
     }
 }

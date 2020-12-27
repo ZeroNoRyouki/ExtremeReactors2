@@ -275,7 +275,7 @@ public class ReactorFuelRodEntity
 
         if (PartPosition.Interior != position) {
 
-            validatorCallback.setLastError("multiblock.validation.reactor.invalid_fuelrod_position", this.getWorldPosition());
+            validatorCallback.setLastError(this.getWorldPosition(), "multiblock.validation.reactor.invalid_fuelrod_position");
             return false;
         }
 

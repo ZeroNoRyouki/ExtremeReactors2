@@ -751,7 +751,7 @@ public class MultiblockTurbine
 
         // Everything else is an invalid block
 
-        validatorCallback.setLastError("multiblock.validation.turbine.invalid_block_for_interior", x, y, z);
+        validatorCallback.setLastError(position, "multiblock.validation.turbine.invalid_block_for_interior");
         return false;
     }
 
@@ -876,7 +876,7 @@ public class MultiblockTurbine
 
             if (!shaftsPositions.remove(rotorCoord)) {
 
-                validatorCallback.setLastError("multiblock.validation.turbine.block_must_be_rotor", rotorCoord);
+                validatorCallback.setLastError(rotorCoord, "multiblock.validation.turbine.block_must_be_rotor");
                 return false;
             }
 
@@ -898,7 +898,7 @@ public class MultiblockTurbine
                     // We found a coil already?! NOT ALLOWED.
                     if (encounteredCoils) {
 
-                        validatorCallback.setLastError("multiblock.validation.turbine.blades_too_far", checkCoord);
+                        validatorCallback.setLastError(checkCoord, "multiblock.validation.turbine.blades_too_far");
                         return false;
                     }
 
@@ -918,7 +918,7 @@ public class MultiblockTurbine
 
                         if (encounteredBlades) {
 
-                            validatorCallback.setLastError("multiblock.validation.turbine.metal_too_near", checkCoord);
+                            validatorCallback.setLastError(checkCoord, "multiblock.validation.turbine.metal_too_near");
                             return false;
                         }
 
@@ -963,7 +963,7 @@ public class MultiblockTurbine
 
         if (!this._validationFoundCoils.isEmpty()) {
 
-            validatorCallback.setLastError("multiblock.validation.turbine.invalid_metals_shape", _validationFoundCoils.size());
+            validatorCallback.setLastError("multiblock.validation.turbine.invalid_metals_shape", this._validationFoundCoils.size());
             return false;
         }
 
@@ -1041,8 +1041,10 @@ public class MultiblockTurbine
 
     private static boolean invalidBlockForExterior(World world, int x, int y, int z, IMultiblockValidator validatorCallback) {
 
-        validatorCallback.setLastError("multiblock.validation.turbine.invalid_block_for_exterior", x, y, z,
-                ModBlock.getNameForTranslation(world.getBlockState(new BlockPos(x, y, z)).getBlock()));
+        final BlockPos position = new BlockPos(x, y, z);
+
+        validatorCallback.setLastError(position, "multiblock.validation.turbine.invalid_block_for_exterior",
+                ModBlock.getNameForTranslation(world.getBlockState(position).getBlock()));
         return false;
     }
 

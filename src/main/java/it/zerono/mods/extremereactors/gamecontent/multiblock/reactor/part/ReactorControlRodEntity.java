@@ -209,11 +209,7 @@ public class ReactorControlRodEntity
 
             } else {
 
-                BlockPos partPosition = this.getWorldPosition();
-
-                validatorCallback.setLastError("multiblock.validation.reactor.invalid_control_rods_position",
-                        partPosition.getX(), partPosition.getY(), partPosition.getZ());
-
+                validatorCallback.setLastError(this.getWorldPosition(), "multiblock.validation.reactor.invalid_control_rods_position");
                 return false;
             }
         }

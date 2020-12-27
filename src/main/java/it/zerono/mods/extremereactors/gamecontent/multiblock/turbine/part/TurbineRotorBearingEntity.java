@@ -107,11 +107,7 @@ public class TurbineRotorBearingEntity
             return true;
         }
 
-        final BlockPos partPosition = this.getWorldPosition();
-
-        validatorCallback.setLastError("multiblock.validation.turbine.invalid_bearing_position",
-                partPosition.getX(), partPosition.getY(), partPosition.getZ());
-
+        validatorCallback.setLastError(this.getWorldPosition(), "multiblock.validation.turbine.invalid_bearing_position");
         return false;
     }
 

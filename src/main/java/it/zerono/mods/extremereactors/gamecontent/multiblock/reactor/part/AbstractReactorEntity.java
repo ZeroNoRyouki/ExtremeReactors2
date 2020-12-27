@@ -134,14 +134,12 @@ public abstract class AbstractReactorEntity
 
         if (position.isFrame()) {
 
-            validatorCallback.setLastError("multiblock.validation.reactor.invalid_frame_block", coordinates.getX(),
-                    coordinates.getY(), coordinates.getZ());
+            validatorCallback.setLastError(coordinates, "multiblock.validation.reactor.invalid_frame_block");
             return false;
 
         } else if (PartPosition.Interior == position) {
 
-            validatorCallback.setLastError("multiblock.validation.reactor.invalid_part_for_interior", coordinates.getX(),
-                    coordinates.getY(), coordinates.getZ());
+            validatorCallback.setLastError(coordinates, "multiblock.validation.reactor.invalid_part_for_interior");
             return false;
         }
 

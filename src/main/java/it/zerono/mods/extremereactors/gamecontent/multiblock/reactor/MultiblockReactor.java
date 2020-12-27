@@ -1045,7 +1045,7 @@ public class MultiblockReactor
         }
 
         // Give up ...
-        validatorCallback.setLastError("multiblock.validation.reactor.invalid_block_for_interior", x, y, z,
+        validatorCallback.setLastError(position, "multiblock.validation.reactor.invalid_block_for_interior",
                 ModBlock.getNameForTranslation(blockState.getBlock()));
         return false;
     }
@@ -1153,8 +1153,10 @@ public class MultiblockReactor
 
     private static boolean invalidBlockForExterior(World world, int x, int y, int z, IMultiblockValidator validatorCallback) {
 
-        validatorCallback.setLastError("multiblock.validation.reactor.invalid_block_for_exterior", x, y, z,
-                ModBlock.getNameForTranslation(world.getBlockState(new BlockPos(x, y, z)).getBlock()));
+        final BlockPos position = new BlockPos(x, y, z);
+
+        validatorCallback.setLastError(position, "multiblock.validation.reactor.invalid_block_for_exterior",
+                ModBlock.getNameForTranslation(world.getBlockState(position).getBlock()));
         return false;
     }
 
@@ -1380,8 +1382,7 @@ public class MultiblockReactor
 
                     // a Reactor Casing is the only valid base for a fuel assembly
 
-                    validatorCallback.setLastError("multiblock.validation.reactor.invalid_base_for_fuel_assembly",
-                            scanPosition.getX(), scanPosition.getY(), scanPosition.getZ());
+                    validatorCallback.setLastError(scanPosition, "multiblock.validation.reactor.invalid_base_for_fuel_assembly");
                     return false;
                 }
 
@@ -1391,8 +1392,7 @@ public class MultiblockReactor
             } else {
 
                 // found an invalid tile entity (or no tile entity at all)
-                validatorCallback.setLastError("multiblock.validation.reactor.invalid_block_in_fuel_assembly",
-                        scanPosition.getX(), scanPosition.getY(), scanPosition.getZ());
+                validatorCallback.setLastError(scanPosition, "multiblock.validation.reactor.invalid_block_in_fuel_assembly");
                 return false;
             }
         }
