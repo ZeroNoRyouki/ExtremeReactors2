@@ -27,7 +27,7 @@ public abstract class AbstractMultiblockController<Controller extends AbstractCu
         V extends IMultiblockDimensionVariant>
         extends AbstractCuboidMultiblockController<Controller> {
 
-    public AbstractMultiblockController(World world) {
+    protected AbstractMultiblockController(World world) {
 
         super(world);
         this._ticksSinceLastUpdate = 0;
