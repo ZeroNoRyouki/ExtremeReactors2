@@ -21,6 +21,8 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.scr
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
+import it.zerono.mods.extremereactors.ExtremeReactors;
+import it.zerono.mods.extremereactors.gamecontent.compat.patchouli.PatchouliCompat;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.AbstractMultiblockScreen;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.CommonIcons;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.MultiblockReactor;
@@ -125,6 +127,8 @@ public class ReactorRedstonePortScreen
 
     @Override
     protected void onScreenCreate() {
+
+        this.addPatchouliHelpButton(PatchouliCompat.HANDBOOK_ID, ExtremeReactors.newID("reactor/part-redstoneport"), 1);
 
         Panel p;
         PanelGroup<SensorBehavior> behaviorGroup;

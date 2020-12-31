@@ -23,6 +23,7 @@ import it.zerono.mods.extremereactors.api.IMapping;
 import it.zerono.mods.extremereactors.api.reactor.Reactant;
 import it.zerono.mods.extremereactors.api.reactor.ReactantMappingsRegistry;
 import it.zerono.mods.extremereactors.api.reactor.ReactantType;
+import it.zerono.mods.extremereactors.gamecontent.CommonConstants;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.IFuelSource;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.MultiblockReactor;
@@ -67,8 +68,6 @@ public class ReactorSolidAccessPortEntity
         extends AbstractReactorEntity
         implements IFuelSource<ItemStack>, IIoEntity, INeighborChangeListener, INamedContainerProvider {
 
-    public static String COMMAND_SET_INPUT = "setinput";
-    public static String COMMAND_SET_OUTPUT = "setoutput";
     public static String COMMAND_DUMP_FUEL = "dumpfuel";
     public static String COMMAND_DUMP_WASTE = "dumpwaste";
 
@@ -82,8 +81,8 @@ public class ReactorSolidAccessPortEntity
         this._wasteCapability = LazyOptional.of(this::createWasteCapability);
 
         this.setCommandDispatcher(TileCommandDispatcher.<ReactorSolidAccessPortEntity>builder()
-                .addServerHandler(COMMAND_SET_INPUT, tile -> tile.setIoDirection(IoDirection.Input))
-                .addServerHandler(COMMAND_SET_OUTPUT, tile -> tile.setIoDirection(IoDirection.Output))
+                .addServerHandler(CommonConstants.COMMAND_SET_INPUT, tile -> tile.setIoDirection(IoDirection.Input))
+                .addServerHandler(CommonConstants.COMMAND_SET_OUTPUT, tile -> tile.setIoDirection(IoDirection.Output))
                 .addServerHandler(COMMAND_DUMP_FUEL, ReactorSolidAccessPortEntity::handleCommandEjectFuel)
                 .addServerHandler(COMMAND_DUMP_WASTE, ReactorSolidAccessPortEntity::handleCommandEjectWaste)
                 .build(this));

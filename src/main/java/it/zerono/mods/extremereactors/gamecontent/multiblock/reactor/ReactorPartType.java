@@ -70,8 +70,8 @@ public enum ReactorPartType
     PassiveFluidPortForge(() -> Content.TileEntityTypes.REACTOR_FLUIDPORT_FORGE_PASSIVE::get,
             PassiveFluidPortBlock::new, "part.bigreactors.reactor.fluidport_forge_passive"),
 
-    ActiveFluidPortMekanism(() -> null,//Content.TileEntityTypes.REACTOR_FLUIDPORT_MEKANISM_ACTIVE::get, //TODO mekanism Fluid port
-            IOPortBlock::new, "part.bigreactors.reactor.fluidport_mekanism_active"),
+//    ActiveFluidPortMekanism(() -> null,//Content.TileEntityTypes.REACTOR_FLUIDPORT_MEKANISM_ACTIVE::get, //TODO mekanism Fluid port
+//            IOPortBlock::new, "part.bigreactors.reactor.fluidport_mekanism_active"),
 
     PassiveFluidPortMekanism(() -> Content.TileEntityTypes.REACTOR_FLUIDPORT_MEKANISM_PASSIVE::get,
             PassiveFluidPortBlock::new, "part.bigreactors.reactor.fluidport_mekanism_passive"),

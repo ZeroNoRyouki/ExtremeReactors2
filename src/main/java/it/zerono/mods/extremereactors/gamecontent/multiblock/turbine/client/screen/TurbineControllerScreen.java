@@ -19,10 +19,12 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.client.screen;
 
 import com.google.common.collect.ImmutableList;
+import it.zerono.mods.extremereactors.ExtremeReactors;
+import it.zerono.mods.extremereactors.gamecontent.CommonConstants;
+import it.zerono.mods.extremereactors.gamecontent.compat.patchouli.PatchouliCompat;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.AbstractGeneratorMultiblockController;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.AbstractMultiblockScreen;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.CommonIcons;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.AbstractMultiblockEntity;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part.ReactorControllerEntity;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.MultiblockTurbine;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.VentSetting;
@@ -104,6 +106,8 @@ public class TurbineControllerScreen
 
     @Override
     protected void onScreenCreate() {
+
+        this.addPatchouliHelpButton(PatchouliCompat.HANDBOOK_ID, ExtremeReactors.newID("turbine/part-controller"), 1);
 
         Static s;
         Panel p;
@@ -796,8 +800,8 @@ public class TurbineControllerScreen
 
     private void onActiveStateChanged(final SwitchButton button) {
         this.sendCommandToServer(button.getActive() ?
-                AbstractMultiblockEntity.COMMAND_ACTIVATE :
-                AbstractMultiblockEntity.COMMAND_DEACTIVATE);
+                CommonConstants.COMMAND_ACTIVATE :
+                CommonConstants.COMMAND_DEACTIVATE);
     }
 
     private void onVentSettingChanged(final SwitchPictureButton button) {

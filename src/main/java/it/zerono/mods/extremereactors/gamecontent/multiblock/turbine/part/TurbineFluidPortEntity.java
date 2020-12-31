@@ -18,21 +18,30 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part;
 
+import it.zerono.mods.extremereactors.gamecontent.CommonConstants;
+import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.fluidport.FluidPortType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.fluidport.IFluidPort;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.fluidport.IFluidPortHandler;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.MultiblockTurbine;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.IMultiblockTurbineVariant;
 import it.zerono.mods.zerocore.lib.block.INeighborChangeListener;
+import it.zerono.mods.zerocore.lib.block.TileCommandDispatcher;
 import it.zerono.mods.zerocore.lib.data.IoDirection;
 import it.zerono.mods.zerocore.lib.data.IoMode;
 import it.zerono.mods.zerocore.lib.fluid.FluidHelper;
+import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
 import it.zerono.mods.zerocore.lib.multiblock.ITickableMultiblockPart;
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.capability.IFluidHandler;
@@ -42,13 +51,19 @@ import javax.annotation.Nullable;
 
 public class TurbineFluidPortEntity
         extends AbstractTurbineEntity
-        implements IFluidPort<MultiblockTurbine, IMultiblockTurbineVariant>, ITickableMultiblockPart, INeighborChangeListener {
+        implements IFluidPort<MultiblockTurbine, IMultiblockTurbineVariant>, ITickableMultiblockPart,
+                    INeighborChangeListener, INamedContainerProvider {
 
     public TurbineFluidPortEntity(final FluidPortType type, final IoMode mode, final TileEntityType<?> entityType) {
 
         super(entityType);
         this._handler = IFluidPortHandler.create(type, mode, this);
         this.setIoDirection(IoDirection.Input);
+
+        this.setCommandDispatcher(TileCommandDispatcher.<TurbineFluidPortEntity>builder()
+                .addServerHandler(CommonConstants.COMMAND_SET_INPUT, tile -> tile.setIoDirection(IoDirection.Input))
+                .addServerHandler(CommonConstants.COMMAND_SET_OUTPUT, tile -> tile.setIoDirection(IoDirection.Output))
+                .build(this));
     }
 
     //region ICoolantPort
@@ -157,6 +172,22 @@ public class TurbineFluidPortEntity
     }
 
     //endregion
+    //region INamedContainerProvider
+
+    /**
+     * Create the SERVER-side container for this TileEntity
+     * @param windowId  the window id
+     * @param inventory the player inventory
+     * @param player    the player
+     * @return the container to use on the server
+     */
+    @Nullable
+    @Override
+    public Container createMenu(final int windowId, final PlayerInventory inventory, final PlayerEntity player) {
+        return ModTileContainer.empty(Content.ContainerTypes.TURBINE_FLUIDPORT.get(), windowId, this);
+    }
+
+    //endregion
     //region client render support
 
     @Override
@@ -172,6 +203,22 @@ public class TurbineFluidPortEntity
 
             return 0;
         }
+    }
+
+    //endregion
+    //region AbstractModBlockEntity
+
+    /**
+     * Check if the tile entity has a GUI or not
+     * Override in derived classes to return true if your tile entity got a GUI
+     *
+     * @param world
+     * @param position
+     * @param state
+     */
+    @Override
+    public boolean canOpenGui(World world, BlockPos position, BlockState state) {
+        return this.isMachineAssembled();
     }
 
     //endregion

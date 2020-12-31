@@ -18,6 +18,7 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen;
 
+import it.zerono.mods.extremereactors.gamecontent.compat.patchouli.PatchouliCompat;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.container.ChargingPortContainer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.AbstractMultiblockEntity;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.powertap.chargingport.AbstractChargingPortHandler;
@@ -37,6 +38,7 @@ import it.zerono.mods.zerocore.lib.multiblock.cuboid.AbstractCuboidMultiblockCon
 import it.zerono.mods.zerocore.lib.multiblock.variant.IMultiblockVariant;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.INamedContainerProvider;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 
@@ -48,11 +50,12 @@ public class ChargingPortScreen<Controller extends AbstractCuboidMultiblockContr
         extends AbstractMultiblockScreen<Controller, T, ChargingPortContainer<T>> {
 
     public ChargingPortScreen(final ChargingPortContainer<T> container, final PlayerInventory inventory,
-                              final ITextComponent title) {
+                              final ITextComponent title, final ResourceLocation bookEntryId) {
         super(container, inventory, PlayerInventoryUsage.Both, title,
                 mainTextureFromVariant(container.getTileEntity().getMultiblockVariant().orElseThrow(IllegalStateException::new)));
 
         this._btnEject = new Button(this, "eject", "");
+        this.addPatchouliHelpButton(PatchouliCompat.HANDBOOK_ID, bookEntryId, 1);
     }
 
     //region AbstractMultiblockScreen

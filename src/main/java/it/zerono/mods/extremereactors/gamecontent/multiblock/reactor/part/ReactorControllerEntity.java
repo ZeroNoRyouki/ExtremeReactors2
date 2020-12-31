@@ -18,6 +18,7 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part;
 
+import it.zerono.mods.extremereactors.gamecontent.CommonConstants;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.model.data.ModelTransformers;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.MultiblockReactor;
@@ -53,8 +54,8 @@ public class ReactorControllerEntity
         super(Content.TileEntityTypes.REACTOR_CONTROLLER.get());
 
         this.setCommandDispatcher(TileCommandDispatcher.<ReactorControllerEntity>builder()
-                .addServerHandler(COMMAND_ACTIVATE, rce -> rce.setReactorActive(true))
-                .addServerHandler(COMMAND_DEACTIVATE, rce -> rce.setReactorActive(false))
+                .addServerHandler(CommonConstants.COMMAND_ACTIVATE, rce -> rce.setReactorActive(true))
+                .addServerHandler(CommonConstants.COMMAND_DEACTIVATE, rce -> rce.setReactorActive(false))
                 .addServerHandler(COMMAND_WASTE_AUTOMATIC, rce -> rce.setWasteEjectionMode(WasteEjectionSetting.Automatic))
                 .addServerHandler(COMMAND_WASTE_MANUAL, rce -> rce.setWasteEjectionMode(WasteEjectionSetting.Manual))
 

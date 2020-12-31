@@ -18,6 +18,7 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part;
 
+import it.zerono.mods.extremereactors.gamecontent.CommonConstants;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.model.data.ModelTransformers;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.MultiblockTurbine;
@@ -56,8 +57,8 @@ public class TurbineControllerEntity
         super(Content.TileEntityTypes.TURBINE_CONTROLLER.get());
 
         this.setCommandDispatcher(TileCommandDispatcher.<TurbineControllerEntity>builder()
-                .addServerHandler(COMMAND_ACTIVATE, tce -> tce.setTurbineActive(true))
-                .addServerHandler(COMMAND_DEACTIVATE, tce -> tce.setTurbineActive(false))
+                .addServerHandler(CommonConstants.COMMAND_ACTIVATE, tce -> tce.setTurbineActive(true))
+                .addServerHandler(CommonConstants.COMMAND_DEACTIVATE, tce -> tce.setTurbineActive(false))
                 .addServerHandler(COMMAND_ENGAGE_COILS, tce -> tce.executeOnController(tc -> tc.setInductorEngaged(true)))
                 .addServerHandler(COMMAND_DISENGAGE_COILS, tce -> tce.executeOnController(tc -> tc.setInductorEngaged(false)))
                 .addServerHandler(COMMAND_SET_INTAKERATE, TurbineControllerEntity::setIntakeRate)
@@ -195,9 +196,6 @@ public class TurbineControllerEntity
     }
 
     private void scram() {
-
-        //TODO imp
-//        this.getMultiblockController().ifPresent(c -> c.setControlRodsInsertionRatio(100));
         this.setTurbineActive(false);
     }
 

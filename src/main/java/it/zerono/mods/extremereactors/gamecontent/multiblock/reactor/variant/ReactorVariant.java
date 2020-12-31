@@ -349,8 +349,7 @@ public enum ReactorVariant
 
     private static final Set<ReactorPartType> BASIC_INVALID_PARTS = Sets.immutableEnumSet(ReactorPartType.ComputerPort,
             ReactorPartType.ActiveFluidPortForge, ReactorPartType.PassiveFluidPortForge,
-            ReactorPartType.ActiveFluidPortMekanism, ReactorPartType.PassiveFluidPortMekanism,
-            ReactorPartType.CreativeWaterGenerator);
+            ReactorPartType.PassiveFluidPortMekanism, ReactorPartType.CreativeWaterGenerator);
 
     private final String _translationKey;
 

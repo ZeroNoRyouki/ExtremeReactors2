@@ -692,6 +692,10 @@ public final class Content {
                 registerContainer("reactorchargingport",
                         (windowId, inv, data) -> new ChargingPortContainer<>(windowId, Content.ContainerTypes.REACTOR_CHARGINGPORT.get(), inv, data));
 
+        public static final RegistryObject<ContainerType<ModTileContainer<ReactorFluidPortEntity>>> REACTOR_FLUIDPORT =
+                registerContainer("reactorfluidport", (windowId, inv, data) ->
+                        ModTileContainer.empty(Content.ContainerTypes.REACTOR_FLUIDPORT.get(), windowId, data));
+
         //endregion
         //region Turbine
 
@@ -706,6 +710,10 @@ public final class Content {
         public static final RegistryObject<ContainerType<ChargingPortContainer<TurbineChargingPortEntity>>> TURBINE_CHARGINGPORT =
                 registerContainer("turbinechargingport",
                         (windowId, inv, data) -> new ChargingPortContainer<>(windowId, Content.ContainerTypes.TURBINE_CHARGINGPORT.get(), inv, data));
+
+        public static final RegistryObject<ContainerType<ModTileContainer<TurbineFluidPortEntity>>> TURBINE_FLUIDPORT =
+                registerContainer("turbinefluidport", (windowId, inv, data) ->
+                        ModTileContainer.empty(Content.ContainerTypes.TURBINE_FLUIDPORT.get(), windowId, data));
 
         //endregion
         //region internals

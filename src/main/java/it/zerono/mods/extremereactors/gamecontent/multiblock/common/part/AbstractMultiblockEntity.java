@@ -29,9 +29,6 @@ import javax.annotation.Nonnull;
 public abstract class AbstractMultiblockEntity<Controller extends AbstractCuboidMultiblockController<Controller>>
         extends AbstractCuboidMultiblockPart<Controller> {
 
-    public static String COMMAND_ACTIVATE = "activate";
-    public static String COMMAND_DEACTIVATE = "deactivate";
-
     public AbstractMultiblockEntity(final TileEntityType<?> type) {
         super(type);
     }

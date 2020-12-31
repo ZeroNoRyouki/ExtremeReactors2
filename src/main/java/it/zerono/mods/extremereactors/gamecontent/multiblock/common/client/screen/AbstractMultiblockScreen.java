@@ -41,6 +41,7 @@ import it.zerono.mods.zerocore.lib.multiblock.cuboid.AbstractCuboidMultiblockCon
 import it.zerono.mods.zerocore.lib.multiblock.variant.IMultiblockVariant;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.INamedContainerProvider;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
@@ -80,23 +81,21 @@ public abstract class AbstractMultiblockScreen<Controller extends AbstractCuboid
                                        final PlayerInventoryUsage inventoryUsage, final ITextComponent title,
                                        final NonNullSupplier<SpriteTextureMap> mainTextureSupplier) {
         this(container, inventory, inventoryUsage, title, DEFAULT_GUI_WIDTH, DEFAULT_GUI_HEIGHT, mainTextureSupplier.get());
+    }
 
-        final T tile = container.getTileEntity();
-
-        if (tile instanceof AbstractReactorEntity) {
-
-            this.setIndicatorToolTip(true, INDICATOR_ACTIVE_REACTOR);
-            this.setIndicatorToolTip(false, INDICATOR_INACTIVE_REACTOR);
-
-        } else if (tile instanceof AbstractTurbineEntity) {
-
-            this.setIndicatorToolTip(true, INDICATOR_ACTIVE_TURBINE);
-            this.setIndicatorToolTip(false, INDICATOR_INACTIVE_TURBINE);
-        }
+    protected AbstractMultiblockScreen(final C container, final PlayerInventory inventory,
+                                       final PlayerInventoryUsage inventoryUsage, final ITextComponent title,
+                                       final int guiWidth, final int guiHeight,
+                                       final NonNullSupplier<SpriteTextureMap> mainTextureSupplier) {
+        this(container, inventory, inventoryUsage, title, guiWidth, guiHeight, mainTextureSupplier.get());
     }
 
     protected static NonNullSupplier<SpriteTextureMap> mainTextureFromVariant(final IMultiblockVariant variant) {
         return () -> new SpriteTextureMap(ExtremeReactors.newID("textures/gui/multiblock/" + variant.getName() + "_background.png"), 256, 256);
+    }
+
+    protected static NonNullSupplier<SpriteTextureMap> halfTextureFromVariant(final IMultiblockVariant variant) {
+        return () -> new SpriteTextureMap(ExtremeReactors.newID("textures/gui/multiblock/" + variant.getName() + "_background_half.png"), 256, 98);
     }
 
     protected AbstractMultiblockScreen(final C container, final PlayerInventory inventory,
@@ -140,11 +139,25 @@ public abstract class AbstractMultiblockScreen<Controller extends AbstractCuboid
         }
 
         this._contentPanel = new Panel(this, "content");
+        this._helpButton = null;
 
         // indicators
 
         this._indicatorOn = new Picture(this, "on", CommonIcons.MachineStatusOn);
         this._indicatorOff = new Picture(this, "off", CommonIcons.MachineStatusOff);
+
+        final T tile = container.getTileEntity();
+
+        if (tile instanceof AbstractReactorEntity) {
+
+            this.setIndicatorToolTip(true, INDICATOR_ACTIVE_REACTOR);
+            this.setIndicatorToolTip(false, INDICATOR_INACTIVE_REACTOR);
+
+        } else if (tile instanceof AbstractTurbineEntity) {
+
+            this.setIndicatorToolTip(true, INDICATOR_ACTIVE_TURBINE);
+            this.setIndicatorToolTip(false, INDICATOR_INACTIVE_TURBINE);
+        }
     }
 
     protected void addControl(final IControl control) {
@@ -176,11 +189,16 @@ public abstract class AbstractMultiblockScreen<Controller extends AbstractCuboid
         }
     }
 
+    protected void addPatchouliHelpButton(final ResourceLocation bookId, final ResourceLocation entryId, final int pageNum) {
+        this._helpButton = this.createPatchouliHelpButton(bookId, entryId, pageNum);
+    }
+
     protected void setButtonSpritesAndOverlayForState(final AbstractButtonControl button,
                                                       final ButtonState standardState,
                                                       final NonNullSupplier<ISprite> standardSprite) {
         this.setButtonSpritesAndOverlayForState(button, standardState,standardSprite.get());
     }
+
     protected void setButtonSpritesAndOverlayForState(final AbstractButtonControl button,
                                                       final ButtonState standardState,
                                                       final ISprite standardSprite) {
@@ -286,7 +304,7 @@ public abstract class AbstractMultiblockScreen<Controller extends AbstractCuboid
         title.setPadding(2);
         title.setColor(Colour.BLACK);
         title.setAutoSize(false);
-        title.setLayoutEngineHint(FixedLayoutEngine.hint(17, 7, guiWidth - 23, 12));
+        title.setLayoutEngineHint(FixedLayoutEngine.hint(17, 7, guiWidth - 47, 12));
 
         this._indicatorOn.setVisible(false);
         this._indicatorOn.setLayoutEngineHint(FixedLayoutEngine.hint(7, 7, 10, 10));
@@ -295,6 +313,12 @@ public abstract class AbstractMultiblockScreen<Controller extends AbstractCuboid
         this._indicatorOff.setLayoutEngineHint(FixedLayoutEngine.hint(7, 7, 10, 10));
 
         titlePanel.addControl(title, this._indicatorOn, this._indicatorOff);
+
+        if (null != this._helpButton) {
+
+            this._helpButton.setLayoutEngineHint(FixedLayoutEngine.hint(guiWidth - 18, 6, 12, 12));
+            titlePanel.addControl(this._helpButton);
+        }
 
         // - content panel
 
@@ -342,6 +366,7 @@ public abstract class AbstractMultiblockScreen<Controller extends AbstractCuboid
     private final IControlContainer _contentPanel;
     private final Picture _indicatorOn;
     private final Picture _indicatorOff;
+    private IControl _helpButton;
 
     //endregion
 }

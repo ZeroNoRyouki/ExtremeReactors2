@@ -69,11 +69,11 @@ public enum TurbinePartType
     PassiveFluidPortForge(() -> Content.TileEntityTypes.TURBINE_FLUIDPORT_FORGE_PASSIVE::get,
             PassiveFluidPortBlock::new, "part.bigreactors.turbine.fluidport_forge_passive"),
 
-    ActiveFluidPortMekanism(() -> null,//Content.TileEntityTypes.TURBINE_FLUIDPORT_MEKANISM_ACTIVE::get, //TODO mekanism fluid port
-            IOPortBlock::new, "part.bigreactors.turbine.fluidport_mekanism_active"),
-
-    PassiveFluidPortMekanism(() -> null,//Content.TileEntityTypes.TURBINE_FLUIDPORT_MEKANISM_PASSIVE::get, //TODO mekanism fluid port
-            PassiveFluidPortBlock::new, "part.bigreactors.turbine.fluidport_mekanism_passive"),
+//    ActiveFluidPortMekanism(() -> null,//Content.TileEntityTypes.TURBINE_FLUIDPORT_MEKANISM_ACTIVE::get, //TODO mekanism fluid port
+//            IOPortBlock::new, "part.bigreactors.turbine.fluidport_mekanism_active"),
+//
+//    PassiveFluidPortMekanism(() -> null,//Content.TileEntityTypes.TURBINE_FLUIDPORT_MEKANISM_PASSIVE::get, //TODO mekanism fluid port
+//            PassiveFluidPortBlock::new, "part.bigreactors.turbine.fluidport_mekanism_passive"),
 
     CreativeSteamGenerator(() -> Content.TileEntityTypes.TURBINE_CREATIVE_STEAM_GENERATOR::get,
             GenericDeviceBlock::new, "part.bigreactors.turbine.creativesteamgenerator"),

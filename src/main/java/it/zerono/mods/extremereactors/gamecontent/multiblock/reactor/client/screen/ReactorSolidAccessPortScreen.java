@@ -18,7 +18,10 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.screen;
 
+import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.api.reactor.ReactantType;
+import it.zerono.mods.extremereactors.gamecontent.CommonConstants;
+import it.zerono.mods.extremereactors.gamecontent.compat.patchouli.PatchouliCompat;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.AbstractMultiblockScreen;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.CommonIcons;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.MultiblockReactor;
@@ -74,6 +77,8 @@ public class ReactorSolidAccessPortScreen
      */
     @Override
     protected void onScreenCreate() {
+
+        this.addPatchouliHelpButton(PatchouliCompat.HANDBOOK_ID, ExtremeReactors.newID("reactor/part-solidaccessport"), 1);
 
         super.onScreenCreate();
 
@@ -172,11 +177,11 @@ public class ReactorSolidAccessPortScreen
     //region  internals
 
     private void onInputActivated(SwitchPictureButton button) {
-        this.sendCommandToServer(ReactorSolidAccessPortEntity.COMMAND_SET_INPUT);
+        this.sendCommandToServer(CommonConstants.COMMAND_SET_INPUT);
     }
 
     private void onOutputActivated(SwitchPictureButton button) {
-        this.sendCommandToServer(ReactorSolidAccessPortEntity.COMMAND_SET_OUTPUT);
+        this.sendCommandToServer(CommonConstants.COMMAND_SET_OUTPUT);
     }
 
     private void onDumpFuel(Button button, Integer mouseButton) {
