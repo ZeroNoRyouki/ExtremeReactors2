@@ -482,7 +482,7 @@ public class ReactorControllerScreen
             // - vapor generation ratio
 
             final BindableTextComponent<Double> vaporGeneratedText = new BindableTextComponent<>(
-                    generated -> new StringTextComponent(String.format("%.2f %s", generated, "B")).setStyle(STYLE_TOOLTIP_VALUE));
+                    generated -> new StringTextComponent(String.format("%.2f %s", generated / 1000.0, "B")).setStyle(STYLE_TOOLTIP_VALUE));
 
             p = this.hInfoPanelSlot();
             p.addControl(new Picture(this, "vaporRatio", CommonIcons.VaporIcon.get(), 16, 16)); //TODO fix icon
@@ -501,7 +501,7 @@ public class ReactorControllerScreen
                     )
             );
             this.addBinding((MultiblockReactor reactor) -> reactor.getUiStats().getAmountGeneratedLastTick(),
-                    value -> this._lblVaporRatio.setText(CodeHelper.formatAsHumanReadableNumber(value, "B" + "/t")),
+                    generated -> this._lblVaporRatio.setText(CodeHelper.formatAsHumanReadableNumber(generated / 1000.0, "B" + "/t")),
                     vaporGeneratedText);
             p.addControl(this._lblVaporRatio);
             infoPanelRight.addControl(p);

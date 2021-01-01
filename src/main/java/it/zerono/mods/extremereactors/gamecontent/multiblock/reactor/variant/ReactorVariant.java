@@ -54,7 +54,7 @@ public enum ReactorVariant
             .setMaxChargerRate(5000)
             .setRadiationAttenuation(0.75f)
             .setResidualRadiationAttenuation(0.15f)
-            .setPartFluidCapacity(4567)
+            .setPartFluidCapacity(2500)
             .setMaxFluidCapacity(200000)
             .setVaporGenerationEfficiency(0.85f)
             .setSolidFuelConversionEfficiency(0.75f)
