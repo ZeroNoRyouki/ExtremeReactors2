@@ -20,6 +20,7 @@ package it.zerono.mods.extremereactors;
 
 import it.zerono.mods.extremereactors.api.internal.modpack.wrapper.ApiWrapper;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.MultiblockReactor;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.MultiblockTurbine;
 import it.zerono.mods.zerocore.lib.CodeHelper;
 import it.zerono.mods.zerocore.lib.debug.DebugHelper;
 import it.zerono.mods.zerocore.lib.multiblock.IMultiblockController;
@@ -85,6 +86,12 @@ public class DebugTests {
                 .filter(controller -> controller instanceof MultiblockReactor)
                 .map(controller -> (MultiblockReactor)controller)
                 .ifPresent(MultiblockReactor::reset);
+
+        WorldHelper.getMultiblockPartFrom(world, clickedPos)
+                .flatMap(IMultiblockPart::getMultiblockController)
+                .filter(controller -> controller instanceof MultiblockTurbine)
+                .map(controller -> (MultiblockTurbine)controller)
+                .ifPresent(MultiblockTurbine::reset);
     }
 
     private static void highlightBlockShape(World world, BlockPos clickedPos) {

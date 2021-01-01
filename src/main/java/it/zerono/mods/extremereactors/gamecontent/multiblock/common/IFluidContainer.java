@@ -58,7 +58,7 @@ public interface IFluidContainer {
 
     double onAbsorbHeat(double energyAbsorbed, IMultiblockGeneratorVariant variant);
 
-    int onCondensation(int vaporUsed, boolean onlyDrainVapor, IMultiblockGeneratorVariant variant);
+    int onCondensation(int vaporUsed, boolean ventAllCoolant, IMultiblockGeneratorVariant variant);
 
     int getLiquidVaporizedLastTick();
 

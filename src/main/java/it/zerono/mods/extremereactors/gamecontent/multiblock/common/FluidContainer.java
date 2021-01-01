@@ -251,19 +251,20 @@ public class FluidContainer
                 this.absorbHeat(energyAbsorbed, variant, amount, this.getCurrentVaporization()), energyAbsorbed);
     }
 
-    public int onCondensation(final int vaporUsed, final boolean onlyDrainVapor, final IMultiblockGeneratorVariant variant) {
+    @Override
+    public int onCondensation(final int vaporUsed, final boolean ventAllCoolant, final IMultiblockGeneratorVariant variant) {
 
         if (vaporUsed <= 0 || this.getGasAmount() <= 0) {
             return vaporUsed;
         }
 
-        if (onlyDrainVapor) {
+        this.extract(FluidType.Gas, vaporUsed, OperationMode.Execute);
 
-            this.extract(FluidType.Gas, vaporUsed, OperationMode.Execute);
+        if (ventAllCoolant) {
             return 0;
+        } else {
+            return this.mapGasAmount(amount -> this.condensate(vaporUsed, this.getCurrentCondensation()), vaporUsed);
         }
-
-        return this.mapGasAmount(amount -> this.condensate(vaporUsed, this.getCurrentCondensation()), vaporUsed);
     }
 
     //endregion
