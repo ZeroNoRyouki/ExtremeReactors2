@@ -16,7 +16,8 @@
         "1.16.4-2.0.14":"Changelog: https://www.curseforge.com/minecraft/mc-mods/extreme-reactors/files/3136223",
         "1.16.4-2.0.15":"Changelog: https://www.curseforge.com/minecraft/mc-mods/extreme-reactors/files/3137715",
         "1.16.4-2.0.16":"Changelog: https://www.curseforge.com/minecraft/mc-mods/extreme-reactors/files/3138695",
-        "1.16.4-2.0.17":"Changelog: https://www.curseforge.com/minecraft/mc-mods/extreme-reactors/files/3143253"
+        "1.16.4-2.0.17":"Changelog: https://www.curseforge.com/minecraft/mc-mods/extreme-reactors/files/3143253",
+        "1.16.4-2.0.18":"Changelog: https://www.curseforge.com/minecraft/mc-mods/extreme-reactors/files/3156159"
     },
     "1.16.4":{
         "2.0.4":"Changelog: https://www.curseforge.com/minecraft/mc-mods/extreme-reactors/files/3105221",
@@ -32,12 +33,13 @@
         "1.16.4-2.0.14":"Changelog: https://www.curseforge.com/minecraft/mc-mods/extreme-reactors/files/3136223",
         "1.16.4-2.0.15":"Changelog: https://www.curseforge.com/minecraft/mc-mods/extreme-reactors/files/3137715",
         "1.16.4-2.0.16":"Changelog: https://www.curseforge.com/minecraft/mc-mods/extreme-reactors/files/3138695",
-        "1.16.4-2.0.17":"Changelog: https://www.curseforge.com/minecraft/mc-mods/extreme-reactors/files/3143253"
+        "1.16.4-2.0.17":"Changelog: https://www.curseforge.com/minecraft/mc-mods/extreme-reactors/files/3143253",
+        "1.16.4-2.0.18":"Changelog: https://www.curseforge.com/minecraft/mc-mods/extreme-reactors/files/3156159"
     },
     "promos":{
-        "1.16.3-latest":"1.16.4-2.0.17",
-        "1.16.3-recommended":"1.16.4-2.0.17",
-        "1.16.4-latest":"1.16.4-2.0.17",
-        "1.16.4-recommended":"1.16.4-2.0.17"
+        "1.16.3-latest":"1.16.4-2.0.18",
+        "1.16.3-recommended":"1.16.4-2.0.18",
+        "1.16.4-latest":"1.16.4-2.0.18",
+        "1.16.4-recommended":"1.16.4-2.0.18"
     }
 }
