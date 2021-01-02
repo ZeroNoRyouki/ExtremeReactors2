@@ -32,20 +32,30 @@ final class TurbineGameData {
     private static void registerCoils() {
 
         CoilMaterialRegistry.register("forge:storage_blocks/iron", 1.0f, 1.0f, 1.0f);
+        CoilMaterialRegistry.register("forge:storage_blocks/manasteel", 1.2f, 1.03f, 1.23f);
+        CoilMaterialRegistry.register("forge:storage_blocks/elementium", 1.3f, 1.05f, 1.23f);
+        CoilMaterialRegistry.register("forge:storage_blocks/nickel", 1.15f, 1.06f, 1.0f);
         CoilMaterialRegistry.register("forge:storage_blocks/gold", 2.0f, 1.0f, 1.75f);
+        CoilMaterialRegistry.register("forge:storage_blocks/netherite", 2.2f, 1.02f, 1.8f);
+        CoilMaterialRegistry.register("forge:storage_blocks/terrasteel", 2.1f, 1.01f, 1.75f);
         CoilMaterialRegistry.register("forge:storage_blocks/copper", 1.2f, 1.0f, 1.2f);
+        CoilMaterialRegistry.register("forge:storage_blocks/tin", 1.1f, 1.0f, 1.1f);
         CoilMaterialRegistry.register("forge:storage_blocks/osmium", 1.2f, 1.0f, 1.2f);
+        CoilMaterialRegistry.register("forge:storage_blocks/refined_obsidian", 1.2f, 1.03f, 1.28f);
+        CoilMaterialRegistry.register("forge:storage_blocks/refined_glowstone", 1.25f, 1.05f, 1.28f);
         CoilMaterialRegistry.register("forge:storage_blocks/cobalt", 1.2f, 1.0f, 1.2f);
         CoilMaterialRegistry.register("forge:storage_blocks/zinc", 1.35f, 1.0f, 1.3f);
         CoilMaterialRegistry.register("forge:storage_blocks/ardite", 1.35f, 1.0f, 1.3f);
         CoilMaterialRegistry.register("forge:storage_blocks/lead", 1.35f, 1.01f, 1.3f);
-//        TurbineCoil.registerBlock("blockBrass", 1.4f, 1f, 1.2f);    // Metallurgy
+        CoilMaterialRegistry.register("forge:storage_blocks/brass", 1.4f, 1f, 1.2f);
 //        TurbineCoil.registerBlock("blockAlubrass", 1.4f, 1f, 1.2f);    // Tinkers' Construct
         CoilMaterialRegistry.register("forge:storage_blocks/bronze", 1.4f, 1.0f, 1.2f);
         CoilMaterialRegistry.register("forge:storage_blocks/aluminum", 1.5f, 1.0f, 1.3f);
         CoilMaterialRegistry.register("forge:storage_blocks/steel", 1.5f, 1.0f, 1.3f);
         CoilMaterialRegistry.register("forge:storage_blocks/invar", 1.5f, 1.0f, 1.4f);
         CoilMaterialRegistry.register("forge:storage_blocks/silver", 1.7f, 1.0f, 1.5f);
+        CoilMaterialRegistry.register("forge:storage_blocks/signalum", 1.6f, 1.0f, 1.4f);
+        CoilMaterialRegistry.register("forge:storage_blocks/lumium", 1.7f, 1.02f, 1.7f);
         CoilMaterialRegistry.register("forge:storage_blocks/electrum", 2.5f, 1.0f, 2.0f);
 //        TurbineCoil.registerBlock("blockElectrumFlux", 2.5f, 1.01f, 2.2f);    // Redstone Arsenal, note small energy bonus (7% at 1000RF/t output)
         CoilMaterialRegistry.register("forge:storage_blocks/platinum", 3.0f, 1.0f, 2.5f);
