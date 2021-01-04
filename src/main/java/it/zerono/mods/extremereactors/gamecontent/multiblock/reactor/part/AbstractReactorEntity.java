@@ -67,7 +67,7 @@ public abstract class AbstractReactorEntity
                 .ifPresent(c -> c.setMachineActive(active));
     }
 
-    public ITextComponent getDisplayName() {
+    public ITextComponent getPartDisplayName() {
         return new TranslationTextComponent("gui.bigreactors.multiblock_variant_part_format.title",
                 new TranslationTextComponent(this.getMultiblockVariant().map(IMultiblockVariant::getTranslationKey).orElse("unknown")),
                 new TranslationTextComponent(this.getPartType().map(ReactorPartType::getTranslationKey).orElse("unknown")));

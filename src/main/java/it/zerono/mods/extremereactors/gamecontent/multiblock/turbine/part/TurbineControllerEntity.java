@@ -68,11 +68,6 @@ public class TurbineControllerEntity
         );
     }
 
-    @Override // Keep modlauncher happy...
-    public ITextComponent getDisplayName() {
-        return super.getDisplayName();
-    }
-
     //region client render support
 
     @Override
@@ -178,6 +173,11 @@ public class TurbineControllerEntity
     @Override
     public Container createMenu(final int windowId, final PlayerInventory inventory, final PlayerEntity player) {
         return ModTileContainer.empty(Content.ContainerTypes.TURBINE_CONTROLLER.get(), windowId, this, (ServerPlayerEntity)player);
+    }
+
+    @Override
+    public ITextComponent getDisplayName() {
+        return super.getPartDisplayName();
     }
 
     //endregion

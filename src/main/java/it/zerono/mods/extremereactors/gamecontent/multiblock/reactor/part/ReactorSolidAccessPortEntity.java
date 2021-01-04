@@ -88,11 +88,6 @@ public class ReactorSolidAccessPortEntity
                 .build(this));
     }
 
-    @Override // Keep modlauncher happy...
-    public ITextComponent getDisplayName() {
-        return super.getDisplayName();
-    }
-
     public IItemHandlerModifiable getItemStackHandler(ReactantType type) {
         return type.isFuel() ? this._fuelInventory : this._wasteInventory;
     }
@@ -335,6 +330,11 @@ public class ReactorSolidAccessPortEntity
     @Override
     public Container createMenu(final int windowId, final PlayerInventory inventory, final PlayerEntity player) {
         return new ReactorSolidAccessPortContainer(windowId, inventory, this);
+    }
+
+    @Override
+    public ITextComponent getDisplayName() {
+        return super.getPartDisplayName();
     }
 
     //endregion

@@ -52,10 +52,6 @@ public class ReactorChargingPortEntity
                 .build(this));
     }
 
-    public ITextComponent getDisplayName() {
-        return super.getDisplayName();
-    }
-
     //region IChargingPort
 
     @Override
@@ -95,6 +91,11 @@ public class ReactorChargingPortEntity
     @Override
     public Container createMenu(final int windowId, final PlayerInventory inventory, final PlayerEntity player) {
         return new ChargingPortContainer<>(windowId, Content.ContainerTypes.REACTOR_CHARGINGPORT.get(), inventory, this);
+    }
+
+    @Override
+    public ITextComponent getDisplayName() {
+        return super.getPartDisplayName();
     }
 
     //endregion

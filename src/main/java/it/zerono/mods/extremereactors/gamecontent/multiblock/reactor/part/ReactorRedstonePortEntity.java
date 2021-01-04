@@ -63,11 +63,6 @@ public class ReactorRedstonePortEntity
                 .build(this));
     }
 
-    @Override // Keep modlauncher happy...
-    public ITextComponent getDisplayName() {
-        return super.getDisplayName();
-    }
-
     public SensorSetting getSettings() {
         return this._setting;
     }
@@ -157,6 +152,11 @@ public class ReactorRedstonePortEntity
     @Override
     public Container createMenu(final int windowId, final PlayerInventory inventory, final PlayerEntity player) {
         return ModTileContainer.empty(Content.ContainerTypes.REACTOR_REDSTONEPORT.get(), windowId, this, (ServerPlayerEntity)player);
+    }
+
+    @Override
+    public ITextComponent getDisplayName() {
+        return super.getPartDisplayName();
     }
 
     //endregion

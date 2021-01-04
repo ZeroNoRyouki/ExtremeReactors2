@@ -64,11 +64,6 @@ public class ReactorControlRodEntity
                 .build(this));
     }
 
-    @Override // Keep modlauncher happy...
-    public ITextComponent getDisplayName() {
-        return super.getDisplayName();
-    }
-
     public void linkToFuelRods(final int fuelRodsCount) {
         CodeHelper.optionalIfPresent(this.getPartWorld(), this.getOutwardDirection(),
                 (world, direction) -> this.linkToFuelRods(world, direction.getOpposite(), fuelRodsCount));
@@ -165,6 +160,11 @@ public class ReactorControlRodEntity
     @Override
     public Container createMenu(final int windowId, final PlayerInventory inventory, final PlayerEntity player) {
         return ModTileContainer.empty(Content.ContainerTypes.REACTOR_CONTROLROD.get(), windowId, this, (ServerPlayerEntity)player);
+    }
+
+    @Override
+    public ITextComponent getDisplayName() {
+        return super.getPartDisplayName();
     }
 
     //endregion

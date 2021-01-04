@@ -64,11 +64,6 @@ public class ReactorControllerEntity
         );
     }
 
-    @Override // Keep modlauncher happy...
-    public ITextComponent getDisplayName() {
-        return super.getDisplayName();
-    }
-
     //region client render support
 
     @Override
@@ -183,6 +178,11 @@ public class ReactorControllerEntity
     @Override
     public Container createMenu(final int windowId, final PlayerInventory inventory, final PlayerEntity player) {
         return ModTileContainer.empty(Content.ContainerTypes.REACTOR_CONTROLLER.get(), windowId, this, (ServerPlayerEntity)player);
+    }
+
+    @Override
+    public ITextComponent getDisplayName() {
+        return super.getPartDisplayName();
     }
 
     //endregion
