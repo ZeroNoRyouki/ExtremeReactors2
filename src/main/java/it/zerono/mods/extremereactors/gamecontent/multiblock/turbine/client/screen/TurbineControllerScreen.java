@@ -111,7 +111,7 @@ public class TurbineControllerScreen
 
         Static s;
         Panel p;
-        Label l;
+        IControl c;
 
         final Panel outerPanel = new Panel(this);
         final Panel barsPanel = new Panel(this);
@@ -188,7 +188,7 @@ public class TurbineControllerScreen
                 percentage -> new StringTextComponent(String.format("%d", (int)(percentage * 100))).setStyle(STYLE_TOOLTIP_VALUE));
 
         p = this.vBarPanel();
-        this.addBarIcon(CommonIcons.VaporIcon, p);
+        this.addBarIcon(CommonIcons.VaporIcon, p).useTooltipsFrom(this._vaporBar);
 
         this._vaporBar.setTooltips(ImmutableList.of(
                 new TranslationTextComponent("gui.bigreactors.turbine.controller.vaporbar.line1").setStyle(STYLE_TOOLTIP_TITLE),
@@ -242,7 +242,7 @@ public class TurbineControllerScreen
                 percentage -> new StringTextComponent(String.format("%d", (int)(percentage * 100))).setStyle(STYLE_TOOLTIP_VALUE));
 
         p = this.vBarPanel();
-        this.addBarIcon(CommonIcons.CoolantIcon, p);
+        this.addBarIcon(CommonIcons.CoolantIcon, p).useTooltipsFrom(this._coolantBar);
 
         this._coolantBar.setTooltips(ImmutableList.of(
                 new TranslationTextComponent("gui.bigreactors.turbine.controller.coolantbar.line1").setStyle(STYLE_TOOLTIP_TITLE),
@@ -331,7 +331,7 @@ public class TurbineControllerScreen
                 .setStyle(STYLE_TOOLTIP_VALUE));
 
         p = this.vBarPanel();
-        this.addBarIcon(CommonIcons.RotorRPM, 16, 16, p);
+        this.addBarIcon(CommonIcons.RotorRPM, 16, 16, p).useTooltipsFrom(this._rpmBar);
 
         this._rpmBar.setDesiredDimension(18, 66);
         this._rpmBar.setBackground(CommonIcons.BarBackground.get());
@@ -363,7 +363,9 @@ public class TurbineControllerScreen
         // - rpm info
 
         p = this.hInfoPanelSlot();
-        p.addControl(new Picture(this, "rpmInfoIcon", CommonIcons.RotorRPM.get(), 16, 16));
+        c = new Picture(this, "rpmInfoIcon", CommonIcons.RotorRPM.get(), 16, 16);
+        c.useTooltipsFrom(this._lblRpm);
+        p.addControl(c);
 
         this._lblRpm.setTooltips(this._rpmBar.getTooltips(), this._rpmBar.getTooltipsObjects());
 
@@ -386,7 +388,7 @@ public class TurbineControllerScreen
         // - energy bar
 
         p = this.vBarPanel();
-        this.addBarIcon(CommonIcons.PowerBattery, 16, 16, p);
+        this.addBarIcon(CommonIcons.PowerBattery, 16, 16, p).useTooltipsFrom(this._energyBar);
 
         final BindableTextComponent<Double> energyStoredText = new BindableTextComponent<>(
                 stored -> new StringTextComponent(CodeHelper.formatAsHumanReadableNumber(stored,
@@ -433,7 +435,9 @@ public class TurbineControllerScreen
                         this._outputEnergySystem.getUnit())).setStyle(STYLE_TOOLTIP_VALUE));
 
         p = this.hInfoPanelSlot();
-        p.addControl(new Picture(this, "energyRatio", CommonIcons.EnergyRatioIcon.get(), 16, 16));
+        c = new Picture(this, "energyRatio", CommonIcons.EnergyRatioIcon.get(), 16, 16);
+        c.useTooltipsFrom(this._lblEnergyRatio);
+        p.addControl(c);
 
         this._lblEnergyRatio.setTooltips(ImmutableList.of(
                 new TranslationTextComponent("gui.bigreactors.turbine.controller.energyratio.line1").setStyle(STYLE_TOOLTIP_TITLE),
@@ -463,7 +467,9 @@ public class TurbineControllerScreen
         final BindableTextComponent<String> rotorBlades = new BindableTextComponent<>(text -> new StringTextComponent(text).setStyle(STYLE_TOOLTIP_VALUE));
 
         p = this.hInfoPanelSlot();
-        p.addControl(new Picture(this, "rotorStatusIcon", CommonIcons.RotorStatus.get(), 16, 16));
+        c = new Picture(this, "rotorStatusIcon", CommonIcons.RotorStatus.get(), 16, 16);
+        c.useTooltipsFrom(this._lblRotorStatus);
+        p.addControl(c);
 
         this._lblRotorStatus.setTooltips(ImmutableList.of(
                 new TranslationTextComponent("gui.bigreactors.turbine.controller.rotorstatus.line1").setStyle(STYLE_TOOLTIP_TITLE),
@@ -602,7 +608,7 @@ public class TurbineControllerScreen
             this._ventDoNotVent.setActive(VentSetting.DoNotVent.test(setting));
         });
 
-        y += 29;
+//        y += 29;
 
         // - scram
 

@@ -120,6 +120,7 @@ public class ReactorControllerScreen
 
         Static s;
         Panel p;
+        IControl c;
 
         final Panel outerPanel = new Panel(this);
         final Panel barsPanel = new Panel(this);
@@ -179,7 +180,7 @@ public class ReactorControllerScreen
         // - fuel bar
 
         p = this.vBarPanel();
-        this.addBarIcon(CommonIcons.FuelIcon, p);
+        this.addBarIcon(CommonIcons.FuelIcon, p).useTooltipsFrom(this._fuelBar);
 
         this._fuelBar.setDesiredDimension(18, 66);
         this._fuelBar.setBackground(CommonIcons.BarBackground.get());
@@ -210,7 +211,7 @@ public class ReactorControllerScreen
                 heat -> new StringTextComponent(String.format("%.0f C", heat)).setStyle(STYLE_TOOLTIP_VALUE));
 
         p = this.vBarPanel();
-        this.addBarIcon(CommonIcons.ButtonSensorOutputFuelTemperature, p);
+        this.addBarIcon(CommonIcons.ButtonSensorOutputFuelTemperature, p).useTooltipsFrom(this._coreHeatBar);
 
         this._coreHeatBar.setTooltips(ImmutableList.of(
                 new TranslationTextComponent("gui.bigreactors.reactor.controller.coreheatbar.line1").setStyle(STYLE_TOOLTIP_TITLE),
@@ -246,7 +247,7 @@ public class ReactorControllerScreen
                 heat -> new StringTextComponent(String.format("%.0f C", heat)).setStyle(STYLE_TOOLTIP_VALUE));
 
         p = this.vBarPanel();
-        this.addBarIcon(CommonIcons.ButtonSensorOutputCasingTemperature, p);
+        this.addBarIcon(CommonIcons.ButtonSensorOutputCasingTemperature, p).useTooltipsFrom(this._casingHeatBar);
 
         this._casingHeatBar.setTooltips(ImmutableList.of(
                 new TranslationTextComponent("gui.bigreactors.reactor.controller.casingheatbar.line1").setStyle(STYLE_TOOLTIP_TITLE),
@@ -284,7 +285,7 @@ public class ReactorControllerScreen
 
             // - energy bar
 
-            this.addBarIcon(CommonIcons.PowerBattery, 16, 16, p);
+            this.addBarIcon(CommonIcons.PowerBattery, 16, 16, p).useTooltipsFrom(this._energyBar);
 
             final BindableTextComponent<Double> energyStoredText = new BindableTextComponent<>(
                     stored -> new StringTextComponent(CodeHelper.formatAsHumanReadableNumber(stored,
@@ -331,7 +332,9 @@ public class ReactorControllerScreen
                             this._outputEnergySystem.getUnit())).setStyle(STYLE_TOOLTIP_VALUE));
 
             p = this.hInfoPanelSlot();
-            p.addControl(new Picture(this, "energyRatio", CommonIcons.EnergyRatioIcon.get(), 16, 16));
+            c = new Picture(this, "energyRatio", CommonIcons.EnergyRatioIcon.get(), 16, 16);
+            c.useTooltipsFrom(this._lblEnergyRatio);
+            p.addControl(c);
 
             this._lblEnergyRatio.setTooltips(ImmutableList.of(
                     new TranslationTextComponent("gui.bigreactors.reactor.controller.energyratio.line1").setStyle(STYLE_TOOLTIP_TITLE),
@@ -384,7 +387,7 @@ public class ReactorControllerScreen
                     percentage -> new StringTextComponent(String.format("%d", (int)(percentage * 100))).setStyle(STYLE_TOOLTIP_VALUE));
 
             p = this.vBarPanel();
-            this.addBarIcon(CommonIcons.CoolantIcon, p);
+            this.addBarIcon(CommonIcons.CoolantIcon, p).useTooltipsFrom(this._coolantBar);
 
             this._coolantBar.setTooltips(ImmutableList.of(
                     new TranslationTextComponent("gui.bigreactors.reactor.controller.coolantbar.line1").setStyle(STYLE_TOOLTIP_TITLE),
@@ -437,7 +440,7 @@ public class ReactorControllerScreen
                     percentage -> new StringTextComponent(String.format("%d", (int)(percentage * 100))).setStyle(STYLE_TOOLTIP_VALUE));
 
             p = this.vBarPanel();
-            this.addBarIcon(CommonIcons.VaporIcon, p);
+            this.addBarIcon(CommonIcons.VaporIcon, p).useTooltipsFrom(this._vaporBar);
 
             this._vaporBar.setTooltips(ImmutableList.of(
                     new TranslationTextComponent("gui.bigreactors.reactor.controller.vaporbar.line1").setStyle(STYLE_TOOLTIP_TITLE),
@@ -485,7 +488,9 @@ public class ReactorControllerScreen
                     generated -> new StringTextComponent(String.format("%.2f %s", generated / 1000.0, "B")).setStyle(STYLE_TOOLTIP_VALUE));
 
             p = this.hInfoPanelSlot();
-            p.addControl(new Picture(this, "vaporRatio", CommonIcons.VaporIcon.get(), 16, 16)); //TODO fix icon
+            c = new Picture(this, "vaporRatio", CommonIcons.VaporIcon.get(), 16, 16);
+            c.useTooltipsFrom(this._lblVaporRatio);
+            p.addControl(c);
 
             this._lblVaporRatio.setTooltips(ImmutableList.of(
                     new TranslationTextComponent("gui.bigreactors.reactor.controller.vaporratio.line1").setStyle(STYLE_TOOLTIP_TITLE),
@@ -519,7 +524,9 @@ public class ReactorControllerScreen
         // - temperature
 
         p = this.hInfoPanelSlot();
-        p.addControl(new Picture(this, "temperature", CommonIcons.TemperatureIcon.get(), 16, 16));
+        c = new Picture(this, "temperature", CommonIcons.TemperatureIcon.get(), 16, 16);
+        c.useTooltipsFrom(this._lblTemperature);
+        p.addControl(c);
 
         this._lblTemperature.setTooltips(this._coreHeatBar.getTooltips(), this._coreHeatBar.getTooltipsObjects());
         p.addControl(this._lblTemperature);
@@ -528,7 +535,9 @@ public class ReactorControllerScreen
         // - fuel usage
 
         p = this.hInfoPanelSlot();
-        p.addControl(new Picture(this, "fuelusage", CommonIcons.FuelMix.get(), 16, 16));
+        c = new Picture(this, "fuelusage", CommonIcons.FuelMix.get(), 16, 16);
+        c.useTooltipsFrom(this._lblFuelUsage);
+        p.addControl(c);
 
         this._lblFuelUsage.setTooltips(
                 new TranslationTextComponent("gui.bigreactors.reactor.controller.fuelusage.line1").setStyle(STYLE_TOOLTIP_TITLE),
@@ -543,7 +552,9 @@ public class ReactorControllerScreen
         // - fuel reactivity
 
         p = this.hInfoPanelSlot();
-        p.addControl(new Picture(this, "fuelReactivity", CommonIcons.ReactivityIcon.get(), 16, 16));
+        c = new Picture(this, "fuelReactivity", CommonIcons.ReactivityIcon.get(), 16, 16);
+        c.useTooltipsFrom(this._lblFuelRichness);
+        p.addControl(c);
 
         this._lblFuelRichness.setTooltips(
                 new TranslationTextComponent("gui.bigreactors.reactor.controller.fuelrichness.line1").setStyle(STYLE_TOOLTIP_TITLE),
