@@ -30,9 +30,7 @@ import it.zerono.mods.zerocore.lib.block.INeighborChangeListener;
 import it.zerono.mods.zerocore.lib.block.TileCommandDispatcher;
 import it.zerono.mods.zerocore.lib.data.IoDirection;
 import it.zerono.mods.zerocore.lib.data.IoMode;
-import it.zerono.mods.zerocore.lib.fluid.FluidHelper;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
-import it.zerono.mods.zerocore.lib.multiblock.ITickableMultiblockPart;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -46,15 +44,13 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fluids.capability.IFluidHandler;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class ReactorFluidPortEntity
         extends AbstractReactorEntity
-        implements IFluidPort<MultiblockReactor, IMultiblockReactorVariant>, ITickableMultiblockPart,
-                    INeighborChangeListener, INamedContainerProvider {
+        implements IFluidPort<MultiblockReactor, IMultiblockReactorVariant>, INeighborChangeListener, INamedContainerProvider {
 
     public ReactorFluidPortEntity(final FluidPortType type, final IoMode mode, final TileEntityType<?> entityType) {
 
@@ -138,20 +134,6 @@ public class ReactorFluidPortEntity
                 },
                 this::markForRenderUpdate
         );
-    }
-
-    //endregion
-    //region ITickableMultiblockPart
-
-    /**
-     * Called once every tick from the multiblock server-side tick loop.
-     */
-    @Override
-    public void onMultiblockServerTick() {
-
-        if (this.getIoDirection().isOutput()) {
-            this.getOutwardDirection().ifPresent(this::transferGas);
-        }
     }
 
     //endregion
@@ -254,7 +236,6 @@ public class ReactorFluidPortEntity
     public void onAttached(MultiblockReactor newController) {
 
         super.onAttached(newController);
-//        this.updateCapabilityForwarder();
         this.getFluidPortHandler().update();
     }
 
@@ -262,7 +243,6 @@ public class ReactorFluidPortEntity
     public void onAssimilated(MultiblockReactor newController) {
 
         super.onAssimilated(newController);
-//        this.updateCapabilityForwarder();
         this.getFluidPortHandler().update();
     }
 
@@ -270,7 +250,6 @@ public class ReactorFluidPortEntity
     public void onDetached(MultiblockReactor oldController) {
 
         super.onDetached(oldController);
-//        this.updateCapabilityForwarder();
         this.getFluidPortHandler().update();
     }
 
@@ -294,21 +273,10 @@ public class ReactorFluidPortEntity
 
         super.remove();
         this.getFluidPortHandler().invalidate();
-//        this._fluidCapability.invalidate();
     }
 
     //endregion
     //region internals
-
-    private void transferGas(final Direction direction) {
-
-        final BlockPos targetPosition = this.getWorldPosition().offset(direction);
-
-        this.getMultiblockController()
-                .flatMap(MultiblockReactor::getGasHandler)
-                .ifPresent(source -> FluidHelper.tryFluidTransfer(source, this.getPartWorldOrFail(), targetPosition,
-                        direction.getOpposite(), Integer.MAX_VALUE, IFluidHandler.FluidAction.EXECUTE));
-    }
 
     private final IFluidPortHandler<MultiblockReactor, IMultiblockReactorVariant> _handler;
     private IoDirection _direction;

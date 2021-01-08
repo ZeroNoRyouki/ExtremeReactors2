@@ -126,6 +126,31 @@ public abstract class AbstractGeneratorMultiblockController<Controller extends A
                 .sum();
     }
 
+    /**
+     * Distribute the given fluid equally between the specified Active Coolant Ports
+     *
+     * @param availableFluid the gas to distribute
+     * @param coolantPorts the Coolant Ports
+     * @return the amount of gas distributed
+     */
+    protected static <Controller extends AbstractGeneratorMultiblockController<Controller, V>, V extends IMultiblockGeneratorVariant>
+    int acquireFluidEqually(final IFluidHandler destination, final int maxAmount, final Collection<? extends IFluidPort<Controller, V>> coolantPorts) {
+
+        if (maxAmount <= 0 || coolantPorts.isEmpty()) {
+            return 0;
+        }
+
+        final int fluidPerPort = maxAmount / coolantPorts.size();
+
+        return coolantPorts.stream()
+                .filter(p -> p.getIoDirection().isInput())
+                .map(IFluidPort::getFluidPortHandler)
+                .filter(IIOPortHandler::isActive)
+                .filter(IIOPortHandler::isConnected)
+                .mapToInt(handler -> handler.inputFluid(destination, fluidPerPort))
+                .sum();
+    }
+
     //endregion
     //region IWideEnergyProvider
 

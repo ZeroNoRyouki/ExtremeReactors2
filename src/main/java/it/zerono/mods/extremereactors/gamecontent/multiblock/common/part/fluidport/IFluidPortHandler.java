@@ -26,6 +26,7 @@ import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockVariantProvider;
 import it.zerono.mods.zerocore.lib.data.IIoEntity;
 import it.zerono.mods.zerocore.lib.data.IoMode;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 
 public interface IFluidPortHandler<Controller extends AbstractGeneratorMultiblockController<Controller, V>,
             V extends IMultiblockGeneratorVariant>
@@ -66,6 +67,9 @@ public interface IFluidPortHandler<Controller extends AbstractGeneratorMultibloc
 
     /**
      * If this is a Active Fluid Port in input mode, try to get fluids from the connected consumer (if there is one)
+     *
+     * @param destination the destination IFluidHandler that will receive the fluid
+     * @param maxAmount the maximum amount of fluid the acquire
      */
-    void inputFluid();
+    int inputFluid(IFluidHandler destination, int maxAmount);
 }

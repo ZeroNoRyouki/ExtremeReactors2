@@ -98,7 +98,8 @@ public class MultiblockReactor
         this._attachedSolidAccessPorts = Sets.newHashSet();
         this._attachedPowerTaps = Sets.newHashSet();
         this._attachedFluidPorts = Sets.newHashSet();
-        this._attachedOutgoingFluidPorts = Sets.newHashSet();
+        this._attachedOutputFluidPorts = Lists.newLinkedList();
+        this._attachedInputFluidPorts = Lists.newLinkedList();
 
         this._irradiationSourceTracker = new IteratorTracker<>(this._attachedFuelRods::iterator);
         this._logic = new ReactorLogic(this, this.getEnergyBuffer());
@@ -142,7 +143,7 @@ public class MultiblockReactor
     }
 
     public void onFluidPortChanged() {
-        this.rebuildOutgoingFluidPorts();
+        this.rebuildFluidPortsSubsets();
     }
 
     //region active-coolant system
@@ -258,6 +259,24 @@ public class MultiblockReactor
             // Distribute available gas equally to all the Coolant Ports in output mode
             profiler.startSection("Gas");
             this.distributeGasEqually();
+        }
+
+        profiler.endSection();
+    }
+
+    /**
+     * Input fluid from active ports
+     */
+    @Override
+    public void performInputCycle() {
+
+        final IProfiler profiler = this.getWorld().getProfiler();
+
+        if (this.getOperationalMode().isActive()) {
+
+            // Acquire new fluids from Active Fluid Ports in input mode
+            profiler.startSection("Coolant");
+            this.acquireFluidEqually();
         }
 
         profiler.endSection();
@@ -768,7 +787,7 @@ public class MultiblockReactor
         this._fuelRodsLayout.updateFuelRodsOcclusion(this._attachedFuelRods);
 
         // gather outgoing coolant ports
-        this.rebuildOutgoingFluidPorts();
+        this.rebuildFluidPortsSubsets();
 
         // update internal data
 
@@ -911,6 +930,8 @@ public class MultiblockReactor
         this._attachedSolidAccessPorts.clear();
         this._attachedPowerTaps.clear();
         this._attachedFluidPorts.clear();
+        this._attachedOutputFluidPorts.clear();
+        this._attachedInputFluidPorts.clear();
         this._fuelRodsLayout = null;
     }
 
@@ -1092,12 +1113,22 @@ public class MultiblockReactor
                 .map(port -> port);
     }
 
-    private void rebuildOutgoingFluidPorts() {
+    private void rebuildFluidPortsSubsets() {
 
-        this._attachedOutgoingFluidPorts.clear();
-        this._attachedFluidPorts.stream()
-                .filter(port -> port.getIoDirection().isOutput())
-                .collect(Collectors.toCollection(() -> this._attachedOutgoingFluidPorts));
+        this._attachedInputFluidPorts.clear();
+        this._attachedOutputFluidPorts.clear();
+
+        for (final ReactorFluidPortEntity port : this._attachedFluidPorts) {
+
+            if (port.getFluidPortHandler().isActive()) {
+
+                if (port.getIoDirection().isInput()) {
+                    this._attachedInputFluidPorts.add(port);
+                } else {
+                    this._attachedOutputFluidPorts.add(port);
+                }
+            }
+        }
     }
 
     private FuelRodsLayout createFuelRodsLayout() {
@@ -1207,62 +1238,21 @@ public class MultiblockReactor
      */
     private void distributeGasEqually() {
 
-        final int amountDistributed = distributeFluidEqually(this._fluidContainer.getStackCopy(FluidType.Gas), this._attachedFluidPorts);
+        final int amountDistributed = distributeFluidEqually(this._fluidContainer.getStackCopy(FluidType.Gas), this._attachedOutputFluidPorts);
 
         if (amountDistributed > 0) {
             this._fluidContainer.extract(FluidType.Gas, amountDistributed, OperationMode.Execute);
         }
     }
 
-//    /**
-//     * Reactor UPDATE
-//     * Distribute the available gas between all the Coolant Ports in output mode
-//     */
-//    private void distributeGas() {
-//
-//        final IFluidHandler gasSource = this.getFluidContainer().getWrapper(FluidType.Gas);
-//        int outputCount = this._attachedOutgoingCoolantPorts.size();
-//        int gasAmount = this.getFluidContainer().getGasAmount();
-//        int consumedAmount = 0;
-//
-//        if (gasAmount > 0) {
-//
-//            for (final ReactorCoolantPortEntity port : this._attachedOutgoingCoolantPorts) {
-//
-//                final FluidStack transferred = this.distributeGasTo(gasSource, port, gasAmount / outputCount);
-//
-//                if (!transferred.isEmpty()) {
-//
-//                    gasAmount -= transferred.getAmount();
-//                    consumedAmount += transferred.getAmount();
-//                }
-//
-//                --outputCount;
-//
-//                if (gasAmount <= 0) {
-//                    break;
-//                }
-//            }
-//
-//            this.getFluidContainer().extract(FluidType.Gas, consumedAmount, OperationMode.Execute);
-//        }
-//    }
-//
-//    /**
-//     * Reactor UPDATE
-//     * Distribute the specified amount of gas to the provided Coolant Port
-//     *
-//     * @param gasSource the gas source
-//     * @param port      the destination Coolant Port
-//     * @param maxAmount the maximum amount of gas to transfer
-//     */
-//    private FluidStack distributeGasTo(IFluidHandler gasSource, ReactorCoolantPortEntity port, int maxAmount) {
-//        return port.getOutwardDirection()
-//                .map(direction -> FluidHelper.tryFluidTransfer(gasSource, port.getPartWorldOrFail(),
-//                        port.getWorldPosition().offset(direction),
-//                        direction.getOpposite(), maxAmount, IFluidHandler.FluidAction.EXECUTE))
-//                .orElse(FluidStack.EMPTY);
-//    }
+    /**
+     * Reactor UPDATE
+     * Acquire fluids, up to the available space, equally from all the Active Coolant Ports
+     */
+    private void acquireFluidEqually() {
+        acquireFluidEqually(this._fluidContainer.getWrapper(IoDirection.Input), this._fluidContainer.getFreeSpace(FluidType.Liquid),
+                this._attachedInputFluidPorts);
+    }
 
     //endregion
     //region internal data update
@@ -1430,8 +1420,6 @@ public class MultiblockReactor
 
         if (!firstDirection.isPresent()) {
 
-//            Log.LOGGER.warn(Log.REACTOR, "Found a Control Rod with no OutwardFacing while validating: giving up");
-
             validatorCallback.setLastError("multiblock.validation.reactor.invalid_control_side");
             return false;
 
@@ -1552,7 +1540,8 @@ public class MultiblockReactor
     private final Set<ReactorSolidAccessPortEntity> _attachedSolidAccessPorts;
     private final Set<IPowerTap> _attachedPowerTaps;
     private final Set<ReactorFluidPortEntity> _attachedFluidPorts;
-    private final Set<ReactorFluidPortEntity> _attachedOutgoingFluidPorts;
+    private final List<ReactorFluidPortEntity> _attachedOutputFluidPorts;
+    private final List<ReactorFluidPortEntity> _attachedInputFluidPorts;
 
     //endregion
 }

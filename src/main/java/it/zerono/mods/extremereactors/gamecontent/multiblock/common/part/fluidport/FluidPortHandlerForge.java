@@ -32,6 +32,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.EmptyFluidHandler;
 
@@ -73,13 +74,15 @@ public class FluidPortHandlerForge<Controller extends AbstractGeneratorMultibloc
      * If this is a Active Fluid Port in input mode, try to get fluids from the connected consumer (if there is one)
      */
     @Override
-    public void inputFluid() {
+    public int inputFluid(final IFluidHandler destination, final int maxAmount) {
 
         if (null == this._consumer || this.isPassive() || this.getIoEntity().getIoDirection().isOutput()) {
-            return;
+            return 0;
         }
 
-        //TODO imp
+        final FluidStack transferred = FluidUtil.tryFluidTransfer(destination, this._consumer, maxAmount, true);
+
+        return transferred.isEmpty() ? 0 : transferred.getAmount();
     }
 
     //endregion
@@ -103,44 +106,6 @@ public class FluidPortHandlerForge<Controller extends AbstractGeneratorMultibloc
     public void checkConnections(@Nullable final IBlockReader world, final BlockPos position) {
         this._consumer = this.lookupConsumer(world, position, CAPAP_FORGE_FLUIDHANDLER,
                 te -> te instanceof IFluidPortHandler, this._consumer);
-        /*
-        boolean wasConnected = null != this._consumer;
-
-        if (null != world) {
-
-            Direction approachDirection = this.getPart().getOutwardDirection().orElse(null);
-
-            this._consumer = null;
-
-            if (null == approachDirection) {
-
-                wasConnected = false;
-
-            } else {
-
-                if (null != CAPAP_FORGE_FLUIDHANDLER) {
-
-                    final TileEntity te = world.getTileEntity(position.offset(approachDirection));
-
-                    if (null != te && !(te instanceof IFluidPortHandler)) {
-
-                        final LazyOptional<IFluidHandler> capability = te.getCapability(CAPAP_FORGE_FLUIDHANDLER, approachDirection.getOpposite());
-
-                        if (capability.isPresent()) {
-                            this._consumer = capability.orElseThrow(RuntimeException::new);
-                        }
-                    }
-                }
-            }
-        }
-
-        final boolean isConnected = this._consumer != null;
-        final World partWorld = this.getPart().getWorld();
-
-        if (wasConnected != isConnected && null != partWorld && CodeHelper.calledByLogicalClient(partWorld)) {
-            WorldHelper.notifyBlockUpdate(partWorld, this.getPart().getWorldPosition(), null, null);
-        }
-        */
     }
 
     /**

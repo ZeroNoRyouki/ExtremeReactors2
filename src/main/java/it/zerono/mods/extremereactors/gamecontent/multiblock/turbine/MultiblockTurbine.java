@@ -79,8 +79,9 @@ public class MultiblockTurbine
         this._attachedPowerTaps = Sets.newHashSet();
         this._attachedRotorComponents = Sets.newHashSet();
         this._rotorBladesCount = 0;
-        this._attachedVaporPorts = Sets.newHashSet();
-        this._attachedOutgoingVaporPorts = Sets.newHashSet();
+        this._attachedFluidPorts = Sets.newHashSet();
+        this._attachedOutputFluidPorts = Lists.newLinkedList();
+        this._attachedInputFluidPorts = Lists.newLinkedList();
         this._validationFoundCoils = Sets.newHashSet();
 
         this._logic = new TurbineLogic(this, this._data, this.getEnergyBuffer());
@@ -101,7 +102,7 @@ public class MultiblockTurbine
     }
 
     public void onFluidPortChanged() {
-        this.rebuildOutgoingFluidPorts();
+        this.rebuildFluidPortsSubsets();
     }
 
     //region active-coolant system
@@ -183,6 +184,21 @@ public class MultiblockTurbine
         // Distribute available gas equally to all the Coolant Ports in output mode
         profiler.endStartSection("Coolant");
         this.distributeCoolantEqually();
+
+        profiler.endSection();
+    }
+
+    /**
+     * Input fluid from active ports
+     */
+    @Override
+    public void performInputCycle() {
+
+        final IProfiler profiler = this.getWorld().getProfiler();
+
+        // Acquire new fluids from Active Fluid Ports in input mode
+        profiler.startSection("Vapor");
+        this.acquireVaporEqually();
 
         profiler.endSection();
     }
@@ -470,7 +486,10 @@ public class MultiblockTurbine
         // GENERATE ENERGY / COOLANT
         //////////////////////////////////////////////////////////////////////////////
 
-        profiler.startSection("Generate");
+        profiler.startSection("Input");
+        this.performInputCycle();
+
+        profiler.endStartSection("Generate");
         this._logic.update();
 
         //////////////////////////////////////////////////////////////////////////////
@@ -537,7 +556,7 @@ public class MultiblockTurbine
         } else if (newPart instanceof TurbinePowerTapEntity || newPart instanceof TurbineChargingPortEntity) {
             this._attachedPowerTaps.add((IPowerTap)newPart);
         } else if (newPart instanceof TurbineFluidPortEntity) {
-            this._attachedVaporPorts.add((TurbineFluidPortEntity)newPart);
+            this._attachedFluidPorts.add((TurbineFluidPortEntity)newPart);
         }
     }
 
@@ -560,7 +579,7 @@ public class MultiblockTurbine
         } else if (oldPart instanceof TurbinePowerTapEntity || oldPart instanceof TurbineChargingPortEntity) {
             this._attachedPowerTaps.remove(oldPart);
         } else if (oldPart instanceof TurbineFluidPortEntity) {
-            this._attachedVaporPorts.remove(oldPart);
+            this._attachedFluidPorts.remove(oldPart);
         }
     }
 
@@ -588,7 +607,7 @@ public class MultiblockTurbine
         this.setInteriorInvisible(!this.isAnyPartConnected(part -> part instanceof TurbineGlassEntity));
 
         // gather outgoing vapor ports
-        this.rebuildOutgoingFluidPorts();
+        this.rebuildFluidPortsSubsets();
 
         //resize energy buffer
 
@@ -791,8 +810,9 @@ public class MultiblockTurbine
         this._rotorBladesCount = 0;
         this._attachedRotorComponents.clear();
         this._attachedPowerTaps.clear();
-        this._attachedVaporPorts.clear();
-        this._attachedOutgoingVaporPorts.clear();
+        this._attachedFluidPorts.clear();
+        this._attachedOutputFluidPorts.clear();
+        this._attachedInputFluidPorts.clear();
     }
 
     //endregion
@@ -852,13 +872,11 @@ public class MultiblockTurbine
         }
 
         final Set<BlockPos> shaftsPositions = this._attachedRotorComponents.stream()
-//                .filter(c -> c.isTypeOfPart(TurbinePartType.RotorShaft)) // use isShaft
                 .filter(TurbineRotorComponentEntity::isShaft)
                 .map(AbstractMultiblockPart::getWorldPosition)
                 .collect(Collectors.toSet());
 
         final Set<BlockPos> bladesPositions = this._attachedRotorComponents.stream()
-//                .filter(c -> c.isTypeOfPart(TurbinePartType.RotorBlade)) // use isBlade
                 .filter(TurbineRotorComponentEntity::isBlade)
                 .map(AbstractMultiblockPart::getWorldPosition)
                 .collect(Collectors.toSet());
@@ -1030,11 +1048,20 @@ public class MultiblockTurbine
      */
     private void distributeCoolantEqually() {
 
-        final int amountDistributed = distributeFluidEqually(this._fluidContainer.getStackCopy(FluidType.Liquid), this._attachedVaporPorts);
+        final int amountDistributed = distributeFluidEqually(this._fluidContainer.getStackCopy(FluidType.Liquid), this._attachedOutputFluidPorts);
 
         if (amountDistributed > 0) {
             this._fluidContainer.extract(FluidType.Liquid, amountDistributed, OperationMode.Execute);
         }
+    }
+
+    /**
+     * Reactor UPDATE
+     * Acquire vapors, up to the available space, equally from all the Active Coolant Ports
+     */
+    private void acquireVaporEqually() {
+        acquireFluidEqually(this._fluidContainer.getWrapper(IoDirection.Input), this._fluidContainer.getFreeSpace(FluidType.Gas),
+                this._attachedInputFluidPorts);
     }
 
     //endregion
@@ -1068,12 +1095,22 @@ public class MultiblockTurbine
                 0, this.getVariant().getMaxFluidCapacity()));
     }
 
-    private void rebuildOutgoingFluidPorts() {
+    private void rebuildFluidPortsSubsets() {
 
-        this._attachedOutgoingVaporPorts.clear();
-        this._attachedVaporPorts.stream()
-                .filter(port -> port.getIoDirection().isOutput())
-                .collect(Collectors.toCollection(() -> this._attachedOutgoingVaporPorts));
+        this._attachedInputFluidPorts.clear();
+        this._attachedOutputFluidPorts.clear();
+
+        for (final TurbineFluidPortEntity port : this._attachedFluidPorts) {
+
+            if (port.getFluidPortHandler().isActive()) {
+
+                if (port.getIoDirection().isInput()) {
+                    this._attachedInputFluidPorts.add(port);
+                } else {
+                    this._attachedOutputFluidPorts.add(port);
+                }
+            }
+        }
     }
 
     private static final IFluidContainerAccess FLUID_CONTAINER_ACCESS = new IFluidContainerAccess() {
@@ -1116,8 +1153,9 @@ public class MultiblockTurbine
     private final List<TurbineRotorBearingEntity> _attachedRotorBearings;
     private final Set<TurbineRotorComponentEntity> _attachedRotorComponents;
     private final Set<IPowerTap> _attachedPowerTaps;
-    private final Set<TurbineFluidPortEntity> _attachedVaporPorts;
-    private final Set<TurbineFluidPortEntity> _attachedOutgoingVaporPorts;
+    private final Set<TurbineFluidPortEntity> _attachedFluidPorts;
+    private final List<TurbineFluidPortEntity> _attachedOutputFluidPorts;
+    private final List<TurbineFluidPortEntity> _attachedInputFluidPorts;
 
     private boolean _active;
     private int _rotorBladesCount;

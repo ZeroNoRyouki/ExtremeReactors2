@@ -47,6 +47,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.EmptyFluidHandler;
 
 import javax.annotation.Nullable;
@@ -86,10 +87,13 @@ public class FluidPortHandlerMekanism<Controller extends AbstractGeneratorMultib
 
     /**
      * If this is a Active Fluid Port in input mode, try to get fluids from the connected consumer (if there is one)
+     *
+     * @param destination the destination IFluidHandler that will receive the fluid
+     * @param maxAmount   the maximum amount of fluid the acquire
      */
     @Override
-    public void inputFluid() {
-        // no insertions
+    public int inputFluid(IFluidHandler destination, int maxAmount) {
+        return 0;
     }
 
     //endregion

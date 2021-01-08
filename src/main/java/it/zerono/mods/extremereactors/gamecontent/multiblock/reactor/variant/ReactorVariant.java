@@ -54,11 +54,11 @@ public enum ReactorVariant
             .setMaxChargerRate(5000)
             .setRadiationAttenuation(0.75f)
             .setResidualRadiationAttenuation(0.15f)
-            .setPartFluidCapacity(2500)
+            .setPartFluidCapacity(1000)
             .setMaxFluidCapacity(200000)
             .setVaporGenerationEfficiency(0.85f)
             .setSolidFuelConversionEfficiency(0.75f)
-            .setFluidFuelConversionEfficiency(0.8f)),
+            .setFluidFuelConversionEfficiency(0.95f)),
     ;
 
     public boolean isPartCompatible(final ReactorPartType partType) {

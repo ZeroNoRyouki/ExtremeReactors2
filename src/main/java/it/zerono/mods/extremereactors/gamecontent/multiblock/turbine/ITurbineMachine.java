@@ -36,4 +36,9 @@ public interface ITurbineMachine
      * Output power/coolant to active ports
      */
     void performOutputCycle();
+
+    /**
+     * Input fluid from active ports
+     */
+    void performInputCycle();
 }

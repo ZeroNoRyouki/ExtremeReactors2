@@ -49,4 +49,9 @@ public interface IReactorMachine
      * Output power/gas to active ports
      */
     void performOutputCycle();
+
+    /**
+     * Input fluid from active ports
+     */
+    void performInputCycle();
 }

@@ -85,6 +85,7 @@ public class ReactorLogic
 
         profiler.endStartSection("Refueling");
         this._reactor.performRefuelingCycle();
+        this._reactor.performInputCycle();
 
         //////////////////////////////////////////////////////////////////////////////
         // HEAT TRANSFERS

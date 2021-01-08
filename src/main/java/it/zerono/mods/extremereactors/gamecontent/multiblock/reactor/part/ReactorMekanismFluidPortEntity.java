@@ -42,14 +42,4 @@ public class ReactorMekanismFluidPortEntity
     }
 
     //endregion
-    //region ITickableMultiblockPart
-
-    /**
-     * Called once every tick from the multiblock server-side tick loop.
-     */
-    @Override
-    public void onMultiblockServerTick() {
-    }
-
-    //endregion
 }

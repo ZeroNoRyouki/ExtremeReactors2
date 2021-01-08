@@ -48,7 +48,7 @@ public enum TurbineVariant
             .setMaxRotorSpeed(1000.0f)
             .setRotorBladeMass(8)
             .setRotorShaftMass(8)
-            .setPartFluidCapacity(500)
+            .setPartFluidCapacity(250)
             .setMaxFluidCapacity(10_000)
             .setPartCompatibilityTest(TurbineVariant::isBasicPart)),
 
@@ -67,7 +67,7 @@ public enum TurbineVariant
             .setMaxRotorSpeed(2000.0f)
             .setRotorBladeMass(10)
             .setRotorShaftMass(10)
-            .setPartFluidCapacity(1500)
+            .setPartFluidCapacity(500)
             .setMaxFluidCapacity(300_000)),
     ;
 

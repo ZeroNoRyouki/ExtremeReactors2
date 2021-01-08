@@ -354,7 +354,7 @@ public class TurbineData
     @Override
     public void getDebugMessages(final LogicalSide side, final IDebugMessages messages) {
 
-        messages.addUnlocalized("Last Tick: EnergyGenerated:%.5f; FluidConsumed:%.5f; RotorEfficiency:%.5f",
+        messages.addUnlocalized("Last Tick: EnergyGenerated:%.5f; FluidConsumed:%d; RotorEfficiency:%.5f",
                 this.getEnergyGeneratedLastTick(), this.getFluidConsumedLastTick(), this.getRotorEfficiencyLastTick());
 
         messages.addUnlocalized("Inductor: %s; DragCoefficient:%.5f; Efficiency:%.5f; ExponentBonus:%.5f; CoilSize:%d",
