@@ -33,6 +33,7 @@ import it.zerono.mods.zerocore.lib.energy.EnergySystem;
 import net.minecraftforge.common.util.NonNullConsumer;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
@@ -102,23 +103,17 @@ public class ReactorComputerPeripheral
 
         methodConsumer.accept(new ComputerMethod<>("isActivelyCooled", wrapControllerValue(c -> c.getOperationalMode().isActive())));
 
-        methodConsumer.accept(new ComputerMethod<>("getCoolantAmount", wrapControllerValue(c -> 0)));
-//        methodConsumer.accept(new ComputerMethod<>("getCoolantAmount", ReactorComputerPeripheral::getCoolantAmount));
+        methodConsumer.accept(new ComputerMethod<>("getCoolantAmount", wrapControllerValue(c -> c.getFluidContainer().getLiquidAmount())));
 
-        methodConsumer.accept(new ComputerMethod<>("getCoolantAmountMax", wrapControllerValue(c -> 0)));
-//        methodConsumer.accept(new ComputerMethod<>("getCoolantAmountMax", ReactorComputerPeripheral::getCoolantAmountMax));
+        methodConsumer.accept(new ComputerMethod<>("getCoolantAmountMax", wrapControllerValue(c -> c.getFluidContainer().getCapacity())));
 
-        methodConsumer.accept(new ComputerMethod<>("getCoolantType", wrapControllerValue(c -> null)));
-//        methodConsumer.accept(new ComputerMethod<>("getCoolantType", ReactorComputerPeripheral::getCoolantType));
+        methodConsumer.accept(new ComputerMethod<>("getCoolantType", wrapControllerValue(c -> c.getFluidContainer().getLiquid().map(f -> Objects.requireNonNull(f.getRegistryName()).toString()).orElse(""))));
 
-        methodConsumer.accept(new ComputerMethod<>("getHotFluidAmount", wrapControllerValue(c -> 0)));
-//        methodConsumer.accept(new ComputerMethod<>("getHotFluidAmount", ReactorComputerPeripheral::getHotFluidAmount));
+        methodConsumer.accept(new ComputerMethod<>("getHotFluidAmount", wrapControllerValue(c -> c.getFluidContainer().getGasAmount())));
 
-        methodConsumer.accept(new ComputerMethod<>("getHotFluidAmountMax", wrapControllerValue(c -> 0)));
-//        methodConsumer.accept(new ComputerMethod<>("getHotFluidAmountMax", ReactorComputerPeripheral::getHotFluidAmountMax));
+        methodConsumer.accept(new ComputerMethod<>("getHotFluidAmountMax", wrapControllerValue(c -> c.getFluidContainer().getCapacity())));
 
-        methodConsumer.accept(new ComputerMethod<>("getHotFluidType", wrapControllerValue(c -> null)));
-//        methodConsumer.accept(new ComputerMethod<>("getHotFluidType", ReactorComputerPeripheral::getHotFluidType));
+        methodConsumer.accept(new ComputerMethod<>("getHotFluidType", wrapControllerValue(c -> c.getFluidContainer().getGas().map(f -> Objects.requireNonNull(f.getRegistryName()).toString()).orElse(""))));
 
         methodConsumer.accept(new ComputerMethod<>("getFuelReactivity", wrapControllerValue(c -> c.getFuelFertility() * 100.0f)));
 
@@ -141,7 +136,6 @@ public class ReactorComputerPeripheral
                 levels.put(idx, c.getControlRodByIndex(idx).map(rod -> (int)rod.getInsertionRatio()).orElse(-1));
             }
 
-            //return new Object[] { levels };
             return levels;
         })));
 
@@ -223,11 +217,7 @@ public class ReactorComputerPeripheral
             final Map<String, Object> stats = Maps.newHashMap();
             final IFluidContainer container = c.getFluidContainer();
 
-            //TODO fix
-//            final Fluid fluidType = c.getCoolantContainer().getVaporType();
-//
-//            stats.put("fluidType", null == fluidType ? null : fluidType.getName());
-            stats.put("fluidType", ""/*container.getGas().map(fluid -> )*/);
+            stats.put("fluidType", container.getGas().map(f -> Objects.requireNonNull(f.getRegistryName()).toString()));
             stats.put("fluidAmount", container.getGasAmount());
             stats.put("fluidCapacity", container.getCapacity());
             stats.put("fluidProducedLastTick", c.getOperationalMode().isPassive() ? 0.0f : c.getUiStats().getAmountGeneratedLastTick());
@@ -241,11 +231,7 @@ public class ReactorComputerPeripheral
             final Map<String, Object> stats = Maps.newHashMap();
             final IFluidContainer container = c.getFluidContainer();
 
-            //TODO fix
-//            final Fluid fluidType = c.getCoolantContainer().getVaporType();
-//
-//            stats.put("fluidType", null == fluidType ? null : fluidType.getName());
-            stats.put("fluidType", ""/*container.getLiquid().map(fluid -> )*/);
+            stats.put("fluidType", container.getLiquid().map(f -> Objects.requireNonNull(f.getRegistryName()).toString()));
             stats.put("fluidAmount", container.getLiquidAmount());
             stats.put("fluidCapacity", container.getCapacity());
 
@@ -278,48 +264,6 @@ public class ReactorComputerPeripheral
     private static BiFunction<MultiblockReactor, Object[], Object> controlRodByIndex(final Function<ReactorControlRodEntity, Object> code) {
         return (reactor, arguments) -> reactor.getControlRodByIndex(LuaHelper.getIntFromArgs(arguments, 0)).map(code).orElse(null);
     }
-
-//    private static BiFunction<MultiblockReactor, Object[], Object> controlRodByIndex(final BiConsumer<ReactorControlRodEntity, Object[]> code) {
-//        return (reactor, arguments) -> {
-//            reactor.getControlRodByIndex(LuaHelper.getIntFromArgs(arguments, 0)).ifPresent(rod -> code.accept(rod, arguments));
-//            return null;
-//        };
-//    }
-
-
-    //endregion
-    //region Methods
-
-//    public static Object[] getCoolantAmount(@Nonnull final ReactorComputerPeripheral peripheral, @Nonnull final Object[] arguments) throws Exception {
-//        return new Object[] { getReactorControllerOrFail(peripheral).getCoolantContainer().getCoolantAmount() };
-//    }
-//
-//    public static Object[] getCoolantAmountMax(@Nonnull final ReactorComputerPeripheral peripheral, @Nonnull final Object[] arguments) throws Exception {
-//        return new Object[] { getReactorControllerOrFail(peripheral).getCoolantContainer().getCapacity() };
-//    }
-//
-//    public static Object[] getCoolantType(@Nonnull final ReactorComputerPeripheral peripheral, @Nonnull final Object[] arguments) throws Exception {
-//
-//        final Fluid fluidType = getReactorControllerOrFail(peripheral).getCoolantContainer().getCoolantType();
-//
-//        return new Object[] { null == fluidType ? null : fluidType.getName() };
-//    }
-//
-//    public static Object[] getHotFluidAmount(@Nonnull final ReactorComputerPeripheral peripheral, @Nonnull final Object[] arguments) throws Exception {
-//        return new Object[] { getReactorControllerOrFail(peripheral).getCoolantContainer().getVaporAmount() };
-//    }
-//
-//    public static Object[] getHotFluidAmountMax(@Nonnull final ReactorComputerPeripheral peripheral, @Nonnull final Object[] arguments) throws Exception {
-//        return new Object[] { getReactorControllerOrFail(peripheral).getCoolantContainer().getCapacity() };
-//    }
-//
-//    public static Object[] getHotFluidType(@Nonnull final ReactorComputerPeripheral peripheral, @Nonnull final Object[] arguments) throws Exception {
-//
-//        final Fluid fluidType = getReactorControllerOrFail(peripheral).getCoolantContainer().getVaporType();
-//
-//        return new Object[] { null == fluidType ? null : fluidType.getName() };
-//    }
-//
 
     //endregion
 }
