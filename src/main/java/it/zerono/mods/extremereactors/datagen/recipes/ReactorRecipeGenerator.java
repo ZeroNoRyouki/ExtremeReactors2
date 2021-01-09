@@ -27,6 +27,7 @@ import it.zerono.mods.zerocore.lib.compat.Mods;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.IFinishedRecipe;
 import net.minecraft.data.ShapedRecipeBuilder;
+import net.minecraft.data.ShapelessRecipeBuilder;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.tags.ITag;
@@ -87,6 +88,8 @@ public class ReactorRecipeGenerator
                 Content.Items.REACTOR_CHARGINGPORT_FE_BASIC, Content.Items.REACTOR_POWERTAP_FE_ACTIVE_BASIC,
                 Items.LAPIS_LAZULI, Items.REDSTONE);
 
+        this.reactorCasingRecycle(c, variant, Content.Items.REACTOR_CASING_BASIC, ContentTags.Items.USING_REACTOR_CASING_BASIC, Content.Items.REACTOR_GLASS_BASIC);
+
         // Reinforced parts
 
         variant = ReactorVariant.Reinforced;
@@ -96,6 +99,7 @@ public class ReactorRecipeGenerator
         alternativeMetal = Tags.Items.STORAGE_BLOCKS_IRON;
 
         this.reactorCasing(c, variant, Content.Items.REACTOR_CASING_REINFORCED, core, metal, alternativeMetal);
+        this.reactorCasingUpgrade(c, variant, Content.Items.REACTOR_CASING_REINFORCED, metal, alternativeMetal);
         this.reactorGlass(c, variant, Content.Items.REACTOR_GLASS_REINFORCED, casing, Tags.Items.GLASS);
         this.reactorController(c, variant, Content.Items.REACTOR_CONTROLLER_REINFORCED, casing, Tags.Items.STORAGE_BLOCKS_DIAMOND);
         this.reactorFuelRod(c, variant, Content.Items.REACTOR_FUELROD_REINFORCED, metal, alternativeMetal, Tags.Items.GLASS);
@@ -111,6 +115,8 @@ public class ReactorRecipeGenerator
         this.generatorChargingPort(c, variant, "chargingfe", GROUP_REACTOR, ReactorRecipeGenerator::reactorRecipeName,
                 Content.Items.REACTOR_CHARGINGPORT_FE_REINFORCED, Content.Items.REACTOR_POWERTAP_FE_ACTIVE_REINFORCED,
                 Items.LAPIS_BLOCK, Items.REDSTONE_BLOCK);
+
+        this.reactorCasingRecycle(c, variant, Content.Items.REACTOR_CASING_REINFORCED, ContentTags.Items.USING_REACTOR_CASING_REINFORCED, Content.Items.REACTOR_GLASS_REINFORCED);
     }
 
     //endregion
@@ -132,6 +138,41 @@ public class ReactorRecipeGenerator
                                 .patternLine("IGI")
                                 .setGroup(GROUP_REACTOR)
                                 .addCriterion("has_item", hasItem(ContentTags.Items.INGOTS_GRAPHITE)));
+    }
+
+    private void reactorCasingUpgrade(final Consumer<IFinishedRecipe> c, final ReactorVariant variant,
+                                      final Supplier<? extends IItemProvider> result, final ITag.INamedTag<Item> metal,
+                                      @Nullable final ITag.INamedTag<Item> alternativeMetal) {
+
+        recipeWithAlternativeTag(c, reactorRecipeName(variant, "casing_upgrade"), reactorRecipeName(variant, "casing_upgrade_alt"),
+                metal, alternativeMetal, metalTag ->
+                        ShapedRecipeBuilder.shapedRecipe(result.get())
+                                .key('I', metalTag)
+                                .key('C', Content.Blocks.REACTOR_CASING_BASIC.get())
+                                .key('G', ContentTags.Items.INGOTS_GRAPHITE)
+                                .patternLine("IGI")
+                                .patternLine("GCG")
+                                .patternLine("IGI")
+                                .setGroup(GROUP_REACTOR)
+                                .addCriterion("has_item", hasItem(Content.Blocks.REACTOR_CASING_BASIC.get())));
+    }
+
+    private void reactorCasingRecycle(final Consumer<IFinishedRecipe> c, final ReactorVariant variant,
+                                      final Supplier<? extends IItemProvider> casingResult,
+                                      final ITag.INamedTag<Item> casingSourceTag,
+                                      final Supplier<? extends IItemProvider> glassSourceItem) {
+
+        ShapelessRecipeBuilder.shapelessRecipe(casingResult.get(), 1)
+                .addIngredient(glassSourceItem.get())
+                .setGroup(GROUP_REACTOR)
+                .addCriterion("has_item", hasItem(glassSourceItem.get()))
+                .build(c, reactorRecipeName(variant, "casing_recycle_glass"));
+
+        ShapelessRecipeBuilder.shapelessRecipe(casingResult.get(), 4)
+                .addIngredient(casingSourceTag)
+                .setGroup(GROUP_REACTOR)
+                .addCriterion("has_item", hasItem(casingSourceTag))
+                .build(c, reactorRecipeName(variant, "casing_recycle"));
     }
 
     private void reactorGlass(final Consumer<IFinishedRecipe> c, final ReactorVariant variant,

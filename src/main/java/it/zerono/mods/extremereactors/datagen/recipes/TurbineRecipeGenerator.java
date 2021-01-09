@@ -27,6 +27,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.IFinishedRecipe;
 import net.minecraft.data.ShapedRecipeBuilder;
+import net.minecraft.data.ShapelessRecipeBuilder;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.tags.ITag;
@@ -87,6 +88,8 @@ public class TurbineRecipeGenerator
                 Content.Items.TURBINE_CHARGINGPORT_FE_BASIC, Content.Items.TURBINE_POWERTAP_FE_ACTIVE_BASIC,
                 Items.GLOWSTONE_DUST, Items.REDSTONE);
 
+        this.turbineCasingRecycle(c, variant, Content.Items.TURBINE_CASING_BASIC, ContentTags.Items.USING_TURBINE_CASING_BASIC, Content.Items.TURBINE_GLASS_BASIC);
+
         // Reinforced parts
 
         variant = TurbineVariant.Reinforced;
@@ -96,6 +99,7 @@ public class TurbineRecipeGenerator
         alternativeMetal = Tags.Items.STORAGE_BLOCKS_IRON;
 
         this.turbineCasing(c, variant, Content.Items.TURBINE_CASING_REINFORCED, core, metal, alternativeMetal);
+        this.turbineCasingUpgrade(c, variant, Content.Items.TURBINE_CASING_REINFORCED, metal, alternativeMetal);
         this.turbineGlass(c, variant, Content.Items.TURBINE_GLASS_REINFORCED, casing, Tags.Items.GLASS);
         this.turbineController(c, variant, Content.Items.TURBINE_CONTROLLER_REINFORCED, casing, Tags.Items.STORAGE_BLOCKS_DIAMOND);
         this.turbinePowerTap(c, variant, "fe", Content.Items.TURBINE_POWERTAP_FE_PASSIVE_REINFORCED, Content.Items.TURBINE_POWERTAP_FE_ACTIVE_REINFORCED,
@@ -109,6 +113,8 @@ public class TurbineRecipeGenerator
         this.generatorChargingPort(c, variant, "chargingfe", GROUP_TURBINE, TurbineRecipeGenerator::turbineRecipeName,
                 Content.Items.TURBINE_CHARGINGPORT_FE_REINFORCED, Content.Items.TURBINE_POWERTAP_FE_ACTIVE_REINFORCED,
                 Items.GLOWSTONE, Items.REDSTONE_BLOCK);
+
+        this.turbineCasingRecycle(c, variant, Content.Items.TURBINE_CASING_REINFORCED, ContentTags.Items.USING_TURBINE_CASING_REINFORCED, Content.Items.TURBINE_GLASS_REINFORCED);
     }
 
     //endregion
@@ -130,6 +136,41 @@ public class TurbineRecipeGenerator
                                 .patternLine("IGI")
                                 .setGroup(GROUP_TURBINE)
                                 .addCriterion("has_item", hasItem(ContentTags.Items.INGOTS_CYANITE)));
+    }
+
+    private void turbineCasingUpgrade(final Consumer<IFinishedRecipe> c, final TurbineVariant variant,
+                                      final Supplier<? extends IItemProvider> result, final ITag.INamedTag<Item> metal,
+                                      @Nullable final ITag.INamedTag<Item> alternativeMetal) {
+
+        recipeWithAlternativeTag(c, turbineRecipeName(variant, "casing_upgrade"), turbineRecipeName(variant, "casing_upgrade_alt"),
+                metal, alternativeMetal, metalTag ->
+                        ShapedRecipeBuilder.shapedRecipe(result.get())
+                                .key('I', metalTag)
+                                .key('C', Content.Blocks.TURBINE_CASING_BASIC.get())
+                                .key('G', ContentTags.Items.INGOTS_CYANITE)
+                                .patternLine("IGI")
+                                .patternLine("GCG")
+                                .patternLine("IGI")
+                                .setGroup(GROUP_TURBINE)
+                                .addCriterion("has_item", hasItem(Content.Blocks.TURBINE_CASING_BASIC.get())));
+    }
+
+    private void turbineCasingRecycle(final Consumer<IFinishedRecipe> c, final TurbineVariant variant,
+                                      final Supplier<? extends IItemProvider> casingResult,
+                                      final ITag.INamedTag<Item> casingSourceTag,
+                                      final Supplier<? extends IItemProvider> glassSourceItem) {
+
+        ShapelessRecipeBuilder.shapelessRecipe(casingResult.get(), 1)
+                .addIngredient(glassSourceItem.get())
+                .setGroup(GROUP_TURBINE)
+                .addCriterion("has_item", hasItem(glassSourceItem.get()))
+                .build(c, turbineRecipeName(variant, "casing_recycle_glass"));
+
+        ShapelessRecipeBuilder.shapelessRecipe(casingResult.get(), 4)
+                .addIngredient(casingSourceTag)
+                .setGroup(GROUP_TURBINE)
+                .addCriterion("has_item", hasItem(casingSourceTag))
+                .build(c, turbineRecipeName(variant, "casing_recycle"));
     }
 
     private void turbineGlass(final Consumer<IFinishedRecipe> c, final TurbineVariant variant,

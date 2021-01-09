@@ -1,0 +1,16 @@
+{
+  "replace": false,
+  "values": [
+    "bigreactors:reinforced_reactorcontroller",
+    "bigreactors:reinforced_reactorcontrolrod",
+    "bigreactors:reinforced_reactorsolidaccessport",
+    "bigreactors:reinforced_reactorpowertapfe_active",
+    "bigreactors:reinforced_reactorpowertapfe_passive",
+    "bigreactors:reinforced_reactorfluidport_forge_active",
+    "bigreactors:reinforced_reactorfluidport_forge_passive",
+    "bigreactors:reinforced_reactorfluidport_mekanism_passive",
+    "bigreactors:reinforced_reactorredstoneport",
+    "bigreactors:reinforced_reactorcomputerport",
+    "bigreactors:reinforced_reactorchargingportfe"
+  ]
+}

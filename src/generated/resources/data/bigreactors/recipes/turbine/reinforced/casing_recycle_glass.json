@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "bigreactors:turbine",
+  "ingredients": [
+    {
+      "item": "bigreactors:reinforced_turbineglass"
+    }
+  ],
+  "result": {
+    "item": "bigreactors:reinforced_turbinecasing"
+  }
+}

@@ -19,6 +19,7 @@
 package it.zerono.mods.extremereactors.datagen;
 
 import it.zerono.mods.extremereactors.ExtremeReactors;
+import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.Content.Items;
 import it.zerono.mods.extremereactors.gamecontent.ContentTags;
 import it.zerono.mods.zerocore.lib.tag.TagsHelper;
@@ -77,6 +78,45 @@ public class ItemTagGenerator
 
         this.build(TagsHelper.ITEMS.createForgeOptionalTag("dusts/uranium"), Items.YELLORIUM_DUST);
         this.build(TagsHelper.ITEMS.createForgeOptionalTag("ingots/uranium"), Items.YELLORIUM_INGOT);
+
+        this.build(ContentTags.Items.USING_REACTOR_CASING_BASIC,
+                Content.Items.REACTOR_CONTROLLER_BASIC,
+                Content.Items.REACTOR_CONTROLROD_BASIC,
+                Content.Items.REACTOR_SOLID_ACCESSPORT_BASIC,
+                Content.Items.REACTOR_POWERTAP_FE_ACTIVE_BASIC,
+                Content.Items.REACTOR_POWERTAP_FE_PASSIVE_BASIC,
+                Content.Items.REACTOR_REDSTONEPORT_BASIC,
+                Content.Items.REACTOR_CHARGINGPORT_FE_BASIC);
+
+        this.build(ContentTags.Items.USING_REACTOR_CASING_REINFORCED,
+                Content.Items.REACTOR_CONTROLLER_REINFORCED,
+                Content.Items.REACTOR_CONTROLROD_REINFORCED,
+                Content.Items.REACTOR_SOLID_ACCESSPORT_REINFORCED,
+                Content.Items.REACTOR_POWERTAP_FE_ACTIVE_REINFORCED,
+                Content.Items.REACTOR_POWERTAP_FE_PASSIVE_REINFORCED,
+                Content.Items.REACTOR_FLUIDPORT_FORGE_ACTIVE_REINFORCED,
+                Content.Items.REACTOR_FLUIDPORT_FORGE_PASSIVE_REINFORCED,
+                Content.Items.REACTOR_FLUIDPORT_MEKANISM_PASSIVE_REINFORCED,
+                Content.Items.REACTOR_REDSTONEPORT_REINFORCED,
+                Content.Items.REACTOR_COMPUTERPORT_REINFORCED,
+                Content.Items.REACTOR_CHARGINGPORT_FE_REINFORCED);
+
+        this.build(ContentTags.Items.USING_TURBINE_CASING_BASIC,
+                Content.Items.TURBINE_CONTROLLER_BASIC,
+                Content.Items.TURBINE_POWERTAP_FE_ACTIVE_BASIC,
+                Content.Items.TURBINE_POWERTAP_FE_PASSIVE_BASIC,
+                Content.Items.TURBINE_FLUIDPORT_FORGE_ACTIVE_BASIC,
+                Content.Items.TURBINE_FLUIDPORT_FORGE_PASSIVE_BASIC,
+                Content.Items.TURBINE_CHARGINGPORT_FE_BASIC);
+
+        this.build(ContentTags.Items.USING_TURBINE_CASING_REINFORCED,
+                Content.Items.TURBINE_CONTROLLER_REINFORCED,
+                Content.Items.TURBINE_POWERTAP_FE_ACTIVE_REINFORCED,
+                Content.Items.TURBINE_POWERTAP_FE_PASSIVE_REINFORCED,
+                Content.Items.TURBINE_FLUIDPORT_FORGE_ACTIVE_REINFORCED,
+                Content.Items.TURBINE_FLUIDPORT_FORGE_PASSIVE_REINFORCED,
+                Content.Items.TURBINE_COMPUTERPORT_REINFORCED,
+                Content.Items.TURBINE_CHARGINGPORT_FE_REINFORCED);
     }
 
     //endregion

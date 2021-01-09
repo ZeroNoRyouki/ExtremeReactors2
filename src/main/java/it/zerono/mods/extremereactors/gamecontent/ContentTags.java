@@ -18,6 +18,7 @@
 
 package it.zerono.mods.extremereactors.gamecontent;
 
+import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.zerocore.lib.tag.TagsHelper;
 import net.minecraft.block.Block;
 import net.minecraft.fluid.Fluid;
@@ -60,7 +61,16 @@ public class ContentTags {
 
         public static final ITag.INamedTag<Item> WRENCH = forgeTag("tools/wrench");
 
+        public static final ITag.INamedTag<Item> USING_REACTOR_CASING_BASIC = tag("reactor/casing_user/basic");
+        public static final ITag.INamedTag<Item> USING_REACTOR_CASING_REINFORCED = tag("reactor/casing_user/reinforced");
+        public static final ITag.INamedTag<Item> USING_TURBINE_CASING_BASIC = tag("turbine/casing_user/basic");
+        public static final ITag.INamedTag<Item> USING_TURBINE_CASING_REINFORCED = tag("turbine/casing_user/reinforced");
+
         //region internals
+
+        private static ITag.INamedTag<Item> tag(final String name) {
+            return TagsHelper.ITEMS.createModTag(ExtremeReactors.MOD_ID, name);
+        }
 
         private static ITag.INamedTag<Item> forgeTag(final String name) {
             return TagsHelper.ITEMS.createForgeTag(name);
