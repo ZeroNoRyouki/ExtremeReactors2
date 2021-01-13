@@ -1,6 +1,6 @@
 /*
  *
- * CommonConstants.java
+ * ISensorType.java
  *
  * This file is part of Extreme Reactors 2 by ZeroNoRyouki, a Minecraft mod.
  *
@@ -16,21 +16,23 @@
  *
  */
 
-package it.zerono.mods.extremereactors.gamecontent;
+package it.zerono.mods.extremereactors.gamecontent.multiblock.common.sensor;
 
-public final class CommonConstants {
+import it.zerono.mods.extremereactors.gamecontent.multiblock.IMachineReader;
+import net.minecraftforge.common.util.NonNullFunction;
 
-    public static String COMMAND_ACTIVATE = "activate";
-    public static String COMMAND_DEACTIVATE = "deactivate";
-    public static String COMMAND_SET_INPUT = "setinput";
-    public static String COMMAND_SET_OUTPUT = "setoutput";
-    public static String COMMAND_SET_REDSTONE_SENSOR = "setsensor";
-    public static String COMMAND_DISABLE_REDSTONE_SENSOR = "nosensor";
+import java.util.List;
 
-    //region internals
+public interface ISensorType<Reader extends IMachineReader>
+    extends NonNullFunction<Reader, Integer> {
 
-    private CommonConstants() {
-    }
+    List<SensorBehavior> getBehaviors();
 
-    //endregion
+    boolean isDisabled();
+
+    boolean isInput();
+
+    boolean isOutput();
+
+    String getTranslationBaseName();
 }

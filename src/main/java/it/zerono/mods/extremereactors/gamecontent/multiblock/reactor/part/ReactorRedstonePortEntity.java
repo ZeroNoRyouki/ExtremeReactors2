@@ -19,9 +19,10 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part;
 
 import it.zerono.mods.extremereactors.config.Config;
+import it.zerono.mods.extremereactors.gamecontent.CommonConstants;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.MultiblockReactor;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.sensor.SensorSetting;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.sensor.ReactorSensorSetting;
 import it.zerono.mods.zerocore.lib.block.INeighborChangeListener;
 import it.zerono.mods.zerocore.lib.block.TileCommandDispatcher;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
@@ -45,25 +46,22 @@ public class ReactorRedstonePortEntity
         extends AbstractReactorEntity
         implements INeighborChangeListener, ITickableMultiblockPart, INamedContainerProvider {
 
-    public static String COMMAND_SET_SENSOR = "setsensor";
-    public static String COMMAND_DISABLE_SENSOR = "nosensor";
-
     public ReactorRedstonePortEntity() {
 
         super(Content.TileEntityTypes.REACTOR_REDSTONEPORT.get());
-        this._setting = SensorSetting.DISABLED;
+        this._setting = ReactorSensorSetting.DISABLED;
         this._isExternallyPowered = false;
         this._externalPowerLevel = 0;
         this._ticksSinceLastUpdate = 0;
         this._isLit = false;
 
         this.setCommandDispatcher(TileCommandDispatcher.<ReactorRedstonePortEntity>builder()
-                .addServerHandler(COMMAND_SET_SENSOR, ReactorRedstonePortEntity::setNewSensorFromGUI)
-                .addServerHandler(COMMAND_DISABLE_SENSOR, ReactorRedstonePortEntity::disableSensorFromGUI)
+                .addServerHandler(CommonConstants.COMMAND_SET_REDSTONE_SENSOR, ReactorRedstonePortEntity::setNewSensorFromGUI)
+                .addServerHandler(CommonConstants.COMMAND_DISABLE_REDSTONE_SENSOR, ReactorRedstonePortEntity::disableSensorFromGUI)
                 .build(this));
     }
 
-    public SensorSetting getSettings() {
+    public ReactorSensorSetting getSettings() {
         return this._setting;
     }
 
@@ -168,7 +166,7 @@ public class ReactorRedstonePortEntity
         super.syncDataFrom(data, syncReason);
 
         if (data.contains("setting")) {
-            this._setting = SensorSetting.syncDataFrom(data.getCompound("setting"));
+            this._setting = ReactorSensorSetting.syncDataFrom(data.getCompound("setting"));
         }
 
         if (data.contains("lit")) {
@@ -250,7 +248,7 @@ public class ReactorRedstonePortEntity
 
     protected boolean isRedstoneActive() {
 
-        final SensorSetting settings = this.getSettings();
+        final ReactorSensorSetting settings = this.getSettings();
 
         return settings.Sensor.isOutput() ?
                 this.getMultiblockController().map(settings::test).orElse(false) :
@@ -271,7 +269,6 @@ public class ReactorRedstonePortEntity
             final boolean oldLitState = this._isLit;
 
             if (oldLitState != this.updateLitState()) {
-//                this.getOutwardDirection().ifPresent(direction -> world.notifyNeighborsOfStateChange(this.getWorldPosition().offset(direction), this.getBlockType()));
                 world.notifyNeighborsOfStateChange(this.getWorldPosition(), this.getBlockType());
             }
 
@@ -285,7 +282,7 @@ public class ReactorRedstonePortEntity
      */
     private void setNewSensorFromGUI(final CompoundNBT data) {
 
-        this._setting = SensorSetting.syncDataFrom(data);
+        this._setting = ReactorSensorSetting.syncDataFrom(data);
 
         this.getOutwardDirection().ifPresent(outward -> {
 
@@ -295,11 +292,6 @@ public class ReactorRedstonePortEntity
 
                 // Update inputs so we don't pulse/change automatically
 
-//                this._isExternallyPowered = this.isReceivingRedstonePowerFrom(position.offset(outward), outward);
-//
-//                if (!this._setting.Behavior.onPulse()) {
-//                    this.onRedstoneInputUpdated();
-//                }
                 this._externalPowerLevel = this.getRedstonePowerLevelFrom(position.offset(outward), outward);
                 this._isExternallyPowered = this._externalPowerLevel > 0;
 
@@ -312,9 +304,6 @@ public class ReactorRedstonePortEntity
                 this._isExternallyPowered = false;
                 this._externalPowerLevel = 0;
             }
-//
-//            this.notifyTileEntityUpdate();
-//            this.getPartWorld().ifPresent(w -> w.neighborChanged(position.offset(outward), this.getBlockType(), position));
         });
 
         this.updateRedstoneStateAndNotify();
@@ -322,7 +311,7 @@ public class ReactorRedstonePortEntity
 
     private void disableSensorFromGUI() {
 
-        this._setting = SensorSetting.DISABLED;
+        this._setting = ReactorSensorSetting.DISABLED;
         this.updateRedstoneStateAndNotify();
     }
 
@@ -356,7 +345,7 @@ public class ReactorRedstonePortEntity
 
     //endregion
 
-    private SensorSetting _setting;
+    private ReactorSensorSetting _setting;
     private int _ticksSinceLastUpdate;
     private boolean _isLit;
     private boolean _isExternallyPowered;

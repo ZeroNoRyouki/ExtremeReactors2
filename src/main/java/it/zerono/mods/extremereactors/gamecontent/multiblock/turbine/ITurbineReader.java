@@ -67,4 +67,6 @@ public interface ITurbineReader
     VentSetting getVentSetting();
 
     boolean isInductorEngaged();
+
+    double getEnergyStoredPercentage();
 }

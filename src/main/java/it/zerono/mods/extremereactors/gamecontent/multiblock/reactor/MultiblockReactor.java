@@ -494,6 +494,16 @@ public class MultiblockReactor
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public int getCoolantAmount() {
+        return this.getOperationalMode().isPassive() ? 0 : this.getFluidContainer().getLiquidAmount();
+    }
+
+    @Override
+    public int getVaporAmount() {
+        return this.getOperationalMode().isPassive() ? 0 : this.getFluidContainer().getGasAmount();
+    }
+
     //endregion
     //region IReactorWriter
 

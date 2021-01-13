@@ -267,6 +267,10 @@ public class TurbineData
         this._maxIntakeRate = Math.min(this._variant.getMaxPermittedFlow(), Math.max(0, rate));
     }
 
+    public void setMaxIntakeRatePercentage(int percentage) {
+        this.setMaxIntakeRate((int)(this._variant.getMaxPermittedFlow() * percentage / 100.0));
+    }
+
     public void setEnergyGeneratedLastTick(final double energy) {
         this._energyGeneratedLastTick = energy;
     }

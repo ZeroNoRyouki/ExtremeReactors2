@@ -16,10 +16,7 @@
  *
  */
 
-package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.sensor;
-
-import com.google.common.base.Strings;
-import net.minecraft.nbt.CompoundNBT;
+package it.zerono.mods.extremereactors.gamecontent.multiblock.common.sensor;
 
 public enum SensorBehavior {
 
@@ -32,7 +29,8 @@ public enum SensorBehavior {
     RetractOnPulse,
     EjectOnPulse,
     ActiveWhileAbove,
-    ActiveWhileBelow
+    ActiveWhileBelow,
+    ActiveWhileBetween
     ;
 
     public boolean onPulse() {
@@ -51,36 +49,21 @@ public enum SensorBehavior {
         }
     }
 
-    public boolean outputTest(final int current, final int threshold) {
+    public boolean outputTest(final int current, final int v1, final int v2) {
 
         switch (this) {
 
             case ActiveWhileAbove:
-                return current > threshold;
+                return current > v1;
 
             case ActiveWhileBelow:
-                return current < threshold;
+                return current < v1;
+
+            case ActiveWhileBetween:
+                return current >= v1 && current <= v2;
 
             default:
                 return false;
         }
-    }
-
-    public static SensorBehavior read(final CompoundNBT data, final String key, final SensorBehavior defaultValue) {
-
-        if (data.contains(key)) {
-
-            final String value = data.getString(key);
-
-            if (!Strings.isNullOrEmpty(value)) {
-                return SensorBehavior.valueOf(value);
-            }
-        }
-
-        return defaultValue;
-    }
-
-    public static void write(final CompoundNBT data, final String key, final SensorBehavior value) {
-        data.putString(key, value.name());
     }
 }

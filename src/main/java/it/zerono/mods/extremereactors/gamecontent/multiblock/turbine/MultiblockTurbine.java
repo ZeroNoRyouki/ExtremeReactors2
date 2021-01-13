@@ -350,8 +350,31 @@ public class MultiblockTurbine
     @Override
     public void setMaxIntakeRate(final int rate) {
 
-        this._data.setMaxIntakeRate(rate);
-        this.markReferenceCoordDirty();
+        if (this.isAssembled()) {
+
+            this._data.setMaxIntakeRate(rate);
+            this.markReferenceCoordDirty();
+        }
+    }
+
+    @Override
+    public void setMaxIntakeRatePercentage(final int percentage) {
+
+        if (this.isAssembled()) {
+
+            this._data.setMaxIntakeRatePercentage(percentage);
+            this.markReferenceCoordDirty();
+        }
+    }
+
+    @Override
+    public void changeMaxIntakeRate(final int delta) {
+
+        if (this.isAssembled()) {
+
+            this._data.setMaxIntakeRate(this._data.getMaxIntakeRate() + delta);
+            this.markReferenceCoordDirty();
+        }
     }
 
     @Override
@@ -364,8 +387,11 @@ public class MultiblockTurbine
     @Override
     public void setInductorEngaged(final boolean engaged) {
 
-        this._data.setInductorEngaged(engaged);
-        this.markReferenceCoordDirty();
+        if (this.isAssembled()) {
+
+            this._data.setInductorEngaged(engaged);
+            this.markReferenceCoordDirty();
+        }
     }
 
     //endregion

@@ -20,6 +20,7 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.turbine;
 
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.*;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part.TurbineRedstonePortBlock;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part.TurbineRotorBearingBlock;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part.TurbineRotorComponentBlock;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.TurbineVariant;
@@ -90,9 +91,8 @@ public enum TurbinePartType
     ChargingPortFE(() -> Content.TileEntityTypes.TURBINE_CHARGINGPORT_FE::get,
             GenericDeviceBlock::new, "part.bigreactors.turbine.chargingport_fe"),
 
-//    //TODO new? implement?
-//    RedstonePort(() -> Content.TileEntityTypes.TURBINE_REDSTONEPORT::get,
-//            TurbineRedstonePortBlock::new, "part.bigreactors.turbine.redstoneport"),
+    RedstonePort(() -> Content.TileEntityTypes.TURBINE_REDSTONEPORT::get,
+            TurbineRedstonePortBlock::new, "part.bigreactors.turbine.redstoneport"),
     ;
 
     TurbinePartType(final Supplier<Supplier<TileEntityType<?>>> tileTypeSupplier,

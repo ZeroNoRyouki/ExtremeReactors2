@@ -1,6 +1,6 @@
 /*
  *
- * CommonConstants.java
+ * ISensorSettingFactory.java
  *
  * This file is part of Extreme Reactors 2 by ZeroNoRyouki, a Minecraft mod.
  *
@@ -16,21 +16,13 @@
  *
  */
 
-package it.zerono.mods.extremereactors.gamecontent;
+package it.zerono.mods.extremereactors.gamecontent.multiblock.common.sensor;
 
-public final class CommonConstants {
+import it.zerono.mods.extremereactors.gamecontent.multiblock.IMachineReader;
 
-    public static String COMMAND_ACTIVATE = "activate";
-    public static String COMMAND_DEACTIVATE = "deactivate";
-    public static String COMMAND_SET_INPUT = "setinput";
-    public static String COMMAND_SET_OUTPUT = "setoutput";
-    public static String COMMAND_SET_REDSTONE_SENSOR = "setsensor";
-    public static String COMMAND_DISABLE_REDSTONE_SENSOR = "nosensor";
+public interface ISensorSettingFactory<Reader extends IMachineReader, Writer,
+        SensorType extends Enum<SensorType> & ISensorType<Reader>,
+        SensorSetting extends AbstractSensorSetting<Reader, Writer, SensorType>> {
 
-    //region internals
-
-    private CommonConstants() {
-    }
-
-    //endregion
+    SensorSetting create(SensorType sensor, SensorBehavior behavior, int v1, int v2);
 }

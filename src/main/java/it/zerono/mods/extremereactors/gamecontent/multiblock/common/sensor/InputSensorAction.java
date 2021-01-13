@@ -1,6 +1,6 @@
 /*
  *
- * SensorInputTest.java
+ * InputSensorAction.java
  *
  * This file is part of Extreme Reactors 2 by ZeroNoRyouki, a Minecraft mod.
  *
@@ -16,7 +16,7 @@
  *
  */
 
-package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.sensor;
+package it.zerono.mods.extremereactors.gamecontent.multiblock.common.sensor;
 
 @FunctionalInterface
 public interface InputSensorAction<T> {

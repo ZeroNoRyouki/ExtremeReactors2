@@ -1,6 +1,7 @@
-/*
+ 
+ /*
  *
- * CommonConstants.java
+ * package-info.java
  *
  * This file is part of Extreme Reactors 2 by ZeroNoRyouki, a Minecraft mod.
  *
@@ -16,21 +17,10 @@
  *
  */
 
-package it.zerono.mods.extremereactors.gamecontent;
+ @ParametersAreNonnullByDefault
+ @MethodsReturnNonnullByDefault
+ package it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.sensor;
 
-public final class CommonConstants {
+ import mcp.MethodsReturnNonnullByDefault;
 
-    public static String COMMAND_ACTIVATE = "activate";
-    public static String COMMAND_DEACTIVATE = "deactivate";
-    public static String COMMAND_SET_INPUT = "setinput";
-    public static String COMMAND_SET_OUTPUT = "setoutput";
-    public static String COMMAND_SET_REDSTONE_SENSOR = "setsensor";
-    public static String COMMAND_DISABLE_REDSTONE_SENSOR = "nosensor";
-
-    //region internals
-
-    private CommonConstants() {
-    }
-
-    //endregion
-}
+ import javax.annotation.ParametersAreNonnullByDefault;

@@ -82,8 +82,8 @@ public class TurbineModelBuilder
         this.addBlockWithVariants(TurbinePartType.ComputerPort, variant, isPartCompatible, "computerport",
                 "computerport_connected");
 
-//        this.addBlockWithVariants(TurbinePartType.RedstonePort, variant, isPartCompatible, "redstoneport",
-//                "redstoneport_on");
+        this.addBlockWithVariants(TurbinePartType.RedstonePort, variant, isPartCompatible, "redstoneport",
+                "redstoneport_on");
 
         this.addBlockWithVariants(TurbinePartType.ChargingPortFE, variant, isPartCompatible, "chargingportfe");
     }

@@ -95,4 +95,8 @@ public interface IReactorReader
     List<BlockPos> getControlRodLocations();
 
     Stats getUiStats();
+
+    int getCoolantAmount();
+
+    int getVaporAmount();
 }

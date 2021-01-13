@@ -25,6 +25,10 @@ public interface ITurbineWriter
 
     void setMaxIntakeRate(int rate);
 
+    void setMaxIntakeRatePercentage(int percentage);
+
+    void changeMaxIntakeRate(int delta);
+
     void setVentSetting(VentSetting setting);
 
     void setInductorEngaged(boolean engaged);

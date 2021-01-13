@@ -19,75 +19,39 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.sensor;
 
 import it.zerono.mods.extremereactors.Log;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.common.sensor.AbstractSensorSetting;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.common.sensor.SensorBehavior;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.IReactorReader;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.IReactorWriter;
+import it.zerono.mods.zerocore.lib.data.nbt.NBTHelper;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraftforge.common.util.NonNullPredicate;
 
-public class SensorSetting
-    implements NonNullPredicate<IReactorReader>, InputSensorAction<IReactorWriter> {
+public class ReactorSensorSetting
+    extends AbstractSensorSetting<IReactorReader, IReactorWriter, ReactorSensorType> {
 
-    public static final SensorSetting DISABLED = new SensorSetting();
+    public static final ReactorSensorSetting DISABLED = new ReactorSensorSetting();
 
-    public final SensorType Sensor;
-    public final SensorBehavior Behavior;
-    public final int Value1;
-    public final int Value2;
-
-    public SensorSetting(final SensorType sensor, final SensorBehavior behavior, final int v1, final int v2) {
-
-        this.Sensor = sensor;
-        this.Behavior = behavior;
-        this.Value1 = v1;
-        this.Value2 = v2;
+    public ReactorSensorSetting(final ReactorSensorType sensor, final SensorBehavior behavior, final int v1, final int v2) {
+        super(sensor, behavior, v1, v2);
     }
 
-    public SensorSetting(final SensorSetting other) {
+    public static ReactorSensorSetting syncDataFrom(final CompoundNBT data) {
 
-        this.Sensor = other.Sensor;
-        this.Behavior = other.Behavior;
-        this.Value1 = other.Value1;
-        this.Value2 = other.Value2;
-    }
+        try {
 
-    public static SensorSetting syncDataFrom(final CompoundNBT data) {
+            return new ReactorSensorSetting(data);
 
-        if (data.contains("sensor") && data.contains("behavior") && data.contains("v1") && data.contains("v2")) {
+        } catch (IllegalArgumentException ex) {
 
-            return new SensorSetting(
-                    SensorType.read(data, "sensor", SensorType.Disabled),
-                    SensorBehavior.read(data, "behavior", SensorBehavior.Disabled),
-                    data.getInt("v1"), data.getInt("v2"));
+            Log.LOGGER.error("Invalid NBT data while reading a ReactorSensorSetting");
+            return DISABLED;
         }
-
-        Log.LOGGER.error("Invalid NBT data while reading a SensorSetting");
-        return DISABLED;
     }
 
     public CompoundNBT syncDataTo(CompoundNBT data) {
-
-        SensorType.write(data, "sensor", this.Sensor);
-        SensorBehavior.write(data, "behavior", this.Behavior);
-        data.putInt("v1", this.Value1);
-        data.putInt("v2", this.Value2);
-
-        return data;
+        return super.syncDataTo(NBTHelper.nbtSetEnum(data, "sensor", this.Sensor));
     }
 
-    //region NonNullPredicate<IReactorReader>
-
-    /**
-     * Check if the current (output) setting match the Reactor state,
-     *
-     * @param reactor the Reactor
-     * @return {@code true} if the current sensor is an output sensor that match the Reactor state, otherwise {@code false}
-     */
-    @Override
-    public boolean test(final IReactorReader reactor) {
-        return this.Sensor.isOutput() && this.Behavior.outputTest(this.Sensor.apply(reactor), this.Value1);
-    }
-
-    //endregion
     //region InputSensorAction
 
     /**
@@ -122,9 +86,9 @@ public class SensorSetting
     @Override
     public boolean equals(final Object other) {
 
-        if (other instanceof SensorSetting) {
+        if (other instanceof ReactorSensorSetting) {
 
-            final SensorSetting s = (SensorSetting)other;
+            final ReactorSensorSetting s = (ReactorSensorSetting)other;
 
             return (this == s) || (this.Sensor == s.Sensor && this.Behavior == s.Behavior &&
                     this.Value1 == s.Value1 && this.Value2 == s.Value2);
@@ -136,8 +100,21 @@ public class SensorSetting
     //endregion
     //region internals
 
-    private SensorSetting() {
-        this(SensorType.Disabled, SensorBehavior.Disabled, 0 ,0);
+    private ReactorSensorSetting() {
+        this(ReactorSensorType.Disabled, SensorBehavior.Disabled, 0 ,0);
+    }
+
+    protected ReactorSensorSetting(final CompoundNBT data) throws IllegalArgumentException {
+        super(data, ReactorSensorSetting::readSensorTypeFrom);
+    }
+
+    private static ReactorSensorType readSensorTypeFrom(final CompoundNBT data) {
+
+        if (!data.contains("sensor")) {
+            throw new IllegalArgumentException("Invalid NBT data");
+        }
+
+        return NBTHelper.nbtGetEnum(data, "sensor", ReactorSensorType::valueOf, ReactorSensorType.Disabled);
     }
 
     private void acceptInputActive(final IReactorWriter reactor, final Boolean isExternallyPowered) {

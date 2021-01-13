@@ -79,7 +79,7 @@ public final class ItemGroups {
                     stack(Content.Blocks.TURBINE_ROTORSHAFT_BASIC), stack(Content.Blocks.TURBINE_ROTORBLADE_BASIC),
                     stack(Content.Blocks.TURBINE_POWERTAP_FE_ACTIVE_BASIC), stack(Content.Blocks.TURBINE_POWERTAP_FE_PASSIVE_BASIC),
                     stack(Content.Blocks.TURBINE_CHARGINGPORT_FE_BASIC),
-                    /*stack(Content.Blocks.TURBINE_REDSTONEPORT_BASIC),*/
+                    stack(Content.Blocks.TURBINE_REDSTONEPORT_BASIC),
                     stack(Content.Blocks.TURBINE_FLUIDPORT_FORGE_ACTIVE_BASIC), stack(Content.Blocks.TURBINE_FLUIDPORT_FORGE_PASSIVE_BASIC),
                     stack(Content.Blocks.TURBINE_CREATIVE_STEAM_GENERATOR_BASIC),
 
@@ -88,7 +88,7 @@ public final class ItemGroups {
                     stack(Content.Blocks.TURBINE_ROTORSHAFT_REINFORCED), stack(Content.Blocks.TURBINE_ROTORBLADE_REINFORCED),
                     stack(Content.Blocks.TURBINE_POWERTAP_FE_ACTIVE_REINFORCED), stack(Content.Blocks.TURBINE_POWERTAP_FE_PASSIVE_REINFORCED),
                     stack(Content.Blocks.TURBINE_CHARGINGPORT_FE_REINFORCED),
-                    /*stack(Content.Blocks.TURBINE_REDSTONEPORT_REINFORCED),*/ stack(Content.Blocks.TURBINE_COMPUTERPORT_REINFORCED),
+                    stack(Content.Blocks.TURBINE_REDSTONEPORT_REINFORCED), stack(Content.Blocks.TURBINE_COMPUTERPORT_REINFORCED),
                     stack(Content.Blocks.TURBINE_FLUIDPORT_FORGE_ACTIVE_REINFORCED), stack(Content.Blocks.TURBINE_FLUIDPORT_FORGE_PASSIVE_REINFORCED),
                     stack(Content.Blocks.TURBINE_CREATIVE_STEAM_GENERATOR_REINFORCED)
             ));

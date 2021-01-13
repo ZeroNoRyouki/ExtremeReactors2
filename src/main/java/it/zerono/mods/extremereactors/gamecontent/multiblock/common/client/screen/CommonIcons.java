@@ -75,6 +75,10 @@ public enum CommonIcons implements NonNullSupplier<ISprite> {
     ButtonSensorOutputFuelAmount(builder().from(64, 80).build()),
     ButtonSensorOutputWasteAmount(builder().from(80, 80).build()),
     ButtonSensorOutputEnergyAmount(builder().from(96, 80).build()),
+    ButtonSensorInputFlowRegulator(builder().from(0, 48).build()),
+    ButtonSensorOutputRotorSpeed(builder().from(48, 48).build()),
+    ButtonSensorOutputCoolantAmount(builder().from(16, 48).build()),
+    ButtonSensorOutputVaporAmount(builder().from(32, 48).build()),
 
     ButtonSensorInputActivateActive(builder().from(32, 0).ofSize(32, 32).build()),
     ButtonSensorOutputCasingTemperatureActive(builder().from(0, 64).build()),
@@ -84,6 +88,10 @@ public enum CommonIcons implements NonNullSupplier<ISprite> {
     ButtonSensorOutputFuelAmountActive(builder().from(64, 64).build()),
     ButtonSensorOutputWasteAmountActive(builder().from(80, 64).build()),
     ButtonSensorOutputEnergyAmountActive(builder().from(96, 64).build()),
+    ButtonSensorInputFlowRegulatorActive(builder().from(0, 32).build()),
+    ButtonSensorOutputRotorSpeedActive(builder().from(48, 32).build()),
+    ButtonSensorOutputCoolantAmountActive(builder().from(16, 32).build()),
+    ButtonSensorOutputVaporAmountActive(builder().from(32, 32).build()),
 
     ImageButtonBorder(builder().from(118, 156).ofSize(18, 18).build()),
     ImageButtonBackground(builder().from(118, 174).ofSize(18, 18).build()),

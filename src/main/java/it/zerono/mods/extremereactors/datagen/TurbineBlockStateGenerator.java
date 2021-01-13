@@ -79,7 +79,7 @@ public class TurbineBlockStateGenerator
         this.genShaft(Content.Blocks.TURBINE_ROTORSHAFT_BASIC, "rotorshaft", variant);
         this.genBlade(Content.Blocks.TURBINE_ROTORBLADE_BASIC, "rotorblade", variant);
 
-//        this.genRedstonePort(Content.Blocks.TURBINE_REDSTONEPORT_BASIC, variant);
+        this.genRedstonePort(Content.Blocks.TURBINE_REDSTONEPORT_BASIC, variant);
         this.genericPart(Content.Blocks.TURBINE_POWERTAP_FE_ACTIVE_BASIC, "powertap_fe_active", variant, true);
         this.genericPart(Content.Blocks.TURBINE_POWERTAP_FE_PASSIVE_BASIC, "powertap_fe_passive", variant, true);
         this.genFluidPort(Content.Blocks.TURBINE_FLUIDPORT_FORGE_ACTIVE_BASIC, "fluidport_forge_active", variant);
@@ -100,7 +100,7 @@ public class TurbineBlockStateGenerator
         this.genShaft(Content.Blocks.TURBINE_ROTORSHAFT_REINFORCED, "rotorshaft", variant);
         this.genBlade(Content.Blocks.TURBINE_ROTORBLADE_REINFORCED, "rotorblade", variant);
 
-//        this.genRedstonePort(Content.Blocks.TURBINE_REDSTONEPORT_REINFORCED, variant);
+        this.genRedstonePort(Content.Blocks.TURBINE_REDSTONEPORT_REINFORCED, variant);
         this.genericPart(Content.Blocks.TURBINE_POWERTAP_FE_ACTIVE_REINFORCED, "powertap_fe_active", variant, true);
         this.genericPart(Content.Blocks.TURBINE_POWERTAP_FE_PASSIVE_REINFORCED, "powertap_fe_passive", variant, true);
         this.genFluidPort(Content.Blocks.TURBINE_FLUIDPORT_FORGE_ACTIVE_REINFORCED, "fluidport_forge_active", variant);
