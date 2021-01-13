@@ -18,11 +18,15 @@
         },
         {
             "type": "text",
-            "text": "$(bold)Output settings$()$(br2)Emit a Redstone signal when one of the following conditions are meet$(br2)$(li)$(o)Casing heat :$() the heat of the Reactor Casing is above or below a given temperature$(li)$(o)Core heat :$() the heat of the Reactor Core is above or below a given temperature$(li)$(o)Fuel Richness :$() the Fuel Richness percentile is above or below a given value$(li)$(o)Fuel Amount :$() the amount of fuel available is above or below a given value"
+            "text": "$(bold)Output settings$()$(br2)Emit a Redstone signal when one of the following conditions are meet$(br2)$(li)$(o)Casing heat :$() the heat of the Reactor Casing is above, below or in between a given temperature$(li)$(o)Core heat :$() the heat of the Reactor Core is above, below or in between a given temperature$(li)$(o)Fuel Richness :$() the Fuel Richness percentile is above, below or in between a given value"
         },
         {
             "type": "text",
-            "text": "$(li)$(o)Waste Amount :$() the amount of waste available is above or below a given value.$(li)$(o)Energy Stored :$() the amount of energy stored in the internal energy buffer is above or below a given value.$(br2)You will usually need two or more Redstone Port to fully automate a Reactor.$(br2)For more complex automations, check the $(l:bigreactors:reactor/part-computerport)Computer Port$(/l)."
+            "text": "$(li)$(o)Fuel Amount :$() the amount of fuel available is above, below or in between a given value$(li)$(o)Waste Amount :$() the amount of waste available is above, below or in between a given value.$(li)$(o)Energy Stored :$() the amount of energy stored in the internal energy buffer is above, below or in between a given value.$(li)$(o)Coolant amount :$() the amount of coolant in the Turbine is above, below or in between a given value"
+        },
+        {
+            "type": "text",
+            "text": "$(li)$(o)Vapor amount :$() the amount of vapor in the Turbine is above, below or in between a given value$(br2)You will usually need two or more Redstone Port to fully automate a Reactor.$(br2)For more complex automations, check the $(l:bigreactors:reactor/part-computerport)Computer Port$(/l)."
         },
         {
             "type": "crafting2x",
