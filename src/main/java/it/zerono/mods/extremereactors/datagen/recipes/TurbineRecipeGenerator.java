@@ -84,6 +84,7 @@ public class TurbineRecipeGenerator
         this.turbineBlade(c, variant, Content.Items.TURBINE_ROTORBLADE_BASIC, metal, alternativeMetal);
         this.turbineShaft(c, variant, Content.Items.TURBINE_ROTORSHAFT_BASIC, metal, alternativeMetal);
         this.turbineBearing(c, variant, Content.Items.TURBINE_ROTORBEARING_BASIC, metal, alternativeMetal);
+        this.turbineRedstonePort(c, variant, Content.Items.TURBINE_REDSTONEPORT_BASIC, casing, metal, alternativeMetal, Tags.Items.INGOTS_GOLD);
         this.generatorChargingPort(c, variant, "chargingfe", GROUP_TURBINE, TurbineRecipeGenerator::turbineRecipeName,
                 Content.Items.TURBINE_CHARGINGPORT_FE_BASIC, Content.Items.TURBINE_POWERTAP_FE_ACTIVE_BASIC,
                 Items.GLOWSTONE_DUST, Items.REDSTONE);
@@ -110,6 +111,7 @@ public class TurbineRecipeGenerator
         this.turbineBlade(c, variant, Content.Items.TURBINE_ROTORBLADE_REINFORCED, metal, alternativeMetal);
         this.turbineShaft(c, variant, Content.Items.TURBINE_ROTORSHAFT_REINFORCED, metal, alternativeMetal);
         this.turbineBearing(c, variant, Content.Items.TURBINE_ROTORBEARING_REINFORCED, metal, alternativeMetal);
+        this.turbineRedstonePort(c, variant, Content.Items.TURBINE_REDSTONEPORT_REINFORCED, casing, metal, alternativeMetal, Tags.Items.INGOTS_GOLD);
         this.generatorChargingPort(c, variant, "chargingfe", GROUP_TURBINE, TurbineRecipeGenerator::turbineRecipeName,
                 Content.Items.TURBINE_CHARGINGPORT_FE_REINFORCED, Content.Items.TURBINE_POWERTAP_FE_ACTIVE_REINFORCED,
                 Items.GLOWSTONE, Items.REDSTONE_BLOCK);
@@ -328,9 +330,24 @@ public class TurbineRecipeGenerator
                                 .addCriterion("has_item", hasItem(Tags.Items.STORAGE_BLOCKS_IRON)));
     }
 
-
-
-
+    private void turbineRedstonePort(final Consumer<IFinishedRecipe> c, final TurbineVariant variant,
+                                     final Supplier<? extends IItemProvider> result, final Supplier<? extends IItemProvider> casing,
+                                     final ITag.INamedTag<Item> metal, @Nullable final ITag.INamedTag<Item> alternativeMetal,
+                                     final ITag<Item> gold) {
+        recipeWithAlternativeTag(c, turbineRecipeName(variant, "redstoneport"), turbineRecipeName(variant, "redstoneport_alt"),
+                metal, alternativeMetal, metalTag ->
+                        ShapedRecipeBuilder.shapedRecipe(result.get())
+                                .key('C', casing.get())
+                                .key('M', metalTag)
+                                .key('G', gold)
+                                .key('Z', net.minecraft.item.Items.COMPARATOR)
+                                .key('X', net.minecraft.item.Items.REPEATER)
+                                .patternLine("CZC")
+                                .patternLine("MGM")
+                                .patternLine("CXC")
+                                .setGroup(GROUP_TURBINE)
+                                .addCriterion("has_item", hasItem(casing.get())));
+    }
 
     private static ResourceLocation turbineRecipeName(final IMultiblockGeneratorVariant variant, final String name) {
         return ExtremeReactors.newID("turbine/" + variant.getName() + "/" + name);

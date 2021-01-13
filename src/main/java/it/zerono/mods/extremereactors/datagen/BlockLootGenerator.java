@@ -61,9 +61,7 @@ public class BlockLootGenerator
                 Content.Blocks.TURBINE_POWERTAP_FE_ACTIVE_BASIC, Content.Blocks.TURBINE_POWERTAP_FE_PASSIVE_BASIC,
                 Content.Blocks.TURBINE_CHARGINGPORT_FE_BASIC,
                 Content.Blocks.TURBINE_FLUIDPORT_FORGE_ACTIVE_BASIC, Content.Blocks.TURBINE_FLUIDPORT_FORGE_PASSIVE_BASIC,
-                Content.Blocks.TURBINE_CREATIVE_STEAM_GENERATOR_BASIC
-                /*,
-                Content.Blocks.TURBINE_REDSTONEPORT_BASIC*/);
+                Content.Blocks.TURBINE_CREATIVE_STEAM_GENERATOR_BASIC, Content.Blocks.TURBINE_REDSTONEPORT_BASIC);
 
         this.addDrop(Content.Blocks.TURBINE_CASING_REINFORCED, Content.Blocks.TURBINE_GLASS_REINFORCED,
                 Content.Blocks.TURBINE_CONTROLLER_REINFORCED, Content.Blocks.TURBINE_ROTORBEARING_REINFORCED,
@@ -72,7 +70,7 @@ public class BlockLootGenerator
                 Content.Blocks.TURBINE_CHARGINGPORT_FE_REINFORCED,
                 Content.Blocks.TURBINE_FLUIDPORT_FORGE_ACTIVE_REINFORCED, Content.Blocks.TURBINE_FLUIDPORT_FORGE_PASSIVE_REINFORCED,
                 Content.Blocks.TURBINE_CREATIVE_STEAM_GENERATOR_REINFORCED,
-                /*Content.Blocks.TURBINE_REDSTONEPORT_REINFORCED,*/ Content.Blocks.TURBINE_COMPUTERPORT_REINFORCED);
+                Content.Blocks.TURBINE_REDSTONEPORT_REINFORCED, Content.Blocks.TURBINE_COMPUTERPORT_REINFORCED);
     }
 
     @Override
