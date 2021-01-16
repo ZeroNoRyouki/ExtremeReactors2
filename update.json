@@ -42,10 +42,15 @@
         "1.16.4-2.0.20":"Changelog: https://www.curseforge.com/minecraft/mc-mods/extreme-reactors/files/3162345",
         "1.16.4-2.0.21":"Changelog: https://www.curseforge.com/minecraft/mc-mods/extreme-reactors/files/3168249"
     },
+    "1.16.5":{
+        "1.16.4-2.0.21":"Changelog: https://www.curseforge.com/minecraft/mc-mods/extreme-reactors/files/3168249"
+    },
     "promos":{
         "1.16.3-latest":"1.16.4-2.0.21",
         "1.16.3-recommended":"1.16.4-2.0.21",
         "1.16.4-latest":"1.16.4-2.0.21",
-        "1.16.4-recommended":"1.16.4-2.0.21"
+        "1.16.4-recommended":"1.16.4-2.0.21",
+        "1.16.5-latest":"1.16.4-2.0.21",
+        "1.16.5-recommended":"1.16.4-2.0.21"
     }
 }
