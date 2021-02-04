@@ -1,6 +1,6 @@
 {
     "name": "Solid Access Port",
-    "icon": "bigreactors:reinforced_reactorfuelrod",
+    "icon": "bigreactors:reinforced_reactorsolidaccessport",
     "category": "bigreactors:reactor-parts",
     "read_by_default": true,
     "sortnum": 6,
