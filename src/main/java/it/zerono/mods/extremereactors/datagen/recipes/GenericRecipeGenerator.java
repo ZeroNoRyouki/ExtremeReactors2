@@ -95,6 +95,7 @@ public class GenericRecipeGenerator
                 .build(c, ExtremeReactors.newID("misc/wrench"));
 
         this.book(c, "erguide", PatchouliCompat.HANDBOOK_ID, Items.BOOK, ContentTags.Items.INGOTS_YELLORIUM);
+        this.book(c, "erguide_alt", PatchouliCompat.HANDBOOK_ID, Items.BOOK, TAG_INGOTS_URANIUM);
     }
 
     //endregion
