@@ -1,7 +1,7 @@
 # Extreme Reactors 2 - mods.toml
 
 modLoader="javafml"
-loaderVersion="${forge_versionrange}"
+loaderVersion="${loader_versionrange}"
 
 # The license for you mod. This is mandatory metadata and allows for easier comprehension of your redistributive properties.
 # Review your options at https://choosealicense.com/. All rights reserved is the default copyright stance, and is thus the default here.

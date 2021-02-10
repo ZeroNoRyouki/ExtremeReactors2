@@ -123,6 +123,7 @@ processResources {
 	inputs.property "mod_name", config.mod_name
     inputs.property "minecraft_versionrange", config.minecraft_versionrange
 	inputs.property "forge_versionrange", config.forge_versionrange
+    inputs.property "loader_versionrange", config.loader_versionrange
 	inputs.property "zerocore_versionrange", config.zerocore_versionrange
 
     from(sourceSets.main.resources.srcDirs) {
@@ -132,6 +133,7 @@ processResources {
 				'mod_name': config.mod_name,
 				'minecraft_versionrange': config.minecraft_versionrange,
 				'forge_versionrange': config.forge_versionrange,
+                'loader_versionrange': config.loader_versionrange,
 				'zerocore_versionrange': config.zerocore_versionrange
     }
 }
