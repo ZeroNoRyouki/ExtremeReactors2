@@ -120,7 +120,7 @@ public abstract class AbstractRedstonePortScreen<Controller extends AbstractCubo
         this.addControl(c);
 
         this._sensorButtonsPanel.setPadding(0);
-        this._sensorButtonsPanel.setLayoutEngineHint(FixedLayoutEngine.hint(13, 18, 62, 88));
+        this._sensorButtonsPanel.setLayoutEngineHint(FixedLayoutEngine.hint(13, 18, 62, 96));
         this.addControl(this._sensorButtonsPanel);
 
         // - sensors sub-behaviors controls
