@@ -30,6 +30,7 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.ReactorPart
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.container.ReactorSolidAccessPortContainer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part.*;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.ReactorVariant;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.recipe.ReprocessorRecipe;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.MultiblockTurbine;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.TurbinePartType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part.*;
@@ -41,6 +42,7 @@ import it.zerono.mods.zerocore.lib.data.IoMode;
 import it.zerono.mods.zerocore.lib.energy.EnergySystem;
 import it.zerono.mods.zerocore.lib.item.ModItem;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
+import it.zerono.mods.zerocore.lib.recipe.ModRecipeType;
 import net.minecraft.block.Block;
 import net.minecraft.block.FlowingFluidBlock;
 import net.minecraft.block.SoundType;
@@ -49,6 +51,7 @@ import net.minecraft.fluid.Fluid;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.*;
+import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.common.extensions.IForgeContainerType;
@@ -723,6 +726,26 @@ public final class Content {
             return CONTAINERS.register(name,
                     () -> IForgeContainerType.create(factory));
         }
+
+        //endregion
+    }
+
+    public static final class Recipes {
+
+        private static final DeferredRegister<IRecipeSerializer<?>> SERIALIZERS =
+                DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, ExtremeReactors.MOD_ID);
+
+        static void initialize() {
+            SERIALIZERS.register(Mod.EventBusSubscriber.Bus.MOD.bus().get());
+        }
+
+        //region Reprocessor
+
+        public static final ModRecipeType<ReprocessorRecipe> REPROCESSOR_RECIPE_TYPE =
+                ModRecipeType.create(ExtremeReactors.newID(ReprocessorRecipe.NAME));
+
+        public static final RegistryObject<IRecipeSerializer<ReprocessorRecipe>> REPROCESSOR_RECIPE_SERIALIZER =
+                SERIALIZERS.register(ReprocessorRecipe.NAME, ReprocessorRecipe::serializer);
 
         //endregion
     }

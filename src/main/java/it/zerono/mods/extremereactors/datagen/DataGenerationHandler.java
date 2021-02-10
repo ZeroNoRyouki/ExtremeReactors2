@@ -21,6 +21,7 @@ package it.zerono.mods.extremereactors.datagen;
 import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.datagen.recipes.GenericRecipeGenerator;
 import it.zerono.mods.extremereactors.datagen.recipes.ReactorRecipeGenerator;
+import it.zerono.mods.extremereactors.datagen.recipes.ReprocessorRecipeGenerator;
 import it.zerono.mods.extremereactors.datagen.recipes.TurbineRecipeGenerator;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.util.ResourceLocation;
@@ -55,6 +56,7 @@ public class DataGenerationHandler {
             generator.addProvider(new GenericRecipeGenerator(generator));
             generator.addProvider(new ReactorRecipeGenerator(generator));
             generator.addProvider(new TurbineRecipeGenerator(generator));
+            generator.addProvider(new ReprocessorRecipeGenerator(generator));
         }
 
         if (event.includeClient()) {
