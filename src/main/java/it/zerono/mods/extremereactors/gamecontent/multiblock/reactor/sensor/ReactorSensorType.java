@@ -57,7 +57,7 @@ public enum ReactorSensorType
     outputCasingTemperature(r -> r.getReactorHeatValue().get().intValue(), SensorBehavior.ActiveWhileAbove, SensorBehavior.ActiveWhileBelow, SensorBehavior.ActiveWhileBetween),
 
     // Output: Fuel richness, % of contents that is fuel (0-100, 100 = 100% fuel)
-    outputFuelRichness(r -> (int)r.getUiStats().getFuelRichness() * 100, SensorBehavior.ActiveWhileAbove, SensorBehavior.ActiveWhileBelow, SensorBehavior.ActiveWhileBetween),
+    outputFuelRichness(r -> (int)(r.getUiStats().getFuelRichness() * 100), SensorBehavior.ActiveWhileAbove, SensorBehavior.ActiveWhileBelow, SensorBehavior.ActiveWhileBetween),
 
     // Output: Fuel amount in a control rod, raw value, (0-4*height)
     outputFuelAmount(IReactorReader::getFuelAmount, SensorBehavior.ActiveWhileAbove, SensorBehavior.ActiveWhileBelow, SensorBehavior.ActiveWhileBetween),
