@@ -209,7 +209,7 @@ public class ReactorSolidAccessPortScreen
 
         final Panel p = new Panel(this);
 
-        p.setLayoutEngineHint(FixedLayoutEngine.hint(15, 0, 16 * 2 + 2, 16 * 2 + 2));
+        p.setLayoutEngineHint(FixedLayoutEngine.hint(15, 0, 18 * 2 + 2, 18 * 2 + 2));
         p.setCustomBackgroundPainter((panel, matrix) -> {
 
             final Point xy = panel.controlToScreen(0, 0);
