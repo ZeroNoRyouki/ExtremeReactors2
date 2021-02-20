@@ -132,7 +132,7 @@ public class TurbineRotorComponentEntity
         final boolean assembled = this.isMachineAssembled();
 
         if (assembled) {
-            return 0;
+            return 0; // HIDDEN
         }
 
         return this.getPartType()

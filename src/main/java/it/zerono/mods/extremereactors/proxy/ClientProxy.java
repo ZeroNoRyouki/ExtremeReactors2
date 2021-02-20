@@ -58,6 +58,7 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part.Turbin
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.TurbineVariant;
 import it.zerono.mods.zerocore.lib.CodeHelper;
 import it.zerono.mods.zerocore.lib.client.model.ICustomModelBuilder;
+import it.zerono.mods.zerocore.lib.client.model.ModBakedModelSupplier;
 import it.zerono.mods.zerocore.lib.compat.Mods;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
 import net.minecraft.block.Block;
@@ -66,6 +67,7 @@ import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
+import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.ContainerType;
@@ -73,6 +75,7 @@ import net.minecraft.inventory.container.PlayerContainer;
 import net.minecraft.item.Item;
 import net.minecraft.resources.IResourceManager;
 import net.minecraft.util.Direction;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.client.event.ModelBakeEvent;
 import net.minecraftforge.client.event.ModelRegistryEvent;
@@ -111,6 +114,10 @@ public class ClientProxy
         bus.addListener(this::onTextureStitchPre);
 
         CodeHelper.addResourceReloadListener(this);
+    }
+
+    public static Supplier<IBakedModel> getModelSupplier(final ResourceLocation modelId) {
+        return s_bakedModelSupplier.getOrCreate(modelId);
     }
 
     /**
@@ -299,6 +306,8 @@ public class ClientProxy
     }
 
     //endregion
+
+    private static final ModBakedModelSupplier s_bakedModelSupplier = new ModBakedModelSupplier();
 
     private final List<ICustomModelBuilder> _modelBuilders;
 

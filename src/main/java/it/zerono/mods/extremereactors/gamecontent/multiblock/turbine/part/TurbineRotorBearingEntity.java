@@ -60,16 +60,6 @@ public class TurbineRotorBearingEntity
         }
 
         return this.getOutwardFacingFromWorldPosition(Direction.DOWN).getOpposite();
-
-//        return this.getOutwardFacingFromWorldPosition()
-//                .orElse(Direction.DOWN)
-//                .getOpposite();
-
-
-//        return this.getOutwardFacings().firstIf(true)
-//                .orElse(this.getOutwardFacingFromWorldPosition()
-//                        .orElseThrow(IllegalStateException::new))
-//                .getOpposite();
     }
 
     @OnlyIn(Dist.CLIENT)
