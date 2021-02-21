@@ -41,18 +41,20 @@
         "1.16.4-2.0.19":"Changelog: https://www.curseforge.com/minecraft/mc-mods/extreme-reactors/files/3158111",
         "1.16.4-2.0.20":"Changelog: https://www.curseforge.com/minecraft/mc-mods/extreme-reactors/files/3162345",
         "1.16.4-2.0.21":"Changelog: https://www.curseforge.com/minecraft/mc-mods/extreme-reactors/files/3168249",
-        "1.16.4-2.0.22":"Changelog: https://www.curseforge.com/minecraft/mc-mods/extreme-reactors/files/3199124"
+        "1.16.4-2.0.22":"Changelog: https://www.curseforge.com/minecraft/mc-mods/extreme-reactors/files/3199124",
+        "1.16.4-2.0.23":"- Fix vanilla rotor models being used instead of the correct ones when the Turbine is assembled and a particular combination of mods is around. Close #11 and #12. Thanks to TheSnowyChickens, papaworld, XCOYoshi, and beiai for the reports\r\n- Fixed Solid Access Port GUI buttons hitbox not fully usable. Close #37. Thanks to beiai for the report\r\n- Updated ZeroCore to version 1.16.4-2.0.21\r\n- Bumped version to 2.0.23\r\n- Compatible with MC 1.16.4 and 1.16.5. Use the same .jar."
     },
     "1.16.5":{
         "1.16.4-2.0.21":"Changelog: https://www.curseforge.com/minecraft/mc-mods/extreme-reactors/files/3168249",
-        "1.16.4-2.0.22":"Changelog: https://www.curseforge.com/minecraft/mc-mods/extreme-reactors/files/3199124"
+        "1.16.4-2.0.22":"Changelog: https://www.curseforge.com/minecraft/mc-mods/extreme-reactors/files/3199124",
+        "1.16.4-2.0.23":"- Fix vanilla rotor models being used instead of the correct ones when the Turbine is assembled and a particular combination of mods is around. Close #11 and #12. Thanks to TheSnowyChickens, papaworld, XCOYoshi, and beiai for the reports\r\n- Fixed Solid Access Port GUI buttons hitbox not fully usable. Close #37. Thanks to beiai for the report\r\n- Updated ZeroCore to version 1.16.4-2.0.21\r\n- Bumped version to 2.0.23\r\n- Compatible with MC 1.16.4 and 1.16.5. Use the same .jar."
     },
     "promos":{
         "1.16.3-latest":"1.16.4-2.0.21",
         "1.16.3-recommended":"1.16.4-2.0.21",
-        "1.16.4-latest":"1.16.4-2.0.22",
-        "1.16.4-recommended":"1.16.4-2.0.22",
-        "1.16.5-latest":"1.16.4-2.0.22",
-        "1.16.5-recommended":"1.16.4-2.0.22"
+        "1.16.4-latest":"1.16.4-2.0.23",
+        "1.16.4-recommended":"1.16.4-2.0.23",
+        "1.16.5-latest":"1.16.4-2.0.23",
+        "1.16.5-recommended":"1.16.4-2.0.23"
     }
 }
