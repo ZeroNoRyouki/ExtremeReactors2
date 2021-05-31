@@ -10,7 +10,7 @@
             "item": "bigreactors:reinforced_turbineredstoneport",
             "link_recipe": true,
             "title" : "Redstone Port",
-            "text": "The Redstone Port allow you to automate your Turbine using Redstone.$(br2)Open the Port graphical interface to configure it. You can then choose between three input settings (that listen for a Redstone signal) and four output ones (that emit a Redstone signal)."
+            "text": "The Redstone Port allows you to automate your Turbine using Redstone.$(br2)Open the Port graphical interface to configure it. You can then choose between three input settings (that listen for a Redstone signal) and four output ones (that emit a Redstone signal)."
         },
         {
             "type": "text",
@@ -18,7 +18,7 @@
         },
         {
             "type": "text",
-            "text": "$(bold)Output settings$()$(br2)Emit a Redstone signal when one of the following conditions are meet$(br2)$(li)$(o)Rotor Speed :$() the speed of the Turbine rotor is above, below or in between a given value$(li)$(o)Coolant amount :$() the amount of coolant in the Turbine is above, below or in between a given value$(li)$(o)Vapor amount :$() the amount of vapor in the Turbine is above, below or in between a given value"
+            "text": "$(bold)Output settings$()$(br2)Emit a Redstone signal when one of the following conditions are meet$(br2)$(li)$(o)Rotor Speed :$() the speed of the Turbine rotor is above, below or in between a given value.$(li)$(o)Coolant amount :$() the amount of coolant in the Turbine is above, below or in between a given value.$(li)$(o)Vapor amount :$() the amount of vapor in the Turbine is above, below or in between a given value."
         },
         {
             "type": "text",

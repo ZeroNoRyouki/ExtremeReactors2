@@ -7,11 +7,11 @@
     "pages": [
         {
             "type": "text",
-            "text": "A reactant is a chemical substance that you can use inside your Reactor to sustain a nuclear reaction.$(br2)There are two types of reactant:$(li)$(bold)Fuel:$() literally, the fuel that sustain the nuclear chain reaction inside the $(l:bigreactors:reactor/part-fuelrod)Fuel Rods$(/l)$(li)$(bold)Waste:$() the product of the reaction that consume the fuel once it's irradiated."
+            "text": "A reactant is a chemical substance that you can use inside your Reactor to sustain a nuclear reaction.$(br2)There are two types of reactants:$(li)$(bold)Fuel:$() literally, the fuel that sustains the nuclear chain reaction inside the $(l:bigreactors:reactor/part-fuelrod)Fuel Rods$(/l)$(li)$(bold)Waste:$() the byproduct of the reaction once the fuel is consumed."
         },
         {
             "type": "text",
-            "text": "Extreme Reactors register, by default, two reactants: a fuel named Yellorium and it's associated waste, Cyanite.$(br2)Every reactants has a list of items that can be used to produce that reactant by, for example, inserting then in a $(l:bigreactors:reactor/part-solidaccessport)Solid Access Port$(/l).$(br2)Yellorium, for example, can be obtained from $(l:bigreactors:intro/ores)Yellorium Ingots$(/l). Cyanite, when ejected from the Reactor, turn into Cyanite Ingots."
+            "text": "Extreme Reactors register, by default, two reactants: a fuel named Yellorium and it's associated waste, Cyanite.$(br2)Every reactant has a list of items that can be used to produce that reactant by, for example, inserting then in a $(l:bigreactors:reactor/part-solidaccessport)Solid Access Port$(/l).$(br2)Yellorium, for example, can be obtained from $(l:bigreactors:intro/ores)Yellorium Ingots$(/l). Cyanite, when ejected from the Reactor, turn into Cyanite Ingots."
         },
         {
             "type": "text",
