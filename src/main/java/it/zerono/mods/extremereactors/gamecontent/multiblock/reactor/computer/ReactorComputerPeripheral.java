@@ -77,7 +77,7 @@ public class ReactorComputerPeripheral
             return CodeHelper.formatAsHumanReadableNumber(c.getEnergyStored(sys, null), sys.getUnit());
         })));
 
-        methodConsumer.accept(new ComputerMethod<>("getNumberOfControlRods", wrapControllerValue(IReactorReader::getFuelRodsCount)));
+        methodConsumer.accept(new ComputerMethod<>("getNumberOfControlRods", wrapControllerValue(IReactorReader::getControlRodsCount)));
 
         methodConsumer.accept(new ComputerMethod<>("getActive", wrapControllerValue(IMachineReader::isMachineActive)));
 
