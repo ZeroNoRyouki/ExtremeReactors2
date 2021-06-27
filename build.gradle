@@ -168,6 +168,11 @@ repositories {
     maven {
         url 'https://modmaven.dev/'
     }
+
+    // cursemaven
+    maven {
+        url 'https://www.cursemaven.com'
+    }
 }
 
 dependencies {
@@ -192,6 +197,8 @@ dependencies {
     runtimeOnly fg.deobf("mekanism:Mekanism:${config.mekanism_version}:additions")
     runtimeOnly fg.deobf("mekanism:Mekanism:${config.mekanism_version}:generators")
     runtimeOnly fg.deobf("mekanism:Mekanism:${config.mekanism_version}:tools")
+
+    implementation fg.deobf("curse.maven:constructionwand-399558:3132410")
 }
 
 task extremereactors_apiJar(type: Jar) {
