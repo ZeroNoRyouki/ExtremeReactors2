@@ -363,7 +363,7 @@ public class MultiblockReactor
     @Override
     public Optional<IRadiationModerator> getModerator(BlockPos position) {
 
-        if (!this.containPosition(position)) {
+        if (!this.getBoundingBox().contains(position)) {
             return Optional.empty();
         }
 
@@ -836,6 +836,8 @@ public class MultiblockReactor
                     this.markMultiblockForRenderUpdate();
                 }
         );
+
+        super.onMachineAssembled();
     }
 
     /**
