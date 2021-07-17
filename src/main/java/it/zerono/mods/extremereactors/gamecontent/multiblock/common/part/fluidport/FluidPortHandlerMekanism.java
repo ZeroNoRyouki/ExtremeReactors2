@@ -42,7 +42,7 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
-import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorldReader;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.util.LazyOptional;
@@ -114,7 +114,7 @@ public class FluidPortHandlerMekanism<Controller extends AbstractGeneratorMultib
      * @param position the handler position
      */
     @Override
-    public void checkConnections(@Nullable final IBlockReader world, final BlockPos position) {
+    public void checkConnections(@Nullable final IWorldReader world, final BlockPos position) {
         this._consumer = this.lookupConsumer(world, position, CAPAP_MEKANISM_GASHANDLER,
                 te -> te instanceof IFluidPortHandler, this._consumer);
     }

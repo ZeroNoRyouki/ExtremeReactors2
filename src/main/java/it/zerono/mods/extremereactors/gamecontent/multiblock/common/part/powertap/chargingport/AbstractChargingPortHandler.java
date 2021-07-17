@@ -31,7 +31,7 @@ import it.zerono.mods.zerocore.lib.item.inventory.handler.TileEntityItemStackHan
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorldReader;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandlerModifiable;
@@ -121,7 +121,7 @@ public abstract class AbstractChargingPortHandler<Controller extends AbstractGen
      * @param position the handler position
      */
     @Override
-    public void checkConnections(@Nullable IBlockReader world, BlockPos position) {
+    public void checkConnections(@Nullable IWorldReader world, BlockPos position) {
         // nothing to do here
     }
 

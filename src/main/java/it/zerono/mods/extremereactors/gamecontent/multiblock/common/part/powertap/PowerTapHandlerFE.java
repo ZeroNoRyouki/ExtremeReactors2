@@ -26,7 +26,7 @@ import it.zerono.mods.zerocore.lib.data.IoMode;
 import it.zerono.mods.zerocore.lib.energy.EnergySystem;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorldReader;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.util.LazyOptional;
@@ -79,7 +79,7 @@ public class PowerTapHandlerFE<Controller extends AbstractGeneratorMultiblockCon
      * @param world    the PowerTap world
      * @param position the PowerTap position
      */
-    public void checkConnections(@Nullable IBlockReader world, BlockPos position) {
+    public void checkConnections(@Nullable IWorldReader world, BlockPos position) {
         this._consumer = this.lookupConsumer(world, position, CAPAP_FORGE_ENERGYSTORAGE,
                 te -> te instanceof IPowerTapHandler, this._consumer);
     }
