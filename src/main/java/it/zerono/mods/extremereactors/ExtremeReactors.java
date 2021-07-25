@@ -22,11 +22,16 @@ import it.zerono.mods.extremereactors.api.internal.modpack.wrapper.ApiWrapper;
 import it.zerono.mods.extremereactors.config.Config;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.WorldGen;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.network.UpdateClientsFuelRodsLayout;
 import it.zerono.mods.extremereactors.proxy.ClientProxy;
 import it.zerono.mods.extremereactors.proxy.IProxy;
 import it.zerono.mods.extremereactors.proxy.ServerProxy;
 import it.zerono.mods.zerocore.lib.init.IModInitializationHandler;
+import it.zerono.mods.zerocore.lib.network.IModMessage;
+import it.zerono.mods.zerocore.lib.network.NetworkHandler;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.InterModComms;
@@ -56,6 +61,7 @@ public class ExtremeReactors implements IModInitializationHandler {
     public ExtremeReactors() {
 
         s_instance = this;
+        this._network = new NetworkHandler(newID("network"), "1");
 
         Config.initialize();
         Content.initialize();
@@ -76,6 +82,7 @@ public class ExtremeReactors implements IModInitializationHandler {
      */
     @Override
     public void onCommonInit(FMLCommonSetupEvent event) {
+        this._network.registerMessage(UpdateClientsFuelRodsLayout.class, UpdateClientsFuelRodsLayout::new);
     }
 
     /**
@@ -120,6 +127,10 @@ public class ExtremeReactors implements IModInitializationHandler {
         ApiWrapper.processFile();
     }
 
+    public <T extends IModMessage> void sendPacket(final T packet, final World world, final BlockPos center, final int radius) {
+        this._network.sendToAllAround(packet, center.getX(), center.getY(), center.getZ(), radius, world.getDimensionKey());
+    }
+
     //region internals
 
     private void imcProcessAPIMessages(InterModProcessEvent event, String method) {
@@ -128,6 +139,7 @@ public class ExtremeReactors implements IModInitializationHandler {
 
     private static ExtremeReactors s_instance;
     private static IProxy s_proxy;
+    private final NetworkHandler _network;
 
     //endregion
 }

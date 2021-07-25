@@ -84,8 +84,11 @@ public class ReactorLogic
         //////////////////////////////////////////////////////////////////////////////
 
         profiler.endStartSection("Refueling");
-        this._reactor.performRefuelingCycle();
-        this._reactor.performInputCycle();
+
+        boolean reactantsChanged;
+
+        reactantsChanged = this._reactor.performRefuelingCycle();
+        reactantsChanged |= this._reactor.performInputCycle();
 
         //////////////////////////////////////////////////////////////////////////////
         // HEAT TRANSFERS
@@ -114,7 +117,7 @@ public class ReactorLogic
         //TODO: Overload/overheat
         //////////////////////////////////////////////////////////////////////////////
 
-        return startingReactorHeat != reactorHeat.get() ||
+        return reactantsChanged || startingReactorHeat != reactorHeat.get() ||
                 startingEnergy != this._energyBuffer.getEnergyStored();
     }
 

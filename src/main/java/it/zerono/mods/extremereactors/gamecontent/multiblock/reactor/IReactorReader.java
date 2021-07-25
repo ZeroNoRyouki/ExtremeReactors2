@@ -64,7 +64,7 @@ public interface IReactorReader
 
     WasteEjectionSetting getWasteEjectionMode();
 
-    Optional<FuelRodsLayout> getFuelRodsLayout();
+    FuelRodsLayout getFuelRodsLayout();
 
     /**
      * @return the number of Fuel Rods in the Reactor

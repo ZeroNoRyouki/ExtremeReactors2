@@ -25,6 +25,7 @@ import it.zerono.mods.extremereactors.api.reactor.radiation.IrradiationData;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.AbstractMultiblockEntity;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.MultiblockReactor;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.ReactorPartType;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.network.UpdateClientsFuelRodsLayout;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.IMultiblockReactorVariant;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.ReactorVariant;
 import it.zerono.mods.zerocore.lib.CodeHelper;
@@ -83,6 +84,10 @@ public abstract class AbstractReactorEntity
 
     protected int getUpdatedModelVariantIndex() {
         return 0;
+    }
+
+    public void onUpdateClientsFuelRodsLayout(final UpdateClientsFuelRodsLayout message) {
+        this.executeOnController(c -> c.onUpdateClientsFuelRodsLayout(message));
     }
 
     //endregion
