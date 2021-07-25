@@ -29,7 +29,9 @@ import it.zerono.mods.extremereactors.api.reactor.radiation.IrradiationData;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.FuelRodsLayout;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.IIrradiationSource;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.MultiblockReactor;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.IReactorReader;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.ClientFuelRodsLayout;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.model.ReactorFuelRodModelData;
 import it.zerono.mods.zerocore.lib.CodeHelper;
 import it.zerono.mods.zerocore.lib.multiblock.cuboid.PartPosition;
 import it.zerono.mods.zerocore.lib.multiblock.validation.IMultiblockValidator;
@@ -40,10 +42,9 @@ import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.model.data.EmptyModelData;
+import net.minecraftforge.client.model.data.IModelData;
 
-import javax.annotation.Nullable;
 import java.util.Optional;
 
 public class ReactorFuelRodEntity
@@ -57,17 +58,11 @@ public class ReactorFuelRodEntity
         super(Content.TileEntityTypes.REACTOR_FUELROD.get());
         this._controlRod = null;
         this._rodIndex = -1;
-        this._occluded = false;
     }
 
     public double getHeatTransferRate() {
 
-        final Direction.Plane fuelAssemblyPlane = this.getMultiblockController()
-                .flatMap(MultiblockReactor::getFuelRodsLayout)
-                .map(FuelRodsLayout::getAxis)
-                .map(CodeHelper::perpendicularPlane)
-                .orElseThrow(IllegalStateException::new);
-
+        final Direction.Plane fuelAssemblyPlane = CodeHelper.perpendicularPlane(this.getFuelRodsLayout().getAxis());
         final World world = this.getPartWorldOrFail();
         final BlockPos rodPosition = this.getPos();
         double heatTransferRate = 0d;
@@ -121,37 +116,32 @@ public class ReactorFuelRodEntity
         return this._rodIndex;
     }
 
-    @OnlyIn(Dist.CLIENT)
-    public void setOccluded(final boolean occluded) {
-        this._occluded = occluded;
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    public boolean isOccluded() {
-        return this._occluded;
-    }
-
     //region client render support
 
     @Override
-    protected int getUpdatedModelVariantIndex() {
+    protected IModelData getUpdatedModelData() {
 
-        if (this.isMachineAssembled()) {
+        final FuelRodsLayout layout = this.getFuelRodsLayoutForRendering();
 
-            return this.getMultiblockController()
-                    .flatMap(MultiblockReactor::getFuelRodsLayout)
-                    .map(FuelRodsLayout::getAxis)
-                    .map(this::getVariantIndexFromAxis)
-                    .orElse(0);
+        if (layout instanceof ClientFuelRodsLayout) {
 
-        } else {
+            final ClientFuelRodsLayout clientLayout = (ClientFuelRodsLayout)layout;
+            final ClientFuelRodsLayout.FuelData fuelData = clientLayout.getFuelData(this.getFuelRodIndex());
 
-            return 0;
+            return ReactorFuelRodModelData.from(fuelData);
         }
+
+        return EmptyModelData.INSTANCE;
     }
 
-    private int getVariantIndexFromAxis(final Direction.Axis axis) {
-        return axis.ordinal();
+    public FuelRodsLayout getFuelRodsLayout() {
+        return this.evalOnController(IReactorReader::getFuelRodsLayout, FuelRodsLayout.EMPTY);
+    }
+
+    public FuelRodsLayout getFuelRodsLayoutForRendering() {
+        return this.isMachineAssembled() &&
+                this.testOnController(it.zerono.mods.extremereactors.gamecontent.multiblock.common.AbstractMultiblockController::isInteriorVisible) ?
+                this.getFuelRodsLayout() : FuelRodsLayout.EMPTY;
     }
 
     /**
@@ -168,14 +158,6 @@ public class ReactorFuelRodEntity
 
             final BlockPos pos = this.getWorldPosition();
 
-//            this.getPartWorld().ifPresent(w -> {
-//
-//                if (CodeHelper.calledByLogicalClient(w)) {
-//                    w.addParticle(ParticleTypes.HEART, pos.getX() + 0.5 + Math.random() * 0.4 - 0.2,
-//                            pos.getY() + 0.75,
-//                            pos.getZ() + 0.5 + Math.random() * 0.4 - 0.2, 0, 0, 0);
-//                }
-//            });
             this.callOnLogicalClient(world -> {
                 world.addParticle(ParticleTypes.HEART, pos.getX() + 0.5 + Math.random() * 0.4 - 0.2,
                         pos.getY() + 0.75,
@@ -261,10 +243,7 @@ public class ReactorFuelRodEntity
 
     @Override
     public Direction[] getIrradiationDirections() {
-        return this.getMultiblockController()
-                .flatMap(MultiblockReactor::getFuelRodsLayout)
-                .map(FuelRodsLayout::getRadiateDirections)
-                .orElseGet(() -> new Direction[0]);
+        return this.getFuelRodsLayout().getRadiateDirections();
     }
 
     //endregion
@@ -308,11 +287,8 @@ public class ReactorFuelRodEntity
         return ModeratorsRegistry.getFrom(blockState).orElse(Moderator.AIR).getHeatConductivity();
     }
 
-    @Nullable
     private ReactorControlRodEntity _controlRod;
-
     private int _rodIndex;
-    private boolean _occluded;
 
     //endregion
 }

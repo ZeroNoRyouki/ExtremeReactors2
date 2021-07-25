@@ -36,10 +36,10 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.scree
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.container.ChargingPortContainer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.FuelRodsLayout;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.ClientFuelRodsLayout;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.model.ReactorFuelRodBlockColor;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.model.ReactorFuelRodModelBuilder;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.model.ReactorGlassModelBuilder;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.model.ReactorModelBuilder;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.render.FuelRodEntityRenderer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.screen.ReactorControlRodScreen;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.screen.ReactorControllerScreen;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.screen.ReactorRedstonePortScreen;
@@ -77,6 +77,7 @@ import net.minecraft.resources.IResourceManager;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.client.event.ModelBakeEvent;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
@@ -168,6 +169,13 @@ public class ClientProxy
         }
     }
 
+    @SubscribeEvent
+    public void onColorHandlerEvent(final ColorHandlerEvent.Block event) {
+        event.getBlockColors().register(new ReactorFuelRodBlockColor(),
+                Content.Blocks.REACTOR_FUELROD_BASIC.get(),
+                Content.Blocks.REACTOR_FUELROD_REINFORCED.get());
+    }
+
     //region IProxy
 
     @Override
@@ -251,8 +259,6 @@ public class ClientProxy
     }
 
     private static void registerTileRenderers() {
-
-        ClientRegistry.bindTileEntityRenderer(Content.TileEntityTypes.REACTOR_FUELROD.get(), FuelRodEntityRenderer::new);
         ClientRegistry.bindTileEntityRenderer(Content.TileEntityTypes.TURBINE_ROTORBEARING.get(), RotorBearingEntityRenderer::new);
     }
 

@@ -20,6 +20,8 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part;
 
 import com.google.common.base.Strings;
 import it.zerono.mods.extremereactors.gamecontent.Content;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.FuelRodsLayout;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.IReactorReader;
 import it.zerono.mods.zerocore.lib.CodeHelper;
 import it.zerono.mods.zerocore.lib.block.AbstractModBlockEntity;
 import it.zerono.mods.zerocore.lib.block.TileCommandDispatcher;
@@ -76,7 +78,7 @@ public class ReactorControlRodEntity
 
         for (int i = 0; i < fuelRodsCount; ++i) {
 
-            final int rodIndex = i;
+            final int rodIndex = fuelRodsCount - i - 1;
 
             lookupPosition = lookupPosition.offset(direction);
 
@@ -85,6 +87,10 @@ public class ReactorControlRodEntity
                     .map(te -> (ReactorFuelRodEntity)te),
                     (rod) -> rod.linkToControlRod(this, rodIndex));
         }
+    }
+
+    public FuelRodsLayout getFuelRodsLayout() {
+        return this.evalOnController(IReactorReader::getFuelRodsLayout, FuelRodsLayout.EMPTY);
     }
 
     //region getters and setters
@@ -283,7 +289,7 @@ public class ReactorControlRodEntity
     }
 
     private boolean checkForFuelRod(Direction rodDirection) {
-        return this.mapPartWorld(world -> world.getTileEntity(this.getWorldPosition().offset(rodDirection)) instanceof ReactorFuelRodEntity, false);
+        return this.mapPartWorld(world -> WorldHelper.getLoadedTile(world, this.getWorldPosition().offset(rodDirection)) instanceof ReactorFuelRodEntity, false);
     }
 
     //endregion
