@@ -56,7 +56,7 @@ public enum ReactorPartType
             ReactorFuelRodBlock::new, "part.bigreactors.reactor.fuelrod",
             bp -> ReactorPartType.notOpaqueBlock(bp)
                     .setLightLevel(state -> Config.COMMON.reactor.fuelRodLightValue.get())
-                    .tickRandomly()),
+                    /*.tickRandomly()*/),
 
     ControlRod(() -> Content.TileEntityTypes.REACTOR_CONTROLROD::get,
             GenericDeviceBlock::new, "part.bigreactors.reactor.controlrod"),
