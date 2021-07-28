@@ -253,7 +253,6 @@ public class ClientProxy
                 Content.Blocks.TURBINE_GLASS_BASIC, Content.Blocks.TURBINE_GLASS_REINFORCED);
 
         registerRenderType(RenderType.getCutout(),
-                Content.Blocks.REACTOR_FUELROD_BASIC, Content.Blocks.REACTOR_FUELROD_REINFORCED,
                 Content.Blocks.TURBINE_ROTORBLADE_BASIC, Content.Blocks.TURBINE_ROTORBLADE_REINFORCED,
                 Content.Blocks.TURBINE_ROTORSHAFT_BASIC, Content.Blocks.TURBINE_ROTORSHAFT_REINFORCED);
     }

@@ -19,6 +19,8 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.mod
 import com.google.common.collect.Lists;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectLists;
+import it.unimi.dsi.fastutil.shorts.Short2ObjectArrayMap;
+import it.unimi.dsi.fastutil.shorts.Short2ObjectMap;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.CachedSprites;
 import it.zerono.mods.zerocore.lib.block.BlockFacings;
 import it.zerono.mods.zerocore.lib.client.model.AbstractDynamicBakedModel;
@@ -54,8 +56,7 @@ public class ReactorFuelRodModel
 
         this._lock = new StampedLock();
         this._baseModel = baseModel;
-        //noinspection unchecked
-        this._cachedQuads = new List[208];
+        this._cachedQuads = new Short2ObjectArrayMap<>(208);
         this._faceBakery = new FaceBakery();
     }
 
@@ -66,19 +67,27 @@ public class ReactorFuelRodModel
     public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction side, @Nonnull Random rand,
                                     @Nonnull IModelData modelData) {
 
-        if (side != null || !(modelData instanceof ReactorFuelRodModelData)) {
+        if (side != null) {
             return EMPTY_QUADS;
         }
 
+        if (!(modelData instanceof ReactorFuelRodModelData)) {
+            return this._baseModel.getQuads(state, null, rand, EmptyModelData.INSTANCE);
+        }
+
         final ReactorFuelRodModelData fuelRodModelData = (ReactorFuelRodModelData)modelData;
-        final int modelIndex = fuelRodModelData.getModelKey();
+        final short modelIndex = fuelRodModelData.getModelKey();
+
+        if (fuelRodModelData.isOccluded()) {
+            return EMPTY_QUADS;
+        }
 
         if (0 == modelIndex) {
             return this._baseModel.getQuads(state, null, rand, EmptyModelData.INSTANCE);
         }
 
         long lockStamp = this._lock.readLock();
-        List<BakedQuad> quads = this._cachedQuads[modelIndex];
+        List<BakedQuad> quads = this._cachedQuads.get(modelIndex);
 
         if (null != quads) {
 
@@ -95,7 +104,7 @@ public class ReactorFuelRodModel
                 final List<BakedQuad> tempQuads = Lists.newLinkedList(this._baseModel.getQuads(state, null, rand, EmptyModelData.INSTANCE));
 
                 tempQuads.addAll(this.buildQuads(fuelRodModelData.getFuelLevel(), fuelRodModelData.getWasteLevel(), fuelRodModelData.isVertical() ? Direction.Axis.Y : Direction.Axis.X));
-                this._cachedQuads[modelIndex] = quads = new ObjectArrayList<>(tempQuads);
+                this._cachedQuads.put(modelIndex, quads = new ObjectArrayList<>(tempQuads));
 
                 lockStamp = writeLockStamp;
                 break;
@@ -145,7 +154,7 @@ public class ReactorFuelRodModel
 
     @Override
     public boolean isAmbientOcclusion() {
-        return this._baseModel.isAmbientOcclusion();
+        return false;
     }
 
     //endregion
@@ -247,7 +256,7 @@ public class ReactorFuelRodModel
 
     private final StampedLock _lock;
     private final IBakedModel _baseModel;
-    private final List<BakedQuad>[] _cachedQuads;
+    private final Short2ObjectMap<List<BakedQuad>> _cachedQuads;
     private final FaceBakery _faceBakery;
 
     //endregion

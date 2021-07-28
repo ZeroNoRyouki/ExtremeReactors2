@@ -813,7 +813,7 @@ public class MultiblockReactor
         this._attachedControlRods.forEach(rod -> rod.linkToFuelRods(this._fuelRodsLayout.getRodLength()));
 
         // set fuel rods occlusion status
-        this._fuelRodsLayout.updateFuelRodsOcclusion(this._attachedFuelRods);
+        this._fuelRodsLayout.updateFuelRodsOcclusion(this.getWorld(), this._attachedFuelRods, this.isInteriorInvisible());
 
         // gather outgoing coolant ports
         this.rebuildFluidPortsSubsets();

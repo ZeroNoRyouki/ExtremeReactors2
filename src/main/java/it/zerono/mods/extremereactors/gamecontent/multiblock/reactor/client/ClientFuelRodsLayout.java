@@ -26,12 +26,16 @@ import it.zerono.mods.extremereactors.api.reactor.Reactant;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.FuelRodsLayout;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.IFuelContainer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.model.ReactorFuelRodModel;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.model.ReactorFuelRodModelData;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part.ReactorFuelRodEntity;
 import it.zerono.mods.zerocore.lib.data.gfx.Colour;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.util.Direction;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 import java.util.Arrays;
+import java.util.Set;
 
 public class ClientFuelRodsLayout
         extends FuelRodsLayout {
@@ -116,6 +120,38 @@ public class ClientFuelRodsLayout
         }
     }
 
+    @Override
+    public void updateFuelRodsOcclusion(final World world, final Set<ReactorFuelRodEntity> fuelRods, final boolean interiorInvisible) {
+
+        if (interiorInvisible) {
+
+            fuelRods.forEach(r -> r.setOccluded(true));
+            return;
+        }
+
+        final Direction[] directions = this.getRadiateDirections();
+        final RenderType solid = RenderType.getSolid();
+
+        for (final ReactorFuelRodEntity fuelRod : fuelRods) {
+
+            final BlockPos rodPosition = fuelRod.getWorldPosition();
+            boolean occluded = true;
+
+            for (final Direction direction : directions) {
+
+                final BlockPos checkPosition = rodPosition.offset(direction);
+
+                if (world.isAirBlock(checkPosition) || !RenderTypeLookup.canRenderInLayer(world.getBlockState(checkPosition), solid)) {
+
+                    occluded = false;
+                    break;
+                }
+            }
+
+            fuelRod.setOccluded(occluded);
+        }
+    }
+
     private IntSet updateFuelDataVertically(final boolean reactantsChanged) {
 
         // vertical column, reactants pool to the bottom (waste first)
@@ -185,7 +221,6 @@ public class ClientFuelRodsLayout
 
             this._vertical = vertical;
             this._fuelLevel = this._wasteLevel = 0;
-            this._modelKey = 0;
         }
 
         public byte getFuelLevel() {
@@ -196,16 +231,15 @@ public class ClientFuelRodsLayout
             return this._wasteLevel;
         }
 
-        public short getModelKey() {
-            return this._modelKey;
+        public boolean isVertical() {
+            return this._vertical;
         }
 
         //region Object
 
         @Override
         public String toString() {
-            return String.format("Fuel lvl=%d, Waste lvl=%d, Model Key=%s", this._fuelLevel, this._wasteLevel,
-                    Integer.toBinaryString(this._modelKey).substring(16).replace(' ', '0'));
+            return String.format("Fuel lvl=%d, Waste lvl=%d", this._fuelLevel, this._wasteLevel);
         }
 
         //endregion
@@ -223,7 +257,6 @@ public class ClientFuelRodsLayout
 
                 this._fuelLevel = newFuelLevel;
                 this._wasteLevel = newWasteLevel;
-                this._modelKey = ReactorFuelRodModelData.createKey(this._fuelLevel, this._wasteLevel, this._vertical);
             }
 
             return changed;
@@ -231,7 +264,6 @@ public class ClientFuelRodsLayout
 
         private byte _fuelLevel; /* level is 0-12 or 0-10 depending on layout orientation */
         private byte _wasteLevel;
-        private short _modelKey;
         private final boolean _vertical;
 
         //endregion

@@ -40,11 +40,6 @@ public class ReactorFuelRodBlock extends MultiblockPartBlock<MultiblockReactor, 
     //region Block
 
     @Override
-    public boolean isSideInvisible(BlockState state, BlockState adjacentBlockState, Direction side) {
-        return this == adjacentBlockState.getBlock();
-    }
-
-    @Override
     public boolean propagatesSkylightDown(BlockState state, IBlockReader reader, BlockPos pos) {
         return true;
     }

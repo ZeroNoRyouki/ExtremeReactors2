@@ -22,6 +22,7 @@ import it.unimi.dsi.fastutil.ints.IntSet;
 import it.unimi.dsi.fastutil.ints.IntSets;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part.ReactorFuelRodEntity;
 import net.minecraft.util.Direction;
+import net.minecraft.world.World;
 
 import java.util.Set;
 
@@ -67,7 +68,7 @@ public class FuelRodsLayout {
         return IntSets.EMPTY_SET;
     }
 
-    public void updateFuelRodsOcclusion(Set<ReactorFuelRodEntity> fuelRods) {
+    public void updateFuelRodsOcclusion(final World world, final Set<ReactorFuelRodEntity> fuelRods, final boolean interiorInvisible) {
     }
 
     public boolean isEmpty() {
