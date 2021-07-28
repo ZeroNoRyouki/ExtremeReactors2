@@ -114,10 +114,6 @@ public enum ReactorPartType
         this._blockPropertiesFixer = blockPropertiesFixer;
     }
 
-//    public boolean isTransparent() {
-//        return this == Glass || this == FuelRod;
-//    }
-
     public MultiblockPartBlock<MultiblockReactor, ReactorPartType> createBlock(ReactorVariant variant) {
         return this._blockFactory.apply(MultiblockPartBlock.MultiblockPartProperties.create(this,
                 this._blockPropertiesFixer.apply(variant.getDefaultBlockProperties()))
@@ -152,10 +148,6 @@ public enum ReactorPartType
                 .setOpaque((blockState, blockReader, pos) -> false)
                 .setBlocksVision((blockState, blockReader, pos) -> false);
     }
-
-//    private static String getBlockIdFor(final ReactorPartType partType, ReactorVariant variant) {
-//        return ExtremeReactors.MOD_ID + ":" + variant.getName() + "_reactor" + partType.getNameForId();
-//    }
 
     private final Supplier<Supplier<TileEntityType<?>>> _tileTypeSupplier;
 

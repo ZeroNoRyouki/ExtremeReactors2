@@ -330,9 +330,8 @@ public class ReactorLogic
     //endregion
     //region irradiation
 
-    private Optional<IrradiationData> radiate(/*World world,*/ final IFuelContainer fuelContainer, final IIrradiationSource source,
-                                                               final double fuelHeat, final double environmentHeat,
-                                                               final int numControlRods) {
+    private Optional<IrradiationData> radiate(final IFuelContainer fuelContainer, final IIrradiationSource source,
+                                              final double fuelHeat, final double environmentHeat, final int numControlRods) {
         // No fuel? No radiation!
         if (fuelContainer.getFuelAmount() <= 0) {
             return Optional.empty();
@@ -448,84 +447,6 @@ public class ReactorLogic
             this._fertility = Math.max(newFertility, 0f);
         }
     }
-
-//    private void performIrradiation(World world, IrradiationData data, RadiationPacket radiation, BlockPos position) {
-//
-//        if (world.isAirBlock(position)) {
-//
-//            moderateByAir(data, radiation);
-//
-//        } else {
-//
-//            final TileEntity te = world.getTileEntity(position);
-//
-//            if (te instanceof IRadiationModerator) {
-//
-//                ((IRadiationModerator)te).moderateRadiation(data, radiation);
-//
-//            } else {
-//
-//                BlockState blockState = world.getBlockState(position);
-//                Block block = blockState.getBlock();
-//
-//                if (block.isAir(blockState, world, position)) {
-//
-//                    moderateByAir(data, radiation);
-//
-//                } else if(block instanceof IFluidBlock) {
-//                    //TODO fluids
-//                    moderateByFluid(data, radiation, ((IFluidBlock)block).getFluid());
-//
-//                } else {
-//                    // Go by block
-//                    moderateByBlock(data, radiation, blockState);
-//                }
-//
-//                // Do it based on fluid?
-//            }
-//        }
-//    }
-
-//    private static void moderateByAir(IrradiationData data, RadiationPacket radiation) {
-//        applyModerationFactors(data, radiation, Moderator.AIR);
-//    }
-//
-//    private static void moderateByBlock(IrradiationData data, RadiationPacket radiation, BlockState blockState) {
-//
-//        final Moderator moderator;
-//        final Block block = blockState.getBlock();
-//
-//        //TODO fluids
-//        //TODO how to handle water?
-//        if (block == Blocks.WATER /*|| block == Blocks.FLOWING_WATER*/) { //TODO ignore flowing water?
-//            moderator = Moderator.WATER;
-//        } else {
-//            moderator = ModeratorsRegistry.getFromSolid(block).orElse(Moderator.AIR);
-//        }
-//
-//        applyModerationFactors(data, radiation, moderator);
-//    }
-//
-//    //TODO fluids
-//    private static void moderateByFluid(IrradiationData data, RadiationPacket radiation, Fluid fluid) {
-//
-//        Moderator moderator = null; //ModeratorsRegistry.getFluidData(fluid.getName()); //TODO fluids
-//
-//        if (null == moderator) {
-//            moderator = Moderator.WATER;
-//        }
-//
-//        applyModerationFactors(data, radiation, moderator);
-//    }
-//
-//    private static void applyModerationFactors(IrradiationData data, RadiationPacket radiation, Moderator moderator) {
-//
-//        final float radiationAbsorbed = radiation.intensity * moderator.getAbsorption() * (1f - radiation.hardness);
-//
-//        radiation.intensity = Math.max(0f, radiation.intensity - radiationAbsorbed);
-//        radiation.hardness /= moderator.getModeration();
-//        data.environmentEnergyAbsorption += moderator.getHeatEfficiency() * radiationAbsorbed * EnergyConversion.ENERGY_PER_RADIATION_UNIT;
-//    }
 
     //endregion
 
