@@ -58,11 +58,11 @@ public class ReactorLogic
 
         //TODO variants
 
-        if (Double.isNaN(reactorHeat.get())) {
+        if (Double.isNaN(reactorHeat.getAsDouble())) {
             reactorHeat.set(0);
         }
 
-        final double startingReactorHeat = reactorHeat.get();
+        final double startingReactorHeat = reactorHeat.getAsDouble();
         final double startingEnergy = this._energyBuffer.getEnergyStored();
 
         this.getUiStats().setAmountGeneratedLastTick(0);
@@ -117,7 +117,7 @@ public class ReactorLogic
         //TODO: Overload/overheat
         //////////////////////////////////////////////////////////////////////////////
 
-        return reactantsChanged || startingReactorHeat != reactorHeat.get() ||
+        return reactantsChanged || startingReactorHeat != reactorHeat.getAsDouble() ||
                 startingEnergy != this._energyBuffer.getEnergyStored();
     }
 
@@ -228,7 +228,7 @@ public class ReactorLogic
     private void performIrradiationFrom(IIrradiationSource source) {
 
         this.radiate(/*this._reactor.getWorld(),*/ this.getFuelContainer(), source,
-                this.getFuelHeat().get(), this.getReactorHeat().get(),
+                this.getFuelHeat().getAsDouble(), this.getReactorHeat().getAsDouble(),
                 this.getControlRodsCount()).ifPresent(data -> {
 
             // Assimilate results of radiation
@@ -244,15 +244,15 @@ public class ReactorLogic
      */
     private void transferHeatBetweenFuelAndReactor() {
 
-        final double temperatureDifferential = this._reactor.getFuelHeat().get() - this.getReactorHeat().get();
+        final double temperatureDifferential = this._reactor.getFuelHeat().getAsDouble() - this.getReactorHeat().getAsDouble();
 
         if (temperatureDifferential > 0.01) {
 
             final double energyTransferred = temperatureDifferential * this._reactor.getEnvironment().getFuelToReactorHeatTransferCoefficient();
             final double fuelVolEnergy = EnergyConversion.getEnergyFromVolumeAndTemperature(this.getFuelRodsCount(),
-                    this.getFuelHeat().get()) - energyTransferred;
+                    this.getFuelHeat().getAsDouble()) - energyTransferred;
             final double reactorEnergy = EnergyConversion.getEnergyFromVolumeAndTemperature(this.getReactorVolume(),
-                    this.getReactorHeat().get()) + energyTransferred;
+                    this.getReactorHeat().getAsDouble()) + energyTransferred;
 
             this.getFuelHeat().set(EnergyConversion.getTemperatureFromVolumeAndEnergy(this.getFuelRodsCount(), fuelVolEnergy));
             this.getReactorHeat().set(EnergyConversion.getTemperatureFromVolumeAndEnergy(this.getReactorVolume(), reactorEnergy));
@@ -265,13 +265,13 @@ public class ReactorLogic
      */
     private void transferHeatBetweenReactorAndCoolant() {
 
-        final double temperatureDifferential = this.getReactorHeat().get() - this.getCoolantTemperature();
+        final double temperatureDifferential = this.getReactorHeat().getAsDouble() - this.getCoolantTemperature();
 
         if (temperatureDifferential > 0.01f) {
 
             double energyTransferred = temperatureDifferential * this._reactor.getEnvironment().getReactorToCoolantSystemHeatTransferCoefficient();
             double reactorEnergy = EnergyConversion.getEnergyFromVolumeAndTemperature(this.getReactorVolume(),
-                    this.getReactorHeat().get());
+                    this.getReactorHeat().getAsDouble());
 
             if (this._reactor.getOperationalMode().isPassive()) {
 
@@ -296,7 +296,7 @@ public class ReactorLogic
      */
     private void performPassiveHeatLoss() {
 
-        final double temperatureDifferential = this.getReactorHeat().get() - this.getPassiveCoolantTemperature();
+        final double temperatureDifferential = this.getReactorHeat().getAsDouble() - this.getPassiveCoolantTemperature();
 
         if (temperatureDifferential > 0.000001f) {
 
@@ -305,7 +305,7 @@ public class ReactorLogic
 
             final double reactorNewEnergy = Math.max(0d,
                     EnergyConversion.getEnergyFromVolumeAndTemperature(this.getReactorVolume(),
-                            this.getReactorHeat().get()) - energyLost);
+                            this.getReactorHeat().getAsDouble()) - energyLost);
 
             this.getReactorHeat().set(EnergyConversion.getTemperatureFromVolumeAndEnergy(this.getReactorVolume(), reactorNewEnergy));
         }
@@ -538,7 +538,7 @@ public class ReactorLogic
         if (this._reactor.getOperationalMode().isPassive()) {
             return this.getPassiveCoolantTemperature();
         } else {
-            return this.getFluidContainer().getLiquidTemperature(this.getReactorHeat().get());
+            return this.getFluidContainer().getLiquidTemperature(this.getReactorHeat().getAsDouble());
         }
     }
 

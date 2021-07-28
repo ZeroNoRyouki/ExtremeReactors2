@@ -18,9 +18,9 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor;
 
-import java.util.function.Supplier;
+import java.util.function.DoubleSupplier;
 
-public interface IHeat extends Supplier<Double> {
+public interface IHeat extends DoubleSupplier {
 
     void set(double value);
 

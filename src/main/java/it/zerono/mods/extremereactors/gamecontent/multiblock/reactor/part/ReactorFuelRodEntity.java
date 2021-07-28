@@ -185,7 +185,7 @@ public class ReactorFuelRodEntity
             return;
         }
 
-        final double fuelHeat = this.evalOnController(c -> c.getFuelHeat().get(), 0.0);
+        final double fuelHeat = this.evalOnController(c -> c.getFuelHeat().getAsDouble(), 0.0);
         final float controlRodInsertion = null != this._controlRod ? this._controlRod.getInsertionPercentage() : 100.0f;
 
         // Fuel absorptiveness is determined by control rod + a heat modifier.

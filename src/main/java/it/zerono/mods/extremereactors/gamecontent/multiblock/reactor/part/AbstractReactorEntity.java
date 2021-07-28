@@ -44,8 +44,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.model.data.EmptyModelData;
 import net.minecraftforge.client.model.data.IModelData;
 
-import java.util.function.Supplier;
-
 public abstract class AbstractReactorEntity
         extends AbstractMultiblockEntity<MultiblockReactor>
         implements IHeatEntity, IRadiationModerator, IMultiblockPartTypeProvider<MultiblockReactor, ReactorPartType>,
@@ -98,10 +96,7 @@ public abstract class AbstractReactorEntity
      */
     @Override
     public double getHeat() {
-        return this.getMultiblockController()
-                .map(MultiblockReactor::getFuelHeat)
-                .map(Supplier::get)
-                .orElse(0d);
+        return this.evalOnController(c -> c.getFuelHeatValue().getAsDouble(), 0.0);
     }
 
     /**

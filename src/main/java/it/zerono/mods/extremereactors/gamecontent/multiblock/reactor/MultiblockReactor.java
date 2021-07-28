@@ -67,7 +67,7 @@ import net.minecraftforge.fml.LogicalSide;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.function.Supplier;
+import java.util.function.DoubleSupplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -476,12 +476,12 @@ public class MultiblockReactor
     }
 
     @Override
-    public Supplier<Double> getFuelHeatValue() {
+    public DoubleSupplier getFuelHeatValue() {
         return this._fuelHeat;
     }
 
     @Override
-    public Supplier<Double> getReactorHeatValue() {
+    public DoubleSupplier getReactorHeatValue() {
         return this._reactorHeat;
     }
 
@@ -916,12 +916,12 @@ public class MultiblockReactor
 
         final MultiblockReactor otherReactor = (MultiblockReactor)assimilated;
 
-        if (otherReactor._reactorHeat.get() > this._reactorHeat.get()) {
-            this._reactorHeat.set(otherReactor._reactorHeat.get());
+        if (otherReactor._reactorHeat.getAsDouble() > this._reactorHeat.getAsDouble()) {
+            this._reactorHeat.set(otherReactor._reactorHeat.getAsDouble());
         }
 
-        if (otherReactor._fuelHeat.get() > this._fuelHeat.get()) {
-            this._fuelHeat.set(otherReactor._fuelHeat.get());
+        if (otherReactor._fuelHeat.getAsDouble() > this._fuelHeat.getAsDouble()) {
+            this._fuelHeat.set(otherReactor._fuelHeat.getAsDouble());
         }
 
         if (otherReactor.getEnergyBuffer().getEnergyStored(INTERNAL_ENERGY_SYSTEM) > this.getEnergyBuffer().getEnergyStored(INTERNAL_ENERGY_SYSTEM)) {
@@ -1106,7 +1106,7 @@ public class MultiblockReactor
         messages.addUnlocalized("Active: %s", this.isMachineActive());
 
         this.getEnergyBuffer().getDebugMessages(side, messages);
-        messages.addUnlocalized("Casing Heat: %1$.4f C; Fuel Heat: %2$.4f C", this._reactorHeat.get(), this._fuelHeat.get());
+        messages.addUnlocalized("Casing Heat: %1$.4f C; Fuel Heat: %2$.4f C", this._reactorHeat.getAsDouble(), this._fuelHeat.getAsDouble());
         messages.add(side, this._fuelContainer, "Reactant Tanks:");
 
         final boolean activeCooling = this.getOperationalMode().isActive();

@@ -49,16 +49,16 @@ class Heat implements IHeat, ISyncableEntity, IMergeableEntity {
 
     public void resetIfNegative() {
 
-        if (this.get() < 0) {
+        if (this.getAsDouble() < 0) {
             this.set(0);
         }
     }
 
     //endregion
-    //region Supplier
+    //region DoubleSupplier
 
     @Override
-    public Double get() {
+    public double getAsDouble() {
         return this._heat;
     }
 
@@ -89,7 +89,7 @@ class Heat implements IHeat, ISyncableEntity, IMergeableEntity {
     @Override
     public CompoundNBT syncDataTo(CompoundNBT data, SyncReason syncReason) {
 
-        data.putDouble("heat", this.get());
+        data.putDouble("heat", this.getAsDouble());
         return data;
     }
 
@@ -108,8 +108,8 @@ class Heat implements IHeat, ISyncableEntity, IMergeableEntity {
 
             final Heat heat = (Heat)other;
 
-            if (heat.get() > this.get()) {
-                this.set(heat.get());
+            if (heat.getAsDouble() > this.getAsDouble()) {
+                this.set(heat.getAsDouble());
             }
         }
     }

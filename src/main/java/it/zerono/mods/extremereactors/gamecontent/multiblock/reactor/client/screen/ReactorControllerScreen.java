@@ -223,7 +223,7 @@ public class ReactorControllerScreen
                         coreHeatText
                 )
         );
-        this.addBinding((MultiblockReactor reactor) -> reactor.getFuelHeat().get(),
+        this.addBinding((MultiblockReactor reactor) -> reactor.getFuelHeat().getAsDouble(),
                 (value) -> {
                     this._coreHeatBar.setValue(value);
                     this._lblTemperature.setText("%d C", value.intValue());
@@ -255,7 +255,7 @@ public class ReactorControllerScreen
                         reactorHeatText
                 )
         );
-        this.addBinding((MultiblockReactor reactor) -> reactor.getReactorHeat().get(), this._casingHeatBar::setValue, reactorHeatText);
+        this.addBinding((MultiblockReactor reactor) -> reactor.getReactorHeat().getAsDouble(), this._casingHeatBar::setValue, reactorHeatText);
         p.addControl(this._casingHeatBar);
         barsPanel.addControl(p);
 
