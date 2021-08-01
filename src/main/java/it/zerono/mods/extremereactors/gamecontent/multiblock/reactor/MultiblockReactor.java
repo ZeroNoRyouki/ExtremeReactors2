@@ -19,8 +19,9 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import it.unimi.dsi.fastutil.ints.IntSet;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import it.unimi.dsi.fastutil.objects.ObjectLists;
 import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.Log;
 import it.zerono.mods.extremereactors.api.radiation.RadiationPacket;
@@ -66,7 +67,6 @@ import net.minecraftforge.fml.LogicalSide;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.function.DoubleSupplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -95,14 +95,13 @@ public class MultiblockReactor
         this._reactorToCoolantSystemHeatTransferCoefficient = 0f;
         this._reactorHeatLossCoefficient = 0f;
 
-        this._attachedTickables = Sets.newHashSet();
-        this._attachedControlRods = Lists.newArrayList();
-        this._attachedFuelRods = Sets.newHashSet();
-        this._attachedSolidAccessPorts = Sets.newHashSet();
-        this._attachedPowerTaps = Sets.newHashSet();
-        this._attachedFluidPorts = Sets.newHashSet();
-        this._attachedOutputFluidPorts = Lists.newLinkedList();
-        this._attachedInputFluidPorts = Lists.newLinkedList();
+        //noinspection unchecked
+        this._attachedTickables = ObjectLists.emptyList();
+        this._attachedControlRods = Lists.newLinkedList();
+        this._attachedFuelRods = Lists.newLinkedList();
+        this._attachedSolidAccessPorts = new ObjectArrayList<>(8);
+        this._attachedPowerTaps = ObjectLists.emptyList();
+        this._attachedFluidPorts = this._attachedOutputFluidPorts = this._attachedInputFluidPorts = ObjectLists.emptyList();
 
         this._irradiationSourceTracker = new IteratorTracker<>(this._attachedFuelRods::iterator);
         this._logic = new ReactorLogic(this, this.getEnergyBuffer());
@@ -742,7 +741,12 @@ public class MultiblockReactor
     @Override
     protected void onPartAdded(IMultiblockPart<MultiblockReactor> newPart) {
 
-        if (newPart instanceof ITickableMultiblockPart) {
+        if (newPart instanceof ITickableMultiblockPart && this.calledByLogicalServer()) {
+
+            if (ObjectLists.<ITickableMultiblockPart>emptyList() == this._attachedTickables) {
+                this._attachedTickables = new ObjectArrayList<>(4);
+            }
+
             this._attachedTickables.add((ITickableMultiblockPart) newPart);
         }
 
@@ -753,8 +757,19 @@ public class MultiblockReactor
         } else if (newPart instanceof ReactorSolidAccessPortEntity) {
             this._attachedSolidAccessPorts.add((ReactorSolidAccessPortEntity) newPart);
         } else if (newPart instanceof ReactorPowerTapEntity || newPart instanceof ReactorChargingPortEntity) {
+
+            if (ObjectLists.<IPowerTap>emptyList() == this._attachedPowerTaps) {
+                this._attachedPowerTaps = new ObjectArrayList<>(4);
+            }
+
             this._attachedPowerTaps.add((IPowerTap) newPart);
+
         } else if (newPart instanceof ReactorFluidPortEntity) {
+
+            if (ObjectLists.<ReactorFluidPortEntity>emptyList() == this._attachedFluidPorts) {
+                this._attachedFluidPorts = new ObjectArrayList<>(4);
+            }
+
             this._attachedFluidPorts.add((ReactorFluidPortEntity) newPart);
         }
     }
@@ -767,7 +782,8 @@ public class MultiblockReactor
     @Override
     protected void onPartRemoved(IMultiblockPart<MultiblockReactor> oldPart) {
 
-        if (oldPart instanceof ITickableMultiblockPart) {
+        if (oldPart instanceof ITickableMultiblockPart && this.calledByLogicalServer() &&
+                ObjectLists.<ITickableMultiblockPart>emptyList() != this._attachedTickables) {
             this._attachedTickables.remove(oldPart);
         }
 
@@ -777,9 +793,10 @@ public class MultiblockReactor
             this._attachedFuelRods.remove(oldPart);
         } else if (oldPart instanceof ReactorSolidAccessPortEntity) {
             this._attachedSolidAccessPorts.remove(oldPart);
-        } else if (oldPart instanceof ReactorPowerTapEntity || oldPart instanceof ReactorChargingPortEntity) {
+        } else if ((oldPart instanceof ReactorPowerTapEntity || oldPart instanceof ReactorChargingPortEntity) &&
+                ObjectLists.<IPowerTap>emptyList() != this._attachedPowerTaps) {
             this._attachedPowerTaps.remove(oldPart);
-        } else if (oldPart instanceof ReactorFluidPortEntity) {
+        } else if (oldPart instanceof ReactorFluidPortEntity && ObjectLists.<ReactorFluidPortEntity>emptyList() != this._attachedFluidPorts) {
             this._attachedFluidPorts.remove(oldPart);
         }
     }
@@ -950,8 +967,7 @@ public class MultiblockReactor
         this._attachedSolidAccessPorts.clear();
         this._attachedPowerTaps.clear();
         this._attachedFluidPorts.clear();
-        this._attachedOutputFluidPorts.clear();
-        this._attachedInputFluidPorts.clear();
+        this._attachedOutputFluidPorts = this._attachedInputFluidPorts = ObjectLists.emptyList();
         this._fuelRodsLayout = FuelRodsLayout.EMPTY;
     }
 
@@ -1137,20 +1153,17 @@ public class MultiblockReactor
 
     private void rebuildFluidPortsSubsets() {
 
-        this._attachedInputFluidPorts.clear();
-        this._attachedOutputFluidPorts.clear();
+        final List<ReactorFluidPortEntity> input = Lists.newArrayListWithCapacity(this._attachedFluidPorts.size());
+        final List<ReactorFluidPortEntity> output = Lists.newArrayListWithCapacity(this._attachedFluidPorts.size());
 
         for (final ReactorFluidPortEntity port : this._attachedFluidPorts) {
-
             if (port.getFluidPortHandler().isActive()) {
-
-                if (port.getIoDirection().isInput()) {
-                    this._attachedInputFluidPorts.add(port);
-                } else {
-                    this._attachedOutputFluidPorts.add(port);
-                }
+                (port.getIoDirection().isInput() ? input : output).add(port);
             }
         }
+
+        this._attachedInputFluidPorts = new ObjectArrayList<>(input);
+        this._attachedOutputFluidPorts = new ObjectArrayList<>(output);
     }
 
     private FuelRodsLayout createFuelRodsLayout() {
@@ -1570,14 +1583,14 @@ public class MultiblockReactor
     private boolean _sendUpdateFuelRodsLayout;
     private final Runnable _sendUpdateFuelRodsLayoutDelayedRunnable;
 
-    private final Set<ITickableMultiblockPart> _attachedTickables;
+    private List<ITickableMultiblockPart> _attachedTickables;
     private final List<ReactorControlRodEntity> _attachedControlRods;
-    private final Set<ReactorFuelRodEntity> _attachedFuelRods;
-    private final Set<ReactorSolidAccessPortEntity> _attachedSolidAccessPorts;
-    private final Set<IPowerTap> _attachedPowerTaps;
-    private final Set<ReactorFluidPortEntity> _attachedFluidPorts;
-    private final List<ReactorFluidPortEntity> _attachedOutputFluidPorts;
-    private final List<ReactorFluidPortEntity> _attachedInputFluidPorts;
+    private final List<ReactorFuelRodEntity> _attachedFuelRods;
+    private final List<ReactorSolidAccessPortEntity> _attachedSolidAccessPorts;
+    private List<IPowerTap> _attachedPowerTaps;
+    private List<ReactorFluidPortEntity> _attachedFluidPorts;
+    private List<ReactorFluidPortEntity> _attachedOutputFluidPorts;
+    private List<ReactorFluidPortEntity> _attachedInputFluidPorts;
 
     //endregion
 }

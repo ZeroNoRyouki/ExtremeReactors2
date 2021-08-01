@@ -35,7 +35,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import java.util.Arrays;
-import java.util.Set;
+import java.util.Collection;
 
 public class ClientFuelRodsLayout
         extends FuelRodsLayout {
@@ -121,7 +121,7 @@ public class ClientFuelRodsLayout
     }
 
     @Override
-    public void updateFuelRodsOcclusion(final World world, final Set<ReactorFuelRodEntity> fuelRods, final boolean interiorInvisible) {
+    public void updateFuelRodsOcclusion(final World world, final Collection<ReactorFuelRodEntity> fuelRods, final boolean interiorInvisible) {
 
         if (interiorInvisible) {
 
