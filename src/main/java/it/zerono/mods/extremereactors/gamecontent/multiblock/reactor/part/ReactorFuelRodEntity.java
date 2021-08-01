@@ -37,6 +37,7 @@ import it.zerono.mods.zerocore.lib.multiblock.cuboid.PartPosition;
 import it.zerono.mods.zerocore.lib.multiblock.validation.IMultiblockValidator;
 import it.zerono.mods.zerocore.lib.world.WorldHelper;
 import net.minecraft.block.BlockState;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -64,32 +65,33 @@ public class ReactorFuelRodEntity
         final BlockPos rodPosition = this.getPos();
         double heatTransferRate = 0d;
 
-        for (Direction dir: fuelAssemblyPlane) {
+        for (final Direction dir: fuelAssemblyPlane) {
 
             final BlockPos targetPosition = rodPosition.offset(dir);
+            final BlockState state = world.getBlockState(targetPosition);
 
-            heatTransferRate += WorldHelper.getBlockState(world, targetPosition)
-                    .map(state -> {
+            // Is it air ?
 
-                        // Is it air ?
+            if (state.isAir()) {
 
-                        if (state.isAir(world, targetPosition)) {
-                            return (double)IHeatEntity.CONDUCTIVITY_AIR;
-                        }
+                heatTransferRate += IHeatEntity.CONDUCTIVITY_AIR;
+                continue;
+            }
 
-                        // No, is it a tile entity or a moderator maybe?
+            // No, is it a tile entity or a moderator maybe?
 
-                        return WorldHelper.getTile(world, targetPosition)
-                                // We don't transfer to other fuel rods, due to heat pooling.
-                                .filter(te -> !(te instanceof ReactorFuelRodEntity))
-                                // Is it an IHeatEntity?
-                                .filter(te -> te instanceof IHeatEntity)
-                                .map(te -> (IHeatEntity)te)
-                                .map(IHeatEntity::getThermalConductivity)
-                                // If not, is it a moderator?
-                                .orElse(this.getConductivityFromBlock(state));
-                    })
-                    .orElse(0d); // it's something very strange... ignore it
+            final TileEntity te = WorldHelper.getLoadedTile(world, targetPosition);
+
+            if (!(te instanceof ReactorFuelRodEntity) && te instanceof IHeatEntity) {
+
+                // We don't transfer to other fuel rods, due to heat pooling, only from an IHeatEntity
+                heatTransferRate += ((IHeatEntity)te).getThermalConductivity();
+
+            } else {
+
+                // If not, is it a moderator?
+                heatTransferRate += this.getConductivityFromBlock(state);
+            }
         }
 
         return heatTransferRate;
