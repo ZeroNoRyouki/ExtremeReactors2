@@ -1389,67 +1389,49 @@ public class MultiblockReactor
      * Validate a single Fuel Assembly
      *
      * @param validatorCallback the validator, for error reporting
-     * @param world the World of the Reactor
      * @param controlRodPosition the coordinate of the Control Rod of the Fuel Assembly to check
      * @param scanDirection the direction to follow while walking the Fuel Assembly
-     * @param validFuelRods collect all the valid Fuel Rods found
-     * @return true if the Fuel Assembly is correctly constructed, false otherwise
+     * @return the number of valid Fuel Rods founds or zero if an error was found
      */
-    private static boolean validateFuelAssembly(IMultiblockValidator validatorCallback, World world, BlockPos controlRodPosition,
-                                                Direction scanDirection, List<ReactorFuelRodEntity> validFuelRods) {
+    private int validateFuelAssembly(final IMultiblockValidator validatorCallback, final BlockPos controlRodPosition,
+                                     final Direction scanDirection) {
 
-        BlockPos scanPosition = controlRodPosition;
+        final BlockPos.Mutable scanPosition = controlRodPosition.toMutable();
+        int validRodsFound = 0;
 
         while (true) {
 
-            scanPosition = scanPosition.offset(scanDirection);
+            scanPosition.move(scanDirection);
 
-            final TileEntity te = WorldHelper.getLoadedTile(world, scanPosition);
+            final IMultiblockPart<MultiblockReactor> part = this._connectedParts.get(scanPosition);
 
-            if (te instanceof ReactorFuelRodEntity) {
+            if (part instanceof ReactorFuelRodEntity) {
 
                 // found a valid Fuel Rod
-                validFuelRods.add((ReactorFuelRodEntity) te);
+                ++validRodsFound;
 
-            } else if (te instanceof AbstractReactorEntity) {
+            } else if (part instanceof AbstractReactorEntity) {
 
                 // we hit some other Reactor parts on the walls
 
-                if (ReactorPartType.Casing != ((AbstractReactorEntity)te).getPartType().orElse(ReactorPartType.Glass)) {
+                if (ReactorPartType.Casing != ((AbstractReactorEntity)part).getPartTypeOrDefault(ReactorPartType.Glass)) {
 
                     // a Reactor Casing is the only valid base for a fuel assembly
 
                     validatorCallback.setLastError(scanPosition, "multiblock.validation.reactor.invalid_base_for_fuel_assembly");
-                    return false;
+                    return 0;
                 }
 
                 // found a Reactor Casing: stop the scan
-                break;
+                return validRodsFound;
 
             } else {
 
                 // found an invalid tile entity (or no tile entity at all)
                 validatorCallback.setLastError(scanPosition, "multiblock.validation.reactor.invalid_block_in_fuel_assembly");
-                return false;
+                return 0;
             }
         }
-
-        return true;
-    }
-
-    /**
-     * isMachineWhole-helper
-     * Validate a single Fuel Assembly
-     *
-     * @param validatorCallback the validator, for error reporting
-     * @param scanDirection the direction to follow while walking the Fuel Assembly
-     * @param controlRod the Control Rod of the Fuel Assembly to check
-     * @param validFuelRods collect all the valid Fuel Rods found
-     * @return true if the Fuel Assembly is correctly constructed, false otherwise
-     */
-    private boolean validateFuelAssembly(IMultiblockValidator validatorCallback, Direction scanDirection,
-                                         ReactorControlRodEntity controlRod, List<ReactorFuelRodEntity> validFuelRods) {
-        return validateFuelAssembly(validatorCallback, this.getWorld(), controlRod.getWorldPosition(), scanDirection, validFuelRods);
     }
 
     /**
@@ -1480,16 +1462,21 @@ public class MultiblockReactor
 
         // ... and that Fuel Rods follow the orientation of Control Rods
 
-        final List<ReactorFuelRodEntity> validFuelRods = Lists.newArrayListWithCapacity(this.getFuelRodsCount());
         final Direction scanDirection = firstDirection.get().getOpposite();
+        int validRodsFound = 0;
 
-        for (ReactorControlRodEntity controlRod : this._attachedControlRods) {
-            if (!this.validateFuelAssembly(validatorCallback, scanDirection, controlRod, validFuelRods)) {
+        for (final ReactorControlRodEntity controlRod : this._attachedControlRods) {
+
+            final int found = this.validateFuelAssembly(validatorCallback, controlRod.getWorldPosition(), scanDirection);
+
+            if (0 == found) {
                 return false;
             }
+
+            validRodsFound += found;
         }
 
-        if (this.getFuelRodsCount() != validFuelRods.size()) {
+        if (this.getFuelRodsCount() != validRodsFound) {
 
             validatorCallback.setLastError("multiblock.validation.reactor.invalid_fuel_rods");
             return false;
