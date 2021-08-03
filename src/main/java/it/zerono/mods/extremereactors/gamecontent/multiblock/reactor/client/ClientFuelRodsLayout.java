@@ -28,6 +28,7 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.IFuelContai
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.model.ReactorFuelRodModel;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part.ReactorFuelRodEntity;
 import it.zerono.mods.zerocore.lib.data.gfx.Colour;
+import net.minecraft.block.BlockState;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.util.Direction;
@@ -140,8 +141,9 @@ public class ClientFuelRodsLayout
             for (final Direction direction : directions) {
 
                 final BlockPos checkPosition = rodPosition.offset(direction);
+                final BlockState state = world.getBlockState(checkPosition);
 
-                if (world.isAirBlock(checkPosition) || !RenderTypeLookup.canRenderInLayer(world.getBlockState(checkPosition), solid)) {
+                if (state.isAir(world, checkPosition) || !RenderTypeLookup.canRenderInLayer(state, solid)) {
 
                     occluded = false;
                     break;
