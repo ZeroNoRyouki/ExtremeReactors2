@@ -47,7 +47,7 @@ public abstract class AbstractMultiblockEntity<Controller extends AbstractCuboid
     public void validate() {
 
         super.validate();
-        this.updateClientRenderState();
+        //this.updateClientRenderState();
     }
 
     @Override
