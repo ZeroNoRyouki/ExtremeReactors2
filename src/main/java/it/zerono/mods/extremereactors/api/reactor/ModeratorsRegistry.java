@@ -79,6 +79,33 @@ public final class ModeratorsRegistry {
     }
 
     /**
+     * Check if a valid (solid or fluid) radiation moderation exist for the given block state
+     *
+     * @param state The block state
+     * @return True if a Moderator exists, false otherwise
+     */
+    public static boolean isValid(final BlockState state) {
+
+        if (state.isAir()) {
+            return true;
+        }
+
+        final FluidState fs = state.getFluidState();
+
+        if (!fs.isEmpty() && s_moderatorFluidsData.containsKey(getFluidId(fs.getFluid()))) {
+            return true;
+        }
+
+        //noinspection rawtypes
+        return s_moderatorBlocksTags
+                .find(tag -> tag.contains(state.getBlock()))
+                .filter(t -> t instanceof ITag.INamedTag)
+                .map(t -> (ITag.INamedTag)t)
+                .map(t -> s_moderatorBlocksData.containsKey(t.getName()))
+                .orElse(false);
+    }
+
+    /**
      * Retrieve the radiation moderation data for the given block state
      *
      * @param state The block state

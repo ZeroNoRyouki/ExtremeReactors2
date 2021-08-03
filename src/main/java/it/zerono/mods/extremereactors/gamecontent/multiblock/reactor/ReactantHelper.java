@@ -18,19 +18,26 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor;
 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import it.zerono.mods.extremereactors.api.IMapping;
-import it.zerono.mods.extremereactors.api.reactor.Reactant;
-import it.zerono.mods.extremereactors.api.reactor.ReactantMappingsRegistry;
-import it.zerono.mods.extremereactors.api.reactor.ReactantType;
+import it.zerono.mods.extremereactors.api.reactor.*;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part.ReactorSolidAccessPortEntity;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.IMultiblockReactorVariant;
 import it.zerono.mods.zerocore.lib.data.stack.OperationMode;
 import it.zerono.mods.zerocore.lib.item.ItemHelper;
+import net.minecraft.block.BlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
+import net.minecraftforge.event.TagsUpdatedEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fluids.FluidStack;
 
+import javax.annotation.Nullable;
+import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
 public class ReactantHelper {
@@ -231,4 +238,53 @@ public class ReactantHelper {
 
         return 0;
     }
+
+    @Nullable
+    public static Moderator getModeratorFrom(final BlockState state) {
+        return getCachedModeratorFrom(state);
+    }
+
+    public static Moderator getModeratorFrom(final BlockState state, final Moderator fallbackModerator) {
+
+        final Moderator moderator = getCachedModeratorFrom(state);
+
+        return null != moderator ? moderator : fallbackModerator;
+    }
+
+    public static boolean isValidModerator(final BlockState state) {
+        return null != getCachedModeratorFrom(state);
+    }
+
+    @SubscribeEvent(priority = EventPriority.LOW)
+    public static void onVanillaTagsUpdated(final TagsUpdatedEvent.VanillaTagTypes event) {
+        s_moderatorsCache.invalidateAll();
+    }
+
+    //region internals
+
+    @Nullable
+    private static Moderator getCachedModeratorFrom(final BlockState state) {
+
+        Moderator moderator = s_moderatorsCache.getIfPresent(state);
+
+        if (null == moderator) {
+
+            final Optional<Moderator> m = ModeratorsRegistry.getFrom(state);
+
+            if (m.isPresent()) {
+                s_moderatorsCache.put(state, moderator = m.get());
+            }
+        }
+
+        return moderator;
+    }
+
+    private static final Cache<BlockState, Moderator> s_moderatorsCache = CacheBuilder.newBuilder()
+            .initialCapacity(4)
+            .concurrencyLevel(2)
+            .maximumSize(128)
+            .expireAfterAccess(5, TimeUnit.MINUTES)
+            .build();
+
+    //endregion
 }

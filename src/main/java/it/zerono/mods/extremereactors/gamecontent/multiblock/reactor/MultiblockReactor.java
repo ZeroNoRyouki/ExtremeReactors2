@@ -57,7 +57,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.profiler.IProfiler;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -407,7 +406,7 @@ public class MultiblockReactor
 
             } else {
 
-                moderator = (data, packet) -> applyModerator(data, packet, ModeratorsRegistry.getFrom(blockState).orElse(Moderator.AIR));
+                moderator = (data, packet) -> applyModerator(data, packet, ReactantHelper.getModeratorFrom(blockState, Moderator.AIR));
             }
 
             return Optional.of(moderator);
@@ -1093,13 +1092,8 @@ public class MultiblockReactor
         final BlockPos position = new BlockPos(x, y, z);
         final BlockState blockState = world.getBlockState(position);
 
-        if (blockState.isAir(world, position)) {
-            // Air is OK
-            return true;
-        }
-
         // Check against registered moderators
-        if (ModeratorsRegistry.getFrom(blockState).isPresent()) {
+        if (ReactantHelper.isValidModerator(blockState)) {
             return true;
         }
 

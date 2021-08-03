@@ -21,7 +21,6 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part;
 import it.zerono.mods.extremereactors.api.radiation.RadiationPacket;
 import it.zerono.mods.extremereactors.api.reactor.IHeatEntity;
 import it.zerono.mods.extremereactors.api.reactor.Moderator;
-import it.zerono.mods.extremereactors.api.reactor.ModeratorsRegistry;
 import it.zerono.mods.extremereactors.api.reactor.ReactantMappingsRegistry;
 import it.zerono.mods.extremereactors.api.reactor.radiation.EnergyConversion;
 import it.zerono.mods.extremereactors.api.reactor.radiation.IRadiationModerator;
@@ -30,6 +29,7 @@ import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.FuelRodsLayout;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.IIrradiationSource;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.IReactorReader;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.ReactantHelper;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.ClientFuelRodsLayout;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.model.ReactorFuelRodModelData;
 import it.zerono.mods.zerocore.lib.CodeHelper;
@@ -282,7 +282,7 @@ public class ReactorFuelRodEntity
     }
 
     private double getConductivityFromBlock(BlockState blockState) {
-        return ModeratorsRegistry.getFrom(blockState).orElse(Moderator.AIR).getHeatConductivity();
+        return ReactantHelper.getModeratorFrom(blockState, Moderator.AIR).getHeatConductivity();
     }
 
     private ReactorControlRodEntity _controlRod;
