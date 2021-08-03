@@ -18,18 +18,11 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock;
 
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-
-import java.util.Optional;
 
 public interface IMachineReader {
 
     World getWorld();
-
-    Optional<BlockPos> getMinimumCoord();
-
-    Optional<BlockPos> getMaximumCoord();
 
     boolean isMachineActive();
 }

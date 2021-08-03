@@ -1307,7 +1307,7 @@ public class MultiblockReactor
 
         if (this.getOperationalMode().isActive()) {
 
-            final int outerVolume = this.mapBoundingBoxCoordinates(CodeHelper::mathVolume, 0) - this.getReactorVolume();
+            final int outerVolume = this.getBoundingBox().getVolume() - this.getReactorVolume();
 
             this._fluidContainer.setCapacity(MathHelper.clamp(outerVolume * this.getVariant().getPartFluidCapacity(),
                     0, this.getVariant().getMaxFluidCapacity()));
@@ -1319,7 +1319,12 @@ public class MultiblockReactor
     }
 
     private void calculateReactorVolume() {
-        this._reactorVolume = this.mapBoundingBoxCoordinates(CodeHelper::mathVolume, 0, min -> min.add(1, 1, 1), max -> max.add(-1, -1, -1));
+
+        final CuboidBoundingBox bb = this.getBoundingBox();
+        final BlockPos min = bb.getMin().add(1, 1, 1);
+        final BlockPos max = bb.getMax().add(-1, -1, -1);
+
+        this._reactorVolume = CodeHelper.mathVolume(min, max);
     }
 
     private void updateFuelToReactorHeatTransferCoefficient() {
@@ -1332,30 +1337,28 @@ public class MultiblockReactor
     private void updateReactorToCoolantSystemHeatTransferCoefficient() {
         // Calculate heat transfer to coolant system based on reactor interior surface area.
         // This is pretty simple to start with - surface area of the rectangular prism defining the interior.
-        this._reactorToCoolantSystemHeatTransferCoefficient = IHeatEntity.CONDUCTIVITY_IRON *
-                this.mapBoundingBoxCoordinates(MultiblockReactor::internalSurfaceArea, 0);
+        this._reactorToCoolantSystemHeatTransferCoefficient = IHeatEntity.CONDUCTIVITY_IRON * internalSurfaceArea(this.getBoundingBox());
     }
 
     private void updateReactorHeatLossCoefficient() {
         // Calculate passive heat loss to external surface area
-        this._reactorHeatLossCoefficient = REACTOR_HEAT_LOSS_CONDUCTIVITY *
-                this.mapBoundingBoxCoordinates(MultiblockReactor::externalSurfaceArea, 0);
+        this._reactorHeatLossCoefficient = REACTOR_HEAT_LOSS_CONDUCTIVITY * externalSurfaceArea(this.getBoundingBox());
     }
 
-    private static int internalSurfaceArea(final BlockPos min, final BlockPos max) {
+    private static int internalSurfaceArea(final CuboidBoundingBox bb) {
 
-        int xSize = max.getX() - min.getX() - 1;
-        int ySize = max.getY() - min.getY() - 1;
-        int zSize = max.getZ() - min.getZ() - 1;
+        int xSize = bb.getLengthX() - 1;
+        int ySize = bb.getLengthY() - 1;
+        int zSize = bb.getLengthZ() - 1;
 
         return  2 * (xSize * ySize + xSize * zSize + ySize * zSize);
     }
 
-    private static int externalSurfaceArea(final BlockPos min, final BlockPos max) {
+    private static int externalSurfaceArea(final CuboidBoundingBox bb) {
 
-        int xSize = max.getX() - min.getX() + 1;
-        int ySize = max.getY() - min.getY() + 1;
-        int zSize = max.getZ() - min.getZ() + 1;
+        int xSize = bb.getLengthX() + 1;
+        int ySize = bb.getLengthY() + 1;
+        int zSize = bb.getLengthZ() + 1;
 
         return  2 * (xSize * ySize + xSize * zSize + ySize * zSize);
     }
