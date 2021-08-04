@@ -57,6 +57,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.profiler.IProfiler;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -373,7 +374,6 @@ public class MultiblockReactor
         }
     }
 
-
     /**
      * Get a Moderator from the Reactor internal volume
      *
@@ -381,35 +381,28 @@ public class MultiblockReactor
      * @return the Moderator at the requested position, if the position is valid and a Moderator is found there
      */
     @Override
-    public Optional<IRadiationModerator> getModerator(BlockPos position) {
+    public IRadiationModerator getModerator(final BlockPos position) {
 
         if (!this.getBoundingBox().contains(position)) {
-            return Optional.empty();
+            return MODERATOR_NONE;
         }
 
         final World world = this.getWorld();
         final BlockState blockState = world.getBlockState(position);
 
+        if (blockState.isAir()) {
+            return MODERATOR_AIR;
+        }
+
         if (blockState.hasTileEntity()) {
 
-            return WorldHelper.getTile(world, position)
-                    .filter(te -> te instanceof IRadiationModerator)
-                    .map(te -> (IRadiationModerator)te);
+            final TileEntity te = WorldHelper.getLoadedTile(world, position);
+
+            return te instanceof IRadiationModerator ? (IRadiationModerator)te : MODERATOR_NONE;
 
         } else {
 
-            final IRadiationModerator moderator;
-
-            if (blockState.isAir()) {
-
-                moderator = (data, packet) -> applyModerator(data, packet, Moderator.AIR);
-
-            } else {
-
-                moderator = (data, packet) -> applyModerator(data, packet, ReactantHelper.getModeratorFrom(blockState, Moderator.AIR));
-            }
-
-            return Optional.of(moderator);
+            return (data, packet) -> applyModerator(data, packet, ReactantHelper.getModeratorFrom(blockState, Moderator.AIR));
         }
     }
 
@@ -1546,6 +1539,9 @@ public class MultiblockReactor
 
     // circa 1FE per tick per external surface block
     private static final float REACTOR_HEAT_LOSS_CONDUCTIVITY = 0.001f;
+
+    private static final IRadiationModerator MODERATOR_NONE = (data, packet) -> {};
+    private static final IRadiationModerator MODERATOR_AIR = (data, packet) -> applyModerator(data, packet, Moderator.AIR);
 
     private final ReactorLogic _logic;
     private final IMultiblockReactorVariant _variant;

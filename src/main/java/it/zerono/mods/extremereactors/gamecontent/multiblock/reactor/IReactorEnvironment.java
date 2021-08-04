@@ -44,7 +44,7 @@ public interface IReactorEnvironment {
      * @param position the position to look up. Must be inside the Reactor internal volume
      * @return the Moderator at the requested position, if the position is valid and a Moderator is found there
      */
-    Optional<IRadiationModerator> getModerator(BlockPos position);
+    IRadiationModerator getModerator(BlockPos position);
 
     int getPartsCount(ReactorPartType type);
 

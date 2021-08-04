@@ -401,8 +401,7 @@ public class ReactorLogic
                 ttl--;
                 currentCoord = currentCoord.offset(dir);
 
-                //this.performIrradiation(world, data, radPacket, currentCoord);
-                this._reactor.getEnvironment().getModerator(currentCoord).ifPresent(m -> m.moderateRadiation(data, radPacket));
+                this._reactor.getEnvironment().getModerator(currentCoord).moderateRadiation(data, radPacket);
             }
         }
 
