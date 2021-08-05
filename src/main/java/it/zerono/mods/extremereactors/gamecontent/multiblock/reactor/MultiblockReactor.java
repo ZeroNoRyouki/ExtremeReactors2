@@ -203,9 +203,9 @@ public class MultiblockReactor
         this._active = active;
 
         if (active) {
-            this.getConnectedParts().forEach(IMultiblockPart::onMachineActivated);
+            this.forEachConnectedParts(IMultiblockPart::onMachineActivated);
         } else {
-            this.getConnectedParts().forEach(IMultiblockPart::onMachineDeactivated);
+            this.forEachConnectedParts(IMultiblockPart::onMachineDeactivated);
         }
 
         this.callOnLogicalServer(this::markReferenceCoordForUpdate);

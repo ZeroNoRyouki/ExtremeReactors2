@@ -148,9 +148,9 @@ public class MultiblockTurbine
         this._active = active;
 
         if (active) {
-            this.getConnectedParts().forEach(IMultiblockPart::onMachineActivated);
+            this.forEachConnectedParts(IMultiblockPart::onMachineActivated);
         } else {
-            this.getConnectedParts().forEach(IMultiblockPart::onMachineDeactivated);
+            this.forEachConnectedParts(IMultiblockPart::onMachineDeactivated);
         }
 
         this.callOnLogicalServer(this::markReferenceCoordForUpdate);
@@ -777,20 +777,21 @@ public class MultiblockTurbine
 
         // We only allow air and valid coils blocks inside a Turbine.
 
-        BlockPos position = new BlockPos(x, y, z);
+        final BlockPos position = new BlockPos(x, y, z);
+        final BlockState state = world.getBlockState(position);
 
         // is it Air ?
-        if (world.isAirBlock(position)) {
+        if (state.isAir(world, position)) {
             return true;
         }
 
         // is it a valid coil block ?
 
-        if (CoilMaterialRegistry.get(world.getBlockState(position)).isPresent()) {
+        if (CoilMaterialRegistry.get(state).isPresent()) {
 
             // yes, cache it's position
 
-            _validationFoundCoils.add(position);
+            this._validationFoundCoils.add(position);
             return true;
         }
 

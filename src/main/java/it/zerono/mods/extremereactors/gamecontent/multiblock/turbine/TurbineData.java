@@ -114,6 +114,7 @@ public class TurbineData
         int maxY = maxInterior.getY();
         int maxZ = maxInterior.getZ();
 
+        final BlockPos.Mutable position = new BlockPos.Mutable();
         final CoilStats coilStats = new CoilStats();
 
         for (int x = minInterior.getX(); x <= maxX; ++x) {
@@ -122,7 +123,7 @@ public class TurbineData
 
                 for (int z = minInterior.getZ(); z <= maxZ; ++z) {
 
-                    final BlockPos position = new BlockPos(x, y, z);
+                    position.setPos(x, y, z);
 
                     switch (environment.getRotorComponentTypeAt(position)) {
 
