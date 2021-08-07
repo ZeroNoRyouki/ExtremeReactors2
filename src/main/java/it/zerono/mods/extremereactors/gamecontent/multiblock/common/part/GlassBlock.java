@@ -30,6 +30,8 @@ import net.minecraft.world.IBlockReader;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import it.zerono.mods.zerocore.lib.block.multiblock.MultiblockPartBlock.MultiblockPartProperties;
+
 public class GlassBlock <Controller extends IMultiblockController<Controller>,
                          PartType extends Enum<PartType> & IMultiblockPartType>
         extends GenericDeviceBlock<Controller, PartType> {
@@ -41,7 +43,7 @@ public class GlassBlock <Controller extends IMultiblockController<Controller>,
     //region Block
 
     @Override
-    public boolean isSideInvisible(BlockState state, BlockState adjacentBlockState, Direction side) {
+    public boolean skipRendering(BlockState state, BlockState adjacentBlockState, Direction side) {
         return this == adjacentBlockState.getBlock();
     }
 
@@ -60,7 +62,7 @@ public class GlassBlock <Controller extends IMultiblockController<Controller>,
     }
 
     @OnlyIn(Dist.CLIENT)
-    public float getAmbientOcclusionLightValue(BlockState state, IBlockReader worldIn, BlockPos pos) {
+    public float getShadeBrightness(BlockState state, IBlockReader worldIn, BlockPos pos) {
         return 1.0F;
     }
 
@@ -76,7 +78,7 @@ public class GlassBlock <Controller extends IMultiblockController<Controller>,
 
     @Override
     protected BlockState buildDefaultState(final BlockState state) {
-        return super.buildDefaultState(state).with(BlockFacingsProperty.FACINGS, BlockFacingsProperty.None);
+        return super.buildDefaultState(state).setValue(BlockFacingsProperty.FACINGS, BlockFacingsProperty.None);
     }
 
     //endregion

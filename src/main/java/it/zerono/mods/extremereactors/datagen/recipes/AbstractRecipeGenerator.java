@@ -73,9 +73,9 @@ public abstract class AbstractRecipeGenerator
     protected void blasting(final Consumer<IFinishedRecipe> consumer, final String name,
                             final Supplier<? extends IItemProvider> result, final Supplier<? extends IItemProvider> source,
                             final float xp, final int time) {
-        CookingRecipeBuilder.blastingRecipe(Ingredient.fromItems(source.get()), result.get(), xp, time)
-                .addCriterion("has_item", hasItem(source.get()))
-                .build(consumer, ExtremeReactors.newID("blasting/" + name));
+        CookingRecipeBuilder.blasting(Ingredient.of(source.get()), result.get(), xp, time)
+                .unlockedBy("has_item", has(source.get()))
+                .save(consumer, ExtremeReactors.newID("blasting/" + name));
     }
 
     protected void smelting(final Consumer<IFinishedRecipe> consumer, final String name,
@@ -86,27 +86,27 @@ public abstract class AbstractRecipeGenerator
     protected void smelting(final Consumer<IFinishedRecipe> consumer, final String name,
                             final Supplier<? extends IItemProvider> result, final Supplier<? extends IItemProvider> source,
                             final float xp, final int time) {
-        CookingRecipeBuilder.smeltingRecipe(Ingredient.fromItems(source.get()), result.get(), xp, time)
-                .addCriterion("has_item", hasItem(source.get()))
-                .build(consumer, ExtremeReactors.newID("smelting/" + name));
+        CookingRecipeBuilder.smelting(Ingredient.of(source.get()), result.get(), xp, time)
+                .unlockedBy("has_item", has(source.get()))
+                .save(consumer, ExtremeReactors.newID("smelting/" + name));
     }
 
     protected void storageBlock3x3(final Consumer<IFinishedRecipe> consumer, final String name,
                                    final Supplier<? extends IItemProvider> component, final Supplier<? extends IItemProvider> storage) {
 
         // 3x3 components -> 1 storage
-        ShapelessRecipeBuilder.shapelessRecipe(storage.get())
-                .addIngredient(component.get(), 9)
-                .setGroup(GROUP_GENERAL)
-                .addCriterion(name + "_has_storage", hasItem(storage.get()))
-                .build(consumer, ExtremeReactors.newID(name + "_component_to_storage"));
+        ShapelessRecipeBuilder.shapeless(storage.get())
+                .requires(component.get(), 9)
+                .group(GROUP_GENERAL)
+                .unlockedBy(name + "_has_storage", has(storage.get()))
+                .save(consumer, ExtremeReactors.newID(name + "_component_to_storage"));
 
         // 1 storage -> 9 components
-        ShapelessRecipeBuilder.shapelessRecipe(component.get(), 9)
-                .addIngredient(storage.get())
-                .setGroup(GROUP_GENERAL)
-                .addCriterion("has_item", hasItem(storage.get()))
-                .build(consumer, ExtremeReactors.newID("crafting/" + name + "_storage_to_component"));
+        ShapelessRecipeBuilder.shapeless(component.get(), 9)
+                .requires(storage.get())
+                .group(GROUP_GENERAL)
+                .unlockedBy("has_item", has(storage.get()))
+                .save(consumer, ExtremeReactors.newID("crafting/" + name + "_storage_to_component"));
     }
 
     protected static void recipeWithAlternativeTag(final Consumer<IFinishedRecipe> c,
@@ -116,20 +116,20 @@ public abstract class AbstractRecipeGenerator
 
         if (null == alternativeTag || null == alternativeName) {
 
-            recipe.apply(tag).build(c, name);
+            recipe.apply(tag).save(c, name);
 
         } else {
 
             // normal metal recipe (if metal exists)
             ConditionalRecipe.builder()
                     .addCondition(not(new TagEmptyCondition(tag.getName())))
-                    .addRecipe(recipe.apply(tag)::build)
+                    .addRecipe(recipe.apply(tag)::save)
                     .build(c, name);
 
             // alternative metal recipe (if metal DO NOT exists)
             ConditionalRecipe.builder()
                     .addCondition(new TagEmptyCondition(tag.getName()))
-                    .addRecipe(recipe.apply(alternativeTag)::build)
+                    .addRecipe(recipe.apply(alternativeTag)::save)
                     .build(c, alternativeName);
         }
     }
@@ -143,17 +143,17 @@ public abstract class AbstractRecipeGenerator
                                final IItemProvider item1,
                                final IItemProvider item2) {
 
-        ShapedRecipeBuilder.shapedRecipe(result.get())
-                .key('T', powerTap.get())
-                .key('G', Tags.Items.GLASS)
-                .key('1', item1)
-                .key('2', item2)
-                .patternLine("212")
-                .patternLine("GTG")
-                .patternLine("212")
-                .setGroup(group)
-                .addCriterion("has_item", hasItem(powerTap.get()))
-                .build(c, nameProvider.apply(variant, name));
+        ShapedRecipeBuilder.shaped(result.get())
+                .define('T', powerTap.get())
+                .define('G', Tags.Items.GLASS)
+                .define('1', item1)
+                .define('2', item2)
+                .pattern("212")
+                .pattern("GTG")
+                .pattern("212")
+                .group(group)
+                .unlockedBy("has_item", has(powerTap.get()))
+                .save(c, nameProvider.apply(variant, name));
     }
 
     protected static ICondition not(final ICondition condition) {

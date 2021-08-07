@@ -31,6 +31,8 @@ import net.minecraftforge.fml.LogicalSide;
 
 import java.util.function.Consumer;
 
+import it.zerono.mods.zerocore.lib.data.nbt.ISyncableEntity.SyncReason;
+
 public class TurbineData
     implements ISyncableEntity, IDebuggable {
 
@@ -123,7 +125,7 @@ public class TurbineData
 
                 for (int z = minInterior.getZ(); z <= maxZ; ++z) {
 
-                    position.setPos(x, y, z);
+                    position.set(x, y, z);
 
                     switch (environment.getRotorComponentTypeAt(position)) {
 

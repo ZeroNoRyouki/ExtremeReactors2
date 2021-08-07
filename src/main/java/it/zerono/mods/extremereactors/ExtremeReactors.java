@@ -128,7 +128,7 @@ public class ExtremeReactors implements IModInitializationHandler {
     }
 
     public <T extends IModMessage> void sendPacket(final T packet, final World world, final BlockPos center, final int radius) {
-        this._network.sendToAllAround(packet, center.getX(), center.getY(), center.getZ(), radius, world.getDimensionKey());
+        this._network.sendToAllAround(packet, center.getX(), center.getY(), center.getZ(), radius, world.dimension());
     }
 
     //region internals

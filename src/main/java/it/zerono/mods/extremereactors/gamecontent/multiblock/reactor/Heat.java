@@ -22,6 +22,8 @@ import it.zerono.mods.zerocore.lib.data.nbt.IMergeableEntity;
 import it.zerono.mods.zerocore.lib.data.nbt.ISyncableEntity;
 import net.minecraft.nbt.CompoundNBT;
 
+import it.zerono.mods.zerocore.lib.data.nbt.ISyncableEntity.SyncReason;
+
 class Heat implements IHeat, ISyncableEntity, IMergeableEntity {
 
     public Heat() {

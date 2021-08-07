@@ -26,6 +26,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.Direction;
 
+import it.zerono.mods.zerocore.lib.block.multiblock.MultiblockPartBlock.MultiblockPartProperties;
+
 public class GenericDeviceBlock<Controller extends IMultiblockController<Controller>,
                                 PartType extends Enum<PartType> & IMultiblockPartType>
         extends MultiblockPartBlock<Controller, PartType> {
@@ -35,7 +37,7 @@ public class GenericDeviceBlock<Controller extends IMultiblockController<Control
     }
 
     @Override
-    public boolean isSideInvisible(BlockState state, BlockState adjacentBlockState, Direction side) {
+    public boolean skipRendering(BlockState state, BlockState adjacentBlockState, Direction side) {
 
         final Block adjacentBlock = adjacentBlockState.getBlock();
 

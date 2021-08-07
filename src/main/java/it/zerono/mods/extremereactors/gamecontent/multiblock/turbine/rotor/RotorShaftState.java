@@ -75,7 +75,7 @@ public enum RotorShaftState
     //region IStringSerializable
 
     @Override
-    public String getString() {
+    public String getSerializedName() {
         return this._name;
     }
 
@@ -84,7 +84,7 @@ public enum RotorShaftState
 
     @Override
     public String toString() {
-        return this.getString();
+        return this.getSerializedName();
     }
 
     //endregion

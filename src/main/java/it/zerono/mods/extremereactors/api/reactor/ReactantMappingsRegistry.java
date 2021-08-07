@@ -186,7 +186,7 @@ public final class ReactantMappingsRegistry {
                 .filter(mapping -> mapping.getProduct().getType().isFuel())
                 .map(IMapping::getSource)
                 .forEach(id -> s_solidTags.forTag(id,
-                        tag -> tag.getAllElements()
+                        tag -> tag.getValues()
                                 .forEach(item -> tooltipsMap.computeIfAbsent(item, k -> setSupplier.get()).add(TOOLTIP_FUEL_SOURCE))));
     }
 

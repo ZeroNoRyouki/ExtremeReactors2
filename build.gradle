@@ -5,7 +5,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
     }
 }
 apply plugin: 'net.minecraftforge.gradle'
@@ -29,7 +29,7 @@ sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = co
 
 minecraft {
 
-    mappings channel: 'snapshot', version: config.minecraft_mappings
+    mappings channel: 'official', version: config.minecraft_mappings
 
 	def runDir = file("${rootProject.projectDir}/runs/run-${config.minecraft_version}")
 
@@ -128,7 +128,7 @@ processResources {
 
     from(sourceSets.main.resources.srcDirs) {
 	
-        include 'META-INF/mods.toml'
+        include 'ExtremeReactors2-master/src/main/resources/META-INF/mods.toml'
         expand 'mod_version': version, 
 				'mod_name': config.mod_name,
 				'minecraft_versionrange': config.minecraft_versionrange,

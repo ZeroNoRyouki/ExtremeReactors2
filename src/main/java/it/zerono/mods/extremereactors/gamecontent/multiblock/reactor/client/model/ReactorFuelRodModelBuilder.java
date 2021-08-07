@@ -72,7 +72,7 @@ public class ReactorFuelRodModelBuilder
     private static ResourceLocation getBlockStateRL(final IMultiblockReactorVariant variant,
                                                     final Direction.Axis axis) {
         return new ModelResourceLocation(ExtremeReactors.newID(variant.getName() + "_reactorfuelrod"),
-                String.format("axis=%s", axis.getName2()));
+                String.format("axis=%s", axis.getName()));
     }
 
     private final Object2ObjectMap<Direction.Axis, ResourceLocation> _ids;

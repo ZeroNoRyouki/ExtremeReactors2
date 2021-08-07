@@ -155,7 +155,7 @@ public class ClientProxy
     @SubscribeEvent
     public void onTextureStitchPre(final TextureStitchEvent.Pre event) {
 
-        if (!event.getMap().getTextureLocation().equals(PlayerContainer.LOCATION_BLOCKS_TEXTURE)) {
+        if (!event.getMap().location().equals(PlayerContainer.BLOCK_ATLAS)) {
             return;
         }
 
@@ -248,11 +248,11 @@ public class ClientProxy
 
     private static void registerRenderTypes() {
 
-        registerRenderType(RenderType.getTranslucent(),
+        registerRenderType(RenderType.translucent(),
                 Content.Blocks.REACTOR_GLASS_BASIC, Content.Blocks.REACTOR_GLASS_REINFORCED,
                 Content.Blocks.TURBINE_GLASS_BASIC, Content.Blocks.TURBINE_GLASS_REINFORCED);
 
-        registerRenderType(RenderType.getCutout(),
+        registerRenderType(RenderType.cutout(),
                 Content.Blocks.TURBINE_ROTORBLADE_BASIC, Content.Blocks.TURBINE_ROTORBLADE_REINFORCED,
                 Content.Blocks.TURBINE_ROTORSHAFT_BASIC, Content.Blocks.TURBINE_ROTORSHAFT_REINFORCED);
     }
@@ -266,7 +266,7 @@ public class ClientProxy
     private static <M extends Container, U extends Screen & IHasContainer<M>>
         void registerScreen(final Supplier<? extends ContainerType<? extends M>> type,
                         final ScreenManager.IScreenFactory<M, U> factory) {
-        ScreenManager.registerFactory(type.get(), factory);
+        ScreenManager.register(type.get(), factory);
     }
 
     @SafeVarargs

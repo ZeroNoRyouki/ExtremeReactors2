@@ -35,7 +35,7 @@ public enum TurbineVariant
 
     Basic(TurbineVariant.Builder.create(5, 10)
             .setTranslationKey("variant.bigreactors.turbine.basic")
-            .setBlockPropertiesFixer(bp -> bp.hardnessAndResistance(3.0F, 6.0F))
+            .setBlockPropertiesFixer(bp -> bp.strength(3.0F, 6.0F))
             .setPartEnergyCapacity(10_000)
             .setEnergyGenerationEfficiency(0.75f)
             .setMaxEnergyExtractionRate(50_000)
@@ -54,7 +54,7 @@ public enum TurbineVariant
 
     Reinforced(TurbineVariant.Builder.create(1000) // using 1000 here so the config values will win
             .setTranslationKey("variant.bigreactors.turbine.reinforced")
-            .setBlockPropertiesFixer(bp -> bp.hardnessAndResistance(6.0F, 6.0F))
+            .setBlockPropertiesFixer(bp -> bp.strength(6.0F, 6.0F))
             .setPartEnergyCapacity(20_000)
             .setEnergyGenerationEfficiency(0.8f)
             .setMaxEnergyExtractionRate(5_000_000)

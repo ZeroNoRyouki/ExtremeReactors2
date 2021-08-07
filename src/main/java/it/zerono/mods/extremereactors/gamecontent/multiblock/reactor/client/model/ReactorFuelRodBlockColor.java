@@ -39,7 +39,7 @@ public class ReactorFuelRodBlockColor
 
         if (null != world && null != position) {
 
-            final TileEntity te = world.getTileEntity(position);
+            final TileEntity te = world.getBlockEntity(position);
 
             if (te instanceof ReactorFuelRodEntity) {
 

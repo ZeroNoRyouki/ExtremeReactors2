@@ -633,7 +633,7 @@ public class ReactorControllerScreen
                 TEXT_EMPTY_LINE,
                 new TranslationTextComponent("gui.bigreactors.reactor.controller.scram.line2"),
                 new TranslationTextComponent("gui.bigreactors.reactor.controller.scram.line3"),
-                new TranslationTextComponent("gui.bigreactors.reactor.controller.scram.line4").setStyle(Style.EMPTY.setItalic(true)));
+                new TranslationTextComponent("gui.bigreactors.reactor.controller.scram.line4").setStyle(Style.EMPTY.withItalic(true)));
         scram.Clicked.subscribe(this::onScram);
         commandPanel.addControl(scram);
     }

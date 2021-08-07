@@ -55,7 +55,7 @@ public class BladeSpan
 
     @Override
     public void accept(final MatrixStack stack) {
-        stack.getLast().getMatrix().mul(this.Translation);
+        stack.last().pose().multiply(this.Translation);
     }
 
     //endregion

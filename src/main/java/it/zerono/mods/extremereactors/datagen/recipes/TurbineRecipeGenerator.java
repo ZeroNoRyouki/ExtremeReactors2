@@ -60,7 +60,7 @@ public class TurbineRecipeGenerator
      * Registers all recipes to the given consumer.
      */
     @Override
-    protected void registerRecipes(final Consumer<IFinishedRecipe> c) {
+    protected void buildShapelessRecipes(final Consumer<IFinishedRecipe> c) {
 
         ITag.INamedTag<Item> core, metal, alternativeMetal;
         TurbineVariant variant;
@@ -129,15 +129,15 @@ public class TurbineRecipeGenerator
 
         recipeWithAlternativeTag(c, turbineRecipeName(variant, "casing"), turbineRecipeName(variant, "casing_alt"),
                 metal, alternativeMetal, metalTag ->
-                        ShapedRecipeBuilder.shapedRecipe(result.get())
-                                .key('I', metalTag)
-                                .key('C', core)
-                                .key('G', ContentTags.Items.INGOTS_CYANITE)
-                                .patternLine("IGI")
-                                .patternLine("GCG")
-                                .patternLine("IGI")
-                                .setGroup(GROUP_TURBINE)
-                                .addCriterion("has_item", hasItem(ContentTags.Items.INGOTS_CYANITE)));
+                        ShapedRecipeBuilder.shaped(result.get())
+                                .define('I', metalTag)
+                                .define('C', core)
+                                .define('G', ContentTags.Items.INGOTS_CYANITE)
+                                .pattern("IGI")
+                                .pattern("GCG")
+                                .pattern("IGI")
+                                .group(GROUP_TURBINE)
+                                .unlockedBy("has_item", has(ContentTags.Items.INGOTS_CYANITE)));
     }
 
     private void turbineCasingUpgrade(final Consumer<IFinishedRecipe> c, final TurbineVariant variant,
@@ -146,15 +146,15 @@ public class TurbineRecipeGenerator
 
         recipeWithAlternativeTag(c, turbineRecipeName(variant, "casing_upgrade"), turbineRecipeName(variant, "casing_upgrade_alt"),
                 metal, alternativeMetal, metalTag ->
-                        ShapedRecipeBuilder.shapedRecipe(result.get())
-                                .key('I', metalTag)
-                                .key('C', Content.Blocks.TURBINE_CASING_BASIC.get())
-                                .key('G', ContentTags.Items.INGOTS_CYANITE)
-                                .patternLine("IGI")
-                                .patternLine("GCG")
-                                .patternLine("IGI")
-                                .setGroup(GROUP_TURBINE)
-                                .addCriterion("has_item", hasItem(Content.Blocks.TURBINE_CASING_BASIC.get())));
+                        ShapedRecipeBuilder.shaped(result.get())
+                                .define('I', metalTag)
+                                .define('C', Content.Blocks.TURBINE_CASING_BASIC.get())
+                                .define('G', ContentTags.Items.INGOTS_CYANITE)
+                                .pattern("IGI")
+                                .pattern("GCG")
+                                .pattern("IGI")
+                                .group(GROUP_TURBINE)
+                                .unlockedBy("has_item", has(Content.Blocks.TURBINE_CASING_BASIC.get())));
     }
 
     private void turbineCasingRecycle(final Consumer<IFinishedRecipe> c, final TurbineVariant variant,
@@ -162,47 +162,47 @@ public class TurbineRecipeGenerator
                                       final ITag.INamedTag<Item> casingSourceTag,
                                       final Supplier<? extends IItemProvider> glassSourceItem) {
 
-        ShapelessRecipeBuilder.shapelessRecipe(casingResult.get(), 1)
-                .addIngredient(glassSourceItem.get())
-                .setGroup(GROUP_TURBINE)
-                .addCriterion("has_item", hasItem(glassSourceItem.get()))
-                .build(c, turbineRecipeName(variant, "casing_recycle_glass"));
+        ShapelessRecipeBuilder.shapeless(casingResult.get(), 1)
+                .requires(glassSourceItem.get())
+                .group(GROUP_TURBINE)
+                .unlockedBy("has_item", has(glassSourceItem.get()))
+                .save(c, turbineRecipeName(variant, "casing_recycle_glass"));
 
-        ShapelessRecipeBuilder.shapelessRecipe(casingResult.get(), 4)
-                .addIngredient(casingSourceTag)
-                .setGroup(GROUP_TURBINE)
-                .addCriterion("has_item", hasItem(casingSourceTag))
-                .build(c, turbineRecipeName(variant, "casing_recycle"));
+        ShapelessRecipeBuilder.shapeless(casingResult.get(), 4)
+                .requires(casingSourceTag)
+                .group(GROUP_TURBINE)
+                .unlockedBy("has_item", has(casingSourceTag))
+                .save(c, turbineRecipeName(variant, "casing_recycle"));
     }
 
     private void turbineGlass(final Consumer<IFinishedRecipe> c, final TurbineVariant variant,
                               final Supplier<? extends IItemProvider> result,
                               final Supplier<? extends IItemProvider> casing, final ITag<Item> glass) {
-        ShapedRecipeBuilder.shapedRecipe(result.get())
-                .key('C', casing.get())
-                .key('G', glass)
-                .patternLine("GCG")
-                .setGroup(GROUP_TURBINE)
-                .addCriterion("has_item", hasItem(casing.get()))
-                .build(c, turbineRecipeName(variant, "glass"));
+        ShapedRecipeBuilder.shaped(result.get())
+                .define('C', casing.get())
+                .define('G', glass)
+                .pattern("GCG")
+                .group(GROUP_TURBINE)
+                .unlockedBy("has_item", has(casing.get()))
+                .save(c, turbineRecipeName(variant, "glass"));
     }
 
     private void turbineController(final Consumer<IFinishedRecipe> c, final TurbineVariant variant,
                                    final Supplier<? extends IItemProvider> result,
                                    final Supplier<? extends IItemProvider> casing, final ITag<Item> diamond) {
-        ShapedRecipeBuilder.shapedRecipe(result.get())
-                .key('C', casing.get())
-                .key('Y', ContentTags.Items.BLOCKS_CYANITE)
-                .key('R', Tags.Items.DUSTS_REDSTONE)
-                .key('D', diamond)
-                .key('X', net.minecraft.item.Items.COMPARATOR)
-                .patternLine("CXC")
-                .patternLine("YDY")
-                .patternLine("CRC")
-                .setGroup(GROUP_TURBINE)
-                .addCriterion("has_item", hasItem(casing.get()))
-                .addCriterion("has_item2", hasItem(ContentTags.Items.BLOCKS_CYANITE))
-                .build(c, turbineRecipeName(variant, "controller"));
+        ShapedRecipeBuilder.shaped(result.get())
+                .define('C', casing.get())
+                .define('Y', ContentTags.Items.BLOCKS_CYANITE)
+                .define('R', Tags.Items.DUSTS_REDSTONE)
+                .define('D', diamond)
+                .define('X', net.minecraft.item.Items.COMPARATOR)
+                .pattern("CXC")
+                .pattern("YDY")
+                .pattern("CRC")
+                .group(GROUP_TURBINE)
+                .unlockedBy("has_item", has(casing.get()))
+                .unlockedBy("has_item2", has(ContentTags.Items.BLOCKS_CYANITE))
+                .save(c, turbineRecipeName(variant, "controller"));
     }
 
     private void turbinePowerTap(final Consumer<IFinishedRecipe> c, final TurbineVariant variant, final String name,
@@ -210,29 +210,29 @@ public class TurbineRecipeGenerator
                                  final Supplier<? extends IItemProvider> casing, final Supplier<? extends IItemProvider> energyBig,
                                  final Supplier<? extends IItemProvider> energySmall) {
 
-        ShapedRecipeBuilder.shapedRecipe(passiveResult.get())
-                .key('C', casing.get())
-                .key('B', energyBig.get())
-                .key('S', energySmall.get())
-                .patternLine("CSC")
-                .patternLine("SBS")
-                .patternLine("CSC")
-                .setGroup(GROUP_TURBINE)
-                .addCriterion("has_item", hasItem(casing.get()))
-                .addCriterion("has_item2", hasItem(energySmall.get()))
-                .build(c, turbineRecipeName(variant, "passivetap_" + name));
+        ShapedRecipeBuilder.shaped(passiveResult.get())
+                .define('C', casing.get())
+                .define('B', energyBig.get())
+                .define('S', energySmall.get())
+                .pattern("CSC")
+                .pattern("SBS")
+                .pattern("CSC")
+                .group(GROUP_TURBINE)
+                .unlockedBy("has_item", has(casing.get()))
+                .unlockedBy("has_item2", has(energySmall.get()))
+                .save(c, turbineRecipeName(variant, "passivetap_" + name));
 
-        ShapedRecipeBuilder.shapedRecipe(activeResult.get())
-                .key('C', casing.get())
-                .key('B', energyBig.get())
-                .key('S', energySmall.get())
-                .patternLine("CBC")
-                .patternLine("BSB")
-                .patternLine("CBC")
-                .setGroup(GROUP_TURBINE)
-                .addCriterion("has_item", hasItem(casing.get()))
-                .addCriterion("has_item2", hasItem(energyBig.get()))
-                .build(c, turbineRecipeName(variant, "activetap_" + name));
+        ShapedRecipeBuilder.shaped(activeResult.get())
+                .define('C', casing.get())
+                .define('B', energyBig.get())
+                .define('S', energySmall.get())
+                .pattern("CBC")
+                .pattern("BSB")
+                .pattern("CBC")
+                .group(GROUP_TURBINE)
+                .unlockedBy("has_item", has(casing.get()))
+                .unlockedBy("has_item2", has(energyBig.get()))
+                .save(c, turbineRecipeName(variant, "activetap_" + name));
     }
 
     private void turbineComputerPort(final Consumer<IFinishedRecipe> c, final TurbineVariant variant,
@@ -240,17 +240,17 @@ public class TurbineRecipeGenerator
                                      final ITag.INamedTag<Item> metal, @Nullable final ITag.INamedTag<Item> alternativeMetal) {
         recipeWithAlternativeTag(c, turbineRecipeName(variant, "computerport"), turbineRecipeName(variant, "computerport_alt"),
                 metal, alternativeMetal, metalTag ->
-                        ShapedRecipeBuilder.shapedRecipe(result.get())
-                                .key('C', casing.get())
-                                .key('M', metalTag)
-                                .key('G', Tags.Items.STORAGE_BLOCKS_GOLD)
-                                .key('Z', Tags.Items.GEMS_LAPIS)
-                                .key('X', Tags.Items.DUSTS_GLOWSTONE)
-                                .patternLine("CZC")
-                                .patternLine("MGM")
-                                .patternLine("CXC")
-                                .setGroup(GROUP_TURBINE)
-                                .addCriterion("has_item", hasItem(casing.get())));
+                        ShapedRecipeBuilder.shaped(result.get())
+                                .define('C', casing.get())
+                                .define('M', metalTag)
+                                .define('G', Tags.Items.STORAGE_BLOCKS_GOLD)
+                                .define('Z', Tags.Items.GEMS_LAPIS)
+                                .define('X', Tags.Items.DUSTS_GLOWSTONE)
+                                .pattern("CZC")
+                                .pattern("MGM")
+                                .pattern("CXC")
+                                .group(GROUP_TURBINE)
+                                .unlockedBy("has_item", has(casing.get())));
     }
 
     private void turbineFluidPort(final Consumer<IFinishedRecipe> c, final TurbineVariant variant, final String name,
@@ -258,29 +258,29 @@ public class TurbineRecipeGenerator
                                   final Supplier<? extends IItemProvider> casing, final Supplier<? extends IItemProvider> lava,
                                   final Supplier<? extends IItemProvider> water) {
 
-        ShapedRecipeBuilder.shapedRecipe(passiveResult.get())
-                .key('C', casing.get())
-                .key('B', lava.get())
-                .key('S', water.get())
-                .patternLine("CSC")
-                .patternLine("SBS")
-                .patternLine("CSC")
-                .setGroup(GROUP_TURBINE)
-                .addCriterion("has_item", hasItem(casing.get()))
-                .addCriterion("has_item2", hasItem(water.get()))
-                .build(c, turbineRecipeName(variant, "passivefluidport_" + name));
+        ShapedRecipeBuilder.shaped(passiveResult.get())
+                .define('C', casing.get())
+                .define('B', lava.get())
+                .define('S', water.get())
+                .pattern("CSC")
+                .pattern("SBS")
+                .pattern("CSC")
+                .group(GROUP_TURBINE)
+                .unlockedBy("has_item", has(casing.get()))
+                .unlockedBy("has_item2", has(water.get()))
+                .save(c, turbineRecipeName(variant, "passivefluidport_" + name));
 
-        ShapedRecipeBuilder.shapedRecipe(activeResult.get())
-                .key('C', casing.get())
-                .key('B', lava.get())
-                .key('S', water.get())
-                .patternLine("CBC")
-                .patternLine("BSB")
-                .patternLine("CBC")
-                .setGroup(GROUP_TURBINE)
-                .addCriterion("has_item", hasItem(casing.get()))
-                .addCriterion("has_item2", hasItem(lava.get()))
-                .build(c, turbineRecipeName(variant, "activefluidport_" + name));
+        ShapedRecipeBuilder.shaped(activeResult.get())
+                .define('C', casing.get())
+                .define('B', lava.get())
+                .define('S', water.get())
+                .pattern("CBC")
+                .pattern("BSB")
+                .pattern("CBC")
+                .group(GROUP_TURBINE)
+                .unlockedBy("has_item", has(casing.get()))
+                .unlockedBy("has_item2", has(lava.get()))
+                .save(c, turbineRecipeName(variant, "activefluidport_" + name));
     }
 
     private void turbineBlade(final Consumer<IFinishedRecipe> c, final TurbineVariant variant,
@@ -289,12 +289,12 @@ public class TurbineRecipeGenerator
 
         recipeWithAlternativeTag(c, turbineRecipeName(variant, "blade"), turbineRecipeName(variant, "blade_alt"),
                 metal, alternativeMetal, metalTag ->
-                        ShapedRecipeBuilder.shapedRecipe(result.get())
-                                .key('I', metalTag)
-                                .key('C', ContentTags.Items.INGOTS_CYANITE)
-                                .patternLine("ICI")
-                                .setGroup(GROUP_TURBINE)
-                                .addCriterion("has_item", hasItem(ContentTags.Items.INGOTS_CYANITE)));
+                        ShapedRecipeBuilder.shaped(result.get())
+                                .define('I', metalTag)
+                                .define('C', ContentTags.Items.INGOTS_CYANITE)
+                                .pattern("ICI")
+                                .group(GROUP_TURBINE)
+                                .unlockedBy("has_item", has(ContentTags.Items.INGOTS_CYANITE)));
     }
 
     private void turbineShaft(final Consumer<IFinishedRecipe> c, final TurbineVariant variant,
@@ -303,14 +303,14 @@ public class TurbineRecipeGenerator
 
         recipeWithAlternativeTag(c, turbineRecipeName(variant, "shaft"), turbineRecipeName(variant, "shaft_alt"),
                 metal, alternativeMetal, metalTag ->
-                        ShapedRecipeBuilder.shapedRecipe(result.get())
-                                .key('I', metalTag)
-                                .key('C', ContentTags.Items.INGOTS_CYANITE)
-                                .patternLine(" I ")
-                                .patternLine("ICI")
-                                .patternLine(" I ")
-                                .setGroup(GROUP_TURBINE)
-                                .addCriterion("has_item", hasItem(ContentTags.Items.INGOTS_CYANITE)));
+                        ShapedRecipeBuilder.shaped(result.get())
+                                .define('I', metalTag)
+                                .define('C', ContentTags.Items.INGOTS_CYANITE)
+                                .pattern(" I ")
+                                .pattern("ICI")
+                                .pattern(" I ")
+                                .group(GROUP_TURBINE)
+                                .unlockedBy("has_item", has(ContentTags.Items.INGOTS_CYANITE)));
     }
 
     private void turbineBearing(final Consumer<IFinishedRecipe> c, final TurbineVariant variant,
@@ -319,15 +319,15 @@ public class TurbineRecipeGenerator
 
         recipeWithAlternativeTag(c, turbineRecipeName(variant, "bearing"), turbineRecipeName(variant, "bearing_alt"),
                 metal, alternativeMetal, metalTag ->
-                        ShapedRecipeBuilder.shapedRecipe(result.get())
-                                .key('I', metalTag)
-                                .key('R', Blocks.REDSTONE_BLOCK)
-                                .key('B', Tags.Items.STORAGE_BLOCKS_IRON)
-                                .patternLine("IRI")
-                                .patternLine("B B")
-                                .patternLine("IRI")
-                                .setGroup(GROUP_TURBINE)
-                                .addCriterion("has_item", hasItem(Tags.Items.STORAGE_BLOCKS_IRON)));
+                        ShapedRecipeBuilder.shaped(result.get())
+                                .define('I', metalTag)
+                                .define('R', Blocks.REDSTONE_BLOCK)
+                                .define('B', Tags.Items.STORAGE_BLOCKS_IRON)
+                                .pattern("IRI")
+                                .pattern("B B")
+                                .pattern("IRI")
+                                .group(GROUP_TURBINE)
+                                .unlockedBy("has_item", has(Tags.Items.STORAGE_BLOCKS_IRON)));
     }
 
     private void turbineRedstonePort(final Consumer<IFinishedRecipe> c, final TurbineVariant variant,
@@ -336,17 +336,17 @@ public class TurbineRecipeGenerator
                                      final ITag<Item> gold) {
         recipeWithAlternativeTag(c, turbineRecipeName(variant, "redstoneport"), turbineRecipeName(variant, "redstoneport_alt"),
                 metal, alternativeMetal, metalTag ->
-                        ShapedRecipeBuilder.shapedRecipe(result.get())
-                                .key('C', casing.get())
-                                .key('M', metalTag)
-                                .key('G', gold)
-                                .key('Z', net.minecraft.item.Items.COMPARATOR)
-                                .key('X', net.minecraft.item.Items.REPEATER)
-                                .patternLine("CZC")
-                                .patternLine("MGM")
-                                .patternLine("CXC")
-                                .setGroup(GROUP_TURBINE)
-                                .addCriterion("has_item", hasItem(casing.get())));
+                        ShapedRecipeBuilder.shaped(result.get())
+                                .define('C', casing.get())
+                                .define('M', metalTag)
+                                .define('G', gold)
+                                .define('Z', net.minecraft.item.Items.COMPARATOR)
+                                .define('X', net.minecraft.item.Items.REPEATER)
+                                .pattern("CZC")
+                                .pattern("MGM")
+                                .pattern("CXC")
+                                .group(GROUP_TURBINE)
+                                .unlockedBy("has_item", has(casing.get())));
     }
 
     private static ResourceLocation turbineRecipeName(final IMultiblockGeneratorVariant variant, final String name) {

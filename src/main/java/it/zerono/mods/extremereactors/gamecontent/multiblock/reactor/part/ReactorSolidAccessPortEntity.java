@@ -64,6 +64,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
+import it.zerono.mods.zerocore.lib.data.nbt.ISyncableEntity.SyncReason;
+
 public class ReactorSolidAccessPortEntity
         extends AbstractReactorEntity
         implements IFuelSource<ItemStack>, IIoEntity, INeighborChangeListener, INamedContainerProvider {
@@ -359,7 +361,7 @@ public class ReactorSolidAccessPortEntity
                 () -> {
                     this.notifyOutwardNeighborsOfStateChange();
                     this.distributeItems();
-                    this.markDirty();
+                    this.setChanged();
                 },
                 this::markForRenderUpdate
         );
@@ -497,9 +499,9 @@ public class ReactorSolidAccessPortEntity
      * invalidates a tile entity
      */
     @Override
-    public void remove() {
+    public void setRemoved() {
 
-        super.remove();
+        super.setRemoved();
         this._fuelCapability.invalidate();
         this._wasteCapability.invalidate();
     }
@@ -556,7 +558,7 @@ public class ReactorSolidAccessPortEntity
 
     private LazyOptional<IItemHandler> getNeighborCapability() {
         return CodeHelper.optionalFlatMap(this.getPartWorld(), this.getOutwardDirection(),
-                (world, direction) -> WorldHelper.getTile(world, this.getWorldPosition().offset(direction))
+                (world, direction) -> WorldHelper.getTile(world, this.getWorldPosition().relative(direction))
                         .map(te -> te.getCapability(ITEM_HANDLER_CAPABILITY, direction.getOpposite())))
                 .orElse(LazyOptional.empty());
     }

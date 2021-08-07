@@ -52,7 +52,7 @@ public class ReactorFuelRodModel
 
     protected ReactorFuelRodModel(final IBakedModel baseModel) {
 
-        super(baseModel.isAmbientOcclusion(), baseModel.isGui3d());
+        super(baseModel.useAmbientOcclusion(), baseModel.isGui3d());
 
         this._lock = new StampedLock();
         this._baseModel = baseModel;
@@ -122,7 +122,7 @@ public class ReactorFuelRodModel
     }
 
     @Override
-    public TextureAtlasSprite getParticleTexture() {
+    public TextureAtlasSprite getParticleIcon() {
         return this._baseModel.getParticleTexture(EmptyModelData.INSTANCE);
     }
 
@@ -133,18 +133,18 @@ public class ReactorFuelRodModel
 
     @Override
     @SuppressWarnings("deprecation")
-    public ItemCameraTransforms getItemCameraTransforms() {
-        return this._baseModel.getItemCameraTransforms();
+    public ItemCameraTransforms getTransforms() {
+        return this._baseModel.getTransforms();
     }
 
     @Override
-    public boolean isBuiltInRenderer() {
-        return this._baseModel.isBuiltInRenderer();
+    public boolean isCustomRenderer() {
+        return this._baseModel.isCustomRenderer();
     }
 
     @Override
-    public boolean isSideLit() {
-        return this._baseModel.isSideLit();
+    public boolean usesBlockLight() {
+        return this._baseModel.usesBlockLight();
     }
 
     @Override
@@ -153,7 +153,7 @@ public class ReactorFuelRodModel
     }
 
     @Override
-    public boolean isAmbientOcclusion() {
+    public boolean useAmbientOcclusion() {
         return false;
     }
 

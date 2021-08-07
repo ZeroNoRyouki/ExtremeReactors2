@@ -71,6 +71,8 @@ import java.util.function.DoubleSupplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import it.zerono.mods.zerocore.lib.data.nbt.ISyncableEntity.SyncReason;
+
 public class MultiblockReactor
         extends AbstractGeneratorMultiblockController<MultiblockReactor, IMultiblockReactorVariant>
         implements IReactorMachine, IReactorEnvironment, IReactorWriter, IDebuggable {
@@ -270,17 +272,17 @@ public class MultiblockReactor
         if (this.getOperationalMode().isPassive()) {
 
             // Distribute available power equally to all the Power Taps
-            profiler.startSection("Power");
+            profiler.push("Power");
             this.distributeEnergyEqually();
 
         } else {
 
             // Distribute available gas equally to all the Coolant Ports in output mode
-            profiler.startSection("Gas");
+            profiler.push("Gas");
             this.distributeGasEqually();
         }
 
-        profiler.endSection();
+        profiler.pop();
     }
 
     /**
@@ -295,11 +297,11 @@ public class MultiblockReactor
         if (this.getOperationalMode().isActive()) {
 
             // Acquire new fluids from Active Fluid Ports in input mode
-            profiler.startSection("Coolant");
+            profiler.push("Coolant");
             changed = this.acquireFluidEqually();
         }
 
-        profiler.endSection();
+        profiler.pop();
         return changed;
     }
 
@@ -709,9 +711,9 @@ public class MultiblockReactor
 
         final IProfiler profiler = this.getWorld().getProfiler();
 
-        profiler.startSection("sendTickUpdate");
+        profiler.push("sendTickUpdate");
         this.sendUpdates();
-        profiler.endSection();
+        profiler.pop();
     }
 
     //endregion
@@ -976,30 +978,30 @@ public class MultiblockReactor
 
         final IProfiler profiler = this.getWorld().getProfiler();
 
-        profiler.startSection("Extreme Reactors|Reactor update"); // main section
+        profiler.push("Extreme Reactors|Reactor update"); // main section
 
-        profiler.startSection("Generate");
+        profiler.push("Generate");
         final boolean updateResult = this._logic.update();
 
         //////////////////////////////////////////////////////////////////////////////
         // TICKABLES
         //////////////////////////////////////////////////////////////////////////////
 
-        profiler.endStartSection("Tickables");
+        profiler.popPush("Tickables");
         this._attachedTickables.forEach(ITickableMultiblockPart::onMultiblockServerTick);
 
         //////////////////////////////////////////////////////////////////////////////
         // SEND CLIENT UPDATES
         //////////////////////////////////////////////////////////////////////////////
 
-        profiler.endStartSection("Updates");
+        profiler.popPush("Updates");
         this.checkAndSendClientUpdates();
 
         //////////////////////////////////////////////////////////////////////////////
         // UPDATE REFERENCE COORDINATES
         //////////////////////////////////////////////////////////////////////////////
 
-        profiler.endStartSection("Mark4Update");
+        profiler.popPush("Mark4Update");
 
         if (!this._sendUpdateFuelRodsLayout && updateResult) {
             this._sendUpdateFuelRodsLayout = true;
@@ -1009,8 +1011,8 @@ public class MultiblockReactor
             this._sendUpdateFuelRodsLayoutDelayedRunnable.run();
         }
 
-        profiler.endSection(); // Mark4Update
-        profiler.endSection(); // main section
+        profiler.pop(); // Mark4Update
+        profiler.pop(); // main section
         return updateResult;
     }
 
@@ -1193,7 +1195,7 @@ public class MultiblockReactor
                 if (updatedIndices.contains(-1)) {
                     this._attachedFuelRods.forEach(rod -> {
                         rod.requestModelDataUpdate();
-                        rod.getPartWorldOrFail().notifyBlockUpdate(rod.getWorldPosition(), rod.getBlockState(), rod.getBlockState(), 0);
+                        rod.getPartWorldOrFail().sendBlockUpdated(rod.getWorldPosition(), rod.getBlockState(), rod.getBlockState(), 0);
                     });
                 } else {
                     this._attachedFuelRods.stream()
@@ -1314,8 +1316,8 @@ public class MultiblockReactor
     private void calculateReactorVolume() {
 
         final CuboidBoundingBox bb = this.getBoundingBox();
-        final BlockPos min = bb.getMin().add(1, 1, 1);
-        final BlockPos max = bb.getMax().add(-1, -1, -1);
+        final BlockPos min = bb.getMin().offset(1, 1, 1);
+        final BlockPos max = bb.getMax().offset(-1, -1, -1);
 
         this._reactorVolume = CodeHelper.mathVolume(min, max);
     }
@@ -1386,7 +1388,7 @@ public class MultiblockReactor
     private int validateFuelAssembly(final IMultiblockValidator validatorCallback, final BlockPos controlRodPosition,
                                      final Direction scanDirection) {
 
-        final BlockPos.Mutable scanPosition = controlRodPosition.toMutable();
+        final BlockPos.Mutable scanPosition = controlRodPosition.mutable();
         int validRodsFound = 0;
 
         while (true) {

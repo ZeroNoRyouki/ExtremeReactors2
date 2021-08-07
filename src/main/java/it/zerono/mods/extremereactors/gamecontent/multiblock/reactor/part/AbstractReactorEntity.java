@@ -159,13 +159,13 @@ public abstract class AbstractReactorEntity
     @Override
     public MultiblockReactor createController() {
 
-        final World myWorld = this.getWorld();
+        final World myWorld = this.getLevel();
 
         if (null == myWorld) {
             throw new RuntimeException("Trying to create a Controller from a Part without a World");
         }
 
-        return new MultiblockReactor(this.getWorld(), this.getMultiblockVariant().orElse(ReactorVariant.Basic));
+        return new MultiblockReactor(this.getLevel(), this.getMultiblockVariant().orElse(ReactorVariant.Basic));
     }
 
     /**

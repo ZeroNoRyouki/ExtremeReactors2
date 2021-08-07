@@ -36,7 +36,7 @@ public class UpdateClientsFuelRodsLayout
     public UpdateClientsFuelRodsLayout(final PacketBuffer buffer) {
 
         super(buffer);
-        this._fuelContainerData = buffer.readCompoundTag();
+        this._fuelContainerData = buffer.readNbt();
     }
 
     public CompoundNBT getFuelContainerData() {
@@ -49,7 +49,7 @@ public class UpdateClientsFuelRodsLayout
     public void encodeTo(final PacketBuffer buffer) {
 
         super.encodeTo(buffer);
-        buffer.writeCompoundTag(this._fuelContainerData);
+        buffer.writeNbt(this._fuelContainerData);
     }
 
     @Override

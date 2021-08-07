@@ -131,7 +131,7 @@ public class ClientFuelRodsLayout
         }
 
         final Direction[] directions = this.getRadiateDirections();
-        final RenderType solid = RenderType.getSolid();
+        final RenderType solid = RenderType.solid();
 
         for (final ReactorFuelRodEntity fuelRod : fuelRods) {
 
@@ -140,7 +140,7 @@ public class ClientFuelRodsLayout
 
             for (final Direction direction : directions) {
 
-                final BlockPos checkPosition = rodPosition.offset(direction);
+                final BlockPos checkPosition = rodPosition.relative(direction);
                 final BlockState state = world.getBlockState(checkPosition);
 
                 if (state.isAir(world, checkPosition) || !RenderTypeLookup.canRenderInLayer(state, solid)) {

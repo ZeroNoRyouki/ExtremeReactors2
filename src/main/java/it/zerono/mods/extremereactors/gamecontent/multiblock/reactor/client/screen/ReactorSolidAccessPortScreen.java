@@ -201,7 +201,7 @@ public class ReactorSolidAccessPortScreen
     }
 
     private <Value> void addBinding(final Function<ReactorSolidAccessPortContainer, Value> supplier, final Consumer<Value> consumer) {
-        this._bindings.addBinding(new MonoConsumerBinding<>(this.getContainer(), supplier, consumer));
+        this._bindings.addBinding(new MonoConsumerBinding<>(this.getMenu(), supplier, consumer));
     }
 
     private Panel buttonsPanel(final IControl setInput, final IControl setOutput,

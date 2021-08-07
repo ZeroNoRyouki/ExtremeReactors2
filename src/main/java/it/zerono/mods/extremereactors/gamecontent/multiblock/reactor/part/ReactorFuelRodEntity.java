@@ -62,12 +62,12 @@ public class ReactorFuelRodEntity
 
         final Direction.Plane fuelAssemblyPlane = CodeHelper.perpendicularPlane(this.getFuelRodsLayout().getAxis());
         final World world = this.getPartWorldOrFail();
-        final BlockPos rodPosition = this.getPos();
+        final BlockPos rodPosition = this.getBlockPos();
         double heatTransferRate = 0d;
 
         for (final Direction dir: fuelAssemblyPlane) {
 
-            final BlockPos targetPosition = rodPosition.offset(dir);
+            final BlockPos targetPosition = rodPosition.relative(dir);
             final BlockState state = world.getBlockState(targetPosition);
 
             // Is it air ?

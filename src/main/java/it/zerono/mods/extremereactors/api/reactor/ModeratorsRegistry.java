@@ -71,8 +71,8 @@ public final class ModeratorsRegistry {
 
         final FluidState fs = state.getFluidState();
 
-        if (!fs.isEmpty() && s_moderatorFluidsData.containsKey(getFluidId(fs.getFluid()))) {
-            return Optional.of(s_moderatorFluidsData.get(getFluidId(fs.getFluid())));
+        if (!fs.isEmpty() && s_moderatorFluidsData.containsKey(getFluidId(fs.getType()))) {
+            return Optional.of(s_moderatorFluidsData.get(getFluidId(fs.getType())));
         }
 
         return getFromSolid(state.getBlock());
@@ -92,7 +92,7 @@ public final class ModeratorsRegistry {
 
         final FluidState fs = state.getFluidState();
 
-        if (!fs.isEmpty() && s_moderatorFluidsData.containsKey(getFluidId(fs.getFluid()))) {
+        if (!fs.isEmpty() && s_moderatorFluidsData.containsKey(getFluidId(fs.getType()))) {
             return true;
         }
 
@@ -281,7 +281,7 @@ public final class ModeratorsRegistry {
                                               final NonNullSupplier<Set<ITextComponent>> setSupplier) {
 
         s_moderatorBlocksTags.tagStream()
-                .flatMap(blockTag -> blockTag.getAllElements().stream())
+                .flatMap(blockTag -> blockTag.getValues().stream())
                 .map(Block::asItem)
                 .forEach(item -> tooltipsMap.computeIfAbsent(item, k -> setSupplier.get()).add(TOOLTIP_MODERATOR));
 
@@ -289,7 +289,7 @@ public final class ModeratorsRegistry {
                 .filter(ForgeRegistries.FLUIDS::containsKey)
                 .map(ForgeRegistries.FLUIDS::getValue)
                 .filter(Objects::nonNull)
-                .map(Fluid::getFilledBucket)
+                .map(Fluid::getBucket)
                 .forEach(item -> tooltipsMap.computeIfAbsent(item, k -> setSupplier.get()).add(TOOLTIP_MODERATOR));
     }
 

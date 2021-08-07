@@ -60,11 +60,11 @@ public class TurbineRotorModelBuilder
 
     public static ResourceLocation getBlockStateRL(final IMultiblockTurbineVariant variant, final RotorBladeState blockStateVariant) {
         return new ModelResourceLocation(ExtremeReactors.newID(variant.getName() + "_turbinerotorblade"),
-                String.format("state=%s", blockStateVariant.getString()));
+                String.format("state=%s", blockStateVariant.getSerializedName()));
     }
 
     public static ResourceLocation getBlockStateRL(final IMultiblockTurbineVariant variant, final RotorShaftState blockStateVariant) {
         return new ModelResourceLocation(ExtremeReactors.newID(variant.getName() + "_turbinerotorshaft"),
-                String.format("state=%s", blockStateVariant.getString()));
+                String.format("state=%s", blockStateVariant.getSerializedName()));
     }
 }

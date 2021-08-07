@@ -124,8 +124,8 @@ public class DebugTests {
         final int start_y = 5;
         final int end_y = 254;
         final int n_column = 127;
-        final BlockState ROD = Content.Blocks.REACTOR_FUELROD_REINFORCED.get().getDefaultState();
-        final BlockState CAP = Content.Blocks.REACTOR_CONTROLROD_REINFORCED.get().getDefaultState();
+        final BlockState ROD = Content.Blocks.REACTOR_FUELROD_REINFORCED.get().defaultBlockState();
+        final BlockState CAP = Content.Blocks.REACTOR_CONTROLROD_REINFORCED.get().defaultBlockState();
 
         final BlockPos.Mutable pos = new BlockPos.Mutable();
         int x = clickedPos.getX(), z = clickedPos.getZ();
@@ -134,12 +134,12 @@ public class DebugTests {
 
             for (int y = start_y; y <= end_y; ++y) {
 
-                pos.setPos(x, y, z);
-                world.setBlockState(pos, ROD, Constants.BlockFlags.NO_NEIGHBOR_DROPS | Constants.BlockFlags.NO_RERENDER);
+                pos.set(x, y, z);
+                world.setBlock(pos, ROD, Constants.BlockFlags.NO_NEIGHBOR_DROPS | Constants.BlockFlags.NO_RERENDER);
             }
 
-            pos.setPos(x, end_y + 1, z);
-            world.setBlockState(pos, CAP, Constants.BlockFlags.NO_NEIGHBOR_DROPS | Constants.BlockFlags.NO_RERENDER);
+            pos.set(x, end_y + 1, z);
+            world.setBlock(pos, CAP, Constants.BlockFlags.NO_NEIGHBOR_DROPS | Constants.BlockFlags.NO_RERENDER);
 
             z -= 2;
         }
@@ -153,10 +153,10 @@ public class DebugTests {
         final int start_x = 1881, end_x = 1890;//1920
         final int start_z = 2001, end_z = 2254;
 
-        final BlockState ROD = Content.Blocks.REACTOR_FUELROD_REINFORCED.get().getDefaultState();
-        final BlockState CAP = Content.Blocks.REACTOR_CONTROLROD_REINFORCED.get().getDefaultState();
-        final BlockState MODERATOR = Blocks.DIAMOND_BLOCK.getDefaultState();
-        final BlockState CASING = Content.Blocks.REACTOR_CASING_REINFORCED.get().getDefaultState();
+        final BlockState ROD = Content.Blocks.REACTOR_FUELROD_REINFORCED.get().defaultBlockState();
+        final BlockState CAP = Content.Blocks.REACTOR_CONTROLROD_REINFORCED.get().defaultBlockState();
+        final BlockState MODERATOR = Blocks.DIAMOND_BLOCK.defaultBlockState();
+        final BlockState CASING = Content.Blocks.REACTOR_CASING_REINFORCED.get().defaultBlockState();
         BlockState pillar1, pillar2, top1, top2;
         boolean flip = false;
 
@@ -181,16 +181,16 @@ public class DebugTests {
 
                 for (int y = start_y; y <= end_y; ++y) {
 
-                    pos.setPos(x, y, z);
-                    world.setBlockState(pos, pillar1, Constants.BlockFlags.NO_NEIGHBOR_DROPS | Constants.BlockFlags.NO_RERENDER);
-                    pos.setPos(x, y, z + 1);
-                    world.setBlockState(pos, pillar2, Constants.BlockFlags.NO_NEIGHBOR_DROPS | Constants.BlockFlags.NO_RERENDER);
+                    pos.set(x, y, z);
+                    world.setBlock(pos, pillar1, Constants.BlockFlags.NO_NEIGHBOR_DROPS | Constants.BlockFlags.NO_RERENDER);
+                    pos.set(x, y, z + 1);
+                    world.setBlock(pos, pillar2, Constants.BlockFlags.NO_NEIGHBOR_DROPS | Constants.BlockFlags.NO_RERENDER);
                 }
 
-                pos.setPos(x, end_y + 1, z);
-                world.setBlockState(pos, top1, Constants.BlockFlags.NO_NEIGHBOR_DROPS | Constants.BlockFlags.NO_RERENDER);
-                pos.setPos(x, end_y + 1, z + 1);
-                world.setBlockState(pos, top2, Constants.BlockFlags.NO_NEIGHBOR_DROPS | Constants.BlockFlags.NO_RERENDER);
+                pos.set(x, end_y + 1, z);
+                world.setBlock(pos, top1, Constants.BlockFlags.NO_NEIGHBOR_DROPS | Constants.BlockFlags.NO_RERENDER);
+                pos.set(x, end_y + 1, z + 1);
+                world.setBlock(pos, top2, Constants.BlockFlags.NO_NEIGHBOR_DROPS | Constants.BlockFlags.NO_RERENDER);
             }
         }
     }

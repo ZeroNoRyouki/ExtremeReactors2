@@ -258,12 +258,12 @@ public class FluidPortHandlerMekanism<Controller extends AbstractGeneratorMultib
 
             final ResourceLocation typeId = new ResourceLocation(Mods.MEKANISM.id(), "rotary");
             @SuppressWarnings("unchecked")
-            final IRecipeType<RotaryRecipe> type = (IRecipeType<RotaryRecipe>)Registry.RECIPE_TYPE.getOrDefault(typeId);
+            final IRecipeType<RotaryRecipe> type = (IRecipeType<RotaryRecipe>)Registry.RECIPE_TYPE.get(typeId);
 
             if (null != type) {
 
                 server.getRecipeManager()
-                        .getRecipesForType(type).stream()
+                        .getAllRecipesFor(type).stream()
                         .filter(RotaryRecipe::hasFluidToGas)
                         .forEach(rotaryRecipe -> {
 

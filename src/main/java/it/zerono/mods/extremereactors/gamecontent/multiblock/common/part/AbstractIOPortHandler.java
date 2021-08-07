@@ -78,7 +78,7 @@ public abstract class AbstractIOPortHandler<Controller extends AbstractGenerator
 
                 if (null != requestedCapability) {
 
-                    final TileEntity te = WorldHelper.getLoadedTile(world, position.offset(approachDirection));
+                    final TileEntity te = WorldHelper.getLoadedTile(world, position.relative(approachDirection));
 
                     if (null != te && !isSameHandler.test(te)) {
 
@@ -93,7 +93,7 @@ public abstract class AbstractIOPortHandler<Controller extends AbstractGenerator
         }
 
         final boolean isConnectedNow = null != foundConsumer;
-        final World partWorld = this.getPart().getWorld();
+        final World partWorld = this.getPart().getLevel();
 
         if (wasConnected != isConnectedNow && null != partWorld && CodeHelper.calledByLogicalClient(partWorld)) {
             WorldHelper.notifyBlockUpdate(partWorld, this.getPart().getWorldPosition(), null, null);

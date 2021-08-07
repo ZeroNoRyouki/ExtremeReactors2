@@ -72,7 +72,7 @@ public class TurbineLogic {
             float aerodynamicDragTorque = rotorSpeed * this._data.getBladeDrag();
             float liftTorque = 0f;
 
-            profiler.startSection("Energy");
+            profiler.push("Energy");
 
             if (vaporAmount > 0) {
 
@@ -129,7 +129,7 @@ public class TurbineLogic {
 
             // And create some coolant
 
-            profiler.endStartSection("Condensate");
+            profiler.popPush("Condensate");
 
             if (vaporAmount > 0) {
 
@@ -137,7 +137,7 @@ public class TurbineLogic {
                 this._data.setFluidConsumedLastTick(vaporAmount);
             }
 
-            profiler.endSection();
+            profiler.pop();
         }
     }
 

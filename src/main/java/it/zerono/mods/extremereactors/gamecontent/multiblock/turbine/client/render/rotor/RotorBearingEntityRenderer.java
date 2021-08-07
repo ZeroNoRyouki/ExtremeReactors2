@@ -38,7 +38,7 @@ public class RotorBearingEntityRenderer
     //region TileEntityRenderer
 
     @Override
-    public boolean isGlobalRenderer(TurbineRotorBearingEntity te) {
+    public boolean shouldRenderOffScreen(TurbineRotorBearingEntity te) {
         return true;
     }
 
@@ -58,9 +58,9 @@ public class RotorBearingEntityRenderer
 
         final IBakedModel shaft = descriptor.ShaftModel.get();
         final IBakedModel blade = descriptor.BladeModel.get();
-        final IVertexBuilder builder = buffer.getBuffer(Atlases.getSolidBlockType());
+        final IVertexBuilder builder = buffer.getBuffer(Atlases.solidBlockSheet());
 
-        stack.push();
+        stack.pushPose();
 
         // translate the matrix stack to the center of the rotated shaft
         descriptor.InitMatrix.accept(stack, getRotorAngle(bearing));
@@ -79,7 +79,7 @@ public class RotorBearingEntityRenderer
 
             for (final BladeSpan bladeSpan : section.Blades) {
 
-                stack.push();
+                stack.pushPose();
 
                 for (int i = 0; i < bladeSpan.Length; ++i) {
 
@@ -87,11 +87,11 @@ public class RotorBearingEntityRenderer
                     ModRenderHelper.renderModel(blade, bladeSpan.BladeModelData, stack, builder, combinedLight, combinedOverlay);
                 }
 
-                stack.pop();
+                stack.popPose();
             }
         }
 
-        stack.pop();
+        stack.popPose();
     }
 
     //endregion

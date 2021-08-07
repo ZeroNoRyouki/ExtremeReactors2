@@ -35,7 +35,7 @@ public enum ReactorVariant
 
     Basic(Builder.create(5)
             .setTranslationKey("variant.bigreactors.reactor.basic")
-            .setBlockPropertiesFixer(bp -> bp.hardnessAndResistance(3.0F, 6.0F))
+            .setBlockPropertiesFixer(bp -> bp.strength(3.0F, 6.0F))
             .setPartEnergyCapacity(10000)
             .setEnergyGenerationEfficiency(0.8f)
             .setMaxEnergyExtractionRate(50000)
@@ -47,7 +47,7 @@ public enum ReactorVariant
 
     Reinforced(Builder.create(1000) // using 1000 here so the config values will win
             .setTranslationKey("variant.bigreactors.reactor.reinforced")
-            .setBlockPropertiesFixer(bp -> bp.hardnessAndResistance(6.0F, 6.0F))
+            .setBlockPropertiesFixer(bp -> bp.strength(6.0F, 6.0F))
             .setPartEnergyCapacity(30000)
             .setEnergyGenerationEfficiency(0.75f)
             .setMaxEnergyExtractionRate(5000000)

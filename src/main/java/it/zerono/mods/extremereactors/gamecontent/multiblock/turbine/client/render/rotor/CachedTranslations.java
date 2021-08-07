@@ -41,8 +41,8 @@ public final class CachedTranslations {
 
         s_cache = CodeHelper.directionStream()
                 .sorted(Comparator.comparingInt(Enum::ordinal))
-                .map(Direction::getDirectionVec)
-                .map(vector -> Matrix4f.makeTranslate(vector.getX(), vector.getY(), vector.getZ()))
+                .map(Direction::getNormal)
+                .map(vector -> Matrix4f.createTranslateMatrix(vector.getX(), vector.getY(), vector.getZ()))
                 .toArray(Matrix4f[]::new);
     }
 

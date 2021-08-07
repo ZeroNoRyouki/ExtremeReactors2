@@ -61,7 +61,7 @@ public class ReactorRecipeGenerator
      * Registers all recipes to the given consumer.
      */
     @Override
-    protected void registerRecipes(final Consumer<IFinishedRecipe> c) {
+    protected void buildShapelessRecipes(final Consumer<IFinishedRecipe> c) {
 
         ITag.INamedTag<Item> core, metal, alternativeMetal;
         ReactorVariant variant;
@@ -129,15 +129,15 @@ public class ReactorRecipeGenerator
 
         recipeWithAlternativeTag(c, reactorRecipeName(variant, "casing"), reactorRecipeName(variant, "casing_alt"),
                 metal, alternativeMetal, metalTag ->
-                        ShapedRecipeBuilder.shapedRecipe(result.get())
-                                .key('I', metalTag)
-                                .key('C', core)
-                                .key('G', ContentTags.Items.INGOTS_GRAPHITE)
-                                .patternLine("IGI")
-                                .patternLine("GCG")
-                                .patternLine("IGI")
-                                .setGroup(GROUP_REACTOR)
-                                .addCriterion("has_item", hasItem(ContentTags.Items.INGOTS_GRAPHITE)));
+                        ShapedRecipeBuilder.shaped(result.get())
+                                .define('I', metalTag)
+                                .define('C', core)
+                                .define('G', ContentTags.Items.INGOTS_GRAPHITE)
+                                .pattern("IGI")
+                                .pattern("GCG")
+                                .pattern("IGI")
+                                .group(GROUP_REACTOR)
+                                .unlockedBy("has_item", has(ContentTags.Items.INGOTS_GRAPHITE)));
     }
 
     private void reactorCasingUpgrade(final Consumer<IFinishedRecipe> c, final ReactorVariant variant,
@@ -146,15 +146,15 @@ public class ReactorRecipeGenerator
 
         recipeWithAlternativeTag(c, reactorRecipeName(variant, "casing_upgrade"), reactorRecipeName(variant, "casing_upgrade_alt"),
                 metal, alternativeMetal, metalTag ->
-                        ShapedRecipeBuilder.shapedRecipe(result.get())
-                                .key('I', metalTag)
-                                .key('C', Content.Blocks.REACTOR_CASING_BASIC.get())
-                                .key('G', ContentTags.Items.INGOTS_GRAPHITE)
-                                .patternLine("IGI")
-                                .patternLine("GCG")
-                                .patternLine("IGI")
-                                .setGroup(GROUP_REACTOR)
-                                .addCriterion("has_item", hasItem(Content.Blocks.REACTOR_CASING_BASIC.get())));
+                        ShapedRecipeBuilder.shaped(result.get())
+                                .define('I', metalTag)
+                                .define('C', Content.Blocks.REACTOR_CASING_BASIC.get())
+                                .define('G', ContentTags.Items.INGOTS_GRAPHITE)
+                                .pattern("IGI")
+                                .pattern("GCG")
+                                .pattern("IGI")
+                                .group(GROUP_REACTOR)
+                                .unlockedBy("has_item", has(Content.Blocks.REACTOR_CASING_BASIC.get())));
     }
 
     private void reactorCasingRecycle(final Consumer<IFinishedRecipe> c, final ReactorVariant variant,
@@ -162,48 +162,48 @@ public class ReactorRecipeGenerator
                                       final ITag.INamedTag<Item> casingSourceTag,
                                       final Supplier<? extends IItemProvider> glassSourceItem) {
 
-        ShapelessRecipeBuilder.shapelessRecipe(casingResult.get(), 1)
-                .addIngredient(glassSourceItem.get())
-                .setGroup(GROUP_REACTOR)
-                .addCriterion("has_item", hasItem(glassSourceItem.get()))
-                .build(c, reactorRecipeName(variant, "casing_recycle_glass"));
+        ShapelessRecipeBuilder.shapeless(casingResult.get(), 1)
+                .requires(glassSourceItem.get())
+                .group(GROUP_REACTOR)
+                .unlockedBy("has_item", has(glassSourceItem.get()))
+                .save(c, reactorRecipeName(variant, "casing_recycle_glass"));
 
-        ShapelessRecipeBuilder.shapelessRecipe(casingResult.get(), 4)
-                .addIngredient(casingSourceTag)
-                .setGroup(GROUP_REACTOR)
-                .addCriterion("has_item", hasItem(casingSourceTag))
-                .build(c, reactorRecipeName(variant, "casing_recycle"));
+        ShapelessRecipeBuilder.shapeless(casingResult.get(), 4)
+                .requires(casingSourceTag)
+                .group(GROUP_REACTOR)
+                .unlockedBy("has_item", has(casingSourceTag))
+                .save(c, reactorRecipeName(variant, "casing_recycle"));
     }
 
     private void reactorGlass(final Consumer<IFinishedRecipe> c, final ReactorVariant variant,
                               final Supplier<? extends IItemProvider> result,
                               final Supplier<? extends IItemProvider> casing, final ITag<Item> glass) {
-        ShapedRecipeBuilder.shapedRecipe(result.get())
-                .key('C', casing.get())
-                .key('G', glass)
-                .patternLine("GCG")
-                .setGroup(GROUP_REACTOR)
-                .addCriterion("has_item", hasItem(casing.get()))
-                .build(c, reactorRecipeName(variant, "glass"));
+        ShapedRecipeBuilder.shaped(result.get())
+                .define('C', casing.get())
+                .define('G', glass)
+                .pattern("GCG")
+                .group(GROUP_REACTOR)
+                .unlockedBy("has_item", has(casing.get()))
+                .save(c, reactorRecipeName(variant, "glass"));
     }
 
     private void reactorController(final Consumer<IFinishedRecipe> c, final ReactorVariant variant,
                                    final Supplier<? extends IItemProvider> result,
                                    final Supplier<? extends IItemProvider> casing, final ITag<Item> diamond) {
 
-        TAGS_YELLORIUM_INGOTS.forEach(yellorium -> ShapedRecipeBuilder.shapedRecipe(result.get())
-                .key('C', casing.get())
-                .key('Y', yellorium)
-                .key('R', Tags.Items.DUSTS_REDSTONE)
-                .key('D', diamond)
-                .key('X', net.minecraft.item.Items.COMPARATOR)
-                .patternLine("CXC")
-                .patternLine("YDY")
-                .patternLine("CRC")
-                .setGroup(GROUP_REACTOR)
-                .addCriterion("has_item", hasItem(casing.get()))
-                .addCriterion("has_item2", hasItem(yellorium))
-                .build(c, reactorRecipeName(variant, "controller", yellorium))
+        TAGS_YELLORIUM_INGOTS.forEach(yellorium -> ShapedRecipeBuilder.shaped(result.get())
+                .define('C', casing.get())
+                .define('Y', yellorium)
+                .define('R', Tags.Items.DUSTS_REDSTONE)
+                .define('D', diamond)
+                .define('X', net.minecraft.item.Items.COMPARATOR)
+                .pattern("CXC")
+                .pattern("YDY")
+                .pattern("CRC")
+                .group(GROUP_REACTOR)
+                .unlockedBy("has_item", has(casing.get()))
+                .unlockedBy("has_item2", has(yellorium))
+                .save(c, reactorRecipeName(variant, "controller", yellorium))
         );
     }
 
@@ -216,16 +216,16 @@ public class ReactorRecipeGenerator
                 recipeWithAlternativeTag(c, reactorRecipeName(variant, "fuelrod", yellorium),
                         reactorRecipeName(variant, "fuelrod_alt", yellorium),
                         metal, alternativeMetal, metalTag ->
-                                ShapedRecipeBuilder.shapedRecipe(result.get())
-                                        .key('M', metalTag)
-                                        .key('Y', yellorium)
-                                        .key('G', ContentTags.Items.INGOTS_GRAPHITE)
-                                        .key('L', glass)
-                                        .patternLine("MGM")
-                                        .patternLine("LYL")
-                                        .patternLine("MGM")
-                                        .setGroup(GROUP_REACTOR)
-                                        .addCriterion("has_item", hasItem(yellorium))));
+                                ShapedRecipeBuilder.shaped(result.get())
+                                        .define('M', metalTag)
+                                        .define('Y', yellorium)
+                                        .define('G', ContentTags.Items.INGOTS_GRAPHITE)
+                                        .define('L', glass)
+                                        .pattern("MGM")
+                                        .pattern("LYL")
+                                        .pattern("MGM")
+                                        .group(GROUP_REACTOR)
+                                        .unlockedBy("has_item", has(yellorium))));
     }
 
     private void reactorControlRod(final Consumer<IFinishedRecipe> c, final ReactorVariant variant,
@@ -234,17 +234,17 @@ public class ReactorRecipeGenerator
 
         recipeWithAlternativeTag(c, reactorRecipeName(variant, "controlrod"), reactorRecipeName(variant, "controlrod_alt"),
                 metal, alternativeMetal, metalTag ->
-                        ShapedRecipeBuilder.shapedRecipe(result.get())
-                                .key('C', casing.get())
-                                .key('M', metalTag)
-                                .key('R', Tags.Items.DUSTS_REDSTONE)
-                                .key('G', ContentTags.Items.INGOTS_GRAPHITE)
-                                .key('X', net.minecraft.item.Items.PISTON)
-                                .patternLine("CRC")
-                                .patternLine("MXM")
-                                .patternLine("CGC")
-                                .setGroup(GROUP_REACTOR)
-                                .addCriterion("has_item", hasItem(casing.get())));
+                        ShapedRecipeBuilder.shaped(result.get())
+                                .define('C', casing.get())
+                                .define('M', metalTag)
+                                .define('R', Tags.Items.DUSTS_REDSTONE)
+                                .define('G', ContentTags.Items.INGOTS_GRAPHITE)
+                                .define('X', net.minecraft.item.Items.PISTON)
+                                .pattern("CRC")
+                                .pattern("MXM")
+                                .pattern("CGC")
+                                .group(GROUP_REACTOR)
+                                .unlockedBy("has_item", has(casing.get())));
     }
 
     private void reactorPowerTap(final Consumer<IFinishedRecipe> c, final ReactorVariant variant, final String name,
@@ -252,29 +252,29 @@ public class ReactorRecipeGenerator
                                  final Supplier<? extends IItemProvider> casing, final Supplier<? extends IItemProvider> energyBig,
                                  final Supplier<? extends IItemProvider> energySmall) {
 
-        ShapedRecipeBuilder.shapedRecipe(passiveResult.get())
-                .key('C', casing.get())
-                .key('B', energyBig.get())
-                .key('S', energySmall.get())
-                .patternLine("CSC")
-                .patternLine("SBS")
-                .patternLine("CSC")
-                .setGroup(GROUP_REACTOR)
-                .addCriterion("has_item", hasItem(casing.get()))
-                .addCriterion("has_item2", hasItem(energySmall.get()))
-                .build(c, reactorRecipeName(variant, "passivetap_" + name));
+        ShapedRecipeBuilder.shaped(passiveResult.get())
+                .define('C', casing.get())
+                .define('B', energyBig.get())
+                .define('S', energySmall.get())
+                .pattern("CSC")
+                .pattern("SBS")
+                .pattern("CSC")
+                .group(GROUP_REACTOR)
+                .unlockedBy("has_item", has(casing.get()))
+                .unlockedBy("has_item2", has(energySmall.get()))
+                .save(c, reactorRecipeName(variant, "passivetap_" + name));
 
-        ShapedRecipeBuilder.shapedRecipe(activeResult.get())
-                .key('C', casing.get())
-                .key('B', energyBig.get())
-                .key('S', energySmall.get())
-                .patternLine("CBC")
-                .patternLine("BSB")
-                .patternLine("CBC")
-                .setGroup(GROUP_REACTOR)
-                .addCriterion("has_item", hasItem(casing.get()))
-                .addCriterion("has_item2", hasItem(energyBig.get()))
-                .build(c, reactorRecipeName(variant, "activetap_" + name));
+        ShapedRecipeBuilder.shaped(activeResult.get())
+                .define('C', casing.get())
+                .define('B', energyBig.get())
+                .define('S', energySmall.get())
+                .pattern("CBC")
+                .pattern("BSB")
+                .pattern("CBC")
+                .group(GROUP_REACTOR)
+                .unlockedBy("has_item", has(casing.get()))
+                .unlockedBy("has_item2", has(energyBig.get()))
+                .save(c, reactorRecipeName(variant, "activetap_" + name));
     }
 
     private void reactorFluidPort(final Consumer<IFinishedRecipe> c, final ReactorVariant variant, final String name,
@@ -282,29 +282,29 @@ public class ReactorRecipeGenerator
                                  final Supplier<? extends IItemProvider> casing, final Supplier<? extends IItemProvider> lava,
                                  final Supplier<? extends IItemProvider> water) {
 
-        ShapedRecipeBuilder.shapedRecipe(passiveResult.get())
-                .key('C', casing.get())
-                .key('B', lava.get())
-                .key('S', water.get())
-                .patternLine("CSC")
-                .patternLine("SBS")
-                .patternLine("CSC")
-                .setGroup(GROUP_REACTOR)
-                .addCriterion("has_item", hasItem(casing.get()))
-                .addCriterion("has_item2", hasItem(water.get()))
-                .build(c, reactorRecipeName(variant, "passivefluidport_" + name));
+        ShapedRecipeBuilder.shaped(passiveResult.get())
+                .define('C', casing.get())
+                .define('B', lava.get())
+                .define('S', water.get())
+                .pattern("CSC")
+                .pattern("SBS")
+                .pattern("CSC")
+                .group(GROUP_REACTOR)
+                .unlockedBy("has_item", has(casing.get()))
+                .unlockedBy("has_item2", has(water.get()))
+                .save(c, reactorRecipeName(variant, "passivefluidport_" + name));
 
-        ShapedRecipeBuilder.shapedRecipe(activeResult.get())
-                .key('C', casing.get())
-                .key('B', lava.get())
-                .key('S', water.get())
-                .patternLine("CBC")
-                .patternLine("BSB")
-                .patternLine("CBC")
-                .setGroup(GROUP_REACTOR)
-                .addCriterion("has_item", hasItem(casing.get()))
-                .addCriterion("has_item2", hasItem(lava.get()))
-                .build(c, reactorRecipeName(variant, "activefluidport_" + name));
+        ShapedRecipeBuilder.shaped(activeResult.get())
+                .define('C', casing.get())
+                .define('B', lava.get())
+                .define('S', water.get())
+                .pattern("CBC")
+                .pattern("BSB")
+                .pattern("CBC")
+                .group(GROUP_REACTOR)
+                .unlockedBy("has_item", has(casing.get()))
+                .unlockedBy("has_item2", has(lava.get()))
+                .save(c, reactorRecipeName(variant, "activefluidport_" + name));
     }
 
 
@@ -315,18 +315,18 @@ public class ReactorRecipeGenerator
 
         ConditionalRecipe.builder()
                 .addCondition(modLoaded(Mods.MEKANISM.id()))
-                .addRecipe(ShapedRecipeBuilder.shapedRecipe(passiveResult.get())
-                        .key('C', casing.get())
-                        .key('B', lava.get())
-                        .key('S', water.get())
-                        .key('X', Items.EMERALD_BLOCK)
-                        .patternLine("CSC")
-                        .patternLine("BXB")
-                        .patternLine("CSC")
-                        .setGroup(GROUP_REACTOR)
-                        .addCriterion("has_item", hasItem(casing.get()))
-                        .addCriterion("has_item2", hasItem(water.get()))
-                        ::build)
+                .addRecipe(ShapedRecipeBuilder.shaped(passiveResult.get())
+                        .define('C', casing.get())
+                        .define('B', lava.get())
+                        .define('S', water.get())
+                        .define('X', Items.EMERALD_BLOCK)
+                        .pattern("CSC")
+                        .pattern("BXB")
+                        .pattern("CSC")
+                        .group(GROUP_REACTOR)
+                        .unlockedBy("has_item", has(casing.get()))
+                        .unlockedBy("has_item2", has(water.get()))
+                        ::save)
                 .build(c, reactorRecipeName(variant, "passivefluidport_mekanism"));
     }
 
@@ -335,17 +335,17 @@ public class ReactorRecipeGenerator
                                         final ITag.INamedTag<Item> metal, @Nullable final ITag.INamedTag<Item> alternativeMetal) {
         recipeWithAlternativeTag(c, reactorRecipeName(variant, "solidaccessport"), reactorRecipeName(variant, "solidaccessport_alt"),
                 metal, alternativeMetal, metalTag ->
-                        ShapedRecipeBuilder.shapedRecipe(result.get())
-                                .key('C', casing.get())
-                                .key('M', metalTag)
-                                .key('H', net.minecraft.item.Items.HOPPER)
-                                .key('W', Tags.Items.CHESTS_WOODEN)
-                                .key('X', net.minecraft.item.Items.PISTON)
-                                .patternLine("CHC")
-                                .patternLine("MWM")
-                                .patternLine("CXC")
-                                .setGroup(GROUP_REACTOR)
-                                .addCriterion("has_item", hasItem(casing.get())));
+                        ShapedRecipeBuilder.shaped(result.get())
+                                .define('C', casing.get())
+                                .define('M', metalTag)
+                                .define('H', net.minecraft.item.Items.HOPPER)
+                                .define('W', Tags.Items.CHESTS_WOODEN)
+                                .define('X', net.minecraft.item.Items.PISTON)
+                                .pattern("CHC")
+                                .pattern("MWM")
+                                .pattern("CXC")
+                                .group(GROUP_REACTOR)
+                                .unlockedBy("has_item", has(casing.get())));
     }
 
     private void reactorRedstonePort(final Consumer<IFinishedRecipe> c, final ReactorVariant variant,
@@ -354,17 +354,17 @@ public class ReactorRecipeGenerator
                                      final ITag<Item> gold) {
         recipeWithAlternativeTag(c, reactorRecipeName(variant, "redstoneport"), reactorRecipeName(variant, "redstoneport_alt"),
                 metal, alternativeMetal, metalTag ->
-                        ShapedRecipeBuilder.shapedRecipe(result.get())
-                                .key('C', casing.get())
-                                .key('M', metalTag)
-                                .key('G', gold)
-                                .key('Z', net.minecraft.item.Items.COMPARATOR)
-                                .key('X', net.minecraft.item.Items.REPEATER)
-                                .patternLine("CZC")
-                                .patternLine("MGM")
-                                .patternLine("CXC")
-                                .setGroup(GROUP_REACTOR)
-                                .addCriterion("has_item", hasItem(casing.get())));
+                        ShapedRecipeBuilder.shaped(result.get())
+                                .define('C', casing.get())
+                                .define('M', metalTag)
+                                .define('G', gold)
+                                .define('Z', net.minecraft.item.Items.COMPARATOR)
+                                .define('X', net.minecraft.item.Items.REPEATER)
+                                .pattern("CZC")
+                                .pattern("MGM")
+                                .pattern("CXC")
+                                .group(GROUP_REACTOR)
+                                .unlockedBy("has_item", has(casing.get())));
     }
 
     private void reactorComputerPort(final Consumer<IFinishedRecipe> c, final ReactorVariant variant,
@@ -372,17 +372,17 @@ public class ReactorRecipeGenerator
                                      final ITag.INamedTag<Item> metal, @Nullable final ITag.INamedTag<Item> alternativeMetal) {
         recipeWithAlternativeTag(c, reactorRecipeName(variant, "computerport"), reactorRecipeName(variant, "computerport_alt"),
                 metal, alternativeMetal, metalTag ->
-                        ShapedRecipeBuilder.shapedRecipe(result.get())
-                                .key('C', casing.get())
-                                .key('M', metalTag)
-                                .key('G', Tags.Items.STORAGE_BLOCKS_GOLD)
-                                .key('Z', Tags.Items.GEMS_LAPIS)
-                                .key('X', Tags.Items.DUSTS_GLOWSTONE)
-                                .patternLine("CZC")
-                                .patternLine("MGM")
-                                .patternLine("CXC")
-                                .setGroup(GROUP_REACTOR)
-                                .addCriterion("has_item", hasItem(casing.get())));
+                        ShapedRecipeBuilder.shaped(result.get())
+                                .define('C', casing.get())
+                                .define('M', metalTag)
+                                .define('G', Tags.Items.STORAGE_BLOCKS_GOLD)
+                                .define('Z', Tags.Items.GEMS_LAPIS)
+                                .define('X', Tags.Items.DUSTS_GLOWSTONE)
+                                .pattern("CZC")
+                                .pattern("MGM")
+                                .pattern("CXC")
+                                .group(GROUP_REACTOR)
+                                .unlockedBy("has_item", has(casing.get())));
     }
 
     private static ResourceLocation reactorRecipeName(final IMultiblockGeneratorVariant variant, final String name) {

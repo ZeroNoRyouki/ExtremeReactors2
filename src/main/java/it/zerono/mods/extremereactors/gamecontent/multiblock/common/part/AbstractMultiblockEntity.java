@@ -44,9 +44,9 @@ public abstract class AbstractMultiblockEntity<Controller extends AbstractCuboid
      * validates a tile entity
      */
     @Override
-    public void validate() {
+    public void clearRemoved() {
 
-        super.validate();
+        super.clearRemoved();
         //this.updateClientRenderState();
     }
 

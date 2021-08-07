@@ -73,17 +73,17 @@ public class ReactorLogic
         //////////////////////////////////////////////////////////////////////////////
 
         // - Irradiate from the next Fuel Rod
-        profiler.startSection("Irradiate");
+        profiler.push("Irradiate");
         this.performIrradiation();
         // - Allow radiation to decay even when reactor is off.
-        profiler.endStartSection("Decay");
+        profiler.popPush("Decay");
         this.performRadiationDecay(this._reactor.isMachineActive());
 
         //////////////////////////////////////////////////////////////////////////////
         // REFUELING
         //////////////////////////////////////////////////////////////////////////////
 
-        profiler.endStartSection("Refueling");
+        profiler.popPush("Refueling");
 
         boolean reactantsChanged;
 
@@ -94,7 +94,7 @@ public class ReactorLogic
         // HEAT TRANSFERS
         //////////////////////////////////////////////////////////////////////////////
 
-        profiler.endStartSection("Heat");
+        profiler.popPush("Heat");
         // - Fuel Pool <> Reactor Environment
         this.transferHeatBetweenFuelAndReactor();
         // - If we have a temperature differential between environment and coolant system, move heat between them
@@ -109,9 +109,9 @@ public class ReactorLogic
         // SEND POWER/GAS OUT
         //////////////////////////////////////////////////////////////////////////////
 
-        profiler.endStartSection("Distribute"); // close "Generate"
+        profiler.popPush("Distribute"); // close "Generate"
         this._reactor.performOutputCycle();
-        profiler.endSection();
+        profiler.pop();
 
         //////////////////////////////////////////////////////////////////////////////
         //TODO: Overload/overheat
@@ -399,7 +399,7 @@ public class ReactorLogic
             while (ttl > 0 && radPacket.intensity > 0.0001f) {
 
                 ttl--;
-                currentCoord = currentCoord.offset(dir);
+                currentCoord = currentCoord.relative(dir);
 
                 this._reactor.getEnvironment().getModerator(currentCoord).moderateRadiation(data, radPacket);
             }

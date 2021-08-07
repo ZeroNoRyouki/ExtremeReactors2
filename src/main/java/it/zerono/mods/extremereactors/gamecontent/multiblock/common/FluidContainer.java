@@ -41,6 +41,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.*;
 
+import it.zerono.mods.zerocore.lib.data.nbt.ISyncableEntity.SyncReason;
+
 public class FluidContainer
         extends IndexedStackContainer<FluidType, Fluid, FluidStack>
         implements IFluidContainer {
@@ -187,7 +189,7 @@ public class FluidContainer
         // check if the the current content mach the provided one
 
         final TestResult result = TestResult.from(this.getContent(index)
-                .map(fluid -> fluid.isEquivalentTo(content)));
+                .map(fluid -> fluid.isSame(content)));
 
         if (!result.wasSkipped()) {
             return result.getAsBoolean();

@@ -57,7 +57,7 @@ public class ItemTagGenerator
     //region BlockTagsProvider
 
     @Override
-    protected void registerTags() {
+    protected void addTags() {
 
         this.build(ContentTags.Items.INGOTS_YELLORIUM, Items.YELLORIUM_INGOT);
         this.build(ContentTags.Items.INGOTS_CYANITE, Items.CYANITE_INGOT);
@@ -125,7 +125,7 @@ public class ItemTagGenerator
     @SafeVarargs
     private final void build(final ITag.INamedTag<Item> tag, final Supplier<? extends Item>... items) {
 
-        final TagsProvider.Builder<Item> builder = this.getOrCreateBuilder(tag);
+        final TagsProvider.Builder<Item> builder = this.tag(tag);
 
         for (Supplier<? extends Item> item : items) {
             builder.add(item.get());

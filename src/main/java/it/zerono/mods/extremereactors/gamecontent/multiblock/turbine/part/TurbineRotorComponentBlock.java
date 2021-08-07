@@ -42,6 +42,8 @@ import net.minecraft.world.IBlockReader;
 import javax.annotation.Nullable;
 import java.util.List;
 
+import it.zerono.mods.zerocore.lib.block.multiblock.MultiblockPartBlock.MultiblockPartProperties;
+
 public abstract class TurbineRotorComponentBlock
         extends GenericDeviceBlock<MultiblockTurbine, TurbinePartType>
         implements INeighborChangeListener.Notifier {
@@ -71,7 +73,7 @@ public abstract class TurbineRotorComponentBlock
 
             @Override
             protected BlockState buildDefaultState(BlockState state) {
-                return super.buildDefaultState(state).with(ROTOR_SHAFT_STATE, RotorShaftState.getDefault());
+                return super.buildDefaultState(state).setValue(ROTOR_SHAFT_STATE, RotorShaftState.getDefault());
             }
         };
     }
@@ -98,7 +100,7 @@ public abstract class TurbineRotorComponentBlock
 
             @Override
             protected BlockState buildDefaultState(BlockState state) {
-                return super.buildDefaultState(state).with(ROTOR_BLADE_STATE, RotorBladeState.getDefault());
+                return super.buildDefaultState(state).setValue(ROTOR_BLADE_STATE, RotorBladeState.getDefault());
             }
         };
     }
@@ -110,14 +112,14 @@ public abstract class TurbineRotorComponentBlock
     //region Block
 
     @Override
-    public boolean isSideInvisible(BlockState state, BlockState adjacentBlockState, Direction side) {
+    public boolean skipRendering(BlockState state, BlockState adjacentBlockState, Direction side) {
         return this == adjacentBlockState.getBlock();
     }
 
     @Override
-    public void addInformation(ItemStack stack, @Nullable IBlockReader worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+    public void appendHoverText(ItemStack stack, @Nullable IBlockReader worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
 
-        super.addInformation(stack, worldIn, tooltip, flagIn);
+        super.appendHoverText(stack, worldIn, tooltip, flagIn);
 
         if (this.isBlade()) {
 
@@ -129,8 +131,8 @@ public abstract class TurbineRotorComponentBlock
                         .map(variant -> (ITextComponent)new TranslationTextComponent("gui.bigreactors.turbine.controller.rotorstatus.line3",
                                 String.format(TextFormatting.DARK_AQUA + "" + TextFormatting.BOLD + "%d", variant.getBaseFluidPerBlade()))
                                 .setStyle(Style.EMPTY
-                                        .setFormatting(TextFormatting.GRAY)
-                                        .setItalic(true))
+                                        .withColor(TextFormatting.GRAY)
+                                        .withItalic(true))
                         )
                         .orElse(CodeHelper.TEXT_EMPTY_LINE);
             }

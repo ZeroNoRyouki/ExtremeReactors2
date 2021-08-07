@@ -196,7 +196,7 @@ public class CoilMaterialRegistry {
                                               final NonNullSupplier<Set<ITextComponent>> setSupplier) {
 
         s_tags.tagStream()
-                .flatMap(blockTag -> blockTag.getAllElements().stream())
+                .flatMap(blockTag -> blockTag.getValues().stream())
                 .map(Block::asItem)
                 .forEach(item -> tooltipsMap.computeIfAbsent(item, k -> setSupplier.get()).add(TOOLTIP_COIL));
     }

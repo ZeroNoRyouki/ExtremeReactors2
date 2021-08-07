@@ -48,6 +48,8 @@ import net.minecraftforge.common.util.LazyOptional;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import it.zerono.mods.zerocore.lib.data.nbt.ISyncableEntity.SyncReason;
+
 public class ReactorFluidPortEntity
         extends AbstractReactorEntity
         implements IFluidPort<MultiblockReactor, IMultiblockReactorVariant>, INeighborChangeListener, INamedContainerProvider {
@@ -85,7 +87,7 @@ public class ReactorFluidPortEntity
     public void onNeighborBlockChanged(final BlockState state, final BlockPos neighborPosition, final boolean isMoving) {
 
         if (this.isConnected()) {
-            this.getFluidPortHandler().checkConnections(this.getWorld(), this.getWorldPosition());
+            this.getFluidPortHandler().checkConnections(this.getLevel(), this.getWorldPosition());
         }
 
         this.requestClientRenderUpdate();
@@ -101,7 +103,7 @@ public class ReactorFluidPortEntity
     public void onNeighborTileChanged(final BlockState state, final BlockPos neighborPosition) {
 
         if (this.isConnected()) {
-            this.getFluidPortHandler().checkConnections(this.getWorld(), this.getWorldPosition());
+            this.getFluidPortHandler().checkConnections(this.getLevel(), this.getWorldPosition());
         }
 
         this.requestClientRenderUpdate();
@@ -130,7 +132,7 @@ public class ReactorFluidPortEntity
         this.callOnLogicalSide(
                 () -> {
                     this.notifyOutwardNeighborsOfStateChange();
-                    this.markDirty();
+                    this.setChanged();
                 },
                 this::markForRenderUpdate
         );
@@ -269,9 +271,9 @@ public class ReactorFluidPortEntity
      * invalidates a tile entity
      */
     @Override
-    public void remove() {
+    public void setRemoved() {
 
-        super.remove();
+        super.setRemoved();
         this.getFluidPortHandler().invalidate();
     }
 

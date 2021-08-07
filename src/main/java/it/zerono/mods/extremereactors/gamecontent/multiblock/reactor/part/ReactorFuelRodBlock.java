@@ -31,6 +31,8 @@ import net.minecraft.world.IBlockReader;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import it.zerono.mods.zerocore.lib.block.multiblock.MultiblockPartBlock.MultiblockPartProperties;
+
 public class ReactorFuelRodBlock extends MultiblockPartBlock<MultiblockReactor, ReactorPartType> {
 
     public ReactorFuelRodBlock(final MultiblockPartProperties<ReactorPartType> properties) {
@@ -53,7 +55,7 @@ public class ReactorFuelRodBlock extends MultiblockPartBlock<MultiblockReactor, 
     }
 
     @OnlyIn(Dist.CLIENT)
-    public float getAmbientOcclusionLightValue(BlockState state, IBlockReader worldIn, BlockPos pos) {
+    public float getShadeBrightness(BlockState state, IBlockReader worldIn, BlockPos pos) {
         return 1.0f;
     }
 
@@ -94,7 +96,7 @@ public class ReactorFuelRodBlock extends MultiblockPartBlock<MultiblockReactor, 
 
     @Override
     protected BlockState buildDefaultState(final BlockState state) {
-        return super.buildDefaultState(state).with(BlockStateProperties.AXIS, Direction.Axis.Y);
+        return super.buildDefaultState(state).setValue(BlockStateProperties.AXIS, Direction.Axis.Y);
     }
 
     //endregion

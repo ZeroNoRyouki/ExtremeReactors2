@@ -54,7 +54,7 @@ public enum TurbinePartType
 
     RotorBearing(() -> Content.TileEntityTypes.TURBINE_ROTORBEARING::get,
             TurbineRotorBearingBlock::new, "part.bigreactors.turbine.rotorbearing",
-            bp -> bp.setLightLevel(state -> 15)),
+            bp -> bp.lightLevel(state -> 15)),
 
     RotorShaft(() -> Content.TileEntityTypes.TURBINE_ROTORSHAFT::get,
             TurbineRotorComponentBlock::shaft, "part.bigreactors.turbine.rotorshaft",
@@ -134,7 +134,7 @@ public enum TurbinePartType
     }
 
     @Override
-    public String getString() {
+    public String getSerializedName() {
         return this.name();
     }
 
@@ -144,17 +144,17 @@ public enum TurbinePartType
     private static AbstractBlock.Properties notOpaqueBlock(AbstractBlock.Properties originals) {
         return originals
                 .sound(SoundType.GLASS)
-                .notSolid()
-                .setOpaque((blockState, blockReader, pos) -> false)
-                .setBlocksVision((blockState, blockReader, pos) -> false);
+                .noOcclusion()
+                .isRedstoneConductor((blockState, blockReader, pos) -> false)
+                .isViewBlocking((blockState, blockReader, pos) -> false);
     }
 
     private static AbstractBlock.Properties rotorBlock(AbstractBlock.Properties originals) {
         return originals
-                .notSolid()
-                .setOpaque((blockState, blockReader, pos) -> false)
-                .setBlocksVision((blockState, blockReader, pos) -> false)
-                .setLightLevel(state -> 15);
+                .noOcclusion()
+                .isRedstoneConductor((blockState, blockReader, pos) -> false)
+                .isViewBlocking((blockState, blockReader, pos) -> false)
+                .lightLevel(state -> 15);
     }
 
     private final Supplier<Supplier<TileEntityType<?>>> _tileTypeSupplier;

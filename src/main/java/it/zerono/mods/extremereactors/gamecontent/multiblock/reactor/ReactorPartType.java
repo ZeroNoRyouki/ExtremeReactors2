@@ -55,7 +55,7 @@ public enum ReactorPartType
     FuelRod(() -> Content.TileEntityTypes.REACTOR_FUELROD::get,
             ReactorFuelRodBlock::new, "part.bigreactors.reactor.fuelrod",
             bp -> ReactorPartType.notOpaqueBlock(bp)
-                    .setLightLevel(state -> Config.COMMON.reactor.fuelRodLightValue.get())
+                    .lightLevel(state -> Config.COMMON.reactor.fuelRodLightValue.get())
                     /*.tickRandomly()*/),
 
     ControlRod(() -> Content.TileEntityTypes.REACTOR_CONTROLROD::get,
@@ -134,7 +134,7 @@ public enum ReactorPartType
     }
 
     @Override
-    public String getString() {
+    public String getSerializedName() {
         return this.name();
     }
 
@@ -144,9 +144,9 @@ public enum ReactorPartType
     private static AbstractBlock.Properties notOpaqueBlock(AbstractBlock.Properties originals) {
         return originals
                 .sound(SoundType.GLASS)
-                .notSolid()
-                .setOpaque((blockState, blockReader, pos) -> false)
-                .setBlocksVision((blockState, blockReader, pos) -> false);
+                .noOcclusion()
+                .isRedstoneConductor((blockState, blockReader, pos) -> false)
+                .isViewBlocking((blockState, blockReader, pos) -> false);
     }
 
     private final Supplier<Supplier<TileEntityType<?>>> _tileTypeSupplier;

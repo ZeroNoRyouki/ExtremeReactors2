@@ -47,6 +47,8 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import it.zerono.mods.zerocore.lib.data.nbt.ISyncableEntity.SyncReason;
+
 public class ReactorControlRodEntity
         extends AbstractReactorEntity
         implements INamedContainerProvider {
@@ -80,7 +82,7 @@ public class ReactorControlRodEntity
 
             final int rodIndex = fuelRodsCount - i - 1;
 
-            lookupPosition = lookupPosition.offset(direction);
+            lookupPosition = lookupPosition.relative(direction);
 
             CodeHelper.optionalIfPresentOrThrow(WorldHelper.getTile(world, lookupPosition)
                             .filter(te -> te instanceof ReactorFuelRodEntity)
@@ -271,7 +273,7 @@ public class ReactorControlRodEntity
         }
 
         this._insertionRatio = (byte) newRatio;
-        this.markDirty();
+        this.setChanged();
         this.notifyBlockUpdate();
         return true;
     }
@@ -283,13 +285,13 @@ public class ReactorControlRodEntity
         }
 
         this._name = newName;
-        this.markDirty();
+        this.setChanged();
         this.notifyBlockUpdate();
         return true;
     }
 
     private boolean checkForFuelRod(Direction rodDirection) {
-        return this.mapPartWorld(world -> WorldHelper.getLoadedTile(world, this.getWorldPosition().offset(rodDirection)) instanceof ReactorFuelRodEntity, false);
+        return this.mapPartWorld(world -> WorldHelper.getLoadedTile(world, this.getWorldPosition().relative(rodDirection)) instanceof ReactorFuelRodEntity, false);
     }
 
     //endregion
