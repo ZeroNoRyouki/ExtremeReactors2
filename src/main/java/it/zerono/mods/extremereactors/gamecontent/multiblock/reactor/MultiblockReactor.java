@@ -71,8 +71,6 @@ import java.util.function.DoubleSupplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import it.zerono.mods.zerocore.lib.data.nbt.ISyncableEntity.SyncReason;
-
 public class MultiblockReactor
         extends AbstractGeneratorMultiblockController<MultiblockReactor, IMultiblockReactorVariant>
         implements IReactorMachine, IReactorEnvironment, IReactorWriter, IDebuggable {

@@ -59,8 +59,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import it.zerono.mods.zerocore.lib.data.nbt.ISyncableEntity.SyncReason;
-
 public class MultiblockTurbine
         extends AbstractGeneratorMultiblockController<MultiblockTurbine, IMultiblockTurbineVariant>
         implements ITurbineMachine, ITurbineEnvironment, ITurbineWriter, IDebuggable {

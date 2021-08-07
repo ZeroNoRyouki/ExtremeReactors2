@@ -30,8 +30,6 @@ import net.minecraft.world.IBlockReader;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-import it.zerono.mods.zerocore.lib.block.multiblock.MultiblockPartBlock.MultiblockPartProperties;
-
 public class GlassBlock <Controller extends IMultiblockController<Controller>,
                          PartType extends Enum<PartType> & IMultiblockPartType>
         extends GenericDeviceBlock<Controller, PartType> {

@@ -26,8 +26,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.Direction;
 
-import it.zerono.mods.zerocore.lib.block.multiblock.MultiblockPartBlock.MultiblockPartProperties;
-
 public class GenericDeviceBlock<Controller extends IMultiblockController<Controller>,
                                 PartType extends Enum<PartType> & IMultiblockPartType>
         extends MultiblockPartBlock<Controller, PartType> {

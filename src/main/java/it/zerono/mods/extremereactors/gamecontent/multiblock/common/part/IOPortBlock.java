@@ -34,8 +34,6 @@ import net.minecraft.world.World;
 
 import java.util.Optional;
 
-import it.zerono.mods.zerocore.lib.block.multiblock.MultiblockPartBlock.MultiblockPartProperties;
-
 public class IOPortBlock<Controller extends IMultiblockController<Controller>,
                             PartType extends Enum<PartType> & IMultiblockPartType>
         extends GenericDeviceBlock<Controller, PartType>

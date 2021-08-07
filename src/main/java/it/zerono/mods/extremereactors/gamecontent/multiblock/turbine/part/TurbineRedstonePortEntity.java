@@ -42,8 +42,6 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 
-import it.zerono.mods.zerocore.lib.data.nbt.ISyncableEntity.SyncReason;
-
 public class TurbineRedstonePortEntity
         extends AbstractTurbineEntity
         implements INeighborChangeListener, ITickableMultiblockPart, INamedContainerProvider {

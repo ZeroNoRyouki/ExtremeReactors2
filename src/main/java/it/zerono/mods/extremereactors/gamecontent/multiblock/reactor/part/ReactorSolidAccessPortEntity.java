@@ -64,8 +64,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-import it.zerono.mods.zerocore.lib.data.nbt.ISyncableEntity.SyncReason;
-
 public class ReactorSolidAccessPortEntity
         extends AbstractReactorEntity
         implements IFuelSource<ItemStack>, IIoEntity, INeighborChangeListener, INamedContainerProvider {

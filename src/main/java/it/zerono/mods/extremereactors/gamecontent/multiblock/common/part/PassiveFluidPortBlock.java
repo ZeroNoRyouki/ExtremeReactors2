@@ -30,8 +30,6 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidUtil;
 
-import it.zerono.mods.zerocore.lib.block.multiblock.MultiblockPartBlock.MultiblockPartProperties;
-
 public class PassiveFluidPortBlock<Controller extends IMultiblockController<Controller>,
         PartType extends Enum<PartType> & IMultiblockPartType>
     extends IOPortBlock<Controller, PartType> {

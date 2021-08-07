@@ -47,8 +47,6 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import it.zerono.mods.zerocore.lib.data.nbt.ISyncableEntity.SyncReason;
-
 public class ReactorControlRodEntity
         extends AbstractReactorEntity
         implements INamedContainerProvider {

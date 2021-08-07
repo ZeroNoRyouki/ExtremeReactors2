@@ -36,8 +36,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.Random;
 
-import it.zerono.mods.zerocore.lib.block.multiblock.MultiblockPartBlock.MultiblockPartProperties;
-
 public class ReactorRedstonePortBlock
         extends GenericDeviceBlock<MultiblockReactor, ReactorPartType>
         implements INeighborChangeListener.Notifier {

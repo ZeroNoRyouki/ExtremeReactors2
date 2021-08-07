@@ -42,8 +42,6 @@ import net.minecraft.world.IBlockReader;
 import javax.annotation.Nullable;
 import java.util.List;
 
-import it.zerono.mods.zerocore.lib.block.multiblock.MultiblockPartBlock.MultiblockPartProperties;
-
 public abstract class TurbineRotorComponentBlock
         extends GenericDeviceBlock<MultiblockTurbine, TurbinePartType>
         implements INeighborChangeListener.Notifier {

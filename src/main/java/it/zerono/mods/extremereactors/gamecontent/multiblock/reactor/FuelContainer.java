@@ -32,8 +32,6 @@ import net.minecraftforge.fml.LogicalSide;
 
 import java.util.Optional;
 
-import it.zerono.mods.zerocore.lib.data.nbt.ISyncableEntity.SyncReason;
-
 public class FuelContainer
         extends IndexedStackContainer<ReactantType, Reactant, ReactantStack>
         implements IFuelContainer {

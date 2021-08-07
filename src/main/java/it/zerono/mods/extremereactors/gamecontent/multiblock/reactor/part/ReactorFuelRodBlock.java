@@ -31,8 +31,6 @@ import net.minecraft.world.IBlockReader;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-import it.zerono.mods.zerocore.lib.block.multiblock.MultiblockPartBlock.MultiblockPartProperties;
-
 public class ReactorFuelRodBlock extends MultiblockPartBlock<MultiblockReactor, ReactorPartType> {
 
     public ReactorFuelRodBlock(final MultiblockPartProperties<ReactorPartType> properties) {

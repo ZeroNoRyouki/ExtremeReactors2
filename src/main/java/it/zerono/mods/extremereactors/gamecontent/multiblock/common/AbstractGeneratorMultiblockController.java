@@ -36,8 +36,6 @@ import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.Optional;
 
-import it.zerono.mods.zerocore.lib.data.nbt.ISyncableEntity.SyncReason;
-
 @SuppressWarnings({"WeakerAccess"})
 public abstract class AbstractGeneratorMultiblockController<Controller extends AbstractGeneratorMultiblockController<Controller, V>,
             V extends IMultiblockGeneratorVariant>
