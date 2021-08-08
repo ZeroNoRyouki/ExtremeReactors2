@@ -23,16 +23,16 @@ import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.ContentTags;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.variant.IMultiblockGeneratorVariant;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.TurbineVariant;
-import net.minecraft.block.Blocks;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.IFinishedRecipe;
-import net.minecraft.data.ShapedRecipeBuilder;
-import net.minecraft.data.ShapelessRecipeBuilder;
-import net.minecraft.item.Item;
-import net.minecraft.item.Items;
-import net.minecraft.tags.ITag;
-import net.minecraft.util.IItemProvider;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.data.recipes.ShapelessRecipeBuilder;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
+import net.minecraft.tags.Tag;
+import net.minecraft.world.level.ItemLike;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.Tags;
 
 import javax.annotation.Nullable;
@@ -60,11 +60,11 @@ public class TurbineRecipeGenerator
      * Registers all recipes to the given consumer.
      */
     @Override
-    protected void buildShapelessRecipes(final Consumer<IFinishedRecipe> c) {
+    protected void buildShapelessRecipes(final Consumer<FinishedRecipe> c) {
 
-        ITag.INamedTag<Item> core, metal, alternativeMetal;
+        Tag.Named<Item> core, metal, alternativeMetal;
         TurbineVariant variant;
-        Supplier<? extends IItemProvider> casing;
+        Supplier<? extends ItemLike> casing;
 
         // Basic parts
 
@@ -78,7 +78,7 @@ public class TurbineRecipeGenerator
         this.turbineGlass(c, variant, Content.Items.TURBINE_GLASS_BASIC, casing, Tags.Items.GLASS);
         this.turbineController(c, variant, Content.Items.TURBINE_CONTROLLER_BASIC, casing, Tags.Items.GEMS_DIAMOND);
         this.turbinePowerTap(c, variant, "fe", Content.Items.TURBINE_POWERTAP_FE_PASSIVE_BASIC, Content.Items.TURBINE_POWERTAP_FE_ACTIVE_BASIC,
-                casing, () -> net.minecraft.item.Items.REDSTONE_BLOCK, () -> net.minecraft.item.Items.REDSTONE);
+                casing, () -> net.minecraft.world.item.Items.REDSTONE_BLOCK, () -> net.minecraft.world.item.Items.REDSTONE);
         this.turbineFluidPort(c, variant, "forge", Content.Items.TURBINE_FLUIDPORT_FORGE_PASSIVE_BASIC, Content.Items.TURBINE_FLUIDPORT_FORGE_ACTIVE_BASIC,
                 casing, () -> Items.LAVA_BUCKET,  () -> Items.WATER_BUCKET);
         this.turbineBlade(c, variant, Content.Items.TURBINE_ROTORBLADE_BASIC, metal, alternativeMetal);
@@ -104,7 +104,7 @@ public class TurbineRecipeGenerator
         this.turbineGlass(c, variant, Content.Items.TURBINE_GLASS_REINFORCED, casing, Tags.Items.GLASS);
         this.turbineController(c, variant, Content.Items.TURBINE_CONTROLLER_REINFORCED, casing, Tags.Items.STORAGE_BLOCKS_DIAMOND);
         this.turbinePowerTap(c, variant, "fe", Content.Items.TURBINE_POWERTAP_FE_PASSIVE_REINFORCED, Content.Items.TURBINE_POWERTAP_FE_ACTIVE_REINFORCED,
-                casing, () -> net.minecraft.item.Items.REDSTONE_BLOCK, () -> net.minecraft.item.Items.REDSTONE);
+                casing, () -> net.minecraft.world.item.Items.REDSTONE_BLOCK, () -> net.minecraft.world.item.Items.REDSTONE);
         this.turbineFluidPort(c, variant, "forge", Content.Items.TURBINE_FLUIDPORT_FORGE_PASSIVE_REINFORCED, Content.Items.TURBINE_FLUIDPORT_FORGE_ACTIVE_REINFORCED,
                 casing, () -> Items.LAVA_BUCKET,  () -> Items.WATER_BUCKET);
         this.turbineComputerPort(c, variant, Content.Items.TURBINE_COMPUTERPORT_REINFORCED, casing, metal, alternativeMetal);
@@ -122,10 +122,10 @@ public class TurbineRecipeGenerator
     //endregion
     //region internals
 
-    private void turbineCasing(final Consumer<IFinishedRecipe> c, final TurbineVariant variant,
-                               final Supplier<? extends IItemProvider> result,
-                               final ITag<Item> core, final ITag.INamedTag<Item> metal,
-                               @Nullable final ITag.INamedTag<Item> alternativeMetal) {
+    private void turbineCasing(final Consumer<FinishedRecipe> c, final TurbineVariant variant,
+                               final Supplier<? extends ItemLike> result,
+                               final Tag<Item> core, final Tag.Named<Item> metal,
+                               @Nullable final Tag.Named<Item> alternativeMetal) {
 
         recipeWithAlternativeTag(c, turbineRecipeName(variant, "casing"), turbineRecipeName(variant, "casing_alt"),
                 metal, alternativeMetal, metalTag ->
@@ -140,9 +140,9 @@ public class TurbineRecipeGenerator
                                 .unlockedBy("has_item", has(ContentTags.Items.INGOTS_CYANITE)));
     }
 
-    private void turbineCasingUpgrade(final Consumer<IFinishedRecipe> c, final TurbineVariant variant,
-                                      final Supplier<? extends IItemProvider> result, final ITag.INamedTag<Item> metal,
-                                      @Nullable final ITag.INamedTag<Item> alternativeMetal) {
+    private void turbineCasingUpgrade(final Consumer<FinishedRecipe> c, final TurbineVariant variant,
+                                      final Supplier<? extends ItemLike> result, final Tag.Named<Item> metal,
+                                      @Nullable final Tag.Named<Item> alternativeMetal) {
 
         recipeWithAlternativeTag(c, turbineRecipeName(variant, "casing_upgrade"), turbineRecipeName(variant, "casing_upgrade_alt"),
                 metal, alternativeMetal, metalTag ->
@@ -157,10 +157,10 @@ public class TurbineRecipeGenerator
                                 .unlockedBy("has_item", has(Content.Blocks.TURBINE_CASING_BASIC.get())));
     }
 
-    private void turbineCasingRecycle(final Consumer<IFinishedRecipe> c, final TurbineVariant variant,
-                                      final Supplier<? extends IItemProvider> casingResult,
-                                      final ITag.INamedTag<Item> casingSourceTag,
-                                      final Supplier<? extends IItemProvider> glassSourceItem) {
+    private void turbineCasingRecycle(final Consumer<FinishedRecipe> c, final TurbineVariant variant,
+                                      final Supplier<? extends ItemLike> casingResult,
+                                      final Tag.Named<Item> casingSourceTag,
+                                      final Supplier<? extends ItemLike> glassSourceItem) {
 
         ShapelessRecipeBuilder.shapeless(casingResult.get(), 1)
                 .requires(glassSourceItem.get())
@@ -175,9 +175,9 @@ public class TurbineRecipeGenerator
                 .save(c, turbineRecipeName(variant, "casing_recycle"));
     }
 
-    private void turbineGlass(final Consumer<IFinishedRecipe> c, final TurbineVariant variant,
-                              final Supplier<? extends IItemProvider> result,
-                              final Supplier<? extends IItemProvider> casing, final ITag<Item> glass) {
+    private void turbineGlass(final Consumer<FinishedRecipe> c, final TurbineVariant variant,
+                              final Supplier<? extends ItemLike> result,
+                              final Supplier<? extends ItemLike> casing, final Tag<Item> glass) {
         ShapedRecipeBuilder.shaped(result.get())
                 .define('C', casing.get())
                 .define('G', glass)
@@ -187,15 +187,15 @@ public class TurbineRecipeGenerator
                 .save(c, turbineRecipeName(variant, "glass"));
     }
 
-    private void turbineController(final Consumer<IFinishedRecipe> c, final TurbineVariant variant,
-                                   final Supplier<? extends IItemProvider> result,
-                                   final Supplier<? extends IItemProvider> casing, final ITag<Item> diamond) {
+    private void turbineController(final Consumer<FinishedRecipe> c, final TurbineVariant variant,
+                                   final Supplier<? extends ItemLike> result,
+                                   final Supplier<? extends ItemLike> casing, final Tag<Item> diamond) {
         ShapedRecipeBuilder.shaped(result.get())
                 .define('C', casing.get())
                 .define('Y', ContentTags.Items.BLOCKS_CYANITE)
                 .define('R', Tags.Items.DUSTS_REDSTONE)
                 .define('D', diamond)
-                .define('X', net.minecraft.item.Items.COMPARATOR)
+                .define('X', net.minecraft.world.item.Items.COMPARATOR)
                 .pattern("CXC")
                 .pattern("YDY")
                 .pattern("CRC")
@@ -205,10 +205,10 @@ public class TurbineRecipeGenerator
                 .save(c, turbineRecipeName(variant, "controller"));
     }
 
-    private void turbinePowerTap(final Consumer<IFinishedRecipe> c, final TurbineVariant variant, final String name,
-                                 final Supplier<? extends IItemProvider> passiveResult, final Supplier<? extends IItemProvider> activeResult,
-                                 final Supplier<? extends IItemProvider> casing, final Supplier<? extends IItemProvider> energyBig,
-                                 final Supplier<? extends IItemProvider> energySmall) {
+    private void turbinePowerTap(final Consumer<FinishedRecipe> c, final TurbineVariant variant, final String name,
+                                 final Supplier<? extends ItemLike> passiveResult, final Supplier<? extends ItemLike> activeResult,
+                                 final Supplier<? extends ItemLike> casing, final Supplier<? extends ItemLike> energyBig,
+                                 final Supplier<? extends ItemLike> energySmall) {
 
         ShapedRecipeBuilder.shaped(passiveResult.get())
                 .define('C', casing.get())
@@ -235,9 +235,9 @@ public class TurbineRecipeGenerator
                 .save(c, turbineRecipeName(variant, "activetap_" + name));
     }
 
-    private void turbineComputerPort(final Consumer<IFinishedRecipe> c, final TurbineVariant variant,
-                                     final Supplier<? extends IItemProvider> result, final Supplier<? extends IItemProvider> casing,
-                                     final ITag.INamedTag<Item> metal, @Nullable final ITag.INamedTag<Item> alternativeMetal) {
+    private void turbineComputerPort(final Consumer<FinishedRecipe> c, final TurbineVariant variant,
+                                     final Supplier<? extends ItemLike> result, final Supplier<? extends ItemLike> casing,
+                                     final Tag.Named<Item> metal, @Nullable final Tag.Named<Item> alternativeMetal) {
         recipeWithAlternativeTag(c, turbineRecipeName(variant, "computerport"), turbineRecipeName(variant, "computerport_alt"),
                 metal, alternativeMetal, metalTag ->
                         ShapedRecipeBuilder.shaped(result.get())
@@ -253,10 +253,10 @@ public class TurbineRecipeGenerator
                                 .unlockedBy("has_item", has(casing.get())));
     }
 
-    private void turbineFluidPort(final Consumer<IFinishedRecipe> c, final TurbineVariant variant, final String name,
-                                  final Supplier<? extends IItemProvider> passiveResult, final Supplier<? extends IItemProvider> activeResult,
-                                  final Supplier<? extends IItemProvider> casing, final Supplier<? extends IItemProvider> lava,
-                                  final Supplier<? extends IItemProvider> water) {
+    private void turbineFluidPort(final Consumer<FinishedRecipe> c, final TurbineVariant variant, final String name,
+                                  final Supplier<? extends ItemLike> passiveResult, final Supplier<? extends ItemLike> activeResult,
+                                  final Supplier<? extends ItemLike> casing, final Supplier<? extends ItemLike> lava,
+                                  final Supplier<? extends ItemLike> water) {
 
         ShapedRecipeBuilder.shaped(passiveResult.get())
                 .define('C', casing.get())
@@ -283,9 +283,9 @@ public class TurbineRecipeGenerator
                 .save(c, turbineRecipeName(variant, "activefluidport_" + name));
     }
 
-    private void turbineBlade(final Consumer<IFinishedRecipe> c, final TurbineVariant variant,
-                              final Supplier<? extends IItemProvider> result,
-                              final ITag.INamedTag<Item> metal, @Nullable final ITag.INamedTag<Item> alternativeMetal) {
+    private void turbineBlade(final Consumer<FinishedRecipe> c, final TurbineVariant variant,
+                              final Supplier<? extends ItemLike> result,
+                              final Tag.Named<Item> metal, @Nullable final Tag.Named<Item> alternativeMetal) {
 
         recipeWithAlternativeTag(c, turbineRecipeName(variant, "blade"), turbineRecipeName(variant, "blade_alt"),
                 metal, alternativeMetal, metalTag ->
@@ -297,9 +297,9 @@ public class TurbineRecipeGenerator
                                 .unlockedBy("has_item", has(ContentTags.Items.INGOTS_CYANITE)));
     }
 
-    private void turbineShaft(final Consumer<IFinishedRecipe> c, final TurbineVariant variant,
-                              final Supplier<? extends IItemProvider> result,
-                              final ITag.INamedTag<Item> metal, @Nullable final ITag.INamedTag<Item> alternativeMetal) {
+    private void turbineShaft(final Consumer<FinishedRecipe> c, final TurbineVariant variant,
+                              final Supplier<? extends ItemLike> result,
+                              final Tag.Named<Item> metal, @Nullable final Tag.Named<Item> alternativeMetal) {
 
         recipeWithAlternativeTag(c, turbineRecipeName(variant, "shaft"), turbineRecipeName(variant, "shaft_alt"),
                 metal, alternativeMetal, metalTag ->
@@ -313,9 +313,9 @@ public class TurbineRecipeGenerator
                                 .unlockedBy("has_item", has(ContentTags.Items.INGOTS_CYANITE)));
     }
 
-    private void turbineBearing(final Consumer<IFinishedRecipe> c, final TurbineVariant variant,
-                                final Supplier<? extends IItemProvider> result,
-                                final ITag.INamedTag<Item> metal, @Nullable final ITag.INamedTag<Item> alternativeMetal) {
+    private void turbineBearing(final Consumer<FinishedRecipe> c, final TurbineVariant variant,
+                                final Supplier<? extends ItemLike> result,
+                                final Tag.Named<Item> metal, @Nullable final Tag.Named<Item> alternativeMetal) {
 
         recipeWithAlternativeTag(c, turbineRecipeName(variant, "bearing"), turbineRecipeName(variant, "bearing_alt"),
                 metal, alternativeMetal, metalTag ->
@@ -330,18 +330,18 @@ public class TurbineRecipeGenerator
                                 .unlockedBy("has_item", has(Tags.Items.STORAGE_BLOCKS_IRON)));
     }
 
-    private void turbineRedstonePort(final Consumer<IFinishedRecipe> c, final TurbineVariant variant,
-                                     final Supplier<? extends IItemProvider> result, final Supplier<? extends IItemProvider> casing,
-                                     final ITag.INamedTag<Item> metal, @Nullable final ITag.INamedTag<Item> alternativeMetal,
-                                     final ITag<Item> gold) {
+    private void turbineRedstonePort(final Consumer<FinishedRecipe> c, final TurbineVariant variant,
+                                     final Supplier<? extends ItemLike> result, final Supplier<? extends ItemLike> casing,
+                                     final Tag.Named<Item> metal, @Nullable final Tag.Named<Item> alternativeMetal,
+                                     final Tag<Item> gold) {
         recipeWithAlternativeTag(c, turbineRecipeName(variant, "redstoneport"), turbineRecipeName(variant, "redstoneport_alt"),
                 metal, alternativeMetal, metalTag ->
                         ShapedRecipeBuilder.shaped(result.get())
                                 .define('C', casing.get())
                                 .define('M', metalTag)
                                 .define('G', gold)
-                                .define('Z', net.minecraft.item.Items.COMPARATOR)
-                                .define('X', net.minecraft.item.Items.REPEATER)
+                                .define('Z', net.minecraft.world.item.Items.COMPARATOR)
+                                .define('X', net.minecraft.world.item.Items.REPEATER)
                                 .pattern("CZC")
                                 .pattern("MGM")
                                 .pattern("CXC")
@@ -353,7 +353,7 @@ public class TurbineRecipeGenerator
         return ExtremeReactors.newID("turbine/" + variant.getName() + "/" + name);
     }
 
-    private static ResourceLocation turbineRecipeName(final IMultiblockGeneratorVariant variant, final String name, final ITag.INamedTag<Item> tag) {
+    private static ResourceLocation turbineRecipeName(final IMultiblockGeneratorVariant variant, final String name, final Tag.Named<Item> tag) {
         return ExtremeReactors.newID("turbine/" + variant.getName() + "/" + name + "_" + tag.getName().getPath().replace('/', '_'));
     }
 

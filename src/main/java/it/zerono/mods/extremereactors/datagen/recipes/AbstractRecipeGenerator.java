@@ -23,12 +23,12 @@ import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.gamecontent.ContentTags;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.variant.IMultiblockGeneratorVariant;
 import net.minecraft.data.*;
-import net.minecraft.item.Item;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.tags.ITag;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.tags.Tag;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.util.IItemProvider;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.level.ItemLike;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.crafting.ConditionalRecipe;
 import net.minecraftforge.common.crafting.conditions.ICondition;
@@ -43,6 +43,12 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.data.recipes.RecipeProvider;
+import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.data.recipes.ShapelessRecipeBuilder;
+import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
+
 public abstract class AbstractRecipeGenerator
     extends RecipeProvider {
 
@@ -52,47 +58,47 @@ public abstract class AbstractRecipeGenerator
 
     //region internals
 
-    protected void blastingAndSmelting(final Consumer<IFinishedRecipe> consumer, final String name,
-                                       final Supplier<? extends IItemProvider> result, final Supplier<? extends IItemProvider> source) {
+    protected void blastingAndSmelting(final Consumer<FinishedRecipe> consumer, final String name,
+                                       final Supplier<? extends ItemLike> result, final Supplier<? extends ItemLike> source) {
         this.blastingAndSmelting(consumer, name, result, source, 1f, 200);
     }
 
-    protected void blastingAndSmelting(final Consumer<IFinishedRecipe> consumer, final String name,
-                                       final Supplier<? extends IItemProvider> result, final Supplier<? extends IItemProvider> source,
+    protected void blastingAndSmelting(final Consumer<FinishedRecipe> consumer, final String name,
+                                       final Supplier<? extends ItemLike> result, final Supplier<? extends ItemLike> source,
                                        final float xp, final int smeltingTime) {
 
         this.blasting(consumer, name, result, source, xp, smeltingTime / 2);
         this.smelting(consumer, name, result, source, xp, smeltingTime);
     }
 
-    protected void blasting(final Consumer<IFinishedRecipe> consumer, final String name,
-                            final Supplier<? extends IItemProvider> result, final Supplier<? extends IItemProvider> source) {
+    protected void blasting(final Consumer<FinishedRecipe> consumer, final String name,
+                            final Supplier<? extends ItemLike> result, final Supplier<? extends ItemLike> source) {
         this.blasting(consumer, name, result, source, 1f, 100);
     }
 
-    protected void blasting(final Consumer<IFinishedRecipe> consumer, final String name,
-                            final Supplier<? extends IItemProvider> result, final Supplier<? extends IItemProvider> source,
+    protected void blasting(final Consumer<FinishedRecipe> consumer, final String name,
+                            final Supplier<? extends ItemLike> result, final Supplier<? extends ItemLike> source,
                             final float xp, final int time) {
-        CookingRecipeBuilder.blasting(Ingredient.of(source.get()), result.get(), xp, time)
+        SimpleCookingRecipeBuilder.blasting(Ingredient.of(source.get()), result.get(), xp, time)
                 .unlockedBy("has_item", has(source.get()))
                 .save(consumer, ExtremeReactors.newID("blasting/" + name));
     }
 
-    protected void smelting(final Consumer<IFinishedRecipe> consumer, final String name,
-                            final Supplier<? extends IItemProvider> result, final Supplier<? extends IItemProvider> source) {
+    protected void smelting(final Consumer<FinishedRecipe> consumer, final String name,
+                            final Supplier<? extends ItemLike> result, final Supplier<? extends ItemLike> source) {
         this.smelting(consumer, name, result, source, 1f, 200);
     }
 
-    protected void smelting(final Consumer<IFinishedRecipe> consumer, final String name,
-                            final Supplier<? extends IItemProvider> result, final Supplier<? extends IItemProvider> source,
+    protected void smelting(final Consumer<FinishedRecipe> consumer, final String name,
+                            final Supplier<? extends ItemLike> result, final Supplier<? extends ItemLike> source,
                             final float xp, final int time) {
-        CookingRecipeBuilder.smelting(Ingredient.of(source.get()), result.get(), xp, time)
+        SimpleCookingRecipeBuilder.smelting(Ingredient.of(source.get()), result.get(), xp, time)
                 .unlockedBy("has_item", has(source.get()))
                 .save(consumer, ExtremeReactors.newID("smelting/" + name));
     }
 
-    protected void storageBlock3x3(final Consumer<IFinishedRecipe> consumer, final String name,
-                                   final Supplier<? extends IItemProvider> component, final Supplier<? extends IItemProvider> storage) {
+    protected void storageBlock3x3(final Consumer<FinishedRecipe> consumer, final String name,
+                                   final Supplier<? extends ItemLike> component, final Supplier<? extends ItemLike> storage) {
 
         // 3x3 components -> 1 storage
         ShapelessRecipeBuilder.shapeless(storage.get())
@@ -109,10 +115,10 @@ public abstract class AbstractRecipeGenerator
                 .save(consumer, ExtremeReactors.newID("crafting/" + name + "_storage_to_component"));
     }
 
-    protected static void recipeWithAlternativeTag(final Consumer<IFinishedRecipe> c,
+    protected static void recipeWithAlternativeTag(final Consumer<FinishedRecipe> c,
                                                    final ResourceLocation name, @Nullable final ResourceLocation alternativeName,
-                                                   final ITag.INamedTag<Item> tag, @Nullable final ITag.INamedTag<Item> alternativeTag,
-                                                   final Function<ITag.INamedTag<Item>, ShapedRecipeBuilder> recipe) {
+                                                   final Tag.Named<Item> tag, @Nullable final Tag.Named<Item> alternativeTag,
+                                                   final Function<Tag.Named<Item>, ShapedRecipeBuilder> recipe) {
 
         if (null == alternativeTag || null == alternativeName) {
 
@@ -135,13 +141,13 @@ public abstract class AbstractRecipeGenerator
     }
 
     protected <V extends IMultiblockGeneratorVariant>
-    void generatorChargingPort(final Consumer<IFinishedRecipe> c, final V variant,
+    void generatorChargingPort(final Consumer<FinishedRecipe> c, final V variant,
                                final String name, final String group,
                                final BiFunction<V, String, ResourceLocation> nameProvider,
-                               final Supplier<? extends IItemProvider> result,
-                               final Supplier<? extends IItemProvider> powerTap,
-                               final IItemProvider item1,
-                               final IItemProvider item2) {
+                               final Supplier<? extends ItemLike> result,
+                               final Supplier<? extends ItemLike> powerTap,
+                               final ItemLike item1,
+                               final ItemLike item2) {
 
         ShapedRecipeBuilder.shaped(result.get())
                 .define('T', powerTap.get())
@@ -171,7 +177,7 @@ public abstract class AbstractRecipeGenerator
     protected static final Tags.IOptionalNamedTag<Item> TAG_INGOTS_STEEL = ItemTags.createOptional(new ResourceLocation("forge", "ingots/steel"));
     protected static final Tags.IOptionalNamedTag<Item> TAG_INGOTS_URANIUM = ItemTags.createOptional(new ResourceLocation("forge", "ingots/uranium"));
 
-    protected static final Set<ITag.INamedTag<Item>> TAGS_YELLORIUM_INGOTS = ImmutableSet.of(ContentTags.Items.INGOTS_YELLORIUM, TAG_INGOTS_URANIUM);
+    protected static final Set<Tag.Named<Item>> TAGS_YELLORIUM_INGOTS = ImmutableSet.of(ContentTags.Items.INGOTS_YELLORIUM, TAG_INGOTS_URANIUM);
 
     //endregion
 }

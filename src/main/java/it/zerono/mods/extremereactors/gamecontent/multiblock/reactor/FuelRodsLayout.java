@@ -21,8 +21,8 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor;
 import it.unimi.dsi.fastutil.ints.IntSet;
 import it.unimi.dsi.fastutil.ints.IntSets;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part.ReactorFuelRodEntity;
-import net.minecraft.util.Direction;
-import net.minecraft.world.World;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.Level;
 
 import java.util.Collection;
 
@@ -68,7 +68,7 @@ public class FuelRodsLayout {
         return IntSets.EMPTY_SET;
     }
 
-    public void updateFuelRodsOcclusion(final World world, final Collection<ReactorFuelRodEntity> fuelRods,
+    public void updateFuelRodsOcclusion(final Level world, final Collection<ReactorFuelRodEntity> fuelRods,
                                         final boolean interiorInvisible) {
     }
 

@@ -24,7 +24,7 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.common.sensor.Senso
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.ITurbineReader;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.ITurbineWriter;
 import it.zerono.mods.zerocore.lib.data.nbt.NBTHelper;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompoundTag;
 
 public class TurbineSensorSetting
         extends AbstractSensorSetting<ITurbineReader, ITurbineWriter, TurbineSensorType> {
@@ -35,7 +35,7 @@ public class TurbineSensorSetting
         super(sensor, behavior, v1, v2);
     }
 
-    public static TurbineSensorSetting syncDataFrom(final CompoundNBT data) {
+    public static TurbineSensorSetting syncDataFrom(final CompoundTag data) {
 
         try {
 
@@ -48,7 +48,7 @@ public class TurbineSensorSetting
         }
     }
 
-    public CompoundNBT syncDataTo(CompoundNBT data) {
+    public CompoundTag syncDataTo(CompoundTag data) {
         return super.syncDataTo(NBTHelper.nbtSetEnum(data, "sensor", this.Sensor));
     }
 
@@ -104,11 +104,11 @@ public class TurbineSensorSetting
         this(TurbineSensorType.Disabled, SensorBehavior.Disabled, 0 ,0);
     }
 
-    protected TurbineSensorSetting(final CompoundNBT data) throws IllegalArgumentException {
+    protected TurbineSensorSetting(final CompoundTag data) throws IllegalArgumentException {
         super(data, TurbineSensorSetting::readSensorTypeFrom);
     }
 
-    private static TurbineSensorType readSensorTypeFrom(final CompoundNBT data) {
+    private static TurbineSensorType readSensorTypeFrom(final CompoundTag data) {
 
         if (!data.contains("sensor")) {
             throw new IllegalArgumentException("Invalid NBT data");

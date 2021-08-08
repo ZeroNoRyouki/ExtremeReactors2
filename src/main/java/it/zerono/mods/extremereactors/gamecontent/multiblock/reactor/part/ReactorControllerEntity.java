@@ -27,22 +27,22 @@ import it.zerono.mods.zerocore.lib.IDebugMessages;
 import it.zerono.mods.zerocore.lib.block.TileCommandDispatcher;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
 import it.zerono.mods.zerocore.lib.network.INetworkTileEntitySyncProvider;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.INamedContainerProvider;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.fml.LogicalSide;
 
 import javax.annotation.Nullable;
 
 public class ReactorControllerEntity
         extends AbstractReactorEntity
-        implements INamedContainerProvider, INetworkTileEntitySyncProvider {
+        implements MenuProvider, INetworkTileEntitySyncProvider {
 
     public static String COMMAND_WASTE_AUTOMATIC = "autowaste";
     public static String COMMAND_WASTE_MANUAL = "manualwaste";
@@ -128,7 +128,7 @@ public class ReactorControllerEntity
      * @param state
      */
     @Override
-    public boolean canOpenGui(World world, BlockPos position, BlockState state) {
+    public boolean canOpenGui(Level world, BlockPos position, BlockState state) {
         return this.isMachineAssembled();
     }
 
@@ -142,7 +142,7 @@ public class ReactorControllerEntity
      * @param updateNow if true, send an update to the player immediately.
      */
     @Override
-    public void enlistForUpdates(ServerPlayerEntity player, boolean updateNow) {
+    public void enlistForUpdates(ServerPlayer player, boolean updateNow) {
         this.getMultiblockController().ifPresent(c -> c.enlistForUpdates(player, updateNow));
     }
 
@@ -152,7 +152,7 @@ public class ReactorControllerEntity
      * @param player the player to be removed from the update queue.
      */
     @Override
-    public void delistFromUpdates(ServerPlayerEntity player) {
+    public void delistFromUpdates(ServerPlayer player) {
         this.getMultiblockController().ifPresent(c -> c.delistFromUpdates(player));
     }
 
@@ -176,12 +176,12 @@ public class ReactorControllerEntity
     @SuppressWarnings("ConstantConditions")
     @Nullable
     @Override
-    public Container createMenu(final int windowId, final PlayerInventory inventory, final PlayerEntity player) {
-        return ModTileContainer.empty(Content.ContainerTypes.REACTOR_CONTROLLER.get(), windowId, this, (ServerPlayerEntity)player);
+    public AbstractContainerMenu createMenu(final int windowId, final Inventory inventory, final Player player) {
+        return ModTileContainer.empty(Content.ContainerTypes.REACTOR_CONTROLLER.get(), windowId, this, (ServerPlayer)player);
     }
 
     @Override
-    public ITextComponent getDisplayName() {
+    public Component getDisplayName() {
         return super.getPartDisplayName();
     }
 

@@ -23,7 +23,7 @@ import com.google.common.collect.Sets;
 import it.zerono.mods.extremereactors.config.Config;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.ReactorPartType;
 import it.zerono.mods.zerocore.lib.CodeHelper;
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 
 import java.util.Objects;
 import java.util.Set;

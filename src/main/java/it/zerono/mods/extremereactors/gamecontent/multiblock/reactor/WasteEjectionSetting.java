@@ -19,7 +19,7 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor;
 
 import com.google.common.base.Strings;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompoundTag;
 
 public enum WasteEjectionSetting {
 
@@ -38,7 +38,7 @@ public enum WasteEjectionSetting {
         return Manual == this;
     }
 
-    public static WasteEjectionSetting read(final CompoundNBT data, final String key, final WasteEjectionSetting defaultValue) {
+    public static WasteEjectionSetting read(final CompoundTag data, final String key, final WasteEjectionSetting defaultValue) {
 
         if (data.contains(key)) {
 
@@ -52,7 +52,7 @@ public enum WasteEjectionSetting {
         return defaultValue;
     }
 
-    public static CompoundNBT write(final CompoundNBT data, final String key, final WasteEjectionSetting value) {
+    public static CompoundTag write(final CompoundTag data, final String key, final WasteEjectionSetting value) {
 
         data.putString(key, value.name());
         return data;

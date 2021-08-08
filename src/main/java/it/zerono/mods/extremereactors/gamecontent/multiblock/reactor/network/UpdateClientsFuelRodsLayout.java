@@ -19,9 +19,9 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.network;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part.AbstractReactorEntity;
 import it.zerono.mods.zerocore.lib.data.nbt.ISyncableEntity;
 import it.zerono.mods.zerocore.lib.network.AbstractModTileMessage;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.fml.LogicalSide;
 
 public class UpdateClientsFuelRodsLayout
@@ -30,30 +30,30 @@ public class UpdateClientsFuelRodsLayout
     public UpdateClientsFuelRodsLayout(final AbstractReactorEntity referencePart, final ISyncableEntity fuelContainer) {
 
         super(referencePart.getWorldPosition());
-        this._fuelContainerData = fuelContainer.syncDataTo(new CompoundNBT(), ISyncableEntity.SyncReason.NetworkUpdate);
+        this._fuelContainerData = fuelContainer.syncDataTo(new CompoundTag(), ISyncableEntity.SyncReason.NetworkUpdate);
     }
 
-    public UpdateClientsFuelRodsLayout(final PacketBuffer buffer) {
+    public UpdateClientsFuelRodsLayout(final FriendlyByteBuf buffer) {
 
         super(buffer);
         this._fuelContainerData = buffer.readNbt();
     }
 
-    public CompoundNBT getFuelContainerData() {
+    public CompoundTag getFuelContainerData() {
         return this._fuelContainerData;
     }
 
     //region AbstractModTileMessage
 
     @Override
-    public void encodeTo(final PacketBuffer buffer) {
+    public void encodeTo(final FriendlyByteBuf buffer) {
 
         super.encodeTo(buffer);
         buffer.writeNbt(this._fuelContainerData);
     }
 
     @Override
-    protected void processTileEntityMessage(final LogicalSide sourceSide, final TileEntity tileEntity) {
+    protected void processTileEntityMessage(final LogicalSide sourceSide, final BlockEntity tileEntity) {
 
         if (LogicalSide.SERVER == sourceSide && tileEntity instanceof AbstractReactorEntity) {
             ((AbstractReactorEntity)tileEntity).onUpdateClientsFuelRodsLayout(this);
@@ -63,7 +63,7 @@ public class UpdateClientsFuelRodsLayout
     //endregion
     //region internals
 
-    private final CompoundNBT _fuelContainerData;
+    private final CompoundTag _fuelContainerData;
 
     //endregion
 }

@@ -26,13 +26,13 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part.Reacto
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.ReactorVariant;
 import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockPartType;
 import it.zerono.mods.zerocore.lib.block.multiblock.MultiblockPartBlock;
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.SoundType;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.world.IBlockReader;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.BlockGetter;
 
 import javax.annotation.Nullable;
 import java.util.function.Function;
@@ -95,14 +95,14 @@ public enum ReactorPartType
             GenericDeviceBlock::new, "part.bigreactors.reactor.chargingport_fe"),
     ;
 
-    ReactorPartType(final Supplier<Supplier<TileEntityType<?>>> tileTypeSupplier,
+    ReactorPartType(final Supplier<Supplier<BlockEntityType<?>>> tileTypeSupplier,
                     final Function<MultiblockPartBlock.MultiblockPartProperties<ReactorPartType>,
                             MultiblockPartBlock<MultiblockReactor, ReactorPartType>> blockFactory,
                     final String translationKey) {
         this(tileTypeSupplier, blockFactory, translationKey, bp -> bp);
     }
 
-    ReactorPartType(final Supplier<Supplier<TileEntityType<?>>> tileTypeSupplier,
+    ReactorPartType(final Supplier<Supplier<BlockEntityType<?>>> tileTypeSupplier,
                     final Function<MultiblockPartBlock.MultiblockPartProperties<ReactorPartType>,
                             MultiblockPartBlock<MultiblockReactor, ReactorPartType>> blockFactory,
                     final String translationKey,
@@ -124,7 +124,7 @@ public enum ReactorPartType
 
     @Nullable
     @Override
-    public TileEntity createTileEntity(BlockState state, IBlockReader world) {
+    public BlockEntity createTileEntity(BlockState state, BlockGetter world) {
         return this._tileTypeSupplier.get().get().create();
     }
 
@@ -141,7 +141,7 @@ public enum ReactorPartType
     //endregion
     //region internals
 
-    private static AbstractBlock.Properties notOpaqueBlock(AbstractBlock.Properties originals) {
+    private static BlockBehaviour.Properties notOpaqueBlock(BlockBehaviour.Properties originals) {
         return originals
                 .sound(SoundType.GLASS)
                 .noOcclusion()
@@ -149,7 +149,7 @@ public enum ReactorPartType
                 .isViewBlocking((blockState, blockReader, pos) -> false);
     }
 
-    private final Supplier<Supplier<TileEntityType<?>>> _tileTypeSupplier;
+    private final Supplier<Supplier<BlockEntityType<?>>> _tileTypeSupplier;
 
     private final Function<MultiblockPartBlock.MultiblockPartProperties<ReactorPartType>,
             MultiblockPartBlock<MultiblockReactor, ReactorPartType>> _blockFactory;

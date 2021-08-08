@@ -20,7 +20,7 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.common.sensor;
 
 import it.zerono.mods.extremereactors.gamecontent.multiblock.IMachineReader;
 import it.zerono.mods.zerocore.lib.data.nbt.NBTHelper;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraftforge.common.util.NonNullPredicate;
 
 import java.util.function.Function;
@@ -41,7 +41,7 @@ public abstract class AbstractSensorSetting<Reader extends IMachineReader, Write
         this.Value2 = v2;
     }
 
-    protected AbstractSensorSetting(final CompoundNBT data, final Function<CompoundNBT, SensorType> sensorTypeGetter) throws IllegalArgumentException {
+    protected AbstractSensorSetting(final CompoundTag data, final Function<CompoundTag, SensorType> sensorTypeGetter) throws IllegalArgumentException {
 
         if (!data.contains("behavior") || !data.contains("v1") || !data.contains("v2")) {
             throw new IllegalArgumentException("Invalid NBT data");
@@ -53,7 +53,7 @@ public abstract class AbstractSensorSetting<Reader extends IMachineReader, Write
         this.Value2 = data.getInt("v2");
     }
 
-    public CompoundNBT syncDataTo(CompoundNBT data) {
+    public CompoundTag syncDataTo(CompoundTag data) {
 
         NBTHelper.nbtSetEnum(data, "behavior", this.Behavior);
         data.putInt("v1", this.Value1);

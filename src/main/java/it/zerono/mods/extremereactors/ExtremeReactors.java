@@ -29,9 +29,9 @@ import it.zerono.mods.extremereactors.proxy.ServerProxy;
 import it.zerono.mods.zerocore.lib.init.IModInitializationHandler;
 import it.zerono.mods.zerocore.lib.network.IModMessage;
 import it.zerono.mods.zerocore.lib.network.NetworkHandler;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.InterModComms;
@@ -127,7 +127,7 @@ public class ExtremeReactors implements IModInitializationHandler {
         ApiWrapper.processFile();
     }
 
-    public <T extends IModMessage> void sendPacket(final T packet, final World world, final BlockPos center, final int radius) {
+    public <T extends IModMessage> void sendPacket(final T packet, final Level world, final BlockPos center, final int radius) {
         this._network.sendToAllAround(packet, center.getX(), center.getY(), center.getZ(), radius, world.dimension());
     }
 

@@ -18,8 +18,8 @@
 
 package it.zerono.mods.extremereactors.api;
 
-import net.minecraft.util.text.Style;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.network.chat.Style;
+import net.minecraft.ChatFormatting;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.Marker;
@@ -33,6 +33,6 @@ public final class ExtremeReactorsAPI {
     public static final Marker MARKER = MarkerManager.getMarker("API");
 
     public static final Style STYLE_TOOLTIP = Style.EMPTY
-            .withColor(TextFormatting.YELLOW)
+            .withColor(ChatFormatting.YELLOW)
             .withItalic(true);
 }

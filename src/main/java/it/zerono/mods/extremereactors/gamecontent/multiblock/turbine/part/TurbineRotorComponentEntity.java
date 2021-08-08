@@ -32,13 +32,13 @@ import it.zerono.mods.zerocore.lib.block.INeighborChangeListener;
 import it.zerono.mods.zerocore.lib.multiblock.cuboid.PartPosition;
 import it.zerono.mods.zerocore.lib.multiblock.validation.IMultiblockValidator;
 import it.zerono.mods.zerocore.lib.world.WorldHelper;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.core.Direction;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -164,13 +164,13 @@ public class TurbineRotorComponentEntity
     //endregion
     //region internals
 
-    protected TurbineRotorComponentEntity(final TurbinePartType componentType, final TileEntityType<?> type) {
+    protected TurbineRotorComponentEntity(final TurbinePartType componentType, final BlockEntityType<?> type) {
 
         super(type);
         this._componentType = componentType;
     }
 
-    private static void updateNeighborsRenderState(final World world, final BlockPos position) {
+    private static void updateNeighborsRenderState(final Level world, final BlockPos position) {
 
         WorldHelper.getTilesFrom(world, WorldHelper.getNeighboringPositions(position))
                 .filter(te -> te instanceof TurbineRotorComponentEntity)
@@ -189,7 +189,7 @@ public class TurbineRotorComponentEntity
 
     private static RotorShaftState computeShaftStateInternal(final TurbineRotorComponentEntity shaft) {
 
-        final World world = shaft.getPartWorldOrFail();
+        final Level world = shaft.getPartWorldOrFail();
         final BlockPos shaftPosition = shaft.getWorldPosition();
 
         final Map<Direction, BlockState> neighborsStates = Arrays.stream(CodeHelper.DIRECTIONS)
@@ -230,7 +230,7 @@ public class TurbineRotorComponentEntity
 
     private static RotorBladeState computeBladeStateInternal(final TurbineRotorComponentEntity blade) {
 
-        final World world = blade.getPartWorldOrFail();
+        final Level world = blade.getPartWorldOrFail();
         final BlockPos bladePosition = blade.getWorldPosition();
 
         final Map<Direction, BlockState> neighborsStates = Arrays.stream(CodeHelper.DIRECTIONS)
@@ -274,7 +274,7 @@ public class TurbineRotorComponentEntity
         return RotorBladeState.getDefault();
     }
 
-    private static RotorBladeState computeBladeStateFromBladesChain(final World world, BlockPos startPosition,
+    private static RotorBladeState computeBladeStateFromBladesChain(final Level world, BlockPos startPosition,
                                                                     final Direction direction, final Block bladeBlock,
                                                                     final Block shaftBlock) {
 

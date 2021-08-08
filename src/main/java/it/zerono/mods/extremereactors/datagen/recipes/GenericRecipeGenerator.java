@@ -25,15 +25,15 @@ import it.zerono.mods.extremereactors.gamecontent.compat.patchouli.PatchouliComp
 import it.zerono.mods.zerocore.lib.compat.Mods;
 import it.zerono.mods.zerocore.lib.datagen.provider.recipe.NbtResultFinishedRecipeAdapter;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.IFinishedRecipe;
-import net.minecraft.data.ShapedRecipeBuilder;
-import net.minecraft.item.Item;
-import net.minecraft.item.Items;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.tags.ITag;
+import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.tags.Tag;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.util.IItemProvider;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.level.ItemLike;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.crafting.ConditionalRecipe;
 import vazkii.patchouli.api.PatchouliAPI;
@@ -61,7 +61,7 @@ public class GenericRecipeGenerator
      * Registers all recipes to the given consumer.
      */
     @Override
-    protected void buildShapelessRecipes(final Consumer<IFinishedRecipe> c) {
+    protected void buildShapelessRecipes(final Consumer<FinishedRecipe> c) {
 
         // ingots / (storage) blocks
         this.storageBlock3x3(c, "yellorium", Content.Items.YELLORIUM_INGOT, Content.Items.YELLORIUM_BLOCK);
@@ -74,9 +74,9 @@ public class GenericRecipeGenerator
         this.blastingAndSmelting(c, "yellorium_from_dust", Content.Items.YELLORIUM_INGOT, Content.Items.YELLORIUM_DUST);
         this.blastingAndSmelting(c, "cyanite_from_dust", Content.Items.CYANITE_INGOT, Content.Items.CYANITE_DUST);
         this.blastingAndSmelting(c, "graphite_from_dust", Content.Items.GRAPHITE_INGOT, Content.Items.GRAPHITE_DUST);
-        this.blastingAndSmelting(c, "graphite_from_coal", Content.Items.GRAPHITE_INGOT, () -> net.minecraft.item.Items.COAL);
-        this.blastingAndSmelting(c, "graphite_from_charcoal", Content.Items.GRAPHITE_INGOT, () -> net.minecraft.item.Items.CHARCOAL);
-        this.blastingAndSmelting(c, "graphite_from_coalblock", Content.Items.GRAPHITE_BLOCK, () -> net.minecraft.item.Items.COAL_BLOCK, 0.9f, 1800);
+        this.blastingAndSmelting(c, "graphite_from_coal", Content.Items.GRAPHITE_INGOT, () -> net.minecraft.world.item.Items.COAL);
+        this.blastingAndSmelting(c, "graphite_from_charcoal", Content.Items.GRAPHITE_INGOT, () -> net.minecraft.world.item.Items.CHARCOAL);
+        this.blastingAndSmelting(c, "graphite_from_coalblock", Content.Items.GRAPHITE_BLOCK, () -> net.minecraft.world.item.Items.COAL_BLOCK, 0.9f, 1800);
 
         // misc
 
@@ -98,9 +98,9 @@ public class GenericRecipeGenerator
     //endregion
     //region internals
 
-    private void book(final Consumer<IFinishedRecipe> c, final String name, final ResourceLocation patchouliBookId,
-                      final IItemProvider ingredientBook,
-                      final ITag<Item> ingredientItem) {
+    private void book(final Consumer<FinishedRecipe> c, final String name, final ResourceLocation patchouliBookId,
+                      final ItemLike ingredientBook,
+                      final Tag<Item> ingredientItem) {
 
         Mods.PATCHOULI.map(() -> PatchouliAPI.get().getBookStack(patchouliBookId)).ifPresent(book -> {
 
@@ -113,7 +113,7 @@ public class GenericRecipeGenerator
                                     .pattern("B")
                                     .group(GROUP_GENERAL)
                                     .unlockedBy("has_item", has(ingredientItem))
-                                    .save(NbtResultFinishedRecipeAdapter.from(fr, IRecipeSerializer.SHAPED_RECIPE,
+                                    .save(NbtResultFinishedRecipeAdapter.from(fr, RecipeSerializer.SHAPED_RECIPE,
                                             nbt -> nbt.putString("patchouli:book", patchouliBookId.toString()))))
                             .build(c, ExtremeReactors.newID("misc/book/" + name));
                 });

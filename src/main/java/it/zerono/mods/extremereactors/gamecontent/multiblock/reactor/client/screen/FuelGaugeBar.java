@@ -19,7 +19,7 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.screen;
 
 import com.google.common.collect.ImmutableList;
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import it.zerono.mods.extremereactors.api.reactor.ReactantType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.AbstractMultiblockScreen;
@@ -35,6 +35,12 @@ import net.minecraftforge.common.util.NonNullSupplier;
 
 import java.util.List;
 
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
+
 public class FuelGaugeBar
         extends MultiValueGaugeBar<ReactantType> {
 
@@ -46,35 +52,35 @@ public class FuelGaugeBar
         this._reactor = reactor;
 
         this._tooltipsLines = ImmutableList.of(
-                new TranslationTextComponent("gui.bigreactors.reactor.controller.fuelbar.line1").setStyle(AbstractMultiblockScreen.STYLE_TOOLTIP_TITLE),
-                new TranslationTextComponent("gui.bigreactors.reactor.controller.fuelbar.line2"),
-                new TranslationTextComponent("gui.bigreactors.reactor.controller.fuelbar.line3"),
+                new TranslatableComponent("gui.bigreactors.reactor.controller.fuelbar.line1").setStyle(AbstractMultiblockScreen.STYLE_TOOLTIP_TITLE),
+                new TranslatableComponent("gui.bigreactors.reactor.controller.fuelbar.line2"),
+                new TranslatableComponent("gui.bigreactors.reactor.controller.fuelbar.line3"),
                 CodeHelper.TEXT_EMPTY_LINE,
-                new TranslationTextComponent("gui.bigreactors.reactor.controller.fuelbar.line4", String.format(TextFormatting.DARK_AQUA + "" + TextFormatting.BOLD + "%d", this._reactor.getFuelRodsCount())),
-                new TranslationTextComponent("gui.bigreactors.reactor.controller.fuelbar.line5", TextFormatting.DARK_AQUA + "" + TextFormatting.BOLD + CodeHelper.formatAsMillibuckets(this._reactor.getCapacity())),
-                new TranslationTextComponent("gui.bigreactors.reactor.controller.fuelbar.line6"),
-                new TranslationTextComponent("gui.bigreactors.reactor.controller.fuelbar.line7"),
-                new TranslationTextComponent("gui.bigreactors.reactor.controller.fuelbar.line8")
+                new TranslatableComponent("gui.bigreactors.reactor.controller.fuelbar.line4", String.format(ChatFormatting.DARK_AQUA + "" + ChatFormatting.BOLD + "%d", this._reactor.getFuelRodsCount())),
+                new TranslatableComponent("gui.bigreactors.reactor.controller.fuelbar.line5", ChatFormatting.DARK_AQUA + "" + ChatFormatting.BOLD + CodeHelper.formatAsMillibuckets(this._reactor.getCapacity())),
+                new TranslatableComponent("gui.bigreactors.reactor.controller.fuelbar.line6"),
+                new TranslatableComponent("gui.bigreactors.reactor.controller.fuelbar.line7"),
+                new TranslatableComponent("gui.bigreactors.reactor.controller.fuelbar.line8")
         );
 
         this._tooltipsObjects = ImmutableList.of(
                 // @0
-                (NonNullSupplier<ITextComponent>)() -> new StringTextComponent(String.format("%.2f%%", this.getFillRatio() * 100f))
+                (NonNullSupplier<Component>)() -> new TextComponent(String.format("%.2f%%", this.getFillRatio() * 100f))
                         .setStyle(AbstractMultiblockScreen.STYLE_TOOLTIP_VALUE),
                 // @1
-                (NonNullSupplier<ITextComponent>)() -> new StringTextComponent(String.format("%.2f%%", this._reactor.getFuelContainer().isEmpty() ?
+                (NonNullSupplier<Component>)() -> new TextComponent(String.format("%.2f%%", this._reactor.getFuelContainer().isEmpty() ?
                         0f : ((float)this._reactor.getFuelContainer().getWasteAmount() / (float)(this.getFuelAmount() + this.getWasteAmount())) * 100f))
                             .setStyle(AbstractMultiblockScreen.STYLE_TOOLTIP_VALUE),
                 // @2
-                (NonNullSupplier<ITextComponent>)() -> (this.getFuelAmount() > 0 ?
-                        new StringTextComponent(CodeHelper.formatAsMillibuckets(this.getFuelAmount())) : EMPTY)
+                (NonNullSupplier<Component>)() -> (this.getFuelAmount() > 0 ?
+                        new TextComponent(CodeHelper.formatAsMillibuckets(this.getFuelAmount())) : EMPTY)
                             .setStyle(AbstractMultiblockScreen.STYLE_TOOLTIP_VALUE),
                 // @3
-                (NonNullSupplier<ITextComponent>)() -> (this.getWasteAmount() > 0 ?
-                        new StringTextComponent(CodeHelper.formatAsMillibuckets(this.getWasteAmount())) : EMPTY)
+                (NonNullSupplier<Component>)() -> (this.getWasteAmount() > 0 ?
+                        new TextComponent(CodeHelper.formatAsMillibuckets(this.getWasteAmount())) : EMPTY)
                         .setStyle(AbstractMultiblockScreen.STYLE_TOOLTIP_VALUE),
                 // @4
-                (NonNullSupplier<ITextComponent>)() -> new StringTextComponent(CodeHelper.formatAsMillibuckets(this.getFuelAmount() + this.getWasteAmount()))
+                (NonNullSupplier<Component>)() -> new TextComponent(CodeHelper.formatAsMillibuckets(this.getFuelAmount() + this.getWasteAmount()))
                         .setStyle(AbstractMultiblockScreen.STYLE_TOOLTIP_VALUE)
         );
     }
@@ -82,7 +88,7 @@ public class FuelGaugeBar
     //region IControl
 
     @Override
-    public List<ITextComponent> getTooltips() {
+    public List<Component> getTooltips() {
         return this._tooltipsLines;
     }
 
@@ -95,7 +101,7 @@ public class FuelGaugeBar
     //region MultiValueGaugeBar
 
     @Override
-    protected int paintValueRect(final MatrixStack matrix, final ReactantType reactantType, final Rectangle rect, final int skip) {
+    protected int paintValueRect(final PoseStack matrix, final ReactantType reactantType, final Rectangle rect, final int skip) {
 
         RenderSystem.enableBlend();
         int r = super.paintValueRect(matrix, reactantType, rect, skip);
@@ -114,10 +120,10 @@ public class FuelGaugeBar
         return this._reactor.getFuelContainer().getWasteAmount();
     }
 
-    private static final IFormattableTextComponent EMPTY = new TranslationTextComponent("gui.bigreactors.generic.empty");
+    private static final MutableComponent EMPTY = new TranslatableComponent("gui.bigreactors.generic.empty");
 
     private final MultiblockReactor _reactor;
-    private final List<ITextComponent> _tooltipsLines;
+    private final List<Component> _tooltipsLines;
     private final List<Object> _tooltipsObjects;
 
     //endregion

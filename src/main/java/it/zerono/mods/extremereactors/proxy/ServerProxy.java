@@ -19,7 +19,7 @@
 package it.zerono.mods.extremereactors.proxy;
 
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.FuelRodsLayout;
-import net.minecraft.util.Direction;
+import net.minecraft.core.Direction;
 
 public class ServerProxy implements IProxy {
 

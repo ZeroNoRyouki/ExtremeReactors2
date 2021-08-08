@@ -24,16 +24,16 @@ import it.zerono.mods.extremereactors.gamecontent.compat.patchouli.PatchouliComp
 import it.zerono.mods.zerocore.lib.compat.Mods;
 import it.zerono.mods.zerocore.lib.item.ItemHelper;
 import it.zerono.mods.zerocore.lib.item.ModItemGroup;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.IItemProvider;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ItemLike;
 import vazkii.patchouli.api.PatchouliAPI;
 
 import java.util.function.Supplier;
 
 public final class ItemGroups {
 
-    public static final ItemGroup GENERAL = new ModItemGroup(ExtremeReactors.MOD_ID + ".general",
+    public static final CreativeModeTab GENERAL = new ModItemGroup(ExtremeReactors.MOD_ID + ".general",
             () -> stack(Content.Items.YELLORITE_ORE_BLOCK),
             () -> {
 
@@ -50,7 +50,7 @@ public final class ItemGroups {
                 return builder.build();
             });
 
-    public static final ItemGroup REACTOR = new ModItemGroup(ExtremeReactors.MOD_ID + ".reactor",
+    public static final CreativeModeTab REACTOR = new ModItemGroup(ExtremeReactors.MOD_ID + ".reactor",
             () -> stack(Content.Blocks.REACTOR_FUELROD_BASIC),
             () -> ImmutableList.of(
                     stack(Content.Blocks.REACTOR_CONTROLLER_BASIC), stack(Content.Blocks.REACTOR_CASING_BASIC),
@@ -71,7 +71,7 @@ public final class ItemGroups {
                     stack(Content.Blocks.REACTOR_CREATIVE_WATER_GENERATOR_REINFORCED)
             ));
 
-    public static final ItemGroup TURBINE = new ModItemGroup(ExtremeReactors.MOD_ID + ".turbine",
+    public static final CreativeModeTab TURBINE = new ModItemGroup(ExtremeReactors.MOD_ID + ".turbine",
             () -> stack(Content.Blocks.TURBINE_ROTORSHAFT_BASIC),
             () -> ImmutableList.of(
                     stack(Content.Blocks.TURBINE_CONTROLLER_BASIC), stack(Content.Blocks.TURBINE_CASING_BASIC),
@@ -95,7 +95,7 @@ public final class ItemGroups {
 
     //region internals
 
-    private static <T extends IItemProvider> ItemStack stack(final Supplier<T> supplier) {
+    private static <T extends ItemLike> ItemStack stack(final Supplier<T> supplier) {
         return ItemHelper.stackFrom(supplier);
     }
 

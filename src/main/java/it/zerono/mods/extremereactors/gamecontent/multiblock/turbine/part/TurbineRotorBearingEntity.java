@@ -30,10 +30,10 @@ import it.zerono.mods.zerocore.lib.CodeHelper;
 import it.zerono.mods.zerocore.lib.multiblock.cuboid.PartPosition;
 import it.zerono.mods.zerocore.lib.multiblock.validation.IMultiblockValidator;
 import it.zerono.mods.zerocore.lib.world.WorldHelper;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.Direction;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -130,7 +130,7 @@ public class TurbineRotorBearingEntity
     //region TileEntity
 
     @Override
-    public AxisAlignedBB getRenderBoundingBox() {
+    public AABB getRenderBoundingBox() {
         return this._renderBoundingBox;
     }
 
@@ -155,7 +155,7 @@ public class TurbineRotorBearingEntity
 
         // build our new render bounding box
 
-        this._renderBoundingBox = new AxisAlignedBB(turbineMin, turbineMax);
+        this._renderBoundingBox = new AABB(turbineMin, turbineMax);
 
         // build the rotor
 
@@ -179,7 +179,7 @@ public class TurbineRotorBearingEntity
         }
 
         final List<Direction> bladesDirections = CodeHelper.perpendicularDirections(rotorDirection);
-        final World world = this.getPartWorldOrFail();
+        final Level world = this.getPartWorldOrFail();
 
         final RotorDescriptor.Builder rotorBuilder = RotorDescriptor.builder(TurbineVariant.from(turbine.getVariant()),
                 rotorDirection, rotorLength);
@@ -212,7 +212,7 @@ public class TurbineRotorBearingEntity
         return rotorBuilder.build();
     }
 
-    private void buildShaftSection(final World world, final BlockPos shaftPosition, List<Direction> bladesDirections,
+    private void buildShaftSection(final Level world, final BlockPos shaftPosition, List<Direction> bladesDirections,
                                    final ShaftSection.Builder sectionBuilder) {
 
         for (final Direction direction : bladesDirections) {
@@ -263,7 +263,7 @@ public class TurbineRotorBearingEntity
     //endregion
 
     private float _rotorAngle;
-    private AxisAlignedBB _renderBoundingBox;
+    private AABB _renderBoundingBox;
     private RotorDescriptor _rotorDescriptor;
 
     //endregion

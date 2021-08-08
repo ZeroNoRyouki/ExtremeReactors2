@@ -30,9 +30,9 @@ import it.zerono.mods.extremereactors.api.internal.modpack.wrapper.AddRemoveSect
 import it.zerono.mods.extremereactors.api.internal.modpack.wrapper.ApiWrapper;
 import it.zerono.mods.extremereactors.api.internal.modpack.wrapper.SourceTag;
 import it.zerono.mods.zerocore.lib.tag.TagsHelper;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.tags.ITag;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.tags.Tag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.fluids.FluidStack;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
@@ -77,7 +77,7 @@ public final class FluidMappingsRegistry {
      * @param stack The FluidStack
      * @return The mapping, if one is found and the provided stack is not empty
      */
-    public static Optional<IMapping<ITag.INamedTag<Fluid>, Coolant>> getCoolantFrom(final FluidStack stack) {
+    public static Optional<IMapping<Tag.Named<Fluid>, Coolant>> getCoolantFrom(final FluidStack stack) {
         return getFrom(s_fluidToCoolant, stack);
     }
 
@@ -87,7 +87,7 @@ public final class FluidMappingsRegistry {
      * @param fluid The Fluid
      * @return The mapping, if one is found
      */
-    public static Optional<IMapping<ITag.INamedTag<Fluid>, Coolant>> getCoolantFrom(final Fluid fluid) {
+    public static Optional<IMapping<Tag.Named<Fluid>, Coolant>> getCoolantFrom(final Fluid fluid) {
         return getFrom(s_fluidToCoolant, fluid);
     }
 
@@ -97,7 +97,7 @@ public final class FluidMappingsRegistry {
      * @param stack The FluidStack
      * @return The mapping, if one is found and the provided stack is not empty
      */
-    public static Optional<IMapping<ITag.INamedTag<Fluid>, Vapor>> getVaporFrom(final FluidStack stack) {
+    public static Optional<IMapping<Tag.Named<Fluid>, Vapor>> getVaporFrom(final FluidStack stack) {
         return getFrom(s_fluidToVapor, stack);
     }
 
@@ -107,7 +107,7 @@ public final class FluidMappingsRegistry {
      * @param fluid The Fluid
      * @return The mapping, if one is found
      */
-    public static Optional<IMapping<ITag.INamedTag<Fluid>, Vapor>> getVaporFrom(final Fluid fluid) {
+    public static Optional<IMapping<Tag.Named<Fluid>, Vapor>> getVaporFrom(final Fluid fluid) {
         return getFrom(s_fluidToVapor, fluid);
     }
 
@@ -117,7 +117,7 @@ public final class FluidMappingsRegistry {
      * @param coolant The Coolant
      * @return A list of Coolant to ITag<Fluid> mappings, if one is found. Note that Coolant is the source and the ITag<Fluid> is the product of the mapping
      */
-    public static Optional<List<IMapping<Coolant, ITag.INamedTag<Fluid>>>> getFluidFrom(final Coolant coolant) {
+    public static Optional<List<IMapping<Coolant, Tag.Named<Fluid>>>> getFluidFrom(final Coolant coolant) {
         return Optional.ofNullable(s_coolantToFluid.get(coolant));
     }
 
@@ -127,7 +127,7 @@ public final class FluidMappingsRegistry {
      * @param vapor The Vapor
      * @return A list of Vapor to ITag<Fluid> mappings, if one is found. Note that Vapor is the source and the ITag<Fluid> is the product of the mapping
      */
-    public static Optional<List<IMapping<Vapor, ITag.INamedTag<Fluid>>>> getFluidFrom(final Vapor vapor) {
+    public static Optional<List<IMapping<Vapor, Tag.Named<Fluid>>>> getFluidFrom(final Vapor vapor) {
         return Optional.ofNullable(s_vaporToFluid.get(vapor));
     }
 
@@ -138,7 +138,7 @@ public final class FluidMappingsRegistry {
      * @param quantity The quantity of the Coolant produced for every unit of source (must be >= 0).
      * @param source The source for the Coolant.
      */
-    public static void registerCoolantMapping(final String name, final int quantity, final ITag.INamedTag<Fluid> source) {
+    public static void registerCoolantMapping(final String name, final int quantity, final Tag.Named<Fluid> source) {
 
         Preconditions.checkArgument(!Strings.isNullOrEmpty(name));
 
@@ -156,7 +156,7 @@ public final class FluidMappingsRegistry {
 
             if (coolant.isPresent()) {
 
-                final IMapping<ITag.INamedTag<Fluid>, Coolant> mapping = IMapping.of(source, 1, coolant.get(), qty);
+                final IMapping<Tag.Named<Fluid>, Coolant> mapping = IMapping.of(source, 1, coolant.get(), qty);
 
                 s_fluidToCoolant.put(mapping.getSource(), mapping);
                 s_coolantToFluid.computeIfAbsent(mapping.getProduct(), k -> Lists.newArrayList()).add(mapping.getReverse());
@@ -173,7 +173,7 @@ public final class FluidMappingsRegistry {
      *
      * @param sourceFluidTag the Fluid Tag to remove
      */
-    public static void removeCoolantMapping(final ITag.INamedTag<Fluid> sourceFluidTag) {
+    public static void removeCoolantMapping(final Tag.Named<Fluid> sourceFluidTag) {
         removeSourceMapping(sourceFluidTag.getName(), s_fluidToCoolant, s_coolantToFluid);
     }
 
@@ -193,7 +193,7 @@ public final class FluidMappingsRegistry {
      * @param quantity The quantity of the Vapor produced for every unit of source (must be >= 0).
      * @param source The source for the Vapor.
      */
-    public static void registerVaporMapping(final String name, final int quantity, final ITag.INamedTag<Fluid> source) {
+    public static void registerVaporMapping(final String name, final int quantity, final Tag.Named<Fluid> source) {
 
         Preconditions.checkArgument(!Strings.isNullOrEmpty(name));
 
@@ -211,7 +211,7 @@ public final class FluidMappingsRegistry {
 
             if (entry.isPresent()) {
 
-                final IMapping<ITag.INamedTag<Fluid>, Vapor> mapping = IMapping.of(source, 1, entry.get(), qty);
+                final IMapping<Tag.Named<Fluid>, Vapor> mapping = IMapping.of(source, 1, entry.get(), qty);
 
                 s_fluidToVapor.put(mapping.getSource(), mapping);
                 s_vaporToFluid.computeIfAbsent(mapping.getProduct(), k -> Lists.newArrayList()).add(mapping.getReverse());
@@ -228,7 +228,7 @@ public final class FluidMappingsRegistry {
      *
      * @param sourceFluidTag the Fluid Tag to remove
      */
-    public static void removeVaporMapping(final ITag.INamedTag<Fluid> sourceFluidTag) {
+    public static void removeVaporMapping(final Tag.Named<Fluid> sourceFluidTag) {
         removeSourceMapping(sourceFluidTag.getName(), s_fluidToVapor, s_vaporToFluid);
     }
 
@@ -261,7 +261,7 @@ public final class FluidMappingsRegistry {
     private FluidMappingsRegistry() {
     }
 
-    private static <T> Optional<IMapping<ITag.INamedTag<Fluid>, T>> getFrom(final Map<ITag.INamedTag<Fluid>, IMapping<ITag.INamedTag<Fluid>, T>> map,
+    private static <T> Optional<IMapping<Tag.Named<Fluid>, T>> getFrom(final Map<Tag.Named<Fluid>, IMapping<Tag.Named<Fluid>, T>> map,
                                                                             final FluidStack stack) {
         if (stack.isEmpty()) {
             return Optional.empty();
@@ -270,7 +270,7 @@ public final class FluidMappingsRegistry {
         return getFrom(map, stack.getFluid());
     }
 
-    private static <T> Optional<IMapping<ITag.INamedTag<Fluid>, T>> getFrom(final Map<ITag.INamedTag<Fluid>, IMapping<ITag.INamedTag<Fluid>, T>> map,
+    private static <T> Optional<IMapping<Tag.Named<Fluid>, T>> getFrom(final Map<Tag.Named<Fluid>, IMapping<Tag.Named<Fluid>, T>> map,
                                                                             final Fluid fluid) {
         return map.entrySet().stream()
                 .filter(entry -> entry.getKey().contains(fluid))
@@ -279,8 +279,8 @@ public final class FluidMappingsRegistry {
     }
 
     private static <X> void removeSourceMapping(final ResourceLocation sourceFluidTagId,
-                                                final Map<ITag.INamedTag<Fluid>, IMapping<ITag.INamedTag<Fluid>, X>> fluidToX,
-                                                final Map<X, List<IMapping<X, ITag.INamedTag<Fluid>>>> xToFluid) {
+                                                final Map<Tag.Named<Fluid>, IMapping<Tag.Named<Fluid>, X>> fluidToX,
+                                                final Map<X, List<IMapping<X, Tag.Named<Fluid>>>> xToFluid) {
 
         Preconditions.checkNotNull(sourceFluidTagId);
         Preconditions.checkNotNull(fluidToX);
@@ -288,13 +288,13 @@ public final class FluidMappingsRegistry {
 
         InternalDispatcher.dispatch("fluid-mapping-remove", () -> {
 
-            final Optional<ITag.INamedTag<Fluid>> fluidTag = fluidToX.keySet().stream()
+            final Optional<Tag.Named<Fluid>> fluidTag = fluidToX.keySet().stream()
                     .filter(tag -> tag.getName().equals(sourceFluidTagId))
                     .findFirst();
 
             fluidTag.ifPresent(tag -> {
 
-                final IMapping<ITag.INamedTag<Fluid>, X> removedMapping = fluidToX.remove(tag);
+                final IMapping<Tag.Named<Fluid>, X> removedMapping = fluidToX.remove(tag);
 
                 if (null != removedMapping) {
 
@@ -312,8 +312,8 @@ public final class FluidMappingsRegistry {
     }
 
     private static <X> void processWrapper(final String objectName, final AddRemoveSection<SourceTag> wrapperSection,
-                                           final Map<ITag.INamedTag<Fluid>, IMapping<ITag.INamedTag<Fluid>, X>> fluidToX,
-                                           final Map<X, List<IMapping<X, ITag.INamedTag<Fluid>>>> xToFluid,
+                                           final Map<Tag.Named<Fluid>, IMapping<Tag.Named<Fluid>, X>> fluidToX,
+                                           final Map<X, List<IMapping<X, Tag.Named<Fluid>>>> xToFluid,
                                            final Consumer<String> removeAction, final Consumer<SourceTag> addAction) {
 
         if (wrapperSection.WipeExistingValuesBeforeAdding) {
@@ -343,16 +343,16 @@ public final class FluidMappingsRegistry {
     // 1:1 mappings
 
     // - fluid source -> Fluid Tag to Coolant mapping
-    private static final Map<ITag.INamedTag<Fluid>, IMapping<ITag.INamedTag<Fluid>, Coolant>> s_fluidToCoolant = new Object2ObjectArrayMap<>(2);
+    private static final Map<Tag.Named<Fluid>, IMapping<Tag.Named<Fluid>, Coolant>> s_fluidToCoolant = new Object2ObjectArrayMap<>(2);
     // - fluid source -> Fluid Tag to Vapor mapping
-    private static final Map<ITag.INamedTag<Fluid>, IMapping<ITag.INamedTag<Fluid>, Vapor>> s_fluidToVapor = new Object2ObjectArrayMap<>(2);
+    private static final Map<Tag.Named<Fluid>, IMapping<Tag.Named<Fluid>, Vapor>> s_fluidToVapor = new Object2ObjectArrayMap<>(2);
 
     // 1:many mappings
 
     // - Coolant -> a list of Coolant to Fluid Tag mappings
-    private static final Map<Coolant, List<IMapping<Coolant, ITag.INamedTag<Fluid>>>> s_coolantToFluid = new Object2ObjectArrayMap<>(2);
+    private static final Map<Coolant, List<IMapping<Coolant, Tag.Named<Fluid>>>> s_coolantToFluid = new Object2ObjectArrayMap<>(2);
     // - Vapor -> a list of Vapor to Fluid Tag mappings
-    private static final Map<Vapor, List<IMapping<Vapor, ITag.INamedTag<Fluid>>>> s_vaporToFluid = new Object2ObjectArrayMap<>(2);
+    private static final Map<Vapor, List<IMapping<Vapor, Tag.Named<Fluid>>>> s_vaporToFluid = new Object2ObjectArrayMap<>(2);
 
     private static final Marker MARKER = MarkerManager.getMarker("API/FluidMappingsRegistry").addParents(ExtremeReactorsAPI.MARKER);
     private static final Marker WRAPPER = MarkerManager.getMarker("ModPack API Wrapper").addParents(MARKER);

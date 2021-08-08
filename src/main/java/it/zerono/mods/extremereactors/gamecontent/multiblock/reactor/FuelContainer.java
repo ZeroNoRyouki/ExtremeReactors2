@@ -27,10 +27,12 @@ import it.zerono.mods.zerocore.lib.IDebugMessages;
 import it.zerono.mods.zerocore.lib.data.nbt.IMergeableEntity;
 import it.zerono.mods.zerocore.lib.data.stack.IndexedStackContainer;
 import it.zerono.mods.zerocore.lib.data.stack.OperationMode;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraftforge.fml.LogicalSide;
 
 import java.util.Optional;
+
+import it.zerono.mods.zerocore.lib.data.nbt.ISyncableEntity.SyncReason;
 
 public class FuelContainer
         extends IndexedStackContainer<ReactantType, Reactant, ReactantStack>
@@ -210,7 +212,7 @@ public class FuelContainer
      * @param syncReason the reason why the synchronization is necessary
      */
     @Override
-    public void syncDataFrom(CompoundNBT data, SyncReason syncReason) {
+    public void syncDataFrom(CompoundTag data, SyncReason syncReason) {
 
         super.syncDataFrom(data, syncReason);
 
@@ -227,7 +229,7 @@ public class FuelContainer
      * @return the {@link CompoundNBT} the data was written to (usually {@code data})
      */
     @Override
-    public CompoundNBT syncDataTo(CompoundNBT data, SyncReason syncReason) {
+    public CompoundTag syncDataTo(CompoundTag data, SyncReason syncReason) {
 
         super.syncDataTo(data, syncReason);
         data.putFloat("radiationFuelUsage", this._radiationFuelUsage);

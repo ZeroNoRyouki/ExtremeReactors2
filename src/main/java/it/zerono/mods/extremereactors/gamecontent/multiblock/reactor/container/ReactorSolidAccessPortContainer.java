@@ -29,8 +29,8 @@ import it.zerono.mods.zerocore.lib.item.inventory.container.ModContainer;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
 import it.zerono.mods.zerocore.lib.item.inventory.container.slot.SlotTemplate;
 import it.zerono.mods.zerocore.lib.item.inventory.container.slot.type.SlotType;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.network.PacketBuffer;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.items.IItemHandler;
 
 public class ReactorSolidAccessPortContainer extends ModTileContainer<ReactorSolidAccessPortEntity> {
@@ -51,7 +51,7 @@ public class ReactorSolidAccessPortContainer extends ModTileContainer<ReactorSol
         }
     };
 
-    public ReactorSolidAccessPortContainer(final int windowId, final PlayerInventory playerInventory,
+    public ReactorSolidAccessPortContainer(final int windowId, final Inventory playerInventory,
                                            final ReactorSolidAccessPortEntity port) {
 
         super(FACTORY, Content.ContainerTypes.REACTOR_SOLID_ACCESSPORT.get(), windowId, port);
@@ -65,8 +65,8 @@ public class ReactorSolidAccessPortContainer extends ModTileContainer<ReactorSol
         this.createSlots();
     }
 
-    public ReactorSolidAccessPortContainer(final int windowId, final PlayerInventory playerInventory,
-                                           final PacketBuffer networkData) {
+    public ReactorSolidAccessPortContainer(final int windowId, final Inventory playerInventory,
+                                           final FriendlyByteBuf networkData) {
         this(windowId, playerInventory, AbstractModBlockEntity.<ReactorSolidAccessPortEntity>getGuiClientBlockEntity(networkData));
     }
 

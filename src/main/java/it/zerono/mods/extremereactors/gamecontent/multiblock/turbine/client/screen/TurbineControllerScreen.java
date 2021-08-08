@@ -48,14 +48,14 @@ import it.zerono.mods.zerocore.lib.data.nbt.NBTHelper;
 import it.zerono.mods.zerocore.lib.energy.EnergySystem;
 import it.zerono.mods.zerocore.lib.item.inventory.PlayerInventoryUsage;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.util.Mth;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraftforge.common.util.NonNullSupplier;
 
 import java.util.Optional;
@@ -68,7 +68,7 @@ public class TurbineControllerScreen
         extends AbstractMultiblockScreen<MultiblockTurbine, TurbineControllerEntity, ModTileContainer<TurbineControllerEntity>> {
 
     public TurbineControllerScreen(final ModTileContainer<TurbineControllerEntity> container,
-                                   final PlayerInventory inventory, final ITextComponent title) {
+                                   final Inventory inventory, final Component title) {
 
         super(container, inventory, PlayerInventoryUsage.None, title,
                 mainTextureFromVariant(container.getTileEntity().getMultiblockVariant().orElse(TurbineVariant.Basic)));
@@ -169,7 +169,7 @@ public class TurbineControllerScreen
         // fluids bars
 
         final BindableTextComponent<Integer> tankCapacity = new BindableTextComponent<>(
-                capacity -> new StringTextComponent(CodeHelper.formatAsHumanReadableNumber(capacity / 1000, "B")).setStyle(STYLE_TOOLTIP_VALUE));
+                capacity -> new TextComponent(CodeHelper.formatAsHumanReadableNumber(capacity / 1000, "B")).setStyle(STYLE_TOOLTIP_VALUE));
 
         this.addBinding((MultiblockTurbine turbine) -> turbine.getFluidContainer().getCapacity(),
                 v -> {
@@ -181,26 +181,26 @@ public class TurbineControllerScreen
 
         // - vapor bar
 
-        final BindableTextComponent<ITextComponent> vaporFluidName = new BindableTextComponent<>((ITextComponent name) -> name);
+        final BindableTextComponent<Component> vaporFluidName = new BindableTextComponent<>((Component name) -> name);
         final BindableTextComponent<Integer> vaporAmount = new BindableTextComponent<>(
-                amount -> new StringTextComponent(CodeHelper.formatAsHumanReadableNumber(amount / 1000, "B")).setStyle(STYLE_TOOLTIP_VALUE));
+                amount -> new TextComponent(CodeHelper.formatAsHumanReadableNumber(amount / 1000, "B")).setStyle(STYLE_TOOLTIP_VALUE));
         final BindableTextComponent<Double> vaporStoredPercentage = new BindableTextComponent<>(
-                percentage -> new StringTextComponent(String.format("%d", (int)(percentage * 100))).setStyle(STYLE_TOOLTIP_VALUE));
+                percentage -> new TextComponent(String.format("%d", (int)(percentage * 100))).setStyle(STYLE_TOOLTIP_VALUE));
 
         p = this.vBarPanel();
         this.addBarIcon(CommonIcons.VaporIcon, p).useTooltipsFrom(this._vaporBar);
 
         this._vaporBar.setTooltips(ImmutableList.of(
-                new TranslationTextComponent("gui.bigreactors.turbine.controller.vaporbar.line1").setStyle(STYLE_TOOLTIP_TITLE),
-                new TranslationTextComponent("gui.bigreactors.turbine.controller.vaporbar.line2").setStyle(STYLE_TOOLTIP_VALUE),
-                new TranslationTextComponent("gui.bigreactors.turbine.controller.vaporbar.line3a").setStyle(STYLE_TOOLTIP_VALUE)
-                        .append(new TranslationTextComponent("gui.bigreactors.turbine.controller.vaporbar.line3b")),
-                new TranslationTextComponent("gui.bigreactors.turbine.controller.vaporbar.line4a").setStyle(STYLE_TOOLTIP_VALUE)
-                        .append(new TranslationTextComponent("gui.bigreactors.turbine.controller.vaporbar.line4b")),
+                new TranslatableComponent("gui.bigreactors.turbine.controller.vaporbar.line1").setStyle(STYLE_TOOLTIP_TITLE),
+                new TranslatableComponent("gui.bigreactors.turbine.controller.vaporbar.line2").setStyle(STYLE_TOOLTIP_VALUE),
+                new TranslatableComponent("gui.bigreactors.turbine.controller.vaporbar.line3a").setStyle(STYLE_TOOLTIP_VALUE)
+                        .append(new TranslatableComponent("gui.bigreactors.turbine.controller.vaporbar.line3b")),
+                new TranslatableComponent("gui.bigreactors.turbine.controller.vaporbar.line4a").setStyle(STYLE_TOOLTIP_VALUE)
+                        .append(new TranslatableComponent("gui.bigreactors.turbine.controller.vaporbar.line4b")),
                 TEXT_EMPTY_LINE,
-                new TranslationTextComponent("gui.bigreactors.turbine.controller.vaporbar.line5"),
-                new TranslationTextComponent("gui.bigreactors.turbine.controller.vaporbar.line6"),
-                new TranslationTextComponent("gui.bigreactors.turbine.controller.vaporbar.line7")
+                new TranslatableComponent("gui.bigreactors.turbine.controller.vaporbar.line5"),
+                new TranslatableComponent("gui.bigreactors.turbine.controller.vaporbar.line6"),
+                new TranslatableComponent("gui.bigreactors.turbine.controller.vaporbar.line7")
                 ),
                 ImmutableList.of(
                         // @0
@@ -235,27 +235,27 @@ public class TurbineControllerScreen
 
         // - coolant bar
 
-        final BindableTextComponent<ITextComponent> coolantFluidName = new BindableTextComponent<>((ITextComponent name) -> name);
+        final BindableTextComponent<Component> coolantFluidName = new BindableTextComponent<>((Component name) -> name);
         final BindableTextComponent<Integer> coolantAmount = new BindableTextComponent<>(
-                amount -> new StringTextComponent(CodeHelper.formatAsHumanReadableNumber(amount / 1000, "B")).setStyle(STYLE_TOOLTIP_VALUE));
+                amount -> new TextComponent(CodeHelper.formatAsHumanReadableNumber(amount / 1000, "B")).setStyle(STYLE_TOOLTIP_VALUE));
         final BindableTextComponent<Double> coolantStoredPercentage = new BindableTextComponent<>(
-                percentage -> new StringTextComponent(String.format("%d", (int)(percentage * 100))).setStyle(STYLE_TOOLTIP_VALUE));
+                percentage -> new TextComponent(String.format("%d", (int)(percentage * 100))).setStyle(STYLE_TOOLTIP_VALUE));
 
         p = this.vBarPanel();
         this.addBarIcon(CommonIcons.CoolantIcon, p).useTooltipsFrom(this._coolantBar);
 
         this._coolantBar.setTooltips(ImmutableList.of(
-                new TranslationTextComponent("gui.bigreactors.turbine.controller.coolantbar.line1").setStyle(STYLE_TOOLTIP_TITLE),
-                new TranslationTextComponent("gui.bigreactors.turbine.controller.coolantbar.line2").setStyle(STYLE_TOOLTIP_VALUE),
-                new TranslationTextComponent("gui.bigreactors.turbine.controller.coolantbar.line3a").setStyle(STYLE_TOOLTIP_VALUE)
-                        .append(new TranslationTextComponent("gui.bigreactors.turbine.controller.coolantbar.line3b")),
-                new TranslationTextComponent("gui.bigreactors.turbine.controller.coolantbar.line4a").setStyle(STYLE_TOOLTIP_VALUE)
-                        .append(new TranslationTextComponent("gui.bigreactors.turbine.controller.coolantbar.line4b")),
+                new TranslatableComponent("gui.bigreactors.turbine.controller.coolantbar.line1").setStyle(STYLE_TOOLTIP_TITLE),
+                new TranslatableComponent("gui.bigreactors.turbine.controller.coolantbar.line2").setStyle(STYLE_TOOLTIP_VALUE),
+                new TranslatableComponent("gui.bigreactors.turbine.controller.coolantbar.line3a").setStyle(STYLE_TOOLTIP_VALUE)
+                        .append(new TranslatableComponent("gui.bigreactors.turbine.controller.coolantbar.line3b")),
+                new TranslatableComponent("gui.bigreactors.turbine.controller.coolantbar.line4a").setStyle(STYLE_TOOLTIP_VALUE)
+                        .append(new TranslatableComponent("gui.bigreactors.turbine.controller.coolantbar.line4b")),
                 TEXT_EMPTY_LINE,
-                new TranslationTextComponent("gui.bigreactors.turbine.controller.coolantbar.line5"),
-                new TranslationTextComponent("gui.bigreactors.turbine.controller.coolantbar.line6"),
-                new TranslationTextComponent("gui.bigreactors.turbine.controller.coolantbar.line7"),
-                new TranslationTextComponent("gui.bigreactors.turbine.controller.coolantbar.line8")
+                new TranslatableComponent("gui.bigreactors.turbine.controller.coolantbar.line5"),
+                new TranslatableComponent("gui.bigreactors.turbine.controller.coolantbar.line6"),
+                new TranslatableComponent("gui.bigreactors.turbine.controller.coolantbar.line7"),
+                new TranslatableComponent("gui.bigreactors.turbine.controller.coolantbar.line8")
                 ),
                 ImmutableList.of(
                         // @0
@@ -288,7 +288,7 @@ public class TurbineControllerScreen
         // max intake rate info and selector
 
         p = this.hInfoPanelSlot();
-        p.addControl(new Label(this, "maxIntakeLabel", new TranslationTextComponent("gui.bigreactors.turbine.controller.maxintake.label")));
+        p.addControl(new Label(this, "maxIntakeLabel", new TranslatableComponent("gui.bigreactors.turbine.controller.maxintake.label")));
         infoPanelLeft.addControl(p);
 
         p = this.hInfoPanelSlot();
@@ -299,23 +299,23 @@ public class TurbineControllerScreen
         this._maxIntakeRate.setDesiredDimension(INFOPANEL_WIDTH - 10, 14);
         this._maxIntakeRate.Changed.subscribe(this::onMaxIntakeRateChanged);
         this._maxIntakeRate.setTooltips(ImmutableList.of(
-                new TranslationTextComponent("gui.bigreactors.turbine.controlrod.maxintake.input.tooltip.line1").setStyle(STYLE_TOOLTIP_TITLE),
+                new TranslatableComponent("gui.bigreactors.turbine.controlrod.maxintake.input.tooltip.line1").setStyle(STYLE_TOOLTIP_TITLE),
                 TEXT_EMPTY_LINE,
-                new TranslationTextComponent("gui.bigreactors.turbine.controlrod.maxintake.input.tooltip.line2"),
-                new TranslationTextComponent("gui.bigreactors.turbine.controlrod.maxintake.input.tooltip.line3"),
-                new TranslationTextComponent("gui.bigreactors.turbine.controlrod.maxintake.input.tooltip.line4"),
-                new TranslationTextComponent("gui.bigreactors.turbine.controlrod.maxintake.input.tooltip.line5"),
-                new TranslationTextComponent("gui.bigreactors.turbine.controlrod.maxintake.input.tooltip.line6"),
+                new TranslatableComponent("gui.bigreactors.turbine.controlrod.maxintake.input.tooltip.line2"),
+                new TranslatableComponent("gui.bigreactors.turbine.controlrod.maxintake.input.tooltip.line3"),
+                new TranslatableComponent("gui.bigreactors.turbine.controlrod.maxintake.input.tooltip.line4"),
+                new TranslatableComponent("gui.bigreactors.turbine.controlrod.maxintake.input.tooltip.line5"),
+                new TranslatableComponent("gui.bigreactors.turbine.controlrod.maxintake.input.tooltip.line6"),
                 TEXT_EMPTY_LINE,
-                new TranslationTextComponent("gui.bigreactors.turbine.controlrod.maxintake.input.tooltip.line7"),
-                new TranslationTextComponent("gui.bigreactors.turbine.controlrod.maxintake.input.tooltip.line8"),
-                new TranslationTextComponent("gui.bigreactors.turbine.controlrod.maxintake.input.tooltip.line9"),
-                new TranslationTextComponent("gui.bigreactors.turbine.controlrod.maxintake.input.tooltip.line10"),
-                new TranslationTextComponent("gui.bigreactors.turbine.controlrod.maxintake.input.tooltip.line11"),
-                new TranslationTextComponent("gui.bigreactors.turbine.controlrod.maxintake.input.tooltip.line12"),
-                new TranslationTextComponent("gui.bigreactors.turbine.controlrod.maxintake.input.tooltip.line13"),
-                new TranslationTextComponent("gui.bigreactors.turbine.controlrod.maxintake.input.tooltip.line14"),
-                new TranslationTextComponent("gui.bigreactors.turbine.controlrod.maxintake.input.tooltip.line15")
+                new TranslatableComponent("gui.bigreactors.turbine.controlrod.maxintake.input.tooltip.line7"),
+                new TranslatableComponent("gui.bigreactors.turbine.controlrod.maxintake.input.tooltip.line8"),
+                new TranslatableComponent("gui.bigreactors.turbine.controlrod.maxintake.input.tooltip.line9"),
+                new TranslatableComponent("gui.bigreactors.turbine.controlrod.maxintake.input.tooltip.line10"),
+                new TranslatableComponent("gui.bigreactors.turbine.controlrod.maxintake.input.tooltip.line11"),
+                new TranslatableComponent("gui.bigreactors.turbine.controlrod.maxintake.input.tooltip.line12"),
+                new TranslatableComponent("gui.bigreactors.turbine.controlrod.maxintake.input.tooltip.line13"),
+                new TranslatableComponent("gui.bigreactors.turbine.controlrod.maxintake.input.tooltip.line14"),
+                new TranslatableComponent("gui.bigreactors.turbine.controlrod.maxintake.input.tooltip.line15")
                 )
         );
 
@@ -327,7 +327,7 @@ public class TurbineControllerScreen
 
         // - rpm bar
 
-        final BindableTextComponent<Float> rpmText = new BindableTextComponent<>(rpm -> new StringTextComponent(String.format("%.2f RPM", rpm))
+        final BindableTextComponent<Float> rpmText = new BindableTextComponent<>(rpm -> new TextComponent(String.format("%.2f RPM", rpm))
                 .setStyle(STYLE_TOOLTIP_VALUE));
 
         p = this.vBarPanel();
@@ -338,17 +338,17 @@ public class TurbineControllerScreen
         this._rpmBar.setPadding(1);
 
         this._rpmBar.setTooltips(ImmutableList.of(
-                new TranslationTextComponent("gui.bigreactors.turbine.controller.rpmbar.line1").setStyle(STYLE_TOOLTIP_TITLE),
-                new TranslationTextComponent("gui.bigreactors.turbine.controller.rpmbar.line2").setStyle(STYLE_TOOLTIP_VALUE),
+                new TranslatableComponent("gui.bigreactors.turbine.controller.rpmbar.line1").setStyle(STYLE_TOOLTIP_TITLE),
+                new TranslatableComponent("gui.bigreactors.turbine.controller.rpmbar.line2").setStyle(STYLE_TOOLTIP_VALUE),
                 TEXT_EMPTY_LINE,
-                new TranslationTextComponent("gui.bigreactors.turbine.controller.rpmbar.line3"),
-                new TranslationTextComponent("gui.bigreactors.turbine.controller.rpmbar.line4"),
+                new TranslatableComponent("gui.bigreactors.turbine.controller.rpmbar.line3"),
+                new TranslatableComponent("gui.bigreactors.turbine.controller.rpmbar.line4"),
                 TEXT_EMPTY_LINE,
-                new TranslationTextComponent("gui.bigreactors.turbine.controller.rpmbar.line5"),
-                new TranslationTextComponent("gui.bigreactors.turbine.controller.rpmbar.line6"),
+                new TranslatableComponent("gui.bigreactors.turbine.controller.rpmbar.line5"),
+                new TranslatableComponent("gui.bigreactors.turbine.controller.rpmbar.line6"),
                 TEXT_EMPTY_LINE,
-                new TranslationTextComponent("gui.bigreactors.turbine.controller.rpmbar.line7"),
-                new TranslationTextComponent("gui.bigreactors.turbine.controller.rpmbar.line8")
+                new TranslatableComponent("gui.bigreactors.turbine.controller.rpmbar.line7"),
+                new TranslatableComponent("gui.bigreactors.turbine.controller.rpmbar.line8")
                 ),
                 ImmutableList.of(
                         // @0
@@ -391,29 +391,29 @@ public class TurbineControllerScreen
         this.addBarIcon(CommonIcons.PowerBattery, 16, 16, p).useTooltipsFrom(this._energyBar);
 
         final BindableTextComponent<Double> energyStoredText = new BindableTextComponent<>(
-                stored -> new StringTextComponent(CodeHelper.formatAsHumanReadableNumber(stored,
+                stored -> new TextComponent(CodeHelper.formatAsHumanReadableNumber(stored,
                         this._outputEnergySystem.getUnit())).setStyle(STYLE_TOOLTIP_VALUE));
 
         final BindableTextComponent<Double> energyStoredPercentageText = new BindableTextComponent<>(
-                percentage -> new StringTextComponent(String.format("%d", (int)(percentage * 100))).setStyle(STYLE_TOOLTIP_VALUE));
+                percentage -> new TextComponent(String.format("%d", (int)(percentage * 100))).setStyle(STYLE_TOOLTIP_VALUE));
 
         this._energyBar.setDesiredDimension(18, 66);
         this._energyBar.setBackground(CommonIcons.BarBackground.get());
         this._energyBar.setPadding(1);
         this._energyBar.setTooltips(ImmutableList.of(
-                new TranslationTextComponent("gui.bigreactors.reactor.controller.energybar.line1").setStyle(STYLE_TOOLTIP_TITLE),
-                new TranslationTextComponent("gui.bigreactors.reactor.controller.energybar.line2a").setStyle(STYLE_TOOLTIP_VALUE)
-                        .append(new TranslationTextComponent("gui.bigreactors.reactor.controller.energybar.line2b",
+                new TranslatableComponent("gui.bigreactors.reactor.controller.energybar.line1").setStyle(STYLE_TOOLTIP_TITLE),
+                new TranslatableComponent("gui.bigreactors.reactor.controller.energybar.line2a").setStyle(STYLE_TOOLTIP_VALUE)
+                        .append(new TranslatableComponent("gui.bigreactors.reactor.controller.energybar.line2b",
                                 CodeHelper.formatAsHumanReadableNumber(this._turbineEnergyCapacity, this._outputEnergySystem.getUnit()))),
-                new TranslationTextComponent("gui.bigreactors.reactor.controller.energybar.line3a").setStyle(STYLE_TOOLTIP_VALUE)
-                        .append(new TranslationTextComponent("gui.bigreactors.reactor.controller.energybar.line3b")),
+                new TranslatableComponent("gui.bigreactors.reactor.controller.energybar.line3a").setStyle(STYLE_TOOLTIP_VALUE)
+                        .append(new TranslatableComponent("gui.bigreactors.reactor.controller.energybar.line3b")),
                 TEXT_EMPTY_LINE,
-                new TranslationTextComponent("gui.bigreactors.reactor.controller.energybar.line4"),
-                new TranslationTextComponent("gui.bigreactors.reactor.controller.energybar.line5"),
-                new TranslationTextComponent("gui.bigreactors.reactor.controller.energybar.line6"),
+                new TranslatableComponent("gui.bigreactors.reactor.controller.energybar.line4"),
+                new TranslatableComponent("gui.bigreactors.reactor.controller.energybar.line5"),
+                new TranslatableComponent("gui.bigreactors.reactor.controller.energybar.line6"),
                 TEXT_EMPTY_LINE,
-                new TranslationTextComponent("gui.bigreactors.reactor.controller.energybar.line7"),
-                new TranslationTextComponent("gui.bigreactors.reactor.controller.energybar.line8")
+                new TranslatableComponent("gui.bigreactors.reactor.controller.energybar.line7"),
+                new TranslatableComponent("gui.bigreactors.reactor.controller.energybar.line8")
                 ),
                 ImmutableList.of(
                         // @0
@@ -431,7 +431,7 @@ public class TurbineControllerScreen
         // - energy generation ratio
 
         final BindableTextComponent<Double> energyGeneratedText = new BindableTextComponent<>(
-                generated -> new StringTextComponent(String.format("%.2f %s", generated,
+                generated -> new TextComponent(String.format("%.2f %s", generated,
                         this._outputEnergySystem.getUnit())).setStyle(STYLE_TOOLTIP_VALUE));
 
         p = this.hInfoPanelSlot();
@@ -440,16 +440,16 @@ public class TurbineControllerScreen
         p.addControl(c);
 
         this._lblEnergyRatio.setTooltips(ImmutableList.of(
-                new TranslationTextComponent("gui.bigreactors.turbine.controller.energyratio.line1").setStyle(STYLE_TOOLTIP_TITLE),
-                new TranslationTextComponent("gui.bigreactors.turbine.controller.energyratio.line2a").setStyle(STYLE_TOOLTIP_VALUE)
-                        .append(new TranslationTextComponent("gui.bigreactors.turbine.controller.energyratio.line2b")),
+                new TranslatableComponent("gui.bigreactors.turbine.controller.energyratio.line1").setStyle(STYLE_TOOLTIP_TITLE),
+                new TranslatableComponent("gui.bigreactors.turbine.controller.energyratio.line2a").setStyle(STYLE_TOOLTIP_VALUE)
+                        .append(new TranslatableComponent("gui.bigreactors.turbine.controller.energyratio.line2b")),
                 TEXT_EMPTY_LINE,
-                new TranslationTextComponent("gui.bigreactors.turbine.controller.energyratio.line3"),
-                new TranslationTextComponent("gui.bigreactors.turbine.controller.energyratio.line4"),
-                new TranslationTextComponent("gui.bigreactors.turbine.controller.energyratio.line5"),
+                new TranslatableComponent("gui.bigreactors.turbine.controller.energyratio.line3"),
+                new TranslatableComponent("gui.bigreactors.turbine.controller.energyratio.line4"),
+                new TranslatableComponent("gui.bigreactors.turbine.controller.energyratio.line5"),
                 TEXT_EMPTY_LINE,
-                new TranslationTextComponent("gui.bigreactors.turbine.controller.energyratio.line6"),
-                new TranslationTextComponent("gui.bigreactors.turbine.controller.energyratio.line7")),
+                new TranslatableComponent("gui.bigreactors.turbine.controller.energyratio.line6"),
+                new TranslatableComponent("gui.bigreactors.turbine.controller.energyratio.line7")),
                 ImmutableList.of(
                         // @0
                         energyGeneratedText
@@ -463,8 +463,8 @@ public class TurbineControllerScreen
 
         // rotor status info
 
-        final BindableTextComponent<String> rotorEfficiencyText = new BindableTextComponent<>(text -> new StringTextComponent(text).setStyle(STYLE_TOOLTIP_VALUE));
-        final BindableTextComponent<String> rotorBlades = new BindableTextComponent<>(text -> new StringTextComponent(text).setStyle(STYLE_TOOLTIP_VALUE));
+        final BindableTextComponent<String> rotorEfficiencyText = new BindableTextComponent<>(text -> new TextComponent(text).setStyle(STYLE_TOOLTIP_VALUE));
+        final BindableTextComponent<String> rotorBlades = new BindableTextComponent<>(text -> new TextComponent(text).setStyle(STYLE_TOOLTIP_VALUE));
 
         p = this.hInfoPanelSlot();
         c = new Picture(this, "rotorStatusIcon", CommonIcons.RotorStatus.get(), 16, 16);
@@ -472,18 +472,18 @@ public class TurbineControllerScreen
         p.addControl(c);
 
         this._lblRotorStatus.setTooltips(ImmutableList.of(
-                new TranslationTextComponent("gui.bigreactors.turbine.controller.rotorstatus.line1").setStyle(STYLE_TOOLTIP_TITLE),
-                new TranslationTextComponent("gui.bigreactors.turbine.controller.rotorstatus.line2"),
+                new TranslatableComponent("gui.bigreactors.turbine.controller.rotorstatus.line1").setStyle(STYLE_TOOLTIP_TITLE),
+                new TranslatableComponent("gui.bigreactors.turbine.controller.rotorstatus.line2"),
                 CodeHelper.TEXT_EMPTY_LINE,
-                new TranslationTextComponent("gui.bigreactors.turbine.controller.rotorstatus.line3", String.format(TextFormatting.DARK_AQUA + "" + TextFormatting.BOLD + "%d", this._turbine.getVariant().getBaseFluidPerBlade())),
-                new TranslationTextComponent("gui.bigreactors.turbine.controller.rotorstatus.line4"),
+                new TranslatableComponent("gui.bigreactors.turbine.controller.rotorstatus.line3", String.format(ChatFormatting.DARK_AQUA + "" + ChatFormatting.BOLD + "%d", this._turbine.getVariant().getBaseFluidPerBlade())),
+                new TranslatableComponent("gui.bigreactors.turbine.controller.rotorstatus.line4"),
                 CodeHelper.TEXT_EMPTY_LINE,
-                new TranslationTextComponent("gui.bigreactors.turbine.controller.rotorstatus.line5"),
-                new TranslationTextComponent("gui.bigreactors.turbine.controller.rotorstatus.line6"),
-                new TranslationTextComponent("gui.bigreactors.turbine.controller.rotorstatus.line7"),
+                new TranslatableComponent("gui.bigreactors.turbine.controller.rotorstatus.line5"),
+                new TranslatableComponent("gui.bigreactors.turbine.controller.rotorstatus.line6"),
+                new TranslatableComponent("gui.bigreactors.turbine.controller.rotorstatus.line7"),
                 CodeHelper.TEXT_EMPTY_LINE,
-                new TranslationTextComponent("gui.bigreactors.turbine.controller.rotorstatus.line8"),
-                new TranslationTextComponent("gui.bigreactors.turbine.controller.rotorstatus.line9")),
+                new TranslatableComponent("gui.bigreactors.turbine.controller.rotorstatus.line8"),
+                new TranslatableComponent("gui.bigreactors.turbine.controller.rotorstatus.line9")),
                 ImmutableList.of(
                         // @0
                         rotorEfficiencyText,
@@ -516,13 +516,13 @@ public class TurbineControllerScreen
         SwitchButton off = new SwitchButton(this, "off", "OFF", true, "onoff");
 
         on.setLayoutEngineHint(FixedLayoutEngine.hint(x, y, w, 16));
-        on.setTooltips(new TranslationTextComponent("gui.bigreactors.turbine.controller.on.line1"));
+        on.setTooltips(new TranslatableComponent("gui.bigreactors.turbine.controller.on.line1"));
         on.Activated.subscribe(this::onActiveStateChanged);
         on.Deactivated.subscribe(this::onActiveStateChanged);
         this.addBinding(MultiblockTurbine::isMachineActive, on::setActive);
 
         off.setLayoutEngineHint(FixedLayoutEngine.hint(x + w, y, w, 16));
-        off.setTooltips(new TranslationTextComponent("gui.bigreactors.turbine.controller.off.line1"));
+        off.setTooltips(new TranslatableComponent("gui.bigreactors.turbine.controller.off.line1"));
         this.addBinding(MultiblockTurbine::isMachineActive, active -> off.setActive(!active));
 
         commandPanel.addControl(on, off);
@@ -544,21 +544,21 @@ public class TurbineControllerScreen
         this._inductorEngaged.enablePaintBlending(true);
         this._inductorEngaged.setPadding(1);
         this._inductorEngaged.setTooltips(ImmutableList.of(
-                new TranslationTextComponent("gui.bigreactors.turbine.controller.inductor.line1").setStyle(STYLE_TOOLTIP_TITLE),
-                new TranslationTextComponent("gui.bigreactors.turbine.controller.inductor.line2").setStyle(STYLE_TOOLTIP_VALUE),
+                new TranslatableComponent("gui.bigreactors.turbine.controller.inductor.line1").setStyle(STYLE_TOOLTIP_TITLE),
+                new TranslatableComponent("gui.bigreactors.turbine.controller.inductor.line2").setStyle(STYLE_TOOLTIP_VALUE),
                 TEXT_EMPTY_LINE,
-                new TranslationTextComponent("gui.bigreactors.turbine.controller.inductor.line3"),
-                new TranslationTextComponent("gui.bigreactors.turbine.controller.inductor.line4"),
-                new TranslationTextComponent("gui.bigreactors.turbine.controller.inductor.line5"),
+                new TranslatableComponent("gui.bigreactors.turbine.controller.inductor.line3"),
+                new TranslatableComponent("gui.bigreactors.turbine.controller.inductor.line4"),
+                new TranslatableComponent("gui.bigreactors.turbine.controller.inductor.line5"),
                 TEXT_EMPTY_LINE,
-                new TranslationTextComponent("gui.bigreactors.turbine.controller.inductor.line6"),
-                new TranslationTextComponent("gui.bigreactors.turbine.controller.inductor.line7"),
-                new TranslationTextComponent("gui.bigreactors.turbine.controller.inductor.line8"),
-                new TranslationTextComponent("gui.bigreactors.turbine.controller.inductor.line9"),
+                new TranslatableComponent("gui.bigreactors.turbine.controller.inductor.line6"),
+                new TranslatableComponent("gui.bigreactors.turbine.controller.inductor.line7"),
+                new TranslatableComponent("gui.bigreactors.turbine.controller.inductor.line8"),
+                new TranslatableComponent("gui.bigreactors.turbine.controller.inductor.line9"),
                 TEXT_EMPTY_LINE,
-                new TranslationTextComponent("gui.bigreactors.turbine.controller.inductor.line10"),
-                new TranslationTextComponent("gui.bigreactors.turbine.controller.inductor.line11"),
-                new TranslationTextComponent("gui.bigreactors.turbine.controller.inductor.line12")),
+                new TranslatableComponent("gui.bigreactors.turbine.controller.inductor.line10"),
+                new TranslatableComponent("gui.bigreactors.turbine.controller.inductor.line11"),
+                new TranslatableComponent("gui.bigreactors.turbine.controller.inductor.line12")),
                 ImmutableList.of(
                         // @0
                         inductorEngagedText
@@ -573,32 +573,32 @@ public class TurbineControllerScreen
 
         this._ventAll.setLayoutEngineHint(FixedLayoutEngine.hint(xButton, y, 18, 18));
         this._ventAll.setTooltips(ImmutableList.of(
-                new TranslationTextComponent("gui.bigreactors.turbine.controller.vent.all.line1").setStyle(STYLE_TOOLTIP_TITLE),
+                new TranslatableComponent("gui.bigreactors.turbine.controller.vent.all.line1").setStyle(STYLE_TOOLTIP_TITLE),
                 TEXT_EMPTY_LINE,
-                new TranslationTextComponent("gui.bigreactors.turbine.controller.vent.all.line2"),
-                new TranslationTextComponent("gui.bigreactors.turbine.controller.vent.all.line3"),
-                new TranslationTextComponent("gui.bigreactors.turbine.controller.vent.all.line4")));
+                new TranslatableComponent("gui.bigreactors.turbine.controller.vent.all.line2"),
+                new TranslatableComponent("gui.bigreactors.turbine.controller.vent.all.line3"),
+                new TranslatableComponent("gui.bigreactors.turbine.controller.vent.all.line4")));
         commandPanel.addControl(this._ventAll);
         xButton += 18+1;
 
         this._ventOverflow.setLayoutEngineHint(FixedLayoutEngine.hint(xButton, y, 18, 18));
         this._ventOverflow.setTooltips(ImmutableList.of(
-                new TranslationTextComponent("gui.bigreactors.turbine.controller.vent.overflow.line1").setStyle(STYLE_TOOLTIP_TITLE),
+                new TranslatableComponent("gui.bigreactors.turbine.controller.vent.overflow.line1").setStyle(STYLE_TOOLTIP_TITLE),
                 TEXT_EMPTY_LINE,
-                new TranslationTextComponent("gui.bigreactors.turbine.controller.vent.overflow.line2"),
-                new TranslationTextComponent("gui.bigreactors.turbine.controller.vent.overflow.line3"),
-                new TranslationTextComponent("gui.bigreactors.turbine.controller.vent.overflow.line4")));
+                new TranslatableComponent("gui.bigreactors.turbine.controller.vent.overflow.line2"),
+                new TranslatableComponent("gui.bigreactors.turbine.controller.vent.overflow.line3"),
+                new TranslatableComponent("gui.bigreactors.turbine.controller.vent.overflow.line4")));
         commandPanel.addControl(this._ventOverflow);
         xButton += 18+1;
 
         this._ventDoNotVent.setLayoutEngineHint(FixedLayoutEngine.hint(xButton, y, 18, 18));
         this._ventDoNotVent.setTooltips(ImmutableList.of(
-                new TranslationTextComponent("gui.bigreactors.turbine.controller.vent.donotvent.line1").setStyle(STYLE_TOOLTIP_TITLE),
+                new TranslatableComponent("gui.bigreactors.turbine.controller.vent.donotvent.line1").setStyle(STYLE_TOOLTIP_TITLE),
                 TEXT_EMPTY_LINE,
-                new TranslationTextComponent("gui.bigreactors.turbine.controller.vent.donotvent.line2"),
-                new TranslationTextComponent("gui.bigreactors.turbine.controller.vent.donotvent.line3"),
-                new TranslationTextComponent("gui.bigreactors.turbine.controller.vent.donotvent.line4"),
-                new TranslationTextComponent("gui.bigreactors.turbine.controller.vent.donotvent.line5")));
+                new TranslatableComponent("gui.bigreactors.turbine.controller.vent.donotvent.line2"),
+                new TranslatableComponent("gui.bigreactors.turbine.controller.vent.donotvent.line3"),
+                new TranslatableComponent("gui.bigreactors.turbine.controller.vent.donotvent.line4"),
+                new TranslatableComponent("gui.bigreactors.turbine.controller.vent.donotvent.line5")));
         commandPanel.addControl(this._ventDoNotVent);
 
         this.addBinding(MultiblockTurbine::getVentSetting, setting -> {
@@ -785,13 +785,13 @@ public class TurbineControllerScreen
     }
 
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-    private static ITextComponent getFluidName(final Optional<Fluid> fluid) {
-        return fluid.map(f -> (ITextComponent)new TranslationTextComponent(f.getAttributes().getTranslationKey()).setStyle(STYLE_TOOLTIP_VALUE))
+    private static Component getFluidName(final Optional<Fluid> fluid) {
+        return fluid.map(f -> (Component)new TranslatableComponent(f.getAttributes().getTranslationKey()).setStyle(STYLE_TOOLTIP_VALUE))
                 .orElse(TEXT_EMPTY);
     }
 
     private static String getRotorEfficiencyText(final MultiblockTurbine turbine) {
-        return String.format("%.1f%%", MathHelper.clamp(turbine.getRotorEfficiencyLastTick(), 0.0f, 1.0f) * 100);
+        return String.format("%.1f%%", Mth.clamp(turbine.getRotorEfficiencyLastTick(), 0.0f, 1.0f) * 100);
     }
 
     private static String getRotorBladesText(final MultiblockTurbine turbine) {
@@ -812,7 +812,7 @@ public class TurbineControllerScreen
 
     private void onVentSettingChanged(final SwitchPictureButton button) {
         this.sendCommandToServer(TurbineControllerEntity.COMMAND_SET_VENT,
-                NBTHelper.nbtSetEnum(new CompoundNBT(), "vent", (VentSetting)button.getTag().orElse(VentSetting.VentAll)));
+                NBTHelper.nbtSetEnum(new CompoundTag(), "vent", (VentSetting)button.getTag().orElse(VentSetting.VentAll)));
     }
 
     private void onInductorEngagedChanged(final SwitchPictureButton button) {
@@ -823,7 +823,7 @@ public class TurbineControllerScreen
 
     private void onMaxIntakeRateChanged(final NumberInput<Integer> inputControl, int newRate) {
 
-        final CompoundNBT data = new CompoundNBT();
+        final CompoundTag data = new CompoundTag();
 
         data.putInt("rate", newRate);
         this.sendCommandToServer(TurbineControllerEntity.COMMAND_SET_INTAKERATE, data);
@@ -843,12 +843,12 @@ public class TurbineControllerScreen
         this._bindings.addBinding(new MultiConsumerBinding<>(this._turbine, supplier, consumers));
     }
 
-    private static final ITextComponent TEXT_EMPTY = new TranslationTextComponent("gui.bigreactors.generic.empty").setStyle(STYLE_TOOLTIP_VALUE);
+    private static final Component TEXT_EMPTY = new TranslatableComponent("gui.bigreactors.generic.empty").setStyle(STYLE_TOOLTIP_VALUE);
 
-    private static final ITextComponent TEXT_INDUCTOR_ENGAGED = new TranslationTextComponent("gui.bigreactors.turbine.controller.inductor.mode.engaged").setStyle(STYLE_TOOLTIP_VALUE);
-    private static final ITextComponent TEXT_INDUCTOR_DISENGAGED = new TranslationTextComponent("gui.bigreactors.turbine.controller.inductor.mode.disengaged").setStyle(STYLE_TOOLTIP_VALUE);
+    private static final Component TEXT_INDUCTOR_ENGAGED = new TranslatableComponent("gui.bigreactors.turbine.controller.inductor.mode.engaged").setStyle(STYLE_TOOLTIP_VALUE);
+    private static final Component TEXT_INDUCTOR_DISENGAGED = new TranslatableComponent("gui.bigreactors.turbine.controller.inductor.mode.disengaged").setStyle(STYLE_TOOLTIP_VALUE);
 
-    private static final ITextComponent TEXT_ROTOR_EFFICIENCY_100 = new TranslationTextComponent("gui.bigreactors.turbine.controller.rotorstatus.100").setStyle(STYLE_TOOLTIP_VALUE);
+    private static final Component TEXT_ROTOR_EFFICIENCY_100 = new TranslatableComponent("gui.bigreactors.turbine.controller.rotorstatus.100").setStyle(STYLE_TOOLTIP_VALUE);
 
 
     private final MultiblockTurbine _turbine;

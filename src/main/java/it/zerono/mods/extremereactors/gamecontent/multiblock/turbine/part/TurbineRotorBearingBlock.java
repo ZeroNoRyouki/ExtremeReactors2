@@ -23,18 +23,20 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.Generic
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.MultiblockTurbine;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.TurbinePartType;
 import it.zerono.mods.zerocore.lib.world.WorldHelper;
-import net.minecraft.block.BlockState;
-import net.minecraft.particles.IParticleData;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.Direction;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.Optional;
 import java.util.Random;
+
+import it.zerono.mods.zerocore.lib.block.multiblock.MultiblockPartBlock.MultiblockPartProperties;
 
 public class TurbineRotorBearingBlock
         extends GenericDeviceBlock<MultiblockTurbine, TurbinePartType> {
@@ -52,7 +54,7 @@ public class TurbineRotorBearingBlock
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void animateTick(BlockState state, World world, BlockPos position, Random random) {
+    public void animateTick(BlockState state, Level world, BlockPos position, Random random) {
 
         if (Config.CLIENT.disableTurbineParticles.get()) {
             return;
@@ -62,7 +64,7 @@ public class TurbineRotorBearingBlock
     }
 
     @OnlyIn(Dist.CLIENT)
-    public void animateTick(final TurbineRotorBearingEntity bearing, final World world,
+    public void animateTick(final TurbineRotorBearingEntity bearing, final Level world,
                             final BlockPos pos, final Random random) {
 
         bearing.getMultiblockController()
@@ -79,7 +81,7 @@ public class TurbineRotorBearingBlock
                     final int offsetX = inwardsDir.getStepX();
                     final int offsetY = inwardsDir.getStepY();
                     final int offsetZ = inwardsDir.getStepZ();
-                    final IParticleData particle = ParticleTypes.CLOUD; // TODO valentines HEART
+                    final ParticleOptions particle = ParticleTypes.CLOUD; // TODO valentines HEART
 
                     int minX = minCoord.getX();
                     int minY = minCoord.getY();
@@ -113,7 +115,7 @@ public class TurbineRotorBearingBlock
     //endregion
     //region internals
 
-    private static Optional<TurbineRotorBearingEntity> getTile(final IBlockReader world, final BlockPos position) {
+    private static Optional<TurbineRotorBearingEntity> getTile(final BlockGetter world, final BlockPos position) {
         return WorldHelper.getTile(world, position)
                 .filter(te -> te instanceof TurbineRotorBearingEntity)
                 .map(te -> (TurbineRotorBearingEntity)te);

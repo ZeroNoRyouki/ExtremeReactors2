@@ -38,11 +38,11 @@ import it.zerono.mods.zerocore.lib.client.gui.layout.VerticalLayoutEngine;
 import it.zerono.mods.zerocore.lib.data.gfx.Colour;
 import it.zerono.mods.zerocore.lib.item.inventory.PlayerInventoryUsage;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.util.Mth;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -51,7 +51,7 @@ public class ReactorControlRodScreen
         extends AbstractMultiblockScreen<MultiblockReactor, ReactorControlRodEntity, ModTileContainer<ReactorControlRodEntity>> {
 
     public ReactorControlRodScreen(final ModTileContainer<ReactorControlRodEntity> container,
-                                   final PlayerInventory inventory, final ITextComponent title) {
+                                   final Inventory inventory, final Component title) {
 
         super(container, inventory, PlayerInventoryUsage.None, title,
                 mainTextureFromVariant(container.getTileEntity().getMultiblockVariant().orElse(ReactorVariant.Basic)));
@@ -84,7 +84,7 @@ public class ReactorControlRodScreen
 
         // name
 
-        l = new Label(this, "nameLabel", new TranslationTextComponent("gui.bigreactors.reactor.controlrod.name.label"));
+        l = new Label(this, "nameLabel", new TranslatableComponent("gui.bigreactors.reactor.controlrod.name.label"));
         l.setHorizontalAlignment(HorizontalAlignment.Left);
         l.setDesiredDimension(DesiredDimension.Width, panelWidth);
         this.addControl(l);
@@ -105,9 +105,9 @@ public class ReactorControlRodScreen
         this.addBinding(ReactorControlRodEntity::getName, this._nameInput::setText);
         p.addControl(this._nameInput);
 
-        b = new Button(this, "nameSet", new TranslationTextComponent("gui.bigreactors.reactor.controlrod.name.set"));
+        b = new Button(this, "nameSet", new TranslatableComponent("gui.bigreactors.reactor.controlrod.name.set"));
         b.setDesiredDimension(40, 16);
-        b.setTooltips(new TranslationTextComponent("gui.bigreactors.reactor.controlrod.name.set.tooltip.line1"));
+        b.setTooltips(new TranslatableComponent("gui.bigreactors.reactor.controlrod.name.set.tooltip.line1"));
         b.Clicked.subscribe((button, mousebutton) -> this.sendSetName(this._nameInput.getText()));
         p.addControl(b);
 
@@ -117,7 +117,7 @@ public class ReactorControlRodScreen
 
         // insertion
 
-        l = new Label(this, "insertionLabel", new TranslationTextComponent("gui.bigreactors.reactor.controlrod.insertion.label"));
+        l = new Label(this, "insertionLabel", new TranslatableComponent("gui.bigreactors.reactor.controlrod.insertion.label"));
         l.setHorizontalAlignment(HorizontalAlignment.Left);
         l.setDesiredDimension(DesiredDimension.Width, panelWidth);
         this.addControl(l);
@@ -139,30 +139,30 @@ public class ReactorControlRodScreen
         this._insertionInput.setHorizontalAlignment(HorizontalAlignment.Right);
         this._insertionInput.setDesiredDimension(42, 14);
         this._insertionInput.setTooltips(
-                new TranslationTextComponent("gui.bigreactors.reactor.controlrod.insertion.input.tooltip.line1").setStyle(STYLE_TOOLTIP_TITLE),
+                new TranslatableComponent("gui.bigreactors.reactor.controlrod.insertion.input.tooltip.line1").setStyle(STYLE_TOOLTIP_TITLE),
                 CodeHelper.TEXT_EMPTY_LINE,
-                new TranslationTextComponent("gui.bigreactors.reactor.controlrod.insertion.input.tooltip.line2"),
+                new TranslatableComponent("gui.bigreactors.reactor.controlrod.insertion.input.tooltip.line2"),
                 CodeHelper.TEXT_EMPTY_LINE,
-                new TranslationTextComponent("gui.bigreactors.reactor.controlrod.insertion.input.tooltip.line3"),
-                new TranslationTextComponent("gui.bigreactors.reactor.controlrod.insertion.input.tooltip.line4"),
+                new TranslatableComponent("gui.bigreactors.reactor.controlrod.insertion.input.tooltip.line3"),
+                new TranslatableComponent("gui.bigreactors.reactor.controlrod.insertion.input.tooltip.line4"),
                 CodeHelper.TEXT_EMPTY_LINE,
-                new TranslationTextComponent("gui.bigreactors.reactor.controlrod.insertion.input.tooltip.line5"),
-                new TranslationTextComponent("gui.bigreactors.reactor.controlrod.insertion.input.tooltip.line6")
+                new TranslatableComponent("gui.bigreactors.reactor.controlrod.insertion.input.tooltip.line5"),
+                new TranslatableComponent("gui.bigreactors.reactor.controlrod.insertion.input.tooltip.line6")
         );
         this.addBinding(ReactorControlRodEntity::getInsertionRatio, (Consumer<Byte>) this._insertionInput::setValue);
         p.addControl(this._insertionInput);
 
-        b = new Button(this, "rodSet", new TranslationTextComponent("gui.bigreactors.reactor.controlrod.insertion.set"));
+        b = new Button(this, "rodSet", new TranslatableComponent("gui.bigreactors.reactor.controlrod.insertion.set"));
         b.setDesiredDimension(67, 16);
-        b.setTooltips(new TranslationTextComponent("gui.bigreactors.reactor.controlrod.insertion.set.tooltip.line1"),
-                new TranslationTextComponent("gui.bigreactors.reactor.controlrod.insertion.set.tooltip.line2"));
+        b.setTooltips(new TranslatableComponent("gui.bigreactors.reactor.controlrod.insertion.set.tooltip.line1"),
+                new TranslatableComponent("gui.bigreactors.reactor.controlrod.insertion.set.tooltip.line2"));
         b.Clicked.subscribe((button, mousebutton) -> this.sendSetInsertion(this._insertionInput.getAsInt(), false));
         p.addControl(b);
 
-        b = new Button(this, "rodSetAll", new TranslationTextComponent("gui.bigreactors.reactor.controlrod.insertion.setall"));
+        b = new Button(this, "rodSetAll", new TranslatableComponent("gui.bigreactors.reactor.controlrod.insertion.setall"));
         b.setDesiredDimension(67, 16);
-        b.setTooltips(new TranslationTextComponent("gui.bigreactors.reactor.controlrod.insertion.setall.tooltip.line1"),
-                new TranslationTextComponent("gui.bigreactors.reactor.controlrod.insertion.setall.tooltip.line2"));
+        b.setTooltips(new TranslatableComponent("gui.bigreactors.reactor.controlrod.insertion.setall.tooltip.line1"),
+                new TranslatableComponent("gui.bigreactors.reactor.controlrod.insertion.setall.tooltip.line2"));
         b.Clicked.subscribe((button, mousebutton) -> this.sendSetInsertion(this._insertionInput.getAsInt(), true));
         p.addControl(b);
 
@@ -196,9 +196,9 @@ public class ReactorControlRodScreen
 
     private void sendSetInsertion(final int insertion, final boolean setAll) {
 
-        final CompoundNBT data = new CompoundNBT();
+        final CompoundTag data = new CompoundTag();
 
-        data.putInt("v", MathHelper.clamp(insertion, 0, 100));
+        data.putInt("v", Mth.clamp(insertion, 0, 100));
         data.putBoolean("all", setAll);
 
         this.sendCommandToServer(ReactorControlRodEntity.COMMAND_SET_INSERTION, data);
@@ -206,7 +206,7 @@ public class ReactorControlRodScreen
 
     private void sendSetName(final String name) {
 
-        final CompoundNBT data = new CompoundNBT();
+        final CompoundTag data = new CompoundTag();
 
         data.putString("name", name);
 

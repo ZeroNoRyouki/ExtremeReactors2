@@ -18,12 +18,12 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.client.render.rotor;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.rotor.RotorBladeState;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.vector.Matrix4f;
+import net.minecraft.core.Direction;
+import com.mojang.math.Matrix4f;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.model.data.IModelData;
@@ -31,7 +31,7 @@ import net.minecraftforge.common.util.NonNullConsumer;
 
 @OnlyIn(Dist.CLIENT)
 public class BladeSpan
-        implements NonNullConsumer<MatrixStack> {
+        implements NonNullConsumer<PoseStack> {
 
     public final RotorBladeState State;
     public final short Length;
@@ -54,7 +54,7 @@ public class BladeSpan
     //region NonNullConsumer<MatrixStack>
 
     @Override
-    public void accept(final MatrixStack stack) {
+    public void accept(final PoseStack stack) {
         stack.last().pose().multiply(this.Translation);
     }
 

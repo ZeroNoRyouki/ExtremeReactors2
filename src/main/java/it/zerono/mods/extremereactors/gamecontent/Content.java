@@ -41,16 +41,16 @@ import it.zerono.mods.zerocore.lib.data.IoMode;
 import it.zerono.mods.zerocore.lib.energy.EnergySystem;
 import it.zerono.mods.zerocore.lib.item.ModItem;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
-import net.minecraft.block.Block;
-import net.minecraft.block.FlowingFluidBlock;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.material.Material;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.ContainerType;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.LiquidBlock;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.MenuType;
 import net.minecraft.item.*;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.common.extensions.IForgeContainerType;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
 import net.minecraftforge.fml.RegistryObject;
@@ -61,6 +61,12 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.function.Supplier;
+
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.BucketItem;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.Item;
 
 public final class Content {
 
@@ -99,8 +105,8 @@ public final class Content {
         //endregion
         //region fluids
 
-        public static final RegistryObject<FlowingFluidBlock> STEAM = BLOCKS.register("steam",
-                () -> new FlowingFluidBlock(Fluids.STEAM_SOURCE,
+        public static final RegistryObject<LiquidBlock> STEAM = BLOCKS.register("steam",
+                () -> new LiquidBlock(Fluids.STEAM_SOURCE,
                         Block.Properties.of(Material.WATER)
                                 .noCollission()
                                 .strength(100.0F)
@@ -362,9 +368,9 @@ public final class Content {
 
         public static final RegistryObject<Item> STEAM_BUCKET = ITEMS.register("steam_bucket",
                 () -> new BucketItem(Fluids.STEAM_SOURCE, new Item.Properties()
-                        .craftRemainder(net.minecraft.item.Items.BUCKET)
+                        .craftRemainder(net.minecraft.world.item.Items.BUCKET)
                         .stacksTo(1)
-                        .tab(ItemGroup.TAB_MISC)));
+                        .tab(CreativeModeTab.TAB_MISC)));
 
         //endregion
         //region reactor
@@ -452,7 +458,7 @@ public final class Content {
 
         private static RegistryObject<BlockItem> registerItemBlock(final String name,
                                                                    final Supplier<Supplier<ModBlock>> blockSupplier,
-                                                                   final ItemGroup group) {
+                                                                   final CreativeModeTab group) {
             return ITEMS.register(name,
                     () -> blockSupplier.get().get().createBlockItem(new Item.Properties().tab(group).stacksTo(64)));
         }
@@ -474,7 +480,7 @@ public final class Content {
 
     public static final class TileEntityTypes {
 
-        private static final DeferredRegister<TileEntityType<?>> TILE_ENTITIES =
+        private static final DeferredRegister<BlockEntityType<?>> TILE_ENTITIES =
                 DeferredRegister.create(ForgeRegistries.TILE_ENTITIES, ExtremeReactors.MOD_ID);
 
         static void initialize() {
@@ -483,78 +489,78 @@ public final class Content {
 
         //region Reactor
 
-        public static final RegistryObject<TileEntityType<ReactorCasingEntity>> REACTOR_CASING =
+        public static final RegistryObject<BlockEntityType<ReactorCasingEntity>> REACTOR_CASING =
                 registerBlockEntity("reactorcasing", ReactorCasingEntity::new,
                         () -> Blocks.REACTOR_CASING_BASIC::get,
                         () -> Blocks.REACTOR_CASING_REINFORCED::get);
 
-        public static final RegistryObject<TileEntityType<ReactorGlassEntity>> REACTOR_GLASS =
+        public static final RegistryObject<BlockEntityType<ReactorGlassEntity>> REACTOR_GLASS =
                 registerBlockEntity("reactorglass", ReactorGlassEntity::new,
                         () -> Blocks.REACTOR_GLASS_BASIC::get,
                         () -> Blocks.REACTOR_GLASS_REINFORCED::get);
 
-        public static final RegistryObject<TileEntityType<ReactorControllerEntity>> REACTOR_CONTROLLER =
+        public static final RegistryObject<BlockEntityType<ReactorControllerEntity>> REACTOR_CONTROLLER =
                 registerBlockEntity("reactorcontroller", ReactorControllerEntity::new,
                         () -> Blocks.REACTOR_CONTROLLER_BASIC::get,
                         () -> Blocks.REACTOR_CONTROLLER_REINFORCED::get);
 
-        public static final RegistryObject<TileEntityType<ReactorFuelRodEntity>> REACTOR_FUELROD =
+        public static final RegistryObject<BlockEntityType<ReactorFuelRodEntity>> REACTOR_FUELROD =
                 registerBlockEntity("reactorfuelrod", ReactorFuelRodEntity::new,
                         () -> Blocks.REACTOR_FUELROD_BASIC::get,
                         () -> Blocks.REACTOR_FUELROD_REINFORCED::get);
 
-        public static final RegistryObject<TileEntityType<ReactorControlRodEntity>> REACTOR_CONTROLROD =
+        public static final RegistryObject<BlockEntityType<ReactorControlRodEntity>> REACTOR_CONTROLROD =
                 registerBlockEntity("reactorcontrolrod", ReactorControlRodEntity::new,
                         () -> Blocks.REACTOR_CONTROLROD_BASIC::get,
                         () -> Blocks.REACTOR_CONTROLROD_REINFORCED::get);
 
-        public static final RegistryObject<TileEntityType<ReactorSolidAccessPortEntity>> REACTOR_SOLID_ACCESSPORT =
+        public static final RegistryObject<BlockEntityType<ReactorSolidAccessPortEntity>> REACTOR_SOLID_ACCESSPORT =
                 registerBlockEntity("reactoraccessport", ReactorSolidAccessPortEntity::new,
                         () -> Blocks.REACTOR_SOLID_ACCESSPORT_BASIC::get,
                         () -> Blocks.REACTOR_SOLID_ACCESSPORT_REINFORCED::get);
 
-        public static final RegistryObject<TileEntityType<ReactorFluidPortEntity>> REACTOR_FLUIDPORT_FORGE_ACTIVE =
+        public static final RegistryObject<BlockEntityType<ReactorFluidPortEntity>> REACTOR_FLUIDPORT_FORGE_ACTIVE =
                 registerBlockEntity("reactorfluidport_forge_active",
                         () -> new ReactorFluidPortEntity(FluidPortType.Forge, IoMode.Active, TileEntityTypes.REACTOR_FLUIDPORT_FORGE_ACTIVE.get()),
                         () -> Blocks.REACTOR_FLUIDTPORT_FORGE_ACTIVE_REINFORCED::get);
 
-        public static final RegistryObject<TileEntityType<ReactorFluidPortEntity>> REACTOR_FLUIDPORT_FORGE_PASSIVE =
+        public static final RegistryObject<BlockEntityType<ReactorFluidPortEntity>> REACTOR_FLUIDPORT_FORGE_PASSIVE =
                 registerBlockEntity("reactorfluidport_forge_passive",
                         () -> new ReactorFluidPortEntity(FluidPortType.Forge, IoMode.Passive, TileEntityTypes.REACTOR_FLUIDPORT_FORGE_PASSIVE.get()),
                         () -> Blocks.REACTOR_FLUIDPORT_FORGE_PASSIVE_REINFORCED::get);
 
-        public static final RegistryObject<TileEntityType<ReactorMekanismFluidPortEntity>> REACTOR_FLUIDPORT_MEKANISM_PASSIVE =
+        public static final RegistryObject<BlockEntityType<ReactorMekanismFluidPortEntity>> REACTOR_FLUIDPORT_MEKANISM_PASSIVE =
                 registerBlockEntity("reactorfluidport_mekanism_passive",
                         ReactorMekanismFluidPortEntity::new,
                         () -> Blocks.REACTOR_FLUIDPORT_MEKANISM_PASSIVE_REINFORCED::get);
 
-        public static final RegistryObject<TileEntityType<ReactorCreativeWaterGenerator>> REACTOR_CREATIVE_WATER_GENERATOR =
+        public static final RegistryObject<BlockEntityType<ReactorCreativeWaterGenerator>> REACTOR_CREATIVE_WATER_GENERATOR =
                 registerBlockEntity("reactorcreativewatergenerator",
                         ReactorCreativeWaterGenerator::new,
                         () -> Blocks.REACTOR_FLUIDPORT_FORGE_PASSIVE_REINFORCED::get);
 
-        public static final RegistryObject<TileEntityType<ReactorPowerTapEntity>> REACTOR_POWERTAP_FE_ACTIVE =
+        public static final RegistryObject<BlockEntityType<ReactorPowerTapEntity>> REACTOR_POWERTAP_FE_ACTIVE =
                 registerBlockEntity("reactorpowertap_fe_active",
                         () -> new ReactorPowerTapEntity(EnergySystem.ForgeEnergy, IoMode.Active, TileEntityTypes.REACTOR_POWERTAP_FE_ACTIVE.get()),
                         () -> Blocks.REACTOR_POWERTAP_FE_ACTIVE_BASIC::get,
                         () -> Blocks.REACTOR_POWERTAP_FE_ACTIVE_REINFORCED::get);
 
-        public static final RegistryObject<TileEntityType<ReactorPowerTapEntity>> REACTOR_POWERTAP_FE_PASSIVE =
+        public static final RegistryObject<BlockEntityType<ReactorPowerTapEntity>> REACTOR_POWERTAP_FE_PASSIVE =
                 registerBlockEntity("reactorpowertap_fe_passive",
                         () -> new ReactorPowerTapEntity(EnergySystem.ForgeEnergy, IoMode.Passive, TileEntityTypes.REACTOR_POWERTAP_FE_PASSIVE.get()),
                         () -> Blocks.REACTOR_POWERTAP_FE_PASSIVE_BASIC::get,
                         () -> Blocks.REACTOR_POWERTAP_FE_PASSIVE_REINFORCED::get);
 
-        public static final RegistryObject<TileEntityType<ReactorComputerPortEntity>> REACTOR_COMPUTERPORT =
+        public static final RegistryObject<BlockEntityType<ReactorComputerPortEntity>> REACTOR_COMPUTERPORT =
                 registerBlockEntity("reactorcomputerport", ReactorComputerPortEntity::new,
                         () -> Blocks.REACTOR_COMPUTERPORT_REINFORCED::get);
 
-        public static final RegistryObject<TileEntityType<ReactorRedstonePortEntity>> REACTOR_REDSTONEPORT =
+        public static final RegistryObject<BlockEntityType<ReactorRedstonePortEntity>> REACTOR_REDSTONEPORT =
                 registerBlockEntity("reactorredstoneport", ReactorRedstonePortEntity::new,
                         () -> Blocks.REACTOR_REDSTONEPORT_BASIC::get,
                         () -> Blocks.REACTOR_REDSTONEPORT_REINFORCED::get);
 
-        public static final RegistryObject<TileEntityType<ReactorChargingPortEntity>> REACTOR_CHARGINGPORT_FE =
+        public static final RegistryObject<BlockEntityType<ReactorChargingPortEntity>> REACTOR_CHARGINGPORT_FE =
                 registerBlockEntity("reactorchargingport_fe",
                         () -> new ReactorChargingPortEntity(EnergySystem.ForgeEnergy, TileEntityTypes.REACTOR_CHARGINGPORT_FE.get()),
                         () -> Blocks.REACTOR_CHARGINGPORT_FE_BASIC::get,
@@ -563,75 +569,75 @@ public final class Content {
         //endregion
         //region Turbine
 
-        public static final RegistryObject<TileEntityType<TurbineCasingEntity>> TURBINE_CASING =
+        public static final RegistryObject<BlockEntityType<TurbineCasingEntity>> TURBINE_CASING =
                 registerBlockEntity("turbinecasing", TurbineCasingEntity::new,
                         () -> Blocks.TURBINE_CASING_BASIC::get,
                         () -> Blocks.TURBINE_CASING_REINFORCED::get);
 
-        public static final RegistryObject<TileEntityType<TurbineGlassEntity>> TURBINE_GLASS =
+        public static final RegistryObject<BlockEntityType<TurbineGlassEntity>> TURBINE_GLASS =
                 registerBlockEntity("turbineglass", TurbineGlassEntity::new,
                         () -> Blocks.TURBINE_GLASS_BASIC::get,
                         () -> Blocks.TURBINE_GLASS_REINFORCED::get);
 
-        public static final RegistryObject<TileEntityType<TurbineControllerEntity>> TURBINE_CONTROLLER =
+        public static final RegistryObject<BlockEntityType<TurbineControllerEntity>> TURBINE_CONTROLLER =
                 registerBlockEntity("turbinecontroller", TurbineControllerEntity::new,
                         () -> Blocks.TURBINE_CONTROLLER_BASIC::get,
                         () -> Blocks.TURBINE_CONTROLLER_REINFORCED::get);
 
-        public static final RegistryObject<TileEntityType<TurbineRotorBearingEntity>> TURBINE_ROTORBEARING =
+        public static final RegistryObject<BlockEntityType<TurbineRotorBearingEntity>> TURBINE_ROTORBEARING =
                 registerBlockEntity("turbinerotorbearing", TurbineRotorBearingEntity::new,
                         () -> Blocks.TURBINE_ROTORBEARING_BASIC::get,
                         () -> Blocks.TURBINE_ROTORBEARING_REINFORCED::get);
 
-        public static final RegistryObject<TileEntityType<TurbineRotorComponentEntity>> TURBINE_ROTORSHAFT =
+        public static final RegistryObject<BlockEntityType<TurbineRotorComponentEntity>> TURBINE_ROTORSHAFT =
                 registerBlockEntity("turbinerotorshaft", TurbineRotorComponentEntity::shaft,
                         () -> Blocks.TURBINE_ROTORSHAFT_BASIC::get,
                         () -> Blocks.TURBINE_ROTORSHAFT_REINFORCED::get);
 
-        public static final RegistryObject<TileEntityType<TurbineRotorComponentEntity>> TURBINE_ROTORBLADE =
+        public static final RegistryObject<BlockEntityType<TurbineRotorComponentEntity>> TURBINE_ROTORBLADE =
                 registerBlockEntity("turbinerotorblade", TurbineRotorComponentEntity::blade,
                         () -> Blocks.TURBINE_ROTORBLADE_BASIC::get,
                         () -> Blocks.TURBINE_ROTORBLADE_REINFORCED::get);
 
-        public static final RegistryObject<TileEntityType<TurbineFluidPortEntity>> TURBINE_FLUIDPORT_FORGE_ACTIVE =
+        public static final RegistryObject<BlockEntityType<TurbineFluidPortEntity>> TURBINE_FLUIDPORT_FORGE_ACTIVE =
                 registerBlockEntity("turbinefluidport_forge_active",
                         () -> new TurbineFluidPortEntity(FluidPortType.Forge, IoMode.Active, TileEntityTypes.TURBINE_FLUIDPORT_FORGE_ACTIVE.get()),
                         () -> Blocks.TURBINE_FLUIDPORT_FORGE_ACTIVE_BASIC::get,
                         () -> Blocks.TURBINE_FLUIDPORT_FORGE_ACTIVE_REINFORCED::get);
 
-        public static final RegistryObject<TileEntityType<TurbineFluidPortEntity>> TURBINE_FLUIDPORT_FORGE_PASSIVE =
+        public static final RegistryObject<BlockEntityType<TurbineFluidPortEntity>> TURBINE_FLUIDPORT_FORGE_PASSIVE =
                 registerBlockEntity("turbinefluidport_forge_passive",
                         () -> new TurbineFluidPortEntity(FluidPortType.Forge, IoMode.Passive, TileEntityTypes.TURBINE_FLUIDPORT_FORGE_PASSIVE.get()),
                         () -> Blocks.TURBINE_FLUIDPORT_FORGE_PASSIVE_BASIC::get,
                         () -> Blocks.TURBINE_FLUIDPORT_FORGE_PASSIVE_REINFORCED::get);
 
-        public static final RegistryObject<TileEntityType<TurbineCreativeSteamGenerator>> TURBINE_CREATIVE_STEAM_GENERATOR =
+        public static final RegistryObject<BlockEntityType<TurbineCreativeSteamGenerator>> TURBINE_CREATIVE_STEAM_GENERATOR =
                 registerBlockEntity("turbinecreativesteamgenerator",
                         TurbineCreativeSteamGenerator::new,
                         () -> Blocks.TURBINE_CREATIVE_STEAM_GENERATOR_BASIC::get);
 
-        public static final RegistryObject<TileEntityType<TurbinePowerTapEntity>> TURBINE_POWERTAP_FE_ACTIVE =
+        public static final RegistryObject<BlockEntityType<TurbinePowerTapEntity>> TURBINE_POWERTAP_FE_ACTIVE =
                 registerBlockEntity("turbinepowertap_fe_active",
                         () -> new TurbinePowerTapEntity(EnergySystem.ForgeEnergy, IoMode.Active, TileEntityTypes.TURBINE_POWERTAP_FE_ACTIVE.get()),
                         () -> Blocks.TURBINE_POWERTAP_FE_ACTIVE_BASIC::get,
                         () -> Blocks.TURBINE_POWERTAP_FE_ACTIVE_REINFORCED::get);
 
-        public static final RegistryObject<TileEntityType<TurbinePowerTapEntity>> TURBINE_POWERTAP_FE_PASSIVE =
+        public static final RegistryObject<BlockEntityType<TurbinePowerTapEntity>> TURBINE_POWERTAP_FE_PASSIVE =
                 registerBlockEntity("turbinepowertap_fe_passive",
                         () -> new TurbinePowerTapEntity(EnergySystem.ForgeEnergy, IoMode.Passive, TileEntityTypes.TURBINE_POWERTAP_FE_PASSIVE.get()),
                         () -> Blocks.TURBINE_POWERTAP_FE_PASSIVE_BASIC::get,
                         () -> Blocks.TURBINE_POWERTAP_FE_PASSIVE_REINFORCED::get);
 
-        public static final RegistryObject<TileEntityType<TurbineComputerPortEntity>> TURBINE_COMPUTERPORT =
+        public static final RegistryObject<BlockEntityType<TurbineComputerPortEntity>> TURBINE_COMPUTERPORT =
                 registerBlockEntity("turbinecomputerport", TurbineComputerPortEntity::new,
                         () -> Blocks.TURBINE_COMPUTERPORT_REINFORCED::get);
 
-        public static final RegistryObject<TileEntityType<TurbineRedstonePortEntity>> TURBINE_REDSTONEPORT =
+        public static final RegistryObject<BlockEntityType<TurbineRedstonePortEntity>> TURBINE_REDSTONEPORT =
                 registerBlockEntity("turbineredstoneport", TurbineRedstonePortEntity::new,
                         () -> Blocks.TURBINE_REDSTONEPORT_BASIC::get,
                         () -> Blocks.TURBINE_REDSTONEPORT_REINFORCED::get);
 
-        public static final RegistryObject<TileEntityType<TurbineChargingPortEntity>> TURBINE_CHARGINGPORT_FE =
+        public static final RegistryObject<BlockEntityType<TurbineChargingPortEntity>> TURBINE_CHARGINGPORT_FE =
                 registerBlockEntity("turbinechargingport_fe",
                         () -> new TurbineChargingPortEntity(EnergySystem.ForgeEnergy, TileEntityTypes.TURBINE_CHARGINGPORT_FE.get()),
                         () -> Blocks.TURBINE_CHARGINGPORT_FE_BASIC::get,
@@ -642,7 +648,7 @@ public final class Content {
 
         @SuppressWarnings("ConstantConditions")
         @SafeVarargs
-        private static <T extends TileEntity> RegistryObject<TileEntityType<T>> registerBlockEntity(final String name,
+        private static <T extends BlockEntity> RegistryObject<BlockEntityType<T>> registerBlockEntity(final String name,
                                                                                                     final Supplier<T> factory,
                                                                                                     final Supplier<Supplier<Block>>... validBlockSuppliers) {
             return TILE_ENTITIES.register(name, () -> {
@@ -655,7 +661,7 @@ public final class Content {
                     }
                 }
 
-                return TileEntityType.Builder.of(factory, validBlocks).build(null);
+                return BlockEntityType.Builder.of(factory, validBlocks).build(null);
             });
         }
 
@@ -664,7 +670,7 @@ public final class Content {
 
     public static final class ContainerTypes {
 
-        private static final DeferredRegister<ContainerType<?>> CONTAINERS =
+        private static final DeferredRegister<MenuType<?>> CONTAINERS =
                 DeferredRegister.create(ForgeRegistries.CONTAINERS, ExtremeReactors.MOD_ID);
 
         static void initialize() {
@@ -673,52 +679,52 @@ public final class Content {
 
         //region Reactor
 
-        public static final RegistryObject<ContainerType<ModTileContainer<ReactorControllerEntity>>> REACTOR_CONTROLLER =
+        public static final RegistryObject<MenuType<ModTileContainer<ReactorControllerEntity>>> REACTOR_CONTROLLER =
                 registerContainer("reactorcontroller", (windowId, inv, data) ->
                         ModTileContainer.empty(Content.ContainerTypes.REACTOR_CONTROLLER.get(), windowId, data));
 
-        public static final RegistryObject<ContainerType<ReactorSolidAccessPortContainer>> REACTOR_SOLID_ACCESSPORT =
+        public static final RegistryObject<MenuType<ReactorSolidAccessPortContainer>> REACTOR_SOLID_ACCESSPORT =
                 registerContainer("reactoraccessport", ReactorSolidAccessPortContainer::new);
 
-        public static final RegistryObject<ContainerType<ModTileContainer<ReactorRedstonePortEntity>>> REACTOR_REDSTONEPORT =
+        public static final RegistryObject<MenuType<ModTileContainer<ReactorRedstonePortEntity>>> REACTOR_REDSTONEPORT =
                 registerContainer("reactorredstoneport", (windowId, inv, data) ->
                         ModTileContainer.empty(Content.ContainerTypes.REACTOR_REDSTONEPORT.get(), windowId, data));
 
-        public static final RegistryObject<ContainerType<ModTileContainer<ReactorControlRodEntity>>> REACTOR_CONTROLROD =
+        public static final RegistryObject<MenuType<ModTileContainer<ReactorControlRodEntity>>> REACTOR_CONTROLROD =
                 registerContainer("reactorcontrolrod", (windowId, inv, data) ->
                         ModTileContainer.empty(Content.ContainerTypes.REACTOR_CONTROLROD.get(), windowId, data));
 
-        public static final RegistryObject<ContainerType<ChargingPortContainer<ReactorChargingPortEntity>>> REACTOR_CHARGINGPORT =
+        public static final RegistryObject<MenuType<ChargingPortContainer<ReactorChargingPortEntity>>> REACTOR_CHARGINGPORT =
                 registerContainer("reactorchargingport",
                         (windowId, inv, data) -> new ChargingPortContainer<>(windowId, Content.ContainerTypes.REACTOR_CHARGINGPORT.get(), inv, data));
 
-        public static final RegistryObject<ContainerType<ModTileContainer<ReactorFluidPortEntity>>> REACTOR_FLUIDPORT =
+        public static final RegistryObject<MenuType<ModTileContainer<ReactorFluidPortEntity>>> REACTOR_FLUIDPORT =
                 registerContainer("reactorfluidport", (windowId, inv, data) ->
                         ModTileContainer.empty(Content.ContainerTypes.REACTOR_FLUIDPORT.get(), windowId, data));
 
         //endregion
         //region Turbine
 
-        public static final RegistryObject<ContainerType<ModTileContainer<TurbineControllerEntity>>> TURBINE_CONTROLLER =
+        public static final RegistryObject<MenuType<ModTileContainer<TurbineControllerEntity>>> TURBINE_CONTROLLER =
                 registerContainer("turbinecontroller", (windowId, inv, data) ->
                         ModTileContainer.empty(Content.ContainerTypes.TURBINE_CONTROLLER.get(), windowId, data));
 
-        public static final RegistryObject<ContainerType<ModTileContainer<TurbineRedstonePortEntity>>> TURBINE_REDSTONEPORT =
+        public static final RegistryObject<MenuType<ModTileContainer<TurbineRedstonePortEntity>>> TURBINE_REDSTONEPORT =
                 registerContainer("turbineredstoneport", (windowId, inv, data) ->
                         ModTileContainer.empty(Content.ContainerTypes.TURBINE_REDSTONEPORT.get(), windowId, data));
 
-        public static final RegistryObject<ContainerType<ChargingPortContainer<TurbineChargingPortEntity>>> TURBINE_CHARGINGPORT =
+        public static final RegistryObject<MenuType<ChargingPortContainer<TurbineChargingPortEntity>>> TURBINE_CHARGINGPORT =
                 registerContainer("turbinechargingport",
                         (windowId, inv, data) -> new ChargingPortContainer<>(windowId, Content.ContainerTypes.TURBINE_CHARGINGPORT.get(), inv, data));
 
-        public static final RegistryObject<ContainerType<ModTileContainer<TurbineFluidPortEntity>>> TURBINE_FLUIDPORT =
+        public static final RegistryObject<MenuType<ModTileContainer<TurbineFluidPortEntity>>> TURBINE_FLUIDPORT =
                 registerContainer("turbinefluidport", (windowId, inv, data) ->
                         ModTileContainer.empty(Content.ContainerTypes.TURBINE_FLUIDPORT.get(), windowId, data));
 
         //endregion
         //region internals
 
-        private static <C extends Container> RegistryObject<ContainerType<C>> registerContainer(final String name,
+        private static <C extends AbstractContainerMenu> RegistryObject<MenuType<C>> registerContainer(final String name,
                                                                                                 final IContainerFactory<C> factory) {
             return CONTAINERS.register(name,
                     () -> IForgeContainerType.create(factory));

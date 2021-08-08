@@ -24,15 +24,17 @@ import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockPartType;
 import it.zerono.mods.zerocore.lib.data.IIoEntity;
 import it.zerono.mods.zerocore.lib.multiblock.IMultiblockController;
 import it.zerono.mods.zerocore.lib.world.WorldHelper;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.level.Level;
 
 import java.util.Optional;
+
+import it.zerono.mods.zerocore.lib.block.multiblock.MultiblockPartBlock.MultiblockPartProperties;
 
 public class IOPortBlock<Controller extends IMultiblockController<Controller>,
                             PartType extends Enum<PartType> & IMultiblockPartType>
@@ -46,7 +48,7 @@ public class IOPortBlock<Controller extends IMultiblockController<Controller>,
     //region Block
 
     @Override
-    public void onRemove(BlockState state, World world, BlockPos position, BlockState newState, boolean isMoving) {
+    public void onRemove(BlockState state, Level world, BlockPos position, BlockState newState, boolean isMoving) {
 
         if (state.getBlock() != newState.getBlock()) {
             this.getIIoEntity(world, position).ifPresent(ioe -> ioe.onBlockReplaced(state, world, position, newState, isMoving));
@@ -56,13 +58,13 @@ public class IOPortBlock<Controller extends IMultiblockController<Controller>,
     }
 
     @Override
-    public ActionResultType use(BlockState state, World world, BlockPos position, PlayerEntity player,
-                                             Hand hand, BlockRayTraceResult hit) {
+    public InteractionResult use(BlockState state, Level world, BlockPos position, Player player,
+                                             InteractionHand hand, BlockHitResult hit) {
 
-        if (Hand.MAIN_HAND == hand && player.getMainHandItem().getItem().is(ContentTags.Items.WRENCH)) {
+        if (InteractionHand.MAIN_HAND == hand && player.getMainHandItem().getItem().is(ContentTags.Items.WRENCH)) {
 
             this.callOnLogicalServer(world, w -> this.getIIoEntity(w, position).ifPresent(IIoEntity::toggleIoDirection));
-            return ActionResultType.SUCCESS;
+            return InteractionResult.SUCCESS;
         }
 
         return super.use(state, world, position, player, hand, hit);
@@ -71,7 +73,7 @@ public class IOPortBlock<Controller extends IMultiblockController<Controller>,
     //endregion
     //region internals
 
-    private Optional<IIoEntity> getIIoEntity(final World world, final BlockPos position) {
+    private Optional<IIoEntity> getIIoEntity(final Level world, final BlockPos position) {
         return WorldHelper.getTile(world, position)
                 .filter(te -> te instanceof IIoEntity)
                 .map(te -> (IIoEntity)te);

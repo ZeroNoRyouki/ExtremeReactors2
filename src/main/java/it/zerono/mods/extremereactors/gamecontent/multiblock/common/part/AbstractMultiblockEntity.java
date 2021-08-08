@@ -21,7 +21,7 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.common.part;
 import it.zerono.mods.zerocore.lib.multiblock.cuboid.AbstractCuboidMultiblockController;
 import it.zerono.mods.zerocore.lib.multiblock.cuboid.AbstractCuboidMultiblockPart;
 import net.minecraft.client.renderer.model.IBakedModel;
-import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.client.model.data.IModelData;
 
 import javax.annotation.Nonnull;
@@ -29,7 +29,7 @@ import javax.annotation.Nonnull;
 public abstract class AbstractMultiblockEntity<Controller extends AbstractCuboidMultiblockController<Controller>>
         extends AbstractCuboidMultiblockPart<Controller> {
 
-    public AbstractMultiblockEntity(final TileEntityType<?> type) {
+    public AbstractMultiblockEntity(final BlockEntityType<?> type) {
         super(type);
     }
 

@@ -25,14 +25,16 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.computer.Re
 import it.zerono.mods.zerocore.lib.compat.Mods;
 import it.zerono.mods.zerocore.lib.compat.computer.ConnectorComputerCraft;
 import it.zerono.mods.zerocore.lib.compat.computer.MultiblockComputerPeripheral;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.util.LazyOptional;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+
+import it.zerono.mods.zerocore.lib.data.nbt.ISyncableEntity.SyncReason;
 
 public class ReactorComputerPortEntity
         extends AbstractReactorEntity {
@@ -55,7 +57,7 @@ public class ReactorComputerPortEntity
      * @param data       the {@link CompoundNBT} to read from
      * @param syncReason the reason why the synchronization is necessary
      */
-    public void syncDataFrom(final CompoundNBT data, final SyncReason syncReason) {
+    public void syncDataFrom(final CompoundTag data, final SyncReason syncReason) {
 
         super.syncDataFrom(data, syncReason);
 
@@ -72,7 +74,7 @@ public class ReactorComputerPortEntity
      * @param syncReason the reason why the synchronization is necessary
      * @return the {@link CompoundNBT} the data was written to (usually {@code data})
      */
-    public CompoundNBT syncDataTo(final CompoundNBT data, final SyncReason syncReason) {
+    public CompoundTag syncDataTo(final CompoundTag data, final SyncReason syncReason) {
 
         super.syncDataTo(data, syncReason);
 

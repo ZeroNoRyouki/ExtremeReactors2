@@ -19,7 +19,9 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor;
 
 import it.zerono.mods.zerocore.lib.data.nbt.ISyncableEntity;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompoundTag;
+
+import it.zerono.mods.zerocore.lib.data.nbt.ISyncableEntity.SyncReason;
 
 public class Stats implements ISyncableEntity {
 
@@ -83,7 +85,7 @@ public class Stats implements ISyncableEntity {
      * @param syncReason the reason why the synchronization is necessary
      */
     @Override
-    public void syncDataFrom(CompoundNBT data, SyncReason syncReason) {
+    public void syncDataFrom(CompoundTag data, SyncReason syncReason) {
 
         if (data.contains("stuff")) {
             this.setAmountGeneratedLastTick(data.getDouble("stuff"));
@@ -102,7 +104,7 @@ public class Stats implements ISyncableEntity {
      * @return the {@link CompoundNBT} the data was written to (usually {@code data})
      */
     @Override
-    public CompoundNBT syncDataTo(CompoundNBT data, SyncReason syncReason) {
+    public CompoundTag syncDataTo(CompoundTag data, SyncReason syncReason) {
 
         data.putDouble("stuff", this.getAmountGeneratedLastTick());
         data.putFloat("fuel", this.getFuelConsumedLastTick());

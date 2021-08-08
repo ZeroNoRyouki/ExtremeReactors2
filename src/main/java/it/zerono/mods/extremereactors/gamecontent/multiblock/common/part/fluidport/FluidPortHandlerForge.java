@@ -25,9 +25,9 @@ import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockVariantProvider;
 import it.zerono.mods.zerocore.lib.data.IIoEntity;
 import it.zerono.mods.zerocore.lib.data.IoMode;
 import it.zerono.mods.zerocore.lib.fluid.handler.FluidHandlerForwarder;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IWorldReader;
+import net.minecraft.core.Direction;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.LevelReader;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.util.LazyOptional;
@@ -37,6 +37,8 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.EmptyFluidHandler;
 
 import javax.annotation.Nullable;
+
+import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 
 public class FluidPortHandlerForge<Controller extends AbstractGeneratorMultiblockController<Controller, V>,
             V extends IMultiblockGeneratorVariant,
@@ -103,7 +105,7 @@ public class FluidPortHandlerForge<Controller extends AbstractGeneratorMultibloc
      * @param position the handler position
      */
     @Override
-    public void checkConnections(@Nullable final IWorldReader world, final BlockPos position) {
+    public void checkConnections(@Nullable final LevelReader world, final BlockPos position) {
         this._consumer = this.lookupConsumer(world, position, CAPAP_FORGE_FLUIDHANDLER,
                 te -> te instanceof IFluidPortHandler, this._consumer);
     }

@@ -34,12 +34,12 @@ import it.zerono.mods.zerocore.lib.item.ItemHelper;
 import it.zerono.mods.zerocore.lib.tag.CollectionProviders;
 import it.zerono.mods.zerocore.lib.tag.TagList;
 import it.zerono.mods.zerocore.lib.tag.TagsHelper;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tags.ITag;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.tags.Tag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraftforge.common.util.NonNullSupplier;
 import net.minecraftforge.event.TagsUpdatedEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -74,9 +74,9 @@ public final class ReactantMappingsRegistry {
 
         return s_solidTags
                 .find(tag -> tag.contains(item))
-                .filter(t -> t instanceof ITag.INamedTag)
-                .map(t -> (ITag.INamedTag<Item>)t)
-                .map(ITag.INamedTag::getName)
+                .filter(t -> t instanceof Tag.Named)
+                .map(t -> (Tag.Named<Item>)t)
+                .map(Tag.Named::getName)
                 .map(s_solidToReactant::get);
     }
 
@@ -179,8 +179,8 @@ public final class ReactantMappingsRegistry {
         });
     }
 
-    public static void fillReactantsTooltips(final Map<Item, Set<ITextComponent>> tooltipsMap,
-                                             final NonNullSupplier<Set<ITextComponent>> setSupplier) {
+    public static void fillReactantsTooltips(final Map<Item, Set<Component>> tooltipsMap,
+                                             final NonNullSupplier<Set<Component>> setSupplier) {
 
         s_solidToReactant.values().stream()
                 .filter(mapping -> mapping.getProduct().getType().isFuel())
@@ -269,7 +269,7 @@ public final class ReactantMappingsRegistry {
     private static final Marker MARKER = MarkerManager.getMarker("API/ReactantMappingsRegistry").addParents(ExtremeReactorsAPI.MARKER);
     private static final Marker WRAPPER = MarkerManager.getMarker("ModPack API Wrapper").addParents(MARKER);
 
-    private static final ITextComponent TOOLTIP_FUEL_SOURCE = new TranslationTextComponent("api.bigreactors.reactor.tooltip.reactant.fuel").setStyle(ExtremeReactorsAPI.STYLE_TOOLTIP);
+    private static final Component TOOLTIP_FUEL_SOURCE = new TranslatableComponent("api.bigreactors.reactor.tooltip.reactant.fuel").setStyle(ExtremeReactorsAPI.STYLE_TOOLTIP);
 
     //endregion
 }

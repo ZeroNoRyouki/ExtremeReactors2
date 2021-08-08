@@ -61,22 +61,22 @@ import it.zerono.mods.zerocore.lib.client.model.ICustomModelBuilder;
 import it.zerono.mods.zerocore.lib.client.model.ModBakedModelSupplier;
 import it.zerono.mods.zerocore.lib.compat.Mods;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
-import net.minecraft.block.Block;
-import net.minecraft.client.gui.IHasContainer;
-import net.minecraft.client.gui.ScreenManager;
-import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.client.gui.screens.inventory.MenuAccess;
+import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.RenderTypeLookup;
-import net.minecraft.client.renderer.model.IBakedModel;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.ContainerType;
-import net.minecraft.inventory.container.PlayerContainer;
-import net.minecraft.item.Item;
-import net.minecraft.resources.IResourceManager;
-import net.minecraft.util.Direction;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.inventory.InventoryMenu;
+import net.minecraft.world.item.Item;
+import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.chat.Component;
 import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.client.event.ModelBakeEvent;
 import net.minecraftforge.client.event.ModelRegistryEvent;
@@ -117,7 +117,7 @@ public class ClientProxy
         CodeHelper.addResourceReloadListener(this);
     }
 
-    public static Supplier<IBakedModel> getModelSupplier(final ResourceLocation modelId) {
+    public static Supplier<BakedModel> getModelSupplier(final ResourceLocation modelId) {
         return s_bakedModelSupplier.getOrCreate(modelId);
     }
 
@@ -155,7 +155,7 @@ public class ClientProxy
     @SubscribeEvent
     public void onTextureStitchPre(final TextureStitchEvent.Pre event) {
 
-        if (!event.getMap().location().equals(PlayerContainer.BLOCK_ATLAS)) {
+        if (!event.getMap().location().equals(InventoryMenu.BLOCK_ATLAS)) {
             return;
         }
 
@@ -196,7 +196,7 @@ public class ClientProxy
      * @param resourcePredicate predicate to test whether any given resource type should be reloaded
      */
     @Override
-    public void onResourceManagerReload(IResourceManager resourceManager, Predicate<IResourceType> resourcePredicate) {
+    public void onResourceManagerReload(ResourceManager resourceManager, Predicate<IResourceType> resourcePredicate) {
         this.invalidateApiTooltipCache();
     }
 
@@ -230,18 +230,18 @@ public class ClientProxy
         registerScreen(Content.ContainerTypes.REACTOR_REDSTONEPORT, ReactorRedstonePortScreen::new);
         registerScreen(Content.ContainerTypes.REACTOR_CONTROLROD, ReactorControlRodScreen::new);
         registerScreen(Content.ContainerTypes.REACTOR_CHARGINGPORT,
-                (ChargingPortContainer<ReactorChargingPortEntity> container, PlayerInventory inventory, ITextComponent title) ->
+                (ChargingPortContainer<ReactorChargingPortEntity> container, Inventory inventory, Component title) ->
                         new ChargingPortScreen<>(container, inventory, title, ExtremeReactors.newID("reactor/part-forgechargingport")));
         registerScreen(Content.ContainerTypes.REACTOR_FLUIDPORT,
-                (ModTileContainer<ReactorFluidPortEntity> container, PlayerInventory inventory, ITextComponent title) ->
+                (ModTileContainer<ReactorFluidPortEntity> container, Inventory inventory, Component title) ->
                         new FluidPortScreen<>(container, inventory, title, ExtremeReactors.newID("reactor/part-forgefluidport")));
         // Turbine GUIs
         registerScreen(Content.ContainerTypes.TURBINE_CONTROLLER, TurbineControllerScreen::new);
         registerScreen(Content.ContainerTypes.TURBINE_CHARGINGPORT,
-                (ChargingPortContainer<TurbineChargingPortEntity> container, PlayerInventory inventory, ITextComponent title) ->
+                (ChargingPortContainer<TurbineChargingPortEntity> container, Inventory inventory, Component title) ->
                         new ChargingPortScreen<>(container, inventory, title, ExtremeReactors.newID("turbine/part-forgechargingport")));
         registerScreen(Content.ContainerTypes.TURBINE_FLUIDPORT,
-                (ModTileContainer<TurbineFluidPortEntity> container, PlayerInventory inventory, ITextComponent title) ->
+                (ModTileContainer<TurbineFluidPortEntity> container, Inventory inventory, Component title) ->
                         new FluidPortScreen<>(container, inventory, title, ExtremeReactors.newID("turbine/part-forgefluidport")));
         registerScreen(Content.ContainerTypes.TURBINE_REDSTONEPORT, TurbineRedstonePortScreen::new);
     }
@@ -263,17 +263,17 @@ public class ClientProxy
 
     //region registration helpers
 
-    private static <M extends Container, U extends Screen & IHasContainer<M>>
-        void registerScreen(final Supplier<? extends ContainerType<? extends M>> type,
-                        final ScreenManager.IScreenFactory<M, U> factory) {
-        ScreenManager.register(type.get(), factory);
+    private static <M extends AbstractContainerMenu, U extends Screen & MenuAccess<M>>
+        void registerScreen(final Supplier<? extends MenuType<? extends M>> type,
+                        final MenuScreens.ScreenConstructor<M, U> factory) {
+        MenuScreens.register(type.get(), factory);
     }
 
     @SafeVarargs
     private static void registerRenderType(RenderType type, Supplier<? extends Block>... blocks) {
 
         for (final Supplier<? extends Block> block : blocks) {
-            RenderTypeLookup.setRenderLayer(block.get(), type);
+            ItemBlockRenderTypes.setRenderLayer(block.get(), type);
         }
     }
 
@@ -284,7 +284,7 @@ public class ClientProxy
         this.invalidateApiTooltipCache();
     }
 
-    private Map<Item, Set<ITextComponent>> getApiTooltipCache() {
+    private Map<Item, Set<Component>> getApiTooltipCache() {
 
         if (null == this._apiTooltipCache) {
             this._apiTooltipCache = buildApiTooltipCache();
@@ -297,9 +297,9 @@ public class ClientProxy
         this._apiTooltipCache = null;
     }
 
-    private static Map<Item, Set<ITextComponent>> buildApiTooltipCache() {
+    private static Map<Item, Set<Component>> buildApiTooltipCache() {
 
-        final Map<Item, Set<ITextComponent>> wipCache = Maps.newHashMap();
+        final Map<Item, Set<Component>> wipCache = Maps.newHashMap();
 
         // fill items from the API
 
@@ -316,7 +316,7 @@ public class ClientProxy
 
     private final List<ICustomModelBuilder> _modelBuilders;
 
-    private Map<Item, Set<ITextComponent>> _apiTooltipCache;
+    private Map<Item, Set<Component>> _apiTooltipCache;
 
     //endregion
 }

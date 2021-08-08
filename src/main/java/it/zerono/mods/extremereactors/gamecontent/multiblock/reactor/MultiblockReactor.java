@@ -53,15 +53,15 @@ import it.zerono.mods.zerocore.lib.multiblock.ITickableMultiblockPart;
 import it.zerono.mods.zerocore.lib.multiblock.cuboid.AbstractCuboidMultiblockPart;
 import it.zerono.mods.zerocore.lib.multiblock.validation.IMultiblockValidator;
 import it.zerono.mods.zerocore.lib.world.WorldHelper;
-import net.minecraft.block.BlockState;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.profiler.IProfiler;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.util.profiling.ProfilerFiller;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.core.Direction;
+import net.minecraft.core.BlockPos;
+import net.minecraft.util.Mth;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fml.LogicalSide;
 
@@ -71,11 +71,13 @@ import java.util.function.DoubleSupplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import it.zerono.mods.zerocore.lib.data.nbt.ISyncableEntity.SyncReason;
+
 public class MultiblockReactor
         extends AbstractGeneratorMultiblockController<MultiblockReactor, IMultiblockReactorVariant>
         implements IReactorMachine, IReactorEnvironment, IReactorWriter, IDebuggable {
 
-    public MultiblockReactor(final World world, final IMultiblockReactorVariant variant) {
+    public MultiblockReactor(final Level world, final IMultiblockReactorVariant variant) {
 
         super(world);
         this._variant = variant;
@@ -265,7 +267,7 @@ public class MultiblockReactor
     @Override
     public void performOutputCycle() {
 
-        final IProfiler profiler = this.getWorld().getProfiler();
+        final ProfilerFiller profiler = this.getWorld().getProfiler();
 
         if (this.getOperationalMode().isPassive()) {
 
@@ -289,7 +291,7 @@ public class MultiblockReactor
     @Override
     public boolean performInputCycle() {
 
-        final IProfiler profiler = this.getWorld().getProfiler();
+        final ProfilerFiller profiler = this.getWorld().getProfiler();
         boolean changed = false;
 
         if (this.getOperationalMode().isActive()) {
@@ -387,7 +389,7 @@ public class MultiblockReactor
             return MODERATOR_NONE;
         }
 
-        final World world = this.getWorld();
+        final Level world = this.getWorld();
         final BlockState blockState = world.getBlockState(position);
 
         if (blockState.isAir()) {
@@ -396,7 +398,7 @@ public class MultiblockReactor
 
         if (blockState.hasTileEntity()) {
 
-            final TileEntity te = WorldHelper.getLoadedTile(world, position);
+            final BlockEntity te = WorldHelper.getLoadedTile(world, position);
 
             return te instanceof IRadiationModerator ? (IRadiationModerator)te : MODERATOR_NONE;
 
@@ -539,7 +541,7 @@ public class MultiblockReactor
     @Override
     public void setControlRodsInsertionRatio(final int newRatio) {
         if (this.isAssembled()) {
-            ReactorControlRodEntity.setInsertionRatio(this._attachedControlRods, MathHelper.clamp(newRatio, 0, 100));
+            ReactorControlRodEntity.setInsertionRatio(this._attachedControlRods, Mth.clamp(newRatio, 0, 100));
         }
     }
 
@@ -642,7 +644,7 @@ public class MultiblockReactor
      * @param syncReason the reason why the synchronization is necessary
      */
     @Override
-    public void syncDataFrom(CompoundNBT data, SyncReason syncReason) {
+    public void syncDataFrom(CompoundTag data, SyncReason syncReason) {
 
         super.syncDataFrom(data, syncReason);
 
@@ -675,7 +677,7 @@ public class MultiblockReactor
      * @param syncReason the reason why the synchronization is necessary
      */
     @Override
-    public CompoundNBT syncDataTo(CompoundNBT data, SyncReason syncReason) {
+    public CompoundTag syncDataTo(CompoundTag data, SyncReason syncReason) {
 
         super.syncDataTo(data, syncReason);
 
@@ -707,7 +709,7 @@ public class MultiblockReactor
     @Override
     protected void sendClientUpdates() {
 
-        final IProfiler profiler = this.getWorld().getProfiler();
+        final ProfilerFiller profiler = this.getWorld().getProfiler();
 
         profiler.push("sendTickUpdate");
         this.sendUpdates();
@@ -974,7 +976,7 @@ public class MultiblockReactor
     @Override
     protected boolean updateServer() {
 
-        final IProfiler profiler = this.getWorld().getProfiler();
+        final ProfilerFiller profiler = this.getWorld().getProfiler();
 
         profiler.push("Extreme Reactors|Reactor update"); // main section
 
@@ -1024,7 +1026,7 @@ public class MultiblockReactor
      * @param validatorCallback the validator, for error reporting
      */
     @Override
-    protected boolean isBlockGoodForFrame(World world, int x, int y, int z, IMultiblockValidator validatorCallback) {
+    protected boolean isBlockGoodForFrame(Level world, int x, int y, int z, IMultiblockValidator validatorCallback) {
         return invalidBlockForExterior(world, x, y, z, validatorCallback);
     }
 
@@ -1038,7 +1040,7 @@ public class MultiblockReactor
      * @param validatorCallback the validator, for error reporting
      */
     @Override
-    protected boolean isBlockGoodForTop(World world, int x, int y, int z, IMultiblockValidator validatorCallback) {
+    protected boolean isBlockGoodForTop(Level world, int x, int y, int z, IMultiblockValidator validatorCallback) {
         return invalidBlockForExterior(world, x, y, z, validatorCallback);
     }
 
@@ -1052,7 +1054,7 @@ public class MultiblockReactor
      * @param validatorCallback the validator, for error reporting
      */
     @Override
-    protected boolean isBlockGoodForBottom(World world, int x, int y, int z, IMultiblockValidator validatorCallback) {
+    protected boolean isBlockGoodForBottom(Level world, int x, int y, int z, IMultiblockValidator validatorCallback) {
         return invalidBlockForExterior(world, x, y, z, validatorCallback);
     }
 
@@ -1066,7 +1068,7 @@ public class MultiblockReactor
      * @param validatorCallback the validator, for error reporting
      */
     @Override
-    protected boolean isBlockGoodForSides(World world, int x, int y, int z, IMultiblockValidator validatorCallback) {
+    protected boolean isBlockGoodForSides(Level world, int x, int y, int z, IMultiblockValidator validatorCallback) {
         return invalidBlockForExterior(world, x, y, z, validatorCallback);
     }
 
@@ -1080,7 +1082,7 @@ public class MultiblockReactor
      * @param validatorCallback the validator, for error reporting
      */
     @Override
-    protected boolean isBlockGoodForInterior(World world, int x, int y, int z, IMultiblockValidator validatorCallback) {
+    protected boolean isBlockGoodForInterior(Level world, int x, int y, int z, IMultiblockValidator validatorCallback) {
 
         final BlockPos position = new BlockPos(x, y, z);
         final BlockState blockState = world.getBlockState(position);
@@ -1219,7 +1221,7 @@ public class MultiblockReactor
         }
     }
 
-    private static boolean invalidBlockForExterior(World world, int x, int y, int z, IMultiblockValidator validatorCallback) {
+    private static boolean invalidBlockForExterior(Level world, int x, int y, int z, IMultiblockValidator validatorCallback) {
 
         final BlockPos position = new BlockPos(x, y, z);
 
@@ -1302,7 +1304,7 @@ public class MultiblockReactor
 
             final int outerVolume = this.getBoundingBox().getVolume() - this.getReactorVolume();
 
-            this._fluidContainer.setCapacity(MathHelper.clamp(outerVolume * this.getVariant().getPartFluidCapacity(),
+            this._fluidContainer.setCapacity(Mth.clamp(outerVolume * this.getVariant().getPartFluidCapacity(),
                     0, this.getVariant().getMaxFluidCapacity()));
 
         } else {
@@ -1386,7 +1388,7 @@ public class MultiblockReactor
     private int validateFuelAssembly(final IMultiblockValidator validatorCallback, final BlockPos controlRodPosition,
                                      final Direction scanDirection) {
 
-        final BlockPos.Mutable scanPosition = controlRodPosition.mutable();
+        final BlockPos.MutableBlockPos scanPosition = controlRodPosition.mutable();
         int validRodsFound = 0;
 
         while (true) {

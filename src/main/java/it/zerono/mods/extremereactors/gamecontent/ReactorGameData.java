@@ -22,9 +22,9 @@ import it.zerono.mods.extremereactors.api.coolant.FluidMappingsRegistry;
 import it.zerono.mods.extremereactors.api.coolant.FluidsRegistry;
 import it.zerono.mods.extremereactors.api.coolant.TransitionsRegistry;
 import it.zerono.mods.extremereactors.api.reactor.*;
-import net.minecraft.item.Item;
-import net.minecraft.tags.ITag;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.item.Item;
+import net.minecraft.tags.Tag;
+import net.minecraft.resources.ResourceLocation;
 
 final class ReactorGameData {
 
@@ -191,7 +191,7 @@ final class ReactorGameData {
 
     //region helpers
 
-    private static void registerIngotReactantMapping(final String reactantName, final ITag.INamedTag<Item> tag, final int ingotsCount) {
+    private static void registerIngotReactantMapping(final String reactantName, final Tag.Named<Item> tag, final int ingotsCount) {
         registerIngotReactantMapping(reactantName, tag.getName(), ingotsCount);
     }
 

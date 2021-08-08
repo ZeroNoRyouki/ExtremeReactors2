@@ -40,18 +40,18 @@ import it.zerono.mods.zerocore.lib.item.ItemHelper;
 import it.zerono.mods.zerocore.lib.item.inventory.handler.ItemHandlerModifiableForwarder;
 import it.zerono.mods.zerocore.lib.item.inventory.handler.TileEntityItemStackHandler;
 import it.zerono.mods.zerocore.lib.world.WorldHelper;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.INamedContainerProvider;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.Direction;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.util.LazyOptional;
@@ -64,9 +64,11 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
+import it.zerono.mods.zerocore.lib.data.nbt.ISyncableEntity.SyncReason;
+
 public class ReactorSolidAccessPortEntity
         extends AbstractReactorEntity
-        implements IFuelSource<ItemStack>, IIoEntity, INeighborChangeListener, INamedContainerProvider {
+        implements IFuelSource<ItemStack>, IIoEntity, INeighborChangeListener, MenuProvider {
 
     public static String COMMAND_DUMP_FUEL = "dumpfuel";
     public static String COMMAND_DUMP_WASTE = "dumpwaste";
@@ -328,12 +330,12 @@ public class ReactorSolidAccessPortEntity
      */
     @Nullable
     @Override
-    public Container createMenu(final int windowId, final PlayerInventory inventory, final PlayerEntity player) {
+    public AbstractContainerMenu createMenu(final int windowId, final Inventory inventory, final Player player) {
         return new ReactorSolidAccessPortContainer(windowId, inventory, this);
     }
 
     @Override
-    public ITextComponent getDisplayName() {
+    public Component getDisplayName() {
         return super.getPartDisplayName();
     }
 
@@ -369,7 +371,7 @@ public class ReactorSolidAccessPortEntity
     }
 
     @Override
-    public void onBlockReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean isMoving) {
+    public void onBlockReplaced(BlockState state, Level world, BlockPos pos, BlockState newState, boolean isMoving) {
 
         ItemHelper.inventoryDropItems(this.getItemStackHandler(ReactantType.Fuel), world, pos);
         ItemHelper.inventoryDropItems(this.getItemStackHandler(ReactantType.Waste), world, pos);
@@ -405,7 +407,7 @@ public class ReactorSolidAccessPortEntity
     //region ISyncableEntity
 
     @Override
-    public void syncDataFrom(CompoundNBT data, SyncReason syncReason) {
+    public void syncDataFrom(CompoundTag data, SyncReason syncReason) {
 
         super.syncDataFrom(data, syncReason);
         this.setIoDirection(IoDirection.read(data, "iodir", IoDirection.Input));
@@ -423,7 +425,7 @@ public class ReactorSolidAccessPortEntity
     }
 
     @Override
-    public CompoundNBT syncDataTo(CompoundNBT data, SyncReason syncReason) {
+    public CompoundTag syncDataTo(CompoundTag data, SyncReason syncReason) {
 
         super.syncDataTo(data, syncReason);
         IoDirection.write(data, "iodir", this.getIoDirection());
@@ -461,7 +463,7 @@ public class ReactorSolidAccessPortEntity
      * @param state
      */
     @Override
-    public boolean canOpenGui(World world, BlockPos position, BlockState state) {
+    public boolean canOpenGui(Level world, BlockPos position, BlockState state) {
         return true;
     }
 
@@ -593,11 +595,11 @@ public class ReactorSolidAccessPortEntity
         };
     }
 
-    private void handleCommandEjectFuel(CompoundNBT options) {
+    private void handleCommandEjectFuel(CompoundTag options) {
         this.getMultiblockController().ifPresent(c -> c.ejectFuel(options.contains("void") && options.getBoolean("void")));
     }
 
-    private void handleCommandEjectWaste(CompoundNBT options) {
+    private void handleCommandEjectWaste(CompoundTag options) {
         this.getMultiblockController().ifPresent(c -> c.ejectWaste(options.contains("void") && options.getBoolean("void")));
     }
 

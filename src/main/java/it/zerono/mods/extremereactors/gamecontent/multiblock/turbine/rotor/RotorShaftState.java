@@ -19,11 +19,11 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.rotor;
 
 import it.zerono.mods.zerocore.lib.CodeHelper;
-import net.minecraft.util.Direction;
-import net.minecraft.util.IStringSerializable;
+import net.minecraft.core.Direction;
+import net.minecraft.util.StringRepresentable;
 
 public enum RotorShaftState
-    implements IStringSerializable {
+    implements StringRepresentable {
 
     HIDDEN(Direction.Axis.Y),
     // Shaft direction - blades direction

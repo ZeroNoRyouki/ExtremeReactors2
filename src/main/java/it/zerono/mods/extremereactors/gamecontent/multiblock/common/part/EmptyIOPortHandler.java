@@ -18,8 +18,8 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.common.part;
 
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IWorldReader;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.LevelReader;
 
 import javax.annotation.Nullable;
 
@@ -43,7 +43,7 @@ public class EmptyIOPortHandler
      * @param position the handler position
      */
     @Override
-    public void checkConnections(@Nullable IWorldReader world, BlockPos position) {
+    public void checkConnections(@Nullable LevelReader world, BlockPos position) {
     }
 
     /**

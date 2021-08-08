@@ -22,7 +22,7 @@ import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.zerocore.lib.client.gui.sprite.AtlasSpriteSupplier;
 import it.zerono.mods.zerocore.lib.client.gui.sprite.AtlasSpriteTextureMap;
 import it.zerono.mods.zerocore.lib.client.gui.sprite.ISprite;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 
 import java.util.function.Supplier;
 

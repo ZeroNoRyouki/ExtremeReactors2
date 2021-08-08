@@ -25,24 +25,26 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.powerta
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.powertap.chargingport.IChargingPortHandler;
 import it.zerono.mods.zerocore.lib.block.TileCommandDispatcher;
 import it.zerono.mods.zerocore.lib.energy.EnergySystem;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.INamedContainerProvider;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.level.Level;
 
 import javax.annotation.Nullable;
 
+import it.zerono.mods.zerocore.lib.data.nbt.ISyncableEntity.SyncReason;
+
 public class ReactorChargingPortEntity
         extends AbstractReactorPowerTapEntity
-        implements IChargingPort, INamedContainerProvider {
+        implements IChargingPort, MenuProvider {
 
-    public ReactorChargingPortEntity(final EnergySystem system, final TileEntityType<?> entityType) {
+    public ReactorChargingPortEntity(final EnergySystem system, final BlockEntityType<?> entityType) {
 
         super(system, entityType);
         this.setHandler(IChargingPortHandler.create(system, this));
@@ -63,14 +65,14 @@ public class ReactorChargingPortEntity
     //region ISyncableEntity
 
     @Override
-    public void syncDataFrom(CompoundNBT data, SyncReason syncReason) {
+    public void syncDataFrom(CompoundTag data, SyncReason syncReason) {
 
         super.syncDataFrom(data, syncReason);
         this.getChargingPortHandler().syncDataFrom(data, syncReason);
     }
 
     @Override
-    public CompoundNBT syncDataTo(CompoundNBT data, SyncReason syncReason) {
+    public CompoundTag syncDataTo(CompoundTag data, SyncReason syncReason) {
 
         super.syncDataTo(data, syncReason);
         this.getChargingPortHandler().syncDataTo(data, syncReason);
@@ -89,12 +91,12 @@ public class ReactorChargingPortEntity
      */
     @Nullable
     @Override
-    public Container createMenu(final int windowId, final PlayerInventory inventory, final PlayerEntity player) {
+    public AbstractContainerMenu createMenu(final int windowId, final Inventory inventory, final Player player) {
         return new ChargingPortContainer<>(windowId, Content.ContainerTypes.REACTOR_CHARGINGPORT.get(), inventory, this);
     }
 
     @Override
-    public ITextComponent getDisplayName() {
+    public Component getDisplayName() {
         return super.getPartDisplayName();
     }
 
@@ -110,7 +112,7 @@ public class ReactorChargingPortEntity
      * @param state
      */
     @Override
-    public boolean canOpenGui(World world, BlockPos position, BlockState state) {
+    public boolean canOpenGui(Level world, BlockPos position, BlockState state) {
         return true;
     }
 

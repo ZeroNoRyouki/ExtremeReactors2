@@ -26,13 +26,13 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part.Turbin
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.TurbineVariant;
 import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockPartType;
 import it.zerono.mods.zerocore.lib.block.multiblock.MultiblockPartBlock;
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.SoundType;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.world.IBlockReader;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.BlockGetter;
 
 import javax.annotation.Nullable;
 import java.util.function.Function;
@@ -95,14 +95,14 @@ public enum TurbinePartType
             TurbineRedstonePortBlock::new, "part.bigreactors.turbine.redstoneport"),
     ;
 
-    TurbinePartType(final Supplier<Supplier<TileEntityType<?>>> tileTypeSupplier,
+    TurbinePartType(final Supplier<Supplier<BlockEntityType<?>>> tileTypeSupplier,
                     final Function<MultiblockPartBlock.MultiblockPartProperties<TurbinePartType>,
                             MultiblockPartBlock<MultiblockTurbine, TurbinePartType>> blockFactory,
                     final String translationKey) {
         this(tileTypeSupplier, blockFactory, translationKey, bp -> bp);
     }
 
-    TurbinePartType(final Supplier<Supplier<TileEntityType<?>>> tileTypeSupplier,
+    TurbinePartType(final Supplier<Supplier<BlockEntityType<?>>> tileTypeSupplier,
                     final Function<MultiblockPartBlock.MultiblockPartProperties<TurbinePartType>,
                             MultiblockPartBlock<MultiblockTurbine, TurbinePartType>> blockFactory,
                     final String translationKey,
@@ -124,7 +124,7 @@ public enum TurbinePartType
 
     @Nullable
     @Override
-    public TileEntity createTileEntity(BlockState state, IBlockReader world) {
+    public BlockEntity createTileEntity(BlockState state, BlockGetter world) {
         return this._tileTypeSupplier.get().get().create();
     }
 
@@ -141,7 +141,7 @@ public enum TurbinePartType
     //endregion
     //region internals
 
-    private static AbstractBlock.Properties notOpaqueBlock(AbstractBlock.Properties originals) {
+    private static BlockBehaviour.Properties notOpaqueBlock(BlockBehaviour.Properties originals) {
         return originals
                 .sound(SoundType.GLASS)
                 .noOcclusion()
@@ -149,7 +149,7 @@ public enum TurbinePartType
                 .isViewBlocking((blockState, blockReader, pos) -> false);
     }
 
-    private static AbstractBlock.Properties rotorBlock(AbstractBlock.Properties originals) {
+    private static BlockBehaviour.Properties rotorBlock(BlockBehaviour.Properties originals) {
         return originals
                 .noOcclusion()
                 .isRedstoneConductor((blockState, blockReader, pos) -> false)
@@ -157,7 +157,7 @@ public enum TurbinePartType
                 .lightLevel(state -> 15);
     }
 
-    private final Supplier<Supplier<TileEntityType<?>>> _tileTypeSupplier;
+    private final Supplier<Supplier<BlockEntityType<?>>> _tileTypeSupplier;
 
     private final Function<MultiblockPartBlock.MultiblockPartProperties<TurbinePartType>,
             MultiblockPartBlock<MultiblockTurbine, TurbinePartType>> _blockFactory;

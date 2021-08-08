@@ -26,21 +26,23 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.rotor.Rotor
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.IMultiblockTurbineVariant;
 import it.zerono.mods.zerocore.lib.CodeHelper;
 import it.zerono.mods.zerocore.lib.block.INeighborChangeListener;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.item.ItemStack;
-import net.minecraft.state.EnumProperty;
-import net.minecraft.state.StateContainer;
-import net.minecraft.util.Direction;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.Style;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.IBlockReader;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.level.BlockGetter;
 
 import javax.annotation.Nullable;
 import java.util.List;
+
+import it.zerono.mods.zerocore.lib.block.multiblock.MultiblockPartBlock.MultiblockPartProperties;
 
 public abstract class TurbineRotorComponentBlock
         extends GenericDeviceBlock<MultiblockTurbine, TurbinePartType>
@@ -63,7 +65,7 @@ public abstract class TurbineRotorComponentBlock
             }
 
             @Override
-            protected void buildBlockState(final StateContainer.Builder<Block, BlockState> builder) {
+            protected void buildBlockState(final StateDefinition.Builder<Block, BlockState> builder) {
 
                 super.buildBlockState(builder);
                 builder.add(ROTOR_SHAFT_STATE);
@@ -90,7 +92,7 @@ public abstract class TurbineRotorComponentBlock
             }
 
             @Override
-            protected void buildBlockState(final StateContainer.Builder<Block, BlockState> builder) {
+            protected void buildBlockState(final StateDefinition.Builder<Block, BlockState> builder) {
 
                 super.buildBlockState(builder);
                 builder.add(ROTOR_BLADE_STATE);
@@ -115,7 +117,7 @@ public abstract class TurbineRotorComponentBlock
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable IBlockReader worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+    public void appendHoverText(ItemStack stack, @Nullable BlockGetter worldIn, List<Component> tooltip, TooltipFlag flagIn) {
 
         super.appendHoverText(stack, worldIn, tooltip, flagIn);
 
@@ -126,10 +128,10 @@ public abstract class TurbineRotorComponentBlock
                 this._bladeTooltipInfo = this.getMultiblockVariant()
                         .filter(v -> v instanceof IMultiblockTurbineVariant)
                         .map(v -> (IMultiblockTurbineVariant) v)
-                        .map(variant -> (ITextComponent)new TranslationTextComponent("gui.bigreactors.turbine.controller.rotorstatus.line3",
-                                String.format(TextFormatting.DARK_AQUA + "" + TextFormatting.BOLD + "%d", variant.getBaseFluidPerBlade()))
+                        .map(variant -> (Component)new TranslatableComponent("gui.bigreactors.turbine.controller.rotorstatus.line3",
+                                String.format(ChatFormatting.DARK_AQUA + "" + ChatFormatting.BOLD + "%d", variant.getBaseFluidPerBlade()))
                                 .setStyle(Style.EMPTY
-                                        .withColor(TextFormatting.GRAY)
+                                        .withColor(ChatFormatting.GRAY)
                                         .withItalic(true))
                         )
                         .orElse(CodeHelper.TEXT_EMPTY_LINE);
@@ -146,7 +148,7 @@ public abstract class TurbineRotorComponentBlock
         super(properties);
     }
 
-    private ITextComponent _bladeTooltipInfo;
+    private Component _bladeTooltipInfo;
 
     //endregion
 }

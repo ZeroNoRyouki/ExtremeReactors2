@@ -18,8 +18,8 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor;
 
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.BlockPos;
 
 public interface IIrradiationSource {
 

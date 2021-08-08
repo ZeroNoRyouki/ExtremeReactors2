@@ -20,7 +20,7 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.turbine;
 
 import it.zerono.mods.extremereactors.api.turbine.CoilMaterial;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.rotor.RotorComponentType;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
 
 import java.util.Optional;
 

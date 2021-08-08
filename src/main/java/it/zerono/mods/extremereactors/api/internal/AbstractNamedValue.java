@@ -18,8 +18,8 @@
 
 package it.zerono.mods.extremereactors.api.internal;
 
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 
 public abstract class AbstractNamedValue {
 
@@ -37,8 +37,8 @@ public abstract class AbstractNamedValue {
         return this._translationKey;
     }
 
-    public ITextComponent getTranslatedName() {
-        return new TranslationTextComponent(this.getTranslationKey());
+    public Component getTranslatedName() {
+        return new TranslatableComponent(this.getTranslationKey());
     }
 
     //region Object

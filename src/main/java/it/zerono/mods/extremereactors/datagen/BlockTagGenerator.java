@@ -22,11 +22,11 @@ import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.gamecontent.Content.Blocks;
 import it.zerono.mods.extremereactors.gamecontent.ContentTags;
 import it.zerono.mods.zerocore.lib.tag.TagsHelper;
-import net.minecraft.block.Block;
-import net.minecraft.data.BlockTagsProvider;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.TagsProvider;
-import net.minecraft.tags.ITag;
+import net.minecraft.data.tags.TagsProvider;
+import net.minecraft.tags.Tag;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
@@ -71,9 +71,9 @@ public class BlockTagGenerator
     //region internals
 
     @SafeVarargs
-    private final void build(final ITag.INamedTag<Block> tag, final Supplier<? extends Block>... blocks) {
+    private final void build(final Tag.Named<Block> tag, final Supplier<? extends Block>... blocks) {
 
-        final TagsProvider.Builder<Block> builder = this.tag(tag);
+        final TagsProvider.TagAppender<Block> builder = this.tag(tag);
 
         for (final Supplier<? extends Block> block : blocks) {
             builder.add(block.get());

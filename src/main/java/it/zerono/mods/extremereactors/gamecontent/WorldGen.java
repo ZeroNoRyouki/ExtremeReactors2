@@ -22,11 +22,11 @@ import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.config.Config;
 import it.zerono.mods.zerocore.lib.world.WorldGenManager;
 import it.zerono.mods.zerocore.lib.world.WorldReGenHandler;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.WorldGenRegistries;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.gen.feature.ConfiguredFeature;
-import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.core.Registry;
+import net.minecraft.data.BuiltinRegistries;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
@@ -91,8 +91,8 @@ public final class WorldGen {
 
     private static void registerToVanilla(final Pair<ConfiguredFeature<?, ?>, ConfiguredFeature<?, ?>> generators, final String name) {
 
-        Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, ExtremeReactors.newID(name + "_gen"), generators.getLeft());
-        Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, ExtremeReactors.newID(name + "_regen"), generators.getRight());
+        Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, ExtremeReactors.newID(name + "_gen"), generators.getLeft());
+        Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, ExtremeReactors.newID(name + "_regen"), generators.getRight());
     }
 
     private static WorldReGenHandler s_regen;

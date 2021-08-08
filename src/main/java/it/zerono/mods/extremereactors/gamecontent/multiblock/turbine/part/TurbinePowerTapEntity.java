@@ -23,10 +23,10 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.MultiblockT
 import it.zerono.mods.zerocore.lib.block.INeighborChangeListener;
 import it.zerono.mods.zerocore.lib.data.IoMode;
 import it.zerono.mods.zerocore.lib.energy.EnergySystem;
-import net.minecraft.block.BlockState;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.core.Direction;
+import net.minecraft.core.BlockPos;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 
@@ -37,7 +37,7 @@ public class TurbinePowerTapEntity
         extends AbstractTurbinePowerTapEntity
         implements INeighborChangeListener {
 
-    public TurbinePowerTapEntity(final EnergySystem system, final IoMode mode, final TileEntityType<?> entityType) {
+    public TurbinePowerTapEntity(final EnergySystem system, final IoMode mode, final BlockEntityType<?> entityType) {
 
         super(system, entityType);
         this.setHandler(IPowerTapHandler.create(system, mode, this));

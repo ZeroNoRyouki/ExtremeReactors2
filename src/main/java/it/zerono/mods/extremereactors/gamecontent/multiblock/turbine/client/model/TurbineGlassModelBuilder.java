@@ -23,8 +23,8 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.TurbinePart
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.IMultiblockTurbineVariant;
 import it.zerono.mods.zerocore.lib.block.property.BlockFacingsProperty;
 import it.zerono.mods.zerocore.lib.client.model.BlockVariantsModelBuilder;
-import net.minecraft.client.renderer.model.ModelResourceLocation;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 
 public class TurbineGlassModelBuilder
         extends BlockVariantsModelBuilder {

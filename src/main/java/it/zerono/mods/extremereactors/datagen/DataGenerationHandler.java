@@ -23,7 +23,7 @@ import it.zerono.mods.extremereactors.datagen.recipes.GenericRecipeGenerator;
 import it.zerono.mods.extremereactors.datagen.recipes.ReactorRecipeGenerator;
 import it.zerono.mods.extremereactors.datagen.recipes.TurbineRecipeGenerator;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;

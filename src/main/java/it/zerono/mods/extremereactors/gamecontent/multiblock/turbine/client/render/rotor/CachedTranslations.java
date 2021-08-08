@@ -19,8 +19,8 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.client.render.rotor;
 
 import it.zerono.mods.zerocore.lib.CodeHelper;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.vector.Matrix4f;
+import net.minecraft.core.Direction;
+import com.mojang.math.Matrix4f;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 

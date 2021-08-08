@@ -22,7 +22,7 @@ import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.model.AbstractMultiblockModelBuilder;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.TurbinePartType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.TurbineVariant;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 
 import java.util.function.Predicate;
 

@@ -21,15 +21,17 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.MultiblockReactor;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.ReactorPartType;
 import it.zerono.mods.zerocore.lib.block.multiblock.MultiblockPartBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.state.StateContainer;
-import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockReader;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.core.Direction;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+
+import it.zerono.mods.zerocore.lib.block.multiblock.MultiblockPartBlock.MultiblockPartProperties;
 
 public class ReactorFuelRodBlock extends MultiblockPartBlock<MultiblockReactor, ReactorPartType> {
 
@@ -40,20 +42,20 @@ public class ReactorFuelRodBlock extends MultiblockPartBlock<MultiblockReactor, 
     //region Block
 
     @Override
-    public boolean propagatesSkylightDown(BlockState state, IBlockReader reader, BlockPos pos) {
+    public boolean propagatesSkylightDown(BlockState state, BlockGetter reader, BlockPos pos) {
         return true;
     }
 
-    public boolean isNormalCube(BlockState state, IBlockReader worldIn, BlockPos pos) {
+    public boolean isNormalCube(BlockState state, BlockGetter worldIn, BlockPos pos) {
         return false;
     }
 
-    public boolean causesSuffocation(BlockState state, IBlockReader worldIn, BlockPos pos) {
+    public boolean causesSuffocation(BlockState state, BlockGetter worldIn, BlockPos pos) {
         return false;
     }
 
     @OnlyIn(Dist.CLIENT)
-    public float getShadeBrightness(BlockState state, IBlockReader worldIn, BlockPos pos) {
+    public float getShadeBrightness(BlockState state, BlockGetter worldIn, BlockPos pos) {
         return 1.0f;
     }
 
@@ -86,7 +88,7 @@ public class ReactorFuelRodBlock extends MultiblockPartBlock<MultiblockReactor, 
     //region ModBlock
 
     @Override
-    protected void buildBlockState(final StateContainer.Builder<Block, BlockState> builder) {
+    protected void buildBlockState(final StateDefinition.Builder<Block, BlockState> builder) {
 
         super.buildBlockState(builder);
         builder.add(BlockStateProperties.AXIS);

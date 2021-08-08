@@ -21,7 +21,7 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.client.ren
 import com.google.common.collect.Lists;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.rotor.RotorBladeState;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.rotor.RotorShaftState;
-import net.minecraft.util.Direction;
+import net.minecraft.core.Direction;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.model.data.IModelData;

@@ -10,6 +10,7 @@ buildscript {
 }
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'maven-publish'
+apply from: 'https://raw.githubusercontent.com/SizableShrimp/Forge-Class-Remapper/main/classremapper.gradle'
 
 evaluationDependsOn(":ZeroCore2-master")
 
@@ -25,7 +26,7 @@ version = "${config.minecraft_version}-${config.mod_version_major}.${config.mod_
 group = 'it.zerono.mods.extremereactors'
 archivesBaseName = 'ExtremeReactors2'
 
-sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
+java.toolchain.languageVersion = JavaLanguageVersion.of(16)
 
 minecraft {
 
@@ -182,26 +183,26 @@ dependencies {
 	minecraft "net.minecraftforge:forge:${config.minecraft_version}-${config.forge_version}"
     implementation project(':ZeroCore2-master')
 
-    // compile against the JEI API but do not include it at runtime
-    compileOnly fg.deobf("mezz.jei:jei-${config.minecraft_version}:${config.jei_version}:api")
-    // at runtime, use the full JEI jar
-    runtimeOnly fg.deobf("mezz.jei:jei-${config.minecraft_version}:${config.jei_version}")
+//    // compile against the JEI API but do not include it at runtime
+//    compileOnly fg.deobf("mezz.jei:jei-${config.minecraft_version}:${config.jei_version}:api")
+//    // at runtime, use the full JEI jar
+//    runtimeOnly fg.deobf("mezz.jei:jei-${config.minecraft_version}:${config.jei_version}")
 
     implementation fg.deobf("org.squiddev:cc-tweaked-${config.minecraft_version}:${config.cctweaked_version}")
 
 
 	// patchouli
-    compileOnly fg.deobf("vazkii.patchouli:Patchouli:${config.patchouli_version}:api")
-    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${config.patchouli_version}")
+//    compileOnly fg.deobf("vazkii.patchouli:Patchouli:${config.patchouli_version}:api")
+//    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${config.patchouli_version}")
 
     // mekanism
-    compileOnly "mekanism:Mekanism:${config.mekanism_version}:api"
-    runtimeOnly fg.deobf("mekanism:Mekanism:${config.mekanism_version}")
-    runtimeOnly fg.deobf("mekanism:Mekanism:${config.mekanism_version}:additions")
-    runtimeOnly fg.deobf("mekanism:Mekanism:${config.mekanism_version}:generators")
-    runtimeOnly fg.deobf("mekanism:Mekanism:${config.mekanism_version}:tools")
+//    compileOnly "mekanism:Mekanism:${config.mekanism_version}:api"
+//    runtimeOnly fg.deobf("mekanism:Mekanism:${config.mekanism_version}")
+//    runtimeOnly fg.deobf("mekanism:Mekanism:${config.mekanism_version}:additions")
+//    runtimeOnly fg.deobf("mekanism:Mekanism:${config.mekanism_version}:generators")
+//    runtimeOnly fg.deobf("mekanism:Mekanism:${config.mekanism_version}:tools")
 
-    implementation fg.deobf("curse.maven:constructionwand-399558:3132410")
+//    implementation fg.deobf("curse.maven:constructionwand-399558:3132410")
 }
 
 task extremereactors_apiJar(type: Jar) {

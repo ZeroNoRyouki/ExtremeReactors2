@@ -18,11 +18,11 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock;
 
-import net.minecraft.world.World;
+import net.minecraft.world.level.Level;
 
 public interface IMachineReader {
 
-    World getWorld();
+    Level getWorld();
 
     boolean isMachineActive();
 }

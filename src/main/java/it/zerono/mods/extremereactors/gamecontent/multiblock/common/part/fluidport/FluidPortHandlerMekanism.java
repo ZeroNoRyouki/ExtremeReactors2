@@ -36,13 +36,13 @@ import mekanism.api.chemical.gas.Gas;
 import mekanism.api.chemical.gas.GasStack;
 import mekanism.api.chemical.gas.IGasHandler;
 import mekanism.api.recipes.RotaryRecipe;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.item.crafting.IRecipeType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.world.IWorldReader;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Registry;
+import net.minecraft.world.level.LevelReader;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.util.LazyOptional;
@@ -114,7 +114,7 @@ public class FluidPortHandlerMekanism<Controller extends AbstractGeneratorMultib
      * @param position the handler position
      */
     @Override
-    public void checkConnections(@Nullable final IWorldReader world, final BlockPos position) {
+    public void checkConnections(@Nullable final LevelReader world, final BlockPos position) {
         this._consumer = this.lookupConsumer(world, position, CAPAP_MEKANISM_GASHANDLER,
                 te -> te instanceof IFluidPortHandler, this._consumer);
     }
@@ -258,7 +258,7 @@ public class FluidPortHandlerMekanism<Controller extends AbstractGeneratorMultib
 
             final ResourceLocation typeId = new ResourceLocation(Mods.MEKANISM.id(), "rotary");
             @SuppressWarnings("unchecked")
-            final IRecipeType<RotaryRecipe> type = (IRecipeType<RotaryRecipe>)Registry.RECIPE_TYPE.get(typeId);
+            final RecipeType<RotaryRecipe> type = (RecipeType<RotaryRecipe>)Registry.RECIPE_TYPE.get(typeId);
 
             if (null != type) {
 

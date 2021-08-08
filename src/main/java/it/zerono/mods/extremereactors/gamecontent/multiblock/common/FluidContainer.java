@@ -32,14 +32,16 @@ import it.zerono.mods.zerocore.lib.data.stack.OperationMode;
 import it.zerono.mods.zerocore.lib.data.stack.StackAdapters;
 import it.zerono.mods.zerocore.lib.fluid.handler.IndexedFluidHandlerForwarder;
 import it.zerono.mods.zerocore.lib.tag.TagsHelper;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.*;
+
+import it.zerono.mods.zerocore.lib.data.nbt.ISyncableEntity.SyncReason;
 
 public class FluidContainer
         extends IndexedStackContainer<FluidType, Fluid, FluidStack>
@@ -277,7 +279,7 @@ public class FluidContainer
      * @param syncReason the reason why the synchronization is necessary
      */
     @Override
-    public void syncDataFrom(CompoundNBT data, SyncReason syncReason) {
+    public void syncDataFrom(CompoundTag data, SyncReason syncReason) {
 
         super.syncDataFrom(data, syncReason);
 

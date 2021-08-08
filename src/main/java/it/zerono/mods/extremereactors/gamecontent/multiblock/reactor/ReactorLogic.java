@@ -27,10 +27,10 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.common.IFluidContai
 import it.zerono.mods.zerocore.lib.data.nbt.IMergeableEntity;
 import it.zerono.mods.zerocore.lib.data.nbt.ISyncableEntity;
 import it.zerono.mods.zerocore.lib.energy.EnergyBuffer;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.profiler.IProfiler;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.util.profiling.ProfilerFiller;
+import net.minecraft.core.Direction;
+import net.minecraft.core.BlockPos;
 
 import java.util.Optional;
 
@@ -53,7 +53,7 @@ public class ReactorLogic
      */
     public boolean update() {
 
-        final IProfiler profiler = this._reactor.getWorld().getProfiler();
+        final ProfilerFiller profiler = this._reactor.getWorld().getProfiler();
         final IHeat reactorHeat = this.getReactorHeat();
 
         //TODO variants
@@ -134,7 +134,7 @@ public class ReactorLogic
      * @param syncReason the reason why the synchronization is necessary
      */
     @Override
-    public void syncDataFrom(CompoundNBT data, ISyncableEntity.SyncReason syncReason) {
+    public void syncDataFrom(CompoundTag data, ISyncableEntity.SyncReason syncReason) {
         this.setFertility(data.getFloat("fertility"));
     }
 
@@ -145,7 +145,7 @@ public class ReactorLogic
      * @param syncReason the reason why the synchronization is necessary
      */
     @Override
-    public CompoundNBT syncDataTo(CompoundNBT data, ISyncableEntity.SyncReason syncReason) {
+    public CompoundTag syncDataTo(CompoundTag data, ISyncableEntity.SyncReason syncReason) {
 
         data.putFloat("fertility", this._fertility);
         return data;

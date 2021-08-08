@@ -23,11 +23,11 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.Abstrac
 import it.zerono.mods.zerocore.lib.block.BlockFacings;
 import it.zerono.mods.zerocore.lib.block.property.BlockFacingsProperty;
 import it.zerono.mods.zerocore.lib.multiblock.cuboid.AbstractCuboidMultiblockController;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.core.Direction;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.client.model.data.IModelData;
 import net.minecraftforge.client.model.data.ModelProperty;
 
@@ -63,7 +63,7 @@ public class ModelTransformers {
             return 0;
         }
 
-        final World world = entity.getPartWorldOrFail();
+        final Level world = entity.getPartWorldOrFail();
         final BlockPos position = entity.getWorldPosition();
         final BlockState entityBlockState = world.getBlockState(position);
         final Block entityBlock = entityBlockState.getBlock();

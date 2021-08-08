@@ -27,18 +27,18 @@ import it.zerono.mods.zerocore.lib.debug.DebugHelper;
 import it.zerono.mods.zerocore.lib.multiblock.IMultiblockController;
 import it.zerono.mods.zerocore.lib.multiblock.IMultiblockPart;
 import it.zerono.mods.zerocore.lib.world.WorldHelper;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.util.Constants;
 
 import javax.annotation.Nullable;
 
 public class DebugTests {
 
-    public static void runTest(int test, @Nullable PlayerEntity player, World world, BlockPos clickedPos) {
+    public static void runTest(int test, @Nullable Player player, Level world, BlockPos clickedPos) {
 
         switch (test) {
 
@@ -76,7 +76,7 @@ public class DebugTests {
         }
     }
 
-    private static void highlightSaveDelegate(World world, BlockPos clickedPos) {
+    private static void highlightSaveDelegate(Level world, BlockPos clickedPos) {
 
         WorldHelper.getMultiblockPartFrom(world, clickedPos)
                 .flatMap(part -> part.getMultiblockController()
@@ -91,7 +91,7 @@ public class DebugTests {
                 });
     }
 
-    private static void resetReactorData(World world, BlockPos clickedPos) {
+    private static void resetReactorData(Level world, BlockPos clickedPos) {
 
         WorldHelper.getMultiblockPartFrom(world, clickedPos)
                 .flatMap(IMultiblockPart::getMultiblockController)
@@ -106,7 +106,7 @@ public class DebugTests {
                 .ifPresent(MultiblockTurbine::reset);
     }
 
-    private static void highlightBlockShape(World world, BlockPos clickedPos) {
+    private static void highlightBlockShape(Level world, BlockPos clickedPos) {
 
         if (DebugHelper.VoxelShapeType.None != DebugHelper.getBlockVoxelShapeHighlight(world, clickedPos)) {
             DebugHelper.removeVoxelShapeHighlight(world, clickedPos);
@@ -115,11 +115,11 @@ public class DebugTests {
         }
     }
 
-    private static void unknownTest(World world, BlockPos clickedPos) {
+    private static void unknownTest(Level world, BlockPos clickedPos) {
 
     }
 
-    private static void createRods(World world, BlockPos clickedPos) {
+    private static void createRods(Level world, BlockPos clickedPos) {
 
         final int start_y = 5;
         final int end_y = 254;
@@ -127,7 +127,7 @@ public class DebugTests {
         final BlockState ROD = Content.Blocks.REACTOR_FUELROD_REINFORCED.get().defaultBlockState();
         final BlockState CAP = Content.Blocks.REACTOR_CONTROLROD_REINFORCED.get().defaultBlockState();
 
-        final BlockPos.Mutable pos = new BlockPos.Mutable();
+        final BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
         int x = clickedPos.getX(), z = clickedPos.getZ();
 
         for (int c = 0; c < n_column; ++c) {
@@ -145,9 +145,9 @@ public class DebugTests {
         }
     }
 
-    private static void createOccludedRods(World world, BlockPos clickedPos) {
+    private static void createOccludedRods(Level world, BlockPos clickedPos) {
 
-        final BlockPos.Mutable pos = new BlockPos.Mutable();
+        final BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
         final int start_y = 5, end_y = 254;
 //        final int start_x = 1745, end_x = 1998;
         final int start_x = 1881, end_x = 1890;//1920

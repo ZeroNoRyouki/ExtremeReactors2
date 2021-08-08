@@ -19,7 +19,7 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor;
 
 import it.zerono.mods.zerocore.lib.IActivableMachine;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
 
 public interface IReactorWriter
         extends IReactorReader, IActivableMachine {

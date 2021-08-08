@@ -24,10 +24,10 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectMaps;
 import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.IMultiblockReactorVariant;
 import it.zerono.mods.zerocore.lib.client.model.ICustomModelBuilder;
-import net.minecraft.client.renderer.model.IBakedModel;
-import net.minecraft.client.renderer.model.ModelResourceLocation;
-import net.minecraft.util.Direction;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.event.ModelBakeEvent;
 
 import java.util.Map;
@@ -53,12 +53,12 @@ public class ReactorFuelRodModelBuilder
     @Override
     public void onBakeModels(final ModelBakeEvent event) {
 
-        final Map<ResourceLocation, IBakedModel> registry = event.getModelRegistry();
+        final Map<ResourceLocation, BakedModel> registry = event.getModelRegistry();
 
         Object2ObjectMaps.fastForEach(this._ids, entry -> {
 
             final ResourceLocation id = entry.getValue();
-            final IBakedModel baseModel = registry.get(id);
+            final BakedModel baseModel = registry.get(id);
 
             if (null != baseModel) {
                 registry.put(id, new ReactorFuelRodModel(baseModel));

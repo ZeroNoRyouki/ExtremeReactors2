@@ -27,7 +27,7 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.common.sensor.ISens
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.sensor.ISensorType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.sensor.SensorBehavior;
 import it.zerono.mods.zerocore.lib.client.gui.control.*;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -120,7 +120,7 @@ public class RedstonePortSettingControlsMap<Reader extends IMachineReader, Write
             se.SensorControl.setActive(true);
             se.BehaviorControl.setSelectedIndex(setting.Behavior);
 
-            this.SensorName.setText(new TranslationTextComponent(setting.Sensor.getTranslationBaseName() + "1"));
+            this.SensorName.setText(new TranslatableComponent(setting.Sensor.getTranslationBaseName() + "1"));
             this.SensorsGroup.setActivePanel(setting.Sensor);
         }
     }

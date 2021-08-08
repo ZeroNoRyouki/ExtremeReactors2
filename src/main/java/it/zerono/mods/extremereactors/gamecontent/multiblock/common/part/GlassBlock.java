@@ -21,14 +21,16 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.common.part;
 import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockPartType;
 import it.zerono.mods.zerocore.lib.block.property.BlockFacingsProperty;
 import it.zerono.mods.zerocore.lib.multiblock.IMultiblockController;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.state.StateContainer;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockReader;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.core.Direction;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+
+import it.zerono.mods.zerocore.lib.block.multiblock.MultiblockPartBlock.MultiblockPartProperties;
 
 public class GlassBlock <Controller extends IMultiblockController<Controller>,
                          PartType extends Enum<PartType> & IMultiblockPartType>
@@ -46,7 +48,7 @@ public class GlassBlock <Controller extends IMultiblockController<Controller>,
     }
 
     @Override
-    public boolean propagatesSkylightDown(BlockState state, IBlockReader reader, BlockPos pos) {
+    public boolean propagatesSkylightDown(BlockState state, BlockGetter reader, BlockPos pos) {
         return true;
     }
 
@@ -55,12 +57,12 @@ public class GlassBlock <Controller extends IMultiblockController<Controller>,
 //        return false;
 //    }
 
-    public boolean causesSuffocation(BlockState state, IBlockReader worldIn, BlockPos pos) {
+    public boolean causesSuffocation(BlockState state, BlockGetter worldIn, BlockPos pos) {
         return false;
     }
 
     @OnlyIn(Dist.CLIENT)
-    public float getShadeBrightness(BlockState state, IBlockReader worldIn, BlockPos pos) {
+    public float getShadeBrightness(BlockState state, BlockGetter worldIn, BlockPos pos) {
         return 1.0F;
     }
 
@@ -68,7 +70,7 @@ public class GlassBlock <Controller extends IMultiblockController<Controller>,
     //region ModBlock
 
     @Override
-    protected void buildBlockState(final StateContainer.Builder<Block, BlockState> builder) {
+    protected void buildBlockState(final StateDefinition.Builder<Block, BlockState> builder) {
 
         super.buildBlockState(builder);
         builder.add(BlockFacingsProperty.FACINGS);

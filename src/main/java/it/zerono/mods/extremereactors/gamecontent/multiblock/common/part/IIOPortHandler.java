@@ -18,9 +18,9 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.common.part;
 
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IWorldReader;
+import net.minecraft.core.Direction;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.LevelReader;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 
@@ -39,7 +39,7 @@ public interface IIOPortHandler {
      * @param world the handler world
      * @param position the handler position
      */
-    void checkConnections(@Nullable IWorldReader world, BlockPos position);
+    void checkConnections(@Nullable LevelReader world, BlockPos position);
 
     /**
      * Get the requested capability, if supported

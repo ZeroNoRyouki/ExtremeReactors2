@@ -23,12 +23,12 @@ import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.Content.Items;
 import it.zerono.mods.extremereactors.gamecontent.ContentTags;
 import it.zerono.mods.zerocore.lib.tag.TagsHelper;
-import net.minecraft.data.BlockTagsProvider;
+import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.ItemTagsProvider;
-import net.minecraft.data.TagsProvider;
-import net.minecraft.item.Item;
-import net.minecraft.tags.ITag;
+import net.minecraft.data.tags.ItemTagsProvider;
+import net.minecraft.data.tags.TagsProvider;
+import net.minecraft.world.item.Item;
+import net.minecraft.tags.Tag;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
@@ -123,9 +123,9 @@ public class ItemTagGenerator
     //region internals
 
     @SafeVarargs
-    private final void build(final ITag.INamedTag<Item> tag, final Supplier<? extends Item>... items) {
+    private final void build(final Tag.Named<Item> tag, final Supplier<? extends Item>... items) {
 
-        final TagsProvider.Builder<Item> builder = this.tag(tag);
+        final TagsProvider.TagAppender<Item> builder = this.tag(tag);
 
         for (Supplier<? extends Item> item : items) {
             builder.add(item.get());

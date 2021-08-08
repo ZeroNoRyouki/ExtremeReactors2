@@ -23,8 +23,8 @@ import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockPartType;
 import it.zerono.mods.zerocore.lib.client.model.multiblock.CuboidPartVariantsModelBuilder;
 import it.zerono.mods.zerocore.lib.multiblock.variant.IMultiblockVariant;
-import net.minecraft.client.renderer.model.ModelResourceLocation;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 
 import java.util.Arrays;
 import java.util.List;

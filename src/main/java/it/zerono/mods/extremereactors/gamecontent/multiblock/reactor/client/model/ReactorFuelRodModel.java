@@ -25,12 +25,12 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.scree
 import it.zerono.mods.zerocore.lib.block.BlockFacings;
 import it.zerono.mods.zerocore.lib.client.model.AbstractDynamicBakedModel;
 import it.zerono.mods.zerocore.lib.client.render.ModRenderHelper;
-import net.minecraft.block.BlockState;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.client.renderer.model.*;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.util.Direction;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceLocation;
+import com.mojang.math.Vector3f;
 import net.minecraftforge.client.model.SimpleModelTransform;
 import net.minecraftforge.client.model.data.EmptyModelData;
 import net.minecraftforge.client.model.data.IModelData;
@@ -41,6 +41,14 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.locks.StampedLock;
 
+import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.client.renderer.block.model.BlockElementFace;
+import net.minecraft.client.renderer.block.model.BlockFaceUV;
+import net.minecraft.client.renderer.block.model.FaceBakery;
+import net.minecraft.client.renderer.block.model.ItemOverrides;
+import net.minecraft.client.renderer.block.model.ItemTransforms;
+import net.minecraft.client.resources.model.BakedModel;
+
 /**
  * An IBakedModel for a single variant/orientation of a Fuel Rod
  */
@@ -50,7 +58,7 @@ public class ReactorFuelRodModel
     public static int HORIZONTAL_MAX_STEPS = 10;
     public static int VERTICAL_MAX_STEPS = 12;
 
-    protected ReactorFuelRodModel(final IBakedModel baseModel) {
+    protected ReactorFuelRodModel(final BakedModel baseModel) {
 
         super(baseModel.useAmbientOcclusion(), baseModel.isGui3d());
 
@@ -127,13 +135,13 @@ public class ReactorFuelRodModel
     }
 
     @Override
-    public ItemOverrideList getOverrides() {
+    public ItemOverrides getOverrides() {
         return this._baseModel.getOverrides();
     }
 
     @Override
     @SuppressWarnings("deprecation")
-    public ItemCameraTransforms getTransforms() {
+    public ItemTransforms getTransforms() {
         return this._baseModel.getTransforms();
     }
 
@@ -245,7 +253,7 @@ public class ReactorFuelRodModel
         final boolean isVertical = direction.getAxis().isVertical();
         final float[] uv = isVertical ? stillUV : flowingUV;
         final TextureAtlasSprite sprite = isVertical ? stillTexture : flowingTexture;
-        final BlockPartFace partFace = new BlockPartFace(null, tintIndex, "",  new BlockFaceUV(uv, 0));
+        final BlockElementFace partFace = new BlockElementFace(null, tintIndex, "",  new BlockFaceUV(uv, 0));
 
         return this._faceBakery.bakeQuad(cubeFrom, cubeTo, partFace, sprite, direction, SimpleModelTransform.IDENTITY,
                 null, true, FAKE_RESOURCELOCATION);
@@ -255,7 +263,7 @@ public class ReactorFuelRodModel
     private static final ResourceLocation FAKE_RESOURCELOCATION = new ResourceLocation("fake");
 
     private final StampedLock _lock;
-    private final IBakedModel _baseModel;
+    private final BakedModel _baseModel;
     private final Short2ObjectMap<List<BakedQuad>> _cachedQuads;
     private final FaceBakery _faceBakery;
 

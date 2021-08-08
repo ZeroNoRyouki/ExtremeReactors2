@@ -21,7 +21,7 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.zerocore.lib.data.IoDirection;
 import it.zerono.mods.zerocore.lib.multiblock.ITickableMultiblockPart;
-import net.minecraft.fluid.Fluids;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 

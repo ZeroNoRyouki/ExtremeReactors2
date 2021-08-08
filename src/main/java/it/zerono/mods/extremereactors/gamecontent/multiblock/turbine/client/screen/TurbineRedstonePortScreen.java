@@ -33,9 +33,9 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.Tur
 import it.zerono.mods.zerocore.lib.client.gui.control.TextInput;
 import it.zerono.mods.zerocore.lib.item.inventory.PlayerInventoryUsage;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.util.Mth;
+import net.minecraft.network.chat.Component;
 
 import java.util.Optional;
 
@@ -44,7 +44,7 @@ public class TurbineRedstonePortScreen
         ITurbineReader, ITurbineWriter, TurbineSensorType, TurbineSensorSetting> {
 
     public TurbineRedstonePortScreen(final ModTileContainer<TurbineRedstonePortEntity> container,
-                                     final PlayerInventory inventory, final ITextComponent title) {
+                                     final Inventory inventory, final Component title) {
         super(container, inventory, PlayerInventoryUsage.None, title,
                 mainTextureFromVariant(container.getTileEntity().getMultiblockVariant().orElse(TurbineVariant.Basic)),
                 TurbineSensorSetting::new, TurbineSensorType.values());
@@ -149,7 +149,7 @@ public class TurbineRedstonePortScreen
             } else {
 
                 final long originalValue = Long.parseLong(text);
-                final long value = MathHelper.clamp(originalValue, 0, this.getTileEntity().getMultiblockVariant().map(v -> (int)v.getMaxRotorSpeed()).orElse(0));
+                final long value = Mth.clamp(originalValue, 0, this.getTileEntity().getMultiblockVariant().map(v -> (int)v.getMaxRotorSpeed()).orElse(0));
 
                 if (originalValue != value || '0' == text.charAt(0)) {
                     return Optional.of(Long.toString(value));

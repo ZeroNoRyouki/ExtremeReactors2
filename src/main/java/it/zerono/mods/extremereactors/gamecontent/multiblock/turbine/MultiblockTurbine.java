@@ -43,14 +43,14 @@ import it.zerono.mods.zerocore.lib.multiblock.IMultiblockPart;
 import it.zerono.mods.zerocore.lib.multiblock.ITickableMultiblockPart;
 import it.zerono.mods.zerocore.lib.multiblock.validation.IMultiblockValidator;
 import it.zerono.mods.zerocore.lib.world.WorldHelper;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.profiler.IProfiler;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.util.profiling.ProfilerFiller;
+import net.minecraft.core.Direction;
+import net.minecraft.core.BlockPos;
+import net.minecraft.util.Mth;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fml.LogicalSide;
 
@@ -59,11 +59,13 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import it.zerono.mods.zerocore.lib.data.nbt.ISyncableEntity.SyncReason;
+
 public class MultiblockTurbine
         extends AbstractGeneratorMultiblockController<MultiblockTurbine, IMultiblockTurbineVariant>
         implements ITurbineMachine, ITurbineEnvironment, ITurbineWriter, IDebuggable {
 
-    public MultiblockTurbine(final World world, final IMultiblockTurbineVariant variant) {
+    public MultiblockTurbine(final Level world, final IMultiblockTurbineVariant variant) {
 
         super(world);
         this._variant = variant;
@@ -175,7 +177,7 @@ public class MultiblockTurbine
     @Override
     public void performOutputCycle() {
 
-        final IProfiler profiler = this.getWorld().getProfiler();
+        final ProfilerFiller profiler = this.getWorld().getProfiler();
 
         // Distribute available power equally to all the Power Taps
         profiler.push("Power");
@@ -194,7 +196,7 @@ public class MultiblockTurbine
     @Override
     public void performInputCycle() {
 
-        final IProfiler profiler = this.getWorld().getProfiler();
+        final ProfilerFiller profiler = this.getWorld().getProfiler();
 
         // Acquire new fluids from Active Fluid Ports in input mode
         profiler.push("Vapor");
@@ -225,7 +227,7 @@ public class MultiblockTurbine
     @Override
     public RotorComponentType getRotorComponentTypeAt(final BlockPos position) {
 
-        final World world = this.getWorld();
+        final Level world = this.getWorld();
         final BlockState state = world.getBlockState(position);
         final Block block = state.getBlock();
 
@@ -404,7 +406,7 @@ public class MultiblockTurbine
      * @param syncReason the reason why the synchronization is necessary
      */
     @Override
-    public void syncDataFrom(CompoundNBT data, SyncReason syncReason) {
+    public void syncDataFrom(CompoundTag data, SyncReason syncReason) {
 
         super.syncDataFrom(data, syncReason);
 
@@ -427,7 +429,7 @@ public class MultiblockTurbine
      * @param syncReason the reason why the synchronization is necessary
      */
     @Override
-    public CompoundNBT syncDataTo(CompoundNBT data, SyncReason syncReason) {
+    public CompoundTag syncDataTo(CompoundTag data, SyncReason syncReason) {
 
         super.syncDataTo(data, syncReason);
 
@@ -504,7 +506,7 @@ public class MultiblockTurbine
     @Override
     protected boolean updateServer() {
 
-        final IProfiler profiler = this.getWorld().getProfiler();
+        final ProfilerFiller profiler = this.getWorld().getProfiler();
 
         profiler.push("Extreme Reactors|Turbine update"); // main section
 
@@ -717,7 +719,7 @@ public class MultiblockTurbine
      * @param validatorCallback the validator, for error reporting
      */
     @Override
-    protected boolean isBlockGoodForFrame(World world, int x, int y, int z, IMultiblockValidator validatorCallback) {
+    protected boolean isBlockGoodForFrame(Level world, int x, int y, int z, IMultiblockValidator validatorCallback) {
         return invalidBlockForExterior(world, x, y, z, validatorCallback);
     }
 
@@ -731,7 +733,7 @@ public class MultiblockTurbine
      * @param validatorCallback the validator, for error reporting
      */
     @Override
-    protected boolean isBlockGoodForTop(World world, int x, int y, int z, IMultiblockValidator validatorCallback) {
+    protected boolean isBlockGoodForTop(Level world, int x, int y, int z, IMultiblockValidator validatorCallback) {
         return invalidBlockForExterior(world, x, y, z, validatorCallback);
     }
 
@@ -745,7 +747,7 @@ public class MultiblockTurbine
      * @param validatorCallback the validator, for error reporting
      */
     @Override
-    protected boolean isBlockGoodForBottom(World world, int x, int y, int z, IMultiblockValidator validatorCallback) {
+    protected boolean isBlockGoodForBottom(Level world, int x, int y, int z, IMultiblockValidator validatorCallback) {
         return invalidBlockForExterior(world, x, y, z, validatorCallback);
     }
 
@@ -759,7 +761,7 @@ public class MultiblockTurbine
      * @param validatorCallback the validator, for error reporting
      */
     @Override
-    protected boolean isBlockGoodForSides(World world, int x, int y, int z, IMultiblockValidator validatorCallback) {
+    protected boolean isBlockGoodForSides(Level world, int x, int y, int z, IMultiblockValidator validatorCallback) {
         return invalidBlockForExterior(world, x, y, z, validatorCallback);
     }
 
@@ -773,7 +775,7 @@ public class MultiblockTurbine
      * @param validatorCallback the validator, for error reporting
      */
     @Override
-    protected boolean isBlockGoodForInterior(World world, int x, int y, int z, IMultiblockValidator validatorCallback) {
+    protected boolean isBlockGoodForInterior(Level world, int x, int y, int z, IMultiblockValidator validatorCallback) {
 
         // We only allow air and valid coils blocks inside a Turbine.
 
@@ -1093,7 +1095,7 @@ public class MultiblockTurbine
 
     //endregion
 
-    private static boolean invalidBlockForExterior(World world, int x, int y, int z, IMultiblockValidator validatorCallback) {
+    private static boolean invalidBlockForExterior(Level world, int x, int y, int z, IMultiblockValidator validatorCallback) {
 
         final BlockPos position = new BlockPos(x, y, z);
 
@@ -1118,7 +1120,7 @@ public class MultiblockTurbine
 
         final int outerVolume = this.mapBoundingBoxCoordinates(CodeHelper::mathVolume, 0) - this.calculateTurbineVolume();
 
-        this._fluidContainer.setCapacity(MathHelper.clamp(outerVolume * this.getVariant().getPartFluidCapacity(),
+        this._fluidContainer.setCapacity(Mth.clamp(outerVolume * this.getVariant().getPartFluidCapacity(),
                 0, this.getVariant().getMaxFluidCapacity()));
     }
 

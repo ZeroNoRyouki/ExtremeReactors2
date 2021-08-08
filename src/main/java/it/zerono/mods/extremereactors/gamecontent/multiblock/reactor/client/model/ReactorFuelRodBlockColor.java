@@ -21,25 +21,25 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.mod
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.FuelRodsLayout;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.ClientFuelRodsLayout;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part.ReactorFuelRodEntity;
-import net.minecraft.block.BlockState;
-import net.minecraft.client.renderer.color.IBlockColor;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockDisplayReader;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.client.color.block.BlockColor;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.BlockAndTintGetter;
 
 import javax.annotation.Nullable;
 
 public class ReactorFuelRodBlockColor
-    implements IBlockColor {
+    implements BlockColor {
 
     //region IBlockColor
 
     @Override
-    public int getColor(BlockState state, @Nullable IBlockDisplayReader world, @Nullable BlockPos position, int tintIndex) {
+    public int getColor(BlockState state, @Nullable BlockAndTintGetter world, @Nullable BlockPos position, int tintIndex) {
 
         if (null != world && null != position) {
 
-            final TileEntity te = world.getBlockEntity(position);
+            final BlockEntity te = world.getBlockEntity(position);
 
             if (te instanceof ReactorFuelRodEntity) {
 

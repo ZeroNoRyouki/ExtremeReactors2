@@ -26,10 +26,10 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part.Reacto
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.IMultiblockReactorVariant;
 import it.zerono.mods.zerocore.lib.data.stack.OperationMode;
 import it.zerono.mods.zerocore.lib.item.ItemHelper;
-import net.minecraft.block.BlockState;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraftforge.event.TagsUpdatedEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -220,12 +220,12 @@ public class ReactantHelper {
 
                 // how much Reactant should we add to the FuelContainer given the consumed source items?
 
-                final float conversionEfficiency = MathHelper.clamp(variant.getSolidFuelConversionEfficiency(), 0f, 1f);
+                final float conversionEfficiency = Mth.clamp(variant.getSolidFuelConversionEfficiency(), 0f, 1f);
                 int amountToAdd = fuelMapping.getProductAmount(fuelConsumedStack.getCount());
 
                 if (conversionEfficiency < 1.0f) {
                     // apply any variant-specific penalties
-                    amountToAdd = (MathHelper.floor(amountToAdd * conversionEfficiency));
+                    amountToAdd = (Mth.floor(amountToAdd * conversionEfficiency));
                 }
 
                 amountToAdd = Math.min(storableReactantAmount, amountToAdd);

@@ -36,21 +36,21 @@ import it.zerono.mods.zerocore.lib.item.inventory.PlayerInventoryUsage;
 import it.zerono.mods.zerocore.lib.multiblock.IMultiblockMachine;
 import it.zerono.mods.zerocore.lib.multiblock.cuboid.AbstractCuboidMultiblockController;
 import it.zerono.mods.zerocore.lib.multiblock.variant.IMultiblockVariant;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.INamedContainerProvider;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 
 import static it.zerono.mods.zerocore.lib.CodeHelper.TEXT_EMPTY_LINE;
 
 public class ChargingPortScreen<Controller extends AbstractCuboidMultiblockController<Controller> & IMultiblockMachine,
                                 V extends IMultiblockVariant,
-                                T extends AbstractMultiblockEntity<Controller> & IChargingPort & IMultiblockVariantProvider<V> & INamedContainerProvider>
+                                T extends AbstractMultiblockEntity<Controller> & IChargingPort & IMultiblockVariantProvider<V> & MenuProvider>
         extends AbstractMultiblockScreen<Controller, T, ChargingPortContainer<T>> {
 
-    public ChargingPortScreen(final ChargingPortContainer<T> container, final PlayerInventory inventory,
-                              final ITextComponent title, final ResourceLocation bookEntryId) {
+    public ChargingPortScreen(final ChargingPortContainer<T> container, final Inventory inventory,
+                              final Component title, final ResourceLocation bookEntryId) {
         super(container, inventory, PlayerInventoryUsage.Both, title,
                 mainTextureFromVariant(container.getTileEntity().getMultiblockVariant().orElseThrow(IllegalStateException::new)));
 
@@ -105,11 +105,11 @@ public class ChargingPortScreen<Controller extends AbstractCuboidMultiblockContr
         this._btnEject.setIconForState(CommonIcons.ButtonManualEjectActive.get(), ButtonState.Active, ButtonState.ActiveHighlighted, ButtonState.DefaultHighlighted);
         this._btnEject.Clicked.subscribe(this::onManualEject);
         this._btnEject.setTooltips(
-                new TranslationTextComponent("gui.bigreactors.generator.chargingport.dumpfuel.line1").setStyle(STYLE_TOOLTIP_TITLE),
+                new TranslatableComponent("gui.bigreactors.generator.chargingport.dumpfuel.line1").setStyle(STYLE_TOOLTIP_TITLE),
                 TEXT_EMPTY_LINE,
-                new TranslationTextComponent("gui.bigreactors.generator.chargingport.dumpfuel.line2"),
-                new TranslationTextComponent("gui.bigreactors.generator.chargingport.dumpfuel.line3"),
-                new TranslationTextComponent("gui.bigreactors.generator.chargingport.dumpfuel.line4")
+                new TranslatableComponent("gui.bigreactors.generator.chargingport.dumpfuel.line2"),
+                new TranslatableComponent("gui.bigreactors.generator.chargingport.dumpfuel.line3"),
+                new TranslatableComponent("gui.bigreactors.generator.chargingport.dumpfuel.line4")
         );
 
         panel.addControl(this._btnEject);

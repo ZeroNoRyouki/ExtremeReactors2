@@ -29,13 +29,15 @@ import it.zerono.mods.extremereactors.api.reactor.ReactantsRegistry;
 import it.zerono.mods.zerocore.lib.CodeHelper;
 import it.zerono.mods.zerocore.lib.data.nbt.ISyncableEntity;
 import it.zerono.mods.zerocore.lib.data.stack.IStackAdapter;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.*;
+
+import it.zerono.mods.zerocore.lib.data.nbt.ISyncableEntity.SyncReason;
 
 @SuppressWarnings({"WeakerAccess"})
 public class ReactantStack
@@ -65,7 +67,7 @@ public class ReactantStack
         this(mapping.getProduct(), mapping.getProductAmount(itemCount));
     }
 
-    public static ReactantStack createFrom(final CompoundNBT data) {
+    public static ReactantStack createFrom(final CompoundTag data) {
 
         final ReactantStack stack = new ReactantStack();
 
@@ -141,7 +143,7 @@ public class ReactantStack
      * @param syncReason the reason why the synchronization is necessary
      */
     @Override
-    public void syncDataFrom(final CompoundNBT data, final SyncReason syncReason) {
+    public void syncDataFrom(final CompoundTag data, final SyncReason syncReason) {
 
         if (data.contains("rstack_name")) {
 
@@ -184,7 +186,7 @@ public class ReactantStack
      * @return the {@link CompoundNBT} the data was written to (usually {@code data})
      */
     @Override
-    public CompoundNBT syncDataTo(final CompoundNBT data, final SyncReason syncReason) {
+    public CompoundTag syncDataTo(final CompoundTag data, final SyncReason syncReason) {
 
         if (!this.isEmpty()) {
 
@@ -309,7 +311,7 @@ public class ReactantStack
             }
 
             @Override
-            public ReactantStack readFrom(final CompoundNBT data) {
+            public ReactantStack readFrom(final CompoundTag data) {
 
                 final ReactantStack stack = new ReactantStack();
 
@@ -318,7 +320,7 @@ public class ReactantStack
             }
 
             @Override
-            public CompoundNBT writeTo(final ReactantStack stack, final CompoundNBT data) {
+            public CompoundTag writeTo(final ReactantStack stack, final CompoundTag data) {
                 return stack.syncDataTo(data, SyncReason.FullSync);
             }
 

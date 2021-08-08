@@ -31,28 +31,30 @@ import it.zerono.mods.zerocore.lib.block.TileCommandDispatcher;
 import it.zerono.mods.zerocore.lib.data.IoDirection;
 import it.zerono.mods.zerocore.lib.data.IoMode;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.INamedContainerProvider;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.core.Direction;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import it.zerono.mods.zerocore.lib.data.nbt.ISyncableEntity.SyncReason;
+
 public class ReactorFluidPortEntity
         extends AbstractReactorEntity
-        implements IFluidPort<MultiblockReactor, IMultiblockReactorVariant>, INeighborChangeListener, INamedContainerProvider {
+        implements IFluidPort<MultiblockReactor, IMultiblockReactorVariant>, INeighborChangeListener, MenuProvider {
 
-    public ReactorFluidPortEntity(final FluidPortType type, final IoMode mode, final TileEntityType<?> entityType) {
+    public ReactorFluidPortEntity(final FluidPortType type, final IoMode mode, final BlockEntityType<?> entityType) {
 
         super(entityType);
         this._handler = IFluidPortHandler.create(type, mode, this);
@@ -140,14 +142,14 @@ public class ReactorFluidPortEntity
     //region ISyncableEntity
 
     @Override
-    public void syncDataFrom(final CompoundNBT data, final SyncReason syncReason) {
+    public void syncDataFrom(final CompoundTag data, final SyncReason syncReason) {
 
         super.syncDataFrom(data, syncReason);
         this.setIoDirection(IoDirection.read(data, "iodir", IoDirection.Input));
     }
 
     @Override
-    public CompoundNBT syncDataTo(final CompoundNBT data, final SyncReason syncReason) {
+    public CompoundTag syncDataTo(final CompoundTag data, final SyncReason syncReason) {
 
         super.syncDataTo(data, syncReason);
         IoDirection.write(data, "iodir", this.getIoDirection());
@@ -166,12 +168,12 @@ public class ReactorFluidPortEntity
      */
     @Nullable
     @Override
-    public Container createMenu(final int windowId, final PlayerInventory inventory, final PlayerEntity player) {
+    public AbstractContainerMenu createMenu(final int windowId, final Inventory inventory, final Player player) {
         return ModTileContainer.empty(Content.ContainerTypes.REACTOR_FLUIDPORT.get(), windowId, this);
     }
 
     @Override
-    public ITextComponent getDisplayName() {
+    public Component getDisplayName() {
         return super.getPartDisplayName();
     }
 
@@ -205,7 +207,7 @@ public class ReactorFluidPortEntity
      * @param state
      */
     @Override
-    public boolean canOpenGui(World world, BlockPos position, BlockState state) {
+    public boolean canOpenGui(Level world, BlockPos position, BlockState state) {
 
         final ReactorPartType partType = this.getPartTypeOrDefault(ReactorPartType.Casing);
 

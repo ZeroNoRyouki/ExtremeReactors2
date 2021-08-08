@@ -22,8 +22,8 @@ import it.zerono.mods.extremereactors.api.reactor.Reactant;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.IMachineReader;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.IMultiblockReactorVariant;
 import it.zerono.mods.zerocore.lib.energy.EnergySystem;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.BlockPos;
 
 import javax.annotation.Nullable;
 import java.util.List;

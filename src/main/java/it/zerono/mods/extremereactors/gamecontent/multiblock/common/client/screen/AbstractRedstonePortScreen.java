@@ -42,11 +42,11 @@ import it.zerono.mods.zerocore.lib.item.inventory.PlayerInventoryUsage;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
 import it.zerono.mods.zerocore.lib.multiblock.IMultiblockMachine;
 import it.zerono.mods.zerocore.lib.multiblock.cuboid.AbstractCuboidMultiblockController;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.INamedContainerProvider;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraftforge.common.util.NonNullSupplier;
 
 import javax.annotation.Nullable;
@@ -59,7 +59,7 @@ import java.util.function.Function;
 import static it.zerono.mods.zerocore.lib.CodeHelper.TEXT_EMPTY_LINE;
 
 public abstract class AbstractRedstonePortScreen<Controller extends AbstractCuboidMultiblockController<Controller> & IMultiblockMachine,
-                                                T extends AbstractMultiblockEntity<Controller> & INamedContainerProvider,
+                                                T extends AbstractMultiblockEntity<Controller> & MenuProvider,
                                                 C extends ModTileContainer<T>,
                                                 Reader extends IMachineReader, Writer,
                                                 SensorType extends Enum<SensorType> & ISensorType<Reader>,
@@ -69,18 +69,18 @@ public abstract class AbstractRedstonePortScreen<Controller extends AbstractCubo
     @FunctionalInterface
     public interface BehaviorSingleDataValidator {
 
-        void validate(TextInput input, Consumer<ITextComponent> errorReport);
+        void validate(TextInput input, Consumer<Component> errorReport);
     }
 
     @FunctionalInterface
     public interface BehaviorDoubleDataValidator {
 
-        void validate(TextInput inputA, TextInput inputB, Consumer<ITextComponent> errorReport);
+        void validate(TextInput inputA, TextInput inputB, Consumer<Component> errorReport);
     }
 
     @SafeVarargs
-    protected AbstractRedstonePortScreen(final C container, final PlayerInventory inventory,
-                                         final PlayerInventoryUsage inventoryUsage, final ITextComponent title,
+    protected AbstractRedstonePortScreen(final C container, final Inventory inventory,
+                                         final PlayerInventoryUsage inventoryUsage, final Component title,
                                          final NonNullSupplier<SpriteTextureMap> mainTextureSupplier,
                                          final ISensorSettingFactory<Reader, Writer, SensorType, SensorSetting> sensorSettingFactory,
                                          final SensorType... validSensors) {
@@ -95,9 +95,9 @@ public abstract class AbstractRedstonePortScreen<Controller extends AbstractCubo
         this._sensorsGroup = new PanelGroup<>(this, "behaviors", validSensors);
         this._guiMap = new RedstonePortSettingControlsMap<>(this._activeSensorName, this._sensorsGroup, sensorSettingFactory);
 
-        this._disableButton = new Button(this, "disable", new TranslationTextComponent("gui.bigreactors.generic.disable"));
-        this._saveButton = new Button(this, "save", new TranslationTextComponent("gui.bigreactors.generic.save"));
-        this._resetButton = new Button(this, "reset", new TranslationTextComponent("gui.bigreactors.generic.reset"));
+        this._disableButton = new Button(this, "disable", new TranslatableComponent("gui.bigreactors.generic.disable"));
+        this._saveButton = new Button(this, "save", new TranslatableComponent("gui.bigreactors.generic.save"));
+        this._resetButton = new Button(this, "reset", new TranslatableComponent("gui.bigreactors.generic.reset"));
     }
 
     protected abstract SensorSetting getDefaultSettings();
@@ -113,7 +113,7 @@ public abstract class AbstractRedstonePortScreen<Controller extends AbstractCubo
 
         // - sensor panel
 
-        final IControl c = new Label(this, "sensorlistlabel", new TranslationTextComponent("gui.bigreactors.generator.redstoneport.sensortype.sensorlistlabel"));
+        final IControl c = new Label(this, "sensorlistlabel", new TranslatableComponent("gui.bigreactors.generator.redstoneport.sensortype.sensorlistlabel"));
 
         c.setPadding(0);
         c.setLayoutEngineHint(FixedLayoutEngine.hint(13, 4, this.getGuiWidth() - 36, 10));
@@ -244,7 +244,7 @@ public abstract class AbstractRedstonePortScreen<Controller extends AbstractCubo
 
         if (this.isValid()) {
             this.sendCommandToServer(CommonConstants.COMMAND_SET_REDSTONE_SENSOR,
-                    this._guiMap.getSettings(this.getDisabledSettings()).syncDataTo(new CompoundNBT()));
+                    this._guiMap.getSettings(this.getDisabledSettings()).syncDataTo(new CompoundTag()));
         }
     }
 
@@ -274,9 +274,9 @@ public abstract class AbstractRedstonePortScreen<Controller extends AbstractCubo
         final String tooltipBaseName = sensor.getTranslationBaseName();
 
         button.setTag(sensor);
-        button.setTooltips(new TranslationTextComponent(tooltipBaseName + "1").setStyle(STYLE_TOOLTIP_TITLE),
+        button.setTooltips(new TranslatableComponent(tooltipBaseName + "1").setStyle(STYLE_TOOLTIP_TITLE),
                 sensor.isInput() ? TEXT_DIRECTION_INPUT : TEXT_DIRECTION_OUTPUT,
-                TEXT_EMPTY_LINE, new TranslationTextComponent(tooltipBaseName + "2"), new TranslationTextComponent(tooltipBaseName + "3"));
+                TEXT_EMPTY_LINE, new TranslatableComponent(tooltipBaseName + "2"), new TranslatableComponent(tooltipBaseName + "3"));
 
         this.setButtonSpritesAndOverlayForState(button, ButtonState.Default, defaultSprite.get());
         this.setButtonSpritesAndOverlayForState(button, ButtonState.Active, activeSprite.get());
@@ -289,7 +289,7 @@ public abstract class AbstractRedstonePortScreen<Controller extends AbstractCubo
         button.Activated.subscribe(spb -> spb.<SensorType>getTag().ifPresent(st -> {
 
             this._sensorsGroup.setActivePanel(st);
-            this._activeSensorName.setText(new TranslationTextComponent(st.getTranslationBaseName() + "1"));
+            this._activeSensorName.setText(new TranslatableComponent(st.getTranslationBaseName() + "1"));
             this.setActionButtonsVisibility(true);
         }));
 
@@ -302,8 +302,8 @@ public abstract class AbstractRedstonePortScreen<Controller extends AbstractCubo
         return button;
     }
 
-    private static final ITextComponent TEXT_DIRECTION_INPUT = new TranslationTextComponent("gui.bigreactors.generator.redstoneport.sensortype.input").setStyle(STYLE_TOOLTIP_INFO);
-    private static final ITextComponent TEXT_DIRECTION_OUTPUT = new TranslationTextComponent("gui.bigreactors.generator.redstoneport.sensortype.output").setStyle(STYLE_TOOLTIP_INFO);
+    private static final Component TEXT_DIRECTION_INPUT = new TranslatableComponent("gui.bigreactors.generator.redstoneport.sensortype.input").setStyle(STYLE_TOOLTIP_INFO);
+    private static final Component TEXT_DIRECTION_OUTPUT = new TranslatableComponent("gui.bigreactors.generator.redstoneport.sensortype.output").setStyle(STYLE_TOOLTIP_INFO);
 
     private final BindingGroup _bindings;
     private final RedstonePortSettingControlsMap<Reader, Writer, SensorType, SensorSetting> _guiMap;
@@ -336,7 +336,7 @@ public abstract class AbstractRedstonePortScreen<Controller extends AbstractCubo
 
     @SuppressWarnings({"UnusedReturnValue", "unused"})
     protected static class SensorPanelBuilder<Controller extends AbstractCuboidMultiblockController<Controller> & IMultiblockMachine,
-                                                T extends AbstractMultiblockEntity<Controller> & INamedContainerProvider,
+                                                T extends AbstractMultiblockEntity<Controller> & MenuProvider,
                                                 C extends ModTileContainer<T>,
                                                 Reader extends IMachineReader, Writer,
                                                 SensorType extends Enum<SensorType> & ISensorType<Reader>,
@@ -401,7 +401,7 @@ public abstract class AbstractRedstonePortScreen<Controller extends AbstractCubo
             this.addBehaviorDataInput(SensorBehavior.ActiveWhileBetween, inputBetweenMin, inputBetweenMinLabelKey,
                     inputBetweenMax, inputBetweenMaxLabelKey, (min, max, errorReport) -> {
                         if (min.intValue() >= max.intValue()) {
-                            errorReport.accept(new TranslationTextComponent("gui.bigreactors.generator.validation.redstoneport.invalidminmax.line1"));
+                            errorReport.accept(new TranslatableComponent("gui.bigreactors.generator.validation.redstoneport.invalidminmax.line1"));
                         }
                     });
 
@@ -509,7 +509,7 @@ public abstract class AbstractRedstonePortScreen<Controller extends AbstractCubo
 
         private Label behaviorLabel(final String name, final String translationKey, final int width) {
 
-            final Label l = new Label(this._gui, name, new TranslationTextComponent(translationKey));
+            final Label l = new Label(this._gui, name, new TranslatableComponent(translationKey));
 
             l.setPadding(0);
             l.setDesiredDimension(width, 10);
@@ -521,7 +521,7 @@ public abstract class AbstractRedstonePortScreen<Controller extends AbstractCubo
 
             final List<SensorBehavior> behaviors = sensor.getBehaviors();
 
-            behaviors.forEach(b -> choice.addText(b, new TranslationTextComponent("gui.bigreactors.generator.redstoneport.sensorbehavior." +
+            behaviors.forEach(b -> choice.addText(b, new TranslatableComponent("gui.bigreactors.generator.redstoneport.sensorbehavior." +
                     CodeHelper.neutralLowercase(b.name()) + ".line1")));
 
             choice.setSelectedIndex(behaviors.get(0));

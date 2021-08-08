@@ -26,9 +26,9 @@ import it.zerono.mods.zerocore.lib.item.inventory.container.ModContainer;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
 import it.zerono.mods.zerocore.lib.item.inventory.container.slot.SlotTemplate;
 import it.zerono.mods.zerocore.lib.item.inventory.container.slot.type.SlotType;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.ContainerType;
-import net.minecraft.network.PacketBuffer;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.MenuType;
+import net.minecraft.network.FriendlyByteBuf;
 
 public class ChargingPortContainer<T extends AbstractModBlockEntity & IChargingPort>
         extends ModTileContainer<T> {
@@ -48,8 +48,8 @@ public class ChargingPortContainer<T extends AbstractModBlockEntity & IChargingP
         }
     };
 
-    public ChargingPortContainer(final int windowId, final ContainerType<? extends ModTileContainer<T>> type,
-                                 final PlayerInventory playerInventory, final T port) {
+    public ChargingPortContainer(final int windowId, final MenuType<? extends ModTileContainer<T>> type,
+                                 final Inventory playerInventory, final T port) {
 
         super(FACTORY, type, windowId, port);
 
@@ -59,8 +59,8 @@ public class ChargingPortContainer<T extends AbstractModBlockEntity & IChargingP
         this.createSlots();
     }
 
-    public ChargingPortContainer(final int windowId, final ContainerType<? extends ModTileContainer<T>> type,
-                                 final PlayerInventory playerInventory, final PacketBuffer networkData) {
+    public ChargingPortContainer(final int windowId, final MenuType<? extends ModTileContainer<T>> type,
+                                 final Inventory playerInventory, final FriendlyByteBuf networkData) {
         this(windowId, type, playerInventory, AbstractModBlockEntity.getGuiClientBlockEntity(networkData));
     }
 }

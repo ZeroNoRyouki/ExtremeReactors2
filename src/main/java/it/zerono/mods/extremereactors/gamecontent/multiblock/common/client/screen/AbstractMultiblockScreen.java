@@ -39,13 +39,13 @@ import it.zerono.mods.zerocore.lib.multiblock.IMultiblockController;
 import it.zerono.mods.zerocore.lib.multiblock.IMultiblockMachine;
 import it.zerono.mods.zerocore.lib.multiblock.cuboid.AbstractCuboidMultiblockController;
 import it.zerono.mods.zerocore.lib.multiblock.variant.IMultiblockVariant;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.INamedContainerProvider;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.Style;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.util.NonNullSupplier;
@@ -56,35 +56,35 @@ import java.util.Optional;
 
 @OnlyIn(Dist.CLIENT)
 public abstract class AbstractMultiblockScreen<Controller extends AbstractCuboidMultiblockController<Controller> & IMultiblockMachine,
-                                                T extends AbstractMultiblockEntity<Controller> & INamedContainerProvider,
+                                                T extends AbstractMultiblockEntity<Controller> & MenuProvider,
                                                 C extends ModTileContainer<T>>
         extends ModTileContainerScreen<T, C> {
 
     public static final Style STYLE_TOOLTIP_TITLE = Style.EMPTY
-            .withColor(TextFormatting.YELLOW)
+            .withColor(ChatFormatting.YELLOW)
             .withBold(true);
 
     public static final Style STYLE_TOOLTIP_VALUE = Style.EMPTY
-            .withColor(TextFormatting.DARK_AQUA)
+            .withColor(ChatFormatting.DARK_AQUA)
             .withBold(true);
 
     public static final Style STYLE_TOOLTIP_INFO = Style.EMPTY
-            .withColor(TextFormatting.DARK_PURPLE)
+            .withColor(ChatFormatting.DARK_PURPLE)
             .withItalic(true);
 
-    protected AbstractMultiblockScreen(final C container, final PlayerInventory inventory,
-                                       final PlayerInventoryUsage inventoryUsage, final ITextComponent title) {
+    protected AbstractMultiblockScreen(final C container, final Inventory inventory,
+                                       final PlayerInventoryUsage inventoryUsage, final Component title) {
         this(container, inventory, inventoryUsage, title, DEFAULT_GUI_WIDTH, DEFAULT_GUI_HEIGHT);
     }
 
-    protected AbstractMultiblockScreen(final C container, final PlayerInventory inventory,
-                                       final PlayerInventoryUsage inventoryUsage, final ITextComponent title,
+    protected AbstractMultiblockScreen(final C container, final Inventory inventory,
+                                       final PlayerInventoryUsage inventoryUsage, final Component title,
                                        final NonNullSupplier<SpriteTextureMap> mainTextureSupplier) {
         this(container, inventory, inventoryUsage, title, DEFAULT_GUI_WIDTH, DEFAULT_GUI_HEIGHT, mainTextureSupplier.get());
     }
 
-    protected AbstractMultiblockScreen(final C container, final PlayerInventory inventory,
-                                       final PlayerInventoryUsage inventoryUsage, final ITextComponent title,
+    protected AbstractMultiblockScreen(final C container, final Inventory inventory,
+                                       final PlayerInventoryUsage inventoryUsage, final Component title,
                                        final int guiWidth, final int guiHeight,
                                        final NonNullSupplier<SpriteTextureMap> mainTextureSupplier) {
         this(container, inventory, inventoryUsage, title, guiWidth, guiHeight, mainTextureSupplier.get());
@@ -98,15 +98,15 @@ public abstract class AbstractMultiblockScreen<Controller extends AbstractCuboid
         return () -> new SpriteTextureMap(ExtremeReactors.newID("textures/gui/multiblock/" + variant.getName() + "_background_half.png"), 256, 98);
     }
 
-    protected AbstractMultiblockScreen(final C container, final PlayerInventory inventory,
-                                       final PlayerInventoryUsage inventoryUsage, final ITextComponent title,
+    protected AbstractMultiblockScreen(final C container, final Inventory inventory,
+                                       final PlayerInventoryUsage inventoryUsage, final Component title,
                                        final int guiWidth, final int guiHeight) {
         this(container, inventory, inventoryUsage, title, guiWidth, guiHeight,
                 new SpriteTextureMap(ExtremeReactors.newID("textures/gui/multiblock/generic_background.png"), 256, 256));
     }
 
-    protected AbstractMultiblockScreen(final C container, final PlayerInventory inventory,
-                                       final PlayerInventoryUsage inventoryUsage, final ITextComponent title,
+    protected AbstractMultiblockScreen(final C container, final Inventory inventory,
+                                       final PlayerInventoryUsage inventoryUsage, final Component title,
                                        final int guiWidth, final int guiHeight, final SpriteTextureMap mainTexture) {
 
         super(container, inventory, title, guiWidth, guiHeight);
@@ -176,11 +176,11 @@ public abstract class AbstractMultiblockScreen<Controller extends AbstractCuboid
         this._contentPanel.setLayoutEngine(engine);
     }
 
-    protected void setIndicatorToolTip(final boolean active, final ITextComponent... lines) {
+    protected void setIndicatorToolTip(final boolean active, final Component... lines) {
         this.setIndicatorToolTip(active, ImmutableList.copyOf(lines), Collections.emptyList());
     }
 
-    protected void setIndicatorToolTip(final boolean active, final List<ITextComponent> lines, final List<Object> objects) {
+    protected void setIndicatorToolTip(final boolean active, final List<Component> lines, final List<Object> objects) {
 
         if (active) {
             this._indicatorOn.setTooltips(lines, objects);
@@ -349,10 +349,10 @@ public abstract class AbstractMultiblockScreen<Controller extends AbstractCuboid
         return this._mainTextMap.sprite().from(0, 202).ofSize(18, 18).build();
     }
 
-    protected static final ITextComponent INDICATOR_ACTIVE_REACTOR = new TranslationTextComponent("gui.bigreactors.reactor.active");
-    protected static final ITextComponent INDICATOR_INACTIVE_REACTOR = new TranslationTextComponent("gui.bigreactors.reactor.inactive");
-    protected static final ITextComponent INDICATOR_ACTIVE_TURBINE = new TranslationTextComponent("gui.bigreactors.turbine.active");
-    protected static final ITextComponent INDICATOR_INACTIVE_TURBINE = new TranslationTextComponent("gui.bigreactors.turbine.inactive");
+    protected static final Component INDICATOR_ACTIVE_REACTOR = new TranslatableComponent("gui.bigreactors.reactor.active");
+    protected static final Component INDICATOR_INACTIVE_REACTOR = new TranslatableComponent("gui.bigreactors.reactor.inactive");
+    protected static final Component INDICATOR_ACTIVE_TURBINE = new TranslatableComponent("gui.bigreactors.turbine.active");
+    protected static final Component INDICATOR_INACTIVE_TURBINE = new TranslatableComponent("gui.bigreactors.turbine.inactive");
 
     private static final int DEFAULT_GUI_WIDTH = 224;
     private static final int DEFAULT_GUI_HEIGHT = 166;

@@ -26,9 +26,9 @@ import it.zerono.mods.zerocore.lib.data.IoDirection;
 import it.zerono.mods.zerocore.lib.energy.EnergyBuffer;
 import it.zerono.mods.zerocore.lib.energy.EnergySystem;
 import it.zerono.mods.zerocore.lib.energy.IWideEnergyProvider;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.Direction;
-import net.minecraft.world.World;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 
@@ -36,13 +36,15 @@ import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.Optional;
 
+import it.zerono.mods.zerocore.lib.data.nbt.ISyncableEntity.SyncReason;
+
 @SuppressWarnings({"WeakerAccess"})
 public abstract class AbstractGeneratorMultiblockController<Controller extends AbstractGeneratorMultiblockController<Controller, V>,
             V extends IMultiblockGeneratorVariant>
         extends AbstractMultiblockController<Controller, V>
         implements IWideEnergyProvider {
 
-    public AbstractGeneratorMultiblockController(World world) {
+    public AbstractGeneratorMultiblockController(Level world) {
 
         super(world);
         this._energyBuffer = new EnergyBuffer(INTERNAL_ENERGY_SYSTEM, 0); //TODO is starting from 0 a problem when loading NBT data?
@@ -222,7 +224,7 @@ public abstract class AbstractGeneratorMultiblockController<Controller extends A
      * @param syncReason the reason why the synchronization is necessary
      */
     @Override
-    public void syncDataFrom(final CompoundNBT data, final SyncReason syncReason) {
+    public void syncDataFrom(final CompoundTag data, final SyncReason syncReason) {
 
         this.syncChildDataEntityFrom(this.getEnergyBuffer(), "buffer", data, syncReason);
 
@@ -240,7 +242,7 @@ public abstract class AbstractGeneratorMultiblockController<Controller extends A
      * @param syncReason the reason why the synchronization is necessary
      */
     @Override
-    public CompoundNBT syncDataTo(final CompoundNBT data, final SyncReason syncReason) {
+    public CompoundTag syncDataTo(final CompoundTag data, final SyncReason syncReason) {
 
         this.syncChildDataEntityTo(this.getEnergyBuffer(), "buffer", data, syncReason);
 

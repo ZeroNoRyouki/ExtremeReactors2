@@ -20,14 +20,14 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.common;
 
 import it.zerono.mods.zerocore.lib.multiblock.cuboid.AbstractCuboidMultiblockController;
 import it.zerono.mods.zerocore.lib.multiblock.variant.IMultiblockDimensionVariant;
-import net.minecraft.world.World;
+import net.minecraft.world.level.Level;
 
 @SuppressWarnings({"WeakerAccess"})
 public abstract class AbstractMultiblockController<Controller extends AbstractCuboidMultiblockController<Controller>,
         V extends IMultiblockDimensionVariant>
         extends AbstractCuboidMultiblockController<Controller> {
 
-    protected AbstractMultiblockController(World world) {
+    protected AbstractMultiblockController(Level world) {
 
         super(world);
         this._ticksSinceLastUpdate = 0;

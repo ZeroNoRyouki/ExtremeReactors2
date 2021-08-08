@@ -24,7 +24,7 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.common.sensor.Senso
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.IReactorReader;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.IReactorWriter;
 import it.zerono.mods.zerocore.lib.data.nbt.NBTHelper;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompoundTag;
 
 public class ReactorSensorSetting
     extends AbstractSensorSetting<IReactorReader, IReactorWriter, ReactorSensorType> {
@@ -35,7 +35,7 @@ public class ReactorSensorSetting
         super(sensor, behavior, v1, v2);
     }
 
-    public static ReactorSensorSetting syncDataFrom(final CompoundNBT data) {
+    public static ReactorSensorSetting syncDataFrom(final CompoundTag data) {
 
         try {
 
@@ -48,7 +48,7 @@ public class ReactorSensorSetting
         }
     }
 
-    public CompoundNBT syncDataTo(CompoundNBT data) {
+    public CompoundTag syncDataTo(CompoundTag data) {
         return super.syncDataTo(NBTHelper.nbtSetEnum(data, "sensor", this.Sensor));
     }
 
@@ -104,11 +104,11 @@ public class ReactorSensorSetting
         this(ReactorSensorType.Disabled, SensorBehavior.Disabled, 0 ,0);
     }
 
-    protected ReactorSensorSetting(final CompoundNBT data) throws IllegalArgumentException {
+    protected ReactorSensorSetting(final CompoundTag data) throws IllegalArgumentException {
         super(data, ReactorSensorSetting::readSensorTypeFrom);
     }
 
-    private static ReactorSensorType readSensorTypeFrom(final CompoundNBT data) {
+    private static ReactorSensorType readSensorTypeFrom(final CompoundTag data) {
 
         if (!data.contains("sensor")) {
             throw new IllegalArgumentException("Invalid NBT data");

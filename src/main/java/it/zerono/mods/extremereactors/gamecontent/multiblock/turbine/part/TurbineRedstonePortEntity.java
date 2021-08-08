@@ -27,24 +27,26 @@ import it.zerono.mods.zerocore.lib.block.INeighborChangeListener;
 import it.zerono.mods.zerocore.lib.block.TileCommandDispatcher;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
 import it.zerono.mods.zerocore.lib.multiblock.ITickableMultiblockPart;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.INamedContainerProvider;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.Direction;
+import net.minecraft.core.BlockPos;
+import net.minecraft.util.Mth;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.level.Level;
 
 import javax.annotation.Nullable;
 
+import it.zerono.mods.zerocore.lib.data.nbt.ISyncableEntity.SyncReason;
+
 public class TurbineRedstonePortEntity
         extends AbstractTurbineEntity
-        implements INeighborChangeListener, ITickableMultiblockPart, INamedContainerProvider {
+        implements INeighborChangeListener, ITickableMultiblockPart, MenuProvider {
 
     public TurbineRedstonePortEntity() {
 
@@ -148,12 +150,12 @@ public class TurbineRedstonePortEntity
      */
     @Nullable
     @Override
-    public Container createMenu(final int windowId, final PlayerInventory inventory, final PlayerEntity player) {
-        return ModTileContainer.empty(Content.ContainerTypes.TURBINE_REDSTONEPORT.get(), windowId, this, (ServerPlayerEntity)player);
+    public AbstractContainerMenu createMenu(final int windowId, final Inventory inventory, final Player player) {
+        return ModTileContainer.empty(Content.ContainerTypes.TURBINE_REDSTONEPORT.get(), windowId, this, (ServerPlayer)player);
     }
 
     @Override
-    public ITextComponent getDisplayName() {
+    public Component getDisplayName() {
         return super.getPartDisplayName();
     }
 
@@ -161,7 +163,7 @@ public class TurbineRedstonePortEntity
     //region ISyncableEntity
 
     @Override
-    public void syncDataFrom(CompoundNBT data, SyncReason syncReason) {
+    public void syncDataFrom(CompoundTag data, SyncReason syncReason) {
 
         super.syncDataFrom(data, syncReason);
 
@@ -181,11 +183,11 @@ public class TurbineRedstonePortEntity
     }
 
     @Override
-    public CompoundNBT syncDataTo(CompoundNBT data, SyncReason syncReason) {
+    public CompoundTag syncDataTo(CompoundTag data, SyncReason syncReason) {
 
         super.syncDataTo(data, syncReason);
 
-        data.put("setting", this.getSettings().syncDataTo(new CompoundNBT()));
+        data.put("setting", this.getSettings().syncDataTo(new CompoundTag()));
         data.putBoolean("lit", this._isLit);
 
         return data;
@@ -238,7 +240,7 @@ public class TurbineRedstonePortEntity
      * Override in derived classes to return true if your tile entity got a GUI
      */
     @Override
-    public boolean canOpenGui(World world, BlockPos position, BlockState state) {
+    public boolean canOpenGui(Level world, BlockPos position, BlockState state) {
         return this.isMachineAssembled();
     }
 
@@ -280,7 +282,7 @@ public class TurbineRedstonePortEntity
      * Command handler for setting a new sensor from the GUI
      * @param data parameters from the GUI
      */
-    private void setNewSensorFromGUI(final CompoundNBT data) {
+    private void setNewSensorFromGUI(final CompoundTag data) {
 
         this._setting = TurbineSensorSetting.syncDataFrom(data);
 
@@ -332,7 +334,7 @@ public class TurbineRedstonePortEntity
      * then pass in south.
      */
     private int getRedstonePowerLevelFrom(final BlockPos position, final Direction direction) {
-        return this.mapPartWorld(w -> MathHelper.clamp(Math.max(w.getBestNeighborSignal(position), w.getSignal(position, direction)), 0, 15), 0);
+        return this.mapPartWorld(w -> Mth.clamp(Math.max(w.getBestNeighborSignal(position), w.getSignal(position, direction)), 0, 15), 0);
     }
 
     /**

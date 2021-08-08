@@ -28,13 +28,13 @@ import it.zerono.mods.extremereactors.api.internal.modpack.wrapper.ApiWrapper;
 import it.zerono.mods.zerocore.lib.tag.CollectionProviders;
 import it.zerono.mods.zerocore.lib.tag.TagList;
 import it.zerono.mods.zerocore.lib.tag.TagsHelper;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.item.Item;
-import net.minecraft.tags.ITag;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.item.Item;
+import net.minecraft.tags.Tag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraftforge.common.util.NonNullSupplier;
 import net.minecraftforge.event.TagsUpdatedEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -68,7 +68,7 @@ public class CoilMaterialRegistry {
      * @param tag The block Tag
      * @return true if a CoilMaterial is registered for the given block Tag, false otherwise
      */
-    public static boolean contains(final ITag.INamedTag<Block> tag) {
+    public static boolean contains(final Tag.Named<Block> tag) {
         return contains(tag.getName());
     }
 
@@ -111,7 +111,7 @@ public class CoilMaterialRegistry {
      * @param tag The block Tag
      * @return The CoilMaterial or null if nothing could be found
      */
-    public static Optional<CoilMaterial> get(final ITag.INamedTag<Block> tag) {
+    public static Optional<CoilMaterial> get(final Tag.Named<Block> tag) {
         return get(tag.getName());
     }
 
@@ -135,8 +135,8 @@ public class CoilMaterialRegistry {
         //noinspection rawtypes
         return s_tags
                 .find(tag -> tag.contains(block))
-                .filter(t -> t instanceof ITag.INamedTag)
-                .map(t -> (ITag.INamedTag)t)
+                .filter(t -> t instanceof Tag.Named)
+                .map(t -> (Tag.Named)t)
                 .flatMap(CoilMaterialRegistry::get);
     }
 
@@ -174,7 +174,7 @@ public class CoilMaterialRegistry {
      *
      * @param tag The Block Tag to remove
      */
-    public static void remove(final ITag.INamedTag<Block> tag) {
+    public static void remove(final Tag.Named<Block> tag) {
 
         Preconditions.checkNotNull(tag);
         remove(tag.getName());
@@ -192,8 +192,8 @@ public class CoilMaterialRegistry {
         InternalDispatcher.dispatch("coilmaterial-remove", () -> s_materials.remove(id));
     }
 
-    public static void fillModeratorsTooltips(final Map<Item, Set<ITextComponent>> tooltipsMap,
-                                              final NonNullSupplier<Set<ITextComponent>> setSupplier) {
+    public static void fillModeratorsTooltips(final Map<Item, Set<Component>> tooltipsMap,
+                                              final NonNullSupplier<Set<Component>> setSupplier) {
 
         s_tags.tagStream()
                 .flatMap(blockTag -> blockTag.getValues().stream())
@@ -246,7 +246,7 @@ public class CoilMaterialRegistry {
     private static final TagList<Block> s_tags = new TagList<>(CollectionProviders.BLOCKS_PROVIDER);
     private static final Map<ResourceLocation, CoilMaterial> s_materials = Maps.newHashMap();
 
-    private static final ITextComponent TOOLTIP_COIL = new TranslationTextComponent("api.bigreactors.reactor.tooltip.coil").setStyle(ExtremeReactorsAPI.STYLE_TOOLTIP);
+    private static final Component TOOLTIP_COIL = new TranslatableComponent("api.bigreactors.reactor.tooltip.coil").setStyle(ExtremeReactorsAPI.STYLE_TOOLTIP);
 
     private static final Marker MARKER = MarkerManager.getMarker("API/CoilMaterialRegistry").addParents(ExtremeReactorsAPI.MARKER);
     private static final Marker WRAPPER = MarkerManager.getMarker("ModPack API Wrapper").addParents(MARKER);

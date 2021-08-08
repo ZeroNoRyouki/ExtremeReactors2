@@ -32,11 +32,11 @@ import it.zerono.mods.zerocore.lib.client.model.data.multiblock.CuboidPartVarian
 import it.zerono.mods.zerocore.lib.multiblock.cuboid.PartPosition;
 import it.zerono.mods.zerocore.lib.multiblock.validation.IMultiblockValidator;
 import it.zerono.mods.zerocore.lib.multiblock.variant.IMultiblockVariant;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.client.model.data.EmptyModelData;
 import net.minecraftforge.client.model.data.IModelData;
 
@@ -45,7 +45,7 @@ public class AbstractTurbineEntity
         implements /*IHeatEntity, IRadiationModerator,*/ IMultiblockPartTypeProvider<MultiblockTurbine, TurbinePartType>,
                     IMultiblockVariantProvider<IMultiblockTurbineVariant> {
 
-    public AbstractTurbineEntity(final TileEntityType<?> type) {
+    public AbstractTurbineEntity(final BlockEntityType<?> type) {
         super(type);
     }
 
@@ -62,10 +62,10 @@ public class AbstractTurbineEntity
                 .ifPresent(c -> c.setMachineActive(active));
     }
 
-    public ITextComponent getPartDisplayName() {
-        return new TranslationTextComponent("gui.bigreactors.multiblock_variant_part_format.title",
-                new TranslationTextComponent(this.getMultiblockVariant().map(IMultiblockVariant::getTranslationKey).orElse("unknown")),
-                new TranslationTextComponent(this.getPartType().map(TurbinePartType::getTranslationKey).orElse("unknown")));
+    public Component getPartDisplayName() {
+        return new TranslatableComponent("gui.bigreactors.multiblock_variant_part_format.title",
+                new TranslatableComponent(this.getMultiblockVariant().map(IMultiblockVariant::getTranslationKey).orElse("unknown")),
+                new TranslatableComponent(this.getPartType().map(TurbinePartType::getTranslationKey).orElse("unknown")));
     }
 
     //region client render support
@@ -117,7 +117,7 @@ public class AbstractTurbineEntity
     @Override
     public MultiblockTurbine createController() {
 
-        final World myWorld = this.getLevel();
+        final Level myWorld = this.getLevel();
 
         if (null == myWorld) {
             throw new RuntimeException("Trying to create a Controller from a Part without a World");

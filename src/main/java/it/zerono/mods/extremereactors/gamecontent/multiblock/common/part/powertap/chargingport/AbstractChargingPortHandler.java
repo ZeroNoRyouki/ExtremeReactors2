@@ -28,16 +28,18 @@ import it.zerono.mods.zerocore.lib.data.IoMode;
 import it.zerono.mods.zerocore.lib.data.nbt.ISyncableEntity;
 import it.zerono.mods.zerocore.lib.energy.EnergySystem;
 import it.zerono.mods.zerocore.lib.item.inventory.handler.TileEntityItemStackHandler;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IWorldReader;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.LevelReader;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemStackHandler;
 
 import javax.annotation.Nullable;
+
+import it.zerono.mods.zerocore.lib.data.nbt.ISyncableEntity.SyncReason;
 
 public abstract class AbstractChargingPortHandler<Controller extends AbstractGeneratorMultiblockController<Controller, V>,
             V extends IMultiblockGeneratorVariant,
@@ -121,7 +123,7 @@ public abstract class AbstractChargingPortHandler<Controller extends AbstractGen
      * @param position the handler position
      */
     @Override
-    public void checkConnections(@Nullable IWorldReader world, BlockPos position) {
+    public void checkConnections(@Nullable LevelReader world, BlockPos position) {
         // nothing to do here
     }
 
@@ -140,7 +142,7 @@ public abstract class AbstractChargingPortHandler<Controller extends AbstractGen
      * @param syncReason the reason why the synchronization is necessary
      */
     @Override
-    public void syncDataFrom(CompoundNBT data, SyncReason syncReason) {
+    public void syncDataFrom(CompoundTag data, SyncReason syncReason) {
 
         if (syncReason.isFullSync()) {
 
@@ -157,7 +159,7 @@ public abstract class AbstractChargingPortHandler<Controller extends AbstractGen
      * @return the {@link CompoundNBT} the data was written to (usually {@code data})
      */
     @Override
-    public CompoundNBT syncDataTo(CompoundNBT data, SyncReason syncReason) {
+    public CompoundTag syncDataTo(CompoundTag data, SyncReason syncReason) {
 
         if (syncReason.isFullSync()) {
 
@@ -171,14 +173,14 @@ public abstract class AbstractChargingPortHandler<Controller extends AbstractGen
     //endregion
     //region internals
 
-    private static void syncInvTo(final CompoundNBT data, final String name, final ItemStackHandler inv) {
+    private static void syncInvTo(final CompoundTag data, final String name, final ItemStackHandler inv) {
 
         if (!inv.getStackInSlot(0).isEmpty()) {
             data.put(name, inv.serializeNBT());
         }
     }
 
-    private static void syncInvFrom(final CompoundNBT data, final String name, final ItemStackHandler inv) {
+    private static void syncInvFrom(final CompoundTag data, final String name, final ItemStackHandler inv) {
 
         if (data.contains(name)) {
             inv.deserializeNBT(data.getCompound(name));

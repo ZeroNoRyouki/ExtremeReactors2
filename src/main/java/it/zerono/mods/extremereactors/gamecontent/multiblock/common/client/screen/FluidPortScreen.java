@@ -33,11 +33,11 @@ import it.zerono.mods.zerocore.lib.client.gui.layout.FixedLayoutEngine;
 import it.zerono.mods.zerocore.lib.item.inventory.PlayerInventoryUsage;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
 import it.zerono.mods.zerocore.lib.multiblock.IMultiblockMachine;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.INamedContainerProvider;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -46,11 +46,11 @@ import static it.zerono.mods.zerocore.lib.CodeHelper.TEXT_EMPTY_LINE;
 
 public class FluidPortScreen<Controller extends AbstractGeneratorMultiblockController<Controller, V> & IMultiblockMachine,
         V extends IMultiblockGeneratorVariant,
-        T extends AbstractMultiblockEntity<Controller> & IFluidPort<Controller, V> & IMultiblockVariantProvider<V> & INamedContainerProvider>
+        T extends AbstractMultiblockEntity<Controller> & IFluidPort<Controller, V> & IMultiblockVariantProvider<V> & MenuProvider>
         extends AbstractMultiblockScreen<Controller, T, ModTileContainer<T>> {
 
-    public FluidPortScreen(final ModTileContainer<T> container, final PlayerInventory inventory,
-                           final ITextComponent title, final ResourceLocation bookEntryId) {
+    public FluidPortScreen(final ModTileContainer<T> container, final Inventory inventory,
+                           final Component title, final ResourceLocation bookEntryId) {
 
         super(container, inventory, PlayerInventoryUsage.Both, title, 224, 98,
                 halfTextureFromVariant(container.getTileEntity().getMultiblockVariant().orElseThrow(IllegalStateException::new)));
@@ -87,9 +87,9 @@ public class FluidPortScreen<Controller extends AbstractGeneratorMultiblockContr
 
         this._btnInputDirection.Activated.subscribe(this::onInputActivated);
         this._btnInputDirection.setTooltips(
-                new TranslationTextComponent("gui.bigreactors.generator.fluidport.directioninput.line1").setStyle(STYLE_TOOLTIP_TITLE),
+                new TranslatableComponent("gui.bigreactors.generator.fluidport.directioninput.line1").setStyle(STYLE_TOOLTIP_TITLE),
                 TEXT_EMPTY_LINE,
-                new TranslationTextComponent("gui.bigreactors.generator.fluidport.directioninput.line2")
+                new TranslatableComponent("gui.bigreactors.generator.fluidport.directioninput.line2")
         );
 
         // - output direction button
@@ -100,9 +100,9 @@ public class FluidPortScreen<Controller extends AbstractGeneratorMultiblockContr
         this._btnOutputDirection.setPadding(1);
         this._btnOutputDirection.Activated.subscribe(this::onOutputActivated);
         this._btnOutputDirection.setTooltips(
-                new TranslationTextComponent("gui.bigreactors.generator.fluidport.directionoutput.line1").setStyle(STYLE_TOOLTIP_TITLE),
+                new TranslatableComponent("gui.bigreactors.generator.fluidport.directionoutput.line1").setStyle(STYLE_TOOLTIP_TITLE),
                 TEXT_EMPTY_LINE,
-                new TranslationTextComponent("gui.bigreactors.generator.fluidport.directionoutput.line2")
+                new TranslatableComponent("gui.bigreactors.generator.fluidport.directionoutput.line2")
         );
 
         //noinspection Convert2MethodRef

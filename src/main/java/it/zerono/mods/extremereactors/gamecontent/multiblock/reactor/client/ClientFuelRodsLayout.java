@@ -28,12 +28,12 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.IFuelContai
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.model.ReactorFuelRodModel;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part.ReactorFuelRodEntity;
 import it.zerono.mods.zerocore.lib.data.gfx.Colour;
-import net.minecraft.block.BlockState;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.RenderTypeLookup;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.core.Direction;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -122,7 +122,7 @@ public class ClientFuelRodsLayout
     }
 
     @Override
-    public void updateFuelRodsOcclusion(final World world, final Collection<ReactorFuelRodEntity> fuelRods, final boolean interiorInvisible) {
+    public void updateFuelRodsOcclusion(final Level world, final Collection<ReactorFuelRodEntity> fuelRods, final boolean interiorInvisible) {
 
         if (interiorInvisible) {
 
@@ -143,7 +143,7 @@ public class ClientFuelRodsLayout
                 final BlockPos checkPosition = rodPosition.relative(direction);
                 final BlockState state = world.getBlockState(checkPosition);
 
-                if (state.isAir(world, checkPosition) || !RenderTypeLookup.canRenderInLayer(state, solid)) {
+                if (state.isAir(world, checkPosition) || !ItemBlockRenderTypes.canRenderInLayer(state, solid)) {
 
                     occluded = false;
                     break;

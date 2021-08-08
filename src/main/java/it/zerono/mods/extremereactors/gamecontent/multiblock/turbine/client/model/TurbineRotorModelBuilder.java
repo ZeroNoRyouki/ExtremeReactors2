@@ -26,20 +26,20 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.IMu
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.TurbineVariant;
 import it.zerono.mods.extremereactors.proxy.ClientProxy;
 import it.zerono.mods.zerocore.lib.client.model.BlockVariantsModelBuilder;
-import net.minecraft.client.renderer.model.IBakedModel;
-import net.minecraft.client.renderer.model.ModelResourceLocation;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 
 import java.util.function.Supplier;
 
 public class TurbineRotorModelBuilder
         extends BlockVariantsModelBuilder {
 
-    public static final Supplier<IBakedModel> BASIC_SHAFT = ClientProxy.getModelSupplier(getBlockStateRL(TurbineVariant.Basic, RotorShaftState.getDefault()));
-    public static final Supplier<IBakedModel> REINFORCED_SHAFT = ClientProxy.getModelSupplier(getBlockStateRL(TurbineVariant.Reinforced, RotorShaftState.getDefault()));
+    public static final Supplier<BakedModel> BASIC_SHAFT = ClientProxy.getModelSupplier(getBlockStateRL(TurbineVariant.Basic, RotorShaftState.getDefault()));
+    public static final Supplier<BakedModel> REINFORCED_SHAFT = ClientProxy.getModelSupplier(getBlockStateRL(TurbineVariant.Reinforced, RotorShaftState.getDefault()));
 
-    public static final Supplier<IBakedModel> BASIC_BLADE = ClientProxy.getModelSupplier(getBlockStateRL(TurbineVariant.Basic, RotorBladeState.getDefault()));
-    public static final Supplier<IBakedModel> REINFORCED_BLADE = ClientProxy.getModelSupplier(getBlockStateRL(TurbineVariant.Reinforced, RotorBladeState.getDefault()));
+    public static final Supplier<BakedModel> BASIC_BLADE = ClientProxy.getModelSupplier(getBlockStateRL(TurbineVariant.Basic, RotorBladeState.getDefault()));
+    public static final Supplier<BakedModel> REINFORCED_BLADE = ClientProxy.getModelSupplier(getBlockStateRL(TurbineVariant.Reinforced, RotorBladeState.getDefault()));
 
     public TurbineRotorModelBuilder(final IMultiblockTurbineVariant variant) {
 

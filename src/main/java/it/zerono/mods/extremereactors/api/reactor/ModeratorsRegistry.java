@@ -29,15 +29,15 @@ import it.zerono.mods.extremereactors.api.internal.modpack.wrapper.ApiWrapper;
 import it.zerono.mods.zerocore.lib.tag.CollectionProviders;
 import it.zerono.mods.zerocore.lib.tag.TagList;
 import it.zerono.mods.zerocore.lib.tag.TagsHelper;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.fluid.FluidState;
-import net.minecraft.item.Item;
-import net.minecraft.tags.ITag;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.item.Item;
+import net.minecraft.tags.Tag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraftforge.common.util.NonNullSupplier;
 import net.minecraftforge.event.TagsUpdatedEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -99,8 +99,8 @@ public final class ModeratorsRegistry {
         //noinspection rawtypes
         return s_moderatorBlocksTags
                 .find(tag -> tag.contains(state.getBlock()))
-                .filter(t -> t instanceof ITag.INamedTag)
-                .map(t -> (ITag.INamedTag)t)
+                .filter(t -> t instanceof Tag.Named)
+                .map(t -> (Tag.Named)t)
                 .map(t -> s_moderatorBlocksData.containsKey(t.getName()))
                 .orElse(false);
     }
@@ -126,8 +126,8 @@ public final class ModeratorsRegistry {
         //noinspection rawtypes
         return s_moderatorBlocksTags
                 .find(tag -> tag.contains(block))
-                .filter(t -> t instanceof ITag.INamedTag)
-                .map(t -> (ITag.INamedTag)t)
+                .filter(t -> t instanceof Tag.Named)
+                .map(t -> (Tag.Named)t)
                 .flatMap(ModeratorsRegistry::getFromSolid);
     }
 
@@ -137,7 +137,7 @@ public final class ModeratorsRegistry {
      * @param tag The Block Tag
      * @return The Moderator or null if nothing could be found
      */
-    public static Optional<Moderator> getFromSolid(final ITag.INamedTag<Block> tag) {
+    public static Optional<Moderator> getFromSolid(final Tag.Named<Block> tag) {
         return Optional.ofNullable(s_moderatorBlocksData.get(tag.getName()));
     }
 
@@ -148,7 +148,7 @@ public final class ModeratorsRegistry {
      * @return The Moderator or null if nothing could be found
      */
     @Deprecated // use getFrom()
-    public static Optional<Moderator> getFromFluid(final ITag.INamedTag<Fluid> tag) {
+    public static Optional<Moderator> getFromFluid(final Tag.Named<Fluid> tag) {
         return Optional.empty();
     }
 
@@ -235,7 +235,7 @@ public final class ModeratorsRegistry {
      *
      * @param tag The block Tag
      */
-    public static void removeSolid(final ITag.INamedTag<Block> tag) {
+    public static void removeSolid(final Tag.Named<Block> tag) {
 
         Preconditions.checkNotNull(tag);
         removeSolid(tag.getName());
@@ -277,8 +277,8 @@ public final class ModeratorsRegistry {
         InternalDispatcher.dispatch("moderator-f-remove", () -> s_moderatorFluidsData.remove(id));
     }
 
-    public static void fillModeratorsTooltips(final Map<Item, Set<ITextComponent>> tooltipsMap,
-                                              final NonNullSupplier<Set<ITextComponent>> setSupplier) {
+    public static void fillModeratorsTooltips(final Map<Item, Set<Component>> tooltipsMap,
+                                              final NonNullSupplier<Set<Component>> setSupplier) {
 
         s_moderatorBlocksTags.tagStream()
                 .flatMap(blockTag -> blockTag.getValues().stream())
@@ -372,7 +372,7 @@ public final class ModeratorsRegistry {
         return getFluidId(fluid).toString();
     }
 
-    private static final ITextComponent TOOLTIP_MODERATOR = new TranslationTextComponent("api.bigreactors.reactor.tooltip.moderator").setStyle(ExtremeReactorsAPI.STYLE_TOOLTIP);
+    private static final Component TOOLTIP_MODERATOR = new TranslatableComponent("api.bigreactors.reactor.tooltip.moderator").setStyle(ExtremeReactorsAPI.STYLE_TOOLTIP);
 
     static {
 

@@ -41,11 +41,11 @@ import it.zerono.mods.zerocore.lib.client.gui.sprite.ISprite;
 import it.zerono.mods.zerocore.lib.client.render.ModRenderHelper;
 import it.zerono.mods.zerocore.lib.data.geometry.Point;
 import it.zerono.mods.zerocore.lib.item.inventory.PlayerInventoryUsage;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraftforge.common.util.NonNullSupplier;
 
 import java.util.function.Consumer;
@@ -57,7 +57,7 @@ public class ReactorSolidAccessPortScreen
         extends AbstractMultiblockScreen<MultiblockReactor, ReactorSolidAccessPortEntity, ReactorSolidAccessPortContainer> {
 
     public ReactorSolidAccessPortScreen(final ReactorSolidAccessPortContainer container,
-                                        final PlayerInventory inventory, final ITextComponent title) {
+                                        final Inventory inventory, final Component title) {
 
         super(container, inventory, PlayerInventoryUsage.Both, title,
                 mainTextureFromVariant(container.getTileEntity().getMultiblockVariant().orElse(ReactorVariant.Basic)));
@@ -110,9 +110,9 @@ public class ReactorSolidAccessPortScreen
         this.setButtonSpritesAndOverlayForState(this._btnInputDirection, ButtonState.Active, CommonIcons.ButtonInputDirectionActive);
         this._btnInputDirection.Activated.subscribe(this::onInputActivated);
         this._btnInputDirection.setTooltips(
-                new TranslationTextComponent("gui.bigreactors.reactor.solidaccessport.directioninput.line1").setStyle(STYLE_TOOLTIP_TITLE),
+                new TranslatableComponent("gui.bigreactors.reactor.solidaccessport.directioninput.line1").setStyle(STYLE_TOOLTIP_TITLE),
                 TEXT_EMPTY_LINE,
-                new TranslationTextComponent("gui.bigreactors.reactor.solidaccessport.directioninput.line2")
+                new TranslatableComponent("gui.bigreactors.reactor.solidaccessport.directioninput.line2")
         );
 
         // - output direction button
@@ -120,9 +120,9 @@ public class ReactorSolidAccessPortScreen
         this.setButtonSpritesAndOverlayForState(this._btnOutputDirection, ButtonState.Active, CommonIcons.ButtonOutputDirectionActive);
         this._btnOutputDirection.Activated.subscribe(this::onOutputActivated);
         this._btnOutputDirection.setTooltips(
-                new TranslationTextComponent("gui.bigreactors.reactor.solidaccessport.directionoutput.line1").setStyle(STYLE_TOOLTIP_TITLE),
+                new TranslatableComponent("gui.bigreactors.reactor.solidaccessport.directionoutput.line1").setStyle(STYLE_TOOLTIP_TITLE),
                 TEXT_EMPTY_LINE,
-                new TranslationTextComponent("gui.bigreactors.reactor.solidaccessport.directionoutput.line2")
+                new TranslatableComponent("gui.bigreactors.reactor.solidaccessport.directionoutput.line2")
         );
 
         this.addBinding(ReactorSolidAccessPortContainer::getIoDirection, value -> {
@@ -138,11 +138,11 @@ public class ReactorSolidAccessPortScreen
         this._btnDumpFuel.setIconForState(CommonIcons.ButtonDumpFuelActive.get(), ButtonState.Active, ButtonState.ActiveHighlighted, ButtonState.DefaultHighlighted);
         this._btnDumpFuel.Clicked.subscribe(this::onDumpFuel);
         this._btnDumpFuel.setTooltips(
-                new TranslationTextComponent("gui.bigreactors.reactor.solidaccessport.dumpfuel.line1").setStyle(STYLE_TOOLTIP_TITLE),
+                new TranslatableComponent("gui.bigreactors.reactor.solidaccessport.dumpfuel.line1").setStyle(STYLE_TOOLTIP_TITLE),
                 TEXT_EMPTY_LINE,
-                new TranslationTextComponent("gui.bigreactors.reactor.solidaccessport.dumpfuel.line2"),
-                new TranslationTextComponent("gui.bigreactors.reactor.solidaccessport.dumpfuel.line3"),
-                new TranslationTextComponent("gui.bigreactors.reactor.solidaccessport.dumpfuel.line4")
+                new TranslatableComponent("gui.bigreactors.reactor.solidaccessport.dumpfuel.line2"),
+                new TranslatableComponent("gui.bigreactors.reactor.solidaccessport.dumpfuel.line3"),
+                new TranslatableComponent("gui.bigreactors.reactor.solidaccessport.dumpfuel.line4")
         );
 
         // - dump waste command button
@@ -152,11 +152,11 @@ public class ReactorSolidAccessPortScreen
         this._btnDumpWaste.setIconForState(CommonIcons.ButtonDumpWasteActive.get(), ButtonState.Active, ButtonState.ActiveHighlighted, ButtonState.DefaultHighlighted);
         this._btnDumpWaste.Clicked.subscribe(this::onDumpWaste);
         this._btnDumpWaste.setTooltips(
-                new TranslationTextComponent("gui.bigreactors.reactor.solidaccessport.dumpwaste.line1").setStyle(STYLE_TOOLTIP_TITLE),
+                new TranslatableComponent("gui.bigreactors.reactor.solidaccessport.dumpwaste.line1").setStyle(STYLE_TOOLTIP_TITLE),
                 TEXT_EMPTY_LINE,
-                new TranslationTextComponent("gui.bigreactors.reactor.solidaccessport.dumpwaste.line2"),
-                new TranslationTextComponent("gui.bigreactors.reactor.solidaccessport.dumpwaste.line3"),
-                new TranslationTextComponent("gui.bigreactors.reactor.solidaccessport.dumpwaste.line4")
+                new TranslatableComponent("gui.bigreactors.reactor.solidaccessport.dumpwaste.line2"),
+                new TranslatableComponent("gui.bigreactors.reactor.solidaccessport.dumpwaste.line3"),
+                new TranslatableComponent("gui.bigreactors.reactor.solidaccessport.dumpwaste.line4")
         );
 
         panel.addControl(this.buttonsPanel(this._btnInputDirection, this._btnOutputDirection, this._btnDumpFuel, this._btnDumpWaste));
@@ -186,7 +186,7 @@ public class ReactorSolidAccessPortScreen
 
     private void onDumpFuel(Button button, Integer mouseButton) {
 
-        final CompoundNBT options = new CompoundNBT();
+        final CompoundTag options = new CompoundTag();
 
         options.putBoolean("void", Screen.hasShiftDown());
         this.sendCommandToServer(ReactorSolidAccessPortEntity.COMMAND_DUMP_FUEL, options);
@@ -194,7 +194,7 @@ public class ReactorSolidAccessPortScreen
 
     private void onDumpWaste(Button button, Integer integer) {
 
-        final CompoundNBT options = new CompoundNBT();
+        final CompoundTag options = new CompoundTag();
 
         options.putBoolean("void", Screen.hasShiftDown());
         this.sendCommandToServer(ReactorSolidAccessPortEntity.COMMAND_DUMP_WASTE, options);

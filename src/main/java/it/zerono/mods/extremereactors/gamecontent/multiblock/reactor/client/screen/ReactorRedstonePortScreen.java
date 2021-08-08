@@ -32,15 +32,15 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.sensor.Reac
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.ReactorVariant;
 import it.zerono.mods.zerocore.lib.item.inventory.PlayerInventoryUsage;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.network.chat.Component;
 
 public class ReactorRedstonePortScreen
         extends AbstractRedstonePortScreen<MultiblockReactor, ReactorRedstonePortEntity, ModTileContainer<ReactorRedstonePortEntity>,
                                             IReactorReader, IReactorWriter, ReactorSensorType, ReactorSensorSetting> {
 
     public ReactorRedstonePortScreen(final ModTileContainer<ReactorRedstonePortEntity> container,
-                                     final PlayerInventory inventory, final ITextComponent title) {
+                                     final Inventory inventory, final Component title) {
         super(container, inventory, PlayerInventoryUsage.None, title,
                 mainTextureFromVariant(container.getTileEntity().getMultiblockVariant().orElse(ReactorVariant.Basic)),
                 ReactorSensorSetting::new, ReactorSensorType.values());

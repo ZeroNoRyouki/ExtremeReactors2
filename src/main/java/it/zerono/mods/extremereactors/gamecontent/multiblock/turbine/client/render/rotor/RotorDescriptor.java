@@ -19,17 +19,17 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.client.render.rotor;
 
 import com.google.common.collect.Lists;
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.client.model.TurbineRotorModelBuilder;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.rotor.RotorShaftState;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.TurbineVariant;
 import it.zerono.mods.zerocore.lib.client.render.ModRenderHelper;
-import net.minecraft.client.renderer.model.IBakedModel;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.vector.Matrix3f;
-import net.minecraft.util.math.vector.Matrix4f;
-import net.minecraft.util.math.vector.Quaternion;
-import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.core.Direction;
+import com.mojang.math.Matrix3f;
+import com.mojang.math.Matrix4f;
+import com.mojang.math.Quaternion;
+import com.mojang.math.Vector3f;
 import net.minecraftforge.common.util.NonNullConsumer;
 
 import java.util.List;
@@ -37,17 +37,17 @@ import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
 public class RotorDescriptor
-    implements NonNullConsumer<MatrixStack> {
+    implements NonNullConsumer<PoseStack> {
 
     final Direction RotorDirection;
     final int Length;
     final ShaftSection[] Sections;
     final Matrix4f Translation;
 
-    final Supplier<IBakedModel> ShaftModel;
-    final Supplier<IBakedModel> BladeModel;
+    final Supplier<BakedModel> ShaftModel;
+    final Supplier<BakedModel> BladeModel;
 
-    final BiConsumer<MatrixStack, Float> InitMatrix;
+    final BiConsumer<PoseStack, Float> InitMatrix;
 
     public static Builder builder(final TurbineVariant variant, final Direction rotorDirection, final int length) {
         return new Builder(variant, rotorDirection, length);
@@ -89,7 +89,7 @@ public class RotorDescriptor
     //region NonNullConsumer<MatrixStack>
 
     @Override
-    public void accept(final MatrixStack stack) {
+    public void accept(final PoseStack stack) {
         stack.last().pose().multiply(this.Translation);
     }
 
@@ -134,9 +134,9 @@ public class RotorDescriptor
         this.InitMatrix = this::initMatrix;
     }
 
-    private void initMatrix(final MatrixStack stack, final float rotorAngle) {
+    private void initMatrix(final PoseStack stack, final float rotorAngle) {
 
-        final MatrixStack.Entry entry = stack.last();
+        final PoseStack.Pose entry = stack.last();
 
         final Matrix4f matrix = entry.pose();
         final Matrix3f normal = entry.normal();

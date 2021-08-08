@@ -25,14 +25,14 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.common.variant.IMul
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.ReactorVariant;
 import it.zerono.mods.zerocore.lib.compat.Mods;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.IFinishedRecipe;
-import net.minecraft.data.ShapedRecipeBuilder;
-import net.minecraft.data.ShapelessRecipeBuilder;
-import net.minecraft.item.Item;
-import net.minecraft.item.Items;
-import net.minecraft.tags.ITag;
-import net.minecraft.util.IItemProvider;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.data.recipes.ShapelessRecipeBuilder;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
+import net.minecraft.tags.Tag;
+import net.minecraft.world.level.ItemLike;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.crafting.ConditionalRecipe;
 
@@ -61,11 +61,11 @@ public class ReactorRecipeGenerator
      * Registers all recipes to the given consumer.
      */
     @Override
-    protected void buildShapelessRecipes(final Consumer<IFinishedRecipe> c) {
+    protected void buildShapelessRecipes(final Consumer<FinishedRecipe> c) {
 
-        ITag.INamedTag<Item> core, metal, alternativeMetal;
+        Tag.Named<Item> core, metal, alternativeMetal;
         ReactorVariant variant;
-        Supplier<? extends IItemProvider> casing;
+        Supplier<? extends ItemLike> casing;
 
         // Basic parts
 
@@ -82,7 +82,7 @@ public class ReactorRecipeGenerator
         this.reactorControlRod(c, variant, Content.Items.REACTOR_CONTROLROD_BASIC, casing, metal, alternativeMetal);
         this.reactorSolidAccessPort(c, variant, Content.Items.REACTOR_SOLID_ACCESSPORT_BASIC, casing, metal, alternativeMetal);
         this.reactorPowerTap(c, variant, "fe", Content.Items.REACTOR_POWERTAP_FE_PASSIVE_BASIC, Content.Items.REACTOR_POWERTAP_FE_ACTIVE_BASIC,
-                casing, () -> net.minecraft.item.Items.REDSTONE_BLOCK, () -> net.minecraft.item.Items.REDSTONE);
+                casing, () -> net.minecraft.world.item.Items.REDSTONE_BLOCK, () -> net.minecraft.world.item.Items.REDSTONE);
         this.reactorRedstonePort(c, variant, Content.Items.REACTOR_REDSTONEPORT_BASIC, casing, metal, alternativeMetal, Tags.Items.INGOTS_GOLD);
         this.generatorChargingPort(c, variant, "chargingfe", GROUP_REACTOR, ReactorRecipeGenerator::reactorRecipeName,
                 Content.Items.REACTOR_CHARGINGPORT_FE_BASIC, Content.Items.REACTOR_POWERTAP_FE_ACTIVE_BASIC,
@@ -106,7 +106,7 @@ public class ReactorRecipeGenerator
         this.reactorControlRod(c, variant, Content.Items.REACTOR_CONTROLROD_REINFORCED, casing, metal, alternativeMetal);
         this.reactorSolidAccessPort(c, variant, Content.Items.REACTOR_SOLID_ACCESSPORT_REINFORCED, casing, metal, alternativeMetal);
         this.reactorPowerTap(c, variant, "fe", Content.Items.REACTOR_POWERTAP_FE_PASSIVE_REINFORCED, Content.Items.REACTOR_POWERTAP_FE_ACTIVE_REINFORCED,
-                casing, () -> net.minecraft.item.Items.REDSTONE_BLOCK, () -> net.minecraft.item.Items.REDSTONE);
+                casing, () -> net.minecraft.world.item.Items.REDSTONE_BLOCK, () -> net.minecraft.world.item.Items.REDSTONE);
         this.reactorRedstonePort(c, variant, Content.Items.REACTOR_REDSTONEPORT_REINFORCED, casing, metal, alternativeMetal, Tags.Items.STORAGE_BLOCKS_GOLD);
         this.reactorComputerPort(c, variant, Content.Items.REACTOR_COMPUTERPORT_REINFORCED, casing, metal, alternativeMetal);
         this.reactorFluidPort(c, variant, "forge", Content.Items.REACTOR_FLUIDPORT_FORGE_PASSIVE_REINFORCED, Content.Items.REACTOR_FLUIDPORT_FORGE_ACTIVE_REINFORCED,
@@ -122,10 +122,10 @@ public class ReactorRecipeGenerator
     //endregion
     //region internals
 
-    private void reactorCasing(final Consumer<IFinishedRecipe> c, final ReactorVariant variant,
-                               final Supplier<? extends IItemProvider> result,
-                               final ITag<Item> core, final ITag.INamedTag<Item> metal,
-                               @Nullable final ITag.INamedTag<Item> alternativeMetal) {
+    private void reactorCasing(final Consumer<FinishedRecipe> c, final ReactorVariant variant,
+                               final Supplier<? extends ItemLike> result,
+                               final Tag<Item> core, final Tag.Named<Item> metal,
+                               @Nullable final Tag.Named<Item> alternativeMetal) {
 
         recipeWithAlternativeTag(c, reactorRecipeName(variant, "casing"), reactorRecipeName(variant, "casing_alt"),
                 metal, alternativeMetal, metalTag ->
@@ -140,9 +140,9 @@ public class ReactorRecipeGenerator
                                 .unlockedBy("has_item", has(ContentTags.Items.INGOTS_GRAPHITE)));
     }
 
-    private void reactorCasingUpgrade(final Consumer<IFinishedRecipe> c, final ReactorVariant variant,
-                                      final Supplier<? extends IItemProvider> result, final ITag.INamedTag<Item> metal,
-                                      @Nullable final ITag.INamedTag<Item> alternativeMetal) {
+    private void reactorCasingUpgrade(final Consumer<FinishedRecipe> c, final ReactorVariant variant,
+                                      final Supplier<? extends ItemLike> result, final Tag.Named<Item> metal,
+                                      @Nullable final Tag.Named<Item> alternativeMetal) {
 
         recipeWithAlternativeTag(c, reactorRecipeName(variant, "casing_upgrade"), reactorRecipeName(variant, "casing_upgrade_alt"),
                 metal, alternativeMetal, metalTag ->
@@ -157,10 +157,10 @@ public class ReactorRecipeGenerator
                                 .unlockedBy("has_item", has(Content.Blocks.REACTOR_CASING_BASIC.get())));
     }
 
-    private void reactorCasingRecycle(final Consumer<IFinishedRecipe> c, final ReactorVariant variant,
-                                      final Supplier<? extends IItemProvider> casingResult,
-                                      final ITag.INamedTag<Item> casingSourceTag,
-                                      final Supplier<? extends IItemProvider> glassSourceItem) {
+    private void reactorCasingRecycle(final Consumer<FinishedRecipe> c, final ReactorVariant variant,
+                                      final Supplier<? extends ItemLike> casingResult,
+                                      final Tag.Named<Item> casingSourceTag,
+                                      final Supplier<? extends ItemLike> glassSourceItem) {
 
         ShapelessRecipeBuilder.shapeless(casingResult.get(), 1)
                 .requires(glassSourceItem.get())
@@ -175,9 +175,9 @@ public class ReactorRecipeGenerator
                 .save(c, reactorRecipeName(variant, "casing_recycle"));
     }
 
-    private void reactorGlass(final Consumer<IFinishedRecipe> c, final ReactorVariant variant,
-                              final Supplier<? extends IItemProvider> result,
-                              final Supplier<? extends IItemProvider> casing, final ITag<Item> glass) {
+    private void reactorGlass(final Consumer<FinishedRecipe> c, final ReactorVariant variant,
+                              final Supplier<? extends ItemLike> result,
+                              final Supplier<? extends ItemLike> casing, final Tag<Item> glass) {
         ShapedRecipeBuilder.shaped(result.get())
                 .define('C', casing.get())
                 .define('G', glass)
@@ -187,16 +187,16 @@ public class ReactorRecipeGenerator
                 .save(c, reactorRecipeName(variant, "glass"));
     }
 
-    private void reactorController(final Consumer<IFinishedRecipe> c, final ReactorVariant variant,
-                                   final Supplier<? extends IItemProvider> result,
-                                   final Supplier<? extends IItemProvider> casing, final ITag<Item> diamond) {
+    private void reactorController(final Consumer<FinishedRecipe> c, final ReactorVariant variant,
+                                   final Supplier<? extends ItemLike> result,
+                                   final Supplier<? extends ItemLike> casing, final Tag<Item> diamond) {
 
         TAGS_YELLORIUM_INGOTS.forEach(yellorium -> ShapedRecipeBuilder.shaped(result.get())
                 .define('C', casing.get())
                 .define('Y', yellorium)
                 .define('R', Tags.Items.DUSTS_REDSTONE)
                 .define('D', diamond)
-                .define('X', net.minecraft.item.Items.COMPARATOR)
+                .define('X', net.minecraft.world.item.Items.COMPARATOR)
                 .pattern("CXC")
                 .pattern("YDY")
                 .pattern("CRC")
@@ -207,10 +207,10 @@ public class ReactorRecipeGenerator
         );
     }
 
-    private void reactorFuelRod(final Consumer<IFinishedRecipe> c, final ReactorVariant variant,
-                                final Supplier<? extends IItemProvider> result,
-                                final ITag.INamedTag<Item> metal, @Nullable final ITag.INamedTag<Item> alternativeMetal,
-                                final ITag<Item> glass) {
+    private void reactorFuelRod(final Consumer<FinishedRecipe> c, final ReactorVariant variant,
+                                final Supplier<? extends ItemLike> result,
+                                final Tag.Named<Item> metal, @Nullable final Tag.Named<Item> alternativeMetal,
+                                final Tag<Item> glass) {
 
         TAGS_YELLORIUM_INGOTS.forEach(yellorium ->
                 recipeWithAlternativeTag(c, reactorRecipeName(variant, "fuelrod", yellorium),
@@ -228,9 +228,9 @@ public class ReactorRecipeGenerator
                                         .unlockedBy("has_item", has(yellorium))));
     }
 
-    private void reactorControlRod(final Consumer<IFinishedRecipe> c, final ReactorVariant variant,
-                                   final Supplier<? extends IItemProvider> result, final Supplier<? extends IItemProvider> casing,
-                                   final ITag.INamedTag<Item> metal, @Nullable final ITag.INamedTag<Item> alternativeMetal) {
+    private void reactorControlRod(final Consumer<FinishedRecipe> c, final ReactorVariant variant,
+                                   final Supplier<? extends ItemLike> result, final Supplier<? extends ItemLike> casing,
+                                   final Tag.Named<Item> metal, @Nullable final Tag.Named<Item> alternativeMetal) {
 
         recipeWithAlternativeTag(c, reactorRecipeName(variant, "controlrod"), reactorRecipeName(variant, "controlrod_alt"),
                 metal, alternativeMetal, metalTag ->
@@ -239,7 +239,7 @@ public class ReactorRecipeGenerator
                                 .define('M', metalTag)
                                 .define('R', Tags.Items.DUSTS_REDSTONE)
                                 .define('G', ContentTags.Items.INGOTS_GRAPHITE)
-                                .define('X', net.minecraft.item.Items.PISTON)
+                                .define('X', net.minecraft.world.item.Items.PISTON)
                                 .pattern("CRC")
                                 .pattern("MXM")
                                 .pattern("CGC")
@@ -247,10 +247,10 @@ public class ReactorRecipeGenerator
                                 .unlockedBy("has_item", has(casing.get())));
     }
 
-    private void reactorPowerTap(final Consumer<IFinishedRecipe> c, final ReactorVariant variant, final String name,
-                                 final Supplier<? extends IItemProvider> passiveResult, final Supplier<? extends IItemProvider> activeResult,
-                                 final Supplier<? extends IItemProvider> casing, final Supplier<? extends IItemProvider> energyBig,
-                                 final Supplier<? extends IItemProvider> energySmall) {
+    private void reactorPowerTap(final Consumer<FinishedRecipe> c, final ReactorVariant variant, final String name,
+                                 final Supplier<? extends ItemLike> passiveResult, final Supplier<? extends ItemLike> activeResult,
+                                 final Supplier<? extends ItemLike> casing, final Supplier<? extends ItemLike> energyBig,
+                                 final Supplier<? extends ItemLike> energySmall) {
 
         ShapedRecipeBuilder.shaped(passiveResult.get())
                 .define('C', casing.get())
@@ -277,10 +277,10 @@ public class ReactorRecipeGenerator
                 .save(c, reactorRecipeName(variant, "activetap_" + name));
     }
 
-    private void reactorFluidPort(final Consumer<IFinishedRecipe> c, final ReactorVariant variant, final String name,
-                                 final Supplier<? extends IItemProvider> passiveResult, final Supplier<? extends IItemProvider> activeResult,
-                                 final Supplier<? extends IItemProvider> casing, final Supplier<? extends IItemProvider> lava,
-                                 final Supplier<? extends IItemProvider> water) {
+    private void reactorFluidPort(final Consumer<FinishedRecipe> c, final ReactorVariant variant, final String name,
+                                 final Supplier<? extends ItemLike> passiveResult, final Supplier<? extends ItemLike> activeResult,
+                                 final Supplier<? extends ItemLike> casing, final Supplier<? extends ItemLike> lava,
+                                 final Supplier<? extends ItemLike> water) {
 
         ShapedRecipeBuilder.shaped(passiveResult.get())
                 .define('C', casing.get())
@@ -308,10 +308,10 @@ public class ReactorRecipeGenerator
     }
 
 
-    private void reactorMekFluidPort(final Consumer<IFinishedRecipe> c, final ReactorVariant variant,
-                                     final Supplier<? extends IItemProvider> passiveResult,
-                                     final Supplier<? extends IItemProvider> casing, final Supplier<? extends IItemProvider> lava,
-                                     final Supplier<? extends IItemProvider> water) {
+    private void reactorMekFluidPort(final Consumer<FinishedRecipe> c, final ReactorVariant variant,
+                                     final Supplier<? extends ItemLike> passiveResult,
+                                     final Supplier<? extends ItemLike> casing, final Supplier<? extends ItemLike> lava,
+                                     final Supplier<? extends ItemLike> water) {
 
         ConditionalRecipe.builder()
                 .addCondition(modLoaded(Mods.MEKANISM.id()))
@@ -330,17 +330,17 @@ public class ReactorRecipeGenerator
                 .build(c, reactorRecipeName(variant, "passivefluidport_mekanism"));
     }
 
-    private void reactorSolidAccessPort(final Consumer<IFinishedRecipe> c, final ReactorVariant variant,
-                                        final Supplier<? extends IItemProvider> result, final Supplier<? extends IItemProvider> casing,
-                                        final ITag.INamedTag<Item> metal, @Nullable final ITag.INamedTag<Item> alternativeMetal) {
+    private void reactorSolidAccessPort(final Consumer<FinishedRecipe> c, final ReactorVariant variant,
+                                        final Supplier<? extends ItemLike> result, final Supplier<? extends ItemLike> casing,
+                                        final Tag.Named<Item> metal, @Nullable final Tag.Named<Item> alternativeMetal) {
         recipeWithAlternativeTag(c, reactorRecipeName(variant, "solidaccessport"), reactorRecipeName(variant, "solidaccessport_alt"),
                 metal, alternativeMetal, metalTag ->
                         ShapedRecipeBuilder.shaped(result.get())
                                 .define('C', casing.get())
                                 .define('M', metalTag)
-                                .define('H', net.minecraft.item.Items.HOPPER)
+                                .define('H', net.minecraft.world.item.Items.HOPPER)
                                 .define('W', Tags.Items.CHESTS_WOODEN)
-                                .define('X', net.minecraft.item.Items.PISTON)
+                                .define('X', net.minecraft.world.item.Items.PISTON)
                                 .pattern("CHC")
                                 .pattern("MWM")
                                 .pattern("CXC")
@@ -348,18 +348,18 @@ public class ReactorRecipeGenerator
                                 .unlockedBy("has_item", has(casing.get())));
     }
 
-    private void reactorRedstonePort(final Consumer<IFinishedRecipe> c, final ReactorVariant variant,
-                                     final Supplier<? extends IItemProvider> result, final Supplier<? extends IItemProvider> casing,
-                                     final ITag.INamedTag<Item> metal, @Nullable final ITag.INamedTag<Item> alternativeMetal,
-                                     final ITag<Item> gold) {
+    private void reactorRedstonePort(final Consumer<FinishedRecipe> c, final ReactorVariant variant,
+                                     final Supplier<? extends ItemLike> result, final Supplier<? extends ItemLike> casing,
+                                     final Tag.Named<Item> metal, @Nullable final Tag.Named<Item> alternativeMetal,
+                                     final Tag<Item> gold) {
         recipeWithAlternativeTag(c, reactorRecipeName(variant, "redstoneport"), reactorRecipeName(variant, "redstoneport_alt"),
                 metal, alternativeMetal, metalTag ->
                         ShapedRecipeBuilder.shaped(result.get())
                                 .define('C', casing.get())
                                 .define('M', metalTag)
                                 .define('G', gold)
-                                .define('Z', net.minecraft.item.Items.COMPARATOR)
-                                .define('X', net.minecraft.item.Items.REPEATER)
+                                .define('Z', net.minecraft.world.item.Items.COMPARATOR)
+                                .define('X', net.minecraft.world.item.Items.REPEATER)
                                 .pattern("CZC")
                                 .pattern("MGM")
                                 .pattern("CXC")
@@ -367,9 +367,9 @@ public class ReactorRecipeGenerator
                                 .unlockedBy("has_item", has(casing.get())));
     }
 
-    private void reactorComputerPort(final Consumer<IFinishedRecipe> c, final ReactorVariant variant,
-                                     final Supplier<? extends IItemProvider> result, final Supplier<? extends IItemProvider> casing,
-                                     final ITag.INamedTag<Item> metal, @Nullable final ITag.INamedTag<Item> alternativeMetal) {
+    private void reactorComputerPort(final Consumer<FinishedRecipe> c, final ReactorVariant variant,
+                                     final Supplier<? extends ItemLike> result, final Supplier<? extends ItemLike> casing,
+                                     final Tag.Named<Item> metal, @Nullable final Tag.Named<Item> alternativeMetal) {
         recipeWithAlternativeTag(c, reactorRecipeName(variant, "computerport"), reactorRecipeName(variant, "computerport_alt"),
                 metal, alternativeMetal, metalTag ->
                         ShapedRecipeBuilder.shaped(result.get())
@@ -390,7 +390,7 @@ public class ReactorRecipeGenerator
     }
 
     private static ResourceLocation reactorRecipeName(final IMultiblockGeneratorVariant variant, final String name,
-                                                      final ITag.INamedTag<Item> tag) {
+                                                      final Tag.Named<Item> tag) {
         return ExtremeReactors.newID("reactor/" + variant.getName() + "/" + name + "_" + tag.getName().getPath().replace('/', '_'));
     }
 
