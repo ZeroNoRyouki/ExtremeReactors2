@@ -22,12 +22,15 @@ import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.fluidport.FluidPortType;
 import it.zerono.mods.zerocore.lib.data.IoDirection;
 import it.zerono.mods.zerocore.lib.data.IoMode;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class ReactorMekanismFluidPortEntity
     extends ReactorFluidPortEntity {
 
-    public ReactorMekanismFluidPortEntity() {
-        super(FluidPortType.Mekanism, IoMode.Passive, Content.TileEntityTypes.REACTOR_FLUIDPORT_MEKANISM_PASSIVE.get());
+    public ReactorMekanismFluidPortEntity(final BlockPos position, final BlockState blockState) {
+        super(FluidPortType.Mekanism, IoMode.Passive, Content.TileEntityTypes.REACTOR_FLUIDPORT_MEKANISM_PASSIVE.get(),
+                position, blockState);
     }
 
     //region IIoEntity

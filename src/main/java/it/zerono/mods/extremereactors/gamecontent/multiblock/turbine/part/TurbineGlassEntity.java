@@ -20,12 +20,14 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part;
 
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.model.data.ModelTransformers;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class TurbineGlassEntity
         extends AbstractTurbineEntity {
 
-    public TurbineGlassEntity() {
-        super(Content.TileEntityTypes.TURBINE_GLASS.get());
+    public TurbineGlassEntity(final BlockPos position, final BlockState blockState) {
+        super(Content.TileEntityTypes.TURBINE_GLASS.get(), position, blockState);
     }
 
     //region client render support

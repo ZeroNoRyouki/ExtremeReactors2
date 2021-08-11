@@ -36,11 +36,11 @@ import it.zerono.mods.zerocore.lib.CodeHelper;
 import it.zerono.mods.zerocore.lib.multiblock.cuboid.PartPosition;
 import it.zerono.mods.zerocore.lib.multiblock.validation.IMultiblockValidator;
 import it.zerono.mods.zerocore.lib.world.WorldHelper;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.core.Direction;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.client.model.data.EmptyModelData;
 import net.minecraftforge.client.model.data.IModelData;
 
@@ -50,9 +50,9 @@ public class ReactorFuelRodEntity
 
     public static final int FUEL_CAPACITY_PER_FUEL_ROD = 4 * ReactantMappingsRegistry.STANDARD_SOLID_REACTANT_AMOUNT; // 4 ingots per rod
 
-    public ReactorFuelRodEntity() {
+    public ReactorFuelRodEntity(final BlockPos position, final BlockState blockState) {
 
-        super(Content.TileEntityTypes.REACTOR_FUELROD.get());
+        super(Content.TileEntityTypes.REACTOR_FUELROD.get(), position, blockState);
         this._controlRod = null;
         this._rodIndex = -1;
         this._occluded = false;

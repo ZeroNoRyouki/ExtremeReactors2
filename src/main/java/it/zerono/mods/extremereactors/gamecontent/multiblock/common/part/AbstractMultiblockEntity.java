@@ -20,8 +20,10 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.common.part;
 
 import it.zerono.mods.zerocore.lib.multiblock.cuboid.AbstractCuboidMultiblockController;
 import it.zerono.mods.zerocore.lib.multiblock.cuboid.AbstractCuboidMultiblockPart;
-import net.minecraft.client.renderer.model.IBakedModel;
+import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.client.model.data.IModelData;
 
 import javax.annotation.Nonnull;
@@ -29,8 +31,8 @@ import javax.annotation.Nonnull;
 public abstract class AbstractMultiblockEntity<Controller extends AbstractCuboidMultiblockController<Controller>>
         extends AbstractCuboidMultiblockPart<Controller> {
 
-    public AbstractMultiblockEntity(final BlockEntityType<?> type) {
-        super(type);
+    public AbstractMultiblockEntity(final BlockEntityType<?> type, final BlockPos position, final BlockState blockState) {
+        super(type, position, blockState);
     }
 
     //region client render support
@@ -79,7 +81,7 @@ public abstract class AbstractMultiblockEntity<Controller extends AbstractCuboid
 
     /**
      * Allows you to return additional model data.
-     * This data can be used to provide additional functionality in your {@link IBakedModel}
+     * This data can be used to provide additional functionality in your {@link BakedModel}
      * You need to schedule a refresh of you model data via {@link #requestModelDataUpdate()} if the result of this function changes.
      * <b>Note that this method may be called on a chunk render thread instead of the main client thread</b>
      *

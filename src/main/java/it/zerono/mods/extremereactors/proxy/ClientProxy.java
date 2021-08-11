@@ -29,7 +29,6 @@ import it.zerono.mods.extremereactors.api.reactor.ReactantMappingsRegistry;
 import it.zerono.mods.extremereactors.api.turbine.CoilMaterialRegistry;
 import it.zerono.mods.extremereactors.config.Config;
 import it.zerono.mods.extremereactors.gamecontent.Content;
-import it.zerono.mods.extremereactors.gamecontent.compat.patchouli.PatchouliCompat;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.CachedSprites;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.ChargingPortScreen;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.FluidPortScreen;
@@ -59,24 +58,25 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.Tur
 import it.zerono.mods.zerocore.lib.CodeHelper;
 import it.zerono.mods.zerocore.lib.client.model.ICustomModelBuilder;
 import it.zerono.mods.zerocore.lib.client.model.ModBakedModelSupplier;
-import it.zerono.mods.zerocore.lib.compat.Mods;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.client.gui.screens.inventory.MenuAccess;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.gui.screens.inventory.MenuAccess;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.InventoryMenu;
+import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.Item;
-import net.minecraft.server.packs.resources.ResourceManager;
-import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.network.chat.Component;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.client.event.ModelBakeEvent;
 import net.minecraftforge.client.event.ModelRegistryEvent;
@@ -86,19 +86,15 @@ import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.resource.IResourceType;
-import net.minecraftforge.resource.ISelectiveResourceReloadListener;
 
 import java.util.*;
-import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 public class ClientProxy
-        implements IProxy, ISelectiveResourceReloadListener {
+        implements IProxy, ResourceManagerReloadListener {
 
     public ClientProxy() {
 
@@ -138,7 +134,8 @@ public class ClientProxy
             registerScreens();
             
             // Patchouli multiblock rendering do not support IModelData-based models
-            Mods.PATCHOULI.ifPresent(PatchouliCompat::initialize);
+            //TODO 1.17 Patchouli
+            //Mods.PATCHOULI.ifPresent(PatchouliCompat::initialize);
         });
     }
 
@@ -184,19 +181,10 @@ public class ClientProxy
     }
 
     //endregion
-    //region ISelectiveResourceReloadListener
+    //region ResourceManagerReloadListener
 
-    /**
-     * A version of onResourceManager that selectively chooses {@link IResourceType}s
-     * to reload.
-     * When using this, the given predicate should be called to ensure the relevant resources should
-     * be reloaded at this time.
-     *
-     * @param resourceManager   the resource manager being reloaded
-     * @param resourcePredicate predicate to test whether any given resource type should be reloaded
-     */
     @Override
-    public void onResourceManagerReload(ResourceManager resourceManager, Predicate<IResourceType> resourcePredicate) {
+    public void onResourceManagerReload(ResourceManager resourceManager) {
         this.invalidateApiTooltipCache();
     }
 
@@ -258,7 +246,7 @@ public class ClientProxy
     }
 
     private static void registerTileRenderers() {
-        ClientRegistry.bindTileEntityRenderer(Content.TileEntityTypes.TURBINE_ROTORBEARING.get(), RotorBearingEntityRenderer::new);
+        BlockEntityRenderers.register(Content.TileEntityTypes.TURBINE_ROTORBEARING.get(), RotorBearingEntityRenderer::new);
     }
 
     //region registration helpers

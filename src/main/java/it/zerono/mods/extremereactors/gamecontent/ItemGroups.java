@@ -20,14 +20,11 @@ package it.zerono.mods.extremereactors.gamecontent;
 
 import com.google.common.collect.ImmutableList;
 import it.zerono.mods.extremereactors.ExtremeReactors;
-import it.zerono.mods.extremereactors.gamecontent.compat.patchouli.PatchouliCompat;
-import it.zerono.mods.zerocore.lib.compat.Mods;
 import it.zerono.mods.zerocore.lib.item.ItemHelper;
 import it.zerono.mods.zerocore.lib.item.ModItemGroup;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
-import vazkii.patchouli.api.PatchouliAPI;
 
 import java.util.function.Supplier;
 
@@ -45,7 +42,8 @@ public final class ItemGroups {
                         stack(Content.Items.ANGLESITE_CRYSTAL), stack(Content.Items.BENITOITE_CRYSTAL),
                         stack(Content.Items.WRENCH));
 
-                Mods.PATCHOULI.map(() -> PatchouliAPI.get().getBookStack(PatchouliCompat.HANDBOOK_ID)).ifPresent(builder::add);
+                //TODO 1.17 Patchouli
+//                Mods.PATCHOULI.map(() -> PatchouliAPI.get().getBookStack(PatchouliCompat.HANDBOOK_ID)).ifPresent(builder::add);
 
                 return builder.build();
             });

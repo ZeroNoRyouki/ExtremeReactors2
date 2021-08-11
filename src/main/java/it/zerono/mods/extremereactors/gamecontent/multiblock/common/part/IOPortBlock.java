@@ -24,17 +24,15 @@ import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockPartType;
 import it.zerono.mods.zerocore.lib.data.IIoEntity;
 import it.zerono.mods.zerocore.lib.multiblock.IMultiblockController;
 import it.zerono.mods.zerocore.lib.world.WorldHelper;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
 
 import java.util.Optional;
-
-import it.zerono.mods.zerocore.lib.block.multiblock.MultiblockPartBlock.MultiblockPartProperties;
 
 public class IOPortBlock<Controller extends IMultiblockController<Controller>,
                             PartType extends Enum<PartType> & IMultiblockPartType>
@@ -61,7 +59,7 @@ public class IOPortBlock<Controller extends IMultiblockController<Controller>,
     public InteractionResult use(BlockState state, Level world, BlockPos position, Player player,
                                              InteractionHand hand, BlockHitResult hit) {
 
-        if (InteractionHand.MAIN_HAND == hand && player.getMainHandItem().getItem().is(ContentTags.Items.WRENCH)) {
+        if (InteractionHand.MAIN_HAND == hand && player.getMainHandItem().is(ContentTags.Items.WRENCH)) {
 
             this.callOnLogicalServer(world, w -> this.getIIoEntity(w, position).ifPresent(IIoEntity::toggleIoDirection));
             return InteractionResult.SUCCESS;

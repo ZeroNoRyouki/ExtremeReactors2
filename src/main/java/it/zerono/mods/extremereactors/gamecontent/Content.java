@@ -41,32 +41,26 @@ import it.zerono.mods.zerocore.lib.data.IoMode;
 import it.zerono.mods.zerocore.lib.energy.EnergySystem;
 import it.zerono.mods.zerocore.lib.item.ModItem;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.Fluid;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.MenuType;
-import net.minecraft.item.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Material;
 import net.minecraftforge.common.extensions.IForgeContainerType;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
-import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.network.IContainerFactory;
+import net.minecraftforge.fmllegacy.RegistryObject;
+import net.minecraftforge.fmllegacy.network.IContainerFactory;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.function.Supplier;
-
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.BucketItem;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.DyeColor;
-import net.minecraft.world.item.Item;
 
 public final class Content {
 
@@ -481,7 +475,7 @@ public final class Content {
     public static final class TileEntityTypes {
 
         private static final DeferredRegister<BlockEntityType<?>> TILE_ENTITIES =
-                DeferredRegister.create(ForgeRegistries.TILE_ENTITIES, ExtremeReactors.MOD_ID);
+                DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, ExtremeReactors.MOD_ID);
 
         static void initialize() {
             TILE_ENTITIES.register(Mod.EventBusSubscriber.Bus.MOD.bus().get());
@@ -521,12 +515,12 @@ public final class Content {
 
         public static final RegistryObject<BlockEntityType<ReactorFluidPortEntity>> REACTOR_FLUIDPORT_FORGE_ACTIVE =
                 registerBlockEntity("reactorfluidport_forge_active",
-                        () -> new ReactorFluidPortEntity(FluidPortType.Forge, IoMode.Active, TileEntityTypes.REACTOR_FLUIDPORT_FORGE_ACTIVE.get()),
+                        (position, blockState) -> new ReactorFluidPortEntity(FluidPortType.Forge, IoMode.Active, TileEntityTypes.REACTOR_FLUIDPORT_FORGE_ACTIVE.get(), position, blockState),
                         () -> Blocks.REACTOR_FLUIDTPORT_FORGE_ACTIVE_REINFORCED::get);
 
         public static final RegistryObject<BlockEntityType<ReactorFluidPortEntity>> REACTOR_FLUIDPORT_FORGE_PASSIVE =
                 registerBlockEntity("reactorfluidport_forge_passive",
-                        () -> new ReactorFluidPortEntity(FluidPortType.Forge, IoMode.Passive, TileEntityTypes.REACTOR_FLUIDPORT_FORGE_PASSIVE.get()),
+                        (position, blockState) -> new ReactorFluidPortEntity(FluidPortType.Forge, IoMode.Passive, TileEntityTypes.REACTOR_FLUIDPORT_FORGE_PASSIVE.get(), position, blockState),
                         () -> Blocks.REACTOR_FLUIDPORT_FORGE_PASSIVE_REINFORCED::get);
 
         public static final RegistryObject<BlockEntityType<ReactorMekanismFluidPortEntity>> REACTOR_FLUIDPORT_MEKANISM_PASSIVE =
@@ -541,13 +535,13 @@ public final class Content {
 
         public static final RegistryObject<BlockEntityType<ReactorPowerTapEntity>> REACTOR_POWERTAP_FE_ACTIVE =
                 registerBlockEntity("reactorpowertap_fe_active",
-                        () -> new ReactorPowerTapEntity(EnergySystem.ForgeEnergy, IoMode.Active, TileEntityTypes.REACTOR_POWERTAP_FE_ACTIVE.get()),
+                        (position, blockState) -> new ReactorPowerTapEntity(EnergySystem.ForgeEnergy, IoMode.Active, TileEntityTypes.REACTOR_POWERTAP_FE_ACTIVE.get(), position, blockState),
                         () -> Blocks.REACTOR_POWERTAP_FE_ACTIVE_BASIC::get,
                         () -> Blocks.REACTOR_POWERTAP_FE_ACTIVE_REINFORCED::get);
 
         public static final RegistryObject<BlockEntityType<ReactorPowerTapEntity>> REACTOR_POWERTAP_FE_PASSIVE =
                 registerBlockEntity("reactorpowertap_fe_passive",
-                        () -> new ReactorPowerTapEntity(EnergySystem.ForgeEnergy, IoMode.Passive, TileEntityTypes.REACTOR_POWERTAP_FE_PASSIVE.get()),
+                        (position, blockState) -> new ReactorPowerTapEntity(EnergySystem.ForgeEnergy, IoMode.Passive, TileEntityTypes.REACTOR_POWERTAP_FE_PASSIVE.get(), position, blockState),
                         () -> Blocks.REACTOR_POWERTAP_FE_PASSIVE_BASIC::get,
                         () -> Blocks.REACTOR_POWERTAP_FE_PASSIVE_REINFORCED::get);
 
@@ -562,7 +556,7 @@ public final class Content {
 
         public static final RegistryObject<BlockEntityType<ReactorChargingPortEntity>> REACTOR_CHARGINGPORT_FE =
                 registerBlockEntity("reactorchargingport_fe",
-                        () -> new ReactorChargingPortEntity(EnergySystem.ForgeEnergy, TileEntityTypes.REACTOR_CHARGINGPORT_FE.get()),
+                        (position, blockState) -> new ReactorChargingPortEntity(EnergySystem.ForgeEnergy, TileEntityTypes.REACTOR_CHARGINGPORT_FE.get(), position, blockState),
                         () -> Blocks.REACTOR_CHARGINGPORT_FE_BASIC::get,
                         () -> Blocks.REACTOR_CHARGINGPORT_FE_REINFORCED::get);
 
@@ -601,13 +595,13 @@ public final class Content {
 
         public static final RegistryObject<BlockEntityType<TurbineFluidPortEntity>> TURBINE_FLUIDPORT_FORGE_ACTIVE =
                 registerBlockEntity("turbinefluidport_forge_active",
-                        () -> new TurbineFluidPortEntity(FluidPortType.Forge, IoMode.Active, TileEntityTypes.TURBINE_FLUIDPORT_FORGE_ACTIVE.get()),
+                        (position, blockState) -> new TurbineFluidPortEntity(FluidPortType.Forge, IoMode.Active, TileEntityTypes.TURBINE_FLUIDPORT_FORGE_ACTIVE.get(), position, blockState),
                         () -> Blocks.TURBINE_FLUIDPORT_FORGE_ACTIVE_BASIC::get,
                         () -> Blocks.TURBINE_FLUIDPORT_FORGE_ACTIVE_REINFORCED::get);
 
         public static final RegistryObject<BlockEntityType<TurbineFluidPortEntity>> TURBINE_FLUIDPORT_FORGE_PASSIVE =
                 registerBlockEntity("turbinefluidport_forge_passive",
-                        () -> new TurbineFluidPortEntity(FluidPortType.Forge, IoMode.Passive, TileEntityTypes.TURBINE_FLUIDPORT_FORGE_PASSIVE.get()),
+                        (position, blockState) -> new TurbineFluidPortEntity(FluidPortType.Forge, IoMode.Passive, TileEntityTypes.TURBINE_FLUIDPORT_FORGE_PASSIVE.get(), position, blockState),
                         () -> Blocks.TURBINE_FLUIDPORT_FORGE_PASSIVE_BASIC::get,
                         () -> Blocks.TURBINE_FLUIDPORT_FORGE_PASSIVE_REINFORCED::get);
 
@@ -618,13 +612,13 @@ public final class Content {
 
         public static final RegistryObject<BlockEntityType<TurbinePowerTapEntity>> TURBINE_POWERTAP_FE_ACTIVE =
                 registerBlockEntity("turbinepowertap_fe_active",
-                        () -> new TurbinePowerTapEntity(EnergySystem.ForgeEnergy, IoMode.Active, TileEntityTypes.TURBINE_POWERTAP_FE_ACTIVE.get()),
+                        (position, blockState) -> new TurbinePowerTapEntity(EnergySystem.ForgeEnergy, IoMode.Active, TileEntityTypes.TURBINE_POWERTAP_FE_ACTIVE.get(), position, blockState),
                         () -> Blocks.TURBINE_POWERTAP_FE_ACTIVE_BASIC::get,
                         () -> Blocks.TURBINE_POWERTAP_FE_ACTIVE_REINFORCED::get);
 
         public static final RegistryObject<BlockEntityType<TurbinePowerTapEntity>> TURBINE_POWERTAP_FE_PASSIVE =
                 registerBlockEntity("turbinepowertap_fe_passive",
-                        () -> new TurbinePowerTapEntity(EnergySystem.ForgeEnergy, IoMode.Passive, TileEntityTypes.TURBINE_POWERTAP_FE_PASSIVE.get()),
+                        (position, blockState) -> new TurbinePowerTapEntity(EnergySystem.ForgeEnergy, IoMode.Passive, TileEntityTypes.TURBINE_POWERTAP_FE_PASSIVE.get(), position, blockState),
                         () -> Blocks.TURBINE_POWERTAP_FE_PASSIVE_BASIC::get,
                         () -> Blocks.TURBINE_POWERTAP_FE_PASSIVE_REINFORCED::get);
 
@@ -639,7 +633,7 @@ public final class Content {
 
         public static final RegistryObject<BlockEntityType<TurbineChargingPortEntity>> TURBINE_CHARGINGPORT_FE =
                 registerBlockEntity("turbinechargingport_fe",
-                        () -> new TurbineChargingPortEntity(EnergySystem.ForgeEnergy, TileEntityTypes.TURBINE_CHARGINGPORT_FE.get()),
+                        (position, blockState) -> new TurbineChargingPortEntity(EnergySystem.ForgeEnergy, TileEntityTypes.TURBINE_CHARGINGPORT_FE.get(), position, blockState),
                         () -> Blocks.TURBINE_CHARGINGPORT_FE_BASIC::get,
                         () -> Blocks.TURBINE_CHARGINGPORT_FE_REINFORCED::get);
 
@@ -649,7 +643,7 @@ public final class Content {
         @SuppressWarnings("ConstantConditions")
         @SafeVarargs
         private static <T extends BlockEntity> RegistryObject<BlockEntityType<T>> registerBlockEntity(final String name,
-                                                                                                    final Supplier<T> factory,
+                                                                                                    final BlockEntityType.BlockEntitySupplier<T> factory,
                                                                                                     final Supplier<Supplier<Block>>... validBlockSuppliers) {
             return TILE_ENTITIES.register(name, () -> {
 

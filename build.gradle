@@ -12,7 +12,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'maven-publish'
 apply from: 'https://raw.githubusercontent.com/SizableShrimp/Forge-Class-Remapper/main/classremapper.gradle'
 
-evaluationDependsOn(":ZeroCore2-master")
+evaluationDependsOn(":ZeroCore2-1.17")
 
 file('build.properties').withReader {
 
@@ -54,7 +54,7 @@ minecraft {
 			
             mods {
                 zerocore {
-                    source project(':ZeroCore2-master').sourceSets.main
+                    source project(':ZeroCore2-1.17').sourceSets.main
                 }
 
                 bigreactors {
@@ -76,7 +76,7 @@ minecraft {
 			
             mods {
                 zerocore {
-                    source project(':ZeroCore2-master').sourceSets.main
+                    source project(':ZeroCore2-1.17').sourceSets.main
                 }
 
                 bigreactors {
@@ -102,7 +102,7 @@ minecraft {
 
             mods {
                 zerocore {
-                    source project(':ZeroCore2-master').sourceSets.main
+                    source project(':ZeroCore2-1.17').sourceSets.main
                 }
 
                 bigreactors {
@@ -132,7 +132,7 @@ processResources {
 
     from(sourceSets.main.resources.srcDirs) {
 	
-        include 'ExtremeReactors2-master/src/main/resources/META-INF/mods.toml'
+        include 'ExtremeReactors2-1.17/src/main/resources/META-INF/mods.toml'
         expand 'mod_version': version, 
 				'mod_name': config.mod_name,
 				'minecraft_versionrange': config.minecraft_versionrange,
@@ -181,7 +181,7 @@ repositories {
 
 dependencies {
 	minecraft "net.minecraftforge:forge:${config.minecraft_version}-${config.forge_version}"
-    implementation project(':ZeroCore2-master')
+    implementation project(':ZeroCore2-1.17')
 
 //    // compile against the JEI API but do not include it at runtime
 //    compileOnly fg.deobf("mezz.jei:jei-${config.minecraft_version}:${config.jei_version}:api")

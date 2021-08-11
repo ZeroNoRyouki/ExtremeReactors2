@@ -24,6 +24,8 @@ import it.zerono.mods.zerocore.lib.data.nbt.INestedSyncableEntity;
 import it.zerono.mods.zerocore.lib.data.nbt.ISyncableEntity;
 import it.zerono.mods.zerocore.lib.multiblock.cuboid.PartPosition;
 import it.zerono.mods.zerocore.lib.multiblock.validation.IMultiblockValidator;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.Optional;
 
@@ -31,8 +33,8 @@ public class TurbineCasingEntity
         extends AbstractTurbineEntity
         implements INestedSyncableEntity {
 
-    public TurbineCasingEntity() {
-        super(Content.TileEntityTypes.TURBINE_CASING.get());
+    public TurbineCasingEntity(final BlockPos position, final BlockState blockState) {
+        super(Content.TileEntityTypes.TURBINE_CASING.get(), position, blockState);
     }
 
     //region AbstractReactorEntity

@@ -21,6 +21,8 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.zerocore.lib.data.IoDirection;
 import it.zerono.mods.zerocore.lib.multiblock.ITickableMultiblockPart;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
@@ -29,8 +31,8 @@ public class ReactorCreativeWaterGenerator
         extends AbstractReactorEntity
         implements ITickableMultiblockPart {
 
-    public ReactorCreativeWaterGenerator() {
-        super(Content.TileEntityTypes.REACTOR_CREATIVE_WATER_GENERATOR.get());
+    public ReactorCreativeWaterGenerator(final BlockPos position, final BlockState blockState) {
+        super(Content.TileEntityTypes.REACTOR_CREATIVE_WATER_GENERATOR.get(), position, blockState);
     }
 
     //region ITickableMultiblockPart

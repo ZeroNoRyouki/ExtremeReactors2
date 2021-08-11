@@ -21,14 +21,17 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.powertap.IPowerTap;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.powertap.IPowerTapHandler;
 import it.zerono.mods.zerocore.lib.energy.EnergySystem;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
 
 abstract class AbstractReactorPowerTapEntity
         extends AbstractReactorEntity
         implements IPowerTap {
 
-    protected AbstractReactorPowerTapEntity(final EnergySystem system, final BlockEntityType<?> entityType) {
-        super(entityType);
+    protected AbstractReactorPowerTapEntity(final EnergySystem system, final BlockEntityType<?> entityType,
+                                            final BlockPos position, final BlockState blockState) {
+        super(entityType, position, blockState);
     }
 
     //region IPowerTap

@@ -24,11 +24,10 @@ import it.zerono.mods.zerocore.lib.CodeHelper;
 import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockVariantProvider;
 import it.zerono.mods.zerocore.lib.data.IoMode;
 import it.zerono.mods.zerocore.lib.world.WorldHelper;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.core.Direction;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.LevelReader;
+import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.common.util.NonNullPredicate;
@@ -58,7 +57,7 @@ public abstract class AbstractIOPortHandler<Controller extends AbstractGenerator
     }
 
     @Nullable
-    protected <T> T lookupConsumer(@Nullable final LevelReader world, final BlockPos position,
+    protected <T> T lookupConsumer(@Nullable final Level world, final BlockPos position,
                                    @Nullable final Capability<T> requestedCapability,
                                    final NonNullPredicate<BlockEntity> isSameHandler,
                                    @Nullable T currentConsumer) {

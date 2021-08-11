@@ -36,11 +36,12 @@ import it.zerono.mods.zerocore.lib.client.model.data.multiblock.CuboidPartVarian
 import it.zerono.mods.zerocore.lib.multiblock.cuboid.PartPosition;
 import it.zerono.mods.zerocore.lib.multiblock.validation.IMultiblockValidator;
 import it.zerono.mods.zerocore.lib.multiblock.variant.IMultiblockVariant;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.client.model.data.EmptyModelData;
 import net.minecraftforge.client.model.data.IModelData;
 
@@ -49,8 +50,8 @@ public abstract class AbstractReactorEntity
         implements IHeatEntity, IRadiationModerator, IMultiblockPartTypeProvider<MultiblockReactor, ReactorPartType>,
                     IMultiblockVariantProvider<IMultiblockReactorVariant> {
 
-    public AbstractReactorEntity(final BlockEntityType<?> type) {
-        super(type);
+    public AbstractReactorEntity(final BlockEntityType<?> type, final BlockPos position, final BlockState blockState) {
+        super(type, position, blockState);
     }
 
     protected boolean isReactorActive() {

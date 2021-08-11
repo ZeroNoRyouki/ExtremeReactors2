@@ -27,15 +27,15 @@ import it.zerono.mods.zerocore.lib.IDebugMessages;
 import it.zerono.mods.zerocore.lib.block.TileCommandDispatcher;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
 import it.zerono.mods.zerocore.lib.network.INetworkTileEntitySyncProvider;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.MenuProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.fml.LogicalSide;
 
 import javax.annotation.Nullable;
@@ -49,9 +49,9 @@ public class ReactorControllerEntity
     public static String COMMAND_SCRAM = "scram";
 
     @SuppressWarnings("ConstantConditions")
-    public ReactorControllerEntity() {
+    public ReactorControllerEntity(final BlockPos position, final BlockState blockState) {
 
-        super(Content.TileEntityTypes.REACTOR_CONTROLLER.get());
+        super(Content.TileEntityTypes.REACTOR_CONTROLLER.get(), position, blockState);
 
         this.setCommandDispatcher(TileCommandDispatcher.<ReactorControllerEntity>builder()
                 .addServerHandler(CommonConstants.COMMAND_ACTIVATE, rce -> rce.setReactorActive(true))

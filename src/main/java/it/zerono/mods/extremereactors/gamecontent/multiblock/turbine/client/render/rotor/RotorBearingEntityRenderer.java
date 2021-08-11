@@ -22,17 +22,16 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part.TurbineRotorBearingEntity;
 import it.zerono.mods.zerocore.lib.client.render.ModRenderHelper;
-import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.client.resources.model.BakedModel;
 
 public class RotorBearingEntityRenderer
-        extends BlockEntityRenderer<TurbineRotorBearingEntity> {
+        implements BlockEntityRenderer<TurbineRotorBearingEntity> {
 
-    public RotorBearingEntityRenderer(final BlockEntityRenderDispatcher rendererDispatcher) {
-        super(rendererDispatcher);
+    public RotorBearingEntityRenderer(final BlockEntityRendererProvider.Context context) {
     }
 
     //region TileEntityRenderer

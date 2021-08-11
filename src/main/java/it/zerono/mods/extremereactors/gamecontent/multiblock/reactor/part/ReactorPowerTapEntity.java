@@ -23,10 +23,10 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.MultiblockR
 import it.zerono.mods.zerocore.lib.block.INeighborChangeListener;
 import it.zerono.mods.zerocore.lib.data.IoMode;
 import it.zerono.mods.zerocore.lib.energy.EnergySystem;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.core.Direction;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 
@@ -37,9 +37,10 @@ public class ReactorPowerTapEntity
         extends AbstractReactorPowerTapEntity
         implements INeighborChangeListener {
 
-    public ReactorPowerTapEntity(final EnergySystem system, final IoMode mode, final BlockEntityType<?> entityType) {
+    public ReactorPowerTapEntity(final EnergySystem system, final IoMode mode, final BlockEntityType<?> entityType,
+                                 final BlockPos position, final BlockState blockState) {
 
-        super(system, entityType);
+        super(system, entityType, position, blockState);
         this.setHandler(IPowerTapHandler.create(system, mode, this));
     }
 

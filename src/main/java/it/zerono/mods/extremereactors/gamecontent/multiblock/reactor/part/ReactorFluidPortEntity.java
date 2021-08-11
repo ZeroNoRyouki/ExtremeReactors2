@@ -31,32 +31,31 @@ import it.zerono.mods.zerocore.lib.block.TileCommandDispatcher;
 import it.zerono.mods.zerocore.lib.data.IoDirection;
 import it.zerono.mods.zerocore.lib.data.IoMode;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.MenuProvider;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.core.Direction;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import it.zerono.mods.zerocore.lib.data.nbt.ISyncableEntity.SyncReason;
-
 public class ReactorFluidPortEntity
         extends AbstractReactorEntity
         implements IFluidPort<MultiblockReactor, IMultiblockReactorVariant>, INeighborChangeListener, MenuProvider {
 
-    public ReactorFluidPortEntity(final FluidPortType type, final IoMode mode, final BlockEntityType<?> entityType) {
+    public ReactorFluidPortEntity(final FluidPortType type, final IoMode mode, final BlockEntityType<?> entityType,
+                                  final BlockPos position, final BlockState blockState) {
 
-        super(entityType);
+        super(entityType, position, blockState);
         this._handler = IFluidPortHandler.create(type, mode, this);
         this.setIoDirection(IoDirection.Input);
 

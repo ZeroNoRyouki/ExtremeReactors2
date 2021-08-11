@@ -27,30 +27,28 @@ import it.zerono.mods.zerocore.lib.block.INeighborChangeListener;
 import it.zerono.mods.zerocore.lib.block.TileCommandDispatcher;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
 import it.zerono.mods.zerocore.lib.multiblock.ITickableMultiblockPart;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.MenuProvider;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.core.Direction;
 import net.minecraft.core.BlockPos;
-import net.minecraft.util.Mth;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.Mth;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 
 import javax.annotation.Nullable;
-
-import it.zerono.mods.zerocore.lib.data.nbt.ISyncableEntity.SyncReason;
 
 public class ReactorRedstonePortEntity
         extends AbstractReactorEntity
         implements INeighborChangeListener, ITickableMultiblockPart, MenuProvider {
 
-    public ReactorRedstonePortEntity() {
+    public ReactorRedstonePortEntity(final BlockPos position, final BlockState blockState) {
 
-        super(Content.TileEntityTypes.REACTOR_REDSTONEPORT.get());
+        super(Content.TileEntityTypes.REACTOR_REDSTONEPORT.get(), position, blockState);
         this._setting = ReactorSensorSetting.DISABLED;
         this._isExternallyPowered = false;
         this._externalPowerLevel = 0;

@@ -25,8 +25,10 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.computer.Re
 import it.zerono.mods.zerocore.lib.compat.Mods;
 import it.zerono.mods.zerocore.lib.compat.computer.ConnectorComputerCraft;
 import it.zerono.mods.zerocore.lib.compat.computer.MultiblockComputerPeripheral;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.util.LazyOptional;
@@ -34,14 +36,12 @@ import net.minecraftforge.common.util.LazyOptional;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import it.zerono.mods.zerocore.lib.data.nbt.ISyncableEntity.SyncReason;
-
 public class ReactorComputerPortEntity
         extends AbstractReactorEntity {
 
-    public ReactorComputerPortEntity() {
+    public ReactorComputerPortEntity(final BlockPos position, final BlockState blockState) {
 
-        super(Content.TileEntityTypes.REACTOR_COMPUTERPORT.get());
+        super(Content.TileEntityTypes.REACTOR_COMPUTERPORT.get(), position, blockState);
 
         this._ccConnector = Mods.COMPUTERCRAFT
                 .map(() -> LazyOptional.of(() -> ConnectorComputerCraft.create("BigReactors-Reactor", this.getPeripheral())))

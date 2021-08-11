@@ -53,15 +53,15 @@ import it.zerono.mods.zerocore.lib.multiblock.ITickableMultiblockPart;
 import it.zerono.mods.zerocore.lib.multiblock.cuboid.AbstractCuboidMultiblockPart;
 import it.zerono.mods.zerocore.lib.multiblock.validation.IMultiblockValidator;
 import it.zerono.mods.zerocore.lib.world.WorldHelper;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.util.profiling.ProfilerFiller;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.core.Direction;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Mth;
+import net.minecraft.util.profiling.ProfilerFiller;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fml.LogicalSide;
 
@@ -70,8 +70,6 @@ import java.util.Optional;
 import java.util.function.DoubleSupplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import it.zerono.mods.zerocore.lib.data.nbt.ISyncableEntity.SyncReason;
 
 public class MultiblockReactor
         extends AbstractGeneratorMultiblockController<MultiblockReactor, IMultiblockReactorVariant>
@@ -396,7 +394,7 @@ public class MultiblockReactor
             return MODERATOR_AIR;
         }
 
-        if (blockState.hasTileEntity()) {
+        if (blockState.hasBlockEntity()) {
 
             final BlockEntity te = WorldHelper.getLoadedTile(world, position);
 

@@ -40,18 +40,18 @@ import it.zerono.mods.zerocore.lib.item.ItemHelper;
 import it.zerono.mods.zerocore.lib.item.inventory.handler.ItemHandlerModifiableForwarder;
 import it.zerono.mods.zerocore.lib.item.inventory.handler.TileEntityItemStackHandler;
 import it.zerono.mods.zerocore.lib.world.WorldHelper;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.MenuProvider;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.util.LazyOptional;
@@ -64,8 +64,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-import it.zerono.mods.zerocore.lib.data.nbt.ISyncableEntity.SyncReason;
-
 public class ReactorSolidAccessPortEntity
         extends AbstractReactorEntity
         implements IFuelSource<ItemStack>, IIoEntity, INeighborChangeListener, MenuProvider {
@@ -73,9 +71,9 @@ public class ReactorSolidAccessPortEntity
     public static String COMMAND_DUMP_FUEL = "dumpfuel";
     public static String COMMAND_DUMP_WASTE = "dumpwaste";
 
-    public ReactorSolidAccessPortEntity() {
+    public ReactorSolidAccessPortEntity(final BlockPos position, final BlockState blockState) {
 
-        super(Content.TileEntityTypes.REACTOR_SOLID_ACCESSPORT.get());
+        super(Content.TileEntityTypes.REACTOR_SOLID_ACCESSPORT.get(), position, blockState);
         this.setIoDirection(IoDirection.Input);
         this._fuelInventory = new TileEntityItemStackHandler(this, 1);
         this._wasteInventory = new TileEntityItemStackHandler(this, 1);

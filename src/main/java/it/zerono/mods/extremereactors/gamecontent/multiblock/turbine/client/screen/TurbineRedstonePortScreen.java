@@ -18,8 +18,6 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.client.screen;
 
-import it.zerono.mods.extremereactors.ExtremeReactors;
-import it.zerono.mods.extremereactors.gamecontent.compat.patchouli.PatchouliCompat;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.AbstractRedstonePortScreen;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.CommonIcons;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.sensor.SensorBehavior;
@@ -33,9 +31,9 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.Tur
 import it.zerono.mods.zerocore.lib.client.gui.control.TextInput;
 import it.zerono.mods.zerocore.lib.item.inventory.PlayerInventoryUsage;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.util.Mth;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.player.Inventory;
 
 import java.util.Optional;
 
@@ -65,7 +63,7 @@ public class TurbineRedstonePortScreen
     @Override
     protected void onScreenCreate() {
 
-        this.addPatchouliHelpButton(PatchouliCompat.HANDBOOK_ID, ExtremeReactors.newID("turbine/part-redstoneport"), 1);
+        //this.addPatchouliHelpButton(PatchouliCompat.HANDBOOK_ID, ExtremeReactors.newID("turbine/part-redstoneport"), 1);
 
         super.onScreenCreate();
 

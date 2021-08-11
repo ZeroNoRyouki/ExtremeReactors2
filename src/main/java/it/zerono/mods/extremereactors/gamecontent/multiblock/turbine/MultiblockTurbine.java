@@ -43,14 +43,14 @@ import it.zerono.mods.zerocore.lib.multiblock.IMultiblockPart;
 import it.zerono.mods.zerocore.lib.multiblock.ITickableMultiblockPart;
 import it.zerono.mods.zerocore.lib.multiblock.validation.IMultiblockValidator;
 import it.zerono.mods.zerocore.lib.world.WorldHelper;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.util.Mth;
+import net.minecraft.util.profiling.ProfilerFiller;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.util.profiling.ProfilerFiller;
-import net.minecraft.core.Direction;
-import net.minecraft.core.BlockPos;
-import net.minecraft.util.Mth;
-import net.minecraft.world.level.Level;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fml.LogicalSide;
 
@@ -58,8 +58,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import it.zerono.mods.zerocore.lib.data.nbt.ISyncableEntity.SyncReason;
 
 public class MultiblockTurbine
         extends AbstractGeneratorMultiblockController<MultiblockTurbine, IMultiblockTurbineVariant>
@@ -231,7 +229,7 @@ public class MultiblockTurbine
         final BlockState state = world.getBlockState(position);
         final Block block = state.getBlock();
 
-        if (state.isAir(world, position)) {
+        if (state.isAir()) {
 
             return RotorComponentType.Ignore;
 
@@ -783,7 +781,7 @@ public class MultiblockTurbine
         final BlockState state = world.getBlockState(position);
 
         // is it Air ?
-        if (state.isAir(world, position)) {
+        if (state.isAir()) {
             return true;
         }
 

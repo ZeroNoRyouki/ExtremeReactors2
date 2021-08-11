@@ -13,7 +13,7 @@ license="All rights reserved"
 [[mods]]
 
 	modId="bigreactorstest"
-	version="${mod_version}"
+    version="${file.jarVersion}"
 	displayName="${mod_name}"	
 	authors="ZeroNoRyouki"
 	description="Adds large, multiblock power generation machines to Minecraft. This is a continuation of the 1.7.10 mod Big Reactors from ErogenousBeef"

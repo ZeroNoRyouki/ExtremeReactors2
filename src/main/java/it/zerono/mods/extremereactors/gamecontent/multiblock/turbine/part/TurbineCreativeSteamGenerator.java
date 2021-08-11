@@ -21,6 +21,8 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.zerocore.lib.data.IoDirection;
 import it.zerono.mods.zerocore.lib.multiblock.ITickableMultiblockPart;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 
@@ -28,8 +30,8 @@ public class TurbineCreativeSteamGenerator
         extends AbstractTurbineEntity
         implements ITickableMultiblockPart {
 
-    public TurbineCreativeSteamGenerator() {
-        super(Content.TileEntityTypes.TURBINE_CREATIVE_STEAM_GENERATOR.get());
+    public TurbineCreativeSteamGenerator(final BlockPos position, final BlockState blockState) {
+        super(Content.TileEntityTypes.TURBINE_CREATIVE_STEAM_GENERATOR.get(), position, blockState);
     }
 
     //region ITickableMultiblockPart

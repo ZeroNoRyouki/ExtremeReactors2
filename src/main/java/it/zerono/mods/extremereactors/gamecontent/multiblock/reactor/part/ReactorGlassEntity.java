@@ -20,12 +20,14 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part;
 
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.model.data.ModelTransformers;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class ReactorGlassEntity
         extends AbstractReactorEntity {
 
-    public ReactorGlassEntity() {
-        super(Content.TileEntityTypes.REACTOR_GLASS.get());
+    public ReactorGlassEntity(final BlockPos position, final BlockState blockState) {
+        super(Content.TileEntityTypes.REACTOR_GLASS.get(), position, blockState);
     }
 
     //region client render support

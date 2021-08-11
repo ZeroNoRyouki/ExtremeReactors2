@@ -32,13 +32,13 @@ import it.zerono.mods.zerocore.lib.block.INeighborChangeListener;
 import it.zerono.mods.zerocore.lib.multiblock.cuboid.PartPosition;
 import it.zerono.mods.zerocore.lib.multiblock.validation.IMultiblockValidator;
 import it.zerono.mods.zerocore.lib.world.WorldHelper;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.core.Direction;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -50,12 +50,14 @@ public class TurbineRotorComponentEntity
         extends AbstractTurbineEntity
         implements INeighborChangeListener {
 
-    public static TurbineRotorComponentEntity shaft() {
-        return new TurbineRotorComponentEntity(TurbinePartType.RotorShaft, Content.TileEntityTypes.TURBINE_ROTORSHAFT.get());
+    public static TurbineRotorComponentEntity shaft(final BlockPos position, final BlockState blockState) {
+        return new TurbineRotorComponentEntity(TurbinePartType.RotorShaft, Content.TileEntityTypes.TURBINE_ROTORSHAFT.get(),
+                position, blockState);
     }
 
-    public static TurbineRotorComponentEntity blade() {
-        return new TurbineRotorComponentEntity(TurbinePartType.RotorBlade, Content.TileEntityTypes.TURBINE_ROTORBLADE.get());
+    public static TurbineRotorComponentEntity blade(final BlockPos position, final BlockState blockState) {
+        return new TurbineRotorComponentEntity(TurbinePartType.RotorBlade, Content.TileEntityTypes.TURBINE_ROTORBLADE.get(),
+                position, blockState);
     }
 
     public static RotorShaftState computeShaftState(final TurbineRotorComponentEntity shaft) {
@@ -164,9 +166,10 @@ public class TurbineRotorComponentEntity
     //endregion
     //region internals
 
-    protected TurbineRotorComponentEntity(final TurbinePartType componentType, final BlockEntityType<?> type) {
+    protected TurbineRotorComponentEntity(final TurbinePartType componentType, final BlockEntityType<?> type,
+                                          final BlockPos position, final BlockState blockState) {
 
-        super(type);
+        super(type, position, blockState);
         this._componentType = componentType;
     }
 

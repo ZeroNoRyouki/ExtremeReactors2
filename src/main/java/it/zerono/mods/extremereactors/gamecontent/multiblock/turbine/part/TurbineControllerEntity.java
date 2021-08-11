@@ -28,16 +28,16 @@ import it.zerono.mods.zerocore.lib.block.TileCommandDispatcher;
 import it.zerono.mods.zerocore.lib.data.nbt.NBTHelper;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
 import it.zerono.mods.zerocore.lib.network.INetworkTileEntitySyncProvider;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.MenuProvider;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.fml.LogicalSide;
 
 import javax.annotation.Nullable;
@@ -52,9 +52,9 @@ public class TurbineControllerEntity
     public static String COMMAND_SET_VENT = "vent";
     public static String COMMAND_SCRAM = "scram";
 
-    public TurbineControllerEntity() {
+    public TurbineControllerEntity(final BlockPos position, final BlockState blockState) {
 
-        super(Content.TileEntityTypes.TURBINE_CONTROLLER.get());
+        super(Content.TileEntityTypes.TURBINE_CONTROLLER.get(), position, blockState);
 
         this.setCommandDispatcher(TileCommandDispatcher.<TurbineControllerEntity>builder()
                 .addServerHandler(CommonConstants.COMMAND_ACTIVATE, tce -> tce.setTurbineActive(true))

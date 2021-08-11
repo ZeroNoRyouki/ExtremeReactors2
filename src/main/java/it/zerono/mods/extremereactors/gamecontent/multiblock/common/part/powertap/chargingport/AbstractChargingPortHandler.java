@@ -28,18 +28,16 @@ import it.zerono.mods.zerocore.lib.data.IoMode;
 import it.zerono.mods.zerocore.lib.data.nbt.ISyncableEntity;
 import it.zerono.mods.zerocore.lib.energy.EnergySystem;
 import it.zerono.mods.zerocore.lib.item.inventory.handler.TileEntityItemStackHandler;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.LevelReader;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemStackHandler;
 
 import javax.annotation.Nullable;
-
-import it.zerono.mods.zerocore.lib.data.nbt.ISyncableEntity.SyncReason;
 
 public abstract class AbstractChargingPortHandler<Controller extends AbstractGeneratorMultiblockController<Controller, V>,
             V extends IMultiblockGeneratorVariant,
@@ -118,12 +116,11 @@ public abstract class AbstractChargingPortHandler<Controller extends AbstractGen
 
     /**
      * Check for connections
-     *
-     * @param world    the handler world
+     *  @param world    the handler world
      * @param position the handler position
      */
     @Override
-    public void checkConnections(@Nullable LevelReader world, BlockPos position) {
+    public void checkConnections(@Nullable Level world, BlockPos position) {
         // nothing to do here
     }
 

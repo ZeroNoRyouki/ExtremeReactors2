@@ -25,28 +25,27 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.powerta
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.powertap.chargingport.IChargingPortHandler;
 import it.zerono.mods.zerocore.lib.block.TileCommandDispatcher;
 import it.zerono.mods.zerocore.lib.energy.EnergySystem;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.MenuProvider;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
 
 import javax.annotation.Nullable;
-
-import it.zerono.mods.zerocore.lib.data.nbt.ISyncableEntity.SyncReason;
 
 public class TurbineChargingPortEntity
         extends AbstractTurbinePowerTapEntity
         implements IChargingPort, MenuProvider {
 
-    public TurbineChargingPortEntity(final EnergySystem system, final BlockEntityType<?> entityType) {
+    public TurbineChargingPortEntity(final EnergySystem system, final BlockEntityType<?> entityType,
+                                     final BlockPos position, final BlockState blockState) {
 
-        super(system, entityType);
+        super(system, entityType, position, blockState);
         this.setHandler(IChargingPortHandler.create(system, this));
 
         this.setCommandDispatcher(TileCommandDispatcher.<TurbineChargingPortEntity>builder()

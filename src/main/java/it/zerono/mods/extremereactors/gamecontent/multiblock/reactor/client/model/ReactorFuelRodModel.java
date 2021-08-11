@@ -17,6 +17,7 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.mod
  */
 
 import com.google.common.collect.Lists;
+import com.mojang.math.Vector3f;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectLists;
 import it.unimi.dsi.fastutil.shorts.Short2ObjectArrayMap;
@@ -25,13 +26,13 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.scree
 import it.zerono.mods.zerocore.lib.block.BlockFacings;
 import it.zerono.mods.zerocore.lib.client.model.AbstractDynamicBakedModel;
 import it.zerono.mods.zerocore.lib.client.render.ModRenderHelper;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.client.renderer.model.*;
+import net.minecraft.client.renderer.block.model.*;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
-import com.mojang.math.Vector3f;
-import net.minecraftforge.client.model.SimpleModelTransform;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.client.model.SimpleModelState;
 import net.minecraftforge.client.model.data.EmptyModelData;
 import net.minecraftforge.client.model.data.IModelData;
 
@@ -40,14 +41,6 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.locks.StampedLock;
-
-import net.minecraft.client.renderer.block.model.BakedQuad;
-import net.minecraft.client.renderer.block.model.BlockElementFace;
-import net.minecraft.client.renderer.block.model.BlockFaceUV;
-import net.minecraft.client.renderer.block.model.FaceBakery;
-import net.minecraft.client.renderer.block.model.ItemOverrides;
-import net.minecraft.client.renderer.block.model.ItemTransforms;
-import net.minecraft.client.resources.model.BakedModel;
 
 /**
  * An IBakedModel for a single variant/orientation of a Fuel Rod
@@ -131,7 +124,7 @@ public class ReactorFuelRodModel
 
     @Override
     public TextureAtlasSprite getParticleIcon() {
-        return this._baseModel.getParticleTexture(EmptyModelData.INSTANCE);
+        return this._baseModel.getParticleIcon(EmptyModelData.INSTANCE);
     }
 
     @Override
@@ -255,7 +248,7 @@ public class ReactorFuelRodModel
         final TextureAtlasSprite sprite = isVertical ? stillTexture : flowingTexture;
         final BlockElementFace partFace = new BlockElementFace(null, tintIndex, "",  new BlockFaceUV(uv, 0));
 
-        return this._faceBakery.bakeQuad(cubeFrom, cubeTo, partFace, sprite, direction, SimpleModelTransform.IDENTITY,
+        return this._faceBakery.bakeQuad(cubeFrom, cubeTo, partFace, sprite, direction, SimpleModelState.IDENTITY,
                 null, true, FAKE_RESOURCELOCATION);
     }
 

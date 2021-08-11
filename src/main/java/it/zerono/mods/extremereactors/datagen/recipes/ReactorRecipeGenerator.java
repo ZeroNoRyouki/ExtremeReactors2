@@ -28,11 +28,11 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.Tag;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-import net.minecraft.tags.Tag;
 import net.minecraft.world.level.ItemLike;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.crafting.ConditionalRecipe;
 
@@ -61,7 +61,7 @@ public class ReactorRecipeGenerator
      * Registers all recipes to the given consumer.
      */
     @Override
-    protected void buildShapelessRecipes(final Consumer<FinishedRecipe> c) {
+    protected void buildCraftingRecipes(final Consumer<FinishedRecipe> c) {
 
         Tag.Named<Item> core, metal, alternativeMetal;
         ReactorVariant variant;

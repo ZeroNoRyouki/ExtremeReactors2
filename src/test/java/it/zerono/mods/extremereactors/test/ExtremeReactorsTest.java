@@ -16,7 +16,7 @@
  *
  */
 
-package it.zerono.mods.extremereactors;
+package it.zerono.mods.extremereactors.test;
 
 import it.zerono.mods.zerocore.internal.gamecontent.debugtool.DebugToolItem;
 import it.zerono.mods.zerocore.lib.debug.DebugHelper;
