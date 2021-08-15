@@ -53,7 +53,7 @@ public class TurbineRecipeGenerator
      */
     @Override
     public String getName() {
-        return ExtremeReactors.MOD_NAME + "Turbine recipes";
+        return ExtremeReactors.MOD_NAME + " Turbine recipes";
     }
 
     /**

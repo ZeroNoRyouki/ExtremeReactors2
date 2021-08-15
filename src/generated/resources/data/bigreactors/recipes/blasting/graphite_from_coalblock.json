@@ -1,9 +1,22 @@
 {
-  "type": "minecraft:blasting",
-  "ingredient": {
-    "item": "minecraft:coal_block"
-  },
-  "result": "bigreactors:graphite_block",
-  "experience": 0.9,
-  "cookingtime": 900
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "config_name": "registerCoalBlockForSmelting",
+          "type": "bigreactors:config_condition"
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:blasting",
+        "ingredient": {
+          "item": "minecraft:coal_block"
+        },
+        "result": "bigreactors:graphite_block",
+        "experience": 0.9,
+        "cookingtime": 900
+      }
+    }
+  ]
 }
