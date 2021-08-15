@@ -59,6 +59,8 @@ public class ItemTagGenerator
     @Override
     protected void addTags() {
 
+        this.build(ContentTags.Items.ORE_YELLORITE, Items.YELLORITE_ORE_BLOCK);
+
         this.build(ContentTags.Items.INGOTS_YELLORIUM, Items.YELLORIUM_INGOT);
         this.build(ContentTags.Items.INGOTS_CYANITE, Items.CYANITE_INGOT);
         this.build(ContentTags.Items.INGOTS_GRAPHITE, Items.GRAPHITE_INGOT);
@@ -78,6 +80,7 @@ public class ItemTagGenerator
 
         this.build(TagsHelper.ITEMS.createForgeOptionalTag("dusts/uranium"), Items.YELLORIUM_DUST);
         this.build(TagsHelper.ITEMS.createForgeOptionalTag("ingots/uranium"), Items.YELLORIUM_INGOT);
+        this.build(TagsHelper.ITEMS.createForgeOptionalTag("ores/uranium"), Items.YELLORITE_ORE_BLOCK);
 
         this.build(ContentTags.Items.USING_REACTOR_CASING_BASIC,
                 Content.Items.REACTOR_CONTROLLER_BASIC,
