@@ -20,11 +20,11 @@ package it.zerono.mods.extremereactors.gamecontent;
 
 import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.zerocore.lib.tag.TagsHelper;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.material.Fluid;
-import net.minecraft.world.item.Item;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.Tag;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.material.Fluid;
 
 public class ContentTags {
 
@@ -46,6 +46,8 @@ public class ContentTags {
     }
 
     public static final class Items {
+
+		public static final Tag.Named<Item> ORE_YELLORITE = forgeTag("ores/yellorite");
 
         public static final Tag.Named<Item> INGOTS_YELLORIUM = forgeTag("ingots/yellorium");
         public static final Tag.Named<Item> INGOTS_CYANITE = forgeTag("ingots/cyanite");

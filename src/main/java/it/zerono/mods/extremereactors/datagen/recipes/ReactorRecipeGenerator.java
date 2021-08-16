@@ -54,7 +54,7 @@ public class ReactorRecipeGenerator
      */
     @Override
     public String getName() {
-        return ExtremeReactors.MOD_NAME + "Reactor recipes";
+        return ExtremeReactors.MOD_NAME + " Reactor recipes";
     }
 
     /**

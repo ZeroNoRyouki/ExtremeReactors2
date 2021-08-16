@@ -21,3 +21,4 @@ build
 # other
 run
 gfx-src
+src/generated/resources/.cache/cache

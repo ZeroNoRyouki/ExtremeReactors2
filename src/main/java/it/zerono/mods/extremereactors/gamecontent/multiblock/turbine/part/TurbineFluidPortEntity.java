@@ -181,16 +181,9 @@ public class TurbineFluidPortEntity
     @Override
     protected int getUpdatedModelVariantIndex() {
 
-        if (this.isMachineAssembled()) {
+        final int connectedOffset = this.isMachineAssembled() && this.getFluidPortHandler().isConnected() ? 1 : 0;
 
-            final int connectedOffset = this.getFluidPortHandler().isConnected() ? 1 : 0;
-
-            return this.getIoDirection().isInput() ? 2 + connectedOffset : 0 + connectedOffset;
-
-        } else {
-
-            return 0;
-        }
+        return this.getIoDirection().isInput() ? 2 + connectedOffset : 0 + connectedOffset;
     }
 
     //endregion

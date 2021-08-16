@@ -20,6 +20,7 @@ package it.zerono.mods.extremereactors;
 
 import it.zerono.mods.extremereactors.api.internal.modpack.wrapper.ApiWrapper;
 import it.zerono.mods.extremereactors.config.Config;
+import it.zerono.mods.extremereactors.config.conditions.ConfigCondition;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.WorldGen;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.network.UpdateClientsFuelRodsLayout;
@@ -29,9 +30,12 @@ import it.zerono.mods.extremereactors.proxy.ServerProxy;
 import it.zerono.mods.zerocore.lib.init.IModInitializationHandler;
 import it.zerono.mods.zerocore.lib.network.IModMessage;
 import it.zerono.mods.zerocore.lib.network.NetworkHandler;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.common.crafting.CraftingHelper;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.InterModComms;
@@ -72,6 +76,7 @@ public class ExtremeReactors implements IModInitializationHandler {
 
         modBus.addListener(this::onCommonInit);
         modBus.addListener(this::onInterModProcess);
+        modBus.addGenericListener(RecipeSerializer.class, this::onRegisterRecipeSerializer);
 
         WorldGen.initialize();
     }
@@ -127,6 +132,10 @@ public class ExtremeReactors implements IModInitializationHandler {
         ApiWrapper.processFile();
     }
 
+    public void onRegisterRecipeSerializer(final RegistryEvent.Register<RecipeSerializer<?>> event) {
+        CraftingHelper.register(ConfigCondition.Serializer.INSTANCE);
+    }
+
     public <T extends IModMessage> void sendPacket(final T packet, final Level world, final BlockPos center, final int radius) {
         this._network.sendToAllAround(packet, center.getX(), center.getY(), center.getZ(), radius, world.dimension());
     }
@@ -134,7 +143,7 @@ public class ExtremeReactors implements IModInitializationHandler {
     //region internals
 
     private void imcProcessAPIMessages(InterModProcessEvent event, String method) {
-        event.getIMCStream((method::equals)).map(imc -> (Runnable) imc.getMessageSupplier().get()).forEach(Runnable::run);
+        event.getIMCStream((method::equals)).map(imc -> (Runnable) imc.messageSupplier().get()).forEach(Runnable::run);
     }
 
     private static ExtremeReactors s_instance;

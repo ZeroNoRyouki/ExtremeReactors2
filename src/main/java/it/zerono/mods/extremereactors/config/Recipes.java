@@ -24,6 +24,7 @@ public class Recipes {
 
     public final ForgeConfigSpec.BooleanValue registerCharcoalForSmelting;
     public final ForgeConfigSpec.BooleanValue registerCoalForSmelting;
+    public final ForgeConfigSpec.BooleanValue registerCoalBlockForSmelting;
 
     Recipes(final ForgeConfigSpec.Builder builder) {
 
@@ -42,6 +43,13 @@ public class Recipes {
                 .translation("config.bigreactors.recipes.registerCoalForSmelting")
                 .worldRestart()
                 .define("registerCoalForSmelting", true);
+
+        this.registerCoalBlockForSmelting = builder
+                .comment("If set, coal blocks will be smeltable into graphite blocks.",
+                        "Disable this if other mods need to smelt coal blocks into their own products.")
+                .translation("config.bigreactors.recipes.registerCoalBlockForSmelting")
+                .worldRestart()
+                .define("registerCoalBlockForSmelting", true);
 
         builder.pop();
     }
