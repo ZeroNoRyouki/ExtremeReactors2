@@ -22,15 +22,18 @@ import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.gamecontent.Content.Blocks;
 import it.zerono.mods.extremereactors.gamecontent.ContentTags;
 import it.zerono.mods.zerocore.lib.tag.TagsHelper;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.data.tags.TagsProvider;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.Tag;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
 import javax.annotation.Nullable;
+import java.util.Collection;
 import java.util.function.Supplier;
 
 public class BlockTagGenerator
@@ -65,6 +68,7 @@ public class BlockTagGenerator
         this.build(Tags.Blocks.ORES, Blocks.YELLORITE_ORE_BLOCK, Blocks.ANGLESITE_ORE_BLOCK, Blocks.BENITOITE_ORE_BLOCK);
         this.build(TagsHelper.BLOCKS.createForgeOptionalTag("ores/uranium"), Blocks.YELLORITE_ORE_BLOCK);
 
+        this.digWithIronPick(Blocks.getAll());
     }
 
     //endregion
@@ -78,6 +82,18 @@ public class BlockTagGenerator
         for (final Supplier<? extends Block> block : blocks) {
             builder.add(block.get());
         }
+    }
+
+    private void digWithIronPick(final Collection<? extends Supplier<? extends Block>> blocks) {
+
+        blocks.forEach(s -> {
+
+            if (!(s.get() instanceof LiquidBlock)) {
+
+                this.build(BlockTags.MINEABLE_WITH_PICKAXE, s);
+                this.build(BlockTags.NEEDS_IRON_TOOL, s);
+            }
+        });
     }
 
     //endregion

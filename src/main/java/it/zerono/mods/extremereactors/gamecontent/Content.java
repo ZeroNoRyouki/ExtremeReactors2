@@ -60,6 +60,7 @@ import net.minecraftforge.fmllegacy.network.IContainerFactory;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import java.util.Collection;
 import java.util.function.Supplier;
 
 public final class Content {
@@ -81,6 +82,10 @@ public final class Content {
 
         static void initialize() {
             BLOCKS.register(Mod.EventBusSubscriber.Bus.MOD.bus().get());
+        }
+
+        public static Collection<RegistryObject<Block>> getAll() {
+            return BLOCKS.getEntries();
         }
 
         //region metals
