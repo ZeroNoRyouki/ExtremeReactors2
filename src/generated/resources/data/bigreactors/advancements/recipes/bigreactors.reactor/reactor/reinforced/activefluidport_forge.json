@@ -11,7 +11,9 @@
       "conditions": {
         "items": [
           {
-            "item": "bigreactors:reinforced_reactorcasing"
+            "items": [
+              "bigreactors:reinforced_reactorcasing"
+            ]
           }
         ]
       }
@@ -21,7 +23,9 @@
       "conditions": {
         "items": [
           {
-            "item": "minecraft:lava_bucket"
+            "items": [
+              "minecraft:lava_bucket"
+            ]
           }
         ]
       }

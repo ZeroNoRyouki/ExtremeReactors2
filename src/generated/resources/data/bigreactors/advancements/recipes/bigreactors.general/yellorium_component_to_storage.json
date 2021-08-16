@@ -11,7 +11,9 @@
       "conditions": {
         "items": [
           {
-            "item": "bigreactors:yellorium_ingot"
+            "items": [
+              "bigreactors:yellorium_ingot"
+            ]
           }
         ]
       }

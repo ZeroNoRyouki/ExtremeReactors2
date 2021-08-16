@@ -11,7 +11,9 @@
       "conditions": {
         "items": [
           {
-            "item": "bigreactors:wrench"
+            "items": [
+              "bigreactors:wrench"
+            ]
           }
         ]
       }

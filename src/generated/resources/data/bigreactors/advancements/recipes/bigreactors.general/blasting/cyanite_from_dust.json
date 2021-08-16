@@ -11,7 +11,9 @@
       "conditions": {
         "items": [
           {
-            "item": "bigreactors:cyanite_dust"
+            "items": [
+              "bigreactors:cyanite_dust"
+            ]
           }
         ]
       }
