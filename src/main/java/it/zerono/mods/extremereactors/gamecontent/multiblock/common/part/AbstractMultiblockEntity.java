@@ -49,6 +49,8 @@ public abstract class AbstractMultiblockEntity<Controller extends AbstractCuboid
     public void clearRemoved() {
 
         super.clearRemoved();
+        // since IForgeBlockEntity.onLoad() is not currently called by Forge, request a model data update ourself
+        this.requestModelDataUpdate();
         //this.updateClientRenderState();
     }
 
