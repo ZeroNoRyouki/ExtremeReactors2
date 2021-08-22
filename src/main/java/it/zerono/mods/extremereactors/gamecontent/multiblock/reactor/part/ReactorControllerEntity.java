@@ -113,7 +113,7 @@ public class ReactorControllerEntity
     public void getDebugMessages(final LogicalSide side, final IDebugMessages messages) {
 
         super.getDebugMessages(side, messages);
-        this.getMultiblockController().ifPresent(reactor -> reactor.getDebugMessages(side, messages));
+        this.executeOnController(c -> c.getDebugMessages(side, messages));
     }
 
     //endregion
@@ -143,7 +143,7 @@ public class ReactorControllerEntity
      */
     @Override
     public void enlistForUpdates(ServerPlayerEntity player, boolean updateNow) {
-        this.getMultiblockController().ifPresent(c -> c.enlistForUpdates(player, updateNow));
+        this.executeOnController(c -> c.enlistForUpdates(player, updateNow));
     }
 
     /**
@@ -153,7 +153,7 @@ public class ReactorControllerEntity
      */
     @Override
     public void delistFromUpdates(ServerPlayerEntity player) {
-        this.getMultiblockController().ifPresent(c -> c.delistFromUpdates(player));
+        this.executeOnController(c -> c.delistFromUpdates(player));
     }
 
     /**
