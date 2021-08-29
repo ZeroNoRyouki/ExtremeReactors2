@@ -48,7 +48,6 @@ public class ReactorControllerEntity
     public static String COMMAND_WASTE_MANUAL = "manualwaste";
     public static String COMMAND_SCRAM = "scram";
 
-    @SuppressWarnings("ConstantConditions")
     public ReactorControllerEntity(final BlockPos position, final BlockState blockState) {
 
         super(Content.TileEntityTypes.REACTOR_CONTROLLER.get(), position, blockState);
@@ -113,7 +112,7 @@ public class ReactorControllerEntity
     public void getDebugMessages(final LogicalSide side, final IDebugMessages messages) {
 
         super.getDebugMessages(side, messages);
-        this.getMultiblockController().ifPresent(reactor -> reactor.getDebugMessages(side, messages));
+        this.executeOnController(c -> c.getDebugMessages(side, messages));
     }
 
     //endregion
@@ -143,7 +142,7 @@ public class ReactorControllerEntity
      */
     @Override
     public void enlistForUpdates(ServerPlayer player, boolean updateNow) {
-        this.getMultiblockController().ifPresent(c -> c.enlistForUpdates(player, updateNow));
+        this.executeOnController(c -> c.enlistForUpdates(player, updateNow));
     }
 
     /**
@@ -153,7 +152,7 @@ public class ReactorControllerEntity
      */
     @Override
     public void delistFromUpdates(ServerPlayer player) {
-        this.getMultiblockController().ifPresent(c -> c.delistFromUpdates(player));
+        this.executeOnController(c -> c.delistFromUpdates(player));
     }
 
     /**
@@ -173,7 +172,6 @@ public class ReactorControllerEntity
      * @param player    the player
      * @return the container to use on the server
      */
-    @SuppressWarnings("ConstantConditions")
     @Nullable
     @Override
     public AbstractContainerMenu createMenu(final int windowId, final Inventory inventory, final Player player) {
