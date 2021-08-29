@@ -150,11 +150,9 @@ repositories {
         url = "https://dvs1.progwml6.com/files/maven/"
     }
 
-    // jei alt
     maven {
-        // location of a maven mirror for JEI files, as a fallback
         name = "ModMaven"
-        url = "https://modmaven.k-4u.nl"
+        url = "https://modmaven.dev"
     }
 
     // cc-tweaked
@@ -165,11 +163,6 @@ repositories {
     // patchouli
     maven {
         url 'https://maven.blamejared.com'
-    }
-
-    // mekanism
-    maven {
-        url 'https://modmaven.dev/'
     }
 
     // cursemaven
@@ -201,7 +194,7 @@ dependencies {
     runtimeOnly fg.deobf("mekanism:Mekanism:${config.mekanism_version}:generators")
     runtimeOnly fg.deobf("mekanism:Mekanism:${config.mekanism_version}:tools")
 
-    implementation fg.deobf("curse.maven:constructionwand-399558:3132410")
+    implementation fg.deobf("curse.maven:constructionwand-399558:3285196")
 }
 
 task extremereactors_apiJar(type: Jar) {
@@ -238,11 +231,13 @@ publishing {
 
     publications {
         mavenJava(MavenPublication) {
+            artifactId = archivesBaseName
             artifact jar
+            artifact extremereactors_apiJar
         }
     }
-	
-	repositories {
+
+    repositories {
         maven {
             url "file:///${rootProject.projectDir}/maven"
         }
