@@ -34,12 +34,12 @@ import it.zerono.mods.zerocore.lib.item.ItemHelper;
 import it.zerono.mods.zerocore.lib.tag.CollectionProviders;
 import it.zerono.mods.zerocore.lib.tag.TagList;
 import it.zerono.mods.zerocore.lib.tag.TagsHelper;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.tags.Tag;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.Tag;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.util.NonNullSupplier;
 import net.minecraftforge.event.TagsUpdatedEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -191,7 +191,7 @@ public final class ReactantMappingsRegistry {
     }
 
     @SubscribeEvent(priority = EventPriority.LOW)
-    public static void onVanillaTagsUpdated(final TagsUpdatedEvent.VanillaTagTypes event) {
+    public static void onVanillaTagsUpdated(final TagsUpdatedEvent event) {
 
         updateTags(s_solidToReactant.keySet(), s_solidTags, TagsHelper.ITEMS);
         //TODO fluids

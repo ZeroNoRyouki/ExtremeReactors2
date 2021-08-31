@@ -268,7 +268,7 @@ public class ClientProxy
     //endregion
     //region api tooltip cache
 
-    private void onVanillaTagsUpdated(final TagsUpdatedEvent.VanillaTagTypes event) {
+    private void onVanillaTagsUpdated(final TagsUpdatedEvent event) {
         this.invalidateApiTooltipCache();
     }
 

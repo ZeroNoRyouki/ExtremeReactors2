@@ -26,10 +26,10 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part.Reacto
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.IMultiblockReactorVariant;
 import it.zerono.mods.zerocore.lib.data.stack.OperationMode;
 import it.zerono.mods.zerocore.lib.item.ItemHelper;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.event.TagsUpdatedEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -256,7 +256,7 @@ public class ReactantHelper {
     }
 
     @SubscribeEvent(priority = EventPriority.LOW)
-    public static void onVanillaTagsUpdated(final TagsUpdatedEvent.VanillaTagTypes event) {
+    public static void onVanillaTagsUpdated(final TagsUpdatedEvent event) {
         s_moderatorsCache.invalidateAll();
     }
 
