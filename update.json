@@ -53,7 +53,8 @@
     },
     "1.17.1":{
         "1.17.1-2.0.26":"- First 1.17.1 release\r\n- A general performance / memory usage improvement version\n- Align ourself with the modified multiblock API from ZeroCore\n- New Fuel Rods rendering system. Expanding on the previous custom-model based system, now the fuel/waste levels are rendered along the the Fuel Rod model itself, removing the need of a Tile Entity Special Renderer, speeding things up quite a bit. The custom models are cached and created only when needed. Occlusion detection still in place, so no quads will be rendered if a Fuel Rod is surrounded be opaque blocks (or if there is no glass in the Reactor walls)\n- General speed and memory optimizations in the whole codebase\n- Fix Computer API reporting an incorrect value from getNumberOfControlRods(). Close #48\r\n- Bumped version to 2.0.26\r\n- Updated Minecraft to version 1.17.1\r\n- Updated Forge to version 37.0.27\r\n- Updated ZeroCore to version 2.1.2",
-        "1.17.1-2.0.27":"- Added config option recipes.registerCoalBlockForSmelting\r\n- Modified smelting/blasting recipes for graphite to obey config options. Fix #41. Thanks to jajajafeti, SonicSpeedster16 and TheSnowyChickens\r\n- Added Yellorite Ore to forge:ores/yellorite and forge:ores/uranium item tags. Fix #44. Thanks to benbenlaw\r\n- I/O ports now show their direction even when the multiblock is not formed. Close #51. Thanks to kirayatail\r\n- Fixed missing textures for single parts\r\n- Bumped version to 2.0.27\r\n- Updated Forge to version 37.0.34. All blocks now use the new tool tags\r\n- Updated ZeroCore to version 2.1.3"
+        "1.17.1-2.0.27":"- Added config option recipes.registerCoalBlockForSmelting\r\n- Modified smelting/blasting recipes for graphite to obey config options. Fix #41. Thanks to jajajafeti, SonicSpeedster16 and TheSnowyChickens\r\n- Added Yellorite Ore to forge:ores/yellorite and forge:ores/uranium item tags. Fix #44. Thanks to benbenlaw\r\n- I/O ports now show their direction even when the multiblock is not formed. Close #51. Thanks to kirayatail\r\n- Fixed missing textures for single parts\r\n- Bumped version to 2.0.27\r\n- Updated Forge to version 37.0.34. All blocks now use the new tool tags\r\n- Updated ZeroCore to version 2.1.3",
+        "1.17.1-2.0.28":"- Fixed crash on startup while running alongside Forge 37.0.47. Thanks to tahmid10000 for the report\r\n- Updated Forge to version 37.0.50. Minimum required version is 37.0.47"
     },
     "promos":{
         "1.16.3-latest":"1.16.4-2.0.21",
@@ -62,7 +63,7 @@
         "1.16.4-recommended":"1.16.4-2.0.23",
         "1.16.5-latest":"1.16.5-2.0.27",
         "1.16.5-recommended":"1.16.5-2.0.27",
-        "1.17.1-latest":"1.17.1-2.0.27",
-        "1.17.1-recommended":"1.17.1-2.0.27"
+        "1.17.1-latest":"1.17.1-2.0.28",
+        "1.17.1-recommended":"1.17.1-2.0.28"
     }
 }
