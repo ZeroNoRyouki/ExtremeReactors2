@@ -32,7 +32,7 @@ logoFile="logo.png"
 
 	modId="forge"
 	mandatory=true
-	versionRange="[37.0.34,38)"
+	versionRange="[37.0.47,38)"
 	ordering="NONE"
 	side="BOTH"
 
