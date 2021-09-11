@@ -19,6 +19,7 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part;
 
 import it.zerono.mods.extremereactors.api.radiation.RadiationPacket;
+import it.zerono.mods.extremereactors.api.reactor.FuelProperties;
 import it.zerono.mods.extremereactors.api.reactor.IHeatEntity;
 import it.zerono.mods.extremereactors.api.reactor.Moderator;
 import it.zerono.mods.extremereactors.api.reactor.ReactantMappingsRegistry;
@@ -189,15 +190,16 @@ public class ReactorFuelRodEntity
 
         final double fuelHeat = this.evalOnController(c -> c.getFuelHeat().getAsDouble(), 0.0);
         final float controlRodInsertion = null != this._controlRod ? this._controlRod.getInsertionPercentage() : 100.0f;
+        final FuelProperties fuelData = this.evalOnController(IReactorReader::getFuelProperties, FuelProperties.INVALID);
 
         // Fuel absorptiveness is determined by control rod + a heat modifier.
         // Starts at 1 and decays towards 0.05, reaching 0.6 at 1000 and just under 0.2 at 2000. Inflection point at about 500-600.
         // Harder radiation makes absorption more difficult.
         final float baseAbsorption = (float)(1.0 - (0.95 * Math.exp(-10 * Math.exp(-0.0022 * fuelHeat)))) *
-                (1f - (radiation.hardness / this.getFuelHardnessDivisor()));
+                (1f - (radiation.hardness / fuelData.getHardnessDivisor()));
 
         // Some fuels are better at absorbing radiation than others
-        final float scaledAbsorption = Math.min(1f, baseAbsorption * this.getFuelAbsorptionCoefficient());
+        final float scaledAbsorption = Math.min(1f, baseAbsorption * fuelData.getAbsorptionCoefficient());
 
         // Control rods increase total neutron absorption, but decrease the total neutrons which fertilize the fuel
         // Absorb up to 50% better with control rods inserted.
@@ -207,7 +209,7 @@ public class ReactorFuelRodEntity
         final float radiationAbsorbed = (scaledAbsorption + controlRodBonus) * radiation.intensity;
         final float fertilityAbsorbed = (scaledAbsorption - controlRodPenalty) * radiation.intensity;
 
-        float fuelModerationFactor = this.getFuelModerationFactor();
+        float fuelModerationFactor = fuelData.getModerationFactor();
 
         // Full insertion doubles the moderation factor of the fuel as well as adding its own level
         fuelModerationFactor += fuelModerationFactor * controlRodInsertion + controlRodInsertion;
@@ -261,25 +263,6 @@ public class ReactorFuelRodEntity
 
     //endregion
     //region internals
-
-    //TODO Fuel Registry
-    // 1, upwards. How well does this fuel moderate, but not stop, radiation? Anything under 1.5 is "poor", 2-2.5 is "good", above 4 is "excellent".
-    private float getFuelModerationFactor() {
-        return 1.5f;
-    }
-
-    //TODO Fuel Registry
-    // 0..1. How well does this fuel absorb radiation?
-    private float getFuelAbsorptionCoefficient() {
-        // TODO: Lookup type of fuel and getValue data from there
-        return 0.5f;
-    }
-
-    //TODO Fuel Registry
-    // Goes up from 1. How tolerant is this fuel of hard radiation?
-    private float getFuelHardnessDivisor() {
-        return 1.0f;
-    }
 
     private double getConductivityFromBlock(BlockState blockState) {
         return ReactantHelper.getModeratorFrom(blockState, Moderator.AIR).getHeatConductivity();

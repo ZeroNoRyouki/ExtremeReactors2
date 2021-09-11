@@ -18,6 +18,7 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor;
 
+import it.zerono.mods.extremereactors.api.reactor.FuelProperties;
 import it.zerono.mods.extremereactors.api.reactor.Reactant;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.IMachineReader;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.IMultiblockReactorVariant;
@@ -53,6 +54,8 @@ public interface IReactorReader
     int getCapacity();
 
     Optional<Reactant> getFuel();
+
+    FuelProperties getFuelProperties();
 
     Optional<Reactant> getWaste();
 
