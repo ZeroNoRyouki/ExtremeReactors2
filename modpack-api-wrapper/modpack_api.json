@@ -107,7 +107,18 @@
         "IsFuel": true,
         "RgbColour": 13023828,
         "Name": "newReactant2",
-        "TranslationKey": "mod.reactant2.name.key"
+        "TranslationKey": "mod.reactant2.name.key",
+        "FuelProperties": {
+            "ModerationFactor": 1.5,
+            "AbsorptionCoefficient": 0.5,
+            "HardnessDivisor": 1
+        }
+      },
+      {
+        "IsFuel": true,
+        "RgbColour": 13023810,
+        "Name": "newReactant3",
+        "TranslationKey": "mod.reactant3.name.key"
       },
       {
         "IsFuel": false,
