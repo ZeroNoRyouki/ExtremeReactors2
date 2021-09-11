@@ -26,10 +26,8 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part.Reacto
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.ReactorVariant;
 import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockPartType;
 import it.zerono.mods.zerocore.lib.block.multiblock.MultiblockPartBlock;
-import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.SoundType;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.world.IBlockReader;
@@ -47,14 +45,14 @@ public enum ReactorPartType
 
     Glass(() -> Content.TileEntityTypes.REACTOR_GLASS::get,
             GlassBlock::new, "part.bigreactors.reactor.glass",
-            ReactorPartType::notOpaqueBlock),
+            GlassBlock::addGlassProperties),
 
     Controller(() -> Content.TileEntityTypes.REACTOR_CONTROLLER::get,
             GenericDeviceBlock::new, "part.bigreactors.reactor.controller"),
 
     FuelRod(() -> Content.TileEntityTypes.REACTOR_FUELROD::get,
             ReactorFuelRodBlock::new, "part.bigreactors.reactor.fuelrod",
-            bp -> ReactorPartType.notOpaqueBlock(bp)
+            bp -> GlassBlock.addGlassProperties(bp)
                     .setLightLevel(state -> Config.COMMON.reactor.fuelRodLightValue.get())
                     .tickRandomly()),
 
@@ -144,18 +142,6 @@ public enum ReactorPartType
 
     //endregion
     //region internals
-
-    private static AbstractBlock.Properties notOpaqueBlock(AbstractBlock.Properties originals) {
-        return originals
-                .sound(SoundType.GLASS)
-                .notSolid()
-                .setOpaque((blockState, blockReader, pos) -> false)
-                .setBlocksVision((blockState, blockReader, pos) -> false);
-    }
-
-//    private static String getBlockIdFor(final ReactorPartType partType, ReactorVariant variant) {
-//        return ExtremeReactors.MOD_ID + ":" + variant.getName() + "_reactor" + partType.getNameForId();
-//    }
 
     private final Supplier<Supplier<TileEntityType<?>>> _tileTypeSupplier;
 

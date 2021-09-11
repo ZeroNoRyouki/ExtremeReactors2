@@ -29,7 +29,6 @@ import it.zerono.mods.zerocore.lib.block.multiblock.MultiblockPartBlock;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.SoundType;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.world.IBlockReader;
@@ -47,7 +46,7 @@ public enum TurbinePartType
 
     Glass(() -> Content.TileEntityTypes.TURBINE_GLASS::get,
             GlassBlock::new, "part.bigreactors.turbine.glass",
-            TurbinePartType::notOpaqueBlock),
+            GlassBlock::addGlassProperties),
 
     Controller(() -> Content.TileEntityTypes.TURBINE_CONTROLLER::get,
             GenericDeviceBlock::new, "part.bigreactors.turbine.controller"),
@@ -140,14 +139,6 @@ public enum TurbinePartType
 
     //endregion
     //region internals
-
-    private static AbstractBlock.Properties notOpaqueBlock(AbstractBlock.Properties originals) {
-        return originals
-                .sound(SoundType.GLASS)
-                .notSolid()
-                .setOpaque((blockState, blockReader, pos) -> false)
-                .setBlocksVision((blockState, blockReader, pos) -> false);
-    }
 
     private static AbstractBlock.Properties rotorBlock(AbstractBlock.Properties originals) {
         return originals
