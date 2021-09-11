@@ -64,6 +64,7 @@ public class DataGenerationHandler {
             generator.addProvider(new BlockStateGenerator(generator, existing));
             generator.addProvider(new ReactorBlockStateGenerator(generator, existing));
             generator.addProvider(new TurbineBlockStateGenerator(generator, existing));
+            generator.addProvider(new ReprocessorBlockStateGenerator(generator, existing));
 
             generator.addProvider(new ItemModelGenerator(generator, existing));
         }

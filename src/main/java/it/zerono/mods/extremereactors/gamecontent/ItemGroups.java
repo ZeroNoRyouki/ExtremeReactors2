@@ -47,6 +47,11 @@ public final class ItemGroups {
 
                 Mods.PATCHOULI.map(() -> PatchouliAPI.get().getBookStack(PatchouliCompat.HANDBOOK_ID)).ifPresent(builder::add);
 
+                builder.add(stack(Content.Blocks.REPROCESSOR_CASING), stack(Content.Blocks.REPROCESSOR_GLASS),
+                        stack(Content.Blocks.REPROCESSOR_CONTROLLER), stack(Content.Blocks.REPROCESSOR_COLLECTOR),
+                        stack(Content.Blocks.REPROCESSOR_WASTEINJECTOR), stack(Content.Blocks.REPROCESSOR_FLUIDINJECTOR),
+                        stack(Content.Blocks.REPROCESSOR_OUTPUTPORT), stack(Content.Blocks.REPROCESSOR_POWERPORT));
+
                 return builder.build();
             });
 

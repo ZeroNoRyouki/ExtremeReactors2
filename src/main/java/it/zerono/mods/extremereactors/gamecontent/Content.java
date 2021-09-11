@@ -30,6 +30,10 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.ReactorPart
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.container.ReactorSolidAccessPortContainer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part.*;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.ReactorVariant;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.MultiblockReprocessor;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.ReprocessorPartType;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.container.ReprocessorAccessPortContainer;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.part.*;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.recipe.ReprocessorRecipe;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.MultiblockTurbine;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.TurbinePartType;
@@ -38,6 +42,7 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.Tur
 import it.zerono.mods.zerocore.lib.block.ModBlock;
 import it.zerono.mods.zerocore.lib.block.ModOreBlock;
 import it.zerono.mods.zerocore.lib.block.multiblock.MultiblockPartBlock;
+import it.zerono.mods.zerocore.lib.data.IoDirection;
 import it.zerono.mods.zerocore.lib.data.IoMode;
 import it.zerono.mods.zerocore.lib.energy.EnergySystem;
 import it.zerono.mods.zerocore.lib.item.ModItem;
@@ -55,6 +60,7 @@ import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.common.extensions.IForgeContainerType;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.common.Mod;
@@ -69,21 +75,24 @@ public final class Content {
 
     public static void initialize() {
 
-        Blocks.initialize();
-        Items.initialize();
-        Fluids.initialize();
-        TileEntityTypes.initialize();
-        ContainerTypes.initialize();
+        final IEventBus bus = Mod.EventBusSubscriber.Bus.MOD.bus().get();
 
-        Mod.EventBusSubscriber.Bus.MOD.bus().get().addListener(Content::onCommonInit);
+        Blocks.initialize(bus);
+        Items.initialize(bus);
+        Fluids.initialize(bus);
+        TileEntityTypes.initialize(bus);
+        ContainerTypes.initialize(bus);
+        Recipes.initialize(bus);
+
+        bus.addListener(Content::onCommonInit);
     }
 
     public static final class Blocks {
 
         private static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, ExtremeReactors.MOD_ID);
 
-        static void initialize() {
-            BLOCKS.register(Mod.EventBusSubscriber.Bus.MOD.bus().get());
+        static void initialize(final IEventBus bus) {
+            BLOCKS.register(bus);
         }
 
         //region metals
@@ -285,6 +294,34 @@ public final class Content {
         //endregion
         //endregion
 
+        //region reprocessor
+
+        public static final RegistryObject<MultiblockPartBlock<MultiblockReprocessor, ReprocessorPartType>> REPROCESSOR_CASING =
+                registerReprocessorBlock("reprocessorcasing", ReprocessorPartType.Casing);
+
+        public static final RegistryObject<GlassBlock<MultiblockReprocessor, ReprocessorPartType>> REPROCESSOR_GLASS =
+                registerReprocessorBlock("reprocessorglass", ReprocessorPartType.Glass);
+
+        public static final RegistryObject<GenericDeviceBlock<MultiblockReprocessor, ReprocessorPartType>> REPROCESSOR_CONTROLLER =
+                registerReprocessorBlock("reprocessorcontroller", ReprocessorPartType.Controller);
+
+        public static final RegistryObject<GenericDeviceBlock<MultiblockReprocessor, ReprocessorPartType>> REPROCESSOR_WASTEINJECTOR =
+                registerReprocessorBlock("reprocessorwasteinjector", ReprocessorPartType.WasteInjector);
+
+        public static final RegistryObject<GenericDeviceBlock<MultiblockReprocessor, ReprocessorPartType>> REPROCESSOR_FLUIDINJECTOR =
+                registerReprocessorBlock("reprocessorfluidinjector", ReprocessorPartType.FluidInjector);
+
+        public static final RegistryObject<GenericDeviceBlock<MultiblockReprocessor, ReprocessorPartType>> REPROCESSOR_OUTPUTPORT =
+                registerReprocessorBlock("reprocessoroutputport", ReprocessorPartType.OutputPort);
+
+        public static final RegistryObject<GenericDeviceBlock<MultiblockReprocessor, ReprocessorPartType>> REPROCESSOR_POWERPORT =
+                registerReprocessorBlock("reprocessorpowerport", ReprocessorPartType.PowerPort);
+
+        public static final RegistryObject<GenericDeviceBlock<MultiblockReprocessor, ReprocessorPartType>> REPROCESSOR_COLLECTOR =
+                registerReprocessorBlock("reprocessorcollector", ReprocessorPartType.Collector);
+
+        //endregion
+
         //region internals
 
         private static RegistryObject<ModBlock> registerMetalBlock(final String name, final DyeColor color) {
@@ -321,6 +358,12 @@ public final class Content {
             return BLOCKS.register(name, () -> (T) (partType.createBlock(variant)));
         }
 
+        @SuppressWarnings("unchecked")
+        private static <T extends MultiblockPartBlock<MultiblockReprocessor, ReprocessorPartType>>
+        RegistryObject<T> registerReprocessorBlock(final String name, final ReprocessorPartType partType) {
+            return BLOCKS.register(name, () -> (T) (partType.createBlock()));
+        }
+
         //endregion
     }
 
@@ -329,8 +372,8 @@ public final class Content {
 
         private static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, ExtremeReactors.MOD_ID);
 
-        static void initialize() {
-            ITEMS.register(Mod.EventBusSubscriber.Bus.MOD.bus().get());
+        static void initialize(final IEventBus bus) {
+            ITEMS.register(bus);
         }
 
         //region metals
@@ -436,6 +479,18 @@ public final class Content {
         //endregion
         //endregion
 
+        //region reprocessor
+
+        public static final RegistryObject<BlockItem> REPROCESSOR_CASING = registerItemBlock("reprocessorcasing", () -> Blocks.REPROCESSOR_CASING::get, ItemGroups.GENERAL);
+        public static final RegistryObject<BlockItem> REPROCESSOR_GLASS = registerItemBlock("reprocessorglass", () -> Blocks.REPROCESSOR_GLASS::get, ItemGroups.GENERAL);
+        public static final RegistryObject<BlockItem> REPROCESSOR_CONTROLLER = registerItemBlock("reprocessorcontroller", () -> Blocks.REPROCESSOR_CONTROLLER::get, ItemGroups.GENERAL);
+        public static final RegistryObject<BlockItem> REPROCESSOR_WASTEINJECTOR = registerItemBlock("reprocessorwasteinjector", () -> Blocks.REPROCESSOR_WASTEINJECTOR::get, ItemGroups.GENERAL);
+        public static final RegistryObject<BlockItem> REPROCESSOR_FLUIDINJECTOR = registerItemBlock("reprocessorfluidinjector", () -> Blocks.REPROCESSOR_FLUIDINJECTOR::get, ItemGroups.GENERAL);
+        public static final RegistryObject<BlockItem> REPROCESSOR_OUTPUTPORT = registerItemBlock("reprocessoroutputport", () -> Blocks.REPROCESSOR_OUTPUTPORT::get, ItemGroups.GENERAL);
+        public static final RegistryObject<BlockItem> REPROCESSOR_POWERPORT = registerItemBlock("reprocessorpowerport", () -> Blocks.REPROCESSOR_POWERPORT::get, ItemGroups.GENERAL);
+        public static final RegistryObject<BlockItem> REPROCESSOR_COLLECTOR = registerItemBlock("reprocessorcollector", () -> Blocks.REPROCESSOR_COLLECTOR::get, ItemGroups.GENERAL);
+
+        //endregion
         //region misc
 
         public static final RegistryObject<ModItem> WRENCH = registerItemGeneric("wrench", 1);
@@ -467,8 +522,8 @@ public final class Content {
 
         private static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(ForgeRegistries.FLUIDS, ExtremeReactors.MOD_ID);
 
-        static void initialize() {
-            FLUIDS.register(Mod.EventBusSubscriber.Bus.MOD.bus().get());
+        static void initialize(final IEventBus bus) {
+            FLUIDS.register(bus);
         }
 
         public static final RegistryObject<ForgeFlowingFluid> STEAM_SOURCE = FLUIDS.register("steam", SteamFluid.Source::new);
@@ -480,8 +535,8 @@ public final class Content {
         private static final DeferredRegister<TileEntityType<?>> TILE_ENTITIES =
                 DeferredRegister.create(ForgeRegistries.TILE_ENTITIES, ExtremeReactors.MOD_ID);
 
-        static void initialize() {
-            TILE_ENTITIES.register(Mod.EventBusSubscriber.Bus.MOD.bus().get());
+        static void initialize(final IEventBus bus) {
+            TILE_ENTITIES.register(bus);
         }
 
         //region Reactor
@@ -641,6 +696,37 @@ public final class Content {
                         () -> Blocks.TURBINE_CHARGINGPORT_FE_REINFORCED::get);
 
         //endregion
+        //region reprocessor
+
+        public static final RegistryObject<TileEntityType<ReprocessorCasingEntity>> REPROCESSOR_CASING =
+                registerBlockEntity("reprocessorcasing", ReprocessorCasingEntity::new, () -> Blocks.REPROCESSOR_CASING::get);
+
+        public static final RegistryObject<TileEntityType<ReprocessorGlassEntity>> REPROCESSOR_GLASS =
+                registerBlockEntity("reprocessorglass", ReprocessorGlassEntity::new, () -> Blocks.REPROCESSOR_GLASS::get);
+
+        public static final RegistryObject<TileEntityType<ReprocessorControllerEntity>> REPROCESSOR_CONTROLLER =
+                registerBlockEntity("reprocessorcontroller", ReprocessorControllerEntity::new, () -> Blocks.REPROCESSOR_CONTROLLER::get);
+
+        public static final RegistryObject<TileEntityType<ReprocessorAccessPortEntity>> REPROCESSOR_WASTEINJECTOR =
+                registerBlockEntity("reprocessorwasteinjector",
+                        () -> new ReprocessorAccessPortEntity(TileEntityTypes.REPROCESSOR_WASTEINJECTOR.get(), IoDirection.Input),
+                        () -> Blocks.REPROCESSOR_FLUIDINJECTOR::get);
+
+        public static final RegistryObject<TileEntityType<ReprocessorFluidPortEntity>> REPROCESSOR_FLUIDINJECTOR =
+                registerBlockEntity("reprocessorfluidinjector", ReprocessorFluidPortEntity::new, () -> Blocks.REPROCESSOR_FLUIDINJECTOR::get);
+
+        public static final RegistryObject<TileEntityType<ReprocessorAccessPortEntity>> REPROCESSOR_OUTPUTPORT =
+                registerBlockEntity("reprocessoroutputport",
+                        () -> new ReprocessorAccessPortEntity(TileEntityTypes.REPROCESSOR_OUTPUTPORT.get(), IoDirection.Output),
+                        () -> Blocks.REPROCESSOR_OUTPUTPORT::get);
+
+        public static final RegistryObject<TileEntityType<ReprocessorPowerPortEntity>> REPROCESSOR_POWERPORT =
+                registerBlockEntity("reprocessorpowerport", ReprocessorPowerPortEntity::new, () -> Blocks.REPROCESSOR_POWERPORT::get);
+
+        public static final RegistryObject<TileEntityType<ReprocessorCollectorEntity>> REPROCESSOR_COLLECTOR =
+                registerBlockEntity("reprocessorcollector", ReprocessorCollectorEntity::new, () -> Blocks.REPROCESSOR_COLLECTOR::get);
+
+        //endregion
         //region internals
 
         @SuppressWarnings("ConstantConditions")
@@ -670,8 +756,8 @@ public final class Content {
         private static final DeferredRegister<ContainerType<?>> CONTAINERS =
                 DeferredRegister.create(ForgeRegistries.CONTAINERS, ExtremeReactors.MOD_ID);
 
-        static void initialize() {
-            CONTAINERS.register(Mod.EventBusSubscriber.Bus.MOD.bus().get());
+        static void initialize(final IEventBus bus) {
+            CONTAINERS.register(bus);
         }
 
         //region Reactor
@@ -719,6 +805,19 @@ public final class Content {
                         ModTileContainer.empty(Content.ContainerTypes.TURBINE_FLUIDPORT.get(), windowId, data));
 
         //endregion
+        //region Reprocessor
+
+        public static final RegistryObject<ContainerType<ModTileContainer<ReprocessorControllerEntity>>> REPROCESSOR_CONTROLLER =
+                registerContainer("reprocessorcontroller", (windowId, inv, data) ->
+                        ModTileContainer.empty(Content.ContainerTypes.REPROCESSOR_CONTROLLER.get(), windowId, data));
+
+//        public static final RegistryObject<ContainerType<ReprocessorControllerContainer>> REPROCESSOR_CONTROLLER =
+//                registerContainer("reprocessorcontroller", ReprocessorControllerContainer::new);
+
+        public static final RegistryObject<ContainerType<ReprocessorAccessPortContainer>> REPROCESSOR_ACCESSPORT =
+                registerContainer("reprocessoraccessport", ReprocessorAccessPortContainer::new);
+
+        //endregion
         //region internals
 
         private static <C extends Container> RegistryObject<ContainerType<C>> registerContainer(final String name,
@@ -735,8 +834,8 @@ public final class Content {
         private static final DeferredRegister<IRecipeSerializer<?>> SERIALIZERS =
                 DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, ExtremeReactors.MOD_ID);
 
-        static void initialize() {
-            SERIALIZERS.register(Mod.EventBusSubscriber.Bus.MOD.bus().get());
+        static void initialize(final IEventBus bus) {
+            SERIALIZERS.register(bus);
         }
 
         //region Reprocessor

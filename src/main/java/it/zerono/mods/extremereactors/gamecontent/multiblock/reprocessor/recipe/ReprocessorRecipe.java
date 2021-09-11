@@ -48,6 +48,14 @@ public class ReprocessorRecipe
         super(id, ingot, fluid, result, JSON_LABELS_SUPPLIER);
     }
 
+    public boolean match(final ItemStack stack) {
+        return this.getIngredient1().test(stack);
+    }
+
+    public boolean match(final FluidStack stack) {
+        return this.getIngredient2().test(stack);
+    }
+
     public static IRecipeSerializer<ReprocessorRecipe> serializer() {
         return new TwoToOneRecipeSerializer<>(ReprocessorRecipe::new,
                 ItemStackRecipeIngredient::from, ItemStackRecipeIngredient::from,
