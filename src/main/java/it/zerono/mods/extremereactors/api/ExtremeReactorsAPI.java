@@ -33,6 +33,6 @@ public final class ExtremeReactorsAPI {
     public static final Marker MARKER = MarkerManager.getMarker("API");
 
     public static final Style STYLE_TOOLTIP = Style.EMPTY
-            .setFormatting(TextFormatting.YELLOW)
-            .setItalic(true);
+            .withColor(TextFormatting.YELLOW)
+            .withItalic(true);
 }

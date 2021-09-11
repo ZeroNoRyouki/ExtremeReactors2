@@ -54,7 +54,7 @@ public class BlockTagGenerator
     //region BlockTagsProvider
 
     @Override
-    protected void registerTags() {
+    protected void addTags() {
 
         this.build(ContentTags.Blocks.BLOCKS_YELLORIUM, Blocks.YELLORIUM_BLOCK);
         this.build(ContentTags.Blocks.BLOCKS_CYANITE, Blocks.CYANITE_BLOCK);
@@ -73,7 +73,7 @@ public class BlockTagGenerator
     @SafeVarargs
     private final void build(final ITag.INamedTag<Block> tag, final Supplier<? extends Block>... blocks) {
 
-        final TagsProvider.Builder<Block> builder = this.getOrCreateBuilder(tag);
+        final TagsProvider.Builder<Block> builder = this.tag(tag);
 
         for (final Supplier<? extends Block> block : blocks) {
             builder.add(block.get());

@@ -46,7 +46,7 @@ public class TurbineRotorBearingBlock
     //region Block
 
     @Override
-    public boolean isSideInvisible(BlockState state, BlockState adjacentBlockState, Direction side) {
+    public boolean skipRendering(BlockState state, BlockState adjacentBlockState, Direction side) {
         return false;
     }
 
@@ -73,12 +73,12 @@ public class TurbineRotorBearingBlock
                     // Spawn particles!
 
                     final int numParticles = Math.min(20, Math.max(1, turbine.getFluidConsumedLastTick() / 40));
-                    final BlockPos minCoord = min.add(1, 1, 1);
-                    final BlockPos maxCoord = max.add(-1, -1, -1);
+                    final BlockPos minCoord = min.offset(1, 1, 1);
+                    final BlockPos maxCoord = max.offset(-1, -1, -1);
                     final Direction inwardsDir = bearing.getOutwardDirection().map(Direction::getOpposite).orElse(Direction.UP);
-                    final int offsetX = inwardsDir.getXOffset();
-                    final int offsetY = inwardsDir.getYOffset();
-                    final int offsetZ = inwardsDir.getZOffset();
+                    final int offsetX = inwardsDir.getStepX();
+                    final int offsetY = inwardsDir.getStepY();
+                    final int offsetZ = inwardsDir.getStepZ();
                     final IParticleData particle = ParticleTypes.CLOUD; // TODO valentines HEART
 
                     int minX = minCoord.getX();

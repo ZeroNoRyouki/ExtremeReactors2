@@ -84,7 +84,7 @@ public class TurbineFluidPortEntity
     public void onNeighborBlockChanged(final BlockState state, final BlockPos neighborPosition, final boolean isMoving) {
 
         if (this.isConnected()) {
-            this.getFluidPortHandler().checkConnections(this.getWorld(), this.getWorldPosition());
+            this.getFluidPortHandler().checkConnections(this.getLevel(), this.getWorldPosition());
         }
 
         this.requestClientRenderUpdate();
@@ -100,7 +100,7 @@ public class TurbineFluidPortEntity
     public void onNeighborTileChanged(final BlockState state, final BlockPos neighborPosition) {
 
         if (this.isConnected()) {
-            this.getFluidPortHandler().checkConnections(this.getWorld(), this.getWorldPosition());
+            this.getFluidPortHandler().checkConnections(this.getLevel(), this.getWorldPosition());
         }
 
         this.requestClientRenderUpdate();
@@ -129,7 +129,7 @@ public class TurbineFluidPortEntity
         this.callOnLogicalSide(
                 () -> {
                     this.notifyOutwardNeighborsOfStateChange();
-                    this.markDirty();
+                    this.setChanged();
                 },
                 this::markForRenderUpdate
         );
@@ -180,16 +180,9 @@ public class TurbineFluidPortEntity
     @Override
     protected int getUpdatedModelVariantIndex() {
 
-        if (this.isMachineAssembled()) {
+        final int connectedOffset = this.isMachineAssembled() && this.getFluidPortHandler().isConnected() ? 1 : 0;
 
-            final int connectedOffset = this.getFluidPortHandler().isConnected() ? 1 : 0;
-
-            return this.getIoDirection().isInput() ? 2 + connectedOffset : 0 + connectedOffset;
-
-        } else {
-
-            return 0;
-        }
+        return this.getIoDirection().isInput() ? 2 + connectedOffset : 0 + connectedOffset;
     }
 
     //endregion
@@ -264,9 +257,9 @@ public class TurbineFluidPortEntity
      * invalidates a tile entity
      */
     @Override
-    public void remove() {
+    public void setRemoved() {
 
-        super.remove();
+        super.setRemoved();
         this.getFluidPortHandler().invalidate();
     }
 

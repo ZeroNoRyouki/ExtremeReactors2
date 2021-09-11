@@ -43,7 +43,7 @@ public interface IReactorMachine
     /**
      * Perform a refueling cycle, ejecting waste and inserting new fuel into the Reactor
      */
-    void performRefuelingCycle();
+    boolean performRefuelingCycle();
 
     /**
      * Output power/gas to active ports
@@ -53,5 +53,5 @@ public interface IReactorMachine
     /**
      * Input fluid from active ports
      */
-    void performInputCycle();
+    boolean performInputCycle();
 }

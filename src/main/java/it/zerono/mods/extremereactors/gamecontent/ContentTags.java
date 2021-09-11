@@ -47,6 +47,8 @@ public class ContentTags {
 
     public static final class Items {
 
+        public static final ITag.INamedTag<Item> ORE_YELLORITE = forgeTag("ores/yellorite");
+
         public static final ITag.INamedTag<Item> INGOTS_YELLORIUM = forgeTag("ingots/yellorium");
         public static final ITag.INamedTag<Item> INGOTS_CYANITE = forgeTag("ingots/cyanite");
         public static final ITag.INamedTag<Item> INGOTS_GRAPHITE = forgeTag("ingots/graphite");

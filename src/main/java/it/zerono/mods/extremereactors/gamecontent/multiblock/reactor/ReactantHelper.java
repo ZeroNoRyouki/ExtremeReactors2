@@ -18,19 +18,26 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor;
 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import it.zerono.mods.extremereactors.api.IMapping;
-import it.zerono.mods.extremereactors.api.reactor.Reactant;
-import it.zerono.mods.extremereactors.api.reactor.ReactantMappingsRegistry;
-import it.zerono.mods.extremereactors.api.reactor.ReactantType;
+import it.zerono.mods.extremereactors.api.reactor.*;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part.ReactorSolidAccessPortEntity;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.IMultiblockReactorVariant;
 import it.zerono.mods.zerocore.lib.data.stack.OperationMode;
 import it.zerono.mods.zerocore.lib.item.ItemHelper;
+import net.minecraft.block.BlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
+import net.minecraftforge.event.TagsUpdatedEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fluids.FluidStack;
 
+import javax.annotation.Nullable;
+import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
 public class ReactantHelper {
@@ -66,12 +73,6 @@ public class ReactantHelper {
     }
 
     static ReactantStack reactantFromFluidSource(final FluidStack sourceStack, final IMultiblockReactorVariant variant) {
-        /*
-        return ReactantMappingsRegistry.getFromSolid(sourceStack)
-                .map(m -> new ReactantStack(m.getProduct(),
-                        this.getVariant().applyFluidFuelConversionEfficency(m.getProductAmount(ItemHelper.stackGetSize(sourceStack)))))
-                .orElse(ReactantStack.EMPTY);
-                */
         return ReactantStack.EMPTY; //TODO fluids
     }
 
@@ -160,13 +161,6 @@ public class ReactantHelper {
                 .sum() > 0;
     }
 
-//DELETE
-//    static ReactantStack reactantFromSolidSourcex(final ItemStack fuelSourceStack, final IMultiblockReactorVariant variant) {
-//        return ReactantMappingsRegistry.getFromSolid(fuelSourceStack)
-//                .map(m -> new ReactantStack(m.getProduct(), variant.solidSourceAmountToReactantAmount(m.getProductAmount(fuelSourceStack.getCount()))))
-//                .orElse(ReactantStack.EMPTY);
-//    }
-
     /**
      * Refuel from a single port, return how much was added
       */
@@ -244,89 +238,53 @@ public class ReactantHelper {
 
         return 0;
     }
-//
-//    static int refuelSolidOLD(final FuelContainer container, final IFuelSource<ItemStack> fuelSource,
-//                           final IMultiblockReactorVariant variant) {
-//
-//        // the fuel source items available in the port
-//        final ItemStack fuelSourceStack = fuelSource.getFuelStack();
-//
-//        if (fuelSourceStack.isEmpty()) {
-//            // no fuel in the port: bail out
-//            return 0;
-//        }
-//
-//        // convert the source items to the equivalent amount (with penalties, if any are applicable) of Reactant
-////        final ReactantStack fuelReactant = reactantFromSolidSource(fuelSourceStack, variant);
-//        final Optional<SourceProductMapping<Tag<Item>, Reactant>> fuelMapping = ReactantMappingsRegistry.getFromSolid(fuelSourceStack);
-////        final ReactantStack availableFuel = fuelMapping
-////                .map(m -> new ReactantStack(m.getProduct(),
-////                        variant.solidSourceAmountToReactantAmount(m.getProductAmount(fuelSourceStack.getCount()))))
-////                .orElse(ReactantStack.EMPTY);
-//        final ReactantStack availableFuel = fuelMapping
-//                .map(m -> new ReactantStack(m, fuelSourceStack))
-//                .orElse(ReactantStack.EMPTY);
-//
-////        if (availableFuel.isEmpty() || !availableFuel.getReactant().isPresent() || !availableFuel.containsFuel()) {
-////            // no fuel in the port: bail out
-////            return 0;
-////        }
-//        if (availableFuel.isEmpty() || !availableFuel.containsFuel()) {
-//            // no fuel in the port: bail out
-//            return 0;
-//        }
-//
-//        final float conversionEfficiency = MathHelper.clamp(variant.getSolidFuelConversionEfficiency(), 0f, 1f);
-//
-//        if (conversionEfficiency < 1.0f) {
-//            // apply any variant-specific penalties
-//            availableFuel.setAmount(MathHelper.floor(availableFuel.getAmount() * conversionEfficiency));
-//        }
-//
-//        //TODO blutonium?
-//            /*// HACK; TEMPORARY
-//            // Alias blutonium to yellorium temporarily, until mixed fuels are implemented
-//            if(portReactant.equals(GameBalanceData.REACTANT_NAME_BLUTONIUM)) {
-//                portReactant = GameBalanceData.REACTANT_NAME_YELLORIUM;
-//            }*/
-//
-//        // how much Reactant could be stored in the FuelContainer?
-//
-//        final int storableReactantAmount = container.insertFuel(availableFuel, true);
-//
-//        if (storableReactantAmount <= 0) {
-//            // no space left, giving up
-//            return 0;
-//        }
-//
-//        // tell the port to consume some source items
-//
-////        final ItemStack maxSourceToConsume = fuelMapping
-////                .map(m -> ItemHelper.stackFrom(fuelSourceStack,
-////                        variant.reactantAmountToSolidSourceAmount(m.getSourceAmount(storableReactantAmount))
-////                ))
-////                .orElse(ItemHelper.stackEmpty());
-//        final ItemStack maxSourceToConsume = fuelMapping
-//                .map(m -> ItemHelper.stackFrom(fuelSourceStack, m.getSourceAmount(storableReactantAmount)))
-//                .orElse(ItemHelper.stackEmpty());
-//
-//        if (conversionEfficiency < 1.0f) {
-//            // remove any variant-specific penalties to consume the correct amount of Reactant
-//            maxSourceToConsume.setCount(MathHelper.floor(maxSourceToConsume.getCount() / conversionEfficiency));
-//        }
-//
-//        final ItemStack consumed = fuelSource.consumeFuelSource(maxSourceToConsume);
-//
-//        if (!consumed.isEmpty() && consumed.getCount() > 0) {
-//
-//            // how much Reactant should we add to the FuelContainer given the consumed source items?
-//            //TODO bug: adding 1 block add 1 ingot instead
-//            final int amountToAdd = Math.min(storableReactantAmount, variant.solidSourceAmountToReactantAmount(consumed.getCount()));
-//
-//            // how much Reactant was effectively added?
-//            return container.insertFuel(availableFuel.getReactant().get(), amountToAdd, false);
-//        }
-//
-//        return 0;
-//    }
+
+    @Nullable
+    public static Moderator getModeratorFrom(final BlockState state) {
+        return getCachedModeratorFrom(state);
+    }
+
+    public static Moderator getModeratorFrom(final BlockState state, final Moderator fallbackModerator) {
+
+        final Moderator moderator = getCachedModeratorFrom(state);
+
+        return null != moderator ? moderator : fallbackModerator;
+    }
+
+    public static boolean isValidModerator(final BlockState state) {
+        return null != getCachedModeratorFrom(state);
+    }
+
+    @SubscribeEvent(priority = EventPriority.LOW)
+    public static void onVanillaTagsUpdated(final TagsUpdatedEvent.VanillaTagTypes event) {
+        s_moderatorsCache.invalidateAll();
+    }
+
+    //region internals
+
+    @Nullable
+    private static Moderator getCachedModeratorFrom(final BlockState state) {
+
+        Moderator moderator = s_moderatorsCache.getIfPresent(state);
+
+        if (null == moderator) {
+
+            final Optional<Moderator> m = ModeratorsRegistry.getFrom(state);
+
+            if (m.isPresent()) {
+                s_moderatorsCache.put(state, moderator = m.get());
+            }
+        }
+
+        return moderator;
+    }
+
+    private static final Cache<BlockState, Moderator> s_moderatorsCache = CacheBuilder.newBuilder()
+            .initialCapacity(4)
+            .concurrencyLevel(2)
+            .maximumSize(128)
+            .expireAfterAccess(5, TimeUnit.MINUTES)
+            .build();
+
+    //endregion
 }

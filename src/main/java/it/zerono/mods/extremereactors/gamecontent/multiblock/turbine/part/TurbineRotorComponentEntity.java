@@ -132,7 +132,7 @@ public class TurbineRotorComponentEntity
         final boolean assembled = this.isMachineAssembled();
 
         if (assembled) {
-            return 0;
+            return 0; // HIDDEN
         }
 
         return this.getPartType()
@@ -155,10 +155,10 @@ public class TurbineRotorComponentEntity
     //region TileEntity
 
     @Override
-    public void remove() {
+    public void setRemoved() {
 
         this.callOnLogicalClient(() -> updateNeighborsRenderState(this.getPartWorldOrFail(), this.getWorldPosition()));
-        super.remove();
+        super.setRemoved();
     }
 
     //endregion
@@ -193,7 +193,7 @@ public class TurbineRotorComponentEntity
         final BlockPos shaftPosition = shaft.getWorldPosition();
 
         final Map<Direction, BlockState> neighborsStates = Arrays.stream(CodeHelper.DIRECTIONS)
-                .collect(Collectors.toMap(direction -> direction, direction -> world.getBlockState(shaftPosition.offset(direction))));
+                .collect(Collectors.toMap(direction -> direction, direction -> world.getBlockState(shaftPosition.relative(direction))));
 
         // select an axis based on the first rotor shaft found nearby
 
@@ -234,7 +234,7 @@ public class TurbineRotorComponentEntity
         final BlockPos bladePosition = blade.getWorldPosition();
 
         final Map<Direction, BlockState> neighborsStates = Arrays.stream(CodeHelper.DIRECTIONS)
-                .collect(Collectors.toMap(direction -> direction, direction -> world.getBlockState(bladePosition.offset(direction))));
+                .collect(Collectors.toMap(direction -> direction, direction -> world.getBlockState(bladePosition.relative(direction))));
 
         // any shaft around?
 
@@ -242,7 +242,7 @@ public class TurbineRotorComponentEntity
 
         RotorBladeState candidate = neighborsStates.entrySet().stream()
                 .filter(entry -> entry.getValue().getBlock() == shaftBlock)
-                .map(entry -> WorldHelper.getTile(world, bladePosition.offset(entry.getKey()))
+                .map(entry -> WorldHelper.getTile(world, bladePosition.relative(entry.getKey()))
                         .filter(te -> te instanceof TurbineRotorComponentEntity)
                         .map(te -> computeShaftStateInternal((TurbineRotorComponentEntity)te))
                         .map(shaftState -> RotorBladeState.from(shaftState, entry.getKey()))
@@ -280,7 +280,7 @@ public class TurbineRotorComponentEntity
 
         do {
 
-            final Block block = world.getBlockState(startPosition = startPosition.offset(direction)).getBlock();
+            final Block block = world.getBlockState(startPosition = startPosition.relative(direction)).getBlock();
 
             if (shaftBlock == block) {
 

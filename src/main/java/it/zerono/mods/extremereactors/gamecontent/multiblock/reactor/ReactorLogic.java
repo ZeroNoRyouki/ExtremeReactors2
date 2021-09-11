@@ -58,11 +58,11 @@ public class ReactorLogic
 
         //TODO variants
 
-        if (Double.isNaN(reactorHeat.get())) {
+        if (Double.isNaN(reactorHeat.getAsDouble())) {
             reactorHeat.set(0);
         }
 
-        final double startingReactorHeat = reactorHeat.get();
+        final double startingReactorHeat = reactorHeat.getAsDouble();
         final double startingEnergy = this._energyBuffer.getEnergyStored();
 
         this.getUiStats().setAmountGeneratedLastTick(0);
@@ -73,25 +73,28 @@ public class ReactorLogic
         //////////////////////////////////////////////////////////////////////////////
 
         // - Irradiate from the next Fuel Rod
-        profiler.startSection("Irradiate");
+        profiler.push("Irradiate");
         this.performIrradiation();
         // - Allow radiation to decay even when reactor is off.
-        profiler.endStartSection("Decay");
+        profiler.popPush("Decay");
         this.performRadiationDecay(this._reactor.isMachineActive());
 
         //////////////////////////////////////////////////////////////////////////////
         // REFUELING
         //////////////////////////////////////////////////////////////////////////////
 
-        profiler.endStartSection("Refueling");
-        this._reactor.performRefuelingCycle();
-        this._reactor.performInputCycle();
+        profiler.popPush("Refueling");
+
+        boolean reactantsChanged;
+
+        reactantsChanged = this._reactor.performRefuelingCycle();
+        reactantsChanged |= this._reactor.performInputCycle();
 
         //////////////////////////////////////////////////////////////////////////////
         // HEAT TRANSFERS
         //////////////////////////////////////////////////////////////////////////////
 
-        profiler.endStartSection("Heat");
+        profiler.popPush("Heat");
         // - Fuel Pool <> Reactor Environment
         this.transferHeatBetweenFuelAndReactor();
         // - If we have a temperature differential between environment and coolant system, move heat between them
@@ -106,15 +109,15 @@ public class ReactorLogic
         // SEND POWER/GAS OUT
         //////////////////////////////////////////////////////////////////////////////
 
-        profiler.endStartSection("Distribute"); // close "Generate"
+        profiler.popPush("Distribute"); // close "Generate"
         this._reactor.performOutputCycle();
-        profiler.endSection();
+        profiler.pop();
 
         //////////////////////////////////////////////////////////////////////////////
         //TODO: Overload/overheat
         //////////////////////////////////////////////////////////////////////////////
 
-        return startingReactorHeat != reactorHeat.get() ||
+        return reactantsChanged || startingReactorHeat != reactorHeat.getAsDouble() ||
                 startingEnergy != this._energyBuffer.getEnergyStored();
     }
 
@@ -225,7 +228,7 @@ public class ReactorLogic
     private void performIrradiationFrom(IIrradiationSource source) {
 
         this.radiate(/*this._reactor.getWorld(),*/ this.getFuelContainer(), source,
-                this.getFuelHeat().get(), this.getReactorHeat().get(),
+                this.getFuelHeat().getAsDouble(), this.getReactorHeat().getAsDouble(),
                 this.getControlRodsCount()).ifPresent(data -> {
 
             // Assimilate results of radiation
@@ -241,15 +244,15 @@ public class ReactorLogic
      */
     private void transferHeatBetweenFuelAndReactor() {
 
-        final double temperatureDifferential = this._reactor.getFuelHeat().get() - this.getReactorHeat().get();
+        final double temperatureDifferential = this._reactor.getFuelHeat().getAsDouble() - this.getReactorHeat().getAsDouble();
 
         if (temperatureDifferential > 0.01) {
 
             final double energyTransferred = temperatureDifferential * this._reactor.getEnvironment().getFuelToReactorHeatTransferCoefficient();
             final double fuelVolEnergy = EnergyConversion.getEnergyFromVolumeAndTemperature(this.getFuelRodsCount(),
-                    this.getFuelHeat().get()) - energyTransferred;
+                    this.getFuelHeat().getAsDouble()) - energyTransferred;
             final double reactorEnergy = EnergyConversion.getEnergyFromVolumeAndTemperature(this.getReactorVolume(),
-                    this.getReactorHeat().get()) + energyTransferred;
+                    this.getReactorHeat().getAsDouble()) + energyTransferred;
 
             this.getFuelHeat().set(EnergyConversion.getTemperatureFromVolumeAndEnergy(this.getFuelRodsCount(), fuelVolEnergy));
             this.getReactorHeat().set(EnergyConversion.getTemperatureFromVolumeAndEnergy(this.getReactorVolume(), reactorEnergy));
@@ -262,13 +265,13 @@ public class ReactorLogic
      */
     private void transferHeatBetweenReactorAndCoolant() {
 
-        final double temperatureDifferential = this.getReactorHeat().get() - this.getCoolantTemperature();
+        final double temperatureDifferential = this.getReactorHeat().getAsDouble() - this.getCoolantTemperature();
 
         if (temperatureDifferential > 0.01f) {
 
             double energyTransferred = temperatureDifferential * this._reactor.getEnvironment().getReactorToCoolantSystemHeatTransferCoefficient();
             double reactorEnergy = EnergyConversion.getEnergyFromVolumeAndTemperature(this.getReactorVolume(),
-                    this.getReactorHeat().get());
+                    this.getReactorHeat().getAsDouble());
 
             if (this._reactor.getOperationalMode().isPassive()) {
 
@@ -293,7 +296,7 @@ public class ReactorLogic
      */
     private void performPassiveHeatLoss() {
 
-        final double temperatureDifferential = this.getReactorHeat().get() - this.getPassiveCoolantTemperature();
+        final double temperatureDifferential = this.getReactorHeat().getAsDouble() - this.getPassiveCoolantTemperature();
 
         if (temperatureDifferential > 0.000001f) {
 
@@ -302,7 +305,7 @@ public class ReactorLogic
 
             final double reactorNewEnergy = Math.max(0d,
                     EnergyConversion.getEnergyFromVolumeAndTemperature(this.getReactorVolume(),
-                            this.getReactorHeat().get()) - energyLost);
+                            this.getReactorHeat().getAsDouble()) - energyLost);
 
             this.getReactorHeat().set(EnergyConversion.getTemperatureFromVolumeAndEnergy(this.getReactorVolume(), reactorNewEnergy));
         }
@@ -327,9 +330,8 @@ public class ReactorLogic
     //endregion
     //region irradiation
 
-    private Optional<IrradiationData> radiate(/*World world,*/ final IFuelContainer fuelContainer, final IIrradiationSource source,
-                                                               final double fuelHeat, final double environmentHeat,
-                                                               final int numControlRods) {
+    private Optional<IrradiationData> radiate(final IFuelContainer fuelContainer, final IIrradiationSource source,
+                                              final double fuelHeat, final double environmentHeat, final int numControlRods) {
         // No fuel? No radiation!
         if (fuelContainer.getFuelAmount() <= 0) {
             return Optional.empty();
@@ -397,10 +399,9 @@ public class ReactorLogic
             while (ttl > 0 && radPacket.intensity > 0.0001f) {
 
                 ttl--;
-                currentCoord = currentCoord.offset(dir);
+                currentCoord = currentCoord.relative(dir);
 
-                //this.performIrradiation(world, data, radPacket, currentCoord);
-                this._reactor.getEnvironment().getModerator(currentCoord).ifPresent(m -> m.moderateRadiation(data, radPacket));
+                this._reactor.getEnvironment().getModerator(currentCoord).moderateRadiation(data, radPacket);
             }
         }
 
@@ -446,84 +447,6 @@ public class ReactorLogic
         }
     }
 
-//    private void performIrradiation(World world, IrradiationData data, RadiationPacket radiation, BlockPos position) {
-//
-//        if (world.isAirBlock(position)) {
-//
-//            moderateByAir(data, radiation);
-//
-//        } else {
-//
-//            final TileEntity te = world.getTileEntity(position);
-//
-//            if (te instanceof IRadiationModerator) {
-//
-//                ((IRadiationModerator)te).moderateRadiation(data, radiation);
-//
-//            } else {
-//
-//                BlockState blockState = world.getBlockState(position);
-//                Block block = blockState.getBlock();
-//
-//                if (block.isAir(blockState, world, position)) {
-//
-//                    moderateByAir(data, radiation);
-//
-//                } else if(block instanceof IFluidBlock) {
-//                    //TODO fluids
-//                    moderateByFluid(data, radiation, ((IFluidBlock)block).getFluid());
-//
-//                } else {
-//                    // Go by block
-//                    moderateByBlock(data, radiation, blockState);
-//                }
-//
-//                // Do it based on fluid?
-//            }
-//        }
-//    }
-
-//    private static void moderateByAir(IrradiationData data, RadiationPacket radiation) {
-//        applyModerationFactors(data, radiation, Moderator.AIR);
-//    }
-//
-//    private static void moderateByBlock(IrradiationData data, RadiationPacket radiation, BlockState blockState) {
-//
-//        final Moderator moderator;
-//        final Block block = blockState.getBlock();
-//
-//        //TODO fluids
-//        //TODO how to handle water?
-//        if (block == Blocks.WATER /*|| block == Blocks.FLOWING_WATER*/) { //TODO ignore flowing water?
-//            moderator = Moderator.WATER;
-//        } else {
-//            moderator = ModeratorsRegistry.getFromSolid(block).orElse(Moderator.AIR);
-//        }
-//
-//        applyModerationFactors(data, radiation, moderator);
-//    }
-//
-//    //TODO fluids
-//    private static void moderateByFluid(IrradiationData data, RadiationPacket radiation, Fluid fluid) {
-//
-//        Moderator moderator = null; //ModeratorsRegistry.getFluidData(fluid.getName()); //TODO fluids
-//
-//        if (null == moderator) {
-//            moderator = Moderator.WATER;
-//        }
-//
-//        applyModerationFactors(data, radiation, moderator);
-//    }
-//
-//    private static void applyModerationFactors(IrradiationData data, RadiationPacket radiation, Moderator moderator) {
-//
-//        final float radiationAbsorbed = radiation.intensity * moderator.getAbsorption() * (1f - radiation.hardness);
-//
-//        radiation.intensity = Math.max(0f, radiation.intensity - radiationAbsorbed);
-//        radiation.hardness /= moderator.getModeration();
-//        data.environmentEnergyAbsorption += moderator.getHeatEfficiency() * radiationAbsorbed * EnergyConversion.ENERGY_PER_RADIATION_UNIT;
-//    }
-
     //endregion
 
     private double getPassiveCoolantTemperature() {
@@ -535,7 +458,7 @@ public class ReactorLogic
         if (this._reactor.getOperationalMode().isPassive()) {
             return this.getPassiveCoolantTemperature();
         } else {
-            return this.getFluidContainer().getLiquidTemperature(this.getReactorHeat().get());
+            return this.getFluidContainer().getLiquidTemperature(this.getReactorHeat().getAsDouble());
         }
     }
 

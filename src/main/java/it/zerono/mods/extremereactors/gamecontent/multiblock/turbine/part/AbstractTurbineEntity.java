@@ -117,13 +117,13 @@ public class AbstractTurbineEntity
     @Override
     public MultiblockTurbine createController() {
 
-        final World myWorld = this.getWorld();
+        final World myWorld = this.getLevel();
 
         if (null == myWorld) {
             throw new RuntimeException("Trying to create a Controller from a Part without a World");
         }
 
-        return new MultiblockTurbine(this.getWorld(), this.getMultiblockVariant().orElse(TurbineVariant.Basic));
+        return new MultiblockTurbine(this.getLevel(), this.getMultiblockVariant().orElse(TurbineVariant.Basic));
     }
 
     /**

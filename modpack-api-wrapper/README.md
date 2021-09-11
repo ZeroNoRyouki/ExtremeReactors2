@@ -82,7 +82,7 @@ The properties of the items you can add are:
 - Product : the name of the vapor (must be the name of a registered vapor)
 - ProductQuantity : the amount of vapor produced by vaporizing the coolant
 
-An condensation transition (vapor to coolant) will be automatically added for you
+A condensation transition (vapor to coolant) will be automatically added for you
 
 
 _**The Reactor**_
@@ -100,6 +100,15 @@ The properties of the items you can add are:
 - TranslationKey : the translation key for the "in-game" name of the reactant
 - IsFuel : true if this reactant is a fuel, false if it is a waste product.
 - RgbColour : a color in RGB form associated with this reactant
+- FuelProperties : the properties of this fuel (see next section). If this reactant is not a fuel or if you want to give it the default properties, you can omit this value entirely. 
+
+_FuelProperties_
+
+Define the properties of a fuel reactant, as follows:
+
+- ModerationFactor : how well this fuel moderate, but not stop, radiation. Must be greater or equal to 1. Anything under 1.5 is "poor", 2-2.5 is "good", above 4 is "excellent". (a float number)
+- AbsorptionCoefficient : how well this fuel absorbs radiation. Must be between 0 and 1. (a float number)
+- HardnessDivisor : how this fuel tolerates hard radiation. Must be greater or equal to 1. (a float number)
 
 _ReactorReactantSources_
 

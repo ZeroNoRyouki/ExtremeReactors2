@@ -56,7 +56,7 @@ public class TurbinePowerTapEntity
     public void onNeighborBlockChanged(BlockState state, BlockPos neighborPosition, boolean isMoving) {
 
         if (this.isConnected()) {
-            this.getPowerTapHandler().checkConnections(this.getWorld(), this.getWorldPosition());
+            this.getPowerTapHandler().checkConnections(this.getLevel(), this.getWorldPosition());
         }
     }
 
@@ -70,7 +70,7 @@ public class TurbinePowerTapEntity
     public void onNeighborTileChanged(BlockState state, BlockPos neighborPosition) {
 
         if (this.isConnected()) {
-            this.getPowerTapHandler().checkConnections(this.getWorld(), this.getWorldPosition());
+            this.getPowerTapHandler().checkConnections(this.getLevel(), this.getWorldPosition());
         }
     }
 
@@ -81,14 +81,14 @@ public class TurbinePowerTapEntity
     public void onAttached(MultiblockTurbine newController) {
 
         super.onAttached(newController);
-        this.getPowerTapHandler().checkConnections(this.getWorld(), this.getWorldPosition());
+        this.getPowerTapHandler().checkConnections(this.getLevel(), this.getWorldPosition());
     }
 
     @Override
     public void onPostMachineAssembled(MultiblockTurbine controller) {
 
         super.onPostMachineAssembled(controller);
-        this.getPowerTapHandler().checkConnections(this.getWorld(), this.getWorldPosition());
+        this.getPowerTapHandler().checkConnections(this.getLevel(), this.getWorldPosition());
         this.notifyNeighborsOfTileChange();
     }
 

@@ -26,7 +26,6 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.common.sensor.Abstr
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.sensor.ISensorSettingFactory;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.sensor.ISensorType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.sensor.SensorBehavior;
-import it.zerono.mods.zerocore.lib.CodeHelper;
 import it.zerono.mods.zerocore.lib.client.gui.control.*;
 import net.minecraft.util.text.TranslationTextComponent;
 

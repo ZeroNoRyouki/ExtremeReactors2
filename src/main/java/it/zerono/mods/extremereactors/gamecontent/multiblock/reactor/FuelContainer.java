@@ -19,10 +19,7 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor;
 
 import it.zerono.mods.extremereactors.Log;
-import it.zerono.mods.extremereactors.api.reactor.Reactant;
-import it.zerono.mods.extremereactors.api.reactor.ReactantType;
-import it.zerono.mods.extremereactors.api.reactor.Reaction;
-import it.zerono.mods.extremereactors.api.reactor.ReactionsRegistry;
+import it.zerono.mods.extremereactors.api.reactor.*;
 import it.zerono.mods.zerocore.lib.IDebugMessages;
 import it.zerono.mods.zerocore.lib.data.nbt.IMergeableEntity;
 import it.zerono.mods.zerocore.lib.data.stack.IndexedStackContainer;
@@ -55,6 +52,10 @@ public class FuelContainer
 
     public Optional<Reactant> getFuel() {
         return this.getContent(ReactantType.Fuel);
+    }
+
+    public FuelProperties getFuelProperties() {
+        return this.map(ReactantType.Fuel, Reactant::getFuelData, FuelProperties.INVALID);
     }
 
     public Optional<Reactant> getWaste() {

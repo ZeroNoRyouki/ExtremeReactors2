@@ -25,6 +25,7 @@ import it.zerono.mods.extremereactors.api.reactor.radiation.IrradiationData;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.AbstractMultiblockEntity;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.MultiblockReactor;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.ReactorPartType;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.network.UpdateClientsFuelRodsLayout;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.IMultiblockReactorVariant;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.ReactorVariant;
 import it.zerono.mods.zerocore.lib.CodeHelper;
@@ -42,8 +43,6 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.data.EmptyModelData;
 import net.minecraftforge.client.model.data.IModelData;
-
-import java.util.function.Supplier;
 
 public abstract class AbstractReactorEntity
         extends AbstractMultiblockEntity<MultiblockReactor>
@@ -85,6 +84,10 @@ public abstract class AbstractReactorEntity
         return 0;
     }
 
+    public void onUpdateClientsFuelRodsLayout(final UpdateClientsFuelRodsLayout message) {
+        this.executeOnController(c -> c.onUpdateClientsFuelRodsLayout(message));
+    }
+
     //endregion
     //region IHeatEntity
 
@@ -93,10 +96,7 @@ public abstract class AbstractReactorEntity
      */
     @Override
     public double getHeat() {
-        return this.getMultiblockController()
-                .map(MultiblockReactor::getFuelHeat)
-                .map(Supplier::get)
-                .orElse(0d);
+        return this.evalOnController(c -> c.getFuelHeatValue().getAsDouble(), 0.0);
     }
 
     /**
@@ -159,13 +159,13 @@ public abstract class AbstractReactorEntity
     @Override
     public MultiblockReactor createController() {
 
-        final World myWorld = this.getWorld();
+        final World myWorld = this.getLevel();
 
         if (null == myWorld) {
             throw new RuntimeException("Trying to create a Controller from a Part without a World");
         }
 
-        return new MultiblockReactor(this.getWorld(), this.getMultiblockVariant().orElse(ReactorVariant.Basic));
+        return new MultiblockReactor(this.getLevel(), this.getMultiblockVariant().orElse(ReactorVariant.Basic));
     }
 
     /**

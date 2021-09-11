@@ -24,7 +24,7 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.rotor.Rotor
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.rotor.RotorShaftState;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.IMultiblockTurbineVariant;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.TurbineVariant;
-import it.zerono.mods.zerocore.lib.client.model.BakedModelSupplier;
+import it.zerono.mods.extremereactors.proxy.ClientProxy;
 import it.zerono.mods.zerocore.lib.client.model.BlockVariantsModelBuilder;
 import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.client.renderer.model.ModelResourceLocation;
@@ -35,11 +35,11 @@ import java.util.function.Supplier;
 public class TurbineRotorModelBuilder
         extends BlockVariantsModelBuilder {
 
-    public static final Supplier<IBakedModel> BASIC_SHAFT = BakedModelSupplier.create(getBlockStateRL(TurbineVariant.Basic, RotorShaftState.getDefault()));
-    public static final Supplier<IBakedModel> REINFORCED_SHAFT = BakedModelSupplier.create(getBlockStateRL(TurbineVariant.Reinforced, RotorShaftState.getDefault()));
+    public static final Supplier<IBakedModel> BASIC_SHAFT = ClientProxy.getModelSupplier(getBlockStateRL(TurbineVariant.Basic, RotorShaftState.getDefault()));
+    public static final Supplier<IBakedModel> REINFORCED_SHAFT = ClientProxy.getModelSupplier(getBlockStateRL(TurbineVariant.Reinforced, RotorShaftState.getDefault()));
 
-    public static final Supplier<IBakedModel> BASIC_BLADE = BakedModelSupplier.create(getBlockStateRL(TurbineVariant.Basic, RotorBladeState.getDefault()));
-    public static final Supplier<IBakedModel> REINFORCED_BLADE = BakedModelSupplier.create(getBlockStateRL(TurbineVariant.Reinforced, RotorBladeState.getDefault()));
+    public static final Supplier<IBakedModel> BASIC_BLADE = ClientProxy.getModelSupplier(getBlockStateRL(TurbineVariant.Basic, RotorBladeState.getDefault()));
+    public static final Supplier<IBakedModel> REINFORCED_BLADE = ClientProxy.getModelSupplier(getBlockStateRL(TurbineVariant.Reinforced, RotorBladeState.getDefault()));
 
     public TurbineRotorModelBuilder(final IMultiblockTurbineVariant variant) {
 
@@ -60,11 +60,11 @@ public class TurbineRotorModelBuilder
 
     public static ResourceLocation getBlockStateRL(final IMultiblockTurbineVariant variant, final RotorBladeState blockStateVariant) {
         return new ModelResourceLocation(ExtremeReactors.newID(variant.getName() + "_turbinerotorblade"),
-                String.format("state=%s", blockStateVariant.getString()));
+                String.format("state=%s", blockStateVariant.getSerializedName()));
     }
 
     public static ResourceLocation getBlockStateRL(final IMultiblockTurbineVariant variant, final RotorShaftState blockStateVariant) {
         return new ModelResourceLocation(ExtremeReactors.newID(variant.getName() + "_turbinerotorshaft"),
-                String.format("state=%s", blockStateVariant.getString()));
+                String.format("state=%s", blockStateVariant.getSerializedName()));
     }
 }

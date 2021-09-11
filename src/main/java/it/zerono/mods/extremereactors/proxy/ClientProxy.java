@@ -36,10 +36,10 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.scree
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.container.ChargingPortContainer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.FuelRodsLayout;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.ClientFuelRodsLayout;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.model.ReactorFuelRodBlockColor;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.model.ReactorFuelRodModelBuilder;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.model.ReactorGlassModelBuilder;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.model.ReactorModelBuilder;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.render.FuelRodEntityRenderer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.screen.ReactorControlRodScreen;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.screen.ReactorControllerScreen;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.screen.ReactorRedstonePortScreen;
@@ -60,6 +60,7 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part.Turbin
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.TurbineVariant;
 import it.zerono.mods.zerocore.lib.CodeHelper;
 import it.zerono.mods.zerocore.lib.client.model.ICustomModelBuilder;
+import it.zerono.mods.zerocore.lib.client.model.ModBakedModelSupplier;
 import it.zerono.mods.zerocore.lib.compat.Mods;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
 import net.minecraft.block.Block;
@@ -68,6 +69,7 @@ import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
+import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.ContainerType;
@@ -75,7 +77,9 @@ import net.minecraft.inventory.container.PlayerContainer;
 import net.minecraft.item.Item;
 import net.minecraft.resources.IResourceManager;
 import net.minecraft.util.Direction;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.client.event.ModelBakeEvent;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
@@ -115,6 +119,10 @@ public class ClientProxy
         CodeHelper.addResourceReloadListener(this);
     }
 
+    public static Supplier<IBakedModel> getModelSupplier(final ResourceLocation modelId) {
+        return s_bakedModelSupplier.getOrCreate(modelId);
+    }
+
     /**
      * Called on the physical client to perform client-specific initialization tasks
      *
@@ -149,7 +157,7 @@ public class ClientProxy
     @SubscribeEvent
     public void onTextureStitchPre(final TextureStitchEvent.Pre event) {
 
-        if (!event.getMap().getTextureLocation().equals(PlayerContainer.LOCATION_BLOCKS_TEXTURE)) {
+        if (!event.getMap().location().equals(PlayerContainer.BLOCK_ATLAS)) {
             return;
         }
 
@@ -161,6 +169,13 @@ public class ClientProxy
         if (!Config.CLIENT.disableApiTooltips.get() && event.getFlags().isAdvanced()) {
             event.getToolTip().addAll(this.getApiTooltipCache().getOrDefault(event.getItemStack().getItem(), Collections.emptySet()));
         }
+    }
+
+    @SubscribeEvent
+    public void onColorHandlerEvent(final ColorHandlerEvent.Block event) {
+        event.getBlockColors().register(new ReactorFuelRodBlockColor(),
+                Content.Blocks.REACTOR_FUELROD_BASIC.get(),
+                Content.Blocks.REACTOR_FUELROD_REINFORCED.get());
     }
 
     //region IProxy
@@ -239,20 +254,17 @@ public class ClientProxy
 
     private static void registerRenderTypes() {
 
-        registerRenderType(RenderType.getTranslucent(),
+        registerRenderType(RenderType.translucent(),
                 Content.Blocks.REACTOR_GLASS_BASIC, Content.Blocks.REACTOR_GLASS_REINFORCED,
                 Content.Blocks.TURBINE_GLASS_BASIC, Content.Blocks.TURBINE_GLASS_REINFORCED,
                 Content.Blocks.REPROCESSOR_GLASS);
 
-        registerRenderType(RenderType.getCutout(),
-                Content.Blocks.REACTOR_FUELROD_BASIC, Content.Blocks.REACTOR_FUELROD_REINFORCED,
+        registerRenderType(RenderType.cutout(),
                 Content.Blocks.TURBINE_ROTORBLADE_BASIC, Content.Blocks.TURBINE_ROTORBLADE_REINFORCED,
                 Content.Blocks.TURBINE_ROTORSHAFT_BASIC, Content.Blocks.TURBINE_ROTORSHAFT_REINFORCED);
     }
 
     private static void registerTileRenderers() {
-
-        ClientRegistry.bindTileEntityRenderer(Content.TileEntityTypes.REACTOR_FUELROD.get(), FuelRodEntityRenderer::new);
         ClientRegistry.bindTileEntityRenderer(Content.TileEntityTypes.TURBINE_ROTORBEARING.get(), RotorBearingEntityRenderer::new);
     }
 
@@ -261,7 +273,7 @@ public class ClientProxy
     private static <M extends Container, U extends Screen & IHasContainer<M>>
         void registerScreen(final Supplier<? extends ContainerType<? extends M>> type,
                         final ScreenManager.IScreenFactory<M, U> factory) {
-        ScreenManager.registerFactory(type.get(), factory);
+        ScreenManager.register(type.get(), factory);
     }
 
     @SafeVarargs
@@ -306,6 +318,8 @@ public class ClientProxy
     }
 
     //endregion
+
+    private static final ModBakedModelSupplier s_bakedModelSupplier = new ModBakedModelSupplier();
 
     private final List<ICustomModelBuilder> _modelBuilders;
 

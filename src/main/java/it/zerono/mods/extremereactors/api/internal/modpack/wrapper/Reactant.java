@@ -23,14 +23,22 @@ public final class Reactant
 
     public boolean IsFuel;
     public int RgbColour;
+    public FuelProperties FuelProperties;
 
     public Reactant() {
+        this.FuelProperties = new FuelProperties();
     }
 
     Reactant(final String name, final String translationKey, final boolean isFuel, final int rgbColour) {
+        this(name, translationKey, isFuel, rgbColour, new FuelProperties());
+    }
+
+    Reactant(final String name, final String translationKey, final boolean isFuel, final int rgbColour,
+             final FuelProperties fuelProperties) {
 
         super(name, translationKey);
         this.IsFuel = isFuel;
         this.RgbColour = rgbColour;
+        this.FuelProperties = fuelProperties;
     }
 }

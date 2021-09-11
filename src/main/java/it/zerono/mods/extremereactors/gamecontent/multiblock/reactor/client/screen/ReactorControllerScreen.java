@@ -26,6 +26,7 @@ import it.zerono.mods.extremereactors.gamecontent.compat.patchouli.PatchouliComp
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.AbstractGeneratorMultiblockController;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.AbstractMultiblockScreen;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.CommonIcons;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.FuelRodsLayout;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.MultiblockReactor;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.OperationalMode;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.ClientFuelRodsLayout;
@@ -187,17 +188,10 @@ public class ReactorControllerScreen
         this._fuelBar.setPadding(1);
         this.addBinding(MultiblockReactor::getFuelAmount, value -> this._fuelBar.setValue(ReactantType.Fuel, value));
         this.addBinding(MultiblockReactor::getWasteAmount, value -> this._fuelBar.setValue(ReactantType.Waste, value));
-        this.addBinding((MultiblockReactor reactor) -> reactor.getFuelRodsLayout()
-                        .filter(layout -> layout instanceof ClientFuelRodsLayout)
-                        .map(layout -> (ClientFuelRodsLayout)layout)
-                        .map(ClientFuelRodsLayout::getFuelColor)
-                        .orElse(Colour.fromRGB(ReactantType.Fuel.getDefaultColour())),
+
+        this.addBinding((MultiblockReactor reactor) -> this.getReactantColour(reactor, ClientFuelRodsLayout::getFuelColor, ReactantType.Fuel.getDefaultColour()),
                 value -> this._fuelBar.setBarSpriteTint(ReactantType.Fuel, value));
-        this.addBinding((MultiblockReactor reactor) -> reactor.getFuelRodsLayout()
-                        .filter(layout -> layout instanceof ClientFuelRodsLayout)
-                        .map(layout -> (ClientFuelRodsLayout)layout)
-                        .map(ClientFuelRodsLayout::getWasteColor)
-                        .orElse(Colour.fromRGB(ReactantType.Waste.getDefaultColour())),
+        this.addBinding((MultiblockReactor reactor) -> this.getReactantColour(reactor, ClientFuelRodsLayout::getWasteColor, ReactantType.Waste.getDefaultColour()),
                 value -> this._fuelBar.setBarSpriteTint(ReactantType.Waste, value));
         p.addControl(this._fuelBar);
         barsPanel.addControl(p);
@@ -229,7 +223,7 @@ public class ReactorControllerScreen
                         coreHeatText
                 )
         );
-        this.addBinding((MultiblockReactor reactor) -> reactor.getFuelHeat().get(),
+        this.addBinding((MultiblockReactor reactor) -> reactor.getFuelHeat().getAsDouble(),
                 (value) -> {
                     this._coreHeatBar.setValue(value);
                     this._lblTemperature.setText("%d C", value.intValue());
@@ -261,7 +255,7 @@ public class ReactorControllerScreen
                         reactorHeatText
                 )
         );
-        this.addBinding((MultiblockReactor reactor) -> reactor.getReactorHeat().get(), this._casingHeatBar::setValue, reactorHeatText);
+        this.addBinding((MultiblockReactor reactor) -> reactor.getReactorHeat().getAsDouble(), this._casingHeatBar::setValue, reactorHeatText);
         p.addControl(this._casingHeatBar);
         barsPanel.addControl(p);
 
@@ -639,7 +633,7 @@ public class ReactorControllerScreen
                 TEXT_EMPTY_LINE,
                 new TranslationTextComponent("gui.bigreactors.reactor.controller.scram.line2"),
                 new TranslationTextComponent("gui.bigreactors.reactor.controller.scram.line3"),
-                new TranslationTextComponent("gui.bigreactors.reactor.controller.scram.line4").setStyle(Style.EMPTY.setItalic(true)));
+                new TranslationTextComponent("gui.bigreactors.reactor.controller.scram.line4").setStyle(Style.EMPTY.withItalic(true)));
         scram.Clicked.subscribe(this::onScram);
         commandPanel.addControl(scram);
     }
@@ -815,6 +809,14 @@ public class ReactorControllerScreen
     @SafeVarargs
     private final <Value> void addBinding(final Function<MultiblockReactor, Value> supplier, final Consumer<Value>... consumers) {
         this._bindings.addBinding(new MultiConsumerBinding<>(this._reactor, supplier, consumers));
+    }
+
+    private Colour getReactantColour(final MultiblockReactor reactor, final Function<ClientFuelRodsLayout, Colour> colourGetter,
+                     final int defaultColour) {
+
+        final FuelRodsLayout layout = reactor.getFuelRodsLayout();
+
+        return layout instanceof ClientFuelRodsLayout ? colourGetter.apply((ClientFuelRodsLayout)layout) : Colour.fromRGB(defaultColour);
     }
 
     private static final ITextComponent TEXT_AUTOMATIC_WASTE_EJECT = new TranslationTextComponent("gui.bigreactors.reactor.controller.wasteeject.mode.automatic").setStyle(STYLE_TOOLTIP_VALUE);

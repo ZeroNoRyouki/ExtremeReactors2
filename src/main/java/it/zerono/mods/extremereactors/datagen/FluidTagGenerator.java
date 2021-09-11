@@ -48,9 +48,9 @@ public class FluidTagGenerator
     //region FluidTagsProvider
 
     @Override
-    protected void registerTags() {
+    protected void addTags() {
 
-        this.getOrCreateBuilder(ContentTags.Fluids.STEAM)
+        this.tag(ContentTags.Fluids.STEAM)
                 .add(Content.Fluids.STEAM_SOURCE.get(), Content.Fluids.STEAM_FLOWING.get());
     }
 

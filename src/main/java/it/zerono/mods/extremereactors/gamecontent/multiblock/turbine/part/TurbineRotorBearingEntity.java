@@ -60,16 +60,6 @@ public class TurbineRotorBearingEntity
         }
 
         return this.getOutwardFacingFromWorldPosition(Direction.DOWN).getOpposite();
-
-//        return this.getOutwardFacingFromWorldPosition()
-//                .orElse(Direction.DOWN)
-//                .getOpposite();
-
-
-//        return this.getOutwardFacings().firstIf(true)
-//                .orElse(this.getOutwardFacingFromWorldPosition()
-//                        .orElseThrow(IllegalStateException::new))
-//                .getOpposite();
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -194,7 +184,7 @@ public class TurbineRotorBearingEntity
         final RotorDescriptor.Builder rotorBuilder = RotorDescriptor.builder(TurbineVariant.from(turbine.getVariant()),
                 rotorDirection, rotorLength);
 
-        BlockPos shaftPosition = this.getWorldPosition().offset(rotorDirection);
+        BlockPos shaftPosition = this.getWorldPosition().relative(rotorDirection);
         int checkedSections = 0;
 
         do {
@@ -215,7 +205,7 @@ public class TurbineRotorBearingEntity
 
             // next section
 
-            shaftPosition = shaftPosition.offset(rotorDirection);
+            shaftPosition = shaftPosition.relative(rotorDirection);
 
         } while (++checkedSections < rotorLength);
 
@@ -227,7 +217,7 @@ public class TurbineRotorBearingEntity
 
         for (final Direction direction : bladesDirections) {
 
-            BlockPos bladePosition = shaftPosition.offset(direction);
+            BlockPos bladePosition = shaftPosition.relative(direction);
 
             final RotorBladeState state = WorldHelper.getTile(world, bladePosition)
                     .filter(te -> te instanceof TurbineRotorComponentEntity)
@@ -248,7 +238,7 @@ public class TurbineRotorBearingEntity
 
             while (true) {
 
-                bladePosition = bladePosition.offset(direction);
+                bladePosition = bladePosition.relative(direction);
 
                 if (WorldHelper.getTile(world, bladePosition)
                         .filter(te -> te instanceof TurbineRotorComponentEntity)

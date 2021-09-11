@@ -158,16 +158,9 @@ public class ReactorSolidAccessPortEntity
     @Override
     protected int getUpdatedModelVariantIndex() {
 
-        if (this.isMachineAssembled()) {
+        final int connectedOffset = this.isMachineAssembled() && this.getNeighborCapability().isPresent() ? 1 : 0;
 
-            final int connectedOffset = this.getNeighborCapability().isPresent() ? 1 : 0;
-
-            return this.getIoDirection().isInput() ? 2 + connectedOffset : 0 + connectedOffset;
-
-        } else {
-
-            return 0;
-        }
+        return this.getIoDirection().isInput() ? 2 + connectedOffset : 0 + connectedOffset;
     }
 
     //endregion
@@ -359,7 +352,7 @@ public class ReactorSolidAccessPortEntity
                 () -> {
                     this.notifyOutwardNeighborsOfStateChange();
                     this.distributeItems();
-                    this.markDirty();
+                    this.setChanged();
                 },
                 this::markForRenderUpdate
         );
@@ -497,9 +490,9 @@ public class ReactorSolidAccessPortEntity
      * invalidates a tile entity
      */
     @Override
-    public void remove() {
+    public void setRemoved() {
 
-        super.remove();
+        super.setRemoved();
         this._fuelCapability.invalidate();
         this._wasteCapability.invalidate();
     }
@@ -556,7 +549,7 @@ public class ReactorSolidAccessPortEntity
 
     private LazyOptional<IItemHandler> getNeighborCapability() {
         return CodeHelper.optionalFlatMap(this.getPartWorld(), this.getOutwardDirection(),
-                (world, direction) -> WorldHelper.getTile(world, this.getWorldPosition().offset(direction))
+                (world, direction) -> WorldHelper.getTile(world, this.getWorldPosition().relative(direction))
                         .map(te -> te.getCapability(ITEM_HANDLER_CAPABILITY, direction.getOpposite())))
                 .orElse(LazyOptional.empty());
     }

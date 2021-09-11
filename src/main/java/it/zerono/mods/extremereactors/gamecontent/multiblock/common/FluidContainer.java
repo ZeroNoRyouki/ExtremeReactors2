@@ -187,7 +187,7 @@ public class FluidContainer
         // check if the the current content mach the provided one
 
         final TestResult result = TestResult.from(this.getContent(index)
-                .map(fluid -> fluid.isEquivalentTo(content)));
+                .map(fluid -> fluid.isSame(content)));
 
         if (!result.wasSkipped()) {
             return result.getAsBoolean();

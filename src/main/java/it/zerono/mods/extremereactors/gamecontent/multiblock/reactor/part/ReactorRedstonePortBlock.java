@@ -50,17 +50,17 @@ public class ReactorRedstonePortBlock
      * Can this block provide power. Only wire currently seems to have this change based on its state..
      */
     @Override
-    public boolean canProvidePower(BlockState state) {
+    public boolean isSignalSource(BlockState state) {
         return true;
     }
 
     @Override
-    public int getStrongPower(BlockState blockState, IBlockReader blockAccess, BlockPos pos, Direction side) {
-        return this.getWeakPower(blockState, blockAccess, pos, side);
+    public int getDirectSignal(BlockState blockState, IBlockReader blockAccess, BlockPos pos, Direction side) {
+        return this.getSignal(blockState, blockAccess, pos, side);
     }
 
     @Override
-    public int getWeakPower(BlockState blockState, IBlockReader blockAccess, BlockPos pos, Direction side) {
+    public int getSignal(BlockState blockState, IBlockReader blockAccess, BlockPos pos, Direction side) {
         return WorldHelper.getTile(blockAccess, pos)
                 .filter(te -> te instanceof ReactorRedstonePortEntity)
                 .map(te -> (ReactorRedstonePortEntity)te)
@@ -86,7 +86,7 @@ public class ReactorRedstonePortBlock
                 .flatMap(AbstractCuboidMultiblockPart::getOutwardDirection)
                 .ifPresent(direction -> {
 
-                    WorldHelper.spawnVanillaParticles(world, RedstoneParticleData.REDSTONE_DUST, 1, 1,
+                    WorldHelper.spawnVanillaParticles(world, RedstoneParticleData.REDSTONE, 1, 1,
                             pos.getX(), pos.getY(), pos.getZ(), 0, 1, 0);
                 });
     }

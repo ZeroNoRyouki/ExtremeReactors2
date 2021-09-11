@@ -148,9 +148,9 @@ public class MultiblockTurbine
         this._active = active;
 
         if (active) {
-            this.getConnectedParts().forEach(IMultiblockPart::onMachineActivated);
+            this.forEachConnectedParts(IMultiblockPart::onMachineActivated);
         } else {
-            this.getConnectedParts().forEach(IMultiblockPart::onMachineDeactivated);
+            this.forEachConnectedParts(IMultiblockPart::onMachineDeactivated);
         }
 
         this.callOnLogicalServer(this::markReferenceCoordForUpdate);
@@ -178,14 +178,14 @@ public class MultiblockTurbine
         final IProfiler profiler = this.getWorld().getProfiler();
 
         // Distribute available power equally to all the Power Taps
-        profiler.startSection("Power");
+        profiler.push("Power");
         this.distributeEnergyEqually();
 
         // Distribute available gas equally to all the Coolant Ports in output mode
-        profiler.endStartSection("Coolant");
+        profiler.popPush("Coolant");
         this.distributeCoolantEqually();
 
-        profiler.endSection();
+        profiler.pop();
     }
 
     /**
@@ -197,10 +197,10 @@ public class MultiblockTurbine
         final IProfiler profiler = this.getWorld().getProfiler();
 
         // Acquire new fluids from Active Fluid Ports in input mode
-        profiler.startSection("Vapor");
+        profiler.push("Vapor");
         this.acquireVaporEqually();
 
-        profiler.endSection();
+        profiler.pop();
     }
 
     //endregion
@@ -506,51 +506,51 @@ public class MultiblockTurbine
 
         final IProfiler profiler = this.getWorld().getProfiler();
 
-        profiler.startSection("Extreme Reactors|Turbine update"); // main section
+        profiler.push("Extreme Reactors|Turbine update"); // main section
 
         //////////////////////////////////////////////////////////////////////////////
         // GENERATE ENERGY / COOLANT
         //////////////////////////////////////////////////////////////////////////////
 
-        profiler.startSection("Input");
+        profiler.push("Input");
         this.performInputCycle();
 
-        profiler.endStartSection("Generate");
+        profiler.popPush("Generate");
         this._logic.update();
 
         //////////////////////////////////////////////////////////////////////////////
         // SEND POWER/GAS OUT
         //////////////////////////////////////////////////////////////////////////////
 
-        profiler.endStartSection("Distribute"); // close "Generate"
+        profiler.popPush("Distribute"); // close "Generate"
         this.performOutputCycle();
 
         //////////////////////////////////////////////////////////////////////////////
         // TICKABLES
         //////////////////////////////////////////////////////////////////////////////
 
-        profiler.endStartSection("Tickables");
+        profiler.popPush("Tickables");
         this._attachedTickables.forEach(ITickableMultiblockPart::onMultiblockServerTick);
 
         //////////////////////////////////////////////////////////////////////////////
         // SEND CLIENT UPDATES
         //////////////////////////////////////////////////////////////////////////////
 
-        profiler.endStartSection("Updates");
+        profiler.popPush("Updates");
         this.checkAndSendClientUpdates();
 
         //////////////////////////////////////////////////////////////////////////////
         // ROTOR RPM TRACKER
         //////////////////////////////////////////////////////////////////////////////
 
-        profiler.endStartSection("RpmTracker");
+        profiler.popPush("RpmTracker");
 
         if (this._rpmUpdateTracker.shouldUpdate(this.getRotorSpeed())) {
             this.markReferenceCoordDirty();
         }
 
-        profiler.endSection(); // RpmTracker
-        profiler.endSection(); // main section
+        profiler.pop(); // RpmTracker
+        profiler.pop(); // main section
 
         return this._data.getEnergyGeneratedLastTick() > 0 || this._data.getFluidConsumedLastTick() > 0;
     }
@@ -777,20 +777,21 @@ public class MultiblockTurbine
 
         // We only allow air and valid coils blocks inside a Turbine.
 
-        BlockPos position = new BlockPos(x, y, z);
+        final BlockPos position = new BlockPos(x, y, z);
+        final BlockState state = world.getBlockState(position);
 
         // is it Air ?
-        if (world.isAirBlock(position)) {
+        if (state.isAir(world, position)) {
             return true;
         }
 
         // is it a valid coil block ?
 
-        if (CoilMaterialRegistry.get(world.getBlockState(position)).isPresent()) {
+        if (CoilMaterialRegistry.get(state).isPresent()) {
 
             // yes, cache it's position
 
-            _validationFoundCoils.add(position);
+            this._validationFoundCoils.add(position);
             return true;
         }
 
@@ -884,16 +885,16 @@ public class MultiblockTurbine
         switch (rotorDirection.getAxis()) {
 
             case X:
-                endRotorCoord = rotorCoord.offset(rotorDirection, Math.abs(turbineMax.getX() - turbineMin.getX()) - 1);
+                endRotorCoord = rotorCoord.relative(rotorDirection, Math.abs(turbineMax.getX() - turbineMin.getX()) - 1);
                 break;
 
             default:
             case Y:
-                endRotorCoord = rotorCoord.offset(rotorDirection, Math.abs(turbineMax.getY() - turbineMin.getY()) - 1);
+                endRotorCoord = rotorCoord.relative(rotorDirection, Math.abs(turbineMax.getY() - turbineMin.getY()) - 1);
                 break;
 
             case Z:
-                endRotorCoord = rotorCoord.offset(rotorDirection, Math.abs(turbineMax.getZ() - turbineMin.getZ()) - 1);
+                endRotorCoord = rotorCoord.relative(rotorDirection, Math.abs(turbineMax.getZ() - turbineMin.getZ()) - 1);
                 break;
         }
 
@@ -914,7 +915,7 @@ public class MultiblockTurbine
 
         while (!shaftsPositions.isEmpty() && !rotorCoord.equals(endRotorCoord)) {
 
-            rotorCoord = rotorCoord.offset(rotorDirection);
+            rotorCoord = rotorCoord.relative(rotorDirection);
 
             // Ensure we find a rotor shaft block along the length of the entire rotor
 
@@ -933,7 +934,7 @@ public class MultiblockTurbine
 
                 boolean bladeFound = false;
 
-                checkCoord = rotorCoord.offset(bladeDirection);
+                checkCoord = rotorCoord.relative(bladeDirection);
 
                 // If we find one blade, we can keep moving along the normal to find more blades
 
@@ -947,7 +948,7 @@ public class MultiblockTurbine
                     }
 
                     bladeFound = encounteredBlades = true;
-                    checkCoord = checkCoord.offset(bladeDirection);
+                    checkCoord = checkCoord.relative(bladeDirection);
                 }
 
                 // If this block wasn't a blade, check to see if it was a coil
@@ -972,11 +973,11 @@ public class MultiblockTurbine
                         Direction rotatedDir;
 
                         rotatedDir = CodeHelper.directionRotateAround(bladeDirection, rotatedAxis);
-                        coilCheck = checkCoord.offset(rotatedDir);
+                        coilCheck = checkCoord.relative(rotatedDir);
                         this._validationFoundCoils.remove(coilCheck);
 
                         rotatedDir = CodeHelper.directionRotateAround(CodeHelper.directionRotateAround(rotatedDir, rotatedAxis), rotatedAxis);
-                        coilCheck = checkCoord.offset(rotatedDir);
+                        coilCheck = checkCoord.relative(rotatedDir);
                         this._validationFoundCoils.remove(coilCheck);
                     }
 
@@ -1011,7 +1012,7 @@ public class MultiblockTurbine
             return false;
         }
 
-        if (WorldHelper.getTile(this.getWorld(), rotorCoord.offset(rotorDirection))
+        if (WorldHelper.getTile(this.getWorld(), rotorCoord.relative(rotorDirection))
                 .map(te -> te instanceof TurbineCasingEntity)
                 .orElse(false)) {
 
@@ -1106,11 +1107,11 @@ public class MultiblockTurbine
      */
     private void updateRotorAndCoilsParameters() {
         this.forBoundingBoxCoordinates((min, max) -> this._data.update(this.getEnvironment(), min, max, this.getVariant()),
-                min -> min.add(1, 1, 1), max -> max.add(-1, -1, -1));
+                min -> min.offset(1, 1, 1), max -> max.offset(-1, -1, -1));
     }
 
     private int calculateTurbineVolume() {
-        return this.mapBoundingBoxCoordinates((min, max) -> CodeHelper.mathVolume(min.add(1, 1, 1), max.add(-1, -1, -1)), 0);
+        return this.mapBoundingBoxCoordinates((min, max) -> CodeHelper.mathVolume(min.offset(1, 1, 1), max.offset(-1, -1, -1)), 0);
     }
 
     private void resizeFluidContainer() {

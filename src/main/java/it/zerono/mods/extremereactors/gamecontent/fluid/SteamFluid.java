@@ -34,15 +34,15 @@ public abstract class SteamFluid
             extends SteamFluid {
 
         @Override
-        protected void fillStateContainer(final StateContainer.Builder<Fluid, FluidState> builder) {
+        protected void createFluidStateDefinition(final StateContainer.Builder<Fluid, FluidState> builder) {
 
-            super.fillStateContainer(builder);
-            builder.add(LEVEL_1_8);
+            super.createFluidStateDefinition(builder);
+            builder.add(LEVEL);
         }
 
         @Override
-        public int getLevel(final FluidState state) {
-            return state.get(LEVEL_1_8);
+        public int getAmount(final FluidState state) {
+            return state.getValue(LEVEL);
         }
 
         @Override
@@ -61,7 +61,7 @@ public abstract class SteamFluid
             extends SteamFluid {
 
         @Override
-        public int getLevel(final FluidState state) {
+        public int getAmount(final FluidState state) {
             return 8;
         }
 
@@ -83,7 +83,7 @@ public abstract class SteamFluid
         super(new ForgeFlowingFluid.Properties(Content.Fluids.STEAM_SOURCE, Content.Fluids.STEAM_FLOWING,
                 FluidAttributes.builder(Source.TEXTURE, Flowing.TEXTURE)
                         .overlay(OVERLAY_TEXTURE)
-                        .sound(SoundEvents.ITEM_BUCKET_FILL, SoundEvents.ITEM_BUCKET_EMPTY)
+                        .sound(SoundEvents.BUCKET_FILL, SoundEvents.BUCKET_EMPTY)
                         .density(1)
                         .gaseous()
                         .luminosity(6)

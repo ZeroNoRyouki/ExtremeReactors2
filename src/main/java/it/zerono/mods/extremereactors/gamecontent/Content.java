@@ -113,9 +113,9 @@ public final class Content {
 
         public static final RegistryObject<FlowingFluidBlock> STEAM = BLOCKS.register("steam",
                 () -> new FlowingFluidBlock(Fluids.STEAM_SOURCE,
-                        Block.Properties.create(Material.WATER)
-                                .doesNotBlockMovement()
-                                .hardnessAndResistance(100.0F)
+                        Block.Properties.of(Material.WATER)
+                                .noCollission()
+                                .strength(100.0F)
                                 .noDrops()
                 ));
 
@@ -326,7 +326,7 @@ public final class Content {
 
         private static RegistryObject<ModBlock> registerMetalBlock(final String name, final DyeColor color) {
             return BLOCKS.register(name,
-                    () -> new ModBlock(Block.Properties.create(Material.IRON, color).sound(SoundType.METAL)));
+                    () -> new ModBlock(Block.Properties.of(Material.METAL, color).sound(SoundType.METAL)));
         }
 
         private static RegistryObject<ModBlock> registerOreBlock(final String name, final DyeColor color) {
@@ -336,10 +336,10 @@ public final class Content {
         private static RegistryObject<ModBlock> registerOreBlock(final String name, final DyeColor color,
                                                                  final int minDroppedXP, final int maxDroppedXP) {
             return BLOCKS.register(name,
-                    () -> new ModOreBlock(Block.Properties.create(Material.ROCK, color)
+                    () -> new ModOreBlock(Block.Properties.of(Material.STONE, color)
                             .sound(SoundType.STONE)
-                            .setRequiresTool()
-                            .hardnessAndResistance(3.0F, 3.0F), minDroppedXP, maxDroppedXP));
+                            .requiresCorrectToolForDrops()
+                            .strength(3.0F, 3.0F), minDroppedXP, maxDroppedXP));
         }
 
         @SuppressWarnings("unchecked")
@@ -408,9 +408,9 @@ public final class Content {
 
         public static final RegistryObject<Item> STEAM_BUCKET = ITEMS.register("steam_bucket",
                 () -> new BucketItem(Fluids.STEAM_SOURCE, new Item.Properties()
-                        .containerItem(net.minecraft.item.Items.BUCKET)
-                        .maxStackSize(1)
-                        .group(ItemGroup.MISC)));
+                        .craftRemainder(net.minecraft.item.Items.BUCKET)
+                        .stacksTo(1)
+                        .tab(ItemGroup.TAB_MISC)));
 
         //endregion
         //region reactor
@@ -505,14 +505,14 @@ public final class Content {
 
         private static RegistryObject<ModItem> registerItemGeneric(final String name, final int maxStack) {
             return ITEMS.register(name,
-                    () -> new ModItem(new Item.Properties().group(ItemGroups.GENERAL).maxStackSize(maxStack)));
+                    () -> new ModItem(new Item.Properties().tab(ItemGroups.GENERAL).stacksTo(maxStack)));
         }
 
         private static RegistryObject<BlockItem> registerItemBlock(final String name,
                                                                    final Supplier<Supplier<ModBlock>> blockSupplier,
                                                                    final ItemGroup group) {
             return ITEMS.register(name,
-                    () -> blockSupplier.get().get().createBlockItem(new Item.Properties().group(group).maxStackSize(64)));
+                    () -> blockSupplier.get().get().createBlockItem(new Item.Properties().tab(group).stacksTo(64)));
         }
 
         //endregion
@@ -744,7 +744,7 @@ public final class Content {
                     }
                 }
 
-                return TileEntityType.Builder.create(factory, validBlocks).build(null);
+                return TileEntityType.Builder.of(factory, validBlocks).build(null);
             });
         }
 

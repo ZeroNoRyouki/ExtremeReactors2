@@ -77,13 +77,13 @@ public class ReactorComputerPeripheral
             return CodeHelper.formatAsHumanReadableNumber(c.getEnergyStored(sys, null), sys.getUnit());
         })));
 
-        methodConsumer.accept(new ComputerMethod<>("getNumberOfControlRods", wrapControllerValue(IReactorReader::getFuelRodsCount)));
+        methodConsumer.accept(new ComputerMethod<>("getNumberOfControlRods", wrapControllerValue(IReactorReader::getControlRodsCount)));
 
         methodConsumer.accept(new ComputerMethod<>("getActive", wrapControllerValue(IMachineReader::isMachineActive)));
 
-        methodConsumer.accept(new ComputerMethod<>("getFuelTemperature", wrapControllerValue(c -> c.getFuelHeatValue().get())));
+        methodConsumer.accept(new ComputerMethod<>("getFuelTemperature", wrapControllerValue(c -> c.getFuelHeatValue().getAsDouble())));
 
-        methodConsumer.accept(new ComputerMethod<>("getCasingTemperature", wrapControllerValue(c -> c.getReactorHeatValue().get())));
+        methodConsumer.accept(new ComputerMethod<>("getCasingTemperature", wrapControllerValue(c -> c.getReactorHeatValue().getAsDouble())));
 
         methodConsumer.accept(new ComputerMethod<>("getFuelAmount", wrapControllerValue(IReactorReader::getFuelAmount)));
 
@@ -203,7 +203,7 @@ public class ReactorComputerPeripheral
 
             stats.put("fuelAmount", c.getFuelAmount());
             stats.put("fuelCapacity", c.getCapacity());
-            stats.put("fuelTemperature", c.getFuelHeatValue().get());
+            stats.put("fuelTemperature", c.getFuelHeatValue().getAsDouble());
             stats.put("fuelConsumedLastTick", c.getUiStats().getFuelConsumedLastTick());
             stats.put("fuelReactivity", c.getFuelFertility() * 100.0f);
             stats.put("wasteAmount", c.getWasteAmount());

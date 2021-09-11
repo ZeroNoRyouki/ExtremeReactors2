@@ -51,10 +51,10 @@ public enum ReactorSensorType
     inputEjectWaste(SensorBehavior.EjectOnPulse),
 
     // Output: Temperature of the reactor fuel
-    outputFuelTemperature(r -> r.getFuelHeatValue().get().intValue(), SensorBehavior.ActiveWhileAbove, SensorBehavior.ActiveWhileBelow, SensorBehavior.ActiveWhileBetween),
+    outputFuelTemperature(r -> (int)r.getFuelHeatValue().getAsDouble(), SensorBehavior.ActiveWhileAbove, SensorBehavior.ActiveWhileBelow, SensorBehavior.ActiveWhileBetween),
 
     // Output: Temperature of the reactor casing
-    outputCasingTemperature(r -> r.getReactorHeatValue().get().intValue(), SensorBehavior.ActiveWhileAbove, SensorBehavior.ActiveWhileBelow, SensorBehavior.ActiveWhileBetween),
+    outputCasingTemperature(r -> (int)r.getReactorHeatValue().getAsDouble(), SensorBehavior.ActiveWhileAbove, SensorBehavior.ActiveWhileBelow, SensorBehavior.ActiveWhileBetween),
 
     // Output: Fuel richness, % of contents that is fuel (0-100, 100 = 100% fuel)
     outputFuelRichness(r -> (int)(r.getUiStats().getFuelRichness() * 100), SensorBehavior.ActiveWhileAbove, SensorBehavior.ActiveWhileBelow, SensorBehavior.ActiveWhileBetween),

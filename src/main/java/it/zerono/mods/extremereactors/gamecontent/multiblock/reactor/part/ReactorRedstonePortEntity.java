@@ -97,7 +97,7 @@ public class ReactorRedstonePortEntity
         if (this.getSettings().Sensor.isInput()) {
 
             this.getOutwardDirection()
-                    .map(direction -> this.getRedstonePowerLevelFrom(this.getWorldPosition().offset(direction), direction))
+                    .map(direction -> this.getRedstonePowerLevelFrom(this.getWorldPosition().relative(direction), direction))
                     .ifPresent(powerLevel -> {
 
                         final boolean nowPowered = powerLevel > 0;
@@ -107,7 +107,7 @@ public class ReactorRedstonePortEntity
                             this._isExternallyPowered = nowPowered;
                             this._externalPowerLevel = powerLevel;
                             this.onRedstoneInputUpdated();
-                            this.markDirty();
+                            this.setChanged();
                             this.updateRedstoneStateAndNotify();
                         }
                     });
@@ -269,7 +269,7 @@ public class ReactorRedstonePortEntity
             final boolean oldLitState = this._isLit;
 
             if (oldLitState != this.updateLitState()) {
-                world.notifyNeighborsOfStateChange(this.getWorldPosition(), this.getBlockType());
+                world.updateNeighborsAt(this.getWorldPosition(), this.getBlockType());
             }
 
             this.notifyTileEntityUpdate();
@@ -292,7 +292,7 @@ public class ReactorRedstonePortEntity
 
                 // Update inputs so we don't pulse/change automatically
 
-                this._externalPowerLevel = this.getRedstonePowerLevelFrom(position.offset(outward), outward);
+                this._externalPowerLevel = this.getRedstonePowerLevelFrom(position.relative(outward), outward);
                 this._isExternallyPowered = this._externalPowerLevel > 0;
 
                 if (!this._setting.Behavior.onPulse()) {
@@ -322,7 +322,7 @@ public class ReactorRedstonePortEntity
      * then pass in south.
      */
     private boolean isReceivingRedstonePowerFrom(final BlockPos position, final Direction direction) {
-        return this.mapPartWorld(w -> w.getRedstonePowerFromNeighbors(position) > 0 || w.getRedstonePower(position, direction) > 0, false);
+        return this.mapPartWorld(w -> w.getBestNeighborSignal(position) > 0 || w.getSignal(position, direction) > 0, false);
     }
 
     /**
@@ -332,7 +332,7 @@ public class ReactorRedstonePortEntity
      * then pass in south.
      */
     private int getRedstonePowerLevelFrom(final BlockPos position, final Direction direction) {
-        return this.mapPartWorld(w -> MathHelper.clamp(Math.max(w.getRedstonePowerFromNeighbors(position), w.getRedstonePower(position, direction)), 0, 15), 0);
+        return this.mapPartWorld(w -> MathHelper.clamp(Math.max(w.getBestNeighborSignal(position), w.getSignal(position, direction)), 0, 15), 0);
     }
 
     /**

@@ -19,6 +19,7 @@
 package it.zerono.mods.extremereactors;
 
 import it.zerono.mods.extremereactors.api.internal.modpack.wrapper.ApiWrapper;
+import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.MultiblockReactor;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.MultiblockTurbine;
 import it.zerono.mods.zerocore.lib.CodeHelper;
@@ -26,9 +27,12 @@ import it.zerono.mods.zerocore.lib.debug.DebugHelper;
 import it.zerono.mods.zerocore.lib.multiblock.IMultiblockController;
 import it.zerono.mods.zerocore.lib.multiblock.IMultiblockPart;
 import it.zerono.mods.zerocore.lib.world.WorldHelper;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.Constants;
 
 import javax.annotation.Nullable;
 
@@ -56,6 +60,14 @@ public class DebugTests {
 
             case 6:
                 CodeHelper.callOnLogicalServer(world, ApiWrapper::processFile);
+                break;
+
+            case 10:
+                createRods(world, clickedPos);
+                break;
+
+            case 11:
+                createOccludedRods(world, clickedPos);
                 break;
 
             default:
@@ -105,5 +117,81 @@ public class DebugTests {
 
     private static void unknownTest(World world, BlockPos clickedPos) {
 
+    }
+
+    private static void createRods(World world, BlockPos clickedPos) {
+
+        final int start_y = 5;
+        final int end_y = 254;
+        final int n_column = 127;
+        final BlockState ROD = Content.Blocks.REACTOR_FUELROD_REINFORCED.get().defaultBlockState();
+        final BlockState CAP = Content.Blocks.REACTOR_CONTROLROD_REINFORCED.get().defaultBlockState();
+
+        final BlockPos.Mutable pos = new BlockPos.Mutable();
+        int x = clickedPos.getX(), z = clickedPos.getZ();
+
+        for (int c = 0; c < n_column; ++c) {
+
+            for (int y = start_y; y <= end_y; ++y) {
+
+                pos.set(x, y, z);
+                world.setBlock(pos, ROD, Constants.BlockFlags.NO_NEIGHBOR_DROPS | Constants.BlockFlags.NO_RERENDER);
+            }
+
+            pos.set(x, end_y + 1, z);
+            world.setBlock(pos, CAP, Constants.BlockFlags.NO_NEIGHBOR_DROPS | Constants.BlockFlags.NO_RERENDER);
+
+            z -= 2;
+        }
+    }
+
+    private static void createOccludedRods(World world, BlockPos clickedPos) {
+
+        final BlockPos.Mutable pos = new BlockPos.Mutable();
+        final int start_y = 5, end_y = 254;
+//        final int start_x = 1745, end_x = 1998;
+        final int start_x = 1881, end_x = 1890;//1920
+        final int start_z = 2001, end_z = 2254;
+
+        final BlockState ROD = Content.Blocks.REACTOR_FUELROD_REINFORCED.get().defaultBlockState();
+        final BlockState CAP = Content.Blocks.REACTOR_CONTROLROD_REINFORCED.get().defaultBlockState();
+        final BlockState MODERATOR = Blocks.DIAMOND_BLOCK.defaultBlockState();
+        final BlockState CASING = Content.Blocks.REACTOR_CASING_REINFORCED.get().defaultBlockState();
+        BlockState pillar1, pillar2, top1, top2;
+        boolean flip = false;
+
+        for (int x = start_x; x <= end_x; ++x, flip = !flip) {
+            for (int z = start_z; z <= end_z; z += 2) {
+
+                if (flip) {
+
+                    pillar1 = MODERATOR;
+                    pillar2 = ROD;
+                    top1 = CASING;
+                    top2 = CAP;
+
+
+                } else {
+
+                    pillar1 = ROD;
+                    pillar2 = MODERATOR;
+                    top1 = CAP;
+                    top2 = CASING;
+                }
+
+                for (int y = start_y; y <= end_y; ++y) {
+
+                    pos.set(x, y, z);
+                    world.setBlock(pos, pillar1, Constants.BlockFlags.NO_NEIGHBOR_DROPS | Constants.BlockFlags.NO_RERENDER);
+                    pos.set(x, y, z + 1);
+                    world.setBlock(pos, pillar2, Constants.BlockFlags.NO_NEIGHBOR_DROPS | Constants.BlockFlags.NO_RERENDER);
+                }
+
+                pos.set(x, end_y + 1, z);
+                world.setBlock(pos, top1, Constants.BlockFlags.NO_NEIGHBOR_DROPS | Constants.BlockFlags.NO_RERENDER);
+                pos.set(x, end_y + 1, z + 1);
+                world.setBlock(pos, top2, Constants.BlockFlags.NO_NEIGHBOR_DROPS | Constants.BlockFlags.NO_RERENDER);
+            }
+        }
     }
 }

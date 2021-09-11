@@ -29,6 +29,7 @@ import it.zerono.mods.zerocore.lib.block.multiblock.MultiblockPartBlock;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.SoundType;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.world.IBlockReader;
@@ -53,7 +54,7 @@ public enum TurbinePartType
 
     RotorBearing(() -> Content.TileEntityTypes.TURBINE_ROTORBEARING::get,
             TurbineRotorBearingBlock::new, "part.bigreactors.turbine.rotorbearing",
-            bp -> bp.setLightLevel(state -> 15)),
+            bp -> bp.lightLevel(state -> 15)),
 
     RotorShaft(() -> Content.TileEntityTypes.TURBINE_ROTORSHAFT::get,
             TurbineRotorComponentBlock::shaft, "part.bigreactors.turbine.rotorshaft",
@@ -133,7 +134,7 @@ public enum TurbinePartType
     }
 
     @Override
-    public String getString() {
+    public String getSerializedName() {
         return this.name();
     }
 
@@ -142,10 +143,10 @@ public enum TurbinePartType
 
     private static AbstractBlock.Properties rotorBlock(AbstractBlock.Properties originals) {
         return originals
-                .notSolid()
-                .setOpaque((blockState, blockReader, pos) -> false)
-                .setBlocksVision((blockState, blockReader, pos) -> false)
-                .setLightLevel(state -> 15);
+                .sound(SoundType.GLASS)
+                .noOcclusion()
+                .isRedstoneConductor((blockState, blockReader, pos) -> false)
+                .isViewBlocking((blockState, blockReader, pos) -> false);
     }
 
     private final Supplier<Supplier<TileEntityType<?>>> _tileTypeSupplier;

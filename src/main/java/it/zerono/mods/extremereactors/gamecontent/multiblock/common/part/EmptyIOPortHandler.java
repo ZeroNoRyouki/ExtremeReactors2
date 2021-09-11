@@ -19,7 +19,7 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.common.part;
 
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorldReader;
 
 import javax.annotation.Nullable;
 
@@ -43,7 +43,7 @@ public class EmptyIOPortHandler
      * @param position the handler position
      */
     @Override
-    public void checkConnections(@Nullable IBlockReader world, BlockPos position) {
+    public void checkConnections(@Nullable IWorldReader world, BlockPos position) {
     }
 
     /**

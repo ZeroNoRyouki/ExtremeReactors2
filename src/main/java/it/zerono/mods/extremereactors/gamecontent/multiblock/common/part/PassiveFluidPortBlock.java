@@ -41,12 +41,12 @@ public class PassiveFluidPortBlock<Controller extends IMultiblockController<Cont
     //region Block
 
     @Override
-    public ActionResultType onBlockActivated(BlockState state, World world, BlockPos position, PlayerEntity player,
+    public ActionResultType use(BlockState state, World world, BlockPos position, PlayerEntity player,
                                              Hand hand, BlockRayTraceResult hit) {
 
         if (Hand.MAIN_HAND == hand) {
 
-            final ItemStack heldItem = player.getHeldItemMainhand();
+            final ItemStack heldItem = player.getMainHandItem();
 
             if (!heldItem.isEmpty()) {
 
@@ -58,7 +58,7 @@ public class PassiveFluidPortBlock<Controller extends IMultiblockController<Cont
             }
         }
 
-        return super.onBlockActivated(state, world, position, player, hand, hit);
+        return super.use(state, world, position, player, hand, hit);
     }
 
     //endregion

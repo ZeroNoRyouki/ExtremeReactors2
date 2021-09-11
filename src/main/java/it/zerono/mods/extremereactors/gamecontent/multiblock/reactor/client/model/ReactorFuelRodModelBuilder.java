@@ -18,33 +18,64 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.model;
 
+import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
+import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
+import it.unimi.dsi.fastutil.objects.Object2ObjectMaps;
 import it.zerono.mods.extremereactors.ExtremeReactors;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.ReactorPartType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.IMultiblockReactorVariant;
-import it.zerono.mods.zerocore.lib.client.model.BlockVariantsModelBuilder;
+import it.zerono.mods.zerocore.lib.client.model.ICustomModelBuilder;
+import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.client.renderer.model.ModelResourceLocation;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.event.ModelBakeEvent;
 
-public class ReactorFuelRodModelBuilder extends BlockVariantsModelBuilder {
+import java.util.Map;
+
+public class ReactorFuelRodModelBuilder
+        implements ICustomModelBuilder {
 
     public ReactorFuelRodModelBuilder(final IMultiblockReactorVariant variant) {
 
-        super(true, true, false);
-
-        this.addBlock(ReactorPartType.FuelRod.ordinal(), getBlockStateRL(variant, Direction.Axis.Y), 0, true);
+        this._ids = new Object2ObjectArrayMap<>(3);
 
         for (final Direction.Axis axis : Direction.Axis.values()) {
-            this.addVariant(ReactorPartType.FuelRod.ordinal(), getBlockStateRL(variant, axis));
+            this._ids.put(axis, getBlockStateRL(variant, axis));
         }
     }
 
+    //region ICustomModelBuilder
+
+    @Override
+    public void onRegisterModels() {
+    }
+
+    @Override
+    public void onBakeModels(final ModelBakeEvent event) {
+
+        final Map<ResourceLocation, IBakedModel> registry = event.getModelRegistry();
+
+        Object2ObjectMaps.fastForEach(this._ids, entry -> {
+
+            final ResourceLocation id = entry.getValue();
+            final IBakedModel baseModel = registry.get(id);
+
+            if (null != baseModel) {
+                registry.put(id, new ReactorFuelRodModel(baseModel));
+            }
+        });
+    }
+
+    //endregion
     //region internals
 
-    private static ResourceLocation getBlockStateRL(IMultiblockReactorVariant variant, Direction.Axis blockStateVariant) {
+    private static ResourceLocation getBlockStateRL(final IMultiblockReactorVariant variant,
+                                                    final Direction.Axis axis) {
         return new ModelResourceLocation(ExtremeReactors.newID(variant.getName() + "_reactorfuelrod"),
-                String.format("axis=%s", blockStateVariant.getName2()));
+                String.format("axis=%s", axis.getName()));
     }
+
+    private final Object2ObjectMap<Direction.Axis, ResourceLocation> _ids;
 
     //endregion
 }

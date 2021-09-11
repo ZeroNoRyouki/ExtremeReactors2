@@ -52,9 +52,7 @@ public enum ReactorPartType
 
     FuelRod(() -> Content.TileEntityTypes.REACTOR_FUELROD::get,
             ReactorFuelRodBlock::new, "part.bigreactors.reactor.fuelrod",
-            bp -> GlassBlock.addGlassProperties(bp)
-                    .setLightLevel(state -> Config.COMMON.reactor.fuelRodLightValue.get())
-                    .tickRandomly()),
+            bp -> GlassBlock.addGlassProperties(bp).setLightLevel(state -> Config.COMMON.reactor.fuelRodLightValue.get())),
 
     ControlRod(() -> Content.TileEntityTypes.REACTOR_CONTROLROD::get,
             GenericDeviceBlock::new, "part.bigreactors.reactor.controlrod"),
@@ -112,10 +110,6 @@ public enum ReactorPartType
         this._blockPropertiesFixer = blockPropertiesFixer;
     }
 
-//    public boolean isTransparent() {
-//        return this == Glass || this == FuelRod;
-//    }
-
     public MultiblockPartBlock<MultiblockReactor, ReactorPartType> createBlock(ReactorVariant variant) {
         return this._blockFactory.apply(MultiblockPartBlock.MultiblockPartProperties.create(this,
                 this._blockPropertiesFixer.apply(variant.getDefaultBlockProperties()))
@@ -136,7 +130,7 @@ public enum ReactorPartType
     }
 
     @Override
-    public String getString() {
+    public String getSerializedName() {
         return this.name();
     }
 

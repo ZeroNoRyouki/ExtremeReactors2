@@ -61,16 +61,16 @@ public abstract class AbstractMultiblockScreen<Controller extends AbstractCuboid
         extends ModTileContainerScreen<T, C> {
 
     public static final Style STYLE_TOOLTIP_TITLE = Style.EMPTY
-            .setFormatting(TextFormatting.YELLOW)
-            .setBold(true);
+            .withColor(TextFormatting.YELLOW)
+            .withBold(true);
 
     public static final Style STYLE_TOOLTIP_VALUE = Style.EMPTY
-            .setFormatting(TextFormatting.DARK_AQUA)
-            .setBold(true);
+            .withColor(TextFormatting.DARK_AQUA)
+            .withBold(true);
 
     public static final Style STYLE_TOOLTIP_INFO = Style.EMPTY
-            .setFormatting(TextFormatting.DARK_PURPLE)
-            .setItalic(true);
+            .withColor(TextFormatting.DARK_PURPLE)
+            .withItalic(true);
 
     protected AbstractMultiblockScreen(final C container, final PlayerInventory inventory,
                                        final PlayerInventoryUsage inventoryUsage, final ITextComponent title) {
@@ -215,7 +215,7 @@ public abstract class AbstractMultiblockScreen<Controller extends AbstractCuboid
     }
 
     protected Optional<Controller> getMultiblockController() {
-        return this.getContainer().getTileEntity().getMultiblockController();
+        return this.getMenu().getTileEntity().getMultiblockController();
     }
 
     protected boolean isMultiblockActive() {

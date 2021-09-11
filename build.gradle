@@ -5,7 +5,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
     }
 }
 apply plugin: 'net.minecraftforge.gradle'
@@ -29,7 +29,7 @@ sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = co
 
 minecraft {
 
-    mappings channel: 'snapshot', version: config.minecraft_mappings
+    mappings channel: 'official', version: config.minecraft_mappings
 
 	def runDir = file("${rootProject.projectDir}/runs/run-${config.minecraft_version}")
 
@@ -46,7 +46,8 @@ minecraft {
     runs {
         client {
 
-            properties 'mixin.env.disableRefMap': 'true'
+            properties 'mixin.env.remapRefMap': 'true'
+            property 'mixin.env.refMapRemappingFile', "${project.projectDir}/build/createSrgToMcp/output.srg"
 
             workingDirectory runDir
 			
@@ -67,7 +68,8 @@ minecraft {
 
         server {
 
-            properties 'mixin.env.disableRefMap': 'true'
+            properties 'mixin.env.remapRefMap': 'true'
+            property 'mixin.env.refMapRemappingFile', "${project.projectDir}/build/createSrgToMcp/output.srg"
             
 			workingDirectory serverDir
 			
@@ -88,7 +90,8 @@ minecraft {
 
         data {
 
-            properties 'mixin.env.disableRefMap': 'true'
+            properties 'mixin.env.remapRefMap': 'true'
+            property 'mixin.env.refMapRemappingFile', "${project.projectDir}/build/createSrgToMcp/output.srg"
 
             workingDirectory runDir
             args '--mod', 'bigreactors', '--all',
@@ -128,7 +131,7 @@ processResources {
 
     from(sourceSets.main.resources.srcDirs) {
 	
-        include 'META-INF/mods.toml'
+        include 'ExtremeReactors2-master/src/main/resources/META-INF/mods.toml'
         expand 'mod_version': version, 
 				'mod_name': config.mod_name,
 				'minecraft_versionrange': config.minecraft_versionrange,
@@ -147,11 +150,9 @@ repositories {
         url = "https://dvs1.progwml6.com/files/maven/"
     }
 
-    // jei alt
     maven {
-        // location of a maven mirror for JEI files, as a fallback
         name = "ModMaven"
-        url = "https://modmaven.k-4u.nl"
+        url = "https://modmaven.dev"
     }
 
     // cc-tweaked
@@ -164,9 +165,9 @@ repositories {
         url 'https://maven.blamejared.com'
     }
 
-    // mekanism
+    // cursemaven
     maven {
-        url 'https://modmaven.dev/'
+        url 'https://www.cursemaven.com'
     }
 }
 
@@ -192,6 +193,8 @@ dependencies {
     runtimeOnly fg.deobf("mekanism:Mekanism:${config.mekanism_version}:additions")
     runtimeOnly fg.deobf("mekanism:Mekanism:${config.mekanism_version}:generators")
     runtimeOnly fg.deobf("mekanism:Mekanism:${config.mekanism_version}:tools")
+
+    implementation fg.deobf("curse.maven:constructionwand-399558:3285196")
 }
 
 task extremereactors_apiJar(type: Jar) {
@@ -228,11 +231,13 @@ publishing {
 
     publications {
         mavenJava(MavenPublication) {
+            artifactId = archivesBaseName
             artifact jar
+            artifact extremereactors_apiJar
         }
     }
-	
-	repositories {
+
+    repositories {
         maven {
             url "file:///${rootProject.projectDir}/maven"
         }

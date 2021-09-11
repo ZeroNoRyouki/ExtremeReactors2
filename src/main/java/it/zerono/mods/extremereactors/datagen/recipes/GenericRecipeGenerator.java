@@ -54,14 +54,14 @@ public class GenericRecipeGenerator
      */
     @Override
     public String getName() {
-        return ExtremeReactors.MOD_NAME + "Generic recipes";
+        return ExtremeReactors.MOD_NAME + " Generic recipes";
     }
 
     /**
      * Registers all recipes to the given consumer.
      */
     @Override
-    protected void registerRecipes(final Consumer<IFinishedRecipe> c) {
+    protected void buildShapelessRecipes(final Consumer<IFinishedRecipe> c) {
 
         // ingots / (storage) blocks
         this.storageBlock3x3(c, "yellorium", Content.Items.YELLORIUM_INGOT, Content.Items.YELLORIUM_BLOCK);
@@ -74,22 +74,22 @@ public class GenericRecipeGenerator
         this.blastingAndSmelting(c, "yellorium_from_dust", Content.Items.YELLORIUM_INGOT, Content.Items.YELLORIUM_DUST);
         this.blastingAndSmelting(c, "cyanite_from_dust", Content.Items.CYANITE_INGOT, Content.Items.CYANITE_DUST);
         this.blastingAndSmelting(c, "graphite_from_dust", Content.Items.GRAPHITE_INGOT, Content.Items.GRAPHITE_DUST);
-        this.blastingAndSmelting(c, "graphite_from_coal", Content.Items.GRAPHITE_INGOT, () -> net.minecraft.item.Items.COAL);
-        this.blastingAndSmelting(c, "graphite_from_charcoal", Content.Items.GRAPHITE_INGOT, () -> net.minecraft.item.Items.CHARCOAL);
-        this.blastingAndSmelting(c, "graphite_from_coalblock", Content.Items.GRAPHITE_BLOCK, () -> net.minecraft.item.Items.COAL_BLOCK, 0.9f, 1800);
+        this.blastingAndSmelting(c, "graphite_from_coal", Content.Items.GRAPHITE_INGOT, () -> net.minecraft.item.Items.COAL, configCondition("registerCoalForSmelting"));
+        this.blastingAndSmelting(c, "graphite_from_charcoal", Content.Items.GRAPHITE_INGOT, () -> net.minecraft.item.Items.CHARCOAL, configCondition("registerCharcoalForSmelting"));
+        this.blastingAndSmelting(c, "graphite_from_coalblock", Content.Items.GRAPHITE_BLOCK, () -> net.minecraft.item.Items.COAL_BLOCK, 0.9f, 1800, configCondition("registerCoalBlockForSmelting"));
 
         // misc
 
-        ShapedRecipeBuilder.shapedRecipe(Content.Items.WRENCH.get())
-                .key('I', Tags.Items.INGOTS_IRON)
-                .key('W', ItemTags.WOOL)
-                .key('D', Tags.Items.DYES_GREEN)
-                .patternLine("DI ")
-                .patternLine("WII")
-                .patternLine("IW ")
-                .setGroup(GROUP_GENERAL)
-                .addCriterion("has_item", hasItem(Content.Items.WRENCH.get()))
-                .build(c, ExtremeReactors.newID("misc/wrench"));
+        ShapedRecipeBuilder.shaped(Content.Items.WRENCH.get())
+                .define('I', Tags.Items.INGOTS_IRON)
+                .define('W', ItemTags.WOOL)
+                .define('D', Tags.Items.DYES_GREEN)
+                .pattern("DI ")
+                .pattern("WII")
+                .pattern("IW ")
+                .group(GROUP_GENERAL)
+                .unlockedBy("has_item", has(Content.Items.WRENCH.get()))
+                .save(c, ExtremeReactors.newID("misc/wrench"));
 
         this.book(c, "erguide", PatchouliCompat.HANDBOOK_ID, Items.BOOK, ContentTags.Items.INGOTS_YELLORIUM);
         this.book(c, "erguide_alt", PatchouliCompat.HANDBOOK_ID, Items.BOOK, TAG_INGOTS_URANIUM);
@@ -106,14 +106,14 @@ public class GenericRecipeGenerator
 
                     ConditionalRecipe.builder()
                             .addCondition(modLoaded(Mods.PATCHOULI.id()))
-                            .addRecipe(fr -> ShapedRecipeBuilder.shapedRecipe(book.getItem())
-                                    .key('I', ingredientItem)
-                                    .key('B', ingredientBook)
-                                    .patternLine("I")
-                                    .patternLine("B")
-                                    .setGroup(GROUP_GENERAL)
-                                    .addCriterion("has_item", hasItem(ingredientItem))
-                                    .build(NbtResultFinishedRecipeAdapter.from(fr, IRecipeSerializer.CRAFTING_SHAPED,
+                            .addRecipe(fr -> ShapedRecipeBuilder.shaped(book.getItem())
+                                    .define('I', ingredientItem)
+                                    .define('B', ingredientBook)
+                                    .pattern("I")
+                                    .pattern("B")
+                                    .group(GROUP_GENERAL)
+                                    .unlockedBy("has_item", has(ingredientItem))
+                                    .save(NbtResultFinishedRecipeAdapter.from(fr, IRecipeSerializer.SHAPED_RECIPE,
                                             nbt -> nbt.putString("patchouli:book", patchouliBookId.toString()))))
                             .build(c, ExtremeReactors.newID("misc/book/" + name));
                 });

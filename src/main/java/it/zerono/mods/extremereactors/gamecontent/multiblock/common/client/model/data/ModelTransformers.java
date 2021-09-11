@@ -71,7 +71,7 @@ public class ModelTransformers {
         final boolean[] actualFacings = new boolean[directions.length];
 
         for (int i = 0; i < directions.length; ++i) {
-            actualFacings[i] = entityBlock == world.getBlockState(position.offset(directions[i])).getBlock();
+            actualFacings[i] = entityBlock == world.getBlockState(position.relative(directions[i])).getBlock();
         }
 
         final BlockFacingsProperty propertyValue = BlockFacings.from(actualFacings).toProperty();

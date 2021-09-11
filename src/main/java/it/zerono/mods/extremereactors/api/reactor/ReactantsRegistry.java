@@ -77,7 +77,35 @@ public final class ReactantsRegistry {
                 ExtremeReactorsAPI.LOGGER.warn(MARKER, "Overwriting data for reactant {}", name);
             }
 
-            s_reactants.put(name, new Reactant(name, type, rgbColour, translationKey));
+            s_reactants.put(name, new Reactant(name, type, rgbColour, translationKey, FuelProperties.DEFAULT));
+        });
+    }
+
+    /**
+     * Register a new Fuel Reactant.
+     *
+     * @param name The name of this reactant. Must be unique.
+     * @param rgbColour The color (in 0xRRGGBB form) to use when rendering fuel rods with this reactant in it.
+     * @param moderationFactor How well this fuel moderate, but not stop, radiation. Must be greater or equal to 1.
+     *                         Anything under 1.5 is "poor", 2-2.5 is "good", above 4 is "excellent".
+     * @param absorptionCoefficient How well this fuel absorbs radiation. Must be between 0 and 1.
+     * @param hardnessDivisor How this fuel tolerate hard radiation. Must be greater or equal to 1.
+     * @param translationKey The translation key for the name of the reactant.
+     */
+    public static void registerFuel(final String name, final int rgbColour,
+                                    float moderationFactor, float absorptionCoefficient, float hardnessDivisor,
+                                    final String translationKey) {
+
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(name));
+
+        InternalDispatcher.dispatch("reactant-register", () -> {
+
+            if (s_reactants.containsKey(name)) {
+                ExtremeReactorsAPI.LOGGER.warn(MARKER, "Overwriting data for fuel reactant {}", name);
+            }
+
+            s_reactants.put(name, new Reactant(name, ReactantType.Fuel, rgbColour, translationKey,
+                    new FuelProperties(moderationFactor, absorptionCoefficient, hardnessDivisor)));
         });
     }
 
@@ -118,8 +146,15 @@ public final class ReactantsRegistry {
 
         Arrays.stream(wrapper.ReactorReactants.Add)
                 .filter(Objects::nonNull)
-                .forEach((it.zerono.mods.extremereactors.api.internal.modpack.wrapper.Reactant w) ->
-                        register(w.Name, w.IsFuel ? ReactantType.Fuel : ReactantType.Waste, w.RgbColour, w.TranslationKey));
+                .forEach((it.zerono.mods.extremereactors.api.internal.modpack.wrapper.Reactant w) -> {
+
+                    if (w.IsFuel) {
+                        registerFuel(w.Name, w.RgbColour, w.FuelProperties.ModerationFactor, w.FuelProperties.AbsorptionCoefficient,
+                                w.FuelProperties.HardnessDivisor, w.TranslationKey);
+                    } else {
+                        register(w.Name, ReactantType.Waste, w.RgbColour, w.TranslationKey);
+                    }
+                });
     }
 
     //region internals

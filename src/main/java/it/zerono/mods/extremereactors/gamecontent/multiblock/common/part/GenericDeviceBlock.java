@@ -35,7 +35,7 @@ public class GenericDeviceBlock<Controller extends IMultiblockController<Control
     }
 
     @Override
-    public boolean isSideInvisible(BlockState state, BlockState adjacentBlockState, Direction side) {
+    public boolean skipRendering(BlockState state, BlockState adjacentBlockState, Direction side) {
 
         final Block adjacentBlock = adjacentBlockState.getBlock();
 

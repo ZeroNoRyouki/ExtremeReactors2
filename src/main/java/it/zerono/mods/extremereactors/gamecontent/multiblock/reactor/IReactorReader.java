@@ -18,6 +18,7 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor;
 
+import it.zerono.mods.extremereactors.api.reactor.FuelProperties;
 import it.zerono.mods.extremereactors.api.reactor.Reactant;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.IMachineReader;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.IMultiblockReactorVariant;
@@ -28,7 +29,7 @@ import net.minecraft.util.math.BlockPos;
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Supplier;
+import java.util.function.DoubleSupplier;
 
 public interface IReactorReader
         extends IMachineReader {
@@ -54,17 +55,19 @@ public interface IReactorReader
 
     Optional<Reactant> getFuel();
 
+    FuelProperties getFuelProperties();
+
     Optional<Reactant> getWaste();
 
     float getFuelFertility();
 
-    Supplier<Double> getFuelHeatValue();
+    DoubleSupplier getFuelHeatValue();
 
-    Supplier<Double> getReactorHeatValue();
+    DoubleSupplier getReactorHeatValue();
 
     WasteEjectionSetting getWasteEjectionMode();
 
-    Optional<FuelRodsLayout> getFuelRodsLayout();
+    FuelRodsLayout getFuelRodsLayout();
 
     /**
      * @return the number of Fuel Rods in the Reactor

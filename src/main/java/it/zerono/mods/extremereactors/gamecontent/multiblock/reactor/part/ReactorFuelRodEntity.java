@@ -19,9 +19,9 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part;
 
 import it.zerono.mods.extremereactors.api.radiation.RadiationPacket;
+import it.zerono.mods.extremereactors.api.reactor.FuelProperties;
 import it.zerono.mods.extremereactors.api.reactor.IHeatEntity;
 import it.zerono.mods.extremereactors.api.reactor.Moderator;
-import it.zerono.mods.extremereactors.api.reactor.ModeratorsRegistry;
 import it.zerono.mods.extremereactors.api.reactor.ReactantMappingsRegistry;
 import it.zerono.mods.extremereactors.api.reactor.radiation.EnergyConversion;
 import it.zerono.mods.extremereactors.api.reactor.radiation.IRadiationModerator;
@@ -29,22 +29,21 @@ import it.zerono.mods.extremereactors.api.reactor.radiation.IrradiationData;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.FuelRodsLayout;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.IIrradiationSource;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.MultiblockReactor;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.IReactorReader;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.ReactantHelper;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.ClientFuelRodsLayout;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.model.ReactorFuelRodModelData;
 import it.zerono.mods.zerocore.lib.CodeHelper;
 import it.zerono.mods.zerocore.lib.multiblock.cuboid.PartPosition;
 import it.zerono.mods.zerocore.lib.multiblock.validation.IMultiblockValidator;
 import it.zerono.mods.zerocore.lib.world.WorldHelper;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.particles.ParticleTypes;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-
-import javax.annotation.Nullable;
-import java.util.Optional;
+import net.minecraftforge.client.model.data.EmptyModelData;
+import net.minecraftforge.client.model.data.IModelData;
 
 public class ReactorFuelRodEntity
         extends AbstractReactorEntity
@@ -62,42 +61,38 @@ public class ReactorFuelRodEntity
 
     public double getHeatTransferRate() {
 
-        final Direction.Plane fuelAssemblyPlane = this.getMultiblockController()
-                .flatMap(MultiblockReactor::getFuelRodsLayout)
-                .map(FuelRodsLayout::getAxis)
-                .map(CodeHelper::perpendicularPlane)
-                .orElseThrow(IllegalStateException::new);
-
+        final Direction.Plane fuelAssemblyPlane = CodeHelper.perpendicularPlane(this.getFuelRodsLayout().getAxis());
         final World world = this.getPartWorldOrFail();
-        final BlockPos rodPosition = this.getPos();
+        final BlockPos rodPosition = this.getBlockPos();
         double heatTransferRate = 0d;
 
-        for (Direction dir: fuelAssemblyPlane) {
+        for (final Direction dir: fuelAssemblyPlane) {
 
-            final BlockPos targetPosition = rodPosition.offset(dir);
+            final BlockPos targetPosition = rodPosition.relative(dir);
+            final BlockState state = world.getBlockState(targetPosition);
 
-            heatTransferRate += WorldHelper.getBlockState(world, targetPosition)
-                    .map(state -> {
+            // Is it air ?
 
-                        // Is it air ?
+            if (state.isAir()) {
 
-                        if (state.isAir(world, targetPosition)) {
-                            return (double)IHeatEntity.CONDUCTIVITY_AIR;
-                        }
+                heatTransferRate += IHeatEntity.CONDUCTIVITY_AIR;
+                continue;
+            }
 
-                        // No, is it a tile entity or a moderator maybe?
+            // No, is it a tile entity or a moderator maybe?
 
-                        return WorldHelper.getTile(world, targetPosition)
-                                // We don't transfer to other fuel rods, due to heat pooling.
-                                .filter(te -> !(te instanceof ReactorFuelRodEntity))
-                                // Is it an IHeatEntity?
-                                .filter(te -> te instanceof IHeatEntity)
-                                .map(te -> (IHeatEntity)te)
-                                .map(IHeatEntity::getThermalConductivity)
-                                // If not, is it a moderator?
-                                .orElse(this.getConductivityFromBlock(state));
-                    })
-                    .orElse(0d); // it's something very strange... ignore it
+            final TileEntity te = WorldHelper.getLoadedTile(world, targetPosition);
+
+            if (!(te instanceof ReactorFuelRodEntity) && te instanceof IHeatEntity) {
+
+                // We don't transfer to other fuel rods, due to heat pooling, only from an IHeatEntity
+                heatTransferRate += ((IHeatEntity)te).getThermalConductivity();
+
+            } else {
+
+                // If not, is it a moderator?
+                heatTransferRate += this.getConductivityFromBlock(state);
+            }
         }
 
         return heatTransferRate;
@@ -113,84 +108,75 @@ public class ReactorFuelRodEntity
         return null != this._controlRod;
     }
 
-    public Optional<ReactorControlRodEntity> getControlRod() {
-        return Optional.ofNullable(this._controlRod);
-    }
-
     public int getFuelRodIndex() {
         return this._rodIndex;
     }
 
-    @OnlyIn(Dist.CLIENT)
+    //region client render support
+
     public void setOccluded(final boolean occluded) {
         this._occluded = occluded;
     }
 
-    @OnlyIn(Dist.CLIENT)
     public boolean isOccluded() {
         return this._occluded;
     }
 
-    //region client render support
-
     @Override
-    protected int getUpdatedModelVariantIndex() {
+    protected IModelData getUpdatedModelData() {
 
-        if (this.isMachineAssembled()) {
+        final FuelRodsLayout layout = this.getFuelRodsLayoutForRendering();
 
-            return this.getMultiblockController()
-                    .flatMap(MultiblockReactor::getFuelRodsLayout)
-                    .map(FuelRodsLayout::getAxis)
-                    .map(this::getVariantIndexFromAxis)
-                    .orElse(0);
+        if (layout instanceof ClientFuelRodsLayout) {
 
-        } else {
+            final ClientFuelRodsLayout clientLayout = (ClientFuelRodsLayout)layout;
+            final ClientFuelRodsLayout.FuelData fuelData = clientLayout.getFuelData(this.getFuelRodIndex());
 
-            return 0;
+            return ReactorFuelRodModelData.from(fuelData, this.isOccluded());
         }
+
+        return EmptyModelData.INSTANCE;
     }
 
-    private int getVariantIndexFromAxis(final Direction.Axis axis) {
-        return axis.ordinal();
+    public FuelRodsLayout getFuelRodsLayout() {
+        return this.evalOnController(IReactorReader::getFuelRodsLayout, FuelRodsLayout.EMPTY);
     }
 
-    /**
-     * See {@link Block#eventReceived} for more information. This must return true serverside before it is called
-     * clientside.
-     *
-     * @param id
-     * @param type
-     */
-    @Override
-    public boolean receiveClientEvent(int id, int type) {
+    public FuelRodsLayout getFuelRodsLayoutForRendering() {
+        return this.isMachineAssembled() &&
+                this.testOnController(it.zerono.mods.extremereactors.gamecontent.multiblock.common.AbstractMultiblockController::isInteriorVisible) ?
+                this.getFuelRodsLayout() : FuelRodsLayout.EMPTY;
+    }
 
-        if (id == 1) {
-
-            final BlockPos pos = this.getWorldPosition();
-
-//            this.getPartWorld().ifPresent(w -> {
+//    /**
+//     * See {@link Block#eventReceived} for more information. This must return true serverside before it is called
+//     * clientside.
+//     *
+//     * @param id
+//     * @param type
+//     */
+//    @Override
+//    public boolean receiveClientEvent(int id, int type) {
 //
-//                if (CodeHelper.calledByLogicalClient(w)) {
-//                    w.addParticle(ParticleTypes.HEART, pos.getX() + 0.5 + Math.random() * 0.4 - 0.2,
-//                            pos.getY() + 0.75,
-//                            pos.getZ() + 0.5 + Math.random() * 0.4 - 0.2, 0, 0, 0);
-//                }
+//        if (id == 1) {
+//
+//            final BlockPos pos = this.getWorldPosition();
+//
+//            this.callOnLogicalClient(world -> {
+//                world.addParticle(ParticleTypes.HEART, pos.getX() + 0.5 + Math.random() * 0.4 - 0.2,
+//                        pos.getY() + 0.75,
+//                        pos.getZ() + 0.5 + Math.random() * 0.4 - 0.2, 0, 0, 0);
 //            });
-            this.callOnLogicalClient(world -> {
-                world.addParticle(ParticleTypes.HEART, pos.getX() + 0.5 + Math.random() * 0.4 - 0.2,
-                        pos.getY() + 0.75,
-                        pos.getZ() + 0.5 + Math.random() * 0.4 - 0.2, 0, 0, 0);
-            });
-
-            return true;
-        }
-
-        return super.receiveClientEvent(id, type);
-    }
-
-    private void sparkle() {
-        this.forPartWorld(w -> w.addBlockEvent(this.getWorldPosition(), this.getBlockType(), 1, 0));
-    }
+//
+//            return true;
+//        }
+//
+//        return super.receiveClientEvent(id, type);
+//    }
+//
+//    private void sparkle() {
+//        this.forPartWorld(w -> w.addBlockEvent(this.getWorldPosition(), this.getBlockType(), 1, 0));
+//    }
 
     //endregion
     //region IRadiationModerator
@@ -202,22 +188,18 @@ public class ReactorFuelRodEntity
             return;
         }
 
-        final double fuelHeat = this.getMultiblockController()
-                .map(reactor -> reactor.getFuelHeat().get())
-                .orElseThrow(IllegalStateException::new);
-
-        final float controlRodInsertion = this.getControlRod()
-                .map(ReactorControlRodEntity::getInsertionPercentage)
-                .orElseThrow(IllegalStateException::new);
+        final double fuelHeat = this.evalOnController(c -> c.getFuelHeat().getAsDouble(), 0.0);
+        final float controlRodInsertion = null != this._controlRod ? this._controlRod.getInsertionPercentage() : 100.0f;
+        final FuelProperties fuelData = this.evalOnController(IReactorReader::getFuelProperties, FuelProperties.INVALID);
 
         // Fuel absorptiveness is determined by control rod + a heat modifier.
         // Starts at 1 and decays towards 0.05, reaching 0.6 at 1000 and just under 0.2 at 2000. Inflection point at about 500-600.
         // Harder radiation makes absorption more difficult.
         final float baseAbsorption = (float)(1.0 - (0.95 * Math.exp(-10 * Math.exp(-0.0022 * fuelHeat)))) *
-                (1f - (radiation.hardness / this.getFuelHardnessDivisor()));
+                (1f - (radiation.hardness / fuelData.getHardnessDivisor()));
 
         // Some fuels are better at absorbing radiation than others
-        final float scaledAbsorption = Math.min(1f, baseAbsorption * this.getFuelAbsorptionCoefficient());
+        final float scaledAbsorption = Math.min(1f, baseAbsorption * fuelData.getAbsorptionCoefficient());
 
         // Control rods increase total neutron absorption, but decrease the total neutrons which fertilize the fuel
         // Absorb up to 50% better with control rods inserted.
@@ -227,7 +209,7 @@ public class ReactorFuelRodEntity
         final float radiationAbsorbed = (scaledAbsorption + controlRodBonus) * radiation.intensity;
         final float fertilityAbsorbed = (scaledAbsorption - controlRodPenalty) * radiation.intensity;
 
-        float fuelModerationFactor = this.getFuelModerationFactor();
+        float fuelModerationFactor = fuelData.getModerationFactor();
 
         // Full insertion doubles the moderation factor of the fuel as well as adding its own level
         fuelModerationFactor += fuelModerationFactor * controlRodInsertion + controlRodInsertion;
@@ -239,8 +221,8 @@ public class ReactorFuelRodEntity
         irradiationData.fuelEnergyAbsorption += radiationAbsorbed * EnergyConversion.ENERGY_PER_RADIATION_UNIT;
         irradiationData.fuelAbsorbedRadiation += fertilityAbsorbed;
 
-        // fx
-        this.sparkle();
+//        // fx
+//        this.sparkle();
     }
 
     //endregion
@@ -261,10 +243,7 @@ public class ReactorFuelRodEntity
 
     @Override
     public Direction[] getIrradiationDirections() {
-        return this.getMultiblockController()
-                .flatMap(MultiblockReactor::getFuelRodsLayout)
-                .map(FuelRodsLayout::getRadiateDirections)
-                .orElseGet(() -> new Direction[0]);
+        return this.getFuelRodsLayout().getRadiateDirections();
     }
 
     //endregion
@@ -285,32 +264,11 @@ public class ReactorFuelRodEntity
     //endregion
     //region internals
 
-    //TODO Fuel Registry
-    // 1, upwards. How well does this fuel moderate, but not stop, radiation? Anything under 1.5 is "poor", 2-2.5 is "good", above 4 is "excellent".
-    private float getFuelModerationFactor() {
-        return 1.5f;
-    }
-
-    //TODO Fuel Registry
-    // 0..1. How well does this fuel absorb radiation?
-    private float getFuelAbsorptionCoefficient() {
-        // TODO: Lookup type of fuel and getValue data from there
-        return 0.5f;
-    }
-
-    //TODO Fuel Registry
-    // Goes up from 1. How tolerant is this fuel of hard radiation?
-    private float getFuelHardnessDivisor() {
-        return 1.0f;
-    }
-
     private double getConductivityFromBlock(BlockState blockState) {
-        return ModeratorsRegistry.getFrom(blockState).orElse(Moderator.AIR).getHeatConductivity();
+        return ReactantHelper.getModeratorFrom(blockState, Moderator.AIR).getHeatConductivity();
     }
 
-    @Nullable
     private ReactorControlRodEntity _controlRod;
-
     private int _rodIndex;
     private boolean _occluded;
 

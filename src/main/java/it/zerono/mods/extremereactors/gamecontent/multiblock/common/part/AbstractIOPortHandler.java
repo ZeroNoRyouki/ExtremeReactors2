@@ -27,7 +27,7 @@ import it.zerono.mods.zerocore.lib.world.WorldHelper;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
@@ -58,7 +58,7 @@ public abstract class AbstractIOPortHandler<Controller extends AbstractGenerator
     }
 
     @Nullable
-    protected <T> T lookupConsumer(@Nullable final IBlockReader world, final BlockPos position,
+    protected <T> T lookupConsumer(@Nullable final IWorldReader world, final BlockPos position,
                                    @Nullable final Capability<T> requestedCapability,
                                    final NonNullPredicate<TileEntity> isSameHandler,
                                    @Nullable T currentConsumer) {
@@ -78,7 +78,7 @@ public abstract class AbstractIOPortHandler<Controller extends AbstractGenerator
 
                 if (null != requestedCapability) {
 
-                    final TileEntity te = world.getTileEntity(position.offset(approachDirection));
+                    final TileEntity te = WorldHelper.getLoadedTile(world, position.relative(approachDirection));
 
                     if (null != te && !isSameHandler.test(te)) {
 
@@ -93,7 +93,7 @@ public abstract class AbstractIOPortHandler<Controller extends AbstractGenerator
         }
 
         final boolean isConnectedNow = null != foundConsumer;
-        final World partWorld = this.getPart().getWorld();
+        final World partWorld = this.getPart().getLevel();
 
         if (wasConnected != isConnectedNow && null != partWorld && CodeHelper.calledByLogicalClient(partWorld)) {
             WorldHelper.notifyBlockUpdate(partWorld, this.getPart().getWorldPosition(), null, null);

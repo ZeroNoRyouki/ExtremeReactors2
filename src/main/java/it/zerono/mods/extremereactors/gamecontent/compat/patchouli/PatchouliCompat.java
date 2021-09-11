@@ -78,7 +78,7 @@ public final class PatchouliCompat {
                     'A', Content.Blocks.REACTOR_SOLID_ACCESSPORT_BASIC.get(),
                     'E', Content.Blocks.REACTOR_POWERTAP_FE_ACTIVE_BASIC.get(),
                     'X', Content.Blocks.REACTOR_CONTROLLER_BASIC.get()),
-                bs -> bs.getBlock().getDefaultState(),
+                bs -> bs.getBlock().defaultBlockState(),
                 bs -> (bs.getBlock() instanceof MultiblockPartBlock) ?
                         new CuboidPartVariantsModelData(((MultiblockPartBlock<MultiblockReactor, ReactorPartType>)bs.getBlock()).getPartType().ordinal(), 0, BlockFacings.ALL) :
                         EmptyModelData.INSTANCE
@@ -169,17 +169,17 @@ public final class PatchouliCompat {
                                         "       ",
                                 }
                         },
-                        '0', Content.Blocks.TURBINE_ROTORBEARING_BASIC.get().getDefaultState(),
-                        'S', Content.Blocks.TURBINE_ROTORSHAFT_BASIC.get().getDefaultState().with(TurbineRotorComponentBlock.ROTOR_SHAFT_STATE, RotorShaftState.Y_NOBLADES),
-                        'A', Content.Blocks.TURBINE_ROTORSHAFT_BASIC.get().getDefaultState().with(TurbineRotorComponentBlock.ROTOR_SHAFT_STATE, RotorShaftState.Y_XZ),
-                        'B', Content.Blocks.TURBINE_ROTORSHAFT_BASIC.get().getDefaultState().with(TurbineRotorComponentBlock.ROTOR_SHAFT_STATE, RotorShaftState.Y_Z),
-                        'C', Content.Blocks.TURBINE_ROTORSHAFT_BASIC.get().getDefaultState().with(TurbineRotorComponentBlock.ROTOR_SHAFT_STATE, RotorShaftState.Y_X),
-                        '1', Content.Blocks.TURBINE_ROTORBLADE_BASIC.get().getDefaultState().with(TurbineRotorComponentBlock.ROTOR_BLADE_STATE, RotorBladeState.Y_X_NEG),
-                        '3', Content.Blocks.TURBINE_ROTORBLADE_BASIC.get().getDefaultState().with(TurbineRotorComponentBlock.ROTOR_BLADE_STATE, RotorBladeState.Y_X_POS),
-                        '2', Content.Blocks.TURBINE_ROTORBLADE_BASIC.get().getDefaultState().with(TurbineRotorComponentBlock.ROTOR_BLADE_STATE, RotorBladeState.Y_Z_NEG),
-                        '4', Content.Blocks.TURBINE_ROTORBLADE_BASIC.get().getDefaultState().with(TurbineRotorComponentBlock.ROTOR_BLADE_STATE, RotorBladeState.Y_Z_POS),
-                        'X', Content.Blocks.TURBINE_CASING_BASIC.get().getDefaultState()),
-                bs -> bs.getBlock().getDefaultState(),
+                        '0', Content.Blocks.TURBINE_ROTORBEARING_BASIC.get().defaultBlockState(),
+                        'S', Content.Blocks.TURBINE_ROTORSHAFT_BASIC.get().defaultBlockState().setValue(TurbineRotorComponentBlock.ROTOR_SHAFT_STATE, RotorShaftState.Y_NOBLADES),
+                        'A', Content.Blocks.TURBINE_ROTORSHAFT_BASIC.get().defaultBlockState().setValue(TurbineRotorComponentBlock.ROTOR_SHAFT_STATE, RotorShaftState.Y_XZ),
+                        'B', Content.Blocks.TURBINE_ROTORSHAFT_BASIC.get().defaultBlockState().setValue(TurbineRotorComponentBlock.ROTOR_SHAFT_STATE, RotorShaftState.Y_Z),
+                        'C', Content.Blocks.TURBINE_ROTORSHAFT_BASIC.get().defaultBlockState().setValue(TurbineRotorComponentBlock.ROTOR_SHAFT_STATE, RotorShaftState.Y_X),
+                        '1', Content.Blocks.TURBINE_ROTORBLADE_BASIC.get().defaultBlockState().setValue(TurbineRotorComponentBlock.ROTOR_BLADE_STATE, RotorBladeState.Y_X_NEG),
+                        '3', Content.Blocks.TURBINE_ROTORBLADE_BASIC.get().defaultBlockState().setValue(TurbineRotorComponentBlock.ROTOR_BLADE_STATE, RotorBladeState.Y_X_POS),
+                        '2', Content.Blocks.TURBINE_ROTORBLADE_BASIC.get().defaultBlockState().setValue(TurbineRotorComponentBlock.ROTOR_BLADE_STATE, RotorBladeState.Y_Z_NEG),
+                        '4', Content.Blocks.TURBINE_ROTORBLADE_BASIC.get().defaultBlockState().setValue(TurbineRotorComponentBlock.ROTOR_BLADE_STATE, RotorBladeState.Y_Z_POS),
+                        'X', Content.Blocks.TURBINE_CASING_BASIC.get().defaultBlockState()),
+                bs -> bs.getBlock().defaultBlockState(),
                 PatchouliCompat::turbineRotorModelDataMapper
         );
 
@@ -269,19 +269,19 @@ public final class PatchouliCompat {
                                         "       ",
                                 }
                         },
-                        '0', Content.Blocks.TURBINE_ROTORBEARING_BASIC.get().getDefaultState(),
-                        'S', Content.Blocks.TURBINE_ROTORSHAFT_BASIC.get().getDefaultState().with(TurbineRotorComponentBlock.ROTOR_SHAFT_STATE, RotorShaftState.Y_NOBLADES),
-                        'A', Content.Blocks.TURBINE_ROTORSHAFT_BASIC.get().getDefaultState().with(TurbineRotorComponentBlock.ROTOR_SHAFT_STATE, RotorShaftState.Y_XZ),
-                        'B', Content.Blocks.TURBINE_ROTORSHAFT_BASIC.get().getDefaultState().with(TurbineRotorComponentBlock.ROTOR_SHAFT_STATE, RotorShaftState.Y_Z),
-                        'C', Content.Blocks.TURBINE_ROTORSHAFT_BASIC.get().getDefaultState().with(TurbineRotorComponentBlock.ROTOR_SHAFT_STATE, RotorShaftState.Y_X),
-                        '1', Content.Blocks.TURBINE_ROTORBLADE_BASIC.get().getDefaultState().with(TurbineRotorComponentBlock.ROTOR_BLADE_STATE, RotorBladeState.Y_X_NEG),
-                        '3', Content.Blocks.TURBINE_ROTORBLADE_BASIC.get().getDefaultState().with(TurbineRotorComponentBlock.ROTOR_BLADE_STATE, RotorBladeState.Y_X_POS),
-                        '2', Content.Blocks.TURBINE_ROTORBLADE_BASIC.get().getDefaultState().with(TurbineRotorComponentBlock.ROTOR_BLADE_STATE, RotorBladeState.Y_Z_NEG),
-                        '4', Content.Blocks.TURBINE_ROTORBLADE_BASIC.get().getDefaultState().with(TurbineRotorComponentBlock.ROTOR_BLADE_STATE, RotorBladeState.Y_Z_POS),
-                        'X', Content.Blocks.TURBINE_CASING_BASIC.get().getDefaultState(),
-                        'I', Blocks.IRON_BLOCK.getDefaultState(),
-                        'G', Blocks.GOLD_BLOCK.getDefaultState()),
-                bs -> bs.getBlock().getDefaultState(),
+                        '0', Content.Blocks.TURBINE_ROTORBEARING_BASIC.get().defaultBlockState(),
+                        'S', Content.Blocks.TURBINE_ROTORSHAFT_BASIC.get().defaultBlockState().setValue(TurbineRotorComponentBlock.ROTOR_SHAFT_STATE, RotorShaftState.Y_NOBLADES),
+                        'A', Content.Blocks.TURBINE_ROTORSHAFT_BASIC.get().defaultBlockState().setValue(TurbineRotorComponentBlock.ROTOR_SHAFT_STATE, RotorShaftState.Y_XZ),
+                        'B', Content.Blocks.TURBINE_ROTORSHAFT_BASIC.get().defaultBlockState().setValue(TurbineRotorComponentBlock.ROTOR_SHAFT_STATE, RotorShaftState.Y_Z),
+                        'C', Content.Blocks.TURBINE_ROTORSHAFT_BASIC.get().defaultBlockState().setValue(TurbineRotorComponentBlock.ROTOR_SHAFT_STATE, RotorShaftState.Y_X),
+                        '1', Content.Blocks.TURBINE_ROTORBLADE_BASIC.get().defaultBlockState().setValue(TurbineRotorComponentBlock.ROTOR_BLADE_STATE, RotorBladeState.Y_X_NEG),
+                        '3', Content.Blocks.TURBINE_ROTORBLADE_BASIC.get().defaultBlockState().setValue(TurbineRotorComponentBlock.ROTOR_BLADE_STATE, RotorBladeState.Y_X_POS),
+                        '2', Content.Blocks.TURBINE_ROTORBLADE_BASIC.get().defaultBlockState().setValue(TurbineRotorComponentBlock.ROTOR_BLADE_STATE, RotorBladeState.Y_Z_NEG),
+                        '4', Content.Blocks.TURBINE_ROTORBLADE_BASIC.get().defaultBlockState().setValue(TurbineRotorComponentBlock.ROTOR_BLADE_STATE, RotorBladeState.Y_Z_POS),
+                        'X', Content.Blocks.TURBINE_CASING_BASIC.get().defaultBlockState(),
+                        'I', Blocks.IRON_BLOCK.defaultBlockState(),
+                        'G', Blocks.GOLD_BLOCK.defaultBlockState()),
+                bs -> bs.getBlock().defaultBlockState(),
                 PatchouliCompat::turbineRotorModelDataMapper
         );
     }
@@ -300,10 +300,10 @@ public final class PatchouliCompat {
             switch (part.getPartType()) {
 
                 case RotorShaft:
-                    return new CuboidPartVariantsModelData(TurbinePartType.RotorShaft.ordinal(), state.get(TurbineRotorComponentBlock.ROTOR_SHAFT_STATE).ordinal(), BlockFacings.ALL);
+                    return new CuboidPartVariantsModelData(TurbinePartType.RotorShaft.ordinal(), state.getValue(TurbineRotorComponentBlock.ROTOR_SHAFT_STATE).ordinal(), BlockFacings.ALL);
 
                 case RotorBlade:
-                    return new CuboidPartVariantsModelData(TurbinePartType.RotorBlade.ordinal(), state.get(TurbineRotorComponentBlock.ROTOR_BLADE_STATE).ordinal(), BlockFacings.ALL);
+                    return new CuboidPartVariantsModelData(TurbinePartType.RotorBlade.ordinal(), state.getValue(TurbineRotorComponentBlock.ROTOR_BLADE_STATE).ordinal(), BlockFacings.ALL);
 
                 default:
                     return new CuboidPartVariantsModelData(part.getPartType().ordinal(), 0, BlockFacings.ALL);

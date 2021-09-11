@@ -122,10 +122,6 @@ public class ReactantStack
         return this.getReactant()
                 .filter(reactant -> reactant.getType() == type)
                 .isPresent();
-//
-//        return this.getReactant()
-//                .map(reactant -> reactant.getType() == type)
-//                .orElse(false);
     }
 
     public boolean containsFuel() {
@@ -178,42 +174,6 @@ public class ReactantStack
         }
 
         this.updateEmptyState();
-        /*
-        /////////////
-        Optional<Reactant> reactant = Optional.empty();
-        String name = null;
-
-        if (data.contains("rstack_name")) {
-
-            name = data.getString("rstack_name");
-
-            if (!Strings.isNullOrEmpty(name) && !"EMPTY".equals(name)) {
-                reactant = ReactantsRegistry.get(name);
-            }
-        }
-
-        if (reactant.isPresent()) {
-
-            this._reactant = reactant.get();
-
-            if (data.contains("rstack_amount")) {
-
-                this.setAmount(data.getInt("rstack_amount"));
-
-            } else {
-
-                Log.LOGGER.warn(Log.REACTOR, "Loading a ReactantStack containing an unknown amount");
-                this.setAmount(0);
-            }
-
-        } else {
-
-            Log.LOGGER.warn(Log.REACTOR, "Loading a ReactantStack containing an unknown Reactant: {}",
-                    Strings.isNullOrEmpty(name) ? name : "<no name>");
-            this._reactant = null;
-            this.setAmount(0);
-        }
-        */
     }
 
     /**

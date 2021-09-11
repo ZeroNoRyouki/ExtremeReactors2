@@ -18,14 +18,17 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor;
 
+import it.unimi.dsi.fastutil.ints.IntSet;
+import it.unimi.dsi.fastutil.ints.IntSets;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part.ReactorFuelRodEntity;
 import net.minecraft.util.Direction;
+import net.minecraft.world.World;
 
-import java.util.Set;
+import java.util.Collection;
 
 public class FuelRodsLayout {
 
-    public static final FuelRodsLayout DEFAULT = new FuelRodsLayout();
+    public static final FuelRodsLayout EMPTY = new FuelRodsLayout();
 
     public FuelRodsLayout(Direction direction, int length) {
 
@@ -61,10 +64,20 @@ public class FuelRodsLayout {
         return this._rodLength;
     }
 
-    public void updateFuelData(IFuelContainer fuelData, final int fuelRodsInReactor) {
+    public IntSet updateFuelData(IFuelContainer fuelData, int fuelRodsInReactor) {
+        return IntSets.EMPTY_SET;
     }
 
-    public void updateFuelRodsOcclusion(Set<ReactorFuelRodEntity> fuelRods) {
+    public void updateFuelRodsOcclusion(final World world, final Collection<ReactorFuelRodEntity> fuelRods,
+                                        final boolean interiorInvisible) {
+    }
+
+    public boolean isEmpty() {
+        return 0 == this._rodLength;
+    }
+
+    public boolean isNotEmpty() {
+        return this._rodLength > 0;
     }
 
     //region internals
@@ -72,7 +85,7 @@ public class FuelRodsLayout {
     private FuelRodsLayout() {
 
         this._cachedOutwardFacing = Direction.UP;
-        this._rodLength = 1;
+        this._rodLength = 0;
     }
 
     private final Direction _cachedOutwardFacing;

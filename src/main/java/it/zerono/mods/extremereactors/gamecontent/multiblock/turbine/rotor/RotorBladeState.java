@@ -65,19 +65,19 @@ public enum RotorBladeState
         switch (shaftState.getAxis()) {
 
             case X:
-                name = "x_" + bladeDirection.getAxis().getString() + (bladeDirection.getAxisDirection() == Direction.AxisDirection.POSITIVE ? "_neg" : "_pos");
+                name = "x_" + bladeDirection.getAxis().getSerializedName() + (bladeDirection.getAxisDirection() == Direction.AxisDirection.POSITIVE ? "_neg" : "_pos");
                 break;
 
             case Y:
-                name = "y_" + bladeDirection.getAxis().getString() + (bladeDirection.getAxisDirection() == Direction.AxisDirection.POSITIVE ? "_neg" : "_pos");
+                name = "y_" + bladeDirection.getAxis().getSerializedName() + (bladeDirection.getAxisDirection() == Direction.AxisDirection.POSITIVE ? "_neg" : "_pos");
                 break;
 
             case Z:
-                name = "z_" + bladeDirection.getAxis().getString() + (bladeDirection.getAxisDirection() == Direction.AxisDirection.POSITIVE ? "_neg" : "_pos");
+                name = "z_" + bladeDirection.getAxis().getSerializedName() + (bladeDirection.getAxisDirection() == Direction.AxisDirection.POSITIVE ? "_neg" : "_pos");
                 break;
 
             default:
-                name = shaftState.getString() + (bladeDirection.getOpposite().getAxisDirection() == Direction.AxisDirection.POSITIVE ? "_pos" : "_neg");
+                name = shaftState.getSerializedName() + (bladeDirection.getOpposite().getAxisDirection() == Direction.AxisDirection.POSITIVE ? "_pos" : "_neg");
                 break;
         }
 
@@ -87,7 +87,7 @@ public enum RotorBladeState
     //region IStringSerializable
 
     @Override
-    public String getString() {
+    public String getSerializedName() {
         return this._name;
     }
 
@@ -96,13 +96,13 @@ public enum RotorBladeState
 
     @Override
     public String toString() {
-        return this.getString();
+        return this.getSerializedName();
     }
 
     //endregion
     //region internals
 
-    private static final Map<String, RotorBladeState> NAME_LOOKUP = Arrays.stream(values()).collect(Collectors.toMap(RotorBladeState::getString, state -> state));
+    private static final Map<String, RotorBladeState> NAME_LOOKUP = Arrays.stream(values()).collect(Collectors.toMap(RotorBladeState::getSerializedName, state -> state));
 
     private final String _name;
 

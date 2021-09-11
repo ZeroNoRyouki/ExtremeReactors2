@@ -90,7 +90,7 @@ public class RotorDescriptor
 
     @Override
     public void accept(final MatrixStack stack) {
-        stack.getLast().getMatrix().mul(this.Translation);
+        stack.last().pose().multiply(this.Translation);
     }
 
     //endregion
@@ -122,35 +122,35 @@ public class RotorDescriptor
 
         // initial matrix setup for angle and block center
 
-        this._initRotorDirectionVector = this.RotorDirection.toVector3f();
+        this._initRotorDirectionVector = this.RotorDirection.step();
 
-        final float rotationOffsetX = 0 == this._initRotorDirectionVector.getX() ? 0.5f : 0.0f;
-        final float rotationOffsetY = 0 == this._initRotorDirectionVector.getY() ? 0.5f : 0.0f;
-        final float rotationOffsetZ = 0 == this._initRotorDirectionVector.getZ() ? 0.5f : 0.0f;
+        final float rotationOffsetX = 0 == this._initRotorDirectionVector.x() ? 0.5f : 0.0f;
+        final float rotationOffsetY = 0 == this._initRotorDirectionVector.y() ? 0.5f : 0.0f;
+        final float rotationOffsetZ = 0 == this._initRotorDirectionVector.z() ? 0.5f : 0.0f;
 
-        this._initTranslate1 = Matrix4f.makeTranslate(rotationOffsetX, rotationOffsetY, rotationOffsetZ);
-        this._initTranslate2 = Matrix4f.makeTranslate(-rotationOffsetX, -rotationOffsetY, -rotationOffsetZ);
+        this._initTranslate1 = Matrix4f.createTranslateMatrix(rotationOffsetX, rotationOffsetY, rotationOffsetZ);
+        this._initTranslate2 = Matrix4f.createTranslateMatrix(-rotationOffsetX, -rotationOffsetY, -rotationOffsetZ);
 
         this.InitMatrix = this::initMatrix;
     }
 
     private void initMatrix(final MatrixStack stack, final float rotorAngle) {
 
-        final MatrixStack.Entry entry = stack.getLast();
+        final MatrixStack.Entry entry = stack.last();
 
-        final Matrix4f matrix = entry.getMatrix();
-        final Matrix3f normal = entry.getNormal();
+        final Matrix4f matrix = entry.pose();
+        final Matrix3f normal = entry.normal();
         final Quaternion rotation = this._initRotorDirectionVector.rotationDegrees(rotorAngle);
 
         // ie: stack.translate(rotationOffsetX, rotationOffsetY, rotationOffsetZ);
-        matrix.mul(this._initTranslate1);
+        matrix.multiply(this._initTranslate1);
 
         // ie: stack.rotate(rotorDirectionVector.rotationDegrees(angle));
-        matrix.mul(rotation);
+        matrix.multiply(rotation);
         normal.mul(rotation);
 
         // ie: stack.translate(-rotationOffsetX, -rotationOffsetY, -rotationOffsetZ);
-        matrix.mul(this._initTranslate2);
+        matrix.multiply(this._initTranslate2);
     }
 
     private final Vector3f _initRotorDirectionVector;

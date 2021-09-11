@@ -46,26 +46,26 @@ public class IOPortBlock<Controller extends IMultiblockController<Controller>,
     //region Block
 
     @Override
-    public void onReplaced(BlockState state, World world, BlockPos position, BlockState newState, boolean isMoving) {
+    public void onRemove(BlockState state, World world, BlockPos position, BlockState newState, boolean isMoving) {
 
         if (state.getBlock() != newState.getBlock()) {
             this.getIIoEntity(world, position).ifPresent(ioe -> ioe.onBlockReplaced(state, world, position, newState, isMoving));
         }
 
-        super.onReplaced(state, world, position, newState, isMoving);
+        super.onRemove(state, world, position, newState, isMoving);
     }
 
     @Override
-    public ActionResultType onBlockActivated(BlockState state, World world, BlockPos position, PlayerEntity player,
+    public ActionResultType use(BlockState state, World world, BlockPos position, PlayerEntity player,
                                              Hand hand, BlockRayTraceResult hit) {
 
-        if (Hand.MAIN_HAND == hand && player.getHeldItemMainhand().getItem().isIn(ContentTags.Items.WRENCH)) {
+        if (Hand.MAIN_HAND == hand && player.getMainHandItem().getItem().is(ContentTags.Items.WRENCH)) {
 
             this.callOnLogicalServer(world, w -> this.getIIoEntity(w, position).ifPresent(IIoEntity::toggleIoDirection));
             return ActionResultType.SUCCESS;
         }
 
-        return super.onBlockActivated(state, world, position, player, hand, hit);
+        return super.use(state, world, position, player, hand, hit);
     }
 
     //endregion
