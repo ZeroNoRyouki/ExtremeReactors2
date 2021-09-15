@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:blasting",
+  "ingredient": {
+    "item": "bigreactors:blutonium_dust"
+  },
+  "result": "bigreactors:blutonium_ingot",
+  "experience": 1.0,
+  "cookingtime": 100
+}

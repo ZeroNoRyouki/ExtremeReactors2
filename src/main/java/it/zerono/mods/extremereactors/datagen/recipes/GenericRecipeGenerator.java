@@ -67,6 +67,7 @@ public class GenericRecipeGenerator
         this.storageBlock3x3(c, "yellorium", Content.Items.YELLORIUM_INGOT, Content.Items.YELLORIUM_BLOCK);
         this.storageBlock3x3(c, "cyanite", Content.Items.CYANITE_INGOT, Content.Items.CYANITE_BLOCK);
         this.storageBlock3x3(c, "graphite", Content.Items.GRAPHITE_INGOT, Content.Items.GRAPHITE_BLOCK);
+        this.storageBlock3x3(c, "blutonium", Content.Items.BLUTONIUM_INGOT, Content.Items.BLUTONIUM_BLOCK);
 
         // smelting
 
@@ -74,6 +75,7 @@ public class GenericRecipeGenerator
         this.blastingAndSmelting(c, "yellorium_from_dust", Content.Items.YELLORIUM_INGOT, Content.Items.YELLORIUM_DUST);
         this.blastingAndSmelting(c, "cyanite_from_dust", Content.Items.CYANITE_INGOT, Content.Items.CYANITE_DUST);
         this.blastingAndSmelting(c, "graphite_from_dust", Content.Items.GRAPHITE_INGOT, Content.Items.GRAPHITE_DUST);
+        this.blastingAndSmelting(c, "blutonium_from_dust", Content.Items.BLUTONIUM_INGOT, Content.Items.BLUTONIUM_DUST);
         this.blastingAndSmelting(c, "graphite_from_coal", Content.Items.GRAPHITE_INGOT, () -> net.minecraft.item.Items.COAL, configCondition("registerCoalForSmelting"));
         this.blastingAndSmelting(c, "graphite_from_charcoal", Content.Items.GRAPHITE_INGOT, () -> net.minecraft.item.Items.CHARCOAL, configCondition("registerCharcoalForSmelting"));
         this.blastingAndSmelting(c, "graphite_from_coalblock", Content.Items.GRAPHITE_BLOCK, () -> net.minecraft.item.Items.COAL_BLOCK, 0.9f, 1800, configCondition("registerCoalBlockForSmelting"));

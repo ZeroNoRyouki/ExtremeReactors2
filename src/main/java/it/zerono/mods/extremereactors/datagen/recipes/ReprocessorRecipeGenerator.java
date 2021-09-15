@@ -27,7 +27,6 @@ import it.zerono.mods.zerocore.lib.recipe.result.ItemStackRecipeResult;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.IFinishedRecipe;
 import net.minecraft.fluid.Fluids;
-import net.minecraft.item.Items;
 
 import java.util.function.Consumer;
 
@@ -56,13 +55,10 @@ public class ReprocessorRecipeGenerator
 
         // machine recipes
 
-        ReprocessorRecipe.builder(ItemStackRecipeIngredient.from(Content.Items.CYANITE_INGOT.get()),
+        ReprocessorRecipe.builder(ItemStackRecipeIngredient.from(Content.Items.CYANITE_INGOT.get(), 2),
                     FluidStackRecipeIngredient.from(Fluids.WATER, 1000),
-                    ItemStackRecipeResult.from(Items.GOLD_INGOT)) //TODO FIX
+                    ItemStackRecipeResult.from(Content.Items.BLUTONIUM_INGOT.get()))
                 .build(c, ExtremeReactors.newID("reprocessor/cyanite_to_blutonium"));
-
-        // multiblock parts
-
     }
 
     //endregion

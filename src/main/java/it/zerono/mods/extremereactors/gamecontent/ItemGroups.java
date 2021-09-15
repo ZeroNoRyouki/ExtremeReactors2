@@ -40,6 +40,7 @@ public final class ItemGroups {
                 final ImmutableList.Builder<ItemStack> builder = ImmutableList.<ItemStack>builder().add(
                         stack(Content.Blocks.YELLORITE_ORE_BLOCK), stack(Content.Blocks.ANGLESITE_ORE_BLOCK), stack(Content.Blocks.BENITOITE_ORE_BLOCK),
                         stack(Content.Items.YELLORIUM_INGOT), stack(Content.Items.YELLORIUM_DUST), stack(Content.Blocks.YELLORIUM_BLOCK),
+                        stack(Content.Items.BLUTONIUM_INGOT), stack(Content.Items.BLUTONIUM_DUST), stack(Content.Blocks.BLUTONIUM_BLOCK),
                         stack(Content.Items.CYANITE_INGOT), stack(Content.Items.CYANITE_DUST), stack(Content.Blocks.CYANITE_BLOCK),
                         stack(Content.Items.GRAPHITE_INGOT), stack(Content.Items.GRAPHITE_DUST), stack(Content.Blocks.GRAPHITE_BLOCK),
                         stack(Content.Items.ANGLESITE_CRYSTAL), stack(Content.Items.BENITOITE_CRYSTAL),

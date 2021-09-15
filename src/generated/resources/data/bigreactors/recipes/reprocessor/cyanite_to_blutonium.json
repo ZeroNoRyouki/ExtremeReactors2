@@ -4,7 +4,7 @@
     "ingredient": {
       "item": "bigreactors:cyanite_ingot"
     },
-    "count": 1
+    "count": 2
   },
   "fluid": {
     "fluid": {
@@ -13,6 +13,6 @@
     }
   },
   "result": {
-    "item": "minecraft:gold_ingot"
+    "item": "bigreactors:blutonium_ingot"
   }
 }

@@ -100,6 +100,7 @@ public final class Content {
         public static final RegistryObject<ModBlock> YELLORIUM_BLOCK = registerMetalBlock("yellorium_block", DyeColor.YELLOW);
         public static final RegistryObject<ModBlock> CYANITE_BLOCK = registerMetalBlock("cyanite_block", DyeColor.LIGHT_BLUE);
         public static final RegistryObject<ModBlock> GRAPHITE_BLOCK = registerMetalBlock("graphite_block", DyeColor.GRAY);
+        public static final RegistryObject<ModBlock> BLUTONIUM_BLOCK = registerMetalBlock("blutonium_block", DyeColor.PURPLE);
 
         //endregion
         //region ores
@@ -381,14 +382,17 @@ public final class Content {
         public static final RegistryObject<ModItem> YELLORIUM_INGOT = registerItemGeneric("yellorium_ingot");
         public static final RegistryObject<ModItem> CYANITE_INGOT = registerItemGeneric("cyanite_ingot");
         public static final RegistryObject<ModItem> GRAPHITE_INGOT = registerItemGeneric("graphite_ingot");
+        public static final RegistryObject<ModItem> BLUTONIUM_INGOT = registerItemGeneric("blutonium_ingot");
 
         public static final RegistryObject<ModItem> YELLORIUM_DUST = registerItemGeneric("yellorium_dust");
         public static final RegistryObject<ModItem> CYANITE_DUST = registerItemGeneric("cyanite_dust");
         public static final RegistryObject<ModItem> GRAPHITE_DUST = registerItemGeneric("graphite_dust");
+        public static final RegistryObject<ModItem> BLUTONIUM_DUST = registerItemGeneric("blutonium_dust");
 
         public static final RegistryObject<BlockItem> YELLORIUM_BLOCK = registerItemBlock("yellorium_block", () -> Blocks.YELLORIUM_BLOCK, ItemGroups.GENERAL);
         public static final RegistryObject<BlockItem> CYANITE_BLOCK = registerItemBlock("cyanite_block", () -> Blocks.CYANITE_BLOCK, ItemGroups.GENERAL);
         public static final RegistryObject<BlockItem> GRAPHITE_BLOCK = registerItemBlock("graphite_block", () -> Blocks.GRAPHITE_BLOCK, ItemGroups.GENERAL);
+        public static final RegistryObject<BlockItem> BLUTONIUM_BLOCK = registerItemBlock("blutonium_block", () -> Blocks.BLUTONIUM_BLOCK, ItemGroups.GENERAL);
 
         //endregion
         //region crystals

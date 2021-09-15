@@ -8,18 +8,19 @@
 
     "reactant.bigreactors.yellorium": "Yellorio",
     "reactant.bigreactors.cyanite": "Cianita",
+    "reactant.bigreactors.blutonium": "Blutonio",
 
     "_comment": "Items - lingotes",
     "item.bigreactors.yellorium_ingot": "Lingote de Yellorio",
     "item.bigreactors.cyanite_ingot": "Lingote de Cianita",
-    "x_item.bigreactors.ingotblutonium": "Lingote de Blutonio",
+    "item.bigreactors.blutonium_ingot": "Lingote de Blutonio",
     "item.bigreactors.graphite_ingot": "Barra de Grafito",
     "x_item.bigreactors.ingotludicrite": "Lingote de Ludicrita",
 
     "_comment": "Items - polvos",
     "item.bigreactors.yellorium_dust": "Polvo de Yellorio",
     "item.bigreactors.cyanite_dust": "Polvo de Cianita",
-    "x_item.bigreactors.dustblutonium": "Polvo de Blutonio",
+    "item.bigreactors.blutonium_dust": "Polvo de Blutonio",
     "item.bigreactors.graphite_dust": "Polvo de Grafito",
     "x_item.bigreactors.dustludicrite": "Polvo de Ludicrita",
 
@@ -38,7 +39,7 @@
     "_comment": "Bloques - bloques de metal / menas",
     "block.bigreactors.yellorium_block": "Bloque de Yellorio",
     "block.bigreactors.cyanite_block": "Bloque de Cianita",
-    "x_block.bigreactors.blockblutonium": "Bloque de Blutonio",
+    "block.bigreactors.blutonium_block": "Bloque de Blutonio",
     "block.bigreactors.graphite_block": "Barra de Grafito",
     "x_block.bigreactors.blockludicrite": "Bloque de Ludicrita",
 

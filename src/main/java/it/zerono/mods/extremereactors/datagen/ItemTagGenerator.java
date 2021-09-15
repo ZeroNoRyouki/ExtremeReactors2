@@ -64,19 +64,22 @@ public class ItemTagGenerator
         this.build(ContentTags.Items.INGOTS_YELLORIUM, Items.YELLORIUM_INGOT);
         this.build(ContentTags.Items.INGOTS_CYANITE, Items.CYANITE_INGOT);
         this.build(ContentTags.Items.INGOTS_GRAPHITE, Items.GRAPHITE_INGOT);
+        this.build(ContentTags.Items.INGOTS_BLUTONIUM, Items.BLUTONIUM_INGOT);
 
         this.build(ContentTags.Items.DUSTS_YELLORIUM, Items.YELLORIUM_DUST);
         this.build(ContentTags.Items.DUSTS_CYANITE, Items.CYANITE_DUST);
         this.build(ContentTags.Items.DUSTS_GRAPHITE, Items.GRAPHITE_DUST);
+        this.build(ContentTags.Items.DUSTS_BLUTONIUM, Items.BLUTONIUM_DUST);
 
         this.build(ContentTags.Items.BLOCKS_YELLORIUM, Items.YELLORIUM_BLOCK);
         this.build(ContentTags.Items.BLOCKS_CYANITE, Items.CYANITE_BLOCK);
         this.build(ContentTags.Items.BLOCKS_GRAPHITE, Items.GRAPHITE_BLOCK);
+        this.build(ContentTags.Items.BLOCKS_BLUTONIUM, Items.BLUTONIUM_BLOCK);
 
         this.build(ContentTags.Items.WRENCH, Items.WRENCH);
 
-        this.build(Tags.Items.INGOTS, Items.YELLORIUM_INGOT, Items.CYANITE_INGOT, Items.GRAPHITE_INGOT);
-        this.build(Tags.Items.DUSTS, Items.YELLORIUM_DUST, Items.CYANITE_DUST, Items.GRAPHITE_DUST);
+        this.build(Tags.Items.INGOTS, Items.YELLORIUM_INGOT, Items.CYANITE_INGOT, Items.GRAPHITE_INGOT, Items.BLUTONIUM_INGOT);
+        this.build(Tags.Items.DUSTS, Items.YELLORIUM_DUST, Items.CYANITE_DUST, Items.GRAPHITE_DUST, Items.BLUTONIUM_DUST);
 
         this.build(TagsHelper.ITEMS.createForgeOptionalTag("dusts/uranium"), Items.YELLORIUM_DUST);
         this.build(TagsHelper.ITEMS.createForgeOptionalTag("ingots/uranium"), Items.YELLORIUM_INGOT);

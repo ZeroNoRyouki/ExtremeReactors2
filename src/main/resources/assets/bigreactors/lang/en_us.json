@@ -8,18 +8,19 @@
 
     "reactant.bigreactors.yellorium": "Yellorium",
     "reactant.bigreactors.cyanite": "Cyanite",
+    "reactant.bigreactors.blutonium": "Blutonium",
 
     "_comment": "Items - ingots",
     "item.bigreactors.yellorium_ingot": "Yellorium Ingot",
     "item.bigreactors.cyanite_ingot": "Cyanite Ingot",
-    "x_item.bigreactors.ingotblutonium": "Blutonium Ingot",
+    "item.bigreactors.blutonium_ingot": "Blutonium Ingot",
     "item.bigreactors.graphite_ingot": "Graphite Bar",
     "x_item.bigreactors.ingotludicrite": "Ludicrite Ingot",
 
     "_comment": "Items - dusts",
     "item.bigreactors.yellorium_dust": "Yellorium Dust",
     "item.bigreactors.cyanite_dust": "Cyanite Dust",
-    "x_item.bigreactors.dustblutonium": "Blutonium Dust",
+    "item.bigreactors.blutonium_dust": "Blutonium Dust",
     "item.bigreactors.graphite_dust": "Graphite Dust",
     "x_item.bigreactors.dustludicrite": "Ludicrite Dust",
 
@@ -38,7 +39,7 @@
     "_comment": "Blocks - metal blocks / ores",
     "block.bigreactors.yellorium_block": "Yellorium Block",
     "block.bigreactors.cyanite_block": "Cyanite Block",
-    "x_block.bigreactors.blockblutonium": "Blutonium Block",
+    "block.bigreactors.blutonium_block": "Blutonium Block",
     "block.bigreactors.graphite_block": "Graphite Block",
     "x_block.bigreactors.blockludicrite": "Ludicrite Block",
 
