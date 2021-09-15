@@ -18,7 +18,6 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.part;
 
-import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.AbstractMultiblockEntity;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.MultiblockReprocessor;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.ReprocessorPartType;
@@ -34,16 +33,15 @@ import it.zerono.mods.zerocore.lib.multiblock.cuboid.PartPosition;
 import it.zerono.mods.zerocore.lib.multiblock.validation.IMultiblockValidator;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
 import net.minecraftforge.client.model.data.EmptyModelData;
 import net.minecraftforge.client.model.data.IModelData;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
-import net.minecraftforge.items.wrapper.EmptyHandler;
+
+import java.util.Objects;
 
 public abstract class AbstractReprocessorEntity
         extends AbstractMultiblockEntity<MultiblockReprocessor>
@@ -141,14 +139,7 @@ public abstract class AbstractReprocessorEntity
      */
     @Override
     public MultiblockReprocessor createController() {
-
-        final World myWorld = this.getWorld();
-
-        if (null == myWorld) {
-            throw new RuntimeException("Trying to create a Controller from a Part without a World");
-        }
-
-        return new MultiblockReprocessor(this.getWorld());
+        return new MultiblockReprocessor(Objects.requireNonNull(this.getLevel(), "Trying to create a Controller from a Part without a World"));
     }
 
     /**

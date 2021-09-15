@@ -85,8 +85,8 @@ public class MultiblockReprocessor
         super(world);
 
         this._outputInventory = new ItemStackHandler(1);
-        this._wasteInventory = new ItemStackHolder(1).setOnLoadListener(this::setIngredientsChanged).setOnContentsChangedListener(this::onWasteInventoryChanged);
-        this._fluidTank = new FluidTank(FLUID_CAPACITY).setOnLoadListener(this::setIngredientsChanged).setOnContentsChangedListener(this::onFluidInventoryChanged);
+        this._wasteInventory = new ItemStackHolder(1).setOnLoadListener(this::setIngredientsChanged).setOnContentsChangedListener(this::onInventoryChanged);
+        this._fluidTank = new FluidTank(FLUID_CAPACITY).setOnLoadListener(this::setIngredientsChanged).setOnContentsChangedListener(this::onInventoryChanged);
         this._energyBuffer = new EnergyBuffer(EnergySystem.ForgeEnergy, ENERGY_CAPACITY, 1000);
 
         this._outputItemHandler = ItemHandlerPolicyWrapper.outputOnly(this._outputInventory);
@@ -103,9 +103,10 @@ public class MultiblockReprocessor
                 .onHasIngredientsChanged(this::hasIngredientsChanged)
                 .onRecipeTickProcessed(tick -> this._energyBuffer.extractEnergy(EnergySystem.ForgeEnergy, TICK_ENERGY_COST, false))
 //                .onRecipeProcessed(this::sendUpdates)
+                .onRecipeChanged(this::onRecipeChanged)
                 .build();
 
-        this._ticker = Ticker.singleListener(5, this::sendUpdates);
+        this._ticker = TickerListener.singleListener(5, this::sendUpdates);
         this._interiorInvisible = false;
         this._ingredientsChanged = false;
     }
@@ -149,7 +150,7 @@ public class MultiblockReprocessor
     }
 
     public double getRecipeProgress() {
-        return this._recipeHolder.getCurrentRecipe().map(IHeldRecipe::getProgress).orElse(0.0d);
+        return this._recipeHolder.getHeldRecipe().map(IHeldRecipe::getProgress).orElse(0.0d);
     }
 
     //endregion
@@ -216,18 +217,12 @@ public class MultiblockReprocessor
         super.syncDataFrom(data, syncReason);
 
         this.syncBooleanElementFrom("active", data, b -> this._active = b);
-
-        //TODO optimized net sync
-
         this.syncDataElementFrom("out", data, this._outputInventory);
         this.syncDataElementFrom("waste", data, this._wasteInventory);
         this.syncChildDataEntityFrom(this._fluidTank, "fluid", data, syncReason);
         this.syncChildDataEntityFrom(this._energyBuffer, "energy", data, syncReason);
+        this._recipeHolder.refresh();
         this.syncChildDataEntityFrom(this._recipeHolder, "recipe", data, syncReason);
-
-        if (syncReason.isNetworkUpdate()) {
-
-        }
     }
 
     /**
@@ -242,18 +237,11 @@ public class MultiblockReprocessor
         super.syncDataTo(data, syncReason);
 
         this.syncBooleanElementTo("active", data, this.isMachineActive());
-
-        //TODO optimized net sync
-
         this.syncDataElementTo("out", data, this._outputInventory);
         this.syncDataElementTo("waste", data, this._wasteInventory);
         this.syncChildDataEntityTo(this._fluidTank, "fluid", data, syncReason);
         this.syncChildDataEntityTo(this._energyBuffer, "energy", data, syncReason);
         this.syncChildDataEntityTo(this._recipeHolder, "recipe", data, syncReason);
-
-        if (syncReason.isNetworkUpdate()) {
-
-        }
 
         return data;
     }
@@ -292,13 +280,13 @@ public class MultiblockReprocessor
         final IProfiler profiler = this.getWorld().getProfiler();
         boolean updated = false;
 
-        profiler.startSection("Extreme Reactors|Reprocessor update"); // main section
+        profiler.push("Extreme Reactors|Reprocessor update"); // main section
 
         //////////////////////////////////////////////////////////////////////////////
         // PROCESSING
         //////////////////////////////////////////////////////////////////////////////
 
-        profiler.startSection("Process");
+        profiler.push("Process");
 
         if (this.isMachineActive()) {
             updated = this._recipeHolder.getCurrentRecipe().map(IHeldRecipe::processRecipe).orElse(false);
@@ -308,11 +296,11 @@ public class MultiblockReprocessor
         // SEND CLIENT UPDATES
         //////////////////////////////////////////////////////////////////////////////
 
-        profiler.endStartSection("Updates");
+        profiler.popPush("Updates");
         this._ticker.tick();
 
-        profiler.endSection();
-        profiler.endSection(); // main section
+        profiler.pop();
+        profiler.pop(); // main section
 
         return updated;
     }
@@ -323,6 +311,9 @@ public class MultiblockReprocessor
      */
     @Override
     protected void updateClient() {
+        if (null != this._collector) {
+            this._collector.onClientTick();
+        }
     }
 
     /**
@@ -367,8 +358,6 @@ public class MultiblockReprocessor
             return false;
         }
 
-
-
         final List<IMultiblockPart<MultiblockReprocessor>> collectors =
                 this.getConnectedParts(p -> p instanceof ReprocessorCollectorEntity).collect(Collectors.toList());
 
@@ -377,11 +366,6 @@ public class MultiblockReprocessor
             validatorCallback.setLastError("multiblock.validation.reprocessor.missing_collector");
             return false;
         }
-
-
-
-
-
 
         return true;
     }
@@ -410,6 +394,12 @@ public class MultiblockReprocessor
     @Override
     protected void onMachineAssembled() {
 
+        // get the Collector
+        this._collector = this.getConnectedParts(p -> p instanceof ReprocessorCollectorEntity)
+                .map(p -> (ReprocessorCollectorEntity)p)
+                .findAny()
+                .orElse(null);
+
         // interior visible?
         this.setInteriorInvisible(!this.isAnyPartConnected(part -> part instanceof ReprocessorGlassEntity));
 
@@ -436,6 +426,7 @@ public class MultiblockReprocessor
      */
     @Override
     protected void onMachinePaused() {
+        this._collector = null;
     }
 
     /**
@@ -447,6 +438,8 @@ public class MultiblockReprocessor
 
         // do not call setMachineActive() here
         this._active = false;
+
+        this._collector = null;
 
         this.markMultiblockForRenderUpdate();
     }
@@ -586,7 +579,7 @@ public class MultiblockReprocessor
     @Override
     protected boolean isBlockGoodForInterior(World world, int x, int y, int z, IMultiblockValidator validatorCallback) {
 
-        if (world.isAirBlock(new BlockPos(x, y, z))) {
+        if (world.getBlockState(new BlockPos(x, y, z)).isAir()) {
             return true;
         }
 
@@ -631,14 +624,7 @@ public class MultiblockReprocessor
         }
     }
 
-    private void onWasteInventoryChanged(final IStackHolder.ChangeType changeType, final int slot) {
-
-        if (changeType.fullChange()) {
-            this.setIngredientsChanged();
-        }
-    }
-
-    private void onFluidInventoryChanged(final IStackHolder.ChangeType changeType, final int slot) {
+    private void onInventoryChanged(final IStackHolder.ChangeType changeType, final int slot) {
 
         if (changeType.fullChange()) {
             this.setIngredientsChanged();
@@ -657,6 +643,14 @@ public class MultiblockReprocessor
         return false;
     }
 
+    private void onRecipeChanged(ReprocessorRecipe heldRecipe) {
+
+        if (null != this._collector) {
+//            this._collector.onRecipeChanged(this._recipeHolder.getHeldRecipe().map(IHeldRecipe::getRecipe).orElse(null));
+            this._collector.onRecipeChanged(heldRecipe);
+        }
+    }
+
     private final ItemStackHandler _outputInventory;
     private final ItemStackHolder _wasteInventory;
     private final FluidTank _fluidTank;
@@ -668,12 +662,14 @@ public class MultiblockReprocessor
     private final RecipeHolder<ReprocessorRecipe> _recipeHolder;
     private boolean _ingredientsChanged;
 
+    private ReprocessorCollectorEntity _collector;
+
     private final IItemHandlerModifiable _outputItemHandler;
     private final IItemHandlerModifiable _inputItemHandler;
     private final IFluidHandler _inputFluidHandler;
     private final IWideEnergyStorage _energyInputHandler;
 
-    private final Ticker _ticker;
+    private final TickerListener _ticker;
     private boolean _active;
 
     private boolean _interiorInvisible;

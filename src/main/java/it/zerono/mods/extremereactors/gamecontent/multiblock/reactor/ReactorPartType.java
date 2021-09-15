@@ -52,7 +52,7 @@ public enum ReactorPartType
 
     FuelRod(() -> Content.TileEntityTypes.REACTOR_FUELROD::get,
             ReactorFuelRodBlock::new, "part.bigreactors.reactor.fuelrod",
-            bp -> GlassBlock.addGlassProperties(bp).setLightLevel(state -> Config.COMMON.reactor.fuelRodLightValue.get())),
+            bp -> GlassBlock.addGlassProperties(bp).lightLevel(state -> Config.COMMON.reactor.fuelRodLightValue.get())),
 
     ControlRod(() -> Content.TileEntityTypes.REACTOR_CONTROLROD::get,
             GenericDeviceBlock::new, "part.bigreactors.reactor.controlrod"),

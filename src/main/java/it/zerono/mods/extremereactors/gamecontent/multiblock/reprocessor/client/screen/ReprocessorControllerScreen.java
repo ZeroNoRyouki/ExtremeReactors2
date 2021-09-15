@@ -23,6 +23,7 @@ import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.gamecontent.CommonConstants;
 import it.zerono.mods.extremereactors.gamecontent.compat.patchouli.PatchouliCompat;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.AbstractMultiblockScreen;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.CachedSprites;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.CommonIcons;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.MultiblockReprocessor;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.part.ReprocessorControllerEntity;
@@ -35,7 +36,6 @@ import it.zerono.mods.zerocore.lib.client.gui.databind.MonoConsumerBinding;
 import it.zerono.mods.zerocore.lib.client.gui.databind.MultiConsumerBinding;
 import it.zerono.mods.zerocore.lib.client.gui.layout.*;
 import it.zerono.mods.zerocore.lib.client.gui.sprite.ISprite;
-import it.zerono.mods.zerocore.lib.client.gui.sprite.ISpriteTextureMap;
 import it.zerono.mods.zerocore.lib.client.gui.sprite.Sprite;
 import it.zerono.mods.zerocore.lib.client.gui.sprite.SpriteTextureMap;
 import it.zerono.mods.zerocore.lib.client.render.ModRenderHelper;
@@ -47,10 +47,10 @@ import it.zerono.mods.zerocore.lib.item.inventory.PlayerInventoryUsage;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.fluid.Fluid;
-import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.util.NonNullSupplier;
 import net.minecraftforge.fluids.FluidStack;
@@ -65,7 +65,7 @@ public class ReprocessorControllerScreen
                                        final PlayerInventory inventory, final ITextComponent title) {
 
         super(container, inventory, PlayerInventoryUsage.None, title,
-                () -> new SpriteTextureMap(ExtremeReactors.newID("textures/gui/multiblock/reprocessor_background.png"), 256, 256));
+                () -> new SpriteTextureMap(ExtremeReactors.newID("textures/gui/multiblock/basic_background.png"), 256, 256));
 
         this._reprocessor = this.getMultiblockController().orElseThrow(IllegalStateException::new);
         this._bindings = new BindingGroup();
@@ -92,7 +92,8 @@ public class ReprocessorControllerScreen
 
         Panel p;
 
-        this.addPatchouliHelpButton(PatchouliCompat.HANDBOOK_ID, ExtremeReactors.newID("reactor/part-controller"), 1); //TODO fix page
+        //TODO add Reprocessor to Patchouli book
+        this.addPatchouliHelpButton(PatchouliCompat.HANDBOOK_ID, ExtremeReactors.newID("reactor/part-controller"), 1);
 
         super.onScreenCreate();
 
@@ -160,7 +161,7 @@ public class ReprocessorControllerScreen
                 percentage -> new StringTextComponent(String.format("%d", (int)(percentage * 100))).setStyle(STYLE_TOOLTIP_VALUE));
 
         p = this.vBarPanel();
-        this.addBarIcon(CommonIcons.CoolantIcon, p).useTooltipsFrom(this._fluidBar); //TODO fix icon
+        this.addBarIcon(CodeHelper.asNonNull(CachedSprites.VANILLA_BUCKET, () -> Sprite.EMPTY), p).useTooltipsFrom(this._fluidBar);
 
         this._fluidBar.setMaxValue(MultiblockReprocessor.FLUID_CAPACITY);
         this._fluidBar.setDesiredDimension(18, 66);
@@ -220,33 +221,6 @@ public class ReprocessorControllerScreen
         // - separator
         mainPanel.addControl(this.vSeparatorPanel());
 
-        // - inventory display
-//
-//        p = new Panel(this);
-//        p.setLayoutEngine(new VerticalLayoutEngine());
-//        p.setDesiredDimension(DesiredDimension.Width, 32);
-//
-//        p.addControl(this._inputInventoryDisplay);
-//        this.addBinding(r -> r.getItemHandler(IoDirection.Input).getStackInSlot(0),
-//                stack -> setInventoryDisplay(this._inputInventoryDisplay, stack));
-//
-//        ISpriteTextureMap map = new SpriteTextureMap(ExtremeReactors.newID("textures/gui/multiblock/vertical_progress_arrow.png"), 16, 32);
-//        ISprite sp = ModRenderHelper.getStillFluidSprite(Fluids.WATER);
-//        GaugeBar gb = new GaugeBar(this, "progress", 1.0, sp);
-//        gb.setDesiredDimension(16, 32);
-//        gb.setOverlay(map.sprite().ofSize(16, 32).build());
-//        gb.setTopDown(true);
-//        gb.setBarSpriteTint(Colour.fromARGB(Fluids.WATER.getAttributes().getColor()));
-//        p.addControl(gb);
-//        this.addBinding(MultiblockReprocessor::getRecipeProgress, gb::setValue);
-//
-//
-//        p.addControl(this._outputInventoryDisplay);
-//        this.addBinding(r -> r.getItemHandler(IoDirection.Output).getStackInSlot(0),
-//                stack -> setInventoryDisplay(this._outputInventoryDisplay, stack));
-//
-//        mainPanel.addControl(p);
-
         // COMMANDS
 
         final Panel commandPanel = this.vCommandPanel();
@@ -273,11 +247,6 @@ public class ReprocessorControllerScreen
         this.addBinding(MultiblockReprocessor::isMachineActive, active -> off.setActive(!active));
 
         commandPanel.addControl(on, off);
-
-
-
-
-
     }
 
     /**
@@ -362,21 +331,6 @@ public class ReprocessorControllerScreen
 
     private Panel recipePanel() {
 
-//        final Panel p = new Panel(this);
-//        SlotsGroup sg;
-//
-//        p.setDesiredDimension(DesiredDimension.Width, 70);
-//        p.setLayoutEngine(new VerticalLayoutEngine()
-//                .setVerticalMargin(17)
-//                .setHorizontalAlignment(HorizontalAlignment.Center));
-//
-//        sg = this.createSingleSlotGroupControl("recipeIn", "in");
-//        p.addControl(sg);
-//
-//        sg = this.createSingleSlotGroupControl("recipeOut", "out");
-//        p.addControl(sg);
-
-
         final Panel p = new Panel(this);
 
         p.setLayoutEngine(new VerticalLayoutEngine());
@@ -391,7 +345,7 @@ public class ReprocessorControllerScreen
         // recipe progress
 
         this._progressBar.setDesiredDimension(16, 32);
-        this._progressBar.setOverlay(new SpriteTextureMap(ExtremeReactors.newID("textures/gui/multiblock/vertical_progress_arrow.png"), 16, 32)
+        this._progressBar.setOverlay(new SpriteTextureMap(ExtremeReactors.newID("textures/gui/multiblock/reprocessor_controller_arrow.png"), 16, 32)
                 .sprite().ofSize(16, 32).build());
         this._progressBar.setTopDown(true);
         p.addControl(this._progressBar);
@@ -413,6 +367,11 @@ public class ReprocessorControllerScreen
             display.setStackWithCount(stack);
         } else {
             display.setStack(stack);
+        }
+
+        if (!stack.isEmpty()) {
+            display.setTooltips(new StringTextComponent(String.format("%dx ", stack.getCount()))
+                    .append(new TranslationTextComponent(stack.getItem().getDescriptionId()).setStyle(Style.EMPTY.withBold(true))));
         }
     }
 

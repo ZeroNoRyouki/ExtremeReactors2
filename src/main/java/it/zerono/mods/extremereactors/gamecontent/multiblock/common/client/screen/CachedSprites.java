@@ -34,6 +34,8 @@ public final class CachedSprites {
     public static final ResourceLocation GUI_CHARGINGPORT_SLOT_ID;
     public static final Supplier<ISprite> GUI_CHARGINGPORT_SLOT;
 
+    public static final Supplier<ISprite> VANILLA_BUCKET;
+
     public static void initialize() {
     }
 
@@ -44,6 +46,8 @@ public final class CachedSprites {
 
         GUI_CHARGINGPORT_SLOT_ID = ExtremeReactors.newID("gui/multiblock/charging");
         GUI_CHARGINGPORT_SLOT = AtlasSpriteSupplier.create(GUI_CHARGINGPORT_SLOT_ID, AtlasSpriteTextureMap.BLOCKS);
+
+        VANILLA_BUCKET  = AtlasSpriteSupplier.create(new ResourceLocation("minecraft:item/bucket"), AtlasSpriteTextureMap.BLOCKS, false);
     }
 
     //region internals

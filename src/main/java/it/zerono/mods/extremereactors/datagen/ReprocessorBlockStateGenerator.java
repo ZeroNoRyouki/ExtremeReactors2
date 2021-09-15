@@ -23,8 +23,6 @@ import it.zerono.mods.extremereactors.gamecontent.Content;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
-import javax.annotation.Nonnull;
-
 public class ReprocessorBlockStateGenerator
         extends AbstractMultiblockBlockStateGenerator {
 
@@ -39,13 +37,14 @@ public class ReprocessorBlockStateGenerator
 
         final String folder = "reprocessor";
 
+        this.genAssembledPlatingModel(folder);
+        this.genAssembledPlatingModel("assembledplatingio", "platingio", folder);
         this.genFrame(Content.Blocks.REPROCESSOR_CASING, "casing", folder);
         this.genGlass(Content.Blocks.REPROCESSOR_GLASS, "glass", folder);
         this.genController(Content.Blocks.REPROCESSOR_CONTROLLER, folder);
-
-        this.genericPart(Content.Blocks.REPROCESSOR_WASTEINJECTOR, "wasteinjector", folder, true);
-        this.genericPart(Content.Blocks.REPROCESSOR_FLUIDINJECTOR, "fluidinjector", folder, true);
-        this.genericPart(Content.Blocks.REPROCESSOR_OUTPUTPORT, "outputport", folder, true);
+        this.genericPart(Content.Blocks.REPROCESSOR_WASTEINJECTOR, "wasteinjector", folder, true, "_connected");
+        this.genericPart(Content.Blocks.REPROCESSOR_FLUIDINJECTOR, "fluidinjector", folder, true, "_connected");
+        this.genericPart(Content.Blocks.REPROCESSOR_OUTPUTPORT, "outputport", folder, true, "_connected");
         this.genericPart(Content.Blocks.REPROCESSOR_POWERPORT, "powerport", folder, true);
         this.genericPart(Content.Blocks.REPROCESSOR_COLLECTOR, "collector", folder, true);
     }

@@ -28,6 +28,8 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.part.Re
 import it.zerono.mods.zerocore.lib.client.gui.control.Panel;
 import it.zerono.mods.zerocore.lib.client.gui.control.SlotsGroup;
 import it.zerono.mods.zerocore.lib.client.gui.layout.FixedLayoutEngine;
+import it.zerono.mods.zerocore.lib.client.gui.layout.HorizontalAlignment;
+import it.zerono.mods.zerocore.lib.client.gui.layout.VerticalLayoutEngine;
 import it.zerono.mods.zerocore.lib.client.gui.sprite.ISprite;
 import it.zerono.mods.zerocore.lib.client.gui.sprite.SpriteTextureMap;
 import it.zerono.mods.zerocore.lib.item.inventory.PlayerInventoryUsage;
@@ -40,9 +42,8 @@ public class ReprocessorAccessPortScreen
 
     public ReprocessorAccessPortScreen(final ReprocessorAccessPortContainer container,
                                        final PlayerInventory inventory, final ITextComponent title) {
-
-        super(container, inventory, PlayerInventoryUsage.None, title,
-                () -> new SpriteTextureMap(ExtremeReactors.newID("textures/gui/multiblock/reprocessor_background.png"), 256, 256)); //FIX bk, half size
+        super(container, inventory, PlayerInventoryUsage.Both, title,
+                () -> new SpriteTextureMap(ExtremeReactors.newID("textures/gui/multiblock/basic_background.png"), 256, 256));
     }
 
     //region AbstractMultiblockScreen
@@ -54,6 +55,7 @@ public class ReprocessorAccessPortScreen
     @Override
     protected void onScreenCreate() {
 
+        //TODO add Reprocessor to Patchouli book
         this.addPatchouliHelpButton(PatchouliCompat.HANDBOOK_ID, ExtremeReactors.newID("reactor/part-solidaccessport"), 1);
 
         super.onScreenCreate();
@@ -61,11 +63,14 @@ public class ReprocessorAccessPortScreen
         final Panel panel = new Panel(this, "accessport");
         SlotsGroup slotsGroup;
 
-        panel.setLayoutEngineHint(FixedLayoutEngine.hint((this.getGuiHeight() - 168) / 2, 13, 168, 38));
-        this.addControl(panel);
-
-        panel.addControl(this.slotPanel("slot", "inv", 79, 0,
+        panel.setLayoutEngineHint(FixedLayoutEngine.hint(0, 13));
+        panel.setDesiredDimension(this.getGuiWidth(), 38);
+        panel.setLayoutEngine(new VerticalLayoutEngine()
+                .setHorizontalAlignment(HorizontalAlignment.Center)
+                .setZeroMargins());
+        panel.addControl(this.slotPanel("slot", "inv", 79*0, 0,
                 this.getTileEntity().getDirection().isInput() ? CommonIcons.PortInputSlot : CommonIcons.PortOutputSlot));
+        this.addControl(panel);
 
         // - player main inventory slots
         slotsGroup = this.createPlayerInventorySlotsGroupControl();
@@ -90,7 +95,8 @@ public class ReprocessorAccessPortScreen
         sg.setLayoutEngineHint(FixedLayoutEngine.hint(10, 10, 18, 18));
 
         p.setBackground(slotBackground.get());
-        p.setLayoutEngineHint(FixedLayoutEngine.hint(x, y, 38, 38));
+        p.setDesiredDimension(38, 38);
+        p.setLayoutEngine(new FixedLayoutEngine().setZeroMargins());
         p.addControl(sg);
 
         return p;

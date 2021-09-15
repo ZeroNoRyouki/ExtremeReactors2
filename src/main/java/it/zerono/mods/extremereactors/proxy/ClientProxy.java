@@ -47,6 +47,10 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.scre
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part.ReactorChargingPortEntity;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part.ReactorFluidPortEntity;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.ReactorVariant;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.client.model.ReprocessorGlassModelBuilder;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.client.model.ReprocessorIOModelBuilder;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.client.model.ReprocessorModelBuilder;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.client.render.ReprocessorCollectorRender;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.client.screen.ReprocessorAccessPortScreen;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.client.screen.ReprocessorControllerScreen;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.client.model.TurbineGlassModelBuilder;
@@ -220,7 +224,10 @@ public class ClientProxy
                                 new TurbineModelBuilder(v),
                                 new TurbineGlassModelBuilder(v),
                                 new TurbineRotorModelBuilder(v)
-                        ))
+                        )),
+                Stream.of(new ReprocessorModelBuilder(),
+                        new ReprocessorIOModelBuilder(),
+                        new ReprocessorGlassModelBuilder())
         ).collect(ImmutableList.toImmutableList());
     }
 
@@ -265,7 +272,9 @@ public class ClientProxy
     }
 
     private static void registerTileRenderers() {
+
         ClientRegistry.bindTileEntityRenderer(Content.TileEntityTypes.TURBINE_ROTORBEARING.get(), RotorBearingEntityRenderer::new);
+        ClientRegistry.bindTileEntityRenderer(Content.TileEntityTypes.REPROCESSOR_COLLECTOR.get(), ReprocessorCollectorRender::new);
     }
 
     //region registration helpers

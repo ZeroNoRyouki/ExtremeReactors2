@@ -52,7 +52,7 @@ public class ReprocessorRecipeGenerator
      * Registers all recipes to the given consumer.
      */
     @Override
-    protected void registerRecipes(final Consumer<IFinishedRecipe> c) {
+    protected void buildShapelessRecipes(final Consumer<IFinishedRecipe> c) {
 
         // machine recipes
 

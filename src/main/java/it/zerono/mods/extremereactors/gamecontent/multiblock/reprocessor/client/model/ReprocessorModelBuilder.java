@@ -33,8 +33,16 @@ public class ReprocessorModelBuilder
     extends CuboidPartVariantsModelBuilder {
 
     public ReprocessorModelBuilder() {
+        this("assembledplating");
+    }
 
-        super(getModelRL("assembledplating"), true);
+    protected ReprocessorModelBuilder(final String templateName) {
+
+        super(getModelRL(templateName), true);
+        this.build();
+    }
+
+    protected void build() {
 
         this.addBlockWithVariants(ReprocessorPartType.Casing, "casing",
                 "casing_01_face",
@@ -60,8 +68,10 @@ public class ReprocessorModelBuilder
                 "casing_21_corner_unw");
 
         this.addBlockWithVariants(ReprocessorPartType.Controller, "controller", "controller_on", "controller_off");
-
-
+        this.addBlockWithVariants(ReprocessorPartType.PowerPort, "powerport");
+        //this.addBlockWithVariants(ReprocessorPartType.WasteInjector, "wasteinjector", "wasteinjector_connected");
+        this.addBlockWithVariants(ReprocessorPartType.FluidInjector, "fluidinjector", "fluidinjector_connected");
+        this.addBlockWithVariants(ReprocessorPartType.OutputPort, "outputport", "outputport_connected");
     }
 
     //region internals
@@ -80,7 +90,7 @@ public class ReprocessorModelBuilder
 
         variants.add(getBlockStateRL(blockCommonName));
         Arrays.stream(additionalVariantsModelNames)
-                .map(name -> getModelRL(name))
+                .map(ReprocessorModelBuilder::getModelRL)
                 .collect(Collectors.toCollection(() -> variants));
 
         this.addModels(partType.ordinal(), variants);

@@ -59,7 +59,8 @@ public enum ReprocessorPartType
             GenericDeviceBlock::new, "block.bigreactors.reprocessorpowerport"),
 
     Collector(() -> Content.TileEntityTypes.REPROCESSOR_COLLECTOR::get,
-            GenericDeviceBlock::new, "block.bigreactors.reprocessorcollector"),
+            GenericDeviceBlock::new, "block.bigreactors.reprocessorcollector",
+            bp -> bp.lightLevel(bs -> 15)),
     ;
 
     ReprocessorPartType(final Supplier<Supplier<TileEntityType<?>>> tileTypeSupplier,
@@ -100,7 +101,7 @@ public enum ReprocessorPartType
     }
 
     @Override
-    public String getString() {
+    public String getSerializedName() {
         return this.name();
     }
 

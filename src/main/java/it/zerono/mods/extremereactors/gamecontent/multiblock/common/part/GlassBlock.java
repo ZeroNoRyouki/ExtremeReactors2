@@ -43,9 +43,8 @@ public class GlassBlock <Controller extends IMultiblockController<Controller>,
     public static AbstractBlock.Properties addGlassProperties(final AbstractBlock.Properties originals) {
         return originals
                 .sound(SoundType.GLASS)
-                .notSolid()
-                .setOpaque((blockState, blockReader, pos) -> false)
-                .setBlocksVision((blockState, blockReader, pos) -> false);
+                .noOcclusion()
+                .isViewBlocking((blockState, blockReader, pos) -> false);
     }
 
     //region Block
