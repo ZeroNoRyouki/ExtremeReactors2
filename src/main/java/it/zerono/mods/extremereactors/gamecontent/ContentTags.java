@@ -36,6 +36,7 @@ public class ContentTags {
         public static final ITag.INamedTag<Block> BLOCKS_CYANITE = forgeTag("storage_blocks/cyanite");
         public static final ITag.INamedTag<Block> BLOCKS_GRAPHITE = forgeTag("storage_blocks/graphite");
         public static final ITag.INamedTag<Block> BLOCKS_BLUTONIUM = forgeTag("storage_blocks/blutonium");
+        public static final ITag.INamedTag<Block> BLOCKS_MAGENTITE = forgeTag("storage_blocks/magentite");
 
         //region internals
 
@@ -54,16 +55,19 @@ public class ContentTags {
         public static final ITag.INamedTag<Item> INGOTS_CYANITE = forgeTag("ingots/cyanite");
         public static final ITag.INamedTag<Item> INGOTS_GRAPHITE = forgeTag("ingots/graphite");
         public static final ITag.INamedTag<Item> INGOTS_BLUTONIUM = forgeTag("ingots/blutonium");
+        public static final ITag.INamedTag<Item> INGOTS_MAGENTITE = forgeTag("ingots/magentite");
 
         public static final ITag.INamedTag<Item> DUSTS_YELLORIUM = forgeTag("dusts/yellorium");
         public static final ITag.INamedTag<Item> DUSTS_CYANITE = forgeTag("dusts/cyanite");
         public static final ITag.INamedTag<Item> DUSTS_GRAPHITE = forgeTag("dusts/graphite");
         public static final ITag.INamedTag<Item> DUSTS_BLUTONIUM = forgeTag("dusts/blutonium");
+        public static final ITag.INamedTag<Item> DUSTS_MAGENTITE = forgeTag("dusts/magentite");
 
         public static final ITag.INamedTag<Item> BLOCKS_YELLORIUM = forgeTag("storage_blocks/yellorium");
         public static final ITag.INamedTag<Item> BLOCKS_CYANITE = forgeTag("storage_blocks/cyanite");
         public static final ITag.INamedTag<Item> BLOCKS_GRAPHITE = forgeTag("storage_blocks/graphite");
         public static final ITag.INamedTag<Item> BLOCKS_BLUTONIUM = forgeTag("storage_blocks/blutonium");
+        public static final ITag.INamedTag<Item> BLOCKS_MAGENTITE = forgeTag("storage_blocks/magentite");
 
         public static final ITag.INamedTag<Item> WRENCH = forgeTag("tools/wrench");
 

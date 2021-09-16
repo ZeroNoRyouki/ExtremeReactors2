@@ -58,13 +58,14 @@ public class BlockTagGenerator
 
         this.build(ContentTags.Blocks.BLOCKS_YELLORIUM, Blocks.YELLORIUM_BLOCK);
         this.build(ContentTags.Blocks.BLOCKS_CYANITE, Blocks.CYANITE_BLOCK);
+        this.build(ContentTags.Blocks.BLOCKS_BLUTONIUM, Blocks.BLUTONIUM_BLOCK);
+        this.build(ContentTags.Blocks.BLOCKS_MAGENTITE, Blocks.MAGENTITE_BLOCK);
         this.build(ContentTags.Blocks.BLOCKS_GRAPHITE, Blocks.GRAPHITE_BLOCK);
 
         this.build(ContentTags.Blocks.ORE_YELLORITE, Blocks.YELLORITE_ORE_BLOCK);
 
         this.build(Tags.Blocks.ORES, Blocks.YELLORITE_ORE_BLOCK, Blocks.ANGLESITE_ORE_BLOCK, Blocks.BENITOITE_ORE_BLOCK);
         this.build(TagsHelper.BLOCKS.createForgeOptionalTag("ores/uranium"), Blocks.YELLORITE_ORE_BLOCK);
-
     }
 
     //endregion

@@ -1,0 +1,36 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "bigreactors:general",
+  "ingredients": [
+    {
+      "item": "bigreactors:magentite_ingot"
+    },
+    {
+      "item": "bigreactors:magentite_ingot"
+    },
+    {
+      "item": "bigreactors:magentite_ingot"
+    },
+    {
+      "item": "bigreactors:magentite_ingot"
+    },
+    {
+      "item": "bigreactors:magentite_ingot"
+    },
+    {
+      "item": "bigreactors:magentite_ingot"
+    },
+    {
+      "item": "bigreactors:magentite_ingot"
+    },
+    {
+      "item": "bigreactors:magentite_ingot"
+    },
+    {
+      "item": "bigreactors:magentite_ingot"
+    }
+  ],
+  "result": {
+    "item": "bigreactors:magentite_block"
+  }
+}

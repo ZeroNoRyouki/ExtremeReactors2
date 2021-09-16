@@ -9,11 +9,13 @@
     "reactant.bigreactors.yellorium": "Yellório",
     "reactant.bigreactors.cyanite": "Cianite",
     "reactant.bigreactors.blutonium": "Blutônio",
+    "reactant.bigreactors.magentite": "Magentite",
 
     "_comment": "Itens - barras",
     "item.bigreactors.yellorium_ingot": "Barra de Yellório",
     "item.bigreactors.cyanite_ingot": "Barra de Cianite",
     "item.bigreactors.blutonium_ingot": "Barra de Blutônio",
+    "item.bigreactors.magentite_ingot": "Barra de Magentite",
     "item.bigreactors.graphite_ingot": "Barra de Grafite",
     "x_item.bigreactors.ingotludicrite": "Barra de Ludicrite",
 
@@ -21,6 +23,7 @@
     "item.bigreactors.yellorium_dust": "Pó de Yellório",
     "item.bigreactors.cyanite_dust": "Pó de Cianite",
     "item.bigreactors.blutonium_dust": "Pó de Blutônio",
+    "item.bigreactors.magentite_dust": "Pó de Magentite",
     "item.bigreactors.graphite_dust": "Pó de Grafite",
     "x_item.bigreactors.dustludicrite": "Pó de Ludicrite",
 
@@ -40,6 +43,7 @@
     "block.bigreactors.yellorium_block": "Bloco de Yellório",
     "block.bigreactors.cyanite_block": "Bloco de Cianite",
     "block.bigreactors.blutonium_block": "Bloco de Blutônio",
+    "block.bigreactors.magentite_block": "Bloco de Magentite",
     "block.bigreactors.graphite_block": "Bloco de Grafite",
     "x_block.bigreactors.blockludicrite": "Bloco de Ludicrite",
 

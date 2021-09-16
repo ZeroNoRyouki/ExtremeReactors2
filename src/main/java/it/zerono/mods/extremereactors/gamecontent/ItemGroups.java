@@ -42,6 +42,7 @@ public final class ItemGroups {
                         stack(Content.Items.YELLORIUM_INGOT), stack(Content.Items.YELLORIUM_DUST), stack(Content.Blocks.YELLORIUM_BLOCK),
                         stack(Content.Items.BLUTONIUM_INGOT), stack(Content.Items.BLUTONIUM_DUST), stack(Content.Blocks.BLUTONIUM_BLOCK),
                         stack(Content.Items.CYANITE_INGOT), stack(Content.Items.CYANITE_DUST), stack(Content.Blocks.CYANITE_BLOCK),
+                        stack(Content.Items.MAGENTITE_INGOT), stack(Content.Items.MAGENTITE_DUST), stack(Content.Blocks.MAGENTITE_BLOCK),
                         stack(Content.Items.GRAPHITE_INGOT), stack(Content.Items.GRAPHITE_DUST), stack(Content.Blocks.GRAPHITE_BLOCK),
                         stack(Content.Items.ANGLESITE_CRYSTAL), stack(Content.Items.BENITOITE_CRYSTAL),
                         stack(Content.Items.WRENCH));
