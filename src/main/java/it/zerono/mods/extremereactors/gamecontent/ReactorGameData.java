@@ -43,11 +43,17 @@ final class ReactorGameData {
 
     private static void registerReactants() {
 
-        // Yellorium
+        // Yellorium (register it as a FuelProperties.DEFAULT fuel)
         ReactantsRegistry.register(REACTANT_YELLORIUM, ReactantType.Fuel, 0xc6ba54, "reactant.bigreactors.yellorium");
+
+        // Blutonium
+        ReactantsRegistry.registerFuel(REACTANT_BLUTONIUM, 0x17179c, 2.55f, 0.875f, 2.0f, "reactant.bigreactors.blutonium");
 
         // Cyanite
         ReactantsRegistry.register(REACTANT_CYANITE, ReactantType.Waste, 0x5387b7, "reactant.bigreactors.cyanite");
+
+        // Magentite
+        ReactantsRegistry.register(REACTANT_MAGENTITE, ReactantType.Waste, 0xe41de4, "reactant.bigreactors.magentite");
     }
 
     private static void registerReactantMappings() {
@@ -57,14 +63,21 @@ final class ReactorGameData {
         registerIngotReactantMapping(REACTANT_YELLORIUM, ContentTags.Items.BLOCKS_YELLORIUM, 9);
         registerIngotReactantMapping(REACTANT_YELLORIUM, "forge:storage_blocks/uranium", 9);
 
+        registerIngotReactantMapping(REACTANT_BLUTONIUM, ContentTags.Items.INGOTS_BLUTONIUM, 1);
+        registerIngotReactantMapping(REACTANT_BLUTONIUM, "forge:ingots/plutonium", 1);
+        registerIngotReactantMapping(REACTANT_BLUTONIUM, ContentTags.Items.BLOCKS_BLUTONIUM, 9);
+        registerIngotReactantMapping(REACTANT_BLUTONIUM, "forge:storage_blocks/plutonium", 9);
+
         registerIngotReactantMapping(REACTANT_CYANITE, ContentTags.Items.INGOTS_CYANITE, 1);
         registerIngotReactantMapping(REACTANT_CYANITE, ContentTags.Items.BLOCKS_CYANITE, 9);
+        registerIngotReactantMapping(REACTANT_MAGENTITE, ContentTags.Items.INGOTS_MAGENTITE, 1);
+        registerIngotReactantMapping(REACTANT_MAGENTITE, ContentTags.Items.BLOCKS_MAGENTITE, 9);
     }
 
     private static void registerReactions() {
 
         ReactionsRegistry.register(REACTANT_YELLORIUM, REACTANT_CYANITE, Reaction.STANDARD_REACTIVITY, Reaction.STANDARD_FISSIONRATE);
-        //blutonium
+        ReactionsRegistry.register(REACTANT_BLUTONIUM, REACTANT_MAGENTITE, 1.1f, 0.05f);
     }
 
     private static void registerModerators() {
@@ -206,7 +219,9 @@ final class ReactorGameData {
     //endregion
 
     private static final String REACTANT_YELLORIUM = "yellorium";
+    private static final String REACTANT_BLUTONIUM = "blutonium";
     private static final String REACTANT_CYANITE = "cyanite";
+    private static final String REACTANT_MAGENTITE = "magentite";
 
     //endregion
 }
