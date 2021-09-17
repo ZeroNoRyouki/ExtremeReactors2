@@ -41,6 +41,7 @@ public class ReprocessorRecipe
                                         ItemStackRecipeIngredient, FluidStackRecipeIngredient, ItemStackRecipeResult> {
 
     public static final String NAME = "reprocessor";
+    public static final ResourceLocation ID = ExtremeReactors.newID(NAME);
     public static final IntFunction<String> JSON_LABELS_SUPPLIER;
 
     protected ReprocessorRecipe(final ResourceLocation id, final ItemStackRecipeIngredient ingot,
@@ -74,7 +75,7 @@ public class ReprocessorRecipe
             throw new IllegalArgumentException("ReprocessorRecipe requires a non empty result.");
         }
 
-        return new TwoToOneRecipeBuilder<>(ExtremeReactors.newID(NAME), ingot, fluid, result, JSON_LABELS_SUPPLIER);
+        return new TwoToOneRecipeBuilder<>(ID, ingot, fluid, result, JSON_LABELS_SUPPLIER);
     }
 
     //region AbstractTwoToOneRecipe
