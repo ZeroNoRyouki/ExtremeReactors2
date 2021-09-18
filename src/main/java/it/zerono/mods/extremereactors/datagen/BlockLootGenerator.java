@@ -72,6 +72,10 @@ public class BlockLootGenerator
                 Content.Blocks.TURBINE_FLUIDPORT_FORGE_ACTIVE_REINFORCED, Content.Blocks.TURBINE_FLUIDPORT_FORGE_PASSIVE_REINFORCED,
                 Content.Blocks.TURBINE_CREATIVE_STEAM_GENERATOR_REINFORCED,
                 Content.Blocks.TURBINE_REDSTONEPORT_REINFORCED, Content.Blocks.TURBINE_COMPUTERPORT_REINFORCED);
+
+        this.addDrop(Content.Blocks.REPROCESSOR_CASING, Content.Blocks.REPROCESSOR_GLASS, Content.Blocks.REPROCESSOR_CONTROLLER,
+                Content.Blocks.REPROCESSOR_WASTEINJECTOR, Content.Blocks.REPROCESSOR_FLUIDINJECTOR, Content.Blocks.REPROCESSOR_OUTPUTPORT,
+                Content.Blocks.REPROCESSOR_POWERPORT, Content.Blocks.REPROCESSOR_COLLECTOR);
     }
 
     @Override
