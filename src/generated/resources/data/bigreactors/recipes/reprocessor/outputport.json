@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "bigreactors:general",
+  "pattern": [
+    "C2C",
+    "313",
+    "C2C"
+  ],
+  "key": {
+    "C": {
+      "item": "bigreactors:reprocessorcasing"
+    },
+    "1": {
+      "item": "minecraft:dispenser"
+    },
+    "2": {
+      "tag": "forge:storage_blocks/lapis"
+    },
+    "3": {
+      "tag": "forge:chests"
+    }
+  },
+  "result": {
+    "item": "bigreactors:reprocessoroutputport"
+  }
+}
