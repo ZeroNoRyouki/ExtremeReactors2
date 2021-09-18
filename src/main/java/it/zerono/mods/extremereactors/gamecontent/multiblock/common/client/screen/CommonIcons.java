@@ -100,6 +100,10 @@ public enum CommonIcons implements NonNullSupplier<ISprite> {
 
     PortInputSlot(builder().from(136, 116).ofSize(38, 38).build()),
     PortOutputSlot(builder().from(136, 154).ofSize(38, 38).build()),
+
+    ReprocessorProgressBarMask(new SpriteTextureMap(ExtremeReactors.newID("textures/gui/multiblock/reprocessor_controller_arrow.png"), 16, 32)
+            .sprite().ofSize(16, 32).build()),
+
     ;
 
     CommonIcons(final ISprite sprite) {

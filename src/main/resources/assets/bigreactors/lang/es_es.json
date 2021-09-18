@@ -570,5 +570,8 @@
 
     "api.bigreactors.reactor.tooltip.moderator": "Extreme Reactors: este bloque o fluido puede ser usado como un moderador de radiación dentro de un Reactor",
     "api.bigreactors.reactor.tooltip.reactant.fuel": "Extreme Reactors: este item puede ser usado para producir combustible para un Reactor",
-    "api.bigreactors.reactor.tooltip.coil": "Extreme Reactors: este bloque puede ser usado como bobina dentro de una Turbina"
+    "api.bigreactors.reactor.tooltip.coil": "Extreme Reactors: este bloque puede ser usado como bobina dentro de una Turbina",
+
+    "compat.bigreactors.jei.reprocessor.recipecategory.title": "Reprocessor",
+    "compat.bigreactors.jei.reprocessor.recipecategory.energy.tooltip.title": "Energía"
 }
