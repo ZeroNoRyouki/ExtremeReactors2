@@ -93,7 +93,7 @@ public class ReprocessorControllerScreen
         Panel p;
 
         //TODO add Reprocessor to Patchouli book
-        this.addPatchouliHelpButton(PatchouliCompat.HANDBOOK_ID, ExtremeReactors.newID("reactor/part-controller"), 1);
+//        this.addPatchouliHelpButton(PatchouliCompat.HANDBOOK_ID, ExtremeReactors.newID("reactor/part-controller"), 1);
 
         super.onScreenCreate();
 
@@ -237,13 +237,13 @@ public class ReprocessorControllerScreen
         SwitchButton off = new SwitchButton(this, "off", "OFF", true, "onoff");
 
         on.setLayoutEngineHint(FixedLayoutEngine.hint(x, y, w, 16));
-        on.setTooltips(new TranslationTextComponent("gui.bigreactors.reactor.controller.on.line1"));
+        on.setTooltips(new TranslationTextComponent("gui.bigreactors.reprocessor.controller.on.line1"));
         on.Activated.subscribe(this::onActiveStateChanged);
         on.Deactivated.subscribe(this::onActiveStateChanged);
         this.addBinding(MultiblockReprocessor::isMachineActive, on::setActive);
 
         off.setLayoutEngineHint(FixedLayoutEngine.hint(x + w, y, w, 16));
-        off.setTooltips(new TranslationTextComponent("gui.bigreactors.reactor.controller.off.line1"));
+        off.setTooltips(new TranslationTextComponent("gui.bigreactors.reprocessor.controller.off.line1"));
         this.addBinding(MultiblockReprocessor::isMachineActive, active -> off.setActive(!active));
 
         commandPanel.addControl(on, off);

@@ -22,6 +22,7 @@ import com.google.common.collect.ImmutableList;
 import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.AbstractMultiblockEntity;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part.AbstractReactorEntity;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.part.AbstractReprocessorEntity;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part.AbstractTurbineEntity;
 import it.zerono.mods.zerocore.lib.IActivableMachine;
 import it.zerono.mods.zerocore.lib.client.gui.*;
@@ -157,6 +158,11 @@ public abstract class AbstractMultiblockScreen<Controller extends AbstractCuboid
 
             this.setIndicatorToolTip(true, INDICATOR_ACTIVE_TURBINE);
             this.setIndicatorToolTip(false, INDICATOR_INACTIVE_TURBINE);
+
+        } else if (tile instanceof AbstractReprocessorEntity) {
+
+            this.setIndicatorToolTip(true, INDICATOR_ACTIVE_REPROCESSOR);
+            this.setIndicatorToolTip(false, INDICATOR_INACTIVE_REPROCESSOR);
         }
     }
 
@@ -353,6 +359,8 @@ public abstract class AbstractMultiblockScreen<Controller extends AbstractCuboid
     protected static final ITextComponent INDICATOR_INACTIVE_REACTOR = new TranslationTextComponent("gui.bigreactors.reactor.inactive");
     protected static final ITextComponent INDICATOR_ACTIVE_TURBINE = new TranslationTextComponent("gui.bigreactors.turbine.active");
     protected static final ITextComponent INDICATOR_INACTIVE_TURBINE = new TranslationTextComponent("gui.bigreactors.turbine.inactive");
+    protected static final ITextComponent INDICATOR_ACTIVE_REPROCESSOR = new TranslationTextComponent("gui.bigreactors.reprocessor.active");
+    protected static final ITextComponent INDICATOR_INACTIVE_REPROCESSOR = new TranslationTextComponent("gui.bigreactors.reprocessor.inactive");
 
     private static final int DEFAULT_GUI_WIDTH = 224;
     private static final int DEFAULT_GUI_HEIGHT = 166;

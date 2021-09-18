@@ -174,6 +174,8 @@
     "gui.bigreactors.reactor.inactive": "The Reactor is inactive",
     "gui.bigreactors.turbine.active": "The Turbine is ACTIVE",
     "gui.bigreactors.turbine.inactive": "The Turbine is inactive",
+    "gui.bigreactors.reprocessor.active": "The Reprocessor is ACTIVE",
+    "gui.bigreactors.reprocessor.inactive": "The Reprocessor is inactive",
 
     "gui.bigreactors.reactor.controller.fuelusage.line1": "Fuel Burnup Rate",
     "gui.bigreactors.reactor.controller.fuelusage.line2": "The rate at which fuel is fissioned",
@@ -467,15 +469,14 @@
     "gui.bigreactors.reprocessor.controller.energybar.line2b": " / %1$s",
     "gui.bigreactors.reprocessor.controller.energybar.line3a": "  @1",
     "gui.bigreactors.reprocessor.controller.energybar.line3b": "% full",
-
     "gui.bigreactors.reprocessor.controller.coolantbar.line1": "Fluid Tank",
     "gui.bigreactors.reprocessor.controller.coolantbar.line2": "  @0",
     "gui.bigreactors.reprocessor.controller.coolantbar.line3a": "  @1",
     "gui.bigreactors.reprocessor.controller.coolantbar.line3b": " / %1$s",
     "gui.bigreactors.reprocessor.controller.coolantbar.line4a": "  @2",
     "gui.bigreactors.reprocessor.controller.coolantbar.line4b": "% full",
-
-
+    "gui.bigreactors.reprocessor.controller.on.line1": "Turn the Reprocessor on",
+    "gui.bigreactors.reprocessor.controller.off.line1": "Turn the Reprocessor off",
 
     "gui.bigreactors.generator.chargingport.dumpfuel.line1": "Manual Ejection",
     "gui.bigreactors.generator.chargingport.dumpfuel.line2": "Manually ejects the item from",

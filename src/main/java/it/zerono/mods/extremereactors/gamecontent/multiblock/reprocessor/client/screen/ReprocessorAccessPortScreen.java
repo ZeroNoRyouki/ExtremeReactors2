@@ -56,7 +56,7 @@ public class ReprocessorAccessPortScreen
     protected void onScreenCreate() {
 
         //TODO add Reprocessor to Patchouli book
-        this.addPatchouliHelpButton(PatchouliCompat.HANDBOOK_ID, ExtremeReactors.newID("reactor/part-solidaccessport"), 1);
+//        this.addPatchouliHelpButton(PatchouliCompat.HANDBOOK_ID, ExtremeReactors.newID("reactor/part-solidaccessport"), 1);
 
         super.onScreenCreate();
 

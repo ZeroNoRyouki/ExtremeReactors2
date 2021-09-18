@@ -157,6 +157,8 @@
     "gui.bigreactors.reactor.inactive": "O Reator está inativo",
     "gui.bigreactors.turbine.active": "A Turbina está ATIVA",
     "gui.bigreactors.turbine.inactive": "A Turbina está inativa",
+    "gui.bigreactors.reprocessor.active": "The Reprocessor is ACTIVE",
+    "gui.bigreactors.reprocessor.inactive": "The Reprocessor is inactive",
 
     "gui.bigreactors.reactor.controller.fuelusage.line1": "Taxa de Queima de Combustível",
     "gui.bigreactors.reactor.controller.fuelusage.line2": "A taxa na qual o combustível é fissionado",
@@ -444,7 +446,21 @@
     "gui.bigreactors.turbine.redstoneport.sensortype.outputvaporamount.line1": "Vapor Amount",
     "gui.bigreactors.turbine.redstoneport.sensortype.outputvaporamount.line2": "Emit a signal depending on the amount of",
     "gui.bigreactors.turbine.redstoneport.sensortype.outputvaporamount.line3": "vapor stored in the internal tank",
-    
+
+    "gui.bigreactors.reprocessor.controller.energybar.line1": "Internal Energy Buffer",
+    "gui.bigreactors.reprocessor.controller.energybar.line2a": "  @0",
+    "gui.bigreactors.reprocessor.controller.energybar.line2b": " / %1$s",
+    "gui.bigreactors.reprocessor.controller.energybar.line3a": "  @1",
+    "gui.bigreactors.reprocessor.controller.energybar.line3b": "% full",
+    "gui.bigreactors.reprocessor.controller.coolantbar.line1": "Fluid Tank",
+    "gui.bigreactors.reprocessor.controller.coolantbar.line2": "  @0",
+    "gui.bigreactors.reprocessor.controller.coolantbar.line3a": "  @1",
+    "gui.bigreactors.reprocessor.controller.coolantbar.line3b": " / %1$s",
+    "gui.bigreactors.reprocessor.controller.coolantbar.line4a": "  @2",
+    "gui.bigreactors.reprocessor.controller.coolantbar.line4b": "% full",
+    "gui.bigreactors.reprocessor.controller.on.line1": "Turn the Reprocessor on",
+    "gui.bigreactors.reprocessor.controller.off.line1": "Turn the Reprocessor off",
+
     "gui.bigreactors.generator.redstoneport.sensortype.sensorlistlabel": "Configurações:",
     "gui.bigreactors.generator.redstoneport.sensortype.input": "Direção de sinal: entrada",
     "gui.bigreactors.generator.redstoneport.sensortype.output": "Direção de sinal: saída",
