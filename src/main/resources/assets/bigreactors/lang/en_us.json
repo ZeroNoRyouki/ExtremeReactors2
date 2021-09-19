@@ -8,18 +8,22 @@
 
     "reactant.bigreactors.yellorium": "Yellorium",
     "reactant.bigreactors.cyanite": "Cyanite",
+    "reactant.bigreactors.blutonium": "Blutonium",
+    "reactant.bigreactors.magentite": "Magentite",
 
     "_comment": "Items - ingots",
     "item.bigreactors.yellorium_ingot": "Yellorium Ingot",
     "item.bigreactors.cyanite_ingot": "Cyanite Ingot",
-    "x_item.bigreactors.ingotblutonium": "Blutonium Ingot",
+    "item.bigreactors.blutonium_ingot": "Blutonium Ingot",
+    "item.bigreactors.magentite_ingot": "Magentite Ingot",
     "item.bigreactors.graphite_ingot": "Graphite Bar",
     "x_item.bigreactors.ingotludicrite": "Ludicrite Ingot",
 
     "_comment": "Items - dusts",
     "item.bigreactors.yellorium_dust": "Yellorium Dust",
     "item.bigreactors.cyanite_dust": "Cyanite Dust",
-    "x_item.bigreactors.dustblutonium": "Blutonium Dust",
+    "item.bigreactors.blutonium_dust": "Blutonium Dust",
+    "item.bigreactors.magentite_dust": "Magentite Dust",
     "item.bigreactors.graphite_dust": "Graphite Dust",
     "x_item.bigreactors.dustludicrite": "Ludicrite Dust",
 
@@ -38,7 +42,8 @@
     "_comment": "Blocks - metal blocks / ores",
     "block.bigreactors.yellorium_block": "Yellorium Block",
     "block.bigreactors.cyanite_block": "Cyanite Block",
-    "x_block.bigreactors.blockblutonium": "Blutonium Block",
+    "block.bigreactors.blutonium_block": "Blutonium Block",
+    "block.bigreactors.magentite_block": "Magentite Block",
     "block.bigreactors.graphite_block": "Graphite Block",
     "x_block.bigreactors.blockludicrite": "Ludicrite Block",
 
@@ -109,6 +114,17 @@
     "block.bigreactors.reinforced_turbinecreativesteamgenerator": "Turbine Creative Steam Generator (Reinforced)",
     "block.bigreactors.reinforced_turbinechargingportfe": "Turbine Forge Energy Charging Port (Reinforced)",
 
+    "_comment": "Blocks - reprocessor parts",
+    "block.bigreactors.reprocessorcasing": "Reprocessor Casing",
+
+    "block.bigreactors.reprocessorglass": "Reprocessor Glass",
+    "block.bigreactors.reprocessorcontroller": "Reprocessor Controller",
+    "block.bigreactors.reprocessorwasteinjector": "Reprocessor Waste Injector",
+    "block.bigreactors.reprocessorfluidinjector": "Reprocessor Fluid Injector",
+    "block.bigreactors.reprocessoroutputport": "Reprocessor Output Port",
+    "block.bigreactors.reprocessorpowerport": "Reprocessor Power Port",
+    "block.bigreactors.reprocessorcollector": "Reprocessor Collector",
+
     "_comment": "Reactor parts names",
     "part.bigreactors.reactor.casing": "Casing",
     "part.bigreactors.reactor.glass": "Glass",
@@ -158,6 +174,8 @@
     "gui.bigreactors.reactor.inactive": "The Reactor is inactive",
     "gui.bigreactors.turbine.active": "The Turbine is ACTIVE",
     "gui.bigreactors.turbine.inactive": "The Turbine is inactive",
+    "gui.bigreactors.reprocessor.active": "The Reprocessor is ACTIVE",
+    "gui.bigreactors.reprocessor.inactive": "The Reprocessor is inactive",
 
     "gui.bigreactors.reactor.controller.fuelusage.line1": "Fuel Burnup Rate",
     "gui.bigreactors.reactor.controller.fuelusage.line2": "The rate at which fuel is fissioned",
@@ -189,7 +207,7 @@
     "gui.bigreactors.reactor.controller.casingheatbar.line5": "and coolant conversion.",
     "gui.bigreactors.reactor.controller.energybar.line1": "Internal Energy Buffer",
     "gui.bigreactors.reactor.controller.energybar.line2a": "  @0",
-    "gui.bigreactors.reactor.controller.energybar.line2b": " /%1$s",
+    "gui.bigreactors.reactor.controller.energybar.line2b": " / %1$s",
     "gui.bigreactors.reactor.controller.energybar.line3a": "  @1",
     "gui.bigreactors.reactor.controller.energybar.line3b": "% full",
     "gui.bigreactors.reactor.controller.energybar.line4": "Generated energy is stored in the",
@@ -446,6 +464,20 @@
     "gui.bigreactors.turbine.redstoneport.sensortype.outputvaporamount.line2": "Emit a signal depending on the amount of",
     "gui.bigreactors.turbine.redstoneport.sensortype.outputvaporamount.line3": "vapor stored in the internal tank",
 
+    "gui.bigreactors.reprocessor.controller.energybar.line1": "Internal Energy Buffer",
+    "gui.bigreactors.reprocessor.controller.energybar.line2a": "  @0",
+    "gui.bigreactors.reprocessor.controller.energybar.line2b": " / %1$s",
+    "gui.bigreactors.reprocessor.controller.energybar.line3a": "  @1",
+    "gui.bigreactors.reprocessor.controller.energybar.line3b": "% full",
+    "gui.bigreactors.reprocessor.controller.coolantbar.line1": "Fluid Tank",
+    "gui.bigreactors.reprocessor.controller.coolantbar.line2": "  @0",
+    "gui.bigreactors.reprocessor.controller.coolantbar.line3a": "  @1",
+    "gui.bigreactors.reprocessor.controller.coolantbar.line3b": " / %1$s",
+    "gui.bigreactors.reprocessor.controller.coolantbar.line4a": "  @2",
+    "gui.bigreactors.reprocessor.controller.coolantbar.line4b": "% full",
+    "gui.bigreactors.reprocessor.controller.on.line1": "Turn the Reprocessor on",
+    "gui.bigreactors.reprocessor.controller.off.line1": "Turn the Reprocessor off",
+
     "gui.bigreactors.generator.chargingport.dumpfuel.line1": "Manual Ejection",
     "gui.bigreactors.generator.chargingport.dumpfuel.line2": "Manually ejects the item from",
     "gui.bigreactors.generator.chargingport.dumpfuel.line3": "the input slot and put it in",
@@ -517,6 +549,19 @@
     "multiblock.validation.turbine.invalid_rotor_end": "Rotor must end against a Turbine housing block",
     "multiblock.validation.turbine.mixed_power_systems": "Only one type of energy system can be used in a Turbine",
 
+    "_comment": "Multiblock validation errors (reprocessor)",
+    "multiblock.validation.reprocessor.missing_controller": "The Reprocessor must contain one, and only one, Controller",
+    "multiblock.validation.reprocessor.missing_wasteinjector": "The Reprocessor must contain one, and only one, Waste Injector",
+    "multiblock.validation.reprocessor.missing_fluidinjector": "The Reprocessor must contain one, and only one, Fluid Injector",
+    "multiblock.validation.reprocessor.missing_outputport": "The Reprocessor must contain one, and only one, Output Port",
+    "multiblock.validation.reprocessor.missing_powerport": "The Reprocessor must contain one, and only one, Power Port",
+    "multiblock.validation.reprocessor.missing_collector": "The Reprocessor must contain one, and only one, Collector",
+    "multiblock.validation.reprocessor.invalid_block": "%1$s is not valid block for the Reprocessor",
+    "multiblock.validation.reprocessor.invalid_frame_block": "Only Casing may be used as part of a Reprocessor's frame",
+    "multiblock.validation.reprocessor.invalid_part_for_interior": "This part may not be placed in the Reprocessor's interior",
+    "multiblock.validation.reprocessor.invalid_part_for_face": "This part may not be placed in this Reprocessor face",
+    "multiblock.validation.reprocessor.invalid_collector_position": "The Collector may only be placed in the Reprocessor's bottom face",
+
     "_comment": "Configs",
     "config.bigreactors.compatibility": "Compatibility",
     "config.bigreactors.general": "General",
@@ -568,5 +613,8 @@
 
     "api.bigreactors.reactor.tooltip.moderator": "Extreme Reactors: this block or fluid can be used as a radiation moderator inside a Reactor",
     "api.bigreactors.reactor.tooltip.reactant.fuel": "Extreme Reactors: this item can be used to produce fuel for a Reactor",
-    "api.bigreactors.reactor.tooltip.coil": "Extreme Reactors: this block can be used as a coil inside a Turbine"
+    "api.bigreactors.reactor.tooltip.coil": "Extreme Reactors: this block can be used as a coil inside a Turbine",
+
+    "compat.bigreactors.jei.reprocessor.recipecategory.title": "Reprocessor",
+    "compat.bigreactors.jei.reprocessor.recipecategory.energy.tooltip.title": "Energy"
 }

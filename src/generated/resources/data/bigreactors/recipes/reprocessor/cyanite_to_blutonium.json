@@ -1,0 +1,18 @@
+{
+  "type": "bigreactors:reprocessor",
+  "waste": {
+    "ingredient": {
+      "item": "bigreactors:cyanite_ingot"
+    },
+    "count": 2
+  },
+  "fluid": {
+    "fluid": {
+      "fluid": "minecraft:water",
+      "count": 1000
+    }
+  },
+  "result": {
+    "item": "bigreactors:blutonium_ingot"
+  }
+}

@@ -23,6 +23,7 @@ import it.zerono.mods.extremereactors.api.internal.AbstractNamedValue;
 import it.zerono.mods.zerocore.lib.data.gfx.Colour;
 
 import java.util.Collections;
+import java.util.Objects;
 
 /**
  * Describe the properties of a reactant, ie a material that can be used (Fuel) inside a
@@ -38,13 +39,15 @@ public class Reactant
      * @param name The name of this reactant. Must be unique.
      * @param type The type of this reactant: Fuel or Waste.
      * @param rgbColour The color (in 0xRRGGBB form) to use when rendering fuel rods with this reactant in it.
+     * @param fuelData The Fuel data associated to this Reactant (if it is a fuel)
      * @param translationKey The translation key for the name of the reactant.
      */
-    Reactant(String name, ReactantType type, int rgbColour, String translationKey) {
+    Reactant(String name, ReactantType type, int rgbColour, String translationKey, FuelProperties fuelData) {
 
         super(name, translationKey);
         this._type = type;
         this._colour = Colour.fromRGB(rgbColour);
+        this._fuelData = type.isFuel() ? Objects.requireNonNull(fuelData) : FuelProperties.INVALID;
     }
 
     public ReactantType getType() {
@@ -53,6 +56,10 @@ public class Reactant
 
     public Colour getColour() {
         return this._colour;
+    }
+
+    public FuelProperties getFuelData() {
+        return this._fuelData;
     }
 
     /**
@@ -91,6 +98,7 @@ public class Reactant
 
     private final ReactantType _type;
     private final Colour _colour;
+    private final FuelProperties _fuelData;
 
     //endregion
 }

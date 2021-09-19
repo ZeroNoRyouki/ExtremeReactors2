@@ -23,12 +23,12 @@ import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.Content.Items;
 import it.zerono.mods.extremereactors.gamecontent.ContentTags;
 import it.zerono.mods.zerocore.lib.tag.TagsHelper;
-import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.data.tags.TagsProvider;
-import net.minecraft.world.item.Item;
 import net.minecraft.tags.Tag;
+import net.minecraft.world.item.Item;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
@@ -64,22 +64,32 @@ public class ItemTagGenerator
         this.build(ContentTags.Items.INGOTS_YELLORIUM, Items.YELLORIUM_INGOT);
         this.build(ContentTags.Items.INGOTS_CYANITE, Items.CYANITE_INGOT);
         this.build(ContentTags.Items.INGOTS_GRAPHITE, Items.GRAPHITE_INGOT);
+        this.build(ContentTags.Items.INGOTS_BLUTONIUM, Items.BLUTONIUM_INGOT);
+        this.build(ContentTags.Items.INGOTS_MAGENTITE, Items.MAGENTITE_INGOT);
 
         this.build(ContentTags.Items.DUSTS_YELLORIUM, Items.YELLORIUM_DUST);
         this.build(ContentTags.Items.DUSTS_CYANITE, Items.CYANITE_DUST);
         this.build(ContentTags.Items.DUSTS_GRAPHITE, Items.GRAPHITE_DUST);
+        this.build(ContentTags.Items.DUSTS_BLUTONIUM, Items.BLUTONIUM_DUST);
+        this.build(ContentTags.Items.DUSTS_MAGENTITE, Items.MAGENTITE_DUST);
 
         this.build(ContentTags.Items.BLOCKS_YELLORIUM, Items.YELLORIUM_BLOCK);
         this.build(ContentTags.Items.BLOCKS_CYANITE, Items.CYANITE_BLOCK);
         this.build(ContentTags.Items.BLOCKS_GRAPHITE, Items.GRAPHITE_BLOCK);
+        this.build(ContentTags.Items.BLOCKS_BLUTONIUM, Items.BLUTONIUM_BLOCK);
+        this.build(ContentTags.Items.BLOCKS_MAGENTITE, Items.MAGENTITE_BLOCK);
 
         this.build(ContentTags.Items.WRENCH, Items.WRENCH);
 
-        this.build(Tags.Items.INGOTS, Items.YELLORIUM_INGOT, Items.CYANITE_INGOT, Items.GRAPHITE_INGOT);
-        this.build(Tags.Items.DUSTS, Items.YELLORIUM_DUST, Items.CYANITE_DUST, Items.GRAPHITE_DUST);
+        this.build(Tags.Items.INGOTS, Items.YELLORIUM_INGOT, Items.CYANITE_INGOT, Items.GRAPHITE_INGOT, Items.BLUTONIUM_INGOT,
+                Items.MAGENTITE_INGOT);
+        this.build(Tags.Items.DUSTS, Items.YELLORIUM_DUST, Items.CYANITE_DUST, Items.GRAPHITE_DUST, Items.BLUTONIUM_DUST,
+                Items.MAGENTITE_DUST);
 
         this.build(TagsHelper.ITEMS.createForgeOptionalTag("dusts/uranium"), Items.YELLORIUM_DUST);
         this.build(TagsHelper.ITEMS.createForgeOptionalTag("ingots/uranium"), Items.YELLORIUM_INGOT);
+        this.build(TagsHelper.ITEMS.createForgeOptionalTag("dusts/plutonium"), Items.BLUTONIUM_DUST);
+        this.build(TagsHelper.ITEMS.createForgeOptionalTag("ingots/plutonium"), Items.BLUTONIUM_INGOT);
         this.build(TagsHelper.ITEMS.createForgeOptionalTag("ores/uranium"), Items.YELLORITE_ORE_BLOCK);
 
         this.build(ContentTags.Items.USING_REACTOR_CASING_BASIC,

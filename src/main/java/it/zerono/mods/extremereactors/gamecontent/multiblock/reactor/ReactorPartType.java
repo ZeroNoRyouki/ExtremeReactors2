@@ -47,16 +47,14 @@ public enum ReactorPartType
 
     Glass(() -> Content.TileEntityTypes.REACTOR_GLASS::get,
             GlassBlock::new, "part.bigreactors.reactor.glass",
-            ReactorPartType::notOpaqueBlock),
+            GlassBlock::addGlassProperties),
 
     Controller(() -> Content.TileEntityTypes.REACTOR_CONTROLLER::get,
             GenericDeviceBlock::new, "part.bigreactors.reactor.controller"),
 
     FuelRod(() -> Content.TileEntityTypes.REACTOR_FUELROD::get,
             ReactorFuelRodBlock::new, "part.bigreactors.reactor.fuelrod",
-            bp -> ReactorPartType.notOpaqueBlock(bp)
-                    .lightLevel(state -> Config.COMMON.reactor.fuelRodLightValue.get())
-                    /*.tickRandomly()*/),
+            bp -> GlassBlock.addGlassProperties(bp).lightLevel(state -> Config.COMMON.reactor.fuelRodLightValue.get())),
 
     ControlRod(() -> Content.TileEntityTypes.REACTOR_CONTROLROD::get,
             GenericDeviceBlock::new, "part.bigreactors.reactor.controlrod"),
@@ -150,6 +148,7 @@ public enum ReactorPartType
     }
 
     private final Supplier<Supplier<BlockEntityType<?>>> _tileTypeSupplier;
+
 
     private final Function<MultiblockPartBlock.MultiblockPartProperties<ReactorPartType>,
             MultiblockPartBlock<MultiblockReactor, ReactorPartType>> _blockFactory;

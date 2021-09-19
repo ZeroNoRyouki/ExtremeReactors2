@@ -21,16 +21,15 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.common.part;
 import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockPartType;
 import it.zerono.mods.zerocore.lib.block.property.BlockFacingsProperty;
 import it.zerono.mods.zerocore.lib.multiblock.IMultiblockController;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.core.Direction;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-
-import it.zerono.mods.zerocore.lib.block.multiblock.MultiblockPartBlock.MultiblockPartProperties;
 
 public class GlassBlock <Controller extends IMultiblockController<Controller>,
                          PartType extends Enum<PartType> & IMultiblockPartType>
@@ -38,6 +37,13 @@ public class GlassBlock <Controller extends IMultiblockController<Controller>,
 
     public GlassBlock(final MultiblockPartProperties<PartType> properties) {
         super(properties);
+    }
+
+    public static Block.Properties addGlassProperties(final Block.Properties originals) {
+        return originals
+                .sound(SoundType.GLASS)
+                .noOcclusion()
+                .isViewBlocking((blockState, blockReader, pos) -> false);
     }
 
     //region Block

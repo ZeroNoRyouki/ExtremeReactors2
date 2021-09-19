@@ -37,13 +37,20 @@ public final class ItemGroups {
                 final ImmutableList.Builder<ItemStack> builder = ImmutableList.<ItemStack>builder().add(
                         stack(Content.Blocks.YELLORITE_ORE_BLOCK), stack(Content.Blocks.ANGLESITE_ORE_BLOCK), stack(Content.Blocks.BENITOITE_ORE_BLOCK),
                         stack(Content.Items.YELLORIUM_INGOT), stack(Content.Items.YELLORIUM_DUST), stack(Content.Blocks.YELLORIUM_BLOCK),
+                        stack(Content.Items.BLUTONIUM_INGOT), stack(Content.Items.BLUTONIUM_DUST), stack(Content.Blocks.BLUTONIUM_BLOCK),
                         stack(Content.Items.CYANITE_INGOT), stack(Content.Items.CYANITE_DUST), stack(Content.Blocks.CYANITE_BLOCK),
+                        stack(Content.Items.MAGENTITE_INGOT), stack(Content.Items.MAGENTITE_DUST), stack(Content.Blocks.MAGENTITE_BLOCK),
                         stack(Content.Items.GRAPHITE_INGOT), stack(Content.Items.GRAPHITE_DUST), stack(Content.Blocks.GRAPHITE_BLOCK),
                         stack(Content.Items.ANGLESITE_CRYSTAL), stack(Content.Items.BENITOITE_CRYSTAL),
                         stack(Content.Items.WRENCH));
 
                 //TODO 1.17 Patchouli
 //                Mods.PATCHOULI.map(() -> PatchouliAPI.get().getBookStack(PatchouliCompat.HANDBOOK_ID)).ifPresent(builder::add);
+
+                builder.add(stack(Content.Blocks.REPROCESSOR_CASING), stack(Content.Blocks.REPROCESSOR_GLASS),
+                        stack(Content.Blocks.REPROCESSOR_CONTROLLER), stack(Content.Blocks.REPROCESSOR_COLLECTOR),
+                        stack(Content.Blocks.REPROCESSOR_WASTEINJECTOR), stack(Content.Blocks.REPROCESSOR_FLUIDINJECTOR),
+                        stack(Content.Blocks.REPROCESSOR_OUTPUTPORT), stack(Content.Blocks.REPROCESSOR_POWERPORT));
 
                 return builder.build();
             });

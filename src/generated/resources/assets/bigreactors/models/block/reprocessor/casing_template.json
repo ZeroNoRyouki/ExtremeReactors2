@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "down": "bigreactors:block/reprocessor/plating",
+    "up": "bigreactors:block/reprocessor/plating",
+    "north": "bigreactors:block/reprocessor/plating",
+    "south": "bigreactors:block/reprocessor/plating",
+    "east": "bigreactors:block/reprocessor/plating",
+    "west": "bigreactors:block/reprocessor/plating",
+    "particle": "bigreactors:block/reprocessor/plating"
+  }
+}

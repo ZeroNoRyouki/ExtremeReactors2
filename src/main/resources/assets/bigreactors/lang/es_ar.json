@@ -8,18 +8,22 @@
 
     "reactant.bigreactors.yellorium": "Yellorio",
     "reactant.bigreactors.cyanite": "Cianita",
+    "reactant.bigreactors.blutonium": "Blutonio",
+    "reactant.bigreactors.magentite": "Magentite",
 
     "_comment": "Items - lingotes",
     "item.bigreactors.yellorium_ingot": "Lingote de Yellorio",
     "item.bigreactors.cyanite_ingot": "Lingote de Cianita",
-    "x_item.bigreactors.ingotblutonium": "Lingote de Blutonio",
+    "item.bigreactors.blutonium_ingot": "Lingote de Blutonio",
+    "item.bigreactors.magentite_ingot": "Lingote de Magentite",
     "item.bigreactors.graphite_ingot": "Barra de Grafito",
     "x_item.bigreactors.ingotludicrite": "Lingote de Ludicrita",
 
     "_comment": "Items - polvos",
     "item.bigreactors.yellorium_dust": "Polvo de Yellorio",
     "item.bigreactors.cyanite_dust": "Polvo de Cianita",
-    "x_item.bigreactors.dustblutonium": "Polvo de Blutonio",
+    "item.bigreactors.blutonium_dust": "Polvo de Blutonio",
+    "item.bigreactors.magentite_dust": "Polvo de Magentite",
     "item.bigreactors.graphite_dust": "Polvo de Grafito",
     "x_item.bigreactors.dustludicrite": "Polvo de Ludicrita",
 
@@ -38,7 +42,8 @@
     "_comment": "Bloques - bloques de metal / menas",
     "block.bigreactors.yellorium_block": "Bloque de Yellorio",
     "block.bigreactors.cyanite_block": "Bloque de Cianita",
-    "x_block.bigreactors.blockblutonium": "Bloque de Blutonio",
+    "block.bigreactors.blutonium_block": "Bloque de Blutonio",
+    "block.bigreactors.magentite_block": "Bloque de Magentite",
     "block.bigreactors.graphite_block": "Barra de Grafito",
     "x_block.bigreactors.blockludicrite": "Bloque de Ludicrita",
 
@@ -158,6 +163,8 @@
     "gui.bigreactors.reactor.inactive": "El Reactor está inactivo",
     "gui.bigreactors.turbine.active": "La Turbina está ACTIVA",
     "gui.bigreactors.turbine.inactive": "La Turbina está inactiva",
+    "gui.bigreactors.reprocessor.active": "The Reprocessor is ACTIVE",
+    "gui.bigreactors.reprocessor.inactive": "The Reprocessor is inactive",
 
     "gui.bigreactors.reactor.controller.fuelusage.line1": "Tasa de Consumo de Combustible",
     "gui.bigreactors.reactor.controller.fuelusage.line2": "La tasa a la que el combustible es fisionado",
@@ -446,6 +453,20 @@
     "gui.bigreactors.turbine.redstoneport.sensortype.outputvaporamount.line2": "Emit a signal depending on the amount of",
     "gui.bigreactors.turbine.redstoneport.sensortype.outputvaporamount.line3": "vapor stored in the internal tank",
 
+    "gui.bigreactors.reprocessor.controller.energybar.line1": "Internal Energy Buffer",
+    "gui.bigreactors.reprocessor.controller.energybar.line2a": "  @0",
+    "gui.bigreactors.reprocessor.controller.energybar.line2b": " / %1$s",
+    "gui.bigreactors.reprocessor.controller.energybar.line3a": "  @1",
+    "gui.bigreactors.reprocessor.controller.energybar.line3b": "% full",
+    "gui.bigreactors.reprocessor.controller.coolantbar.line1": "Fluid Tank",
+    "gui.bigreactors.reprocessor.controller.coolantbar.line2": "  @0",
+    "gui.bigreactors.reprocessor.controller.coolantbar.line3a": "  @1",
+    "gui.bigreactors.reprocessor.controller.coolantbar.line3b": " / %1$s",
+    "gui.bigreactors.reprocessor.controller.coolantbar.line4a": "  @2",
+    "gui.bigreactors.reprocessor.controller.coolantbar.line4b": "% full",
+    "gui.bigreactors.reprocessor.controller.on.line1": "Turn the Reprocessor on",
+    "gui.bigreactors.reprocessor.controller.off.line1": "Turn the Reprocessor off",
+
     "gui.bigreactors.generator.chargingport.dumpfuel.line1": "Eyección Manual",
     "gui.bigreactors.generator.chargingport.dumpfuel.line2": "Eyecta el item manualmente del slot",
     "gui.bigreactors.generator.chargingport.dumpfuel.line3": "de entrada y lo pone en",
@@ -565,5 +586,8 @@
 
     "api.bigreactors.reactor.tooltip.moderator": "Extreme Reactors: este bloque o fluido puede ser usado como un moderador de radiación dentro de un Reactor",
     "api.bigreactors.reactor.tooltip.reactant.fuel": "Extreme Reactors: este item puede ser usado para producir combustible para un Reactor",
-    "api.bigreactors.reactor.tooltip.coil": "Extreme Reactors: este bloque puede ser usado como bobina dentro de una Turbina"
+    "api.bigreactors.reactor.tooltip.coil": "Extreme Reactors: este bloque puede ser usado como bobina dentro de una Turbina",
+
+    "compat.bigreactors.jei.reprocessor.recipecategory.title": "Reprocessor",
+    "compat.bigreactors.jei.reprocessor.recipecategory.energy.tooltip.title": "Energía"
 }

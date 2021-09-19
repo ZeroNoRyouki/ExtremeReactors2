@@ -457,6 +457,11 @@ public class MultiblockReactor
     }
 
     @Override
+    public FuelProperties getFuelProperties() {
+        return this._fuelContainer.getFuelProperties();
+    }
+
+    @Override
     public Optional<Reactant> getWaste() {
         return this._fuelContainer.getWaste();
     }

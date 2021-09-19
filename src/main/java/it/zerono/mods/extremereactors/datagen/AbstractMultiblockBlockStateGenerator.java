@@ -20,8 +20,8 @@ package it.zerono.mods.extremereactors.datagen;
 
 import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.zerocore.lib.datagen.provider.multiblock.AbstractCuboidMultiblockBlockStateProvider;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraftforge.client.model.generators.BlockModelProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
@@ -37,10 +37,14 @@ public abstract class AbstractMultiblockBlockStateGenerator
     }
 
     protected void genAssembledPlatingModel(final String subFolder) {
+        this.genAssembledPlatingModel("assembledplating", "plating", subFolder);
+    }
+
+    protected void genAssembledPlatingModel(final String name, final String platingName, final String subFolder) {
 
         final String fullPath = fullResourceName("", subFolder);
 
-        this.models().cubeAll(fullPath + "assembledplating", this.modLoc(fullPath + /*"casing_single"*/"plating"));
+        this.models().cubeAll(fullPath + name, this.modLoc(fullPath + platingName));
     }
 
     protected void genController(final Supplier<? extends Block> block, final String subFolder) {

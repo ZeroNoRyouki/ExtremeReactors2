@@ -40,7 +40,9 @@ public class ItemModelGenerator
     protected void registerModels() {
 
         generated(Content.Items.YELLORIUM_DUST, Content.Items.CYANITE_DUST, Content.Items.GRAPHITE_DUST,
+                Content.Items.BLUTONIUM_DUST, Content.Items.MAGENTITE_DUST,
                 Content.Items.YELLORIUM_INGOT, Content.Items.CYANITE_INGOT, Content.Items.GRAPHITE_INGOT,
+                Content.Items.BLUTONIUM_INGOT, Content.Items.MAGENTITE_INGOT,
                 Content.Items.ANGLESITE_CRYSTAL, Content.Items.BENITOITE_CRYSTAL);
     }
 

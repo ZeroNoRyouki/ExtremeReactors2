@@ -47,7 +47,7 @@ public enum TurbinePartType
 
     Glass(() -> Content.TileEntityTypes.TURBINE_GLASS::get,
             GlassBlock::new, "part.bigreactors.turbine.glass",
-            TurbinePartType::notOpaqueBlock),
+            GlassBlock::addGlassProperties),
 
     Controller(() -> Content.TileEntityTypes.TURBINE_CONTROLLER::get,
             GenericDeviceBlock::new, "part.bigreactors.turbine.controller"),
@@ -142,13 +142,13 @@ public enum TurbinePartType
     //region internals
 
     private static BlockBehaviour.Properties notOpaqueBlock(BlockBehaviour.Properties originals) {
+
         return originals
                 .sound(SoundType.GLASS)
                 .noOcclusion()
                 .isRedstoneConductor((blockState, blockReader, pos) -> false)
                 .isViewBlocking((blockState, blockReader, pos) -> false);
     }
-
     private static BlockBehaviour.Properties rotorBlock(BlockBehaviour.Properties originals) {
         return originals
                 .noOcclusion()

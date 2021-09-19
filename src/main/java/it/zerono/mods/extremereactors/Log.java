@@ -30,6 +30,7 @@ public final class Log {
     public static final Marker CORE = MarkerManager.getMarker("core");
     public static final Marker REACTOR = MarkerManager.getMarker("reactor");
     public static final Marker TURBINE = MarkerManager.getMarker("turbine");
+    public static final Marker REPROCESSOR = MarkerManager.getMarker("reprocessor");
 
     private Log() {
     }

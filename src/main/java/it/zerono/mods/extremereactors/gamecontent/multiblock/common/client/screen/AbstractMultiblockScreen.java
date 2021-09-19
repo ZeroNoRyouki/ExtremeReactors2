@@ -22,6 +22,7 @@ import com.google.common.collect.ImmutableList;
 import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.AbstractMultiblockEntity;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part.AbstractReactorEntity;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.part.AbstractReprocessorEntity;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part.AbstractTurbineEntity;
 import it.zerono.mods.zerocore.lib.IActivableMachine;
 import it.zerono.mods.zerocore.lib.client.gui.*;
@@ -39,13 +40,13 @@ import it.zerono.mods.zerocore.lib.multiblock.IMultiblockController;
 import it.zerono.mods.zerocore.lib.multiblock.IMultiblockMachine;
 import it.zerono.mods.zerocore.lib.multiblock.cuboid.AbstractCuboidMultiblockController;
 import it.zerono.mods.zerocore.lib.multiblock.variant.IMultiblockVariant;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.MenuProvider;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
-import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.util.NonNullSupplier;
@@ -157,6 +158,11 @@ public abstract class AbstractMultiblockScreen<Controller extends AbstractCuboid
 
             this.setIndicatorToolTip(true, INDICATOR_ACTIVE_TURBINE);
             this.setIndicatorToolTip(false, INDICATOR_INACTIVE_TURBINE);
+
+        } else if (tile instanceof AbstractReprocessorEntity) {
+
+            this.setIndicatorToolTip(true, INDICATOR_ACTIVE_REPROCESSOR);
+            this.setIndicatorToolTip(false, INDICATOR_INACTIVE_REPROCESSOR);
         }
     }
 
@@ -353,6 +359,8 @@ public abstract class AbstractMultiblockScreen<Controller extends AbstractCuboid
     protected static final Component INDICATOR_INACTIVE_REACTOR = new TranslatableComponent("gui.bigreactors.reactor.inactive");
     protected static final Component INDICATOR_ACTIVE_TURBINE = new TranslatableComponent("gui.bigreactors.turbine.active");
     protected static final Component INDICATOR_INACTIVE_TURBINE = new TranslatableComponent("gui.bigreactors.turbine.inactive");
+    protected static final Component INDICATOR_ACTIVE_REPROCESSOR = new TranslatableComponent("gui.bigreactors.reprocessor.active");
+    protected static final Component INDICATOR_INACTIVE_REPROCESSOR = new TranslatableComponent("gui.bigreactors.reprocessor.inactive");
 
     private static final int DEFAULT_GUI_WIDTH = 224;
     private static final int DEFAULT_GUI_HEIGHT = 166;

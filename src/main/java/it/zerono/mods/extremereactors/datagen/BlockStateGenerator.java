@@ -20,8 +20,8 @@ package it.zerono.mods.extremereactors.datagen;
 
 import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.gamecontent.Content;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -42,8 +42,7 @@ public class BlockStateGenerator
     protected void registerStatesAndModels() {
 
         this.simpleBlocksAndItems(Content.Blocks.YELLORIUM_BLOCK, Content.Blocks.CYANITE_BLOCK,
-                Content.Blocks.GRAPHITE_BLOCK,
-
+                Content.Blocks.GRAPHITE_BLOCK, Content.Blocks.BLUTONIUM_BLOCK, Content.Blocks.MAGENTITE_BLOCK,
                 Content.Blocks.YELLORITE_ORE_BLOCK, Content.Blocks.ANGLESITE_ORE_BLOCK, Content.Blocks.BENITOITE_ORE_BLOCK);
     }
 
@@ -67,21 +66,4 @@ public class BlockStateGenerator
             this.simpleBlockItem(b, model);
         }
     }
-
-//    @SafeVarargs
-//    protected final void simpleBlocks(final Supplier<? extends Block>... blocks) {
-//
-//        for (final Supplier<? extends Block> block : blocks) {
-//            this.simpleBlock(block.get());
-//        }
-//    }
-//
-//    protected ModelFile modelMultiblockCasingTemplate(final String name, final ResourceLocation texturePlating) {
-//        return this.models().cube(name, texturePlating, texturePlating, texturePlating,
-//                texturePlating, texturePlating, texturePlating).texture("particle", texturePlating);
-//    }
-//
-//    protected void genCuboidalMultiblockCasing() {
-//
-//    }
 }

@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "bigreactors:general",
+  "pattern": [
+    "CXC",
+    "YEY",
+    "CPC"
+  ],
+  "key": {
+    "C": {
+      "item": "bigreactors:reprocessorcasing"
+    },
+    "Y": {
+      "tag": "forge:ingots/cyanite"
+    },
+    "P": {
+      "tag": "forge:dusts/prismarine"
+    },
+    "E": {
+      "tag": "forge:gems/emerald"
+    },
+    "X": {
+      "item": "minecraft:comparator"
+    }
+  },
+  "result": {
+    "item": "bigreactors:reprocessorcontroller"
+  }
+}

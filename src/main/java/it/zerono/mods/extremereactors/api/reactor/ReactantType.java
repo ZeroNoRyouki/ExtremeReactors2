@@ -19,7 +19,7 @@
 package it.zerono.mods.extremereactors.api.reactor;
 
 /**
- * The type of a Reactant. Fuel-Reactants are converted to Waste-Reactants inside a Reactor Fuel Rods
+ * The type of Reactant. Fuel-Reactants are converted to Waste-Reactants inside a Reactor Fuel Rods
  */
 public enum ReactantType {
 

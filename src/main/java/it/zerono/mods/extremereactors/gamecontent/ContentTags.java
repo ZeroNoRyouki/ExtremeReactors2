@@ -35,6 +35,8 @@ public class ContentTags {
         public static final Tag.Named<Block> BLOCKS_YELLORIUM = forgeTag("storage_blocks/yellorium");
         public static final Tag.Named<Block> BLOCKS_CYANITE = forgeTag("storage_blocks/cyanite");
         public static final Tag.Named<Block> BLOCKS_GRAPHITE = forgeTag("storage_blocks/graphite");
+        public static final Tag.Named<Block> BLOCKS_BLUTONIUM = forgeTag("storage_blocks/blutonium");
+        public static final Tag.Named<Block> BLOCKS_MAGENTITE = forgeTag("storage_blocks/magentite");
 
         //region internals
 
@@ -52,14 +54,20 @@ public class ContentTags {
         public static final Tag.Named<Item> INGOTS_YELLORIUM = forgeTag("ingots/yellorium");
         public static final Tag.Named<Item> INGOTS_CYANITE = forgeTag("ingots/cyanite");
         public static final Tag.Named<Item> INGOTS_GRAPHITE = forgeTag("ingots/graphite");
+        public static final Tag.Named<Item> INGOTS_BLUTONIUM = forgeTag("ingots/blutonium");
+        public static final Tag.Named<Item> INGOTS_MAGENTITE = forgeTag("ingots/magentite");
 
         public static final Tag.Named<Item> DUSTS_YELLORIUM = forgeTag("dusts/yellorium");
         public static final Tag.Named<Item> DUSTS_CYANITE = forgeTag("dusts/cyanite");
         public static final Tag.Named<Item> DUSTS_GRAPHITE = forgeTag("dusts/graphite");
+        public static final Tag.Named<Item> DUSTS_BLUTONIUM = forgeTag("dusts/blutonium");
+        public static final Tag.Named<Item> DUSTS_MAGENTITE = forgeTag("dusts/magentite");
 
         public static final Tag.Named<Item> BLOCKS_YELLORIUM = forgeTag("storage_blocks/yellorium");
         public static final Tag.Named<Item> BLOCKS_CYANITE = forgeTag("storage_blocks/cyanite");
         public static final Tag.Named<Item> BLOCKS_GRAPHITE = forgeTag("storage_blocks/graphite");
+        public static final Tag.Named<Item> BLOCKS_BLUTONIUM = forgeTag("storage_blocks/blutonium");
+        public static final Tag.Named<Item> BLOCKS_MAGENTITE = forgeTag("storage_blocks/magentite");
 
         public static final Tag.Named<Item> WRENCH = forgeTag("tools/wrench");
 

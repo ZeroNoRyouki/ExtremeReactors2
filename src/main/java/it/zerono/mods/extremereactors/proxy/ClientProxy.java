@@ -46,6 +46,12 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.scre
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part.ReactorChargingPortEntity;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part.ReactorFluidPortEntity;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.ReactorVariant;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.client.model.ReprocessorGlassModelBuilder;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.client.model.ReprocessorIOModelBuilder;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.client.model.ReprocessorModelBuilder;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.client.render.ReprocessorCollectorRender;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.client.screen.ReprocessorAccessPortScreen;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.client.screen.ReprocessorControllerScreen;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.client.model.TurbineGlassModelBuilder;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.client.model.TurbineModelBuilder;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.client.model.TurbineRotorModelBuilder;
@@ -206,7 +212,10 @@ public class ClientProxy
                                 new TurbineModelBuilder(v),
                                 new TurbineGlassModelBuilder(v),
                                 new TurbineRotorModelBuilder(v)
-                        ))
+                        )),
+                Stream.of(new ReprocessorModelBuilder(),
+                        new ReprocessorIOModelBuilder(),
+                        new ReprocessorGlassModelBuilder())
         ).collect(ImmutableList.toImmutableList());
     }
 
@@ -232,13 +241,18 @@ public class ClientProxy
                 (ModTileContainer<TurbineFluidPortEntity> container, Inventory inventory, Component title) ->
                         new FluidPortScreen<>(container, inventory, title, ExtremeReactors.newID("turbine/part-forgefluidport")));
         registerScreen(Content.ContainerTypes.TURBINE_REDSTONEPORT, TurbineRedstonePortScreen::new);
+
+        // Reprocessor GUIs
+        registerScreen(Content.ContainerTypes.REPROCESSOR_CONTROLLER, ReprocessorControllerScreen::new);
+        registerScreen(Content.ContainerTypes.REPROCESSOR_ACCESSPORT, ReprocessorAccessPortScreen::new);
     }
 
     private static void registerRenderTypes() {
 
         registerRenderType(RenderType.translucent(),
                 Content.Blocks.REACTOR_GLASS_BASIC, Content.Blocks.REACTOR_GLASS_REINFORCED,
-                Content.Blocks.TURBINE_GLASS_BASIC, Content.Blocks.TURBINE_GLASS_REINFORCED);
+                Content.Blocks.TURBINE_GLASS_BASIC, Content.Blocks.TURBINE_GLASS_REINFORCED,
+                Content.Blocks.REPROCESSOR_GLASS);
 
         registerRenderType(RenderType.cutout(),
                 Content.Blocks.TURBINE_ROTORBLADE_BASIC, Content.Blocks.TURBINE_ROTORBLADE_REINFORCED,
@@ -247,6 +261,7 @@ public class ClientProxy
 
     private static void registerTileRenderers() {
         BlockEntityRenderers.register(Content.TileEntityTypes.TURBINE_ROTORBEARING.get(), RotorBearingEntityRenderer::new);
+        BlockEntityRenderers.register(Content.TileEntityTypes.REPROCESSOR_COLLECTOR.get(), ReprocessorCollectorRender::new);
     }
 
     //region registration helpers

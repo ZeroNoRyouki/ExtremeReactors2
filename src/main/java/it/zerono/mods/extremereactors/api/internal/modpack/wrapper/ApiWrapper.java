@@ -133,6 +133,7 @@ public final class ApiWrapper {
 
         wrapper.ReactorReactants.Add = ImmutableList.of(
                 new Reactant("newReactant2", "mod.reactant2.name.key", true, 0xc6ba54),
+                new Reactant("newReactant3", "mod.reactant3.name.key", true, 0xc6ba54, new FuelProperties(2.5f, 0.9f, 1.3f)),
                 new Reactant("mywaste", "mywaste.name.key", false, 0x00cd35)
         ).toArray(new Reactant[0]);
         wrapper.ReactorReactants.Remove = new String[] {"cyanite"};

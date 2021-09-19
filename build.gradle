@@ -176,10 +176,10 @@ dependencies {
 	minecraft "net.minecraftforge:forge:${config.minecraft_version}-${config.forge_version}"
     implementation project(':ZeroCore2-1.17')
 
-//    // compile against the JEI API but do not include it at runtime
-//    compileOnly fg.deobf("mezz.jei:jei-${config.minecraft_version}:${config.jei_version}:api")
-//    // at runtime, use the full JEI jar
-//    runtimeOnly fg.deobf("mezz.jei:jei-${config.minecraft_version}:${config.jei_version}")
+    // compile against the JEI API but do not include it at runtime
+    compileOnly fg.deobf("mezz.jei:jei-${config.minecraft_version}:${config.jei_version}:api")
+    // at runtime, use the full JEI jar
+    runtimeOnly fg.deobf("mezz.jei:jei-${config.minecraft_version}:${config.jei_version}")
 
     implementation fg.deobf("org.squiddev:cc-tweaked-${config.minecraft_version}:${config.cctweaked_version}")
 
