@@ -55,7 +55,7 @@ public class ReactorBlockStateGenerator
         this.genController(Content.Blocks.REACTOR_CONTROLLER_BASIC, variant);
         this.genControlRod(Content.Blocks.REACTOR_CONTROLROD_BASIC, variant);
         this.genFuelRod(Content.Blocks.REACTOR_FUELROD_BASIC, variant);
-        this.genSolidAccessPort(Content.Blocks.REACTOR_SOLID_ACCESSPORT_BASIC, variant);
+        this.genAccessPort(Content.Blocks.REACTOR_SOLID_ACCESSPORT_BASIC, variant, "solid");
         this.genRedstonePort(Content.Blocks.REACTOR_REDSTONEPORT_BASIC, variant);
         this.genericPart(Content.Blocks.REACTOR_POWERTAP_FE_ACTIVE_BASIC, "powertap_fe_active", variant, true);
         this.genericPart(Content.Blocks.REACTOR_POWERTAP_FE_PASSIVE_BASIC, "powertap_fe_passive", variant, true);
@@ -70,7 +70,8 @@ public class ReactorBlockStateGenerator
         this.genController(Content.Blocks.REACTOR_CONTROLLER_REINFORCED, variant);
         this.genControlRod(Content.Blocks.REACTOR_CONTROLROD_REINFORCED, variant);
         this.genFuelRod(Content.Blocks.REACTOR_FUELROD_REINFORCED, variant);
-        this.genSolidAccessPort(Content.Blocks.REACTOR_SOLID_ACCESSPORT_REINFORCED, variant);
+        this.genAccessPort(Content.Blocks.REACTOR_SOLID_ACCESSPORT_REINFORCED, variant, "solid");
+        this.genAccessPort(Content.Blocks.REACTOR_FLUID_ACCESSPORT_REINFORCED, variant, "fluid");
         this.genRedstonePort(Content.Blocks.REACTOR_REDSTONEPORT_REINFORCED, variant);
         this.genericPart(Content.Blocks.REACTOR_POWERTAP_FE_ACTIVE_REINFORCED, "powertap_fe_active", variant, true);
         this.genericPart(Content.Blocks.REACTOR_POWERTAP_FE_PASSIVE_REINFORCED, "powertap_fe_passive", variant, true);
@@ -135,10 +136,10 @@ public class ReactorBlockStateGenerator
         this.simpleBlockItem(block.get(), model);
     }
 
-    protected void genSolidAccessPort(final Supplier<? extends Block> block, final String subFolder) {
+    protected void genAccessPort(final Supplier<? extends Block> block, final String subFolder, final String type) {
 
         final BlockModelProvider mbp = this.models();
-        final String fullResourceName = fullResourceName("accessport_solid", subFolder);
+        final String fullResourceName = fullResourceName("accessport_" + type, subFolder);
 
         this.simpleBlock(block.get(), mbp.cubeAll(fullResourceName + "_in", this.modLoc(fullResourceName + "_in")), true);
         this.genericPartSubModels(fullResourceName, "_in_connected", "_out", "_out_connected");

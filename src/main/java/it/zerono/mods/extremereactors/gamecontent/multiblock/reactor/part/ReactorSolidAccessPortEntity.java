@@ -68,9 +68,6 @@ public class ReactorSolidAccessPortEntity
         extends AbstractReactorEntity
         implements IFuelSource<ItemStack>, IIoEntity, INeighborChangeListener, INamedContainerProvider {
 
-    public static String COMMAND_DUMP_FUEL = "dumpfuel";
-    public static String COMMAND_DUMP_WASTE = "dumpwaste";
-
     public ReactorSolidAccessPortEntity() {
 
         super(Content.TileEntityTypes.REACTOR_SOLID_ACCESSPORT.get());
@@ -83,8 +80,8 @@ public class ReactorSolidAccessPortEntity
         this.setCommandDispatcher(TileCommandDispatcher.<ReactorSolidAccessPortEntity>builder()
                 .addServerHandler(CommonConstants.COMMAND_SET_INPUT, tile -> tile.setIoDirection(IoDirection.Input))
                 .addServerHandler(CommonConstants.COMMAND_SET_OUTPUT, tile -> tile.setIoDirection(IoDirection.Output))
-                .addServerHandler(COMMAND_DUMP_FUEL, ReactorSolidAccessPortEntity::handleCommandEjectFuel)
-                .addServerHandler(COMMAND_DUMP_WASTE, ReactorSolidAccessPortEntity::handleCommandEjectWaste)
+                .addServerHandler(CommonConstants.COMMAND_DUMP_FUEL, ReactorSolidAccessPortEntity::handleCommandEjectFuel)
+                .addServerHandler(CommonConstants.COMMAND_DUMP_WASTE, ReactorSolidAccessPortEntity::handleCommandEjectWaste)
                 .build(this));
     }
 
@@ -164,13 +161,14 @@ public class ReactorSolidAccessPortEntity
     }
 
     //endregion
-    //region ISolidFuelSource
+    //region IFuelSource<ItemStack>
 
     /**
      * Return the fuel source items currently available in the fuel source
      *
      * @return the solid fuel source items
      */
+    @Override
     public ItemStack getFuelStack() {
         return this.getStack(ReactantType.Fuel);
     }
@@ -181,6 +179,7 @@ public class ReactorSolidAccessPortEntity
      * @param sourceToConsume the source items to consume
      * @return the source items actually consumed
      */
+    @Override
     public ItemStack consumeFuelSource(final ItemStack sourceToConsume) {
 
         final ItemStack sourceStack = this.getStack(ReactantType.Fuel);
@@ -201,6 +200,7 @@ public class ReactorSolidAccessPortEntity
      * @param amount
      * @return the amount of Reactant consumed in the operation
      */
+    @Override
     public int emitReactant(Reactant reactant, int amount) {
 
         if (amount <= 0) {

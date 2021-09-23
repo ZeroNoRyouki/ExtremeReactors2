@@ -189,7 +189,7 @@ public class ReactorSolidAccessPortScreen
         final CompoundNBT options = new CompoundNBT();
 
         options.putBoolean("void", Screen.hasShiftDown());
-        this.sendCommandToServer(ReactorSolidAccessPortEntity.COMMAND_DUMP_FUEL, options);
+        this.sendCommandToServer(CommonConstants.COMMAND_DUMP_FUEL, options);
     }
 
     private void onDumpWaste(Button button, Integer integer) {
@@ -197,7 +197,7 @@ public class ReactorSolidAccessPortScreen
         final CompoundNBT options = new CompoundNBT();
 
         options.putBoolean("void", Screen.hasShiftDown());
-        this.sendCommandToServer(ReactorSolidAccessPortEntity.COMMAND_DUMP_WASTE, options);
+        this.sendCommandToServer(CommonConstants.COMMAND_DUMP_WASTE, options);
     }
 
     private <Value> void addBinding(final Function<ReactorSolidAccessPortContainer, Value> supplier, final Consumer<Value> consumer) {

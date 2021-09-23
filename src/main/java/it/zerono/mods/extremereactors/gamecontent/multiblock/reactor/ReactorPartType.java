@@ -60,6 +60,9 @@ public enum ReactorPartType
     SolidAccessPort(() -> Content.TileEntityTypes.REACTOR_SOLID_ACCESSPORT::get,
             IOPortBlock::new, "part.bigreactors.reactor.solidaccessport"),
 
+    FluidAccessPort(() -> Content.TileEntityTypes.REACTOR_FLUID_ACCESSPORT::get,
+            IOPortBlock::new, "part.bigreactors.reactor.fluidaccessport"),
+
     ActiveFluidPortForge(() -> Content.TileEntityTypes.REACTOR_FLUIDPORT_FORGE_ACTIVE::get,
             IOPortBlock::new, "part.bigreactors.reactor.fluidport_forge_active"),
 

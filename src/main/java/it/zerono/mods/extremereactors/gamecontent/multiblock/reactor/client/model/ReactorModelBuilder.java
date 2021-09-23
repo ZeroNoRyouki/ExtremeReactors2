@@ -68,6 +68,11 @@ public class ReactorModelBuilder
                 "accessport_solid_out",
                 "accessport_solid_out_connected");
 
+        this.addBlockWithVariants(ReactorPartType.FluidAccessPort, variant, isPartCompatible, "fluidaccessport",
+                "accessport_fluid_in_connected",
+                "accessport_fluid_out",
+                "accessport_fluid_out_connected");
+
         this.addBlockWithVariants(ReactorPartType.ActiveFluidPortForge, variant, isPartCompatible, "fluidport_forge_active",
                 "fluidport_forge_active_cold_connected",
                 "fluidport_forge_active_hot",

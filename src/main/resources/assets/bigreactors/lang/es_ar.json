@@ -71,6 +71,7 @@
     "block.bigreactors.reinforced_reactorpowertapfe_active": "Salida Activa de FE de Reactor (Reforzada)",
     "block.bigreactors.reinforced_reactorpowertapfe_passive": "Salida Pasiva de FE de Reactor (Reforzada)",
     "block.bigreactors.reinforced_reactorsolidaccessport": "Puerto de Acceso de Sólidos al Reactor (Reforzado)",
+    "block.bigreactors.reinforced_reactorfluidaccessport": "Reactor Fuel Injection Port (Reinforced)",
     "block.bigreactors.reinforced_reactorcoolantport_forge_active": "Puerto de Refrigeramiento Activo del Reactor (Reforzado)",
     "block.bigreactors.reinforced_reactorcoolantport_forge_passive": "Puerto de Refrigeramiento Pasivo del Reactor (Reforzado)",
     "block.bigreactors.reinforced_reactorcontrolrod": "Barras de Control (Reforzadas)",
@@ -585,7 +586,7 @@
     "config.bigreactors.client.disablepatchoulitweaks": "Activá esto si tienes problemas con nuevas versiones de Patchouli",
 
     "api.bigreactors.reactor.tooltip.moderator": "Extreme Reactors: este bloque o fluido puede ser usado como un moderador de radiación dentro de un Reactor",
-    "api.bigreactors.reactor.tooltip.reactant.fuel": "Extreme Reactors: este item puede ser usado para producir combustible para un Reactor",
+    "api.bigreactors.reactor.tooltip.reactant.fuel": "Extreme Reactors: este item o fluido puede ser usado para producir combustible para un Reactor",
     "api.bigreactors.reactor.tooltip.coil": "Extreme Reactors: este bloque puede ser usado como bobina dentro de una Turbina",
 
     "compat.bigreactors.jei.reprocessor.recipecategory.title": "Reprocessor",

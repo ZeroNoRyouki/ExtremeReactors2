@@ -26,6 +26,8 @@ public final class CommonConstants {
     public static String COMMAND_SET_OUTPUT = "setoutput";
     public static String COMMAND_SET_REDSTONE_SENSOR = "setsensor";
     public static String COMMAND_DISABLE_REDSTONE_SENSOR = "nosensor";
+    public static String COMMAND_DUMP_FUEL = "dumpfuel";
+    public static String COMMAND_DUMP_WASTE = "dumpwaste";
 
     //region internals
 

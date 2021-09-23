@@ -176,6 +176,9 @@ public final class Content {
         public static final RegistryObject<IOPortBlock<MultiblockReactor, ReactorPartType>> REACTOR_SOLID_ACCESSPORT_REINFORCED =
                 registerReactorBlock("reinforced_reactorsolidaccessport", ReactorVariant.Reinforced, ReactorPartType.SolidAccessPort);
 
+        public static final RegistryObject<IOPortBlock<MultiblockReactor, ReactorPartType>> REACTOR_FLUID_ACCESSPORT_REINFORCED =
+                registerReactorBlock("reinforced_reactorfluidaccessport", ReactorVariant.Reinforced, ReactorPartType.FluidAccessPort);
+
         public static final RegistryObject<GenericDeviceBlock<MultiblockReactor, ReactorPartType>> REACTOR_POWERTAP_FE_ACTIVE_REINFORCED =
                 registerReactorBlock("reinforced_reactorpowertapfe_active", ReactorVariant.Reinforced, ReactorPartType.ActivePowerTapFE);
 
@@ -441,6 +444,7 @@ public final class Content {
         public static final RegistryObject<BlockItem> REACTOR_FUELROD_REINFORCED = registerItemBlock("reinforced_reactorfuelrod", () -> Blocks.REACTOR_FUELROD_REINFORCED::get, ItemGroups.REACTOR);
         public static final RegistryObject<BlockItem> REACTOR_CONTROLROD_REINFORCED = registerItemBlock("reinforced_reactorcontrolrod", () -> Blocks.REACTOR_CONTROLROD_REINFORCED::get, ItemGroups.REACTOR);
         public static final RegistryObject<BlockItem> REACTOR_SOLID_ACCESSPORT_REINFORCED = registerItemBlock("reinforced_reactorsolidaccessport", () -> Blocks.REACTOR_SOLID_ACCESSPORT_REINFORCED::get, ItemGroups.REACTOR);
+        public static final RegistryObject<BlockItem> REACTOR_FLUID_ACCESSPORT_REINFORCED = registerItemBlock("reinforced_reactorfluidaccessport", () -> Blocks.REACTOR_FLUID_ACCESSPORT_REINFORCED::get, ItemGroups.REACTOR);
         public static final RegistryObject<BlockItem> REACTOR_POWERTAP_FE_ACTIVE_REINFORCED = registerItemBlock("reinforced_reactorpowertapfe_active", () -> Blocks.REACTOR_POWERTAP_FE_ACTIVE_REINFORCED::get, ItemGroups.REACTOR);
         public static final RegistryObject<BlockItem> REACTOR_POWERTAP_FE_PASSIVE_REINFORCED = registerItemBlock("reinforced_reactorpowertapfe_passive", () -> Blocks.REACTOR_POWERTAP_FE_PASSIVE_REINFORCED::get, ItemGroups.REACTOR);
         public static final RegistryObject<BlockItem> REACTOR_COMPUTERPORT_REINFORCED = registerItemBlock("reinforced_reactorcomputerport", () -> Blocks.REACTOR_COMPUTERPORT_REINFORCED::get, ItemGroups.REACTOR);
@@ -578,6 +582,10 @@ public final class Content {
                 registerBlockEntity("reactoraccessport", ReactorSolidAccessPortEntity::new,
                         () -> Blocks.REACTOR_SOLID_ACCESSPORT_BASIC::get,
                         () -> Blocks.REACTOR_SOLID_ACCESSPORT_REINFORCED::get);
+
+        public static final RegistryObject<TileEntityType<ReactorFluidAccessPortEntity>> REACTOR_FLUID_ACCESSPORT =
+                registerBlockEntity("reactoraccessportfluid", ReactorFluidAccessPortEntity::new,
+                        () -> Blocks.REACTOR_FLUID_ACCESSPORT_REINFORCED::get);
 
         public static final RegistryObject<TileEntityType<ReactorFluidPortEntity>> REACTOR_FLUIDPORT_FORGE_ACTIVE =
                 registerBlockEntity("reactorfluidport_forge_active",
@@ -776,6 +784,10 @@ public final class Content {
 
         public static final RegistryObject<ContainerType<ReactorSolidAccessPortContainer>> REACTOR_SOLID_ACCESSPORT =
                 registerContainer("reactoraccessport", ReactorSolidAccessPortContainer::new);
+
+        public static final RegistryObject<ContainerType<ModTileContainer<ReactorFluidAccessPortEntity>>> REACTOR_FLUID_ACCESSPORT =
+                registerContainer("reactoraccessportfluid", (windowId, inv, data) ->
+                        ModTileContainer.empty(Content.ContainerTypes.REACTOR_FLUID_ACCESSPORT.get(), windowId, data));
 
         public static final RegistryObject<ContainerType<ModTileContainer<ReactorRedstonePortEntity>>> REACTOR_REDSTONEPORT =
                 registerContainer("reactorredstoneport", (windowId, inv, data) ->
