@@ -24,6 +24,7 @@ import it.zerono.mods.zerocore.lib.data.gfx.Colour;
 
 import java.util.Collections;
 import java.util.Objects;
+import java.util.function.Predicate;
 
 /**
  * Describe the properties of a reactant, ie a material that can be used (Fuel) inside a
@@ -31,7 +32,8 @@ import java.util.Objects;
  * produce a second reactant (Waste)
  */
 public class Reactant
-    extends AbstractNamedValue {
+    extends AbstractNamedValue
+    implements Predicate<ReactantType> {
 
     /**
      * Construct a new Reactant
@@ -77,6 +79,33 @@ public class Reactant
                 .orElseThrow(() -> new IllegalArgumentException("No solid products mapped for reactant " + this.getName()));
     }
 
+    /**
+     * Compute the minimum amount of this Reactant that can be produced from a fluid source.
+     *
+     * @return The smallest amount of reactant found in a given reactant<>fluid mapping set
+     * @throws IllegalArgumentException if no reactants were mapped.
+     */
+    public int getMinimumFluidSourceAmount() {
+        return ReactantMappingsRegistry.getToFluid(this)
+                .map($ -> ReactantMappingsRegistry.STANDARD_FLUID_REACTANT_AMOUNT)
+                .orElseThrow(() -> new IllegalArgumentException("No fluid products mapped for reactant " + this.getName()));
+    }
+
+    //region Predicate<ReactantType>
+
+    /**
+     * Evaluates this predicate on the given argument.
+     *
+     * @param type the input argument
+     * @return {@code true} if the input argument matches the predicate,
+     * otherwise {@code false}
+     */
+    @Override
+    public boolean test(final ReactantType type) {
+        return this.getType() == type;
+    }
+
+    //endregion
     //region Object
 
     @Override
@@ -86,7 +115,7 @@ public class Reactant
 
             final Reactant other = (Reactant)obj;
 
-            return this.getType() == other.getType() &&
+            return this.test(other.getType()) &&
                     this.getColour() == other.getColour();
         }
 
