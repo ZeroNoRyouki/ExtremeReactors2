@@ -22,6 +22,11 @@ import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.zerocore.lib.datagen.provider.BaseBlockLootTableProvider;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.loot.ConstantRange;
+import net.minecraft.loot.ItemLootEntry;
+import net.minecraft.loot.LootPool;
+import net.minecraft.loot.LootTable;
+import net.minecraft.loot.functions.CopyNbt;
 
 public class BlockLootGenerator
         extends BaseBlockLootTableProvider {
@@ -55,6 +60,16 @@ public class BlockLootGenerator
                 Content.Blocks.REACTOR_CHARGINGPORT_FE_REINFORCED, Content.Blocks.REACTOR_CREATIVE_WATER_GENERATOR_REINFORCED,
                 Content.Blocks.REACTOR_FLUIDPORT_FORGE_PASSIVE_REINFORCED, Content.Blocks.REACTOR_FLUIDTPORT_FORGE_ACTIVE_REINFORCED,
                 Content.Blocks.REACTOR_REDSTONEPORT_REINFORCED, Content.Blocks.REACTOR_COMPUTERPORT_REINFORCED);
+
+        this.add(Content.Blocks.REACTOR_FLUID_ACCESSPORT_REINFORCED.get(), LootTable.lootTable().withPool(LootPool.lootPool()
+                .name("reactor_fluid_accessport_reinforced")
+                .setRolls(ConstantRange.exactly(1))
+                .add(ItemLootEntry.lootTableItem(Content.Blocks.REACTOR_FLUID_ACCESSPORT_REINFORCED.get())
+                        .apply(CopyNbt.copyData(CopyNbt.Source.BLOCK_ENTITY)
+                                .copy("zcvase_payload.iodir", "BlockEntityTag.zcvase_payload.iodir", CopyNbt.Action.REPLACE)
+                                .copy("zcvase_payload.invin", "BlockEntityTag.zcvase_payload.invin", CopyNbt.Action.REPLACE)
+                                .copy("zcvase_payload.invout", "BlockEntityTag.zcvase_payload.invout", CopyNbt.Action.REPLACE))
+                )));
 
         this.addDrop(Content.Blocks.TURBINE_CASING_BASIC, Content.Blocks.TURBINE_GLASS_BASIC,
                 Content.Blocks.TURBINE_CONTROLLER_BASIC, Content.Blocks.TURBINE_ROTORBEARING_BASIC,

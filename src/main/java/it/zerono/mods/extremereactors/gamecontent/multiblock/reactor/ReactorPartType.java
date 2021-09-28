@@ -21,6 +21,7 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor;
 import it.zerono.mods.extremereactors.config.Config;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.*;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part.ReactorFluidAccessPortEntity;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part.ReactorFuelRodBlock;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part.ReactorRedstonePortBlock;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.ReactorVariant;
@@ -31,6 +32,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.world.IBlockReader;
+import net.minecraftforge.common.util.NonNullFunction;
 
 import javax.annotation.Nullable;
 import java.util.function.Function;
@@ -61,7 +63,8 @@ public enum ReactorPartType
             IOPortBlock::new, "part.bigreactors.reactor.solidaccessport"),
 
     FluidAccessPort(() -> Content.TileEntityTypes.REACTOR_FLUID_ACCESSPORT::get,
-            IOPortBlock::new, "part.bigreactors.reactor.fluidaccessport"),
+            IOPortBlock::new, "part.bigreactors.reactor.fluidaccessport", bp -> bp,
+            partProperties -> partProperties.setAsStackStorable(ReactorFluidAccessPortEntity::itemTooltipBuilder)),
 
     ActiveFluidPortForge(() -> Content.TileEntityTypes.REACTOR_FLUIDPORT_FORGE_ACTIVE::get,
             IOPortBlock::new, "part.bigreactors.reactor.fluidport_forge_active"),
@@ -106,17 +109,27 @@ public enum ReactorPartType
                             MultiblockPartBlock<MultiblockReactor, ReactorPartType>> blockFactory,
                     final String translationKey,
                     final Function<Block.Properties, Block.Properties> blockPropertiesFixer) {
+        this(tileTypeSupplier, blockFactory, translationKey, blockPropertiesFixer, ep -> ep);
+    }
+
+    ReactorPartType(final Supplier<Supplier<TileEntityType<?>>> tileTypeSupplier,
+                    final Function<MultiblockPartBlock.MultiblockPartProperties<ReactorPartType>,
+                            MultiblockPartBlock<MultiblockReactor, ReactorPartType>> blockFactory,
+                    final String translationKey,
+                    final Function<Block.Properties, Block.Properties> blockPropertiesFixer,
+                    final NonNullFunction<MultiblockPartBlock.MultiblockPartProperties<ReactorPartType>, MultiblockPartBlock.MultiblockPartProperties<ReactorPartType>> partPropertiesFixer) {
 
         this._tileTypeSupplier = tileTypeSupplier;
         this._blockFactory = blockFactory;
         this._translationKey = translationKey;
         this._blockPropertiesFixer = blockPropertiesFixer;
+        this._extendedPropertiesFixer = partPropertiesFixer;
     }
 
     public MultiblockPartBlock<MultiblockReactor, ReactorPartType> createBlock(ReactorVariant variant) {
-        return this._blockFactory.apply(MultiblockPartBlock.MultiblockPartProperties.create(this,
+        return this._blockFactory.apply(this._extendedPropertiesFixer.apply(MultiblockPartBlock.MultiblockPartProperties.create(this,
                 this._blockPropertiesFixer.apply(variant.getDefaultBlockProperties()))
-                .variant(variant));
+                .variant(variant)));
     }
 
     //region IMultiblockPartType
@@ -148,6 +161,7 @@ public enum ReactorPartType
     private final String _translationKey;
 
     private final Function<Block.Properties, Block.Properties> _blockPropertiesFixer;
+    private final NonNullFunction<MultiblockPartBlock.MultiblockPartProperties<ReactorPartType>, MultiblockPartBlock.MultiblockPartProperties<ReactorPartType>> _extendedPropertiesFixer;
 
     //endregion
 }
