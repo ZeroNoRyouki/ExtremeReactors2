@@ -19,6 +19,7 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.screen;
 
 import it.zerono.mods.extremereactors.ExtremeReactors;
+import it.zerono.mods.extremereactors.gamecontent.CommonConstants;
 import it.zerono.mods.extremereactors.gamecontent.compat.patchouli.PatchouliCompat;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.AbstractMultiblockScreen;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.CommonIcons;
@@ -139,7 +140,7 @@ public class ReactorControlRodScreen
         this._insertionInput.setHorizontalAlignment(HorizontalAlignment.Right);
         this._insertionInput.setDesiredDimension(42, 14);
         this._insertionInput.setTooltips(
-                new TranslationTextComponent("gui.bigreactors.reactor.controlrod.insertion.input.tooltip.line1").setStyle(STYLE_TOOLTIP_TITLE),
+                new TranslationTextComponent("gui.bigreactors.reactor.controlrod.insertion.input.tooltip.line1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
                 CodeHelper.TEXT_EMPTY_LINE,
                 new TranslationTextComponent("gui.bigreactors.reactor.controlrod.insertion.input.tooltip.line2"),
                 CodeHelper.TEXT_EMPTY_LINE,

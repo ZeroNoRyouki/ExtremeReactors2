@@ -18,7 +18,12 @@
 
 package it.zerono.mods.extremereactors.gamecontent;
 
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TextFormatting;
+
 public final class CommonConstants {
+
+    //region TE commands
 
     public static String COMMAND_ACTIVATE = "activate";
     public static String COMMAND_DEACTIVATE = "deactivate";
@@ -29,6 +34,22 @@ public final class CommonConstants {
     public static String COMMAND_DUMP_FUEL = "dumpfuel";
     public static String COMMAND_DUMP_WASTE = "dumpwaste";
 
+    //endregion
+    //region UI styles
+
+    public static final Style STYLE_TOOLTIP_TITLE = Style.EMPTY
+            .withColor(TextFormatting.YELLOW)
+            .withBold(true);
+
+    public static final Style STYLE_TOOLTIP_VALUE = Style.EMPTY
+            .withColor(TextFormatting.DARK_AQUA)
+            .withBold(true);
+
+    public static final Style STYLE_TOOLTIP_INFO = Style.EMPTY
+            .withColor(TextFormatting.DARK_PURPLE)
+            .withItalic(true);
+
+    //endregion
     //region internals
 
     private CommonConstants() {

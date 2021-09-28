@@ -274,7 +274,7 @@ public abstract class AbstractRedstonePortScreen<Controller extends AbstractCubo
         final String tooltipBaseName = sensor.getTranslationBaseName();
 
         button.setTag(sensor);
-        button.setTooltips(new TranslationTextComponent(tooltipBaseName + "1").setStyle(STYLE_TOOLTIP_TITLE),
+        button.setTooltips(new TranslationTextComponent(tooltipBaseName + "1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
                 sensor.isInput() ? TEXT_DIRECTION_INPUT : TEXT_DIRECTION_OUTPUT,
                 TEXT_EMPTY_LINE, new TranslationTextComponent(tooltipBaseName + "2"), new TranslationTextComponent(tooltipBaseName + "3"));
 
@@ -302,8 +302,8 @@ public abstract class AbstractRedstonePortScreen<Controller extends AbstractCubo
         return button;
     }
 
-    private static final ITextComponent TEXT_DIRECTION_INPUT = new TranslationTextComponent("gui.bigreactors.generator.redstoneport.sensortype.input").setStyle(STYLE_TOOLTIP_INFO);
-    private static final ITextComponent TEXT_DIRECTION_OUTPUT = new TranslationTextComponent("gui.bigreactors.generator.redstoneport.sensortype.output").setStyle(STYLE_TOOLTIP_INFO);
+    private static final ITextComponent TEXT_DIRECTION_INPUT = new TranslationTextComponent("gui.bigreactors.generator.redstoneport.sensortype.input").setStyle(CommonConstants.STYLE_TOOLTIP_INFO);
+    private static final ITextComponent TEXT_DIRECTION_OUTPUT = new TranslationTextComponent("gui.bigreactors.generator.redstoneport.sensortype.output").setStyle(CommonConstants.STYLE_TOOLTIP_INFO);
 
     private final BindingGroup _bindings;
     private final RedstonePortSettingControlsMap<Reader, Writer, SensorType, SensorSetting> _guiMap;

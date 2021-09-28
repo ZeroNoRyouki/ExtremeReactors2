@@ -22,8 +22,8 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectLists;
 import it.zerono.mods.extremereactors.ExtremeReactors;
+import it.zerono.mods.extremereactors.gamecontent.CommonConstants;
 import it.zerono.mods.extremereactors.gamecontent.Content;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.AbstractMultiblockScreen;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.CommonIcons;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.MultiblockReprocessor;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.recipe.ReprocessorRecipe;
@@ -106,10 +106,10 @@ public class ReprocessorRecipeCategory
 
             this._fluidBarTooltips = new ObjectArrayList<>(3);
             this._fluidBarTooltips.add(getFluidName(this._recipeFluid.getFluid())
-                    .setStyle(AbstractMultiblockScreen.STYLE_TOOLTIP_TITLE));
+                    .setStyle(CommonConstants.STYLE_TOOLTIP_TITLE));
             this._fluidBarTooltips.add(CodeHelper.TEXT_EMPTY_LINE);
             this._fluidBarTooltips.add(new StringTextComponent(String.format("%d mB", this._recipeFluid.getAmount()))
-                    .setStyle(AbstractMultiblockScreen.STYLE_TOOLTIP_VALUE));
+                    .setStyle(CommonConstants.STYLE_TOOLTIP_VALUE));
 
 //            this._progressBar = this._guiHelper.createAnimatedDrawable(new SpriteDrawable(() -> this._recipeProgressSprite, 0),
 //                    MultiblockReprocessor.TICKS, IDrawableAnimated.StartDirection.TOP, false);
@@ -128,10 +128,10 @@ public class ReprocessorRecipeCategory
 
         this._powerBarTooltips = new ObjectArrayList<>(3);
         this._powerBarTooltips.add(new TranslationTextComponent("compat.bigreactors.jei.reprocessor.recipecategory.energy.tooltip.title")
-                .setStyle(AbstractMultiblockScreen.STYLE_TOOLTIP_TITLE));
+                .setStyle(CommonConstants.STYLE_TOOLTIP_TITLE));
         this._powerBarTooltips.add(CodeHelper.TEXT_EMPTY_LINE);
         this._powerBarTooltips.add(new StringTextComponent(String.format("%d FE", MultiblockReprocessor.TICK_ENERGY_COST * MultiblockReprocessor.TICKS))
-                .setStyle(AbstractMultiblockScreen.STYLE_TOOLTIP_VALUE));
+                .setStyle(CommonConstants.STYLE_TOOLTIP_VALUE));
     }
 
     @Override

@@ -18,6 +18,7 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen;
 
+import it.zerono.mods.extremereactors.gamecontent.CommonConstants;
 import it.zerono.mods.extremereactors.gamecontent.compat.patchouli.PatchouliCompat;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.container.ChargingPortContainer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.AbstractMultiblockEntity;
@@ -105,7 +106,7 @@ public class ChargingPortScreen<Controller extends AbstractCuboidMultiblockContr
         this._btnEject.setIconForState(CommonIcons.ButtonManualEjectActive.get(), ButtonState.Active, ButtonState.ActiveHighlighted, ButtonState.DefaultHighlighted);
         this._btnEject.Clicked.subscribe(this::onManualEject);
         this._btnEject.setTooltips(
-                new TranslationTextComponent("gui.bigreactors.generator.chargingport.dumpfuel.line1").setStyle(STYLE_TOOLTIP_TITLE),
+                new TranslationTextComponent("gui.bigreactors.generator.chargingport.dumpfuel.line1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
                 TEXT_EMPTY_LINE,
                 new TranslationTextComponent("gui.bigreactors.generator.chargingport.dumpfuel.line2"),
                 new TranslationTextComponent("gui.bigreactors.generator.chargingport.dumpfuel.line3"),
