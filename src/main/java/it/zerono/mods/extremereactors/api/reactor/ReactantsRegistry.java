@@ -81,6 +81,14 @@ public final class ReactantsRegistry {
         });
     }
 
+    public static void registerFuel(final String name, final int rgbColour,
+                                    float moderationFactor, float absorptionCoefficient, float hardnessDivisor,
+                                    final String translationKey) {
+        registerFuel(name, rgbColour, moderationFactor, absorptionCoefficient, hardnessDivisor,
+                FuelProperties.DEFAULT.getFissionEventsPerFuelUnit(), FuelProperties.DEFAULT.getFuelUnitsPerFissionEvent(),
+                translationKey);
+    }
+
     /**
      * Register a new Fuel Reactant.
      *
@@ -90,10 +98,13 @@ public final class ReactantsRegistry {
      *                         Anything under 1.5 is "poor", 2-2.5 is "good", above 4 is "excellent".
      * @param absorptionCoefficient How well this fuel absorbs radiation. Must be between 0 and 1.
      * @param hardnessDivisor How this fuel tolerate hard radiation. Must be greater or equal to 1.
+     * @param fissionEventsPerFuelUnit How many fission events occurs per unit of fuel.
+     * @param fuelUnitsPerFissionEvent How many fuel units are used per fission event.
      * @param translationKey The translation key for the name of the reactant.
      */
     public static void registerFuel(final String name, final int rgbColour,
                                     float moderationFactor, float absorptionCoefficient, float hardnessDivisor,
+                                    float fissionEventsPerFuelUnit, float fuelUnitsPerFissionEvent,
                                     final String translationKey) {
 
         Preconditions.checkArgument(!Strings.isNullOrEmpty(name));
@@ -105,7 +116,8 @@ public final class ReactantsRegistry {
             }
 
             s_reactants.put(name, new Reactant(name, ReactantType.Fuel, rgbColour, translationKey,
-                    new FuelProperties(moderationFactor, absorptionCoefficient, hardnessDivisor)));
+                    new FuelProperties(moderationFactor, absorptionCoefficient, hardnessDivisor,
+                            fissionEventsPerFuelUnit, fuelUnitsPerFissionEvent)));
         });
     }
 
