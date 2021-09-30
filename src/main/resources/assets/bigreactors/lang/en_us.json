@@ -34,10 +34,18 @@
     "_comment": "Items - miscellanea",
     "item.bigreactors.wrench": "Extreme Wrench",
     "item.bigreactors.steam_bucket": "Steam Bucket",
+    "item.bigreactors.yellorium_bucket": "Yellorium Bucket",
+    "item.bigreactors.cyanite_bucket": "Cyanite Bucket",
+    "item.bigreactors.blutonium_bucket": "Blutonium Bucket",
+    "item.bigreactors.magentite_bucket": "Magentite Bucket",
 
     "_comment": "Fluids",
     "fluid.bigreactors.water": "Water",
     "fluid.bigreactors.steam": "Steam",
+    "fluid.bigreactors.yellorium": "Yellorium",
+    "fluid.bigreactors.cyanite": "Cyanite",
+    "fluid.bigreactors.blutonium": "Blutonium",
+    "fluid.bigreactors.magentite": "Magentite",
 
     "_comment": "Blocks - metal blocks / ores",
     "block.bigreactors.yellorium_block": "Yellorium Block",

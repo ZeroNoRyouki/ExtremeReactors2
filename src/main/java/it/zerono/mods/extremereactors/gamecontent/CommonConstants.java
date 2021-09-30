@@ -18,6 +18,7 @@
 
 package it.zerono.mods.extremereactors.gamecontent;
 
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
 
@@ -33,6 +34,21 @@ public final class CommonConstants {
     public static String COMMAND_DISABLE_REDSTONE_SENSOR = "nosensor";
     public static String COMMAND_DUMP_FUEL = "dumpfuel";
     public static String COMMAND_DUMP_WASTE = "dumpwaste";
+
+    //endregion
+    //region ids
+
+    public static final ResourceLocation FLUID_TEXTURE_SOURCE_WATER = new ResourceLocation("block/water_still");
+    public static final ResourceLocation FLUID_TEXTURE_FLOWING_WATER = new ResourceLocation("block/water_flow");
+    public static final ResourceLocation FLUID_TEXTURE_OVERLAY_WATER = new ResourceLocation("block/water_overlay");
+
+    //endregion
+    //region Reactants
+
+    public static final int REACTANT_COLOUR_YELLORIUM = 0xc6ba54;
+    public static final int REACTANT_COLOUR_BLUTONIUM = 0x17179c;
+    public static final int REACTANT_COLOUR_CYANITE = 0x5387b7;
+    public static final int REACTANT_COLOUR_MAGENTITE = 0xe41de4;
 
     //endregion
     //region UI styles

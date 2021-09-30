@@ -22,6 +22,7 @@ import it.zerono.mods.extremereactors.api.coolant.FluidMappingsRegistry;
 import it.zerono.mods.extremereactors.api.coolant.FluidsRegistry;
 import it.zerono.mods.extremereactors.api.coolant.TransitionsRegistry;
 import it.zerono.mods.extremereactors.api.reactor.*;
+import net.minecraft.fluid.Fluid;
 import net.minecraft.item.Item;
 import net.minecraft.tags.ITag;
 import net.minecraft.util.ResourceLocation;
@@ -44,16 +45,16 @@ final class ReactorGameData {
     private static void registerReactants() {
 
         // Yellorium (register it as a FuelProperties.DEFAULT fuel)
-        ReactantsRegistry.register(REACTANT_YELLORIUM, ReactantType.Fuel, 0xc6ba54, "reactant.bigreactors.yellorium");
+        ReactantsRegistry.register(REACTANT_YELLORIUM, ReactantType.Fuel, CommonConstants.REACTANT_COLOUR_YELLORIUM, "reactant.bigreactors.yellorium");
 
         // Blutonium
-        ReactantsRegistry.registerFuel(REACTANT_BLUTONIUM, 0x17179c, 2.55f, 0.875f, 2.0f, "reactant.bigreactors.blutonium");
+        ReactantsRegistry.registerFuel(REACTANT_BLUTONIUM, CommonConstants.REACTANT_COLOUR_BLUTONIUM, 2.55f, 0.875f, 2.0f, "reactant.bigreactors.blutonium");
 
         // Cyanite
-        ReactantsRegistry.register(REACTANT_CYANITE, ReactantType.Waste, 0x5387b7, "reactant.bigreactors.cyanite");
+        ReactantsRegistry.register(REACTANT_CYANITE, ReactantType.Waste, CommonConstants.REACTANT_COLOUR_CYANITE, "reactant.bigreactors.cyanite");
 
         // Magentite
-        ReactantsRegistry.register(REACTANT_MAGENTITE, ReactantType.Waste, 0xe41de4, "reactant.bigreactors.magentite");
+        ReactantsRegistry.register(REACTANT_MAGENTITE, ReactantType.Waste, CommonConstants.REACTANT_COLOUR_MAGENTITE, "reactant.bigreactors.magentite");
     }
 
     private static void registerReactantMappings() {
@@ -72,6 +73,11 @@ final class ReactorGameData {
         registerIngotReactantMapping(REACTANT_CYANITE, ContentTags.Items.BLOCKS_CYANITE, 9);
         registerIngotReactantMapping(REACTANT_MAGENTITE, ContentTags.Items.INGOTS_MAGENTITE, 1);
         registerIngotReactantMapping(REACTANT_MAGENTITE, ContentTags.Items.BLOCKS_MAGENTITE, 9);
+
+        registerFluidReactantMapping(REACTANT_YELLORIUM, ContentTags.Fluids.YELLORIUM);
+        registerFluidReactantMapping(REACTANT_CYANITE, ContentTags.Fluids.CYANITE);
+        registerFluidReactantMapping(REACTANT_BLUTONIUM, ContentTags.Fluids.BLUTONIUM);
+        registerFluidReactantMapping(REACTANT_MAGENTITE, ContentTags.Fluids.MAGENTITE);
     }
 
     private static void registerReactions() {
@@ -214,6 +220,10 @@ final class ReactorGameData {
 
     private static void registerIngotReactantMapping(final String reactantName, final ResourceLocation itemTagId, final int ingotsCount) {
         ReactantMappingsRegistry.registerSolid(reactantName, ingotsCount * ReactantMappingsRegistry.STANDARD_SOLID_REACTANT_AMOUNT, itemTagId);
+    }
+
+    private static void registerFluidReactantMapping(final String reactantName, final ITag.INamedTag<Fluid> tag) {
+        ReactantMappingsRegistry.registerFluid(reactantName, tag.getName());
     }
 
     //endregion

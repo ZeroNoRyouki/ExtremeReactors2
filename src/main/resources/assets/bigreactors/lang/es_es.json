@@ -34,10 +34,18 @@
     "_comment": "Items - misceláneos",
     "item.bigreactors.wrench": "Llave Extrema",
     "item.bigreactors.steam_bucket": "Balde de Vapor",
+    "item.bigreactors.yellorium_bucket": "Balde de Yellorio",
+    "item.bigreactors.cyanite_bucket": "Balde de Cianita",
+    "item.bigreactors.blutonium_bucket": "Balde de Blutonium",
+    "item.bigreactors.magentite_bucket": "Balde de Magentite",
 
     "_comment": "Fluidos",
     "fluid.bigreactors.water": "Agua",
     "fluid.bigreactors.steam": "Vapor",
+    "fluid.bigreactors.yellorium": "Yellorio",
+    "fluid.bigreactors.cyanite": "Cianita",
+    "fluid.bigreactors.blutonium": "Blutonium",
+    "fluid.bigreactors.magentite": "Magentite",
 
     "_comment": "Bloques - bloques de metal / menas",
     "block.bigreactors.yellorium_block": "Bloque de Yellorio",

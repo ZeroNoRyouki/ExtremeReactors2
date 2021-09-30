@@ -19,6 +19,7 @@
 package it.zerono.mods.extremereactors.gamecontent;
 
 import it.zerono.mods.extremereactors.ExtremeReactors;
+import it.zerono.mods.extremereactors.gamecontent.fluid.ReactantFluid;
 import it.zerono.mods.extremereactors.gamecontent.fluid.SteamFluid;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.container.ChargingPortContainer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.GenericDeviceBlock;
@@ -52,11 +53,15 @@ import net.minecraft.block.Block;
 import net.minecraft.block.FlowingFluidBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.*;
 import net.minecraft.item.crafting.IRecipeSerializer;
+import net.minecraft.potion.Effect;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.common.extensions.IForgeContainerType;
@@ -120,6 +125,18 @@ public final class Content {
                                 .strength(100.0F)
                                 .noDrops()
                 ));
+
+        public static final RegistryObject<ReactantFluid.Block> YELLORIUM_FLUID = BLOCKS.register("yellorium_fluid",
+                () -> new ReactantFluid.Block(Fluids.YELLORIUM_SOURCE));
+
+        public static final RegistryObject<ReactantFluid.Block> CYANITE_FLUID = BLOCKS.register("cyanite_fluid",
+                () -> new ReactantFluid.Block(Fluids.CYANITE_SOURCE));
+
+        public static final RegistryObject<ReactantFluid.Block> BLUTONIUM_FLUID = BLOCKS.register("blutonium_fluid",
+                () -> new ReactantFluid.Block(Fluids.BLUTONIUM_SOURCE));
+
+        public static final RegistryObject<ReactantFluid.Block> MAGENTITE_FLUID = BLOCKS.register("magentite_fluid",
+                () -> new ReactantFluid.Block(Fluids.MAGENTITE_SOURCE));
 
         //endregion
         //region reactor
@@ -418,10 +435,19 @@ public final class Content {
         //region fluids
 
         public static final RegistryObject<Item> STEAM_BUCKET = ITEMS.register("steam_bucket",
-                () -> new BucketItem(Fluids.STEAM_SOURCE, new Item.Properties()
-                        .craftRemainder(net.minecraft.item.Items.BUCKET)
-                        .stacksTo(1)
-                        .tab(ItemGroup.TAB_MISC)));
+                () -> new BucketItem(Fluids.STEAM_SOURCE, bucketProperties()));
+
+        public static final RegistryObject<Item> YELLORIUM_BUCKET = ITEMS.register("yellorium_bucket",
+                () -> new BucketItem(Fluids.YELLORIUM_SOURCE, bucketProperties()));
+
+        public static final RegistryObject<Item> CYANITE_BUCKET = ITEMS.register("cyanite_bucket",
+                () -> new BucketItem(Fluids.CYANITE_SOURCE, bucketProperties()));
+
+        public static final RegistryObject<Item> BLUTONIUM_BUCKET = ITEMS.register("blutonium_bucket",
+                () -> new BucketItem(Fluids.BLUTONIUM_SOURCE, bucketProperties()));
+
+        public static final RegistryObject<Item> MAGENTITE_BUCKET = ITEMS.register("magentite_bucket",
+                () -> new BucketItem(Fluids.MAGENTITE_SOURCE, bucketProperties()));
 
         //endregion
         //region reactor
@@ -527,6 +553,13 @@ public final class Content {
                     () -> blockSupplier.get().get().createBlockItem(new Item.Properties().tab(group).stacksTo(64)));
         }
 
+        private static Item.Properties bucketProperties() {
+            return new Item.Properties()
+                    .craftRemainder(net.minecraft.item.Items.BUCKET)
+                    .stacksTo(1)
+                    .tab(ItemGroup.TAB_MISC);
+        }
+
         //endregion
     }
 
@@ -540,6 +573,65 @@ public final class Content {
 
         public static final RegistryObject<ForgeFlowingFluid> STEAM_SOURCE = FLUIDS.register("steam", SteamFluid.Source::new);
         public static final RegistryObject<ForgeFlowingFluid> STEAM_FLOWING = FLUIDS.register("steam_flowing", SteamFluid.Flowing::new);
+
+        public static final RegistryObject<ReactantFluid.Source> YELLORIUM_SOURCE = FLUIDS.register("yellorium",
+                () -> new ReactantFluid.Source(Fluids.YELLORIUM_SOURCE, Fluids.YELLORIUM_FLOWING, Blocks.YELLORIUM_FLUID,
+                        Items.YELLORIUM_BUCKET, CommonConstants.REACTANT_COLOUR_YELLORIUM, Fluids::yelloriumEffect));
+
+        public static final RegistryObject<ReactantFluid.Flowing> YELLORIUM_FLOWING = FLUIDS.register("yellorium_flowing",
+                () -> new ReactantFluid.Flowing(Fluids.YELLORIUM_SOURCE, Fluids.YELLORIUM_FLOWING, Blocks.YELLORIUM_FLUID,
+                        Items.YELLORIUM_BUCKET, CommonConstants.REACTANT_COLOUR_YELLORIUM, Fluids::yelloriumEffect));
+
+        public static final RegistryObject<ReactantFluid.Source> CYANITE_SOURCE = FLUIDS.register("cyanite",
+                () -> new ReactantFluid.Source(Fluids.CYANITE_SOURCE, Fluids.CYANITE_FLOWING, Blocks.CYANITE_FLUID,
+                        Items.CYANITE_BUCKET, CommonConstants.REACTANT_COLOUR_CYANITE, Fluids::cyaniteEffect));
+
+        public static final RegistryObject<ReactantFluid.Flowing> CYANITE_FLOWING = FLUIDS.register("cyanite_flowing",
+                () -> new ReactantFluid.Flowing(Fluids.CYANITE_SOURCE, Fluids.CYANITE_FLOWING, Blocks.CYANITE_FLUID,
+                        Items.CYANITE_BUCKET, CommonConstants.REACTANT_COLOUR_CYANITE, Fluids::cyaniteEffect));
+
+        public static final RegistryObject<ReactantFluid.Source> BLUTONIUM_SOURCE = FLUIDS.register("blutonium",
+                () -> new ReactantFluid.Source(Fluids.BLUTONIUM_SOURCE, Fluids.BLUTONIUM_FLOWING, Blocks.BLUTONIUM_FLUID,
+                        Items.BLUTONIUM_BUCKET, CommonConstants.REACTANT_COLOUR_BLUTONIUM, Fluids::blutoniumEffect));
+
+        public static final RegistryObject<ReactantFluid.Flowing> BLUTONIUM_FLOWING = FLUIDS.register("blutonium_flowing",
+                () -> new ReactantFluid.Flowing(Fluids.BLUTONIUM_SOURCE, Fluids.BLUTONIUM_FLOWING, Blocks.BLUTONIUM_FLUID,
+                        Items.BLUTONIUM_BUCKET, CommonConstants.REACTANT_COLOUR_BLUTONIUM, Fluids::blutoniumEffect));
+
+        public static final RegistryObject<ReactantFluid.Source> MAGENTITE_SOURCE = FLUIDS.register("magentite",
+                () -> new ReactantFluid.Source(Fluids.MAGENTITE_SOURCE, Fluids.MAGENTITE_FLOWING, Blocks.MAGENTITE_FLUID,
+                        Items.MAGENTITE_BUCKET, CommonConstants.REACTANT_COLOUR_MAGENTITE, Fluids::magentiteEffect));
+
+        public static final RegistryObject<ReactantFluid.Flowing> MAGENTITE_FLOWING = FLUIDS.register("magentite_flowing",
+                () -> new ReactantFluid.Flowing(Fluids.MAGENTITE_SOURCE, Fluids.MAGENTITE_FLOWING, Blocks.MAGENTITE_FLUID,
+                        Items.MAGENTITE_BUCKET, CommonConstants.REACTANT_COLOUR_MAGENTITE, Fluids::magentiteEffect));
+
+        //region internals
+
+        private static void yelloriumEffect(final LivingEntity entity) {
+            applyEffects(entity, Effects.WEAKNESS, Effects.MOVEMENT_SLOWDOWN);
+        }
+
+        private static void cyaniteEffect(final LivingEntity entity) {
+            applyEffects(entity, Effects.WEAKNESS, Effects.MOVEMENT_SLOWDOWN, Effects.HUNGER);
+        }
+
+        private static void blutoniumEffect(final LivingEntity entity) {
+            applyEffects(entity, Effects.WEAKNESS, Effects.MOVEMENT_SLOWDOWN, Effects.HUNGER, Effects.POISON);
+        }
+
+        private static void magentiteEffect(final LivingEntity entity) {
+            applyEffects(entity, Effects.WEAKNESS, Effects.MOVEMENT_SLOWDOWN, Effects.HUNGER, Effects.WITHER);
+        }
+
+        private static void applyEffects(final LivingEntity entity, Effect... effects) {
+
+            for (final Effect effect : effects) {
+                entity.addEffect(new EffectInstance(effect, 400, 0, true, true, true));
+            }
+        }
+
+        //endregion
     }
 
     public static final class TileEntityTypes {

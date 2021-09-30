@@ -34,10 +34,18 @@
     "_comment": "Itens - miscellanea",
     "item.bigreactors.wrench": "Chave Inglesa Extrema",
     "item.bigreactors.steam_bucket": "Balde de Vapor",
+    "item.bigreactors.yellorium_bucket": "Balde de Yellório",
+    "item.bigreactors.cyanite_bucket": "Balde de Cianite",
+    "item.bigreactors.blutonium_bucket": "Balde de Blutonium",
+    "item.bigreactors.magentite_bucket": "Balde de Magentite",
 
     "_comment": "Fluidos",
     "fluid.bigreactors.water": "Água",
     "fluid.bigreactors.steam": "Vapor",
+    "fluid.bigreactors.yellorium": "Yellório",
+    "fluid.bigreactors.cyanite": "Cianite",
+    "fluid.bigreactors.blutonium": "Blutonium",
+    "fluid.bigreactors.magentite": "Magentite",
 
     "_comment": "Blocos - blocos de metal / minérios",
     "block.bigreactors.yellorium_block": "Bloco de Yellório",

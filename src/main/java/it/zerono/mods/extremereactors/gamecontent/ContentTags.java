@@ -94,6 +94,11 @@ public class ContentTags {
         public static final ITag.INamedTag<Fluid> STEAM = forgeTag("steam");
         public static final ITag.INamedTag<Fluid> WATER = FluidTags.WATER;
 
+        public static final ITag.INamedTag<Fluid> YELLORIUM = forgeTag("yellorium");
+        public static final ITag.INamedTag<Fluid> CYANITE = forgeTag("cyanite");
+        public static final ITag.INamedTag<Fluid> BLUTONIUM = forgeTag("blutonium");
+        public static final ITag.INamedTag<Fluid> MAGENTITE = forgeTag("magentite");
+
         //region internals
 
         private static ITag.INamedTag<Fluid> forgeTag(final String name) {
