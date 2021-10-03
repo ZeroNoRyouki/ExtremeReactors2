@@ -1,0 +1,18 @@
+{
+    "components": [
+        {
+            "type": "zcsptSpotlight",
+            "item": "#spotlightItem",
+            "text": "#spotlightText",
+            "x": 0,
+            "y": 0
+        },
+        {
+            "type": "item",
+            "item": "#smallItem",
+            "framed": true,
+            "x": 49,
+            "y": 122
+        }
+    ]
+}

@@ -1,0 +1,17 @@
+{
+    "name": "Внутренние процессы",
+    "icon": "bigreactors:basic_reactorfuelrod",
+    "category": "bigreactors:reactor",
+    "read_by_default": true,
+    "sortnum": 1,
+    "pages": [
+        {
+            "type": "text",
+            "text": "Как реактор $(l:bigreactors:reactor/passive)вырабатывает энергию$(/l) или $(l:bigreactors:reactor/active)превращает воду в пар$(/l)?$(br2)С помощью тепла.$(br2)Облучённое $(l:bigreactors:reactor/reactants)топливо$(/l) нагревается, $(l:bigreactors:reactor/moderators)замедлители$(/l) поглощают часть излучения и отводят тепло от $(l:bigreactors:reactor/part-fuelrod)Топливных Стержней$(/l) к $(l:bigreactors:reactor/part-casing)Корпусу$(/l).$(br2)Тепло корпуса - это то, что в конечном итоге вырабатывает энергию или превращает в пар $(l:bigreactors:misc/coolantsystem)охладитель$(/l)."
+        },
+        {
+            "type": "text",
+            "text": "Отвод тепла от $(l:bigreactors:reactor/part-fuelrod)Топливных Стержней$(/l) - очень важный аспект конструкции вашего Реактора и $(l:bigreactors:reactor/moderators)замедлители$(/l) играют в нём ключевую роль. Также важно отметить, что излучение распространяется во всех направлениях, перпендикулярных оси свай $(l:bigreactors:reactor/part-fuelrod)Топливных Стержней$(/l).$(br2)$(italic)Обратите внимание, что, располагая их достаточно близко, вы можете создавать самые лучшие реакторы, ведь это упрощение того, что на самом деле происходит внутри вашего реактора.$()"
+        }
+    ]
+}

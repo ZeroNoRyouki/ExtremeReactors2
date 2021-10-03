@@ -1,0 +1,17 @@
+{
+    "name": "Passive and Active Parts",
+    "icon": "minecraft:piston",
+    "category": "bigreactors:misc",
+    "read_by_default": true,
+    "pages": [
+        {
+            "type": "text",
+            "text": "Some Reactor or Turbine part that interact with external blocks are available in a $(bold)passive$() or $(bold)active$() form, or both.$(br2)A $(bold)passive$() part do nothing by itself. It does not try to send out energy, fluids or items nor it try to acquire them. The block connected to the part need to take the initiative and start the transfers."
+        },
+        {
+            "type": "text",
+            "text": "An $(bold)active$() part is always looking for an opportunity to extract items and fluids or to send out power, items and fluids to the connected block but it does not allow the connected block to insert or extract anything from the part.$(br2)By mixing active and passive parts you can fine tune your resources distribution and acquisition network."
+        }
+
+    ]
+}
