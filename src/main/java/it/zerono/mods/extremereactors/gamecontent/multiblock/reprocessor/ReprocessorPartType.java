@@ -21,21 +21,16 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.GenericDeviceBlock;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.GlassBlock;
-import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockPartType;
+import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockPartType2;
 import it.zerono.mods.zerocore.lib.block.multiblock.MultiblockPartBlock;
-import it.zerono.mods.zerocore.lib.multiblock.IMultiblockPart;
+import it.zerono.mods.zerocore.lib.block.multiblock.MultiblockPartTypeProperties;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.world.IBlockReader;
-
-import javax.annotation.Nullable;
-import java.util.function.Function;
-import java.util.function.Supplier;
+import net.minecraftforge.common.util.NonNullFunction;
+import net.minecraftforge.common.util.NonNullSupplier;
 
 public enum ReprocessorPartType
-        implements IMultiblockPartType {
+        implements IMultiblockPartType2<MultiblockReprocessor, ReprocessorPartType> {
 
     Casing(() -> Content.TileEntityTypes.REPROCESSOR_CASING::get,
             MultiblockPartBlock::new, "block.bigreactors.reprocessorcasing"),
@@ -63,41 +58,26 @@ public enum ReprocessorPartType
             bp -> bp.lightLevel(bs -> 15)),
     ;
 
-    ReprocessorPartType(final Supplier<Supplier<TileEntityType<?>>> tileTypeSupplier,
-                        final Function<MultiblockPartBlock.MultiblockPartProperties<ReprocessorPartType>,
+    ReprocessorPartType(final NonNullSupplier<NonNullSupplier<TileEntityType<?>>> tileTypeSupplier,
+                        final NonNullFunction<MultiblockPartBlock.MultiblockPartProperties<ReprocessorPartType>,
                                 MultiblockPartBlock<MultiblockReprocessor, ReprocessorPartType>> blockFactory,
                         final String translationKey) {
         this(tileTypeSupplier, blockFactory, translationKey, bp -> bp);
     }
 
-    ReprocessorPartType(final Supplier<Supplier<TileEntityType<?>>> tileTypeSupplier,
-                        final Function<MultiblockPartBlock.MultiblockPartProperties<ReprocessorPartType>,
+    ReprocessorPartType(final NonNullSupplier<NonNullSupplier<TileEntityType<?>>> tileTypeSupplier,
+                        final NonNullFunction<MultiblockPartBlock.MultiblockPartProperties<ReprocessorPartType>,
                                 MultiblockPartBlock<MultiblockReprocessor, ReprocessorPartType>> blockFactory,
                         final String translationKey,
-                        final Function<Block.Properties, Block.Properties> blockPropertiesFixer) {
-
-        this._tileTypeSupplier = tileTypeSupplier;
-        this._blockFactory = blockFactory;
-        this._translationKey = translationKey;
-        this._blockPropertiesFixer = blockPropertiesFixer;
+                        final NonNullFunction<Block.Properties, Block.Properties> blockPropertiesFixer) {
+        this._properties = new MultiblockPartTypeProperties<>(tileTypeSupplier, blockFactory, translationKey, blockPropertiesFixer);
     }
 
-    public MultiblockPartBlock<MultiblockReprocessor, ReprocessorPartType> createBlock() {
-        return this._blockFactory.apply(MultiblockPartBlock.MultiblockPartProperties.create(this,
-                this._blockPropertiesFixer.apply(IMultiblockPart.getDefaultBlockProperties())));
-    }
-
-    //region IMultiblockPartType
-
-    @Nullable
-    @Override
-    public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        return this._tileTypeSupplier.get().get().create();
-    }
+    //region IMultiblockPartType2
 
     @Override
-    public String getTranslationKey() {
-        return this._translationKey;
+    public MultiblockPartTypeProperties<MultiblockReprocessor, ReprocessorPartType> getPartTypeProperties() {
+        return this._properties;
     }
 
     @Override
@@ -108,14 +88,7 @@ public enum ReprocessorPartType
     //endregion
     //region internals
 
-    private final Supplier<Supplier<TileEntityType<?>>> _tileTypeSupplier;
-
-    private final Function<MultiblockPartBlock.MultiblockPartProperties<ReprocessorPartType>,
-            MultiblockPartBlock<MultiblockReprocessor, ReprocessorPartType>> _blockFactory;
-
-    private final String _translationKey;
-
-    private final Function<Block.Properties, Block.Properties> _blockPropertiesFixer;
+    private final MultiblockPartTypeProperties<MultiblockReprocessor, ReprocessorPartType> _properties;
 
     //endregion
 }
