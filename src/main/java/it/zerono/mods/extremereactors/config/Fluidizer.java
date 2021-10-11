@@ -23,6 +23,7 @@ public class Fluidizer {
 
     public final ForgeConfigSpec.IntValue maxFluidizerHeight;
     public final ForgeConfigSpec.IntValue maxFluidizerSize;
+    public final ForgeConfigSpec.IntValue energyPerRecipeTick;
 
     Fluidizer(final ForgeConfigSpec.Builder builder) {
 
@@ -41,6 +42,12 @@ public class Fluidizer {
                 .translation("config.bigreactors.fluidizer.maxfluidizersize")
                 .worldRestart()
                 .defineInRange("maxFluidizerSize", 16, 3, 64);
+
+        this.energyPerRecipeTick = builder
+                .comment("The amount of energy need to process a single tick of a recipe.")
+                .translation("config.bigreactors.fluidizer.energyperrecipetick")
+                .worldRestart()
+                .defineInRange("energyPerRecipeTick", 25, 20, 1000);
 
         builder.pop();
     }
