@@ -96,7 +96,6 @@ public class MultiblockReactor
         this._reactorToCoolantSystemHeatTransferCoefficient = 0f;
         this._reactorHeatLossCoefficient = 0f;
 
-        //noinspection unchecked
         this._attachedTickables = ObjectLists.emptyList();
         this._attachedControlRods = Lists.newLinkedList();
         this._attachedFuelRods = Lists.newLinkedList();

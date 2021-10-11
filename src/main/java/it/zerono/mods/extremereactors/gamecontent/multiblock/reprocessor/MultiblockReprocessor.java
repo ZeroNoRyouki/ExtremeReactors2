@@ -72,7 +72,7 @@ import java.util.stream.Collectors;
 public class MultiblockReprocessor
         extends AbstractCuboidMultiblockController<MultiblockReprocessor>
         implements IMultiblockMachine, IActivableMachine, ISyncableEntity, IDebuggable {
-
+//
     public static final int TICKS = 40;
     public static final int TICK_ENERGY_COST = 25; // 25 FE per processed tick
     public static final int INTERNAL_HEIGHT = 5;
@@ -403,7 +403,7 @@ public class MultiblockReprocessor
         // interior visible?
         this.setInteriorInvisible(!this.isAnyPartConnected(part -> part instanceof ReprocessorGlassEntity));
 
-        // Make sure our fuel rods re-render
+        // Re-render the multiblock
         this.callOnLogicalSide(
                 this::markReferenceCoordForUpdate,
                 this::markMultiblockForRenderUpdate

@@ -177,7 +177,7 @@ public abstract class AbstractReprocessorEntity
                 () -> new CuboidPartVariantsModelData(partType.ordinal(), this.getUpdatedModelVariantIndex(), this.getOutwardFacings()));
     }
 
-    private static CuboidPartVariantsModelDataCache s_modelDataCaches = new CuboidPartVariantsModelDataCache();
+    private static final CuboidPartVariantsModelDataCache s_modelDataCaches = new CuboidPartVariantsModelDataCache();
 
     //endregion
 }
