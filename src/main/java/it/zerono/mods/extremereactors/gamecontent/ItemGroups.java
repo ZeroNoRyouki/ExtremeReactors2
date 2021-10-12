@@ -57,6 +57,11 @@ public final class ItemGroups {
                 builder.add(stack(Content.Items.STEAM_BUCKET), stack(Content.Items.YELLORIUM_BUCKET), stack(Content.Items.CYANITE_BUCKET),
                         stack(Content.Items.BLUTONIUM_BUCKET), stack(Content.Items.MAGENTITE_BUCKET));
 
+                builder.add(stack(Content.Blocks.FLUIDIZER_CASING), stack(Content.Blocks.FLUIDIZER_GLASS),
+                        stack(Content.Blocks.FLUIDIZER_CONTROLLER), stack(Content.Blocks.FLUIDIZER_SOLIDINJECTOR),
+                        stack(Content.Blocks.FLUIDIZER_FLUIDINJECTOR), stack(Content.Blocks.FLUIDIZER_OUTPUTPORT),
+                        stack(Content.Blocks.FLUIDIZER_POWERPORT));
+
                 return builder.build();
             });
 

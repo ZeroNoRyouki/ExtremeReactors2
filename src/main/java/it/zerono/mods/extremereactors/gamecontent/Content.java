@@ -26,6 +26,12 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.Generic
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.GlassBlock;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.IOPortBlock;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.fluidport.FluidPortType;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.FluidizerPartType;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.MultiblockFluidizer;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.part.*;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.recipe.FluidizerFluidMixingRecipe;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.recipe.FluidizerSolidMixingRecipe;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.recipe.FluidizerSolidRecipe;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.MultiblockReactor;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.ReactorPartType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.container.ReactorSolidAccessPortContainer;
@@ -48,6 +54,7 @@ import it.zerono.mods.zerocore.lib.data.IoMode;
 import it.zerono.mods.zerocore.lib.energy.EnergySystem;
 import it.zerono.mods.zerocore.lib.item.ModItem;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
+import it.zerono.mods.zerocore.lib.recipe.ModRecipe;
 import it.zerono.mods.zerocore.lib.recipe.ModRecipeType;
 import net.minecraft.block.Block;
 import net.minecraft.block.FlowingFluidBlock;
@@ -225,7 +232,6 @@ public final class Content {
 
         //endregion
         //endregion
-
         //region turbine
         //region basic
 
@@ -315,7 +321,6 @@ public final class Content {
 
         //endregion
         //endregion
-
         //region reprocessor
 
         public static final RegistryObject<MultiblockPartBlock<MultiblockReprocessor, ReprocessorPartType>> REPROCESSOR_CASING =
@@ -343,7 +348,30 @@ public final class Content {
                 registerReprocessorBlock("reprocessorcollector", ReprocessorPartType.Collector);
 
         //endregion
+        //region fluidizer
 
+        public static final RegistryObject<MultiblockPartBlock<MultiblockFluidizer, FluidizerPartType>> FLUIDIZER_CASING =
+                registerFluidizerBlock("fluidizercasing", FluidizerPartType.Casing);
+
+        public static final RegistryObject<GlassBlock<MultiblockFluidizer, FluidizerPartType>> FLUIDIZER_GLASS =
+                registerFluidizerBlock("fluidizerglass", FluidizerPartType.Glass);
+
+        public static final RegistryObject<GenericDeviceBlock<MultiblockFluidizer, FluidizerPartType>> FLUIDIZER_CONTROLLER =
+                registerFluidizerBlock("fluidizercontroller", FluidizerPartType.Controller);
+
+        public static final RegistryObject<GenericDeviceBlock<MultiblockFluidizer, FluidizerPartType>> FLUIDIZER_SOLIDINJECTOR =
+                registerFluidizerBlock("fluidizersolidinjector", FluidizerPartType.SolidInjector);
+
+        public static final RegistryObject<GenericDeviceBlock<MultiblockFluidizer, FluidizerPartType>> FLUIDIZER_FLUIDINJECTOR =
+                registerFluidizerBlock("fluidizefluidinjector", FluidizerPartType.FluidInjector);
+
+        public static final RegistryObject<GenericDeviceBlock<MultiblockFluidizer, FluidizerPartType>> FLUIDIZER_OUTPUTPORT =
+                registerFluidizerBlock("fluidizeoutputport", FluidizerPartType.OutputPort);
+
+        public static final RegistryObject<GenericDeviceBlock<MultiblockFluidizer, FluidizerPartType>> FLUIDIZER_POWERPORT =
+                registerFluidizerBlock("fluidizerpowerport", FluidizerPartType.PowerPort);
+
+        //endregion
         //region internals
 
         private static RegistryObject<ModBlock> registerMetalBlock(final String name, final DyeColor color) {
@@ -383,6 +411,12 @@ public final class Content {
         @SuppressWarnings("unchecked")
         private static <T extends MultiblockPartBlock<MultiblockReprocessor, ReprocessorPartType>>
         RegistryObject<T> registerReprocessorBlock(final String name, final ReprocessorPartType partType) {
+            return BLOCKS.register(name, () -> (T) (partType.createBlock()));
+        }
+
+        @SuppressWarnings("unchecked")
+        private static <T extends MultiblockPartBlock<MultiblockFluidizer, FluidizerPartType>>
+        RegistryObject<T> registerFluidizerBlock(final String name, final FluidizerPartType partType) {
             return BLOCKS.register(name, () -> (T) (partType.createBlock()));
         }
 
@@ -482,7 +516,6 @@ public final class Content {
         public static final RegistryObject<BlockItem> REACTOR_CHARGINGPORT_FE_REINFORCED = registerItemBlock("reinforced_reactorchargingportfe", () -> Blocks.REACTOR_CHARGINGPORT_FE_REINFORCED::get, ItemGroups.REACTOR);
         //endregion
         //endregion
-
         //region turbine
         //region basic
         public static final RegistryObject<BlockItem> TURBINE_CASING_BASIC = registerItemBlock("basic_turbinecasing", () -> Blocks.TURBINE_CASING_BASIC::get, ItemGroups.TURBINE);
@@ -516,7 +549,6 @@ public final class Content {
         public static final RegistryObject<BlockItem> TURBINE_CHARGINGPORT_FE_REINFORCED = registerItemBlock("reinforced_turbinechargingportfe", () -> Blocks.TURBINE_CHARGINGPORT_FE_REINFORCED::get, ItemGroups.TURBINE);
         //endregion
         //endregion
-
         //region reprocessor
 
         public static final RegistryObject<BlockItem> REPROCESSOR_CASING = registerItemBlock("reprocessorcasing", () -> Blocks.REPROCESSOR_CASING::get, ItemGroups.GENERAL);
@@ -529,12 +561,22 @@ public final class Content {
         public static final RegistryObject<BlockItem> REPROCESSOR_COLLECTOR = registerItemBlock("reprocessorcollector", () -> Blocks.REPROCESSOR_COLLECTOR::get, ItemGroups.GENERAL);
 
         //endregion
+        //region fluidizer
+
+        public static final RegistryObject<BlockItem> FLUIDIZER_CASING = registerItemBlock("fluidizercasing", () -> Blocks.FLUIDIZER_CASING::get, ItemGroups.GENERAL);
+        public static final RegistryObject<BlockItem> FLUIDIZER_GLASS = registerItemBlock("fluidizerglass", () -> Blocks.FLUIDIZER_GLASS::get, ItemGroups.GENERAL);
+        public static final RegistryObject<BlockItem> FLUIDIZER_CONTROLLER = registerItemBlock("fluidizercontroller", () -> Blocks.FLUIDIZER_CONTROLLER::get, ItemGroups.GENERAL);
+        public static final RegistryObject<BlockItem> FLUIDIZER_SOLIDINJECTOR = registerItemBlock("fluidizersolidinjector", () -> Blocks.FLUIDIZER_SOLIDINJECTOR::get, ItemGroups.GENERAL);
+        public static final RegistryObject<BlockItem> FLUIDIZER_FLUIDINJECTOR = registerItemBlock("fluidizefluidinjector", () -> Blocks.FLUIDIZER_FLUIDINJECTOR::get, ItemGroups.GENERAL);
+        public static final RegistryObject<BlockItem> FLUIDIZER_OUTPUTPORT = registerItemBlock("fluidizeoutputport", () -> Blocks.FLUIDIZER_OUTPUTPORT::get, ItemGroups.GENERAL);
+        public static final RegistryObject<BlockItem> FLUIDIZER_POWERPORT = registerItemBlock("fluidizerpowerport", () -> Blocks.FLUIDIZER_POWERPORT::get, ItemGroups.GENERAL);
+
+        //endregion
         //region misc
 
         public static final RegistryObject<ModItem> WRENCH = registerItemGeneric("wrench", 1);
 
         //endregion
-
         //region internals
 
         private static RegistryObject<ModItem> registerItemGeneric(final String name) {
@@ -818,7 +860,7 @@ public final class Content {
         public static final RegistryObject<TileEntityType<ReprocessorAccessPortEntity>> REPROCESSOR_WASTEINJECTOR =
                 registerBlockEntity("reprocessorwasteinjector",
                         () -> new ReprocessorAccessPortEntity(TileEntityTypes.REPROCESSOR_WASTEINJECTOR.get(), IoDirection.Input),
-                        () -> Blocks.REPROCESSOR_FLUIDINJECTOR::get);
+                        () -> Blocks.REPROCESSOR_WASTEINJECTOR::get);
 
         public static final RegistryObject<TileEntityType<ReprocessorFluidPortEntity>> REPROCESSOR_FLUIDINJECTOR =
                 registerBlockEntity("reprocessorfluidinjector", ReprocessorFluidPortEntity::new, () -> Blocks.REPROCESSOR_FLUIDINJECTOR::get);
@@ -833,6 +875,30 @@ public final class Content {
 
         public static final RegistryObject<TileEntityType<ReprocessorCollectorEntity>> REPROCESSOR_COLLECTOR =
                 registerBlockEntity("reprocessorcollector", ReprocessorCollectorEntity::new, () -> Blocks.REPROCESSOR_COLLECTOR::get);
+
+        //endregion
+        //region fluidizer
+
+        public static final RegistryObject<TileEntityType<FluidizerCasingEntity>> FLUIDIZER_CASING =
+                registerBlockEntity("fluidizercasing", FluidizerCasingEntity::new, () -> Blocks.FLUIDIZER_CASING::get);
+
+        public static final RegistryObject<TileEntityType<FluidizerGlassEntity>> FLUIDIZER_GLASS =
+                registerBlockEntity("fluidizerglass", FluidizerGlassEntity::new, () -> Blocks.FLUIDIZER_GLASS::get);
+
+        public static final RegistryObject<TileEntityType<FluidizerControllerEntity>> FLUIDIZER_CONTROLLER =
+                registerBlockEntity("fluidizercontroller", FluidizerControllerEntity::new, () -> Blocks.FLUIDIZER_CONTROLLER::get);
+
+        public static final RegistryObject<TileEntityType<FluidizerSolidInjectorEntity>> FLUIDIZER_SOLIDINJECTOR =
+                registerBlockEntity("fluidizersolidinjector", FluidizerSolidInjectorEntity::new, () -> Blocks.FLUIDIZER_SOLIDINJECTOR::get);
+
+        public static final RegistryObject<TileEntityType<FluidizerFluidInjectorEntity>> FLUIDIZER_FLUIDINJECTOR =
+                registerBlockEntity("fluidizefluidinjector", FluidizerFluidInjectorEntity::new, () -> Blocks.FLUIDIZER_FLUIDINJECTOR::get);
+
+        public static final RegistryObject<TileEntityType<FluidizerOutputPortEntity>> FLUIDIZER_OUTPUTPORT =
+                registerBlockEntity("fluidizeoutputport", FluidizerOutputPortEntity::new, () -> Blocks.FLUIDIZER_OUTPUTPORT::get);
+
+        public static final RegistryObject<TileEntityType<FluidizerPowerPortEntity>> FLUIDIZER_POWERPORT =
+                registerBlockEntity("fluidizerpowerport", FluidizerPowerPortEntity::new, () -> Blocks.FLUIDIZER_POWERPORT::get);
 
         //endregion
         //region internals
@@ -952,11 +1018,23 @@ public final class Content {
 
         //region Reprocessor
 
-        public static final ModRecipeType<ReprocessorRecipe> REPROCESSOR_RECIPE_TYPE =
-                ModRecipeType.create(ExtremeReactors.newID(ReprocessorRecipe.NAME));
+        public static final ModRecipeType<ReprocessorRecipe> REPROCESSOR_RECIPE_TYPE = ModRecipeType.create(ReprocessorRecipe.ID);
 
         public static final RegistryObject<IRecipeSerializer<ReprocessorRecipe>> REPROCESSOR_RECIPE_SERIALIZER =
                 SERIALIZERS.register(ReprocessorRecipe.NAME, ReprocessorRecipe::serializer);
+
+        //endregion
+        //region Fluidizer
+
+        public static final ModRecipeType<ModRecipe> FLUIDIZER_RECIPE_TYPE =
+                ModRecipeType.create(ExtremeReactors.newID("fluidizer"));
+
+        public static final RegistryObject<IRecipeSerializer<FluidizerSolidRecipe>> FLUIDIZER_SOLID_RECIPE_SERIALIZER =
+                SERIALIZERS.register(FluidizerSolidRecipe.NAME, FluidizerSolidRecipe::serializer);
+        public static final RegistryObject<IRecipeSerializer<FluidizerSolidMixingRecipe>> FLUIDIZER_SOLIDMIXING_RECIPE_SERIALIZER =
+                SERIALIZERS.register(FluidizerSolidMixingRecipe.NAME, FluidizerSolidMixingRecipe::serializer);
+        public static final RegistryObject<IRecipeSerializer<FluidizerFluidMixingRecipe>> FLUIDIZER_FLUIDMIXING_RECIPE_SERIALIZER =
+                SERIALIZERS.register(FluidizerFluidMixingRecipe.NAME, FluidizerFluidMixingRecipe::serializer);
 
         //endregion
     }
