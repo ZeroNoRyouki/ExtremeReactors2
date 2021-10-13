@@ -102,7 +102,7 @@ public class FluidizerSolidInjectorEntity
 
     @Override
     protected int getUpdatedModelVariantIndex() {
-        return 2 + (this.isMachineAssembled() && this.getNeighborCapability().isPresent() ? 1 : 0);
+        return this.isMachineAssembled() && this.getNeighborCapability().isPresent() ? 1 : 0;
     }
 
     //endregion

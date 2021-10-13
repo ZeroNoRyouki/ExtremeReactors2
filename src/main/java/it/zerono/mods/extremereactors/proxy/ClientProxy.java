@@ -34,6 +34,7 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.scree
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.ChargingPortScreen;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.FluidPortScreen;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.container.ChargingPortContainer;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.client.model.FluidizerModelBuilder;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.FuelRodsLayout;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.ClientFuelRodsLayout;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.model.ReactorFuelRodBlockColor;
@@ -224,7 +225,8 @@ public class ClientProxy
                         )),
                 Stream.of(new ReprocessorModelBuilder(),
                         new ReprocessorIOModelBuilder(),
-                        new ReprocessorGlassModelBuilder())
+                        new ReprocessorGlassModelBuilder(),
+                        new FluidizerModelBuilder())
         ).collect(ImmutableList.toImmutableList());
     }
 
@@ -255,6 +257,9 @@ public class ClientProxy
         // Reprocessor GUIs
         registerScreen(Content.ContainerTypes.REPROCESSOR_CONTROLLER, ReprocessorControllerScreen::new);
         registerScreen(Content.ContainerTypes.REPROCESSOR_ACCESSPORT, ReprocessorAccessPortScreen::new);
+
+        // Fluidizer GUIS
+
     }
 
     private static void registerRenderTypes() {
@@ -262,7 +267,7 @@ public class ClientProxy
         registerRenderType(RenderType.translucent(),
                 Content.Blocks.REACTOR_GLASS_BASIC, Content.Blocks.REACTOR_GLASS_REINFORCED,
                 Content.Blocks.TURBINE_GLASS_BASIC, Content.Blocks.TURBINE_GLASS_REINFORCED,
-                Content.Blocks.REPROCESSOR_GLASS);
+                Content.Blocks.REPROCESSOR_GLASS, Content.Blocks.FLUIDIZER_GLASS);
 
         registerRenderType(RenderType.cutout(),
                 Content.Blocks.TURBINE_ROTORBLADE_BASIC, Content.Blocks.TURBINE_ROTORBLADE_REINFORCED,
