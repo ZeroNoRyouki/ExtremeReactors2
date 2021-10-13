@@ -363,10 +363,10 @@ public final class Content {
                 registerFluidizerBlock("fluidizersolidinjector", FluidizerPartType.SolidInjector);
 
         public static final RegistryObject<GenericDeviceBlock<MultiblockFluidizer, FluidizerPartType>> FLUIDIZER_FLUIDINJECTOR =
-                registerFluidizerBlock("fluidizefluidinjector", FluidizerPartType.FluidInjector);
+                registerFluidizerBlock("fluidizerfluidinjector", FluidizerPartType.FluidInjector);
 
         public static final RegistryObject<GenericDeviceBlock<MultiblockFluidizer, FluidizerPartType>> FLUIDIZER_OUTPUTPORT =
-                registerFluidizerBlock("fluidizeoutputport", FluidizerPartType.OutputPort);
+                registerFluidizerBlock("fluidizeroutputport", FluidizerPartType.OutputPort);
 
         public static final RegistryObject<GenericDeviceBlock<MultiblockFluidizer, FluidizerPartType>> FLUIDIZER_POWERPORT =
                 registerFluidizerBlock("fluidizerpowerport", FluidizerPartType.PowerPort);
@@ -567,8 +567,8 @@ public final class Content {
         public static final RegistryObject<BlockItem> FLUIDIZER_GLASS = registerItemBlock("fluidizerglass", () -> Blocks.FLUIDIZER_GLASS::get, ItemGroups.GENERAL);
         public static final RegistryObject<BlockItem> FLUIDIZER_CONTROLLER = registerItemBlock("fluidizercontroller", () -> Blocks.FLUIDIZER_CONTROLLER::get, ItemGroups.GENERAL);
         public static final RegistryObject<BlockItem> FLUIDIZER_SOLIDINJECTOR = registerItemBlock("fluidizersolidinjector", () -> Blocks.FLUIDIZER_SOLIDINJECTOR::get, ItemGroups.GENERAL);
-        public static final RegistryObject<BlockItem> FLUIDIZER_FLUIDINJECTOR = registerItemBlock("fluidizefluidinjector", () -> Blocks.FLUIDIZER_FLUIDINJECTOR::get, ItemGroups.GENERAL);
-        public static final RegistryObject<BlockItem> FLUIDIZER_OUTPUTPORT = registerItemBlock("fluidizeoutputport", () -> Blocks.FLUIDIZER_OUTPUTPORT::get, ItemGroups.GENERAL);
+        public static final RegistryObject<BlockItem> FLUIDIZER_FLUIDINJECTOR = registerItemBlock("fluidizerfluidinjector", () -> Blocks.FLUIDIZER_FLUIDINJECTOR::get, ItemGroups.GENERAL);
+        public static final RegistryObject<BlockItem> FLUIDIZER_OUTPUTPORT = registerItemBlock("fluidizeroutputport", () -> Blocks.FLUIDIZER_OUTPUTPORT::get, ItemGroups.GENERAL);
         public static final RegistryObject<BlockItem> FLUIDIZER_POWERPORT = registerItemBlock("fluidizerpowerport", () -> Blocks.FLUIDIZER_POWERPORT::get, ItemGroups.GENERAL);
 
         //endregion
