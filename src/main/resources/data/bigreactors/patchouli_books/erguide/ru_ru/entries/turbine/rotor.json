@@ -1,5 +1,5 @@
 {
-    "name": "The Rotor",
+    "name": "Ротор",
     "icon": "bigreactors:reinforced_turbinerotorshaft",
     "category": "bigreactors:turbine",
     "read_by_default": true,
@@ -7,7 +7,7 @@
     "pages": [
         {
             "type": "text",
-            "text": "The Rotor is the most important component of your Turbine as its design will have a direct impact on the $(l:bigreactors:turbine/innerworking)energy production$(/l) of the Turbine.$(br2)A Rotor is built using four types of blocks:$(li)a single $(l:bigreactors:turbine/part-rotorbearing)Rotor Bearing$(/l)$(li)some $(l:bigreactors:turbine/part-rotorshaft)Rotor Shaft$(/l) blocks$(li)a number of $(l:bigreactors:turbine/part-rotorblade)Rotor Blades$(/l)$(li)a single $(l:bigreactors:turbine/part-casing)Housing$(/l) block"
+            "text": "Ротор - самый важный компонент вашей турбины, так как его конструкция напрямую влияет на $(l:bigreactors:turbine/innerworking)выработку энергии$(/l) турбиной.$(br2)Ротор строится из 4-ёх типов блоков:$(li)одного $(l:bigreactors:turbine/part-rotorbearing)Подшипника Ротора$(/l)$(li)нескольких блоков $(l:bigreactors:turbine/part-rotorshaft)Вала Ротора$(/l)$(li)нескольких $(l:bigreactors:turbine/part-rotorblade)Лопастей Ротора$(/l)$(li)одного блока $(l:bigreactors:turbine/part-casing)Корпуса$(/l) "
         },
         {
             "type": "zcmultiblock",
@@ -15,23 +15,23 @@
         },
         {
             "type": "text",
-            "text": "$(bold)Building the Rotor$()$(br2)The Rotor can be build following any of the three axis (X, Y, or Z) of the Turbine.$(br2)The first block of your Rotor mush be a $(l:bigreactors:turbine/part-rotorbearing)Rotor Bearing$(/l) placed on one face of the Turbine, usually in the middle.$(br2)Starting from the bearing, place down as many $(l:bigreactors:turbine/part-rotorshaft)Rotor Shaft$(/l) blocks as needed to reach the opposite face of the Turbine where it should meet a $(l:bigreactors:turbine/part-casing)Housing$(/l) there."
+            "text": "$(bold)Постройка Ротора$()$(br2)Ротор можно построить на любых из трёх осей (X, Y, or Z) турбины.$(br2)Первый блоком вашего ротора будет $(l:bigreactors:turbine/part-rotorbearing)Подшипник$(/l), расположенный на одной из торцевых сторон турбины, обычно по центру.$(br2)Начиная от подшипника поставьте столько блоков $(l:bigreactors:turbine/part-rotorshaft)Вала Ротора$(/l), сколько необходимо, чтобы достичь противоположной стороны турбины, где он должен встретиться с $(l:bigreactors:turbine/part-casing)Корпусом$(/l)."
         },
         {
             "type": "text",
-            "text": "After the shaft is complete, it's time to place some $(l:bigreactors:turbine/part-rotorblade)Rotor Blades$(/l) down. They can be placed in any position that is perpendicular, and adjacent, to a $(l:bigreactors:turbine/part-rotorshaft)Rotor Shaft$(/l) or next to an already placed blade.$(br2)Your Rotor can have as many blades as you like, in any combination.$(br)However, it's important to note that the number of blades, along with their vapor capacity, has a direct relation to the Rotor speed."
+            "text": "После того как вал завершён, пришло время установить $(l:bigreactors:turbine/part-rotorblade)Лопасти Ротора$(/l). Их можно установить в любом месте, перпендикулярном $(l:bigreactors:turbine/part-rotorshaft)Валу Ротора$(/l) или рядом с уже установленными лопастями.$(br2)Ваш Ротор может иметь столько лопастей, сколько вам захочется и в любой комбинации.$(br)Однако важно отметить, что количество лопастей, наряду с их ёмкостью пара, имеет прямое отношение к скорости вращения ротора."
         },
         {
             "type": "text",
-            "text": "$(bold)How many Blades?$()$(br2)Each Blade variant come with a maximum vapor capacity, the maximum amount of vapor they can capture and $(italic)use$() to spin the Rotor.$(br2)Hover on a Blade in your inventory to see it's capacity.$(br2)Use this value to calculate how many Blades you need to handle the vapor flow rate you've set for your Turbine (in the Controller graphical interface)."
+            "text": "$(bold)Сколько лопастей?$()$(br2)Каждый вариант лопастей имеет паропроизводительность - макс. количество пара, которое они могут захватить и $(italic)использовать$() для вращения ротора.$(br2)Наведите курсор на лезвие в инвентаре, чтобы увидеть его ёмкость.$(br2)Используйте это значение, чтобы рассчитать, сколько Лопастей вам нужно, чтобы справиться с расходом пара, который вы установили для своей турбины (в графическом интерфейсе контроллера)."
         },
         {
             "type": "text",
-            "text": "$(bold)Inductor Coils$()$(br2)To actually generate energy, you need to place al least some $(l:bigreactors:turbine/coils)Inductor Coils$(/l) at the end of your Rotor (near the closing $(l:bigreactors:turbine/part-casing)Housing$(/l) block.$(br2)$(italic)And remember to engage them in the $(l:bigreactors:turbine/part-controller)Controller$(/l) graphical interface!$()$(br2)You can place up to three rings of coils, each ring consisting of up to eight coil blocks."
+            "text": "$(bold)Индукционные Кольца$()$(br2)Чтобы начать вырабатываться энергию, Вам нужно установить хотя бы несколько $(l:bigreactors:turbine/coils)Индукционных Колец$(/l) на конце вашего ротора (рядом с конечным блоком $(l:bigreactors:turbine/part-casing)Корпуса$(/l).$(br2)$(italic)И не забудьте задействовать их в графическом интерфейсе $(l:bigreactors:turbine/part-controller)Контроллера$(/l)!$()$(br2)Вы можете поставить до трёх индукционных колец, каждое кольцо состоит из 8-ми блоков."
         },
         {
             "type": "text",
-            "text": "Mixing coil types is permitted and, if you do so, the Turbine will make the average of the values of their properties.$(br2)Doing so allow you to start with easily available, or cheap, coils and then replace them gradually instead of waiting to have the more rare or expensive coils on hand.$(br2)In the following page you can see the example Rotor shown previously with some $(l:bigreactors:turbine/coils)Inductor Coils$(/l) added."
+            "text": "Сочетать типы блоков в кольцах разрешается, и если вы это сделаете, турбина вычислит среднее значение их параметров.$(br2)Это позволит вам начать с легкодоступных или дешёвых блоков для колец, а затем постепенно заменять их, вместо того чтобы ждать, пока под рукой окажутся более редкие или дорогие блоки.$(br2)На следующей странице вы можете увидеть показанный ранее пример ротора с добавленными $(l:bigreactors:turbine/coils)Индукционными Кольцами$(/l)."
         },
         {
             "type": "zcmultiblock",

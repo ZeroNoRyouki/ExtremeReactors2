@@ -1,5 +1,5 @@
 {
-    "name": "Inductor Coils",
+    "name": "Индукционные Кольца",
     "icon": "minecraft:gold_block",
     "category": "bigreactors:turbine",
     "read_by_default": true,
@@ -7,15 +7,15 @@
     "pages": [
         {
             "type": "text",
-            "text": "An Inductor Coil is a block, usually metallic, that can be placed around the Rotor shaft and that, while engaged, will extract energy from it while slowing it down.$(br2)A particular coil could be more efficient at extracting energy from the spinning Rotor than another one, or may extract energy more rapidly then others."
+            "text": "Индукционное кольцо - это блок(и), обычно металлический, который можно установить вокруг вала ротора и который, будучи включенным, будет извлекать из него энергию, замедляя его.$(br2)Кольцо из определённого блока может быть более эффективным при извлечении энергии из вращающегося ротора, чем из другого блока, или может извлекать энергию быстрее, чем другие."
         },
         {
             "type": "text",
-            "text": "Usually a rare block, or one particularly expensive to craft, has better stats than a common, or cheap, one.$(br2)Extreme Reactors register, by default, a score of vanilla and modded blocks as Inductor Coils.$(br2)Other mods or mod packs can add their own moderators or modify/remove the default ones."
+            "text": "Обычно редкий блок или тот, который особенно дорог в изготовлении, имеет лучшие показатели, чем обычный или дешёвый.$(br2)По умолчанию в Extreme Reactors реализуется ряд ванильных и модовых блоков в качестве Индукционных Колец.$(br2)Другие моды или мод-паки могут добавлять свои собственные Индукционные Кольца или изменять/удалять Индукционные Кольца по умолчанию."
         },
         {
             "type": "text",
-            "text": "Only valid coils can be placed inside the Turbine, around it's Rotor shaft. Invalid blocks will prevent the Turbine multiblock from forming.$(br2)Blocks that can be used as Inductor Coils are marked with a special tooltip that you can see if you want to spoiler yourself and you have enabled the $(italic)Advanced Tooltips$() feature of Minecraft (F3 + H)."
+            "text": "Вокруг турбинного вала можно ставить только действующие блоки Индукционных Колец. Неизвестные блоки не позволят сформировать Турбину.$(br2)Блоки, которые могут быть использованы в качестве Индукционных Колец, помечены специальной всплывающей подсказкой, которую вы можете увидеть, если хотите заспойлерить себе, и у вас включена функция $(italic)Расширенные Подсказки$() в Minecraft (F3 + H)."
         }
     ]
 }

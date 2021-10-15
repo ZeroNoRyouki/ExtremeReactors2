@@ -1,5 +1,5 @@
 {
-    "name": "Inner workings",
+    "name": "Внутреннее устройство",
     "icon": "bigreactors:basic_turbinerotorbearing",
     "category": "bigreactors:turbine",
     "read_by_default": true,
@@ -7,11 +7,11 @@
     "pages": [
         {
             "type": "text",
-            "text": "How does a Turbine generate energy?$(br2)By spinning its $(l:bigreactors:turbine/rotor)Rotor$(/l).$(br2)The fluid from the Turbine Vapor Fluid Tank is pumped in the $(l:bigreactors:turbine/rotor)Rotor$(/l) chamber, at the rate you configured in the $(l:bigreactors:turbine/part-controller)Controller$(/l) graphical interface.$(br2)A small amount of the vapor it's captured by each $(l:bigreactors:turbine/part-rotorblade)Rotor Blade$(/l) making the $(l:bigreactors:turbine/rotor)Rotor$(/l) spin."
+            "text": "Как турбина вырабатывает энергию?$(br2)Вращая свой $(l:bigreactors:turbine/rotor)Ротор$(/l).$(br2)Жидкость из резервуара для пара закачивается в камеру $(l:bigreactors:turbine/rotor)Ротора$(/l), со скоростью заданной в графическом интерфейсе $(l:bigreactors:turbine/part-controller)Контроллера$(/l).$(br2)Небольшое количество пара захватывается каждой $(l:bigreactors:turbine/part-rotorblade)Лопастью Ротора$(/l), заставляя $(l:bigreactors:turbine/rotor)Ротор$(/l) вращаться."
         },
         {
             "type": "text",
-            "text": "When the $(l:bigreactors:turbine/coils)Induction Coils$(/l) are $(l:bigreactors:turbine/part-controller)engaged$(/l), energy is generated depending on the $(l:bigreactors:turbine/rotor)Rotor$(/l) speed and the average values of properties like efficiency and drag amount of all your your coil blocks.$(br2)$(italic)Please note that, while being close enough to let you create the best Turbines possible, this is an oversimplification of what's really going on inside your Turbine.$() "
+            "text": "Когда $(l:bigreactors:turbine/coils)Индукционные Кольца$(/l) - $(l:bigreactors:turbine/part-controller)задействованы$(/l), выработка энергии зависит от скорости вращения $(l:bigreactors:turbine/rotor)Ротора$(/l) и средних значений таких параметров, как эффективность и величина сопротивления всех ваших Индукционных Колец.$(br2)$(italic)Обратите внимание, что, хотя эти данные достаточно близки, чтобы позволить вам создавать лучшие турбины, это слишком упрощённое представление того, что на самом деле происходит внутри вашей турбины.$() "
         }
     ]
 }
