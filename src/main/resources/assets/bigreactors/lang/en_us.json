@@ -125,7 +125,6 @@
 
     "_comment": "Blocks - reprocessor parts",
     "block.bigreactors.reprocessorcasing": "Reprocessor Casing",
-
     "block.bigreactors.reprocessorglass": "Reprocessor Glass",
     "block.bigreactors.reprocessorcontroller": "Reprocessor Controller",
     "block.bigreactors.reprocessorwasteinjector": "Reprocessor Waste Injector",
@@ -133,6 +132,15 @@
     "block.bigreactors.reprocessoroutputport": "Reprocessor Output Port",
     "block.bigreactors.reprocessorpowerport": "Reprocessor Power Port",
     "block.bigreactors.reprocessorcollector": "Reprocessor Collector",
+
+    "_comment": "Blocks - fluidizer parts",
+    "block.bigreactors.fluidizercasing": "Fluidizer Casing",
+    "block.bigreactors.fluidizerglass": "Fluidizer Glass",
+    "block.bigreactors.fluidizercontroller": "Fluidizer Controller",
+    "block.bigreactors.fluidizersolidinjector": "Fluidizer Solid Injector",
+    "block.bigreactors.fluidizerfluidinjector": "Fluidizer Fluid Injector",
+    "block.bigreactors.fluidizeroutputport": "Fluidizer Output Port",
+    "block.bigreactors.fluidizerpowerport": "Fluidizer Power Port",
 
     "_comment": "Reactor parts names",
     "part.bigreactors.reactor.casing": "Casing",
@@ -159,7 +167,6 @@
     "part.bigreactors.turbine.creativesteamgenerator": "Creative Steam Generator",
     "part.bigreactors.turbine.fluidport_forge_active": "Fluid Port (Active)",
     "part.bigreactors.turbine.fluidport_forge_passive": "Fluid Port (Passive)",
-    "part.bigreactors.turbine.fluidportt_mekanism_active": "Mekanism Coolant Port (Active)",
     "part.bigreactors.turbine.fluidport_mekanism_passive": "Mekanism Coolant Port (Passive)",
     "part.bigreactors.turbine.creativecoolantport": "Creative Coolant Port",
     "part.bigreactors.turbine.powertap_fe": "Power Tap (FE)",
@@ -608,6 +615,14 @@
     "multiblock.validation.reprocessor.invalid_part_for_face": "This part may not be placed in this Reprocessor face",
     "multiblock.validation.reprocessor.invalid_collector_position": "The Collector may only be placed in the Reprocessor's bottom face",
 
+    "_comment": "Multiblock validation errors (fluidizer)",
+    "multiblock.validation.fluidizer.missing_controller": "The Fluidizer must contain one, and only one, Controller",
+    "multiblock.validation.fluidizer.invalid_injectors": "The Fluidizer must contain a single Fluidizer Solid Injector, OR a pair of Fluidizer Solid Injectors, OR a pair of Fluidizer Fluid Injectors",
+    "multiblock.validation.fluidizer.missing_outputport": "The Fluidizer must contain one or more Fluidizer Output Ports",
+    "multiblock.validation.fluidizer.missing_powerport": "The Fluidizer must contain one or more Fluidizer Power Ports",
+    "multiblock.validation.fluidizer.invalid_frame_block": "Only Casing may be used as part of a Fluidizer's frame",
+    "multiblock.validation.fluidizer.invalid_part_for_interior": "This part may not be placed in the Fluidizer's interior",
+
     "_comment": "Configs",
     "config.bigreactors.compatibility": "Compatibility",
     "config.bigreactors.general": "General",
@@ -633,6 +648,10 @@
     "config.bigreactors.turbine.turbinemassdragmultiplier": "Mass drag multiplier",
     "config.bigreactors.turbine.turbinepowerproductionmultiplier": "Power production multiplier",
 
+    "config.bigreactors.fluidizer.maxfluidizerheight": "Max height (Y)",
+    "config.bigreactors.fluidizer.maxfluidizersize": "Max size (X/Z)",
+    "config.bigreactors.fluidizer.energyperrecipetick": "Energy per recipe tick",
+
     "config.bigreactors.recipes.registercharcoalforsmelting": "Smelt charcoal into graphite",
     "config.bigreactors.recipes.registerCoalForSmelting": "Smelt coal into graphite",
 
@@ -657,10 +676,12 @@
     "config.bigreactors.client.disableapitooltips": "Do not add (advanced) tooltips to fuels, moderators, coils, etc",
     "config.bigreactors.client.disablepatchoulitweaks": "Enable this if you are having problems with newer versions of Patchouli",
 
+    "_comment": "API",
     "api.bigreactors.reactor.tooltip.moderator": "Extreme Reactors: this block or fluid can be used as a radiation moderator inside a Reactor",
     "api.bigreactors.reactor.tooltip.reactant.fuel": "Extreme Reactors: this item or fluid can be used to produce fuel for a Reactor",
     "api.bigreactors.reactor.tooltip.coil": "Extreme Reactors: this block can be used as a coil inside a Turbine",
 
+    "_comment": "Compat - JEI",
     "compat.bigreactors.jei.reprocessor.recipecategory.title": "Reprocessor",
     "compat.bigreactors.jei.reprocessor.recipecategory.energy.tooltip.title": "Energy"
 }

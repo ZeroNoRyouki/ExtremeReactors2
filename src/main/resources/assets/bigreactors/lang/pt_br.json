@@ -70,6 +70,7 @@
     "block.bigreactors.basic_reactorcontrolrod": "Haste de Controle do Reator (Básico)",
     "block.bigreactors.basic_reactorredstoneport": "Porta de Redstone do Reator (Básico)",
     "block.bigreactors.basic_reactorfuelrod": "Barra de Combustível do Reator (Básico)",
+    "block.bigreactors.basic_reactorchargingportfe": "Reactor Forge Energy Charging Port (Basic)",
 
     "_comment": "Blocos - partes de reator (reforçado)",
     "block.bigreactors.reinforced_reactorglass": "Vidro do Reator (Reforçado)",
@@ -89,6 +90,7 @@
     "block.bigreactors.reinforced_reactorfluidport_forge_active": "Porta de Fluido do Forge Ativa do Reator (Reforçado)",
     "block.bigreactors.reinforced_reactorfluidport_forge_passive": "Porta de Fluido do Forge Passiva do Reator (Reforçado)",
     "block.bigreactors.reinforced_reactorfluidport_mekanism_passive": "Porta de Fluido do Mekanism Passiva do Reator (Reforçado)",
+    "block.bigreactors.reinforced_reactorchargingportfe": "Reactor Forge Energy Charging Port (Reinforced)",
 
     "_comment": "Blocos - partes de turbina (básico)",
     "block.bigreactors.basic_turbineglass": "Vidro da Turbina (Básico)",
@@ -103,6 +105,7 @@
     "block.bigreactors.basic_turbinefluidport_forge_passive": "Porta de Fluido do Forge Passiva da Turbina (Básico)",
     "block.bigreactors.basic_turbineredstoneport": "Porta de Redstone da Turbina (Básico)",
     "block.bigreactors.basic_turbinecreativesteamgenerator": "Gerador de Vapor da Turbina Criativo (Básico)",
+    "block.bigreactors.basic_turbinechargingportfe": "Turbine Forge Energy Charging Port (Basic)",
 
     "_comment": "Blocos - partes de turbina (reforçado)",
     "block.bigreactors.reinforced_turbineglass": "Vidro da Turbina (Reforçado)",
@@ -118,8 +121,28 @@
     "block.bigreactors.reinforced_turbineredstoneport": "Porta de Redstone da Turbina (Reforçado)",
     "block.bigreactors.reinforced_turbinecomputerport": "Porta de Computador da Turbina (Reforçado)",
     "block.bigreactors.reinforced_turbinecreativesteamgenerator": "Gerador de Vapor da Turbina Criativo (Reforçado)",
+    "block.bigreactors.reinforced_turbinechargingportfe": "Turbine Forge Energy Charging Port (Reinforced)",
 
-    "_comment": "Reator parts names",
+    "_comment": "Blocks - reprocessor parts",
+    "block.bigreactors.reprocessorcasing": "Reprocessor Casing",
+    "block.bigreactors.reprocessorglass": "Reprocessor Glass",
+    "block.bigreactors.reprocessorcontroller": "Reprocessor Controller",
+    "block.bigreactors.reprocessorwasteinjector": "Reprocessor Waste Injector",
+    "block.bigreactors.reprocessorfluidinjector": "Reprocessor Fluid Injector",
+    "block.bigreactors.reprocessoroutputport": "Reprocessor Output Port",
+    "block.bigreactors.reprocessorpowerport": "Reprocessor Power Port",
+    "block.bigreactors.reprocessorcollector": "Reprocessor Collector",
+
+    "_comment": "Blocks - fluidizer parts",
+    "block.bigreactors.fluidizercasing": "Fluidizer Casing",
+    "block.bigreactors.fluidizerglass": "Fluidizer Glass",
+    "block.bigreactors.fluidizercontroller": "Fluidizer Controller",
+    "block.bigreactors.fluidizersolidinjector": "Fluidizer Solid Injector",
+    "block.bigreactors.fluidizerfluidinjector": "Fluidizer Fluid Injector",
+    "block.bigreactors.fluidizeroutputport": "Fluidizer Output Port",
+    "block.bigreactors.fluidizerpowerport": "Fluidizer Power Port",
+
+    "_comment": "Reactor parts names",
     "part.bigreactors.reactor.casing": "Revestimento",
     "part.bigreactors.reactor.glass": "Vidro",
     "part.bigreactors.reactor.controller": "Controlador",
@@ -135,6 +158,7 @@
     "part.bigreactors.reactor.powertap_fe": "Saída de Energia (FE)",
     "part.bigreactors.reactor.computerport": "Porta de Computador",
     "part.bigreactors.reactor.redstoneport": "Porta de Redstone",
+    "part.bigreactors.reactor.chargingport_fe": "Charging Port (FE)",
 
     "_comment": "Turbina parts names",
     "part.bigreactors.turbine.casing": "Carcaça",
@@ -143,12 +167,12 @@
     "part.bigreactors.turbine.creativesteamgenerator": "Gerador de Vapor Criativo",
     "part.bigreactors.turbine.fluidport_forge_active": "Porta de Refrigerante (Ativo)",
     "part.bigreactors.turbine.fluidport_forge_passive": "Porta de Refrigerante (Passivo)",
-    "part.bigreactors.turbine.fluidport_mekanism_active": "Porta de Refrigerante do Mekanism (Ativo)",
     "part.bigreactors.turbine.fluidport_mekanism_passive": "Porta de Refrigerante do Mekanism (Passivo)",
     "part.bigreactors.turbine.creativecoolantport": "Porta de Fluido Criativo",
     "part.bigreactors.turbine.powertap_fe": "Saída de Energia (FE)",
     "part.bigreactors.turbine.computerport": "Porta de Computador",
     "part.bigreactors.turbine.redstoneport": "Porta de Redstone",
+    "part.bigreactors.turbine.chargingport_fe": "Charging Port (FE)",
 
     "_comment": "nomes de variantes",
     "variant.bigreactors.reactor.basic": "Básico",
@@ -285,6 +309,27 @@
     "gui.bigreactors.reactor.fluidaccessport.dumpwaste.line2": "Ejects waste contained in the Reactor,",
     "gui.bigreactors.reactor.fluidaccessport.dumpwaste.line3": "placing it in the Reactor's injection",
     "gui.bigreactors.reactor.fluidaccessport.dumpwaste.line4": "ports fuel tank.",
+    "gui.bigreactors.reactor.fluidaccessport.fueltank.line1": "Fuel Tank",
+    "gui.bigreactors.reactor.fluidaccessport.fueltank.line2": "  @0",
+    "gui.bigreactors.reactor.fluidaccessport.fueltank.line3a": "  @1",
+    "gui.bigreactors.reactor.fluidaccessport.fueltank.line3b": " / @2",
+    "gui.bigreactors.reactor.fluidaccessport.fueltank.line4a": "  @3",
+    "gui.bigreactors.reactor.fluidaccessport.fueltank.line4b": "% full",
+    "gui.bigreactors.reactor.fluidaccessport.fueltank.line5": "Stores liquid fuel inserted in the port",
+    "gui.bigreactors.reactor.fluidaccessport.fueltank.line6": "or ejected from the Reactor.",
+    "gui.bigreactors.reactor.fluidaccessport.wastetank.line1": "Waste Tank",
+    "gui.bigreactors.reactor.fluidaccessport.wastetank.line2": "  @0",
+    "gui.bigreactors.reactor.fluidaccessport.wastetank.line3a": "  @1",
+    "gui.bigreactors.reactor.fluidaccessport.wastetank.line3b": " / @2",
+    "gui.bigreactors.reactor.fluidaccessport.wastetank.line4a": "  @3",
+    "gui.bigreactors.reactor.fluidaccessport.wastetank.line4b": "% full",
+    "gui.bigreactors.reactor.fluidaccessport.wastetank.line5": "Stores liquid waste ejected",
+    "gui.bigreactors.reactor.fluidaccessport.wastetank.line6": "from the Reactor.",
+    "gui.bigreactors.reactor.fluidaccessport.item.reactant": "%1$s [%2$d / %3$d mB]",
+    "gui.bigreactors.reactor.fluidaccessport.item.fuel": "Fuel: %1$s [%2$d / %3$d mB]",
+    "gui.bigreactors.reactor.fluidaccessport.item.fuel_empty": "Fuel: empty",
+    "gui.bigreactors.reactor.fluidaccessport.item.waste": "Waste: %1$s [%2$d / %3$d mB]",
+    "gui.bigreactors.reactor.fluidaccessport.item.waste_empty": "Waste: empty",
 
     "gui.bigreactors.reactor.redstoneport.sensortype.inputactive.line1": "Ligado / Desligado",
     "gui.bigreactors.reactor.redstoneport.sensortype.inputactive.line2": "Liga ou desliga o Reator de acordo",
@@ -486,6 +531,16 @@
     "gui.bigreactors.reprocessor.controller.on.line1": "Turn the Reprocessor on",
     "gui.bigreactors.reprocessor.controller.off.line1": "Turn the Reprocessor off",
 
+    "gui.bigreactors.generator.chargingport.dumpfuel.line1": "Manual Ejection",
+    "gui.bigreactors.generator.chargingport.dumpfuel.line2": "Manually ejects the item from",
+    "gui.bigreactors.generator.chargingport.dumpfuel.line3": "the input slot and put it in",
+    "gui.bigreactors.generator.chargingport.dumpfuel.line4": "the output slot.",
+
+    "gui.bigreactors.generator.fluidport.directioninput.line1": "Inlet Mode",
+    "gui.bigreactors.generator.fluidport.directioninput.line2": "Sets this Fluid Port to inlet mode.",
+    "gui.bigreactors.generator.fluidport.directionoutput.line1": "Outlet Mode",
+    "gui.bigreactors.generator.fluidport.directionoutput.line2": "Sets this Fluid Port to outlet mode.",
+
     "gui.bigreactors.generator.redstoneport.sensortype.sensorlistlabel": "Configurações:",
     "gui.bigreactors.generator.redstoneport.sensortype.input": "Direção de sinal: entrada",
     "gui.bigreactors.generator.redstoneport.sensortype.output": "Direção de sinal: saída",
@@ -498,6 +553,7 @@
     "gui.bigreactors.generator.redstoneport.sensorbehavior.ejectonpulse.line1": "Ejetar por pulso",
     "gui.bigreactors.generator.redstoneport.sensorbehavior.activewhileabove.line1": "Ativo enquanto acima",
     "gui.bigreactors.generator.redstoneport.sensorbehavior.activewhilebelow.line1": "Ativo enquanto abaixo",
+    "gui.bigreactors.generator.redstoneport.sensorbehavior.activewhilebetween.line1": "Active while between",
 
     "gui.bigreactors.generator.redstoneport.sensortype.datalabel.temperature": "Temperatura:",
     "gui.bigreactors.generator.redstoneport.sensortype.datalabel.temperature.min": "Temperatura (min):",
@@ -512,10 +568,11 @@
     "gui.bigreactors.generator.redstoneport.sensortype.datalabel.bufferfilling.min": "Armaz. buffer interno (min):",
     "gui.bigreactors.generator.redstoneport.sensortype.datalabel.bufferfilling.max": "Armaz. buffer interno (max):",
 
+    "gui.bigreactors.generator.validation.redstoneport.invalidminmax.line1": "The maximum value should be greater then the minimum value",
+
     "_comment": "Multiblock validation errors (reactors)",
     "multiblock.validation.reactor.invalid_fuelrod_position": "Barras de Combustível só podem ser colocadas no interior do Reator",
     "multiblock.validation.reactor.invalid_part_for_interior": "Esta parte do Reator não pode ser colocada no interior do Reator",
-    "multiblock.validation.reactor.invalid_fluid_for_interior": "%1$d, %2$d, %3$d - O fluido %4$s não é válido para o interior do Reator",
     "multiblock.validation.reactor.invalid_block_for_interior": "%1$s não é válido para o interior do Reator",
     "multiblock.validation.reactor.invalid_block_for_exterior": "%1$s não é válido para o exterior do Reator",
     "multiblock.validation.reactor.too_few_rods": "Não há Hastes de Controle suficientes. Reatores requerem pelo menos uma",
@@ -545,6 +602,27 @@
     "multiblock.validation.turbine.invalid_rotor_end": "O Rotor deve terminar contra um bloco de Carcaça da Turbina",
     "multiblock.validation.turbine.mixed_power_systems": "Apenas um tipo de sistema de energia pode ser usado numa Turbina",
 
+    "_comment": "Multiblock validation errors (reprocessor)",
+    "multiblock.validation.reprocessor.missing_controller": "The Reprocessor must contain one, and only one, Controller",
+    "multiblock.validation.reprocessor.missing_wasteinjector": "The Reprocessor must contain one, and only one, Waste Injector",
+    "multiblock.validation.reprocessor.missing_fluidinjector": "The Reprocessor must contain one, and only one, Fluid Injector",
+    "multiblock.validation.reprocessor.missing_outputport": "The Reprocessor must contain one, and only one, Output Port",
+    "multiblock.validation.reprocessor.missing_powerport": "The Reprocessor must contain one, and only one, Power Port",
+    "multiblock.validation.reprocessor.missing_collector": "The Reprocessor must contain one, and only one, Collector",
+    "multiblock.validation.reprocessor.invalid_block": "%1$s is not valid block for the Reprocessor",
+    "multiblock.validation.reprocessor.invalid_frame_block": "Only Casing may be used as part of a Reprocessor's frame",
+    "multiblock.validation.reprocessor.invalid_part_for_interior": "This part may not be placed in the Reprocessor's interior",
+    "multiblock.validation.reprocessor.invalid_part_for_face": "This part may not be placed in this Reprocessor face",
+    "multiblock.validation.reprocessor.invalid_collector_position": "The Collector may only be placed in the Reprocessor's bottom face",
+
+    "_comment": "Multiblock validation errors (fluidizer)",
+    "multiblock.validation.fluidizer.missing_controller": "The Fluidizer must contain one, and only one, Controller",
+    "multiblock.validation.fluidizer.invalid_injectors": "The Fluidizer must contain a single Fluidizer Solid Injector, OR a pair of Fluidizer Solid Injectors, OR a pair of Fluidizer Fluid Injectors",
+    "multiblock.validation.fluidizer.missing_outputport": "The Fluidizer must contain one or more Fluidizer Output Ports",
+    "multiblock.validation.fluidizer.missing_powerport": "The Fluidizer must contain one or more Fluidizer Power Ports",
+    "multiblock.validation.fluidizer.invalid_frame_block": "Only Casing may be used as part of a Fluidizer's frame",
+    "multiblock.validation.fluidizer.invalid_part_for_interior": "This part may not be placed in the Fluidizer's interior",
+
     "_comment": "Configs",
     "config.bigreactors.compatibility": "Compatibilidade",
     "config.bigreactors.general": "Geral",
@@ -570,6 +648,10 @@
     "config.bigreactors.turbine.turbinemassdragmultiplier": "Mass drag multiplier",
     "config.bigreactors.turbine.turbinepowerproductionmultiplier": "Multiplicador de produção de energia",
 
+    "config.bigreactors.fluidizer.maxfluidizerheight": "Max height (Y)",
+    "config.bigreactors.fluidizer.maxfluidizersize": "Max size (X/Z)",
+    "config.bigreactors.fluidizer.energyperrecipetick": "Energy per recipe tick",
+
     "config.bigreactors.recipes.registercharcoalforsmelting": "Fundir carvão vegetal em grafite",
     "config.bigreactors.recipes.registerCoalForSmelting": "Fundir carvão em grafite",
 
@@ -594,10 +676,12 @@
     "config.bigreactors.client.disableapitooltips": "Não adicionar dicas (avançadas) para combustíveis, moderadores, bobinas, etc.",
     "config.bigreactors.client.disablepatchoulitweaks": "Ative isso se estiver tendo problemas com versões mais recentes do Patchouli",
 
+    "_comment": "API",
     "api.bigreactors.reactor.tooltip.moderator": "Extreme Reactors: este bloco ou fluido pode ser usado como um moderador de radiação dentro de um Reator",
     "api.bigreactors.reactor.tooltip.reactant.fuel": "Extreme Reactors: este item ou fluido pode ser usado para produzir combustível para um Reator",
     "api.bigreactors.reactor.tooltip.coil": "Extreme Reactors: este bloco pode ser usado como uma bobina dentro de uma Turbina",
 
+    "_comment": "Compat - JEI",
     "compat.bigreactors.jei.reprocessor.recipecategory.title": "Reprocessor",
     "compat.bigreactors.jei.reprocessor.recipecategory.energy.tooltip.title": "Energia"
 }
