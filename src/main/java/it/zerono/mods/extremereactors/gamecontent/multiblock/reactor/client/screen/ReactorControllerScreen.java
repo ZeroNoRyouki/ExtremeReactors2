@@ -586,7 +586,25 @@ public class ReactorControllerScreen
         this.addBinding(MultiblockReactor::isMachineActive, active -> off.setActive(!active));
 
         commandPanel.addControl(on, off);
-        y += 28;
+        y += 18;
+
+        // - void reactants
+
+        final Button btn = new Button(this, "voidreactants", "");
+
+        btn.Clicked.subscribe(this::onVoidReactants);
+        btn.setIconForState(CommonIcons.TrashCan.get(), ButtonState.Default);
+        btn.setLayoutEngineHint(FixedLayoutEngine.hint(x + 17, y, 18, 18));
+        btn.enablePaintBlending(true);
+        btn.setPadding(1);
+        btn.setTooltips(ImmutableList.of(
+                        new TranslatableComponent("gui.bigreactors.reactor.controller.voidreactants.line1").setStyle(STYLE_TOOLTIP_TITLE),
+                        TEXT_EMPTY_LINE,
+                        new TranslatableComponent("gui.bigreactors.reactor.controller.voidreactants.line2"))
+        );
+
+        commandPanel.addControl(btn);
+        y += 21;
 
         // - waste ejection settings
 
@@ -620,7 +638,7 @@ public class ReactorControllerScreen
 
         this.addBinding(r -> r.getWasteEjectionMode().isAutomatic(), swp::setActive, wasteEjectionText);
         commandPanel.addControl(swp);
-        y += 29;
+        y += 21;
 
         // - scram
 
@@ -798,6 +816,10 @@ public class ReactorControllerScreen
 
     private void onScram(final Button button, final Integer mouseButton) {
         this.sendCommandToServer(ReactorControllerEntity.COMMAND_SCRAM);
+    }
+
+    private void onVoidReactants(final Button button, final Integer mouseButton) {
+        this.sendCommandToServer(ReactorControllerEntity.COMMAND_VOID_REACTANTS);
     }
 
     private final <Value> void addBinding(final Function<MultiblockReactor, Value> supplier, final Consumer<Value> consumer) {

@@ -264,6 +264,8 @@
     "gui.bigreactors.reactor.controller.scram.line2": "Turn off the Reactor and push the Control ",
     "gui.bigreactors.reactor.controller.scram.line3": "Rods all the way into the Fuel Rods",
     "gui.bigreactors.reactor.controller.scram.line4": "(and hope for the best...)",
+    "gui.bigreactors.reactor.controller.voidreactants.line1": "Void reactants",
+    "gui.bigreactors.reactor.controller.voidreactants.line2": "Void all reactants present in the Reactor",
 
     "gui.bigreactors.reactor.solidaccessport.directioninput.line1": "Inlet Mode",
     "gui.bigreactors.reactor.solidaccessport.directioninput.line2": "Sets the access port to inlet mode.",
