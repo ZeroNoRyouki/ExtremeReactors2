@@ -247,6 +247,8 @@
     "gui.bigreactors.reactor.controller.scram.line2": "Desligue o Reator e empurre as Hastes de",
     "gui.bigreactors.reactor.controller.scram.line3": "Controle até o fim das Barras de Combustível",
     "gui.bigreactors.reactor.controller.scram.line4": "(e torça pelo melhor...)",
+    "gui.bigreactors.reactor.controller.voidreactants.line1": "Void reactants",
+    "gui.bigreactors.reactor.controller.voidreactants.line2": "Void all reactants present in the Reactor",
 
     "gui.bigreactors.reactor.solidaccessport.directioninput.line1": "Modo de Entrada",
     "gui.bigreactors.reactor.solidaccessport.directioninput.line2": "Define a porta de acesso para o modo de entrada.",

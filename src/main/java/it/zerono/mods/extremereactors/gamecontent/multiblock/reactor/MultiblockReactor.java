@@ -160,6 +160,12 @@ public class MultiblockReactor
         }
     }
 
+    public void voidReactants() {
+
+        this._fuelContainer.voidFuel();
+        this._fuelContainer.voidWaste();
+    }
+
     //region active-coolant system
 
     @Override

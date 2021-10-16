@@ -47,8 +47,8 @@ public class ReactorControllerEntity
     public static String COMMAND_WASTE_AUTOMATIC = "autowaste";
     public static String COMMAND_WASTE_MANUAL = "manualwaste";
     public static String COMMAND_SCRAM = "scram";
+    public static String COMMAND_VOID_REACTANTS = "voidr";
 
-    @SuppressWarnings("ConstantConditions")
     public ReactorControllerEntity() {
 
         super(Content.TileEntityTypes.REACTOR_CONTROLLER.get());
@@ -58,7 +58,7 @@ public class ReactorControllerEntity
                 .addServerHandler(CommonConstants.COMMAND_DEACTIVATE, rce -> rce.setReactorActive(false))
                 .addServerHandler(COMMAND_WASTE_AUTOMATIC, rce -> rce.setWasteEjectionMode(WasteEjectionSetting.Automatic))
                 .addServerHandler(COMMAND_WASTE_MANUAL, rce -> rce.setWasteEjectionMode(WasteEjectionSetting.Manual))
-
+                .addServerHandler(COMMAND_VOID_REACTANTS, ReactorControllerEntity::voidReactants)
                 .addServerHandler(COMMAND_SCRAM, ReactorControllerEntity::scram)
                 .build(this)
         );
@@ -190,13 +190,17 @@ public class ReactorControllerEntity
     //region Tile Commands
 
     private void setWasteEjectionMode(WasteEjectionSetting mode) {
-        this.getMultiblockController().ifPresent(c -> c.setWasteEjectionMode(mode));
+        this.executeOnController(c -> c.setWasteEjectionMode(mode));
     }
 
     private void scram() {
 
-        this.getMultiblockController().ifPresent(c -> c.setControlRodsInsertionRatio(100));
+        this.executeOnController(c -> c.setControlRodsInsertionRatio(100));
         this.setReactorActive(false);
+    }
+
+    private void voidReactants() {
+        this.executeOnController(MultiblockReactor::voidReactants);
     }
 
     //endregion

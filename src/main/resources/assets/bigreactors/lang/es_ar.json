@@ -253,6 +253,8 @@
     "gui.bigreactors.reactor.controller.scram.line2": "Apaga el Reactor y baja las barras de control",
     "gui.bigreactors.reactor.controller.scram.line3": "por completo dentro de las barras de combustible",
     "gui.bigreactors.reactor.controller.scram.line4": "(y reza por que las cosas salgan bien...)",
+    "gui.bigreactors.reactor.controller.voidreactants.line1": "Void reactants",
+    "gui.bigreactors.reactor.controller.voidreactants.line2": "Void all reactants present in the Reactor",
 
     "gui.bigreactors.reactor.solidaccessport.directioninput.line1": "Modo de Entrada",
     "gui.bigreactors.reactor.solidaccessport.directioninput.line2": "Configura el puerto de acceso en modo de entrada.",
