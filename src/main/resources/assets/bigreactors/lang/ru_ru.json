@@ -265,6 +265,8 @@
     "gui.bigreactors.reactor.controller.scram.line2": "Выключит реактор и погрузит Регулирующие",
     "gui.bigreactors.reactor.controller.scram.line3": "Стержни до упора в топливные стержни",
     "gui.bigreactors.reactor.controller.scram.line4": "(и надейтесь на лучшее...)",
+	"gui.bigreactors.reactor.controller.voidreactants.line1": "Уничтожить реагенты",
+    "gui.bigreactors.reactor.controller.voidreactants.line2": "Уничтожить все реагенты (Топливо/Отходы), находящиеся в реакторе",
 
     "gui.bigreactors.reactor.solidaccessport.directioninput.line1": "Режим ввода",
     "gui.bigreactors.reactor.solidaccessport.directioninput.line2": "Переключает порт доступа в режим ввода",
