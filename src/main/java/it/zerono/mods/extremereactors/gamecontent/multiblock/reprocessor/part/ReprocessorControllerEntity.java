@@ -167,7 +167,6 @@ public class ReprocessorControllerEntity
     @Nullable
     @Override
     public Container createMenu(final int windowId, final PlayerInventory inventory, final PlayerEntity player) {
-//        return new ReprocessorControllerContainer(windowId, inventory, this, (ServerPlayerEntity)player);
         return ModTileContainer.empty(Content.ContainerTypes.REPROCESSOR_CONTROLLER.get(), windowId, this, (ServerPlayerEntity)player);
     }
 
