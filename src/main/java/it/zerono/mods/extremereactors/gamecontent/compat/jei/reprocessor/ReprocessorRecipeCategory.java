@@ -28,6 +28,7 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.scree
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.MultiblockReprocessor;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.recipe.ReprocessorRecipe;
 import it.zerono.mods.zerocore.lib.CodeHelper;
+import it.zerono.mods.zerocore.lib.client.gui.Orientation;
 import it.zerono.mods.zerocore.lib.client.gui.Padding;
 import it.zerono.mods.zerocore.lib.client.gui.sprite.ISprite;
 import it.zerono.mods.zerocore.lib.client.gui.sprite.Sprite;
@@ -70,8 +71,8 @@ public class ReprocessorRecipeCategory
 
         this._guiHelper = guiHelper;//remove
 
-        this._powerBar = ProgressBarDrawable.vertical(CommonIcons.PowerBar, 0, Padding.ZERO,
-                this._powerBarArea.Width, this._powerBarArea.Height);
+        this._powerBar = new ProgressBarDrawable(CommonIcons.PowerBar, 0, Padding.ZERO,
+                this._powerBarArea.Width, this._powerBarArea.Height, Orientation.BottomToTop);
     }
 
     //region AbstractModRecipeCategory
@@ -100,7 +101,7 @@ public class ReprocessorRecipeCategory
             this._recipeFluidSprite = ModRenderHelper.getFlowingFluidSprite(this._recipeFluid.getFluid());
             this._recipeProgressSprite = this._recipeFluidSprite.copyWith(CommonIcons.ReprocessorProgressBarMask.get());
 
-            this._fluidBar = ProgressBarDrawable.vertical(this::getRecipeFluidSprite, 0, Padding.ZERO, 16, 64);
+            this._fluidBar = new ProgressBarDrawable(this::getRecipeFluidSprite, 0, Padding.ZERO, 16, 64, Orientation.BottomToTop);
             this._fluidBar.setTint(Colour.fromARGB(this._recipeFluid.getFluid().getAttributes().getColor()));
             this._fluidBar.setProgress(MultiblockReprocessor.FLUID_CAPACITY, this._recipeFluid.getAmount());
 
