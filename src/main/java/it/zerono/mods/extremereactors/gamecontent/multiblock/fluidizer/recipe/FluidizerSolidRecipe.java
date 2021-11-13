@@ -18,7 +18,6 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.recipe;
 
-import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.zerocore.lib.data.stack.OperationMode;
 import it.zerono.mods.zerocore.lib.datagen.provider.recipe.OneToOneRecipeBuilder;
@@ -42,9 +41,6 @@ import net.minecraftforge.fluids.FluidStack;
 public class FluidizerSolidRecipe
         extends AbstractOneToOneRecipe<ItemStack, FluidStack, ItemStackRecipeIngredient, FluidStackRecipeResult>
         implements IFluidizerRecipe {
-
-    public static final String NAME = "fluidizersolid";
-    public static final ResourceLocation ID = ExtremeReactors.newID(NAME);
 
     protected FluidizerSolidRecipe(final ResourceLocation id, final ItemStackRecipeIngredient ingredient,
                                    final FluidStackRecipeResult result) {
@@ -72,7 +68,7 @@ public class FluidizerSolidRecipe
 
     public static OneToOneRecipeBuilder<ItemStack, FluidStack> builder(final IRecipeIngredient<ItemStack> ingredient,
                                                                        final IRecipeResult<FluidStack> result) {
-        return new OneToOneRecipeBuilder<>(ID, ingredient, result);
+        return new OneToOneRecipeBuilder<>(Type.Solid.getRecipeId(), ingredient, result);
     }
 
     //region AbstractOneToOneRecipe

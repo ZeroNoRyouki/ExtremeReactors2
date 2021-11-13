@@ -18,7 +18,6 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.recipe;
 
-import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.zerocore.lib.data.stack.OperationMode;
 import it.zerono.mods.zerocore.lib.datagen.provider.recipe.TwoToOneRecipeBuilder;
@@ -43,9 +42,6 @@ import java.util.function.IntFunction;
 public class FluidizerFluidMixingRecipe
         extends AbstractTwoToOneRecipe<FluidStack, FluidStack, FluidStack, FluidStackRecipeIngredient, FluidStackRecipeIngredient, FluidStackRecipeResult>
         implements IFluidizerRecipe {
-
-    public static final String NAME = "fluidizerfluidmixing";
-    public static final ResourceLocation ID = ExtremeReactors.newID(NAME);
 
     protected FluidizerFluidMixingRecipe(final ResourceLocation id, final FluidStackRecipeIngredient ingredient1,
                                          final FluidStackRecipeIngredient ingredient2, final FluidStackRecipeResult result) {
@@ -91,7 +87,7 @@ public class FluidizerFluidMixingRecipe
     public static TwoToOneRecipeBuilder<FluidStack, FluidStack, FluidStack> builder(final IRecipeIngredient<FluidStack> ingredient1,
                                                                                     final IRecipeIngredient<FluidStack> ingredient2,
                                                                                     final IRecipeResult<FluidStack> result) {
-        return new TwoToOneRecipeBuilder<>(ID, ingredient1, ingredient2, result, JSON_LABELS_SUPPLIER);
+        return new TwoToOneRecipeBuilder<>(Type.FluidMixing.getRecipeId(), ingredient1, ingredient2, result, JSON_LABELS_SUPPLIER);
     }
 
     //region AbstractTwoToOneRecipe

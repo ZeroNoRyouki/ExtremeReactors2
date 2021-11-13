@@ -34,6 +34,7 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.part.*;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.recipe.FluidizerFluidMixingRecipe;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.recipe.FluidizerSolidMixingRecipe;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.recipe.FluidizerSolidRecipe;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.recipe.IFluidizerRecipe;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.MultiblockReactor;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.ReactorPartType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.container.ReactorSolidAccessPortContainer;
@@ -1038,11 +1039,11 @@ public final class Content {
                 ModRecipeType.create(ExtremeReactors.newID("fluidizer"));
 
         public static final RegistryObject<IRecipeSerializer<FluidizerSolidRecipe>> FLUIDIZER_SOLID_RECIPE_SERIALIZER =
-                SERIALIZERS.register(FluidizerSolidRecipe.NAME, FluidizerSolidRecipe::serializer);
+                SERIALIZERS.register(IFluidizerRecipe.Type.Solid.getRecipeName(), FluidizerSolidRecipe::serializer);
         public static final RegistryObject<IRecipeSerializer<FluidizerSolidMixingRecipe>> FLUIDIZER_SOLIDMIXING_RECIPE_SERIALIZER =
-                SERIALIZERS.register(FluidizerSolidMixingRecipe.NAME, FluidizerSolidMixingRecipe::serializer);
+                SERIALIZERS.register(IFluidizerRecipe.Type.SolidMixing.getRecipeName(), FluidizerSolidMixingRecipe::serializer);
         public static final RegistryObject<IRecipeSerializer<FluidizerFluidMixingRecipe>> FLUIDIZER_FLUIDMIXING_RECIPE_SERIALIZER =
-                SERIALIZERS.register(FluidizerFluidMixingRecipe.NAME, FluidizerFluidMixingRecipe::serializer);
+                SERIALIZERS.register(IFluidizerRecipe.Type.FluidMixing.getRecipeName(), FluidizerFluidMixingRecipe::serializer);
 
         //endregion
     }

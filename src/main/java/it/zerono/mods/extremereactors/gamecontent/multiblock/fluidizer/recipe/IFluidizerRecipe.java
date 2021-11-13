@@ -18,10 +18,12 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.recipe;
 
+import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.zerocore.lib.recipe.ISerializableRecipe;
 import it.zerono.mods.zerocore.lib.recipe.ModRecipe;
 import it.zerono.mods.zerocore.lib.recipe.holder.IHeldRecipe;
 import it.zerono.mods.zerocore.lib.recipe.result.FluidStackRecipeResult;
+import net.minecraft.util.ResourceLocation;
 
 public interface IFluidizerRecipe
         extends ISerializableRecipe {
@@ -31,10 +33,32 @@ public interface IFluidizerRecipe
 
     enum Type {
 
-        Invalid,
-        Solid,
-        SolidMixing,
-        FluidMixing
+        Invalid("invalid_recipe"),
+        Solid("fluidizersolid"),
+        SolidMixing("fluidizersolidmixing"),
+        FluidMixing("fluidizerfluidmixing")
+        ;
+
+        public String getRecipeName() {
+            return this._name;
+        }
+
+        public ResourceLocation getRecipeId() {
+            return this._id;
+        }
+
+        //region internals
+
+        Type(final String name) {
+
+            this._name = name;
+            this._id = ExtremeReactors.newID(name);
+        }
+
+        private final String _name;
+        private final ResourceLocation _id;
+
+        //endregion
     }
 
     Type getRecipeType();
