@@ -44,7 +44,6 @@ import it.zerono.mods.zerocore.lib.fluid.handler.FluidHandlerForwarder;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
 import it.zerono.mods.zerocore.lib.world.WorldHelper;
 import net.minecraft.block.BlockState;
-import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -107,7 +106,7 @@ public class ReactorFluidAccessPortEntity
     }
 
     public static void itemTooltipBuilder(final ItemStack stack, final CompoundNBT data, final @Nullable IBlockReader world,
-                                          final NonNullConsumer<ITextComponent> appender, final ITooltipFlag flag) {
+                                          final NonNullConsumer<ITextComponent> appender, final boolean isAdvancedTooltip) {
 
         final FluidTank tank = new FluidTank(TANK_CAPACITY);
         IFormattableTextComponent text;
