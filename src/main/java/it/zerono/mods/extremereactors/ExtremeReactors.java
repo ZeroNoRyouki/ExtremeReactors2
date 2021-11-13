@@ -24,9 +24,8 @@ import it.zerono.mods.extremereactors.config.conditions.ConfigCondition;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.WorldGen;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.network.UpdateClientsFuelRodsLayout;
-import it.zerono.mods.extremereactors.proxy.ClientProxy;
 import it.zerono.mods.extremereactors.proxy.IProxy;
-import it.zerono.mods.extremereactors.proxy.ServerProxy;
+import it.zerono.mods.extremereactors.proxy.ProxySafeReferent;
 import it.zerono.mods.zerocore.lib.init.IModInitializationHandler;
 import it.zerono.mods.zerocore.lib.network.IModMessage;
 import it.zerono.mods.zerocore.lib.network.NetworkHandler;
@@ -70,7 +69,7 @@ public class ExtremeReactors implements IModInitializationHandler {
         Config.initialize();
         Content.initialize();
 
-        s_proxy = DistExecutor.safeRunForDist(() -> ClientProxy::new, () -> ServerProxy::new);
+        s_proxy = DistExecutor.safeRunForDist(() -> ProxySafeReferent::client, () -> ProxySafeReferent::server);
 
         final IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
 
