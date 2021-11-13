@@ -22,7 +22,7 @@ import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.MultiblockFluidizer;
 import it.zerono.mods.zerocore.lib.energy.NullEnergyHandlers;
 import it.zerono.mods.zerocore.lib.energy.adapter.ForgeEnergyAdapter;
-import it.zerono.mods.zerocore.lib.energy.handler.WideEnergyStorageForwarder;
+import it.zerono.mods.zerocore.lib.energy.handler.WideEnergyStorageForwarder2;
 import it.zerono.mods.zerocore.lib.multiblock.cuboid.PartPosition;
 import it.zerono.mods.zerocore.lib.multiblock.validation.IMultiblockValidator;
 import net.minecraft.util.Direction;
@@ -40,7 +40,7 @@ public class FluidizerPowerPortEntity
     public FluidizerPowerPortEntity() {
 
         super(Content.TileEntityTypes.FLUIDIZER_POWERPORT.get());
-        this._forwarder = new WideEnergyStorageForwarder(NullEnergyHandlers.STORAGE);
+        this._forwarder = new WideEnergyStorageForwarder2(NullEnergyHandlers.WIDE_STORAGE);
         this._capability = LazyOptional.of(() -> ForgeEnergyAdapter.wrap(this._forwarder));
     }
 
@@ -57,7 +57,7 @@ public class FluidizerPowerPortEntity
     public void onPostMachineBroken() {
 
         super.onPostMachineBroken();
-        this._forwarder.setHandler(NullEnergyHandlers.STORAGE);
+        this._forwarder.setHandler(NullEnergyHandlers.WIDE_STORAGE);
     }
 
     @Override
@@ -81,7 +81,7 @@ public class FluidizerPowerPortEntity
     @CapabilityInject(IEnergyStorage.class)
     private static Capability<IEnergyStorage> CAPAP_FORGE_ENERGYSTORAGE = null;
 
-    private final WideEnergyStorageForwarder _forwarder;
+    private final WideEnergyStorageForwarder2 _forwarder;
     private final LazyOptional<IEnergyStorage> _capability;
 
     //endregion

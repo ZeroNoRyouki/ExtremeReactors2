@@ -35,6 +35,8 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.scree
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.FluidPortScreen;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.container.ChargingPortContainer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.client.model.FluidizerModelBuilder;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.client.screen.FluidizerControllerScreen;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.client.screen.FluidizerSolidInjectorScreen;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.FuelRodsLayout;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.ClientFuelRodsLayout;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.model.ReactorFuelRodBlockColor;
@@ -259,7 +261,8 @@ public class ClientProxy
         registerScreen(Content.ContainerTypes.REPROCESSOR_ACCESSPORT, ReprocessorAccessPortScreen::new);
 
         // Fluidizer GUIS
-
+        registerScreen(Content.ContainerTypes.FLUIDIZER_SOLID_INJECTOR, FluidizerSolidInjectorScreen::new);
+        registerScreen(Content.ContainerTypes.FLUIDIZER_CONTROLLER, FluidizerControllerScreen::new);
     }
 
     private static void registerRenderTypes() {

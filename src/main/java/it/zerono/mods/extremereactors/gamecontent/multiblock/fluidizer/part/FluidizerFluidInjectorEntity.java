@@ -35,7 +35,6 @@ import it.zerono.mods.zerocore.lib.recipe.ingredient.IRecipeIngredientSource;
 import it.zerono.mods.zerocore.lib.recipe.ingredient.RecipeIngredientSourceWrapper;
 import it.zerono.mods.zerocore.lib.world.WorldHelper;
 import net.minecraft.block.BlockState;
-import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
@@ -65,10 +64,13 @@ public class FluidizerFluidInjectorEntity
         extends AbstractFluidizerEntity
         implements INamedContainerProvider, INeighborChangeListener, IConditionallySyncableEntity {
 
+    public static int MAX_CAPACITY = 8 * 1000;
+
     public FluidizerFluidInjectorEntity() {
 
         super(Content.TileEntityTypes.FLUIDIZER_FLUIDINJECTOR.get());
         this._fluids = new FluidStackHolder(1, FluidizerFluidInjectorEntity::isFluidValid).setOnLoadListener(this::onFluidsChanged).setOnContentsChangedListener(this::onFluidsChanged);
+        this._fluids.setMaxCapacity(MAX_CAPACITY);
         this._capability = LazyOptional.of(() -> this._fluids);
     }
 
@@ -76,8 +78,16 @@ public class FluidizerFluidInjectorEntity
         return RecipeIngredientSourceWrapper.wrap(this._fluids, 0);
     }
 
+    public IFluidHandler getFluidHandler() {
+        return this._fluids;
+    }
+
+    public FluidStack getStack() {
+        return this._fluids.getStackAt(0);
+    }
+
     public static void itemTooltipBuilder(final ItemStack stack, final CompoundNBT data, final @Nullable IBlockReader world,
-                                          final NonNullConsumer<ITextComponent> appender, final ITooltipFlag flag) {
+                                          final NonNullConsumer<ITextComponent> appender, final boolean isAdvancedTooltip) {
 
         if (data.contains("inv")) {
 

@@ -53,14 +53,17 @@ public final class CommonConstants {
     //endregion
     //region UI styles
 
+    @Deprecated // use ZC.base.CommonConstants
     public static final Style STYLE_TOOLTIP_TITLE = Style.EMPTY
             .withColor(TextFormatting.YELLOW)
             .withBold(true);
 
+    @Deprecated // use ZC.base.CommonConstants
     public static final Style STYLE_TOOLTIP_VALUE = Style.EMPTY
             .withColor(TextFormatting.DARK_AQUA)
             .withBold(true);
 
+    @Deprecated // use ZC.base.CommonConstants
     public static final Style STYLE_TOOLTIP_INFO = Style.EMPTY
             .withColor(TextFormatting.DARK_PURPLE)
             .withItalic(true);

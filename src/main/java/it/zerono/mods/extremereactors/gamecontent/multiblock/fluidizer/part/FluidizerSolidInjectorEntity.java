@@ -22,6 +22,7 @@ import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.api.reactor.ReactantType;
 import it.zerono.mods.extremereactors.gamecontent.CommonConstants;
 import it.zerono.mods.extremereactors.gamecontent.Content;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.container.FluidizerSolidInjectorContainer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.ReactantHelper;
 import it.zerono.mods.zerocore.lib.CodeHelper;
 import it.zerono.mods.zerocore.lib.DebuggableHelper;
@@ -35,7 +36,6 @@ import it.zerono.mods.zerocore.lib.recipe.ingredient.IRecipeIngredientSource;
 import it.zerono.mods.zerocore.lib.recipe.ingredient.RecipeIngredientSourceWrapper;
 import it.zerono.mods.zerocore.lib.world.WorldHelper;
 import net.minecraft.block.BlockState;
-import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
@@ -76,8 +76,20 @@ public class FluidizerSolidInjectorEntity
         return RecipeIngredientSourceWrapper.wrap(this._solidItems, 0);
     }
 
+    public IItemHandlerModifiable getItemHandler() {
+        return this._solidItems;
+    }
+
+    public ItemStack getStack() {
+        return this._solidItems.getStackAt(0);
+    }
+
+    public static boolean isItemValid(int ignore, final ItemStack stack) {
+        return ReactantHelper.isValidSource(ReactantType.Fuel, stack) || ReactantHelper.isValidSource(ReactantType.Waste, stack);
+    }
+
     public static void itemTooltipBuilder(final ItemStack stack, final CompoundNBT data, final @Nullable IBlockReader world,
-                                          final NonNullConsumer<ITextComponent> appender, final ITooltipFlag flag) {
+                                          final NonNullConsumer<ITextComponent> appender, final boolean isAdvancedTooltip) {
 
         if (data.contains("inv")) {
 
@@ -198,7 +210,7 @@ public class FluidizerSolidInjectorEntity
     @Nullable
     @Override
     public Container createMenu(final int windowId, final PlayerInventory inventory, final PlayerEntity player) {
-        return null;
+        return new FluidizerSolidInjectorContainer(windowId, inventory, this);
     }
 
     @Override
@@ -239,10 +251,6 @@ public class FluidizerSolidInjectorEntity
 
     //endregion
     //region internals
-
-    private static boolean isItemValid(int ignore, final ItemStack stack) {
-        return ReactantHelper.isValidSource(ReactantType.Fuel, stack) || ReactantHelper.isValidSource(ReactantType.Waste, stack);
-    }
 
     private LazyOptional<IItemHandler> getNeighborCapability() {
         return CodeHelper.optionalFlatMap(this.getPartWorld(), this.getOutwardDirection(),

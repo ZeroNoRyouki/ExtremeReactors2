@@ -28,6 +28,8 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.IOPortB
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.fluidport.FluidPortType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.FluidizerPartType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.MultiblockFluidizer;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.container.FluidizerControllerContainer;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.container.FluidizerSolidInjectorContainer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.part.*;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.recipe.FluidizerFluidMixingRecipe;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.recipe.FluidizerSolidMixingRecipe;
@@ -989,11 +991,17 @@ public final class Content {
                 registerContainer("reprocessorcontroller", (windowId, inv, data) ->
                         ModTileContainer.empty(Content.ContainerTypes.REPROCESSOR_CONTROLLER.get(), windowId, data));
 
-//        public static final RegistryObject<ContainerType<ReprocessorControllerContainer>> REPROCESSOR_CONTROLLER =
-//                registerContainer("reprocessorcontroller", ReprocessorControllerContainer::new);
-
         public static final RegistryObject<ContainerType<ReprocessorAccessPortContainer>> REPROCESSOR_ACCESSPORT =
                 registerContainer("reprocessoraccessport", ReprocessorAccessPortContainer::new);
+
+        //endregion
+        //region Fluidizer
+
+        public static final RegistryObject<ContainerType<FluidizerControllerContainer>> FLUIDIZER_CONTROLLER =
+                registerContainer("fluidizercontroller", FluidizerControllerContainer::new);
+
+        public static final RegistryObject<ContainerType<FluidizerSolidInjectorContainer>> FLUIDIZER_SOLID_INJECTOR =
+                registerContainer("fluidizersolidinjector", FluidizerSolidInjectorContainer::new);
 
         //endregion
         //region internals

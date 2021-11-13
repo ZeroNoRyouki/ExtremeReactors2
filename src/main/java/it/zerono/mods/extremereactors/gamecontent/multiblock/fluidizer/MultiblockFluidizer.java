@@ -30,12 +30,13 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.recipe.Fl
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.recipe.IFluidizerRecipe;
 import it.zerono.mods.zerocore.lib.*;
 import it.zerono.mods.zerocore.lib.block.ModBlock;
+import it.zerono.mods.zerocore.lib.data.WideAmount;
 import it.zerono.mods.zerocore.lib.data.nbt.ISyncableEntity;
 import it.zerono.mods.zerocore.lib.data.stack.OperationMode;
-import it.zerono.mods.zerocore.lib.energy.EnergyBuffer;
 import it.zerono.mods.zerocore.lib.energy.EnergyHelper;
 import it.zerono.mods.zerocore.lib.energy.EnergySystem;
-import it.zerono.mods.zerocore.lib.energy.IWideEnergyStorage;
+import it.zerono.mods.zerocore.lib.energy.IWideEnergyStorage2;
+import it.zerono.mods.zerocore.lib.energy.WideEnergyBuffer;
 import it.zerono.mods.zerocore.lib.energy.handler.WideEnergyStoragePolicyWrapper;
 import it.zerono.mods.zerocore.lib.fluid.FluidTank;
 import it.zerono.mods.zerocore.lib.fluid.handler.FluidHandlerPolicyWrapper;
@@ -63,6 +64,7 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fml.LogicalSide;
 
 import javax.annotation.Nullable;
+import java.util.List;
 
 public class MultiblockFluidizer
         extends AbstractCuboidMultiblockController<MultiblockFluidizer>
@@ -71,6 +73,7 @@ public class MultiblockFluidizer
     public static final int TICKS_SOLID = 40;
     public static final int TICKS_SOLIDMIXNG = 80;
     public static final int TICKS_FLUIDMIXING = 80;
+    public static final WideAmount ENERGY_CAPACITY = WideAmount.asImmutable(50_000);
 
     public MultiblockFluidizer(final World world) {
 
@@ -78,7 +81,7 @@ public class MultiblockFluidizer
 
         this._outputTank = new FluidTank(0);
         this._outputFluidHandler = FluidHandlerPolicyWrapper.outputOnly(this._outputTank);
-        this._energyBuffer = new EnergyBuffer(EnergySystem.ForgeEnergy, 50_000, 1000);
+        this._energyBuffer = new WideEnergyBuffer(EnergySystem.ForgeEnergy, ENERGY_CAPACITY, WideAmount.asImmutable(1000));
         this._energyInputHandler = WideEnergyStoragePolicyWrapper.inputOnly(this._energyBuffer);
 
         this._solidInjectors = new PartCollection<>(2, p -> p instanceof FluidizerSolidInjectorEntity);
@@ -96,8 +99,24 @@ public class MultiblockFluidizer
         return this._outputFluidHandler;
     }
 
-    public IWideEnergyStorage getEnergyStorage() {
+    public IWideEnergyStorage2 getEnergyStorage() {
         return this._energyInputHandler;
+    }
+
+    public List<FluidizerSolidInjectorEntity> getSolidInjectors() {
+        return this._solidInjectors.asList();
+    }
+
+    public List<FluidizerFluidInjectorEntity> getFluidInjectors() {
+        return this._fluidInjectors.asList();
+    }
+
+    public IFluidizerRecipe.Type getRecipeType() {
+        return null != this._recipeHolder ? this._recipeHolder.getRecipeType() : IFluidizerRecipe.Type.Invalid;
+    }
+
+    public double getRecipeProgress() {
+        return null != this._recipeHolder ? this._recipeHolder.getProgress() : 0.0;
     }
 
     public void onIngredientsChanged() {
@@ -127,7 +146,7 @@ public class MultiblockFluidizer
     @Override
     public boolean canProcessRecipe(final IFluidizerRecipe recipe) {
         return this.isMachineActive() &&
-                this._energyBuffer.getEnergyStored() >= Config.COMMON.fluidizer.energyPerRecipeTick.get() &&
+                this._energyBuffer.getEnergyStored().intValue() >= Config.COMMON.fluidizer.energyPerRecipeTick.get() &&
                 this._fluidTarget.countStorableResults(recipe.getResult()) > 0;
     }
 
@@ -142,7 +161,8 @@ public class MultiblockFluidizer
 
     @Override
     public void onRecipeTickProcessed(final int currentTick) {
-        this._energyBuffer.extractEnergy(EnergySystem.ForgeEnergy, Config.COMMON.fluidizer.energyPerRecipeTick.get(), false);
+        this._energyBuffer.extractEnergy(EnergySystem.ForgeEnergy, WideAmount.from(Config.COMMON.fluidizer.energyPerRecipeTick.get()),
+                OperationMode.Execute);
     }
 
     @Override
@@ -531,7 +551,7 @@ public class MultiblockFluidizer
         final MultiblockFluidizer otherFluidizer = (MultiblockFluidizer)assimilated;
 
         FluidUtil.tryFluidTransfer(this._outputTank, otherFluidizer._outputTank, Integer.MAX_VALUE, true);
-        EnergyHelper.transferEnergy(this._energyBuffer, otherFluidizer._energyBuffer, Double.MAX_VALUE, OperationMode.Execute);
+        EnergyHelper.transferEnergy(this._energyBuffer, otherFluidizer._energyBuffer, WideAmount.MAX_VALUE, OperationMode.Execute);
     }
 
     /**
@@ -588,7 +608,7 @@ public class MultiblockFluidizer
 
         final BlockPos position = new BlockPos(x, y, z);
 
-        validatorCallback.setLastError(position, "multiblock.validation.reprocessor.invalid_block",
+        validatorCallback.setLastError(position, "multiblock.validation.fluidizer.invalid_block",
                 ModBlock.getNameForTranslation(world.getBlockState(position).getBlock()));
         return false;
     }
@@ -638,9 +658,9 @@ public class MultiblockFluidizer
     }
 
     private final FluidTank _outputTank;
-    private final EnergyBuffer _energyBuffer;
+    private final WideEnergyBuffer _energyBuffer;
     private final IFluidHandler _outputFluidHandler;
-    private final IWideEnergyStorage _energyInputHandler;
+    private final IWideEnergyStorage2 _energyInputHandler;
 
     private final IPartCollection<MultiblockFluidizer, FluidizerSolidInjectorEntity> _solidInjectors;
     private final IPartCollection<MultiblockFluidizer, FluidizerFluidInjectorEntity> _fluidInjectors;

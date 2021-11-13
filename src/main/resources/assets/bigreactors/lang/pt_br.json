@@ -195,6 +195,8 @@
     "gui.bigreactors.turbine.inactive": "A Turbina está inativa",
     "gui.bigreactors.reprocessor.active": "The Reprocessor is ACTIVE",
     "gui.bigreactors.reprocessor.inactive": "The Reprocessor is inactive",
+    "gui.bigreactors.fluidizer.active": "The Fluidizer is ACTIVE",
+    "gui.bigreactors.fluidizer.inactive": "The Fluidizer is inactive",
 
     "gui.bigreactors.reactor.controller.fuelusage.line1": "Taxa de Queima de Combustível",
     "gui.bigreactors.reactor.controller.fuelusage.line2": "A taxa na qual o combustível é fissionado",
@@ -226,7 +228,7 @@
     "gui.bigreactors.reactor.controller.casingheatbar.line5": "energia e a conversão do refrigerante.",
     "gui.bigreactors.reactor.controller.energybar.line1": "Buffer de Energia Interno",
     "gui.bigreactors.reactor.controller.energybar.line2a": "  @0",
-    "gui.bigreactors.reactor.controller.energybar.line2b": " /%1$s",
+    "gui.bigreactors.reactor.controller.energybar.line2b": " / %1$s",
     "gui.bigreactors.reactor.controller.energybar.line3a": "  @1",
     "gui.bigreactors.reactor.controller.energybar.line3b": "% cheio",
     "gui.bigreactors.reactor.controller.energybar.line4": "A energia gerada é armazenada no",
@@ -531,6 +533,17 @@
     "gui.bigreactors.reprocessor.controller.on.line1": "Turn the Reprocessor on",
     "gui.bigreactors.reprocessor.controller.off.line1": "Turn the Reprocessor off",
 
+    "gui.bigreactors.fluidizer.controller.tooltips_popup_max_width": "150",
+    "gui.bigreactors.fluidizer.controller.fluidbar.line1": "Output Tank",
+    "gui.bigreactors.fluidizer.controller.fluidbar.line2": "  @0",
+    "gui.bigreactors.fluidizer.controller.fluidbar.line3a": "  @1",
+    "gui.bigreactors.fluidizer.controller.fluidbar.line3b": " / %1$s",
+    "gui.bigreactors.fluidizer.controller.fluidbar.line4a": "  @2",
+    "gui.bigreactors.fluidizer.controller.fluidbar.line4b": "% full",
+    "gui.bigreactors.fluidizer.controller.inputfuel.title": "Input fuel",
+    "gui.bigreactors.fluidizer.controller.on.line1": "Turn the Fluidizer on",
+    "gui.bigreactors.fluidizer.controller.off.line1": "Turn the Fluidizer off",
+
     "gui.bigreactors.generator.chargingport.dumpfuel.line1": "Manual Ejection",
     "gui.bigreactors.generator.chargingport.dumpfuel.line2": "Manually ejects the item from",
     "gui.bigreactors.generator.chargingport.dumpfuel.line3": "the input slot and put it in",
@@ -622,6 +635,7 @@
     "multiblock.validation.fluidizer.missing_powerport": "The Fluidizer must contain one or more Fluidizer Power Ports",
     "multiblock.validation.fluidizer.invalid_frame_block": "Only Casing may be used as part of a Fluidizer's frame",
     "multiblock.validation.fluidizer.invalid_part_for_interior": "This part may not be placed in the Fluidizer's interior",
+    "multiblock.validation.fluidizer.invalid_block": "%1$s is not valid block for the Fluidizer",
 
     "_comment": "Configs",
     "config.bigreactors.compatibility": "Compatibilidade",

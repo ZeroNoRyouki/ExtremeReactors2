@@ -54,7 +54,8 @@ public class FluidizerFluidMixingRecipe
 
     public static boolean lookup(final ModRecipe recipe, final IRecipeIngredientSource<FluidStack> source1,
                                  final IRecipeIngredientSource<FluidStack> source2) {
-        return recipe instanceof FluidizerFluidMixingRecipe && ((FluidizerFluidMixingRecipe)recipe).test(source1.getIngredient(), source2.getIngredient());
+        return recipe instanceof FluidizerFluidMixingRecipe &&
+                ((FluidizerFluidMixingRecipe)recipe).test(source1.getIngredient(), source2.getIngredient());
     }
 
     @Override
@@ -77,8 +78,7 @@ public class FluidizerFluidMixingRecipe
         final FluidStackRecipeIngredient ingredient1 = this.getIngredient1();
         final FluidStackRecipeIngredient ingredient2 = this.getIngredient2();
 
-        return (ingredient1.test(stack1) && ingredient2.test(stack2)) ||
-                (ingredient1.test(stack2) && ingredient2.test(stack1));
+        return ingredient1.test(stack1) && ingredient2.test(stack2);
     }
 
     public static IRecipeSerializer<FluidizerFluidMixingRecipe> serializer() {

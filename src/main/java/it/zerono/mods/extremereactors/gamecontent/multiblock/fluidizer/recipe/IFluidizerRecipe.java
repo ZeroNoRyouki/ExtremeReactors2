@@ -30,6 +30,8 @@ public interface IFluidizerRecipe
     }
 
     enum Type {
+
+        Invalid,
         Solid,
         SolidMixing,
         FluidMixing

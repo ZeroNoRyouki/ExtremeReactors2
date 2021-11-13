@@ -21,6 +21,8 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.GenericDeviceBlock;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.GlassBlock;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.part.FluidizerFluidInjectorEntity;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.part.FluidizerSolidInjectorEntity;
 import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockPartType2;
 import it.zerono.mods.zerocore.lib.block.multiblock.MultiblockPartBlock;
 import it.zerono.mods.zerocore.lib.block.multiblock.MultiblockPartTypeProperties;
@@ -42,10 +44,12 @@ public enum FluidizerPartType
             GenericDeviceBlock::new, "block.bigreactors.fluidizercontroller"),
 
     SolidInjector(() -> Content.TileEntityTypes.FLUIDIZER_SOLIDINJECTOR::get,
-            GenericDeviceBlock::new, "block.bigreactors.fluidizersolidinjector"),
+            GenericDeviceBlock::new, "block.bigreactors.fluidizersolidinjector", bp -> bp,
+            partProperties -> partProperties.setAsStackStorable(FluidizerSolidInjectorEntity::itemTooltipBuilder)),
 
     FluidInjector(() -> Content.TileEntityTypes.FLUIDIZER_FLUIDINJECTOR::get,
-            GenericDeviceBlock::new, "block.bigreactors.fluidizerfluidinjector"),
+            GenericDeviceBlock::new, "block.bigreactors.fluidizerfluidinjector", bp -> bp,
+            partProperties -> partProperties.setAsStackStorable(FluidizerFluidInjectorEntity::itemTooltipBuilder)),
 
     OutputPort(() -> Content.TileEntityTypes.FLUIDIZER_OUTPUTPORT::get,
             GenericDeviceBlock::new, "block.bigreactors.fluidizeroutputport"),
@@ -67,7 +71,16 @@ public enum FluidizerPartType
                               MultiblockPartBlock<MultiblockFluidizer, FluidizerPartType>> blockFactory,
                       final String translationKey,
                       final NonNullFunction<Block.Properties, Block.Properties> blockPropertiesFixer) {
-        this._properties = new MultiblockPartTypeProperties<>(tileTypeSupplier, blockFactory, translationKey, blockPropertiesFixer);
+        this(tileTypeSupplier, blockFactory, translationKey, blockPropertiesFixer, ep -> ep);
+    }
+
+    FluidizerPartType(final NonNullSupplier<NonNullSupplier<TileEntityType<?>>> tileTypeSupplier,
+                      final NonNullFunction<MultiblockPartBlock.MultiblockPartProperties<FluidizerPartType>,
+                              MultiblockPartBlock<MultiblockFluidizer, FluidizerPartType>> blockFactory,
+                      final String translationKey,
+                      final NonNullFunction<Block.Properties, Block.Properties> blockPropertiesFixer,
+                      final NonNullFunction<MultiblockPartBlock.MultiblockPartProperties<FluidizerPartType>, MultiblockPartBlock.MultiblockPartProperties<FluidizerPartType>> partPropertiesFixer) {
+        this._properties = new MultiblockPartTypeProperties<>(tileTypeSupplier, blockFactory, translationKey, blockPropertiesFixer, partPropertiesFixer);
     }
 
     //region IMultiblockPartType2
