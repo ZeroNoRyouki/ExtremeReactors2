@@ -697,5 +697,8 @@
 
     "_comment": "Compat - JEI",
     "compat.bigreactors.jei.reprocessor.recipecategory.title": "Reprocessor",
-    "compat.bigreactors.jei.reprocessor.recipecategory.energy.tooltip.title": "Energy"
+    "compat.bigreactors.jei.common.recipecategory.energy.tooltip.title": "Energy",
+    "compat.bigreactors.jei.fluidizer.recipecategory.solid.title": "Fluidizer - Solid to Fluid",
+    "compat.bigreactors.jei.fluidizer.recipecategory.solidmixing.title": "Fluidizer - Solid mixing",
+    "compat.bigreactors.jei.fluidizer.recipecategory.fluidmixing.title": "Fluidizer - Fluid mixing"
 }

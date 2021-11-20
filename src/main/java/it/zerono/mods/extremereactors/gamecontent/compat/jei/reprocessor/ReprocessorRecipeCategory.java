@@ -58,7 +58,7 @@ public class ReprocessorRecipeCategory
 
     public ReprocessorRecipeCategory(final IGuiHelper guiHelper) {
 
-        super(ReprocessorRecipe.ID, new TranslationTextComponent("compat.bigreactors.jei.reprocessor.recipecategory.title"),
+        super(ReprocessorRecipe.ID, new TranslationTextComponent("compat.bigreactors.jei.common.recipecategory.title"),
                 Content.Blocks.REPROCESSOR_WASTEINJECTOR.get().createItemStack(), guiHelper,
                 guiHelper.drawableBuilder(ExtremeReactors.newID("textures/gui/jei/reprocessor.png"), 0, 0, 96, 96)
                         .setTextureSize(96, 96)
@@ -112,8 +112,6 @@ public class ReprocessorRecipeCategory
             this._fluidBarTooltips.add(new StringTextComponent(String.format("%d mB", this._recipeFluid.getAmount()))
                     .setStyle(CommonConstants.STYLE_TOOLTIP_VALUE));
 
-//            this._progressBar = this._guiHelper.createAnimatedDrawable(new SpriteDrawable(() -> this._recipeProgressSprite, 0),
-//                    MultiblockReprocessor.TICKS, IDrawableAnimated.StartDirection.TOP, false);
             this._progressBar = null;
 
         } else {
