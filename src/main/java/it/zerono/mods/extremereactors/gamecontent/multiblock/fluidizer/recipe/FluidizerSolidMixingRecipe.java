@@ -46,13 +46,19 @@ public class FluidizerSolidMixingRecipe
 
     protected FluidizerSolidMixingRecipe(final ResourceLocation id, final ItemStackRecipeIngredient ingredient1,
                                          final ItemStackRecipeIngredient ingredient2, final FluidStackRecipeResult result) {
+
         super(id, ingredient1, ingredient2, result, JSON_LABELS_SUPPLIER);
+        s_maxResultAmount = Math.max(s_maxResultAmount, result.getAmount());
     }
 
     public static boolean lookup(final ModRecipe recipe, final IRecipeIngredientSource<ItemStack> source1,
                                  final IRecipeIngredientSource<ItemStack> source2) {
         return recipe instanceof FluidizerSolidMixingRecipe &&
                 ((FluidizerSolidMixingRecipe)recipe).test(source1.getIngredient(), source2.getIngredient());
+    }
+
+    public static long getMaxResultAmount() {
+        return s_maxResultAmount;
     }
 
     @Override
@@ -91,6 +97,14 @@ public class FluidizerSolidMixingRecipe
         return new TwoToOneRecipeBuilder<>(Type.SolidMixing.getRecipeId(), ingredient1, ingredient2, result, JSON_LABELS_SUPPLIER);
     }
 
+    //region IFluidizerRecipe
+
+    @Override
+    public int getEnergyUsageMultiplier() {
+        return this.getEnergyUsageMultiplier(this.getResult().getResult());
+    }
+
+    //endregion
     //region AbstractTwoToOneRecipe
 
     @Override
@@ -156,6 +170,7 @@ public class FluidizerSolidMixingRecipe
 
     private static final String[] LABELS = {"ingredient1", "ingredient2"};
     private static final IntFunction<String> JSON_LABELS_SUPPLIER = n -> LABELS[n];
+    private static long s_maxResultAmount = 0;
 
     //endregion
 }

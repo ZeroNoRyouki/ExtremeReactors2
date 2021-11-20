@@ -70,9 +70,6 @@ public class MultiblockFluidizer
         extends AbstractCuboidMultiblockController<MultiblockFluidizer>
         implements IMultiblockMachine, IActivableMachine, ISyncableEntity, IDebuggable, IFluidizerRecipeHolder.Callbacks {
 
-    public static final int TICKS_SOLID = 40;
-    public static final int TICKS_SOLIDMIXNG = 80;
-    public static final int TICKS_FLUIDMIXING = 80;
     public static final WideAmount ENERGY_CAPACITY = WideAmount.asImmutable(50_000);
 
     public MultiblockFluidizer(final World world) {
@@ -161,7 +158,8 @@ public class MultiblockFluidizer
 
     @Override
     public void onRecipeTickProcessed(final int currentTick) {
-        this._energyBuffer.extractEnergy(EnergySystem.ForgeEnergy, WideAmount.from(Config.COMMON.fluidizer.energyPerRecipeTick.get()),
+        this._energyBuffer.extractEnergy(EnergySystem.ForgeEnergy,
+                WideAmount.from(Config.COMMON.fluidizer.energyPerRecipeTick.get() * (long)this._recipeHolder.getEnergyUsageMultiplier()),
                 OperationMode.Execute);
     }
 

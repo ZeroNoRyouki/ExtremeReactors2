@@ -45,4 +45,6 @@ interface IFluidizerRecipeHolder
     boolean processRecipe();
 
     void refresh();
+
+    int getEnergyUsageMultiplier();
 }

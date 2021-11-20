@@ -24,6 +24,7 @@ import it.zerono.mods.zerocore.lib.recipe.ModRecipe;
 import it.zerono.mods.zerocore.lib.recipe.holder.IHeldRecipe;
 import it.zerono.mods.zerocore.lib.recipe.result.FluidStackRecipeResult;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fluids.FluidStack;
 
 public interface IFluidizerRecipe
         extends ISerializableRecipe {
@@ -33,10 +34,10 @@ public interface IFluidizerRecipe
 
     enum Type {
 
-        Invalid("invalid_recipe"),
-        Solid("fluidizersolid"),
-        SolidMixing("fluidizersolidmixing"),
-        FluidMixing("fluidizerfluidmixing")
+        Invalid("invalid_recipe", -1),
+        Solid("fluidizersolid", 40),
+        SolidMixing("fluidizersolidmixing", 80),
+        FluidMixing("fluidizerfluidmixing", 80)
         ;
 
         public String getRecipeName() {
@@ -47,16 +48,22 @@ public interface IFluidizerRecipe
             return this._id;
         }
 
+        public int getTicks() {
+            return this._ticks;
+        }
+
         //region internals
 
-        Type(final String name) {
+        Type(final String name, final int ticks) {
 
             this._name = name;
             this._id = ExtremeReactors.newID(name);
+            this._ticks = ticks;
         }
 
         private final String _name;
         private final ResourceLocation _id;
+        private final int _ticks;
 
         //endregion
     }
@@ -64,4 +71,10 @@ public interface IFluidizerRecipe
     Type getRecipeType();
 
     FluidStackRecipeResult getResult();
+
+    int getEnergyUsageMultiplier();
+
+    default int getEnergyUsageMultiplier(FluidStack stack) {
+        return (int)Math.ceil(stack.getAmount() / 1000.0);
+    }
 }

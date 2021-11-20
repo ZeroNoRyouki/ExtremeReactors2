@@ -44,11 +44,17 @@ public class FluidizerSolidRecipe
 
     protected FluidizerSolidRecipe(final ResourceLocation id, final ItemStackRecipeIngredient ingredient,
                                    final FluidStackRecipeResult result) {
+
         super(id, ingredient, result);
+        s_maxResultAmount = Math.max(s_maxResultAmount, result.getAmount());
     }
 
     public static boolean lookup(final ModRecipe recipe, final IRecipeIngredientSource<ItemStack> source) {
         return recipe instanceof FluidizerSolidRecipe && ((FluidizerSolidRecipe)recipe).test(source.getIngredient());
+    }
+
+    public static long getMaxResultAmount() {
+        return s_maxResultAmount;
     }
 
     @Override
@@ -71,6 +77,14 @@ public class FluidizerSolidRecipe
         return new OneToOneRecipeBuilder<>(Type.Solid.getRecipeId(), ingredient, result);
     }
 
+    //region IFluidizerRecipe
+
+    @Override
+    public int getEnergyUsageMultiplier() {
+        return this.getEnergyUsageMultiplier(this.getResult().getResult());
+    }
+
+    //endregion
     //region AbstractOneToOneRecipe
 
     @Override
@@ -126,6 +140,11 @@ public class FluidizerSolidRecipe
 
         //endregion
     }
+
+    //endregion
+    //region internals
+
+    private static long s_maxResultAmount = 0;
 
     //endregion
 }

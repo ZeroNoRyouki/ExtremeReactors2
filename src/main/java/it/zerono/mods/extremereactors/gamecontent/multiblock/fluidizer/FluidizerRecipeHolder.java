@@ -38,7 +38,7 @@ class FluidizerRecipeHolder<Recipe extends ModRecipe & IFluidizerRecipe>
     public static IFluidizerRecipeHolder solid(final IFluidizerRecipeHolder.Callbacks callbacks,
                                                final Function<IRecipeHolder<FluidizerSolidRecipe>, IHeldRecipe<FluidizerSolidRecipe>> factory) {
         return new FluidizerRecipeHolder<>(IFluidizerRecipe.Type.Solid,
-                RecipeHolder.builder(factory, recipe -> MultiblockFluidizer.TICKS_SOLID)
+                RecipeHolder.builder(factory, recipe -> recipe.getRecipeType().getTicks())
                         .onHasIngredientsChanged(callbacks::hasIngredientsChanged)
                         .onRecipeTickProcessed(callbacks::onRecipeTickProcessed)
                         .onCanProcess(callbacks::canProcessRecipe)
@@ -49,7 +49,7 @@ class FluidizerRecipeHolder<Recipe extends ModRecipe & IFluidizerRecipe>
     public static IFluidizerRecipeHolder solidMixing(final IFluidizerRecipeHolder.Callbacks callbacks,
                                                      final Function<IRecipeHolder<FluidizerSolidMixingRecipe>, IHeldRecipe<FluidizerSolidMixingRecipe>> factory) {
         return new FluidizerRecipeHolder<>(IFluidizerRecipe.Type.SolidMixing,
-                RecipeHolder.builder(factory, recipe -> MultiblockFluidizer.TICKS_SOLIDMIXNG)
+                RecipeHolder.builder(factory, recipe -> recipe.getRecipeType().getTicks())
                         .onHasIngredientsChanged(callbacks::hasIngredientsChanged)
                         .onRecipeTickProcessed(callbacks::onRecipeTickProcessed)
                         .onCanProcess(callbacks::canProcessRecipe)
@@ -60,7 +60,7 @@ class FluidizerRecipeHolder<Recipe extends ModRecipe & IFluidizerRecipe>
     public static IFluidizerRecipeHolder fluidMixing(final IFluidizerRecipeHolder.Callbacks callbacks,
                                                      final Function<IRecipeHolder<FluidizerFluidMixingRecipe>, IHeldRecipe<FluidizerFluidMixingRecipe>> factory) {
         return new FluidizerRecipeHolder<>(IFluidizerRecipe.Type.FluidMixing,
-                RecipeHolder.builder(factory, recipe -> MultiblockFluidizer.TICKS_FLUIDMIXING)
+                RecipeHolder.builder(factory, recipe -> recipe.getRecipeType().getTicks())
                         .onHasIngredientsChanged(callbacks::hasIngredientsChanged)
                         .onRecipeTickProcessed(callbacks::onRecipeTickProcessed)
                         .onCanProcess(callbacks::canProcessRecipe)
@@ -93,6 +93,11 @@ class FluidizerRecipeHolder<Recipe extends ModRecipe & IFluidizerRecipe>
     @Override
     public void refresh() {
         this._recipeHolder.refresh();
+    }
+
+    @Override
+    public int getEnergyUsageMultiplier() {
+        return this._recipeHolder.getCurrentRecipe().map(held -> held.getRecipe().getEnergyUsageMultiplier()).orElse(1);
     }
 
     //endregion
