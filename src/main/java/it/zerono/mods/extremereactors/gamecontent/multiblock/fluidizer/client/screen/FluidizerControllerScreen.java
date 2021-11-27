@@ -18,13 +18,13 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.client.screen;
 
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.CommonIcons;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.MultiblockFluidizer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.container.FluidizerControllerContainer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.part.FluidizerControllerEntity;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.part.FluidizerFluidInjectorEntity;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.recipe.IFluidizerRecipe;
 import it.zerono.mods.zerocore.base.CommonConstants;
+import it.zerono.mods.zerocore.base.client.screen.BaseIcons;
 import it.zerono.mods.zerocore.base.client.screen.control.EnergyBar;
 import it.zerono.mods.zerocore.base.client.screen.control.FluidBar;
 import it.zerono.mods.zerocore.base.client.screen.control.MachineStatusIndicator;
@@ -194,7 +194,7 @@ public class FluidizerControllerScreen
             addDataBinding(container::getRecipeProgress, this::setProgress);
 
             this._outputFluidBar = new FluidBar(FluidizerControllerScreen.this, "outbar", container.getOutputCapacity(),
-                    () -> (double)container.getOutputAmount(), container::getOutput, CommonIcons.FuelIcon, "gui.bigreactors.fluidizer.controller.fluidbar.line1", null);
+                    () -> (double)container.getOutputAmount(), container::getOutput, BaseIcons.Bucket, "gui.bigreactors.fluidizer.controller.fluidbar.line1", null);
             this._leftProgressBar = this.progressBar(true, FluidizerIcons.ProgressLeft, FluidizerIcons.ProgressLeftFilled);
             this._rightProgressBar = this.progressBar(false, FluidizerIcons.ProgressRight, FluidizerIcons.ProgressRightFilled);
 
