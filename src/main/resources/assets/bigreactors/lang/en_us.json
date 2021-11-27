@@ -50,6 +50,8 @@
     "fluid.bigreactors.cyanite": "Cyanite",
     "fluid.bigreactors.blutonium": "Blutonium",
     "fluid.bigreactors.magentite": "Magentite",
+    "fluid.bigreactors.verderium": "Verderium",
+    "fluid.bigreactors.rossinite": "Rossinite",
 
     "_comment": "Blocks - metal blocks / ores",
     "block.bigreactors.yellorium_block": "Yellorium Block",

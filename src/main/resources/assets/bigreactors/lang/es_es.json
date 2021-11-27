@@ -50,6 +50,8 @@
     "fluid.bigreactors.cyanite": "Cianita",
     "fluid.bigreactors.blutonium": "Blutonium",
     "fluid.bigreactors.magentite": "Magentite",
+    "fluid.bigreactors.verderium": "Verderium",
+    "fluid.bigreactors.rossinite": "Rossinite",
 
     "_comment": "Bloques - bloques de metal / menas",
     "block.bigreactors.yellorium_block": "Bloque de Yellorio",
