@@ -1,0 +1,19 @@
+{
+  "type": "bigreactors:fluidizersolidmixing",
+  "ingredient1": {
+    "ingredient": {
+      "item": "bigreactors:yellorium_block"
+    },
+    "count": 2
+  },
+  "ingredient2": {
+    "ingredient": {
+      "item": "bigreactors:blutonium_block"
+    },
+    "count": 1
+  },
+  "result": {
+    "fluid": "bigreactors:verderium",
+    "count": 18000
+  }
+}

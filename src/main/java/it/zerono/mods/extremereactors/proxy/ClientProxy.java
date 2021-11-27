@@ -34,6 +34,7 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.scree
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.ChargingPortScreen;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.FluidPortScreen;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.container.ChargingPortContainer;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.client.model.FluidizerGlassModelBuilder;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.client.model.FluidizerModelBuilder;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.client.screen.FluidizerControllerScreen;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.client.screen.FluidizerSolidInjectorScreen;
@@ -228,7 +229,8 @@ public class ClientProxy
                 Stream.of(new ReprocessorModelBuilder(),
                         new ReprocessorIOModelBuilder(),
                         new ReprocessorGlassModelBuilder(),
-                        new FluidizerModelBuilder())
+                        new FluidizerModelBuilder(),
+                        new FluidizerGlassModelBuilder())
         ).collect(ImmutableList.toImmutableList());
     }
 

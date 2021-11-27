@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "bigreactors:general",
+  "pattern": [
+    "CXC",
+    "YEY",
+    "CPC"
+  ],
+  "key": {
+    "C": {
+      "item": "bigreactors:fluidizercasing"
+    },
+    "Y": {
+      "tag": "forge:ingots/yellorium"
+    },
+    "P": {
+      "tag": "forge:dusts/glowstone"
+    },
+    "E": {
+      "tag": "forge:gems/emerald"
+    },
+    "X": {
+      "item": "minecraft:comparator"
+    }
+  },
+  "result": {
+    "item": "bigreactors:fluidizercontroller"
+  }
+}

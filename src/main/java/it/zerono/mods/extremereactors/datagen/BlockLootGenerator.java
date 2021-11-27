@@ -91,6 +91,10 @@ public class BlockLootGenerator
         this.addDrop(Content.Blocks.REPROCESSOR_CASING, Content.Blocks.REPROCESSOR_GLASS, Content.Blocks.REPROCESSOR_CONTROLLER,
                 Content.Blocks.REPROCESSOR_WASTEINJECTOR, Content.Blocks.REPROCESSOR_FLUIDINJECTOR, Content.Blocks.REPROCESSOR_OUTPUTPORT,
                 Content.Blocks.REPROCESSOR_POWERPORT, Content.Blocks.REPROCESSOR_COLLECTOR);
+
+        this.addDrop(Content.Blocks.FLUIDIZER_CASING, Content.Blocks.FLUIDIZER_GLASS, Content.Blocks.FLUIDIZER_CONTROLLER,
+                Content.Blocks.FLUIDIZER_SOLIDINJECTOR, Content.Blocks.FLUIDIZER_FLUIDINJECTOR, Content.Blocks.FLUIDIZER_OUTPUTPORT,
+                Content.Blocks.FLUIDIZER_POWERPORT);
     }
 
     @Override

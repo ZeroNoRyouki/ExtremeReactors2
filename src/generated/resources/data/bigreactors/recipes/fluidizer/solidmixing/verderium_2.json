@@ -1,0 +1,19 @@
+{
+  "type": "bigreactors:fluidizersolidmixing",
+  "ingredient1": {
+    "ingredient": {
+      "item": "bigreactors:blutonium_ingot"
+    },
+    "count": 1
+  },
+  "ingredient2": {
+    "ingredient": {
+      "item": "bigreactors:yellorium_ingot"
+    },
+    "count": 2
+  },
+  "result": {
+    "fluid": "bigreactors:verderium",
+    "count": 2000
+  }
+}
