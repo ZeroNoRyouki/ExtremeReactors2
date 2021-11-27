@@ -27,10 +27,7 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import it.zerono.mods.extremereactors.Log;
-import it.zerono.mods.extremereactors.api.reactor.FuelProperties;
-import it.zerono.mods.extremereactors.api.reactor.Reactant;
-import it.zerono.mods.extremereactors.api.reactor.ReactantType;
-import it.zerono.mods.extremereactors.api.reactor.ReactantsRegistry;
+import it.zerono.mods.extremereactors.api.reactor.*;
 import it.zerono.mods.zerocore.lib.data.gfx.Colour;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
@@ -74,6 +71,17 @@ public final class ExtremeReactorsCommand {
                                 )
                         )
                 )
+                .then(Commands.literal("reaction")
+                        .then(Commands.literal("get")
+                                .then(nameParam().executes(ExtremeReactorsCommand::getReaction))
+                        )
+                        .then(Commands.literal("set")
+                                .then(nameParam()
+                                        .then(floatCommand("reactivity", 1.0f, context -> setReactionValue(context, "_reactivity", getFloat(context))))
+                                        .then(floatCommand("fissionRate", 0.0001f, context -> setReactionValue(context, "_fissionRate", getFloat(context))))
+                                )
+                        )
+                )
         );
     }
 
@@ -82,38 +90,43 @@ public final class ExtremeReactorsCommand {
     private ExtremeReactorsCommand() {
     }
 
+    //region commands & parameters
+
     private static ArgumentBuilder<CommandSource, LiteralArgumentBuilder<CommandSource>> stringCommand(final String propertyName,
                                                                                                        final Command<CommandSource> cmd) {
-        return Commands.literal(propertyName).then(Commands.argument(PARAM_REACTANT_VALUE, StringArgumentType.string()).executes(cmd));
+        return Commands.literal(propertyName).then(Commands.argument(PARAM_VALUE, StringArgumentType.string()).executes(cmd));
     }
 
     private static ArgumentBuilder<CommandSource, LiteralArgumentBuilder<CommandSource>> floatCommand(final String propertyName,
                                                                                                       final float min,
                                                                                                       final Command<CommandSource> cmd) {
-        return Commands.literal(propertyName).then(Commands.argument(PARAM_REACTANT_VALUE, FloatArgumentType.floatArg(min)).executes(cmd));
+        return Commands.literal(propertyName).then(Commands.argument(PARAM_VALUE, FloatArgumentType.floatArg(min)).executes(cmd));
     }
 
     private static ArgumentBuilder<CommandSource, LiteralArgumentBuilder<CommandSource>> floatCommand(final String propertyName,
                                                                                                       final float min, final float max,
                                                                                                       final Command<CommandSource> cmd) {
-        return Commands.literal(propertyName).then(Commands.argument(PARAM_REACTANT_VALUE, FloatArgumentType.floatArg(min, max)).executes(cmd));
+        return Commands.literal(propertyName).then(Commands.argument(PARAM_VALUE, FloatArgumentType.floatArg(min, max)).executes(cmd));
     }
 
     private static RequiredArgumentBuilder<CommandSource, String> nameParam() {
-        return Commands.argument(PARAM_REACTANT_NAME, StringArgumentType.string());
+        return Commands.argument(PARAM_NAME, StringArgumentType.string());
     }
 
     private static String getName(final CommandContext<CommandSource> context) {
-        return StringArgumentType.getString(context, PARAM_REACTANT_NAME);
+        return StringArgumentType.getString(context, PARAM_NAME);
     }
 
     private static String getString(final CommandContext<CommandSource> context) {
-        return StringArgumentType.getString(context, PARAM_REACTANT_VALUE);
+        return StringArgumentType.getString(context, PARAM_VALUE);
     }
 
     private static float getFloat(final CommandContext<CommandSource> context) {
-        return FloatArgumentType.getFloat(context, PARAM_REACTANT_VALUE);
+        return FloatArgumentType.getFloat(context, PARAM_VALUE);
     }
+
+    //endregion
+    //region reactants
 
     private static int getReactant(final CommandContext<CommandSource> context) {
 
@@ -190,8 +203,54 @@ public final class ExtremeReactorsCommand {
         return text;
     }
 
-    private static final String PARAM_REACTANT_NAME = "name";
-    private static final String PARAM_REACTANT_VALUE = "value";
+    //endregion
+    //region reactions
+
+    private static int getReaction(final CommandContext<CommandSource> context) {
+
+        context.getSource().sendSuccess(ReactantsRegistry.get(getName(context))
+                .flatMap(ReactionsRegistry::get)
+                .map(ExtremeReactorsCommand::getTextFrom)
+                .orElse(new StringTextComponent("Reactant or reaction not found")), true);
+        return 0;
+    }
+
+    private static ITextComponent getTextFrom(final Reaction reaction) {
+        return new StringTextComponent(String.format("[" +
+                TextFormatting.BOLD + "%s" + TextFormatting.RESET + " -> " +
+                TextFormatting.BOLD + "%s" + TextFormatting.RESET + "] " +
+                TextFormatting.ITALIC + "reactivity: " + TextFormatting.RESET + "%f; " +
+                TextFormatting.ITALIC + "fissionRate: " + TextFormatting.RESET + "%f",
+                reaction.getSource(), reaction.getProduct(), reaction.getReactivity(), reaction.getFissionRate()));
+    }
+
+    private static int setReactionValue(final CommandContext<CommandSource> context, final String fieldName, final float value) {
+
+        context.getSource().sendSuccess(ReactantsRegistry.get(getName(context))
+                .flatMap(ReactionsRegistry::get)
+                .map(reaction -> {
+                    try {
+
+                        final Field f = reaction.getClass().getDeclaredField(fieldName);
+
+                        f.setAccessible(true);
+                        f.set(reaction, value);
+                        return new StringTextComponent(String.format("Reaction %s parameter %s set to %f", reaction.getSource(), fieldName, value));
+
+                    } catch (Exception ex) {
+
+                        Log.LOGGER.error(ex);
+                        return new StringTextComponent(String.format("Exception raised while setting Reaction field %s", fieldName));
+                    }
+                })
+                .orElse(new StringTextComponent("Reactant or reaction not found")), true);
+        return 0;
+    }
+
+    //endregion
+
+    private static final String PARAM_NAME = "name";
+    private static final String PARAM_VALUE = "value";
 
     //endregion
 }
