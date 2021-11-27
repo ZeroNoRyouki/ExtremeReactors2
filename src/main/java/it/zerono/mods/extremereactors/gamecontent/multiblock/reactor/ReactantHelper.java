@@ -111,7 +111,7 @@ public class ReactantHelper {
 
         final int minimumReactantAmount = fluid ? reactant.getMinimumFluidSourceAmount() : reactant.getMinimumSolidSourceAmount();
 
-        return container.getContentAmount(reactant.getType()) >= minimumReactantAmount &&
+        return (minimumReactantAmount > 0) && (container.getContentAmount(reactant.getType()) >= minimumReactantAmount) &&
                 ejectReactant(reactant, minimumReactantAmount, container, fuelSources) > 0;
     }
 

@@ -67,8 +67,7 @@ public class Reactant
     /**
      * Compute the minimum amount of this Reactant that can be produced from a solid source.
      *
-     * @return The smallest amount of reactant found in a given reactant<>solid mapping set
-     * @throws IllegalArgumentException if no reactants were mapped.
+     * @return The smallest amount of reactant found in a given reactant<>solid mapping set or -1 if no mapping could be found.
      */
     public int getMinimumSolidSourceAmount() {
         return ReactantMappingsRegistry.getToSolid(this)
@@ -76,19 +75,18 @@ public class Reactant
                 .stream()
                 .mapToInt(IMapping::getSourceAmount)
                 .reduce(Integer::min)
-                .orElseThrow(() -> new IllegalArgumentException("No solid products mapped for reactant " + this.getName()));
+                .orElse(-1);
     }
 
     /**
      * Compute the minimum amount of this Reactant that can be produced from a fluid source.
      *
-     * @return The smallest amount of reactant found in a given reactant<>fluid mapping set
-     * @throws IllegalArgumentException if no reactants were mapped.
+     * @return The smallest amount of reactant found in a given reactant<>fluid mapping set or -1 if no mapping could be found.
      */
     public int getMinimumFluidSourceAmount() {
         return ReactantMappingsRegistry.getToFluid(this)
                 .map($ -> ReactantMappingsRegistry.STANDARD_FLUID_REACTANT_AMOUNT)
-                .orElseThrow(() -> new IllegalArgumentException("No fluid products mapped for reactant " + this.getName()));
+                .orElse(-1);
     }
 
     //region Predicate<ReactantType>
