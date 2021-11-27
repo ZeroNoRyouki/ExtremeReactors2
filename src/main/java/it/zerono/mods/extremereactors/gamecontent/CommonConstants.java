@@ -43,14 +43,6 @@ public final class CommonConstants {
     public static final ResourceLocation FLUID_TEXTURE_OVERLAY_WATER = new ResourceLocation("block/water_overlay");
 
     //endregion
-    //region Reactants
-
-    public static final int REACTANT_COLOUR_YELLORIUM = 0xc6ba54;
-    public static final int REACTANT_COLOUR_BLUTONIUM = 0x17179c;
-    public static final int REACTANT_COLOUR_CYANITE = 0x5387b7;
-    public static final int REACTANT_COLOUR_MAGENTITE = 0xe41de4;
-
-    //endregion
     //region UI styles
 
     @Deprecated // use ZC.base.CommonConstants

@@ -10,6 +10,8 @@
     "reactant.bigreactors.cyanite": "Cianita",
     "reactant.bigreactors.blutonium": "Blutonio",
     "reactant.bigreactors.magentite": "Magentite",
+    "reactant.bigreactors.verderium": "Verderium",
+    "reactant.bigreactors.rossinite": "Rossinite",
 
     "_comment": "Items - lingotes",
     "item.bigreactors.yellorium_ingot": "Lingote de Yellorio",
@@ -38,6 +40,8 @@
     "item.bigreactors.cyanite_bucket": "Balde de Cianita",
     "item.bigreactors.blutonium_bucket": "Balde de Blutonium",
     "item.bigreactors.magentite_bucket": "Balde de Magentite",
+    "item.bigreactors.verderium_bucket": "Balde de Verderium",
+    "item.bigreactors.rossinite_bucket": "Balde de Rossinite",
 
     "_comment": "Fluidos",
     "fluid.bigreactors.water": "Agua",

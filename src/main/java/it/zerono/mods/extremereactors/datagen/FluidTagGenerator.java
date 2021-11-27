@@ -59,6 +59,8 @@ public class FluidTagGenerator
         this.tag(ContentTags.Fluids.CYANITE, Content.Fluids.CYANITE_SOURCE, Content.Fluids.CYANITE_FLOWING);
         this.tag(ContentTags.Fluids.BLUTONIUM, Content.Fluids.BLUTONIUM_SOURCE, Content.Fluids.BLUTONIUM_FLOWING);
         this.tag(ContentTags.Fluids.MAGENTITE, Content.Fluids.MAGENTITE_SOURCE, Content.Fluids.MAGENTITE_FLOWING);
+        this.tag(ContentTags.Fluids.VERDERIUM, Content.Fluids.VERDERIUM_SOURCE, Content.Fluids.VERDERIUM_FLOWING);
+        this.tag(ContentTags.Fluids.ROSSINITE, Content.Fluids.ROSSINITE_SOURCE, Content.Fluids.ROSSINITE_FLOWING);
     }
 
     //endregion

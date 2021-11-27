@@ -10,6 +10,8 @@
     "reactant.bigreactors.cyanite": "Cyanite",
     "reactant.bigreactors.blutonium": "Blutonium",
     "reactant.bigreactors.magentite": "Magentite",
+    "reactant.bigreactors.verderium": "Verderium",
+    "reactant.bigreactors.rossinite": "Rossinite",
 
     "_comment": "Items - ingots",
     "item.bigreactors.yellorium_ingot": "Yellorium Ingot",
@@ -38,6 +40,8 @@
     "item.bigreactors.cyanite_bucket": "Cyanite Bucket",
     "item.bigreactors.blutonium_bucket": "Blutonium Bucket",
     "item.bigreactors.magentite_bucket": "Magentite Bucket",
+    "item.bigreactors.verderium_bucket": "Verderium Bucket",
+    "item.bigreactors.rossinite_bucket": "Rossinite Bucket",
 
     "_comment": "Fluids",
     "fluid.bigreactors.water": "Water",
