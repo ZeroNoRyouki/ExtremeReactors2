@@ -22,9 +22,9 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import it.zerono.mods.extremereactors.api.IMapping;
 import it.zerono.mods.extremereactors.api.reactor.*;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part.ReactorSolidAccessPortEntity;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.IMultiblockReactorVariant;
 import it.zerono.mods.zerocore.lib.data.stack.OperationMode;
+import it.zerono.mods.zerocore.lib.fluid.FluidHelper;
 import it.zerono.mods.zerocore.lib.item.ItemHelper;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.ItemStack;
@@ -54,42 +54,41 @@ public class ReactantHelper {
         return !stack.isEmpty() &&
                 ReactantMappingsRegistry.getFromSolid(stack)
                         .map(IMapping::getProduct)
-                        .map(reactant -> type == reactant.getType())
+                        .map(reactant -> reactant.test(type))
                         .orElse(false);
     }
 
     /**
-     * Convert a solid source (an ItemStack) to a ReactantStack containing the corresponding Reactant and amount of it.
-     * The Reactor variant efficiency is taken in account during the conversion
+     * Check if the provided FluidStack contains a valid fluid source for a Reactant of the specified type
      *
-     * @param sourceStack the source ItemStack
-     * @return a ReactantStack containing the Reactant (and amount of) corresponding to the the content of the ItemStack provided.
-     * If the ItemStack is empty or no solid mapping could be found, an empty ReactantStack is returned
+     * @param type  the type of the Reactant
+     * @param stack the FluidStack
+     * @return true if the FluidStack contains a valid fluid source for the specified Reactant type
      */
-    static ReactantStack reactantFromSolidSource(final ItemStack sourceStack, final IMultiblockReactorVariant variant) {
-        return ReactantMappingsRegistry.getFromSolid(sourceStack)
-                .map(m -> new ReactantStack(m.getProduct(), variant.solidSourceAmountToReactantAmount(m.getProductAmount(sourceStack.getCount()))))
-                .orElse(ReactantStack.EMPTY);
-    }
+    public static boolean isValidSource(final ReactantType type, final FluidStack stack) {
 
-    static ReactantStack reactantFromFluidSource(final FluidStack sourceStack, final IMultiblockReactorVariant variant) {
-        return ReactantStack.EMPTY; //TODO fluids
+        return !stack.isEmpty() &&
+                ReactantMappingsRegistry.getFromFluid(stack)
+                        .map(IMapping::getProduct)
+                        .map(reactant -> reactant.test(type))
+                        .orElse(false);
     }
 
     /**
-     * Eject the solid form of the given {@link ReactantType} to the provided Solid Access Ports and, if desired, void the leftover Reactant
+     * Eject the solid/fluid form of the given {@link ReactantType} to the provided Ports and, if desired, void the leftover Reactant
      *
      * @param type the {@link ReactantType} to eject, if available
+     * @param fluid if true, eject fluids, solids otherwise
      * @param container the {@link FuelContainer} that is the source of the {@link ReactantType} to eject
      * @param voidLeftover if true, any remaining {@link ReactantType} will be voided
-     * @param fuelSources the {@link ReactorSolidAccessPortEntity Solid Access Ports} the will receive the ejected {@link ReactantType}
+     * @param fuelSources the {@link IFuelSource Ports} that will receive the ejected {@link Reactant}
      * @return true if anything was ejected, false otherwise
      */
-    static boolean ejectSolidReactant(final ReactantType type, final FuelContainer container, final boolean voidLeftover,
-                                      final Stream<IFuelSource<ItemStack>> fuelSources) {
+    static <T> boolean ejectReactant(final ReactantType type, final boolean fluid, final FuelContainer container,
+                                     final boolean voidLeftover, final Stream<IFuelSource<T>> fuelSources) {
 
         final boolean ejected = container.getContent(type)
-                .map(reactant -> ejectSolidReactant(reactant, container, fuelSources))
+                .map(reactant -> ejectReactant(reactant, fluid, container, fuelSources))
                 .orElse(false);
 
         if (ejected && voidLeftover) {
@@ -100,50 +99,49 @@ public class ReactantHelper {
     }
 
     /**
-     * Eject the solid form of the given {@link ReactantType} to the provided Solid Access Ports and, if desired, void the leftover Reactant
+     * Eject the solid/fluid form of the given {@link ReactantType} to the provided Fuel Injector Ports and, if desired, void the leftover Reactant
      *
      * @param reactant the {@link Reactant} to eject, if available
      * @param container the {@link FuelContainer} that is the source of the {@link Reactant} to eject
-     * @param fuelSources the {@link ReactorSolidAccessPortEntity Solid Access Ports} the will receive the ejected {@link Reactant}
+     * @param fuelSources the {@link IFuelSource Ports} that will receive the ejected {@link Reactant}
      * @return true if anything was ejected, false otherwise
      */
-    static boolean ejectSolidReactant(final Reactant reactant, final FuelContainer container,
-                                      final Stream<IFuelSource<ItemStack>> fuelSources) {
+    private static <T> boolean ejectReactant(final Reactant reactant, final boolean fluid, final FuelContainer container,
+                                             final Stream<IFuelSource<T>> fuelSources) {
 
-        //TODO For now, we can optimize by only running this when we have enough waste to product an ingot
-        final int minimumReactantAmount = reactant.getMinimumSolidSourceAmount();
+        final int minimumReactantAmount = fluid ? reactant.getMinimumFluidSourceAmount() : reactant.getMinimumSolidSourceAmount();
 
-        return container.getContentAmount(reactant.getType()) >= minimumReactantAmount &&
-                ejectSolidReactant(reactant, minimumReactantAmount, container, fuelSources) > 0;
+        return (minimumReactantAmount > 0) && (container.getContentAmount(reactant.getType()) >= minimumReactantAmount) &&
+                ejectReactant(reactant, minimumReactantAmount, container, fuelSources) > 0;
     }
 
     /**
-     * Eject the solid form of the given {@link Reactant} to the provided Solid Access Ports
+     * Eject the solid/fluid form of the given {@link Reactant} to the provided Fuel Injector Ports
      *
      * @param reactant the {@link Reactant} to eject, if available
      * @param minimumReactantAmount the minimum amount of {@link Reactant} to eject, if available
      * @param container the {@link FuelContainer} that is the source of the {@link Reactant} to eject
-     * @param fuelSources the {@link ReactorSolidAccessPortEntity Solid Access Ports} the will receive the ejected {@link Reactant}
+     * @param fuelSources the {@link IFuelSource Ports} that will receive the ejected {@link Reactant}
      * @return the total amount of {@link Reactant} that was ejected
      */
-    static int ejectSolidReactant(final Reactant reactant, int minimumReactantAmount, final FuelContainer container,
-                                  final Stream<IFuelSource<ItemStack>> fuelSources) {
+    private static <T> int ejectReactant(final Reactant reactant, int minimumReactantAmount, final FuelContainer container,
+                                         final Stream<IFuelSource<T>> fuelSources) {
         return fuelSources
-                .mapToInt(port -> ejectSolidReactant(reactant, minimumReactantAmount, container, port))
+                .mapToInt(port -> ejectReactant(reactant, minimumReactantAmount, container, port))
                 .sum();
     }
 
     /**
-     * Eject the solid form of the given {@link Reactant} to the specified Solid Access Port
+     * Eject the solid/fluid form of the given {@link Reactant} to the specified Port
      *
      * @param reactant the {@link Reactant} to eject, if available
      * @param minimumReactantAmount the minimum amount of {@link Reactant} to eject, if available
      * @param container the {@link FuelContainer} that is the source of the {@link Reactant} to eject
-     * @param fuelSource the {@link ReactorSolidAccessPortEntity Solid Access Port} the will receive the ejected {@link Reactant}
+     * @param fuelSource the {@link IFuelSource Port} that will receive the ejected {@link Reactant}
      * @return the amount of {@link Reactant} that was ejected
      */
-    static int ejectSolidReactant(final Reactant reactant, int minimumReactantAmount, final FuelContainer container,
-                                  final IFuelSource<ItemStack> fuelSource) {
+    private static <T> int ejectReactant(final Reactant reactant, int minimumReactantAmount, final FuelContainer container,
+                                         final IFuelSource<T> fuelSource) {
 
         if (container.getContentAmount(reactant.getType()) >= minimumReactantAmount) {
 
@@ -192,13 +190,6 @@ public class ReactantHelper {
             return 0;
         }
 
-        //TODO blutonium?
-        /*// HACK; TEMPORARY
-        // Alias blutonium to yellorium temporarily, until mixed fuels are implemented
-        if(portReactant.equals(GameBalanceData.REACTANT_NAME_BLUTONIUM)) {
-            portReactant = GameBalanceData.REACTANT_NAME_YELLORIUM;
-        }*/
-
         // how much of the available fuel can be stored in the FuelContainer?
 
         final int storableReactantAmount = container.insertFuel(availableFuel, OperationMode.Simulate);
@@ -233,6 +224,69 @@ public class ReactantHelper {
                 // how much Reactant was effectively added?
 
                 return container.insertFuel(availableFuel.getReactant().get(), amountToAdd, OperationMode.Execute);
+            }
+        }
+
+        return 0;
+    }
+
+    static boolean refuelFluid(final FuelContainer container, final Stream<IFuelSource<FluidStack>> sources, final IMultiblockReactorVariant variant) {
+        return sources.filter(source -> container.getFreeSpace(ReactantType.Fuel) >= ReactantMappingsRegistry.STANDARD_SOLID_REACTANT_AMOUNT)
+                .mapToInt(source -> refuelFluid(container, source, variant))
+                .sum() > 0;
+    }
+
+    /**
+     * Refuel from a single port, return how much was added
+     */
+    private static int refuelFluid(final FuelContainer container, final IFuelSource<FluidStack> fuelSource,
+                                   final IMultiblockReactorVariant variant) {
+
+        // any fuel source items available in the port?
+
+        final FluidStack fuelSourceStack = fuelSource.getFuelStack();
+
+        return ReactantMappingsRegistry.getFromFluid(fuelSourceStack)
+                .filter(mapping -> mapping.getProduct().getType().isFuel())
+                .map(mapping -> refuelFluid(container, fuelSource, variant, fuelSourceStack, mapping))
+                .orElse(0);
+    }
+
+    private static int refuelFluid(final FuelContainer container, final IFuelSource<FluidStack> fuelSource,
+                                   final IMultiblockReactorVariant variant, final FluidStack fuelSourceStack,
+                                   final IMapping<ResourceLocation, Reactant> fuelMapping) {
+
+        // 1 mb of fluid fuel is 1 mb of fuel.
+
+        final int availableReactantAmount = fuelSourceStack.getAmount();
+
+        // any fuel there?
+
+        if (availableReactantAmount <= 0) {
+            // no, bail out
+            return 0;
+        }
+
+        // how much of the available fuel can be stored in the FuelContainer?
+
+        final Reactant reactant = fuelMapping.getProduct();
+        final int storableReactantAmount = container.insertFuel(new ReactantStack(reactant, availableReactantAmount), OperationMode.Simulate);
+
+        if (storableReactantAmount <= 0) {
+            // no, bail out
+            return 0;
+        }
+
+        // ask the port to consume as much source fuel as possible to fill the available space
+
+        final FluidStack maxSourceToConsume = FluidHelper.stackFrom(fuelSourceStack, storableReactantAmount);
+
+        if (!maxSourceToConsume.isEmpty()) {
+
+            final FluidStack fuelConsumedStack = fuelSource.consumeFuelSource(maxSourceToConsume);
+
+            if (!fuelConsumedStack.isEmpty() && fuelConsumedStack.getAmount() > 0) {
+                return container.insertFuel(reactant, Math.min(storableReactantAmount, fuelConsumedStack.getAmount()), OperationMode.Execute);
             }
         }
 

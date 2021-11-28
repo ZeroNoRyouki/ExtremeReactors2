@@ -44,8 +44,6 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.Style;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -60,18 +58,6 @@ public abstract class AbstractMultiblockScreen<Controller extends AbstractCuboid
                                                 T extends AbstractMultiblockEntity<Controller> & INamedContainerProvider,
                                                 C extends ModTileContainer<T>>
         extends ModTileContainerScreen<T, C> {
-
-    public static final Style STYLE_TOOLTIP_TITLE = Style.EMPTY
-            .withColor(TextFormatting.YELLOW)
-            .withBold(true);
-
-    public static final Style STYLE_TOOLTIP_VALUE = Style.EMPTY
-            .withColor(TextFormatting.DARK_AQUA)
-            .withBold(true);
-
-    public static final Style STYLE_TOOLTIP_INFO = Style.EMPTY
-            .withColor(TextFormatting.DARK_PURPLE)
-            .withItalic(true);
 
     protected AbstractMultiblockScreen(final C container, final PlayerInventory inventory,
                                        final PlayerInventoryUsage inventoryUsage, final ITextComponent title) {

@@ -87,7 +87,7 @@ public class FluidPortScreen<Controller extends AbstractGeneratorMultiblockContr
 
         this._btnInputDirection.Activated.subscribe(this::onInputActivated);
         this._btnInputDirection.setTooltips(
-                new TranslationTextComponent("gui.bigreactors.generator.fluidport.directioninput.line1").setStyle(STYLE_TOOLTIP_TITLE),
+                new TranslationTextComponent("gui.bigreactors.generator.fluidport.directioninput.line1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
                 TEXT_EMPTY_LINE,
                 new TranslationTextComponent("gui.bigreactors.generator.fluidport.directioninput.line2")
         );
@@ -100,7 +100,7 @@ public class FluidPortScreen<Controller extends AbstractGeneratorMultiblockContr
         this._btnOutputDirection.setPadding(1);
         this._btnOutputDirection.Activated.subscribe(this::onOutputActivated);
         this._btnOutputDirection.setTooltips(
-                new TranslationTextComponent("gui.bigreactors.generator.fluidport.directionoutput.line1").setStyle(STYLE_TOOLTIP_TITLE),
+                new TranslationTextComponent("gui.bigreactors.generator.fluidport.directionoutput.line1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
                 TEXT_EMPTY_LINE,
                 new TranslationTextComponent("gui.bigreactors.generator.fluidport.directionoutput.line2")
         );

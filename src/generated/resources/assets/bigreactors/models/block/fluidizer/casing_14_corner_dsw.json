@@ -1,0 +1,8 @@
+{
+  "parent": "bigreactors:block/fluidizer/casing_template",
+  "textures": {
+    "down": "bigreactors:block/fluidizer/casing_left_up",
+    "south": "bigreactors:block/fluidizer/casing_left_down",
+    "west": "bigreactors:block/fluidizer/casing_right_down"
+  }
+}

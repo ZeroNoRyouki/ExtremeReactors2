@@ -110,7 +110,7 @@ public class ReactorSolidAccessPortScreen
         this.setButtonSpritesAndOverlayForState(this._btnInputDirection, ButtonState.Active, CommonIcons.ButtonInputDirectionActive);
         this._btnInputDirection.Activated.subscribe(this::onInputActivated);
         this._btnInputDirection.setTooltips(
-                new TranslationTextComponent("gui.bigreactors.reactor.solidaccessport.directioninput.line1").setStyle(STYLE_TOOLTIP_TITLE),
+                new TranslationTextComponent("gui.bigreactors.reactor.solidaccessport.directioninput.line1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
                 TEXT_EMPTY_LINE,
                 new TranslationTextComponent("gui.bigreactors.reactor.solidaccessport.directioninput.line2")
         );
@@ -120,7 +120,7 @@ public class ReactorSolidAccessPortScreen
         this.setButtonSpritesAndOverlayForState(this._btnOutputDirection, ButtonState.Active, CommonIcons.ButtonOutputDirectionActive);
         this._btnOutputDirection.Activated.subscribe(this::onOutputActivated);
         this._btnOutputDirection.setTooltips(
-                new TranslationTextComponent("gui.bigreactors.reactor.solidaccessport.directionoutput.line1").setStyle(STYLE_TOOLTIP_TITLE),
+                new TranslationTextComponent("gui.bigreactors.reactor.solidaccessport.directionoutput.line1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
                 TEXT_EMPTY_LINE,
                 new TranslationTextComponent("gui.bigreactors.reactor.solidaccessport.directionoutput.line2")
         );
@@ -138,7 +138,7 @@ public class ReactorSolidAccessPortScreen
         this._btnDumpFuel.setIconForState(CommonIcons.ButtonDumpFuelActive.get(), ButtonState.Active, ButtonState.ActiveHighlighted, ButtonState.DefaultHighlighted);
         this._btnDumpFuel.Clicked.subscribe(this::onDumpFuel);
         this._btnDumpFuel.setTooltips(
-                new TranslationTextComponent("gui.bigreactors.reactor.solidaccessport.dumpfuel.line1").setStyle(STYLE_TOOLTIP_TITLE),
+                new TranslationTextComponent("gui.bigreactors.reactor.solidaccessport.dumpfuel.line1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
                 TEXT_EMPTY_LINE,
                 new TranslationTextComponent("gui.bigreactors.reactor.solidaccessport.dumpfuel.line2"),
                 new TranslationTextComponent("gui.bigreactors.reactor.solidaccessport.dumpfuel.line3"),
@@ -152,7 +152,7 @@ public class ReactorSolidAccessPortScreen
         this._btnDumpWaste.setIconForState(CommonIcons.ButtonDumpWasteActive.get(), ButtonState.Active, ButtonState.ActiveHighlighted, ButtonState.DefaultHighlighted);
         this._btnDumpWaste.Clicked.subscribe(this::onDumpWaste);
         this._btnDumpWaste.setTooltips(
-                new TranslationTextComponent("gui.bigreactors.reactor.solidaccessport.dumpwaste.line1").setStyle(STYLE_TOOLTIP_TITLE),
+                new TranslationTextComponent("gui.bigreactors.reactor.solidaccessport.dumpwaste.line1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
                 TEXT_EMPTY_LINE,
                 new TranslationTextComponent("gui.bigreactors.reactor.solidaccessport.dumpwaste.line2"),
                 new TranslationTextComponent("gui.bigreactors.reactor.solidaccessport.dumpwaste.line3"),
@@ -189,7 +189,7 @@ public class ReactorSolidAccessPortScreen
         final CompoundNBT options = new CompoundNBT();
 
         options.putBoolean("void", Screen.hasShiftDown());
-        this.sendCommandToServer(ReactorSolidAccessPortEntity.COMMAND_DUMP_FUEL, options);
+        this.sendCommandToServer(CommonConstants.COMMAND_DUMP_FUEL, options);
     }
 
     private void onDumpWaste(Button button, Integer integer) {
@@ -197,7 +197,7 @@ public class ReactorSolidAccessPortScreen
         final CompoundNBT options = new CompoundNBT();
 
         options.putBoolean("void", Screen.hasShiftDown());
-        this.sendCommandToServer(ReactorSolidAccessPortEntity.COMMAND_DUMP_WASTE, options);
+        this.sendCommandToServer(CommonConstants.COMMAND_DUMP_WASTE, options);
     }
 
     private <Value> void addBinding(final Function<ReactorSolidAccessPortContainer, Value> supplier, final Consumer<Value> consumer) {

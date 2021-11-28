@@ -98,7 +98,7 @@ public class ReprocessorRecipeGenerator
                 .pattern("CWC")
                 .pattern("ICI")
                 .group(GROUP_GENERAL)
-                .unlockedBy("has_item", has(ContentTags.Items.INGOTS_GRAPHITE))
+                .unlockedBy("has_item", has(Tags.Items.INGOTS_IRON))
                 .save(c, reprocessorRecipeName("casing"));
     }
 

@@ -19,6 +19,7 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor;
 
 import it.zerono.mods.extremereactors.api.radiation.RadiationPacket;
+import it.zerono.mods.extremereactors.api.reactor.FuelProperties;
 import it.zerono.mods.extremereactors.api.reactor.IHeatEntity;
 import it.zerono.mods.extremereactors.api.reactor.radiation.EnergyConversion;
 import it.zerono.mods.extremereactors.api.reactor.radiation.IrradiationData;
@@ -47,7 +48,7 @@ public class ReactorLogic
     public float getFertility() {
         return this._fertility;
     }
-    
+
     /**
      * Main update logic
      */
@@ -227,8 +228,8 @@ public class ReactorLogic
      */
     private void performIrradiationFrom(IIrradiationSource source) {
 
-        this.radiate(/*this._reactor.getWorld(),*/ this.getFuelContainer(), source,
-                this.getFuelHeat().getAsDouble(), this.getReactorHeat().getAsDouble(),
+        this.radiate(this.getFuelContainer(), source,
+                this.getFuelHeat().getAsDouble(),
                 this.getControlRodsCount()).ifPresent(data -> {
 
             // Assimilate results of radiation
@@ -331,13 +332,15 @@ public class ReactorLogic
     //region irradiation
 
     private Optional<IrradiationData> radiate(final IFuelContainer fuelContainer, final IIrradiationSource source,
-                                              final double fuelHeat, final double environmentHeat, final int numControlRods) {
+                                              final double fuelHeat, final int numControlRods) {
         // No fuel? No radiation!
         if (fuelContainer.getFuelAmount() <= 0) {
             return Optional.empty();
         }
 
         // Determine radiation amount & intensity, heat amount, determine fuel usage
+
+        final FuelProperties fuelProperties = fuelContainer.getFuelProperties();
 
         // Base value for radiation production penalties. 0-1, caps at about 3000C;
         double radiationPenaltyBase = Math.exp(-15 * Math.exp(-0.0025 * fuelHeat));
@@ -348,7 +351,7 @@ public class ReactorLogic
         float fuelReactivity = fuelContainer.getFuelReactivity();
 
         // Intensity = how strong the radiation is, hardness = how energetic the radiation is (penetration)
-        float rawRadIntensity = (float)baseFuelAmount * FISSION_EVENTS_PER_FUEL_UNIT;
+        float rawRadIntensity = (float)baseFuelAmount * fuelProperties.getFissionEventsPerFuelUnit();
 
         // Scale up the "effective" intensity of radiation, to provide an incentive for bigger reactors in general.
         float scaledRadIntensity = (float)Math.pow(rawRadIntensity, fuelReactivity);
@@ -371,7 +374,7 @@ public class ReactorLogic
 
         // Calculate based on propagation-to-self
 
-        final float rawFuelUsage = (FUEL_PER_RADIATION_UNIT * rawRadIntensity / getFertilityModifier()) *
+        final float rawFuelUsage = (fuelProperties.getFuelUnitsPerFissionEvent() * rawRadIntensity / getFertilityModifier()) *
                 Config.COMMON.general.fuelUsageMultiplier.get().floatValue(); // Not a typo. Fuel usage is thus penalized at high heats.
         final IrradiationData data = new IrradiationData();
 
@@ -382,7 +385,7 @@ public class ReactorLogic
         // Propagate radiation to others
 
         BlockPos originCoord = source.getWorldPosition();
-        BlockPos currentCoord;
+        BlockPos.Mutable currentCoord;
         final RadiationPacket radPacket = new RadiationPacket();
 
         effectiveRadIntensity *= 0.25f; // We're going to do this four times, no need to repeat
@@ -394,12 +397,12 @@ public class ReactorLogic
 
             int ttl = 4; //TODO variants? radPacket.intensity will be > 0 if ttl > 4? check effectiveRadIntensity too
 
-            currentCoord = originCoord;
+            currentCoord = originCoord.mutable();
 
             while (ttl > 0 && radPacket.intensity > 0.0001f) {
 
                 ttl--;
-                currentCoord = currentCoord.relative(dir);
+                currentCoord.move(dir);
 
                 this._reactor.getEnvironment().getModerator(currentCoord).moderateRadiation(data, radPacket);
             }
@@ -467,12 +470,6 @@ public class ReactorLogic
 
     // 20% of available heat transferred per tick when passively cooled
     private static final float PASSIVE_COOLING_TRANSFER_EFFICIENCY = 0.2f;
-
-    // fuel units used per fission event
-    private static final float FUEL_PER_RADIATION_UNIT = 0.0007f;
-
-    // 1 fission event per 100 mB
-    private static final float FISSION_EVENTS_PER_FUEL_UNIT = 0.01f;
 
     private final IReactorMachine _reactor;
     private final EnergyBuffer _energyBuffer;

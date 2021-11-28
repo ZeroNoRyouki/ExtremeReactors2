@@ -24,8 +24,8 @@ import net.minecraft.util.math.MathHelper;
 @SuppressWarnings({"WeakerAccess"})
 public class FuelProperties {
 
-    public static final FuelProperties DEFAULT = new FuelProperties(1.5f, 0.5f, 1.0f);
-    public static final FuelProperties INVALID = new FuelProperties(1.0f, 0.0f, 1.0f);
+    public static final FuelProperties DEFAULT = new FuelProperties(1.5f, 0.5f, 1.0f, 0.01f, 0.0007f);
+    public static final FuelProperties INVALID = new FuelProperties(1.0f, 0.0f, 1.0f, 0.0f, 0.0f);
 
     /**
      * Construct a new FuelProperties
@@ -34,12 +34,17 @@ public class FuelProperties {
      *                         Anything under 1.5 is "poor", 2-2.5 is "good", above 4 is "excellent".
      * @param absorptionCoefficient How well this fuel absorbs radiation. Must be between 0 and 1.
      * @param hardnessDivisor How this fuel tolerates hard radiation. Must be greater or equal to 1.
+     * @param fissionEventsPerFuelUnit How many fission events occurs per unit of fuel. Default is one fission event per 100 mB of fuel.
+     * @param fuelUnitsPerFissionEvent How many fuel units are used per fission event. Default is 0.0007 fuel units per fission event.
      */
-    FuelProperties(float moderationFactor, float absorptionCoefficient, float hardnessDivisor) {
+    FuelProperties(float moderationFactor, float absorptionCoefficient, float hardnessDivisor,
+                   float fissionEventsPerFuelUnit, float fuelUnitsPerFissionEvent) {
 
         this.setModerationFactor(moderationFactor);
         this.setAbsorptionCoefficient(absorptionCoefficient);
         this.setHardnessDivisor(hardnessDivisor);
+        this.setFissionEventsPerFuelUnit(fissionEventsPerFuelUnit);
+        this.setFuelUnitsPerFissionEvent(fuelUnitsPerFissionEvent);
     }
 
     public float getModerationFactor() {
@@ -66,11 +71,29 @@ public class FuelProperties {
         this._fuelHardnessDivisor = Math.max(1.0f, value);
     }
 
+    public float getFissionEventsPerFuelUnit() {
+        return this._fissionEventsPerFuelUnit;
+    }
+
+    public void setFissionEventsPerFuelUnit(float value) {
+        this._fissionEventsPerFuelUnit = Math.max(0.0f, value);
+    }
+
+    public float getFuelUnitsPerFissionEvent() {
+        return this._fuelUnitsPerFissionEvent;
+    }
+
+    public void setFuelUnitsPerFissionEvent(float value) {
+        this._fuelUnitsPerFissionEvent = Math.max(0.0f, value);
+    }
+
     //region internals
 
     private float _fuelModerationFactor;
     private float _fuelAbsorptionCoefficient;
     private float _fuelHardnessDivisor;
+    private float _fissionEventsPerFuelUnit; //FISSION_EVENTS_PER_FUEL_UNIT 0.01f
+    private float _fuelUnitsPerFissionEvent; //FUEL_PER_RADIATION_UNIT 0.0007f
 
     //endregion
 }

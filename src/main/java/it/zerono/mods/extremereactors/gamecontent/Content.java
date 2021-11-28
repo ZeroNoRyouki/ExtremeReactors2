@@ -19,13 +19,24 @@
 package it.zerono.mods.extremereactors.gamecontent;
 
 import it.zerono.mods.extremereactors.ExtremeReactors;
+import it.zerono.mods.extremereactors.gamecontent.fluid.ReactantFluid;
 import it.zerono.mods.extremereactors.gamecontent.fluid.SteamFluid;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.container.ChargingPortContainer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.GenericDeviceBlock;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.GlassBlock;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.IOPortBlock;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.fluidport.FluidPortType;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.FluidizerPartType;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.MultiblockFluidizer;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.container.FluidizerControllerContainer;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.container.FluidizerSolidInjectorContainer;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.part.*;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.recipe.FluidizerFluidMixingRecipe;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.recipe.FluidizerSolidMixingRecipe;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.recipe.FluidizerSolidRecipe;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.recipe.IFluidizerRecipe;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.MultiblockReactor;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.Reactants;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.ReactorPartType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.container.ReactorSolidAccessPortContainer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part.*;
@@ -47,6 +58,7 @@ import it.zerono.mods.zerocore.lib.data.IoMode;
 import it.zerono.mods.zerocore.lib.energy.EnergySystem;
 import it.zerono.mods.zerocore.lib.item.ModItem;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
+import it.zerono.mods.zerocore.lib.recipe.ModRecipe;
 import it.zerono.mods.zerocore.lib.recipe.ModRecipeType;
 import net.minecraft.block.Block;
 import net.minecraft.block.FlowingFluidBlock;
@@ -97,11 +109,11 @@ public final class Content {
 
         //region metals
 
-        public static final RegistryObject<ModBlock> YELLORIUM_BLOCK = registerMetalBlock("yellorium_block", DyeColor.YELLOW);
-        public static final RegistryObject<ModBlock> CYANITE_BLOCK = registerMetalBlock("cyanite_block", DyeColor.LIGHT_BLUE);
+        public static final RegistryObject<ModBlock> YELLORIUM_BLOCK = registerMetalBlock(Reactants.Yellorium.getBlockName(), DyeColor.YELLOW);
+        public static final RegistryObject<ModBlock> CYANITE_BLOCK = registerMetalBlock(Reactants.Cyanite.getBlockName(), DyeColor.LIGHT_BLUE);
         public static final RegistryObject<ModBlock> GRAPHITE_BLOCK = registerMetalBlock("graphite_block", DyeColor.GRAY);
-        public static final RegistryObject<ModBlock> BLUTONIUM_BLOCK = registerMetalBlock("blutonium_block", DyeColor.PURPLE);
-        public static final RegistryObject<ModBlock> MAGENTITE_BLOCK = registerMetalBlock("magentite_block", DyeColor.MAGENTA);
+        public static final RegistryObject<ModBlock> BLUTONIUM_BLOCK = registerMetalBlock(Reactants.Blutonium.getBlockName(), DyeColor.PURPLE);
+        public static final RegistryObject<ModBlock> MAGENTITE_BLOCK = registerMetalBlock(Reactants.Magentite.getBlockName(), DyeColor.MAGENTA);
 
         //endregion
         //region ores
@@ -120,6 +132,24 @@ public final class Content {
                                 .strength(100.0F)
                                 .noDrops()
                 ));
+
+        public static final RegistryObject<ReactantFluid.Block> YELLORIUM_FLUID = BLOCKS.register(Reactants.Yellorium.getFluidName(),
+                () -> new ReactantFluid.Block(Fluids.YELLORIUM_SOURCE));
+
+        public static final RegistryObject<ReactantFluid.Block> CYANITE_FLUID = BLOCKS.register(Reactants.Cyanite.getFluidName(),
+                () -> new ReactantFluid.Block(Fluids.CYANITE_SOURCE));
+
+        public static final RegistryObject<ReactantFluid.Block> BLUTONIUM_FLUID = BLOCKS.register(Reactants.Blutonium.getFluidName(),
+                () -> new ReactantFluid.Block(Fluids.BLUTONIUM_SOURCE));
+
+        public static final RegistryObject<ReactantFluid.Block> MAGENTITE_FLUID = BLOCKS.register(Reactants.Magentite.getFluidName(),
+                () -> new ReactantFluid.Block(Fluids.MAGENTITE_SOURCE));
+
+        public static final RegistryObject<ReactantFluid.Block> VERDERIUM_FLUID = BLOCKS.register(Reactants.Verderium.getFluidName(),
+                () -> new ReactantFluid.Block(Fluids.VERDERIUM_SOURCE));
+
+        public static final RegistryObject<ReactantFluid.Block> ROSSINITE_FLUID = BLOCKS.register(Reactants.Rossinite.getFluidName(),
+                () -> new ReactantFluid.Block(Fluids.ROSSINITE_SOURCE));
 
         //endregion
         //region reactor
@@ -176,6 +206,9 @@ public final class Content {
         public static final RegistryObject<IOPortBlock<MultiblockReactor, ReactorPartType>> REACTOR_SOLID_ACCESSPORT_REINFORCED =
                 registerReactorBlock("reinforced_reactorsolidaccessport", ReactorVariant.Reinforced, ReactorPartType.SolidAccessPort);
 
+        public static final RegistryObject<IOPortBlock<MultiblockReactor, ReactorPartType>> REACTOR_FLUID_ACCESSPORT_REINFORCED =
+                registerReactorBlock("reinforced_reactorfluidaccessport", ReactorVariant.Reinforced, ReactorPartType.FluidAccessPort);
+
         public static final RegistryObject<GenericDeviceBlock<MultiblockReactor, ReactorPartType>> REACTOR_POWERTAP_FE_ACTIVE_REINFORCED =
                 registerReactorBlock("reinforced_reactorpowertapfe_active", ReactorVariant.Reinforced, ReactorPartType.ActivePowerTapFE);
 
@@ -205,7 +238,6 @@ public final class Content {
 
         //endregion
         //endregion
-
         //region turbine
         //region basic
 
@@ -295,7 +327,6 @@ public final class Content {
 
         //endregion
         //endregion
-
         //region reprocessor
 
         public static final RegistryObject<MultiblockPartBlock<MultiblockReprocessor, ReprocessorPartType>> REPROCESSOR_CASING =
@@ -323,7 +354,30 @@ public final class Content {
                 registerReprocessorBlock("reprocessorcollector", ReprocessorPartType.Collector);
 
         //endregion
+        //region fluidizer
 
+        public static final RegistryObject<MultiblockPartBlock<MultiblockFluidizer, FluidizerPartType>> FLUIDIZER_CASING =
+                registerFluidizerBlock("fluidizercasing", FluidizerPartType.Casing);
+
+        public static final RegistryObject<GlassBlock<MultiblockFluidizer, FluidizerPartType>> FLUIDIZER_GLASS =
+                registerFluidizerBlock("fluidizerglass", FluidizerPartType.Glass);
+
+        public static final RegistryObject<GenericDeviceBlock<MultiblockFluidizer, FluidizerPartType>> FLUIDIZER_CONTROLLER =
+                registerFluidizerBlock("fluidizercontroller", FluidizerPartType.Controller);
+
+        public static final RegistryObject<GenericDeviceBlock<MultiblockFluidizer, FluidizerPartType>> FLUIDIZER_SOLIDINJECTOR =
+                registerFluidizerBlock("fluidizersolidinjector", FluidizerPartType.SolidInjector);
+
+        public static final RegistryObject<GenericDeviceBlock<MultiblockFluidizer, FluidizerPartType>> FLUIDIZER_FLUIDINJECTOR =
+                registerFluidizerBlock("fluidizerfluidinjector", FluidizerPartType.FluidInjector);
+
+        public static final RegistryObject<GenericDeviceBlock<MultiblockFluidizer, FluidizerPartType>> FLUIDIZER_OUTPUTPORT =
+                registerFluidizerBlock("fluidizeroutputport", FluidizerPartType.OutputPort);
+
+        public static final RegistryObject<GenericDeviceBlock<MultiblockFluidizer, FluidizerPartType>> FLUIDIZER_POWERPORT =
+                registerFluidizerBlock("fluidizerpowerport", FluidizerPartType.PowerPort);
+
+        //endregion
         //region internals
 
         private static RegistryObject<ModBlock> registerMetalBlock(final String name, final DyeColor color) {
@@ -366,6 +420,12 @@ public final class Content {
             return BLOCKS.register(name, () -> (T) (partType.createBlock()));
         }
 
+        @SuppressWarnings("unchecked")
+        private static <T extends MultiblockPartBlock<MultiblockFluidizer, FluidizerPartType>>
+        RegistryObject<T> registerFluidizerBlock(final String name, final FluidizerPartType partType) {
+            return BLOCKS.register(name, () -> (T) (partType.createBlock()));
+        }
+
         //endregion
     }
 
@@ -380,23 +440,23 @@ public final class Content {
 
         //region metals
 
-        public static final RegistryObject<ModItem> YELLORIUM_INGOT = registerItemGeneric("yellorium_ingot");
-        public static final RegistryObject<ModItem> CYANITE_INGOT = registerItemGeneric("cyanite_ingot");
+        public static final RegistryObject<ModItem> YELLORIUM_INGOT = registerItemGeneric(Reactants.Yellorium.getIngotName());
+        public static final RegistryObject<ModItem> CYANITE_INGOT = registerItemGeneric(Reactants.Cyanite.getIngotName());
         public static final RegistryObject<ModItem> GRAPHITE_INGOT = registerItemGeneric("graphite_ingot");
-        public static final RegistryObject<ModItem> BLUTONIUM_INGOT = registerItemGeneric("blutonium_ingot");
-        public static final RegistryObject<ModItem> MAGENTITE_INGOT = registerItemGeneric("magentite_ingot");
+        public static final RegistryObject<ModItem> BLUTONIUM_INGOT = registerItemGeneric(Reactants.Blutonium.getIngotName());
+        public static final RegistryObject<ModItem> MAGENTITE_INGOT = registerItemGeneric(Reactants.Magentite.getIngotName());
 
-        public static final RegistryObject<ModItem> YELLORIUM_DUST = registerItemGeneric("yellorium_dust");
-        public static final RegistryObject<ModItem> CYANITE_DUST = registerItemGeneric("cyanite_dust");
+        public static final RegistryObject<ModItem> YELLORIUM_DUST = registerItemGeneric(Reactants.Yellorium.getDustName());
+        public static final RegistryObject<ModItem> CYANITE_DUST = registerItemGeneric(Reactants.Cyanite.getDustName());
         public static final RegistryObject<ModItem> GRAPHITE_DUST = registerItemGeneric("graphite_dust");
-        public static final RegistryObject<ModItem> BLUTONIUM_DUST = registerItemGeneric("blutonium_dust");
-        public static final RegistryObject<ModItem> MAGENTITE_DUST = registerItemGeneric("magentite_dust");
+        public static final RegistryObject<ModItem> BLUTONIUM_DUST = registerItemGeneric(Reactants.Blutonium.getDustName());
+        public static final RegistryObject<ModItem> MAGENTITE_DUST = registerItemGeneric(Reactants.Magentite.getDustName());
 
-        public static final RegistryObject<BlockItem> YELLORIUM_BLOCK = registerItemBlock("yellorium_block", () -> Blocks.YELLORIUM_BLOCK, ItemGroups.GENERAL);
-        public static final RegistryObject<BlockItem> CYANITE_BLOCK = registerItemBlock("cyanite_block", () -> Blocks.CYANITE_BLOCK, ItemGroups.GENERAL);
+        public static final RegistryObject<BlockItem> YELLORIUM_BLOCK = registerItemBlock(Reactants.Yellorium.getBlockName(), () -> Blocks.YELLORIUM_BLOCK, ItemGroups.GENERAL);
+        public static final RegistryObject<BlockItem> CYANITE_BLOCK = registerItemBlock(Reactants.Cyanite.getBlockName(), () -> Blocks.CYANITE_BLOCK, ItemGroups.GENERAL);
         public static final RegistryObject<BlockItem> GRAPHITE_BLOCK = registerItemBlock("graphite_block", () -> Blocks.GRAPHITE_BLOCK, ItemGroups.GENERAL);
-        public static final RegistryObject<BlockItem> BLUTONIUM_BLOCK = registerItemBlock("blutonium_block", () -> Blocks.BLUTONIUM_BLOCK, ItemGroups.GENERAL);
-        public static final RegistryObject<BlockItem> MAGENTITE_BLOCK = registerItemBlock("magentite_block", () -> Blocks.MAGENTITE_BLOCK, ItemGroups.GENERAL);
+        public static final RegistryObject<BlockItem> BLUTONIUM_BLOCK = registerItemBlock(Reactants.Blutonium.getBlockName(), () -> Blocks.BLUTONIUM_BLOCK, ItemGroups.GENERAL);
+        public static final RegistryObject<BlockItem> MAGENTITE_BLOCK = registerItemBlock(Reactants.Magentite.getBlockName(), () -> Blocks.MAGENTITE_BLOCK, ItemGroups.GENERAL);
 
         //endregion
         //region crystals
@@ -414,11 +474,13 @@ public final class Content {
         //endregion
         //region fluids
 
-        public static final RegistryObject<Item> STEAM_BUCKET = ITEMS.register("steam_bucket",
-                () -> new BucketItem(Fluids.STEAM_SOURCE, new Item.Properties()
-                        .craftRemainder(net.minecraft.item.Items.BUCKET)
-                        .stacksTo(1)
-                        .tab(ItemGroup.TAB_MISC)));
+        public static final RegistryObject<BucketItem> STEAM_BUCKET = registerBucket("steam_bucket", Fluids.STEAM_SOURCE);
+        public static final RegistryObject<BucketItem> YELLORIUM_BUCKET = registerBucket(Reactants.Yellorium.getBucketName(), Fluids.YELLORIUM_SOURCE);
+        public static final RegistryObject<BucketItem> CYANITE_BUCKET = registerBucket(Reactants.Cyanite.getBucketName(), Fluids.CYANITE_SOURCE);
+        public static final RegistryObject<BucketItem> BLUTONIUM_BUCKET = registerBucket(Reactants.Blutonium.getBucketName(), Fluids.BLUTONIUM_SOURCE);
+        public static final RegistryObject<BucketItem> MAGENTITE_BUCKET = registerBucket(Reactants.Magentite.getBucketName(), Fluids.MAGENTITE_SOURCE);
+        public static final RegistryObject<BucketItem> VERDERIUM_BUCKET = registerBucket(Reactants.Verderium.getBucketName(), Fluids.VERDERIUM_SOURCE);
+        public static final RegistryObject<BucketItem> ROSSINITE_BUCKET = registerBucket(Reactants.Rossinite.getBucketName(), Fluids.ROSSINITE_SOURCE);
 
         //endregion
         //region reactor
@@ -441,6 +503,7 @@ public final class Content {
         public static final RegistryObject<BlockItem> REACTOR_FUELROD_REINFORCED = registerItemBlock("reinforced_reactorfuelrod", () -> Blocks.REACTOR_FUELROD_REINFORCED::get, ItemGroups.REACTOR);
         public static final RegistryObject<BlockItem> REACTOR_CONTROLROD_REINFORCED = registerItemBlock("reinforced_reactorcontrolrod", () -> Blocks.REACTOR_CONTROLROD_REINFORCED::get, ItemGroups.REACTOR);
         public static final RegistryObject<BlockItem> REACTOR_SOLID_ACCESSPORT_REINFORCED = registerItemBlock("reinforced_reactorsolidaccessport", () -> Blocks.REACTOR_SOLID_ACCESSPORT_REINFORCED::get, ItemGroups.REACTOR);
+        public static final RegistryObject<BlockItem> REACTOR_FLUID_ACCESSPORT_REINFORCED = registerItemBlock("reinforced_reactorfluidaccessport", () -> Blocks.REACTOR_FLUID_ACCESSPORT_REINFORCED::get, ItemGroups.REACTOR);
         public static final RegistryObject<BlockItem> REACTOR_POWERTAP_FE_ACTIVE_REINFORCED = registerItemBlock("reinforced_reactorpowertapfe_active", () -> Blocks.REACTOR_POWERTAP_FE_ACTIVE_REINFORCED::get, ItemGroups.REACTOR);
         public static final RegistryObject<BlockItem> REACTOR_POWERTAP_FE_PASSIVE_REINFORCED = registerItemBlock("reinforced_reactorpowertapfe_passive", () -> Blocks.REACTOR_POWERTAP_FE_PASSIVE_REINFORCED::get, ItemGroups.REACTOR);
         public static final RegistryObject<BlockItem> REACTOR_COMPUTERPORT_REINFORCED = registerItemBlock("reinforced_reactorcomputerport", () -> Blocks.REACTOR_COMPUTERPORT_REINFORCED::get, ItemGroups.REACTOR);
@@ -452,7 +515,6 @@ public final class Content {
         public static final RegistryObject<BlockItem> REACTOR_CHARGINGPORT_FE_REINFORCED = registerItemBlock("reinforced_reactorchargingportfe", () -> Blocks.REACTOR_CHARGINGPORT_FE_REINFORCED::get, ItemGroups.REACTOR);
         //endregion
         //endregion
-
         //region turbine
         //region basic
         public static final RegistryObject<BlockItem> TURBINE_CASING_BASIC = registerItemBlock("basic_turbinecasing", () -> Blocks.TURBINE_CASING_BASIC::get, ItemGroups.TURBINE);
@@ -486,7 +548,6 @@ public final class Content {
         public static final RegistryObject<BlockItem> TURBINE_CHARGINGPORT_FE_REINFORCED = registerItemBlock("reinforced_turbinechargingportfe", () -> Blocks.TURBINE_CHARGINGPORT_FE_REINFORCED::get, ItemGroups.TURBINE);
         //endregion
         //endregion
-
         //region reprocessor
 
         public static final RegistryObject<BlockItem> REPROCESSOR_CASING = registerItemBlock("reprocessorcasing", () -> Blocks.REPROCESSOR_CASING::get, ItemGroups.GENERAL);
@@ -499,12 +560,22 @@ public final class Content {
         public static final RegistryObject<BlockItem> REPROCESSOR_COLLECTOR = registerItemBlock("reprocessorcollector", () -> Blocks.REPROCESSOR_COLLECTOR::get, ItemGroups.GENERAL);
 
         //endregion
+        //region fluidizer
+
+        public static final RegistryObject<BlockItem> FLUIDIZER_CASING = registerItemBlock("fluidizercasing", () -> Blocks.FLUIDIZER_CASING::get, ItemGroups.GENERAL);
+        public static final RegistryObject<BlockItem> FLUIDIZER_GLASS = registerItemBlock("fluidizerglass", () -> Blocks.FLUIDIZER_GLASS::get, ItemGroups.GENERAL);
+        public static final RegistryObject<BlockItem> FLUIDIZER_CONTROLLER = registerItemBlock("fluidizercontroller", () -> Blocks.FLUIDIZER_CONTROLLER::get, ItemGroups.GENERAL);
+        public static final RegistryObject<BlockItem> FLUIDIZER_SOLIDINJECTOR = registerItemBlock("fluidizersolidinjector", () -> Blocks.FLUIDIZER_SOLIDINJECTOR::get, ItemGroups.GENERAL);
+        public static final RegistryObject<BlockItem> FLUIDIZER_FLUIDINJECTOR = registerItemBlock("fluidizerfluidinjector", () -> Blocks.FLUIDIZER_FLUIDINJECTOR::get, ItemGroups.GENERAL);
+        public static final RegistryObject<BlockItem> FLUIDIZER_OUTPUTPORT = registerItemBlock("fluidizeroutputport", () -> Blocks.FLUIDIZER_OUTPUTPORT::get, ItemGroups.GENERAL);
+        public static final RegistryObject<BlockItem> FLUIDIZER_POWERPORT = registerItemBlock("fluidizerpowerport", () -> Blocks.FLUIDIZER_POWERPORT::get, ItemGroups.GENERAL);
+
+        //endregion
         //region misc
 
         public static final RegistryObject<ModItem> WRENCH = registerItemGeneric("wrench", 1);
 
         //endregion
-
         //region internals
 
         private static RegistryObject<ModItem> registerItemGeneric(final String name) {
@@ -523,6 +594,13 @@ public final class Content {
                     () -> blockSupplier.get().get().createBlockItem(new Item.Properties().tab(group).stacksTo(64)));
         }
 
+        private static RegistryObject<BucketItem> registerBucket(final String name, final Supplier<? extends Fluid> sourceFluid) {
+            return ITEMS.register(name, () -> new BucketItem(sourceFluid, new Item.Properties()
+                    .craftRemainder(net.minecraft.item.Items.BUCKET)
+                    .stacksTo(1)
+                    .tab(ItemGroup.TAB_MISC)));
+        }
+
         //endregion
     }
 
@@ -536,6 +614,62 @@ public final class Content {
 
         public static final RegistryObject<ForgeFlowingFluid> STEAM_SOURCE = FLUIDS.register("steam", SteamFluid.Source::new);
         public static final RegistryObject<ForgeFlowingFluid> STEAM_FLOWING = FLUIDS.register("steam_flowing", SteamFluid.Flowing::new);
+
+        public static final RegistryObject<ReactantFluid.Source> YELLORIUM_SOURCE = registerFluidSource(Reactants.Yellorium,
+                Fluids.YELLORIUM_SOURCE, Fluids.YELLORIUM_FLOWING, Blocks.YELLORIUM_FLUID, Items.YELLORIUM_BUCKET);
+
+        public static final RegistryObject<ReactantFluid.Flowing> YELLORIUM_FLOWING = registerFluidFlowing(Reactants.Yellorium,
+                Fluids.YELLORIUM_SOURCE, Fluids.YELLORIUM_FLOWING, Blocks.YELLORIUM_FLUID, Items.YELLORIUM_BUCKET);
+
+        public static final RegistryObject<ReactantFluid.Source> CYANITE_SOURCE = registerFluidSource(Reactants.Cyanite,
+                Fluids.CYANITE_SOURCE, Fluids.CYANITE_FLOWING, Blocks.CYANITE_FLUID, Items.CYANITE_BUCKET);
+
+        public static final RegistryObject<ReactantFluid.Flowing> CYANITE_FLOWING = registerFluidFlowing(Reactants.Cyanite,
+                Fluids.CYANITE_SOURCE, Fluids.CYANITE_FLOWING, Blocks.CYANITE_FLUID, Items.CYANITE_BUCKET);
+
+        public static final RegistryObject<ReactantFluid.Source> BLUTONIUM_SOURCE = registerFluidSource(Reactants.Blutonium,
+                Fluids.BLUTONIUM_SOURCE, Fluids.BLUTONIUM_FLOWING, Blocks.BLUTONIUM_FLUID, Items.BLUTONIUM_BUCKET);
+
+        public static final RegistryObject<ReactantFluid.Flowing> BLUTONIUM_FLOWING = registerFluidFlowing(Reactants.Blutonium,
+                Fluids.BLUTONIUM_SOURCE, Fluids.BLUTONIUM_FLOWING, Blocks.BLUTONIUM_FLUID, Items.BLUTONIUM_BUCKET);
+
+        public static final RegistryObject<ReactantFluid.Source> MAGENTITE_SOURCE = registerFluidSource(Reactants.Magentite,
+                Fluids.MAGENTITE_SOURCE, Fluids.MAGENTITE_FLOWING, Blocks.MAGENTITE_FLUID, Items.MAGENTITE_BUCKET);
+
+        public static final RegistryObject<ReactantFluid.Flowing> MAGENTITE_FLOWING = registerFluidFlowing(Reactants.Magentite,
+                Fluids.MAGENTITE_SOURCE, Fluids.MAGENTITE_FLOWING, Blocks.MAGENTITE_FLUID, Items.MAGENTITE_BUCKET);
+
+        public static final RegistryObject<ReactantFluid.Source> VERDERIUM_SOURCE = registerFluidSource(Reactants.Verderium,
+                Fluids.VERDERIUM_SOURCE, Fluids.VERDERIUM_FLOWING, Blocks.VERDERIUM_FLUID, Items.VERDERIUM_BUCKET);
+
+        public static final RegistryObject<ReactantFluid.Flowing> VERDERIUM_FLOWING = registerFluidFlowing(Reactants.Verderium,
+                Fluids.VERDERIUM_SOURCE, Fluids.VERDERIUM_FLOWING, Blocks.VERDERIUM_FLUID, Items.VERDERIUM_BUCKET);
+
+        public static final RegistryObject<ReactantFluid.Source> ROSSINITE_SOURCE = registerFluidSource(Reactants.Rossinite,
+                Fluids.ROSSINITE_SOURCE, Fluids.ROSSINITE_FLOWING, Blocks.ROSSINITE_FLUID, Items.ROSSINITE_BUCKET);
+
+        public static final RegistryObject<ReactantFluid.Flowing> ROSSINITE_FLOWING = registerFluidFlowing(Reactants.Rossinite,
+                Fluids.ROSSINITE_SOURCE, Fluids.ROSSINITE_FLOWING, Blocks.ROSSINITE_FLUID, Items.ROSSINITE_BUCKET);
+
+        //region internals
+
+        private static RegistryObject<ReactantFluid.Source> registerFluidSource(final Reactants reactant,
+                                                                                final Supplier<ReactantFluid.Source> source,
+                                                                                final Supplier<ReactantFluid.Flowing> flowing,
+                                                                                final Supplier<ReactantFluid.Block> block,
+                                                                                final Supplier<BucketItem> bucket) {
+            return FLUIDS.register(reactant.getFluidSourceName(), () -> new ReactantFluid.Source(source, flowing, block, bucket, reactant.getColour(), reactant));
+        }
+
+        private static RegistryObject<ReactantFluid.Flowing> registerFluidFlowing(final Reactants reactant,
+                                                                                  final Supplier<ReactantFluid.Source> source,
+                                                                                  final Supplier<ReactantFluid.Flowing> flowing,
+                                                                                  final Supplier<ReactantFluid.Block> block,
+                                                                                  final Supplier<BucketItem> bucket) {
+            return FLUIDS.register(reactant.getFluidFlowingName(), () -> new ReactantFluid.Flowing(source, flowing, block, bucket, reactant.getColour(), reactant));
+        }
+
+        //endregion
     }
 
     public static final class TileEntityTypes {
@@ -578,6 +712,10 @@ public final class Content {
                 registerBlockEntity("reactoraccessport", ReactorSolidAccessPortEntity::new,
                         () -> Blocks.REACTOR_SOLID_ACCESSPORT_BASIC::get,
                         () -> Blocks.REACTOR_SOLID_ACCESSPORT_REINFORCED::get);
+
+        public static final RegistryObject<TileEntityType<ReactorFluidAccessPortEntity>> REACTOR_FLUID_ACCESSPORT =
+                registerBlockEntity("reactoraccessportfluid", ReactorFluidAccessPortEntity::new,
+                        () -> Blocks.REACTOR_FLUID_ACCESSPORT_REINFORCED::get);
 
         public static final RegistryObject<TileEntityType<ReactorFluidPortEntity>> REACTOR_FLUIDPORT_FORGE_ACTIVE =
                 registerBlockEntity("reactorfluidport_forge_active",
@@ -718,7 +856,7 @@ public final class Content {
         public static final RegistryObject<TileEntityType<ReprocessorAccessPortEntity>> REPROCESSOR_WASTEINJECTOR =
                 registerBlockEntity("reprocessorwasteinjector",
                         () -> new ReprocessorAccessPortEntity(TileEntityTypes.REPROCESSOR_WASTEINJECTOR.get(), IoDirection.Input),
-                        () -> Blocks.REPROCESSOR_FLUIDINJECTOR::get);
+                        () -> Blocks.REPROCESSOR_WASTEINJECTOR::get);
 
         public static final RegistryObject<TileEntityType<ReprocessorFluidPortEntity>> REPROCESSOR_FLUIDINJECTOR =
                 registerBlockEntity("reprocessorfluidinjector", ReprocessorFluidPortEntity::new, () -> Blocks.REPROCESSOR_FLUIDINJECTOR::get);
@@ -733,6 +871,30 @@ public final class Content {
 
         public static final RegistryObject<TileEntityType<ReprocessorCollectorEntity>> REPROCESSOR_COLLECTOR =
                 registerBlockEntity("reprocessorcollector", ReprocessorCollectorEntity::new, () -> Blocks.REPROCESSOR_COLLECTOR::get);
+
+        //endregion
+        //region fluidizer
+
+        public static final RegistryObject<TileEntityType<FluidizerCasingEntity>> FLUIDIZER_CASING =
+                registerBlockEntity("fluidizercasing", FluidizerCasingEntity::new, () -> Blocks.FLUIDIZER_CASING::get);
+
+        public static final RegistryObject<TileEntityType<FluidizerGlassEntity>> FLUIDIZER_GLASS =
+                registerBlockEntity("fluidizerglass", FluidizerGlassEntity::new, () -> Blocks.FLUIDIZER_GLASS::get);
+
+        public static final RegistryObject<TileEntityType<FluidizerControllerEntity>> FLUIDIZER_CONTROLLER =
+                registerBlockEntity("fluidizercontroller", FluidizerControllerEntity::new, () -> Blocks.FLUIDIZER_CONTROLLER::get);
+
+        public static final RegistryObject<TileEntityType<FluidizerSolidInjectorEntity>> FLUIDIZER_SOLIDINJECTOR =
+                registerBlockEntity("fluidizersolidinjector", FluidizerSolidInjectorEntity::new, () -> Blocks.FLUIDIZER_SOLIDINJECTOR::get);
+
+        public static final RegistryObject<TileEntityType<FluidizerFluidInjectorEntity>> FLUIDIZER_FLUIDINJECTOR =
+                registerBlockEntity("fluidizefluidinjector", FluidizerFluidInjectorEntity::new, () -> Blocks.FLUIDIZER_FLUIDINJECTOR::get);
+
+        public static final RegistryObject<TileEntityType<FluidizerOutputPortEntity>> FLUIDIZER_OUTPUTPORT =
+                registerBlockEntity("fluidizeoutputport", FluidizerOutputPortEntity::new, () -> Blocks.FLUIDIZER_OUTPUTPORT::get);
+
+        public static final RegistryObject<TileEntityType<FluidizerPowerPortEntity>> FLUIDIZER_POWERPORT =
+                registerBlockEntity("fluidizerpowerport", FluidizerPowerPortEntity::new, () -> Blocks.FLUIDIZER_POWERPORT::get);
 
         //endregion
         //region internals
@@ -777,6 +939,10 @@ public final class Content {
         public static final RegistryObject<ContainerType<ReactorSolidAccessPortContainer>> REACTOR_SOLID_ACCESSPORT =
                 registerContainer("reactoraccessport", ReactorSolidAccessPortContainer::new);
 
+        public static final RegistryObject<ContainerType<ModTileContainer<ReactorFluidAccessPortEntity>>> REACTOR_FLUID_ACCESSPORT =
+                registerContainer("reactoraccessportfluid", (windowId, inv, data) ->
+                        ModTileContainer.empty(Content.ContainerTypes.REACTOR_FLUID_ACCESSPORT.get(), windowId, data));
+
         public static final RegistryObject<ContainerType<ModTileContainer<ReactorRedstonePortEntity>>> REACTOR_REDSTONEPORT =
                 registerContainer("reactorredstoneport", (windowId, inv, data) ->
                         ModTileContainer.empty(Content.ContainerTypes.REACTOR_REDSTONEPORT.get(), windowId, data));
@@ -819,19 +985,24 @@ public final class Content {
                 registerContainer("reprocessorcontroller", (windowId, inv, data) ->
                         ModTileContainer.empty(Content.ContainerTypes.REPROCESSOR_CONTROLLER.get(), windowId, data));
 
-//        public static final RegistryObject<ContainerType<ReprocessorControllerContainer>> REPROCESSOR_CONTROLLER =
-//                registerContainer("reprocessorcontroller", ReprocessorControllerContainer::new);
-
         public static final RegistryObject<ContainerType<ReprocessorAccessPortContainer>> REPROCESSOR_ACCESSPORT =
                 registerContainer("reprocessoraccessport", ReprocessorAccessPortContainer::new);
+
+        //endregion
+        //region Fluidizer
+
+        public static final RegistryObject<ContainerType<FluidizerControllerContainer>> FLUIDIZER_CONTROLLER =
+                registerContainer("fluidizercontroller", FluidizerControllerContainer::new);
+
+        public static final RegistryObject<ContainerType<FluidizerSolidInjectorContainer>> FLUIDIZER_SOLID_INJECTOR =
+                registerContainer("fluidizersolidinjector", FluidizerSolidInjectorContainer::new);
 
         //endregion
         //region internals
 
         private static <C extends Container> RegistryObject<ContainerType<C>> registerContainer(final String name,
                                                                                                 final IContainerFactory<C> factory) {
-            return CONTAINERS.register(name,
-                    () -> IForgeContainerType.create(factory));
+            return CONTAINERS.register(name, () -> IForgeContainerType.create(factory));
         }
 
         //endregion
@@ -848,11 +1019,23 @@ public final class Content {
 
         //region Reprocessor
 
-        public static final ModRecipeType<ReprocessorRecipe> REPROCESSOR_RECIPE_TYPE =
-                ModRecipeType.create(ExtremeReactors.newID(ReprocessorRecipe.NAME));
+        public static final ModRecipeType<ReprocessorRecipe> REPROCESSOR_RECIPE_TYPE = ModRecipeType.create(ReprocessorRecipe.ID);
 
         public static final RegistryObject<IRecipeSerializer<ReprocessorRecipe>> REPROCESSOR_RECIPE_SERIALIZER =
                 SERIALIZERS.register(ReprocessorRecipe.NAME, ReprocessorRecipe::serializer);
+
+        //endregion
+        //region Fluidizer
+
+        public static final ModRecipeType<ModRecipe> FLUIDIZER_RECIPE_TYPE =
+                ModRecipeType.create(ExtremeReactors.newID("fluidizer"));
+
+        public static final RegistryObject<IRecipeSerializer<FluidizerSolidRecipe>> FLUIDIZER_SOLID_RECIPE_SERIALIZER =
+                SERIALIZERS.register(IFluidizerRecipe.Type.Solid.getRecipeName(), FluidizerSolidRecipe::serializer);
+        public static final RegistryObject<IRecipeSerializer<FluidizerSolidMixingRecipe>> FLUIDIZER_SOLIDMIXING_RECIPE_SERIALIZER =
+                SERIALIZERS.register(IFluidizerRecipe.Type.SolidMixing.getRecipeName(), FluidizerSolidMixingRecipe::serializer);
+        public static final RegistryObject<IRecipeSerializer<FluidizerFluidMixingRecipe>> FLUIDIZER_FLUIDMIXING_RECIPE_SERIALIZER =
+                SERIALIZERS.register(IFluidizerRecipe.Type.FluidMixing.getRecipeName(), FluidizerFluidMixingRecipe::serializer);
 
         //endregion
     }

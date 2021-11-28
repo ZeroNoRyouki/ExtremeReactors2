@@ -25,7 +25,7 @@ public class Common {
     public final General general;
     public final Reactor reactor;
     public final Turbine turbine;
-//    public final Compatibility compatibility;
+    public final Fluidizer fluidizer;
     public final Recipes recipes;
     public final Worldgen worldgen;
 
@@ -36,7 +36,7 @@ public class Common {
         this.general = new General(builder);
         this.reactor = new Reactor(builder);
         this.turbine = new Turbine(builder);
-//        this.compatibility = new Compatibility(builder);
+        this.fluidizer = new Fluidizer(builder);
         this.recipes = new Recipes(builder);
         this.worldgen = new Worldgen(builder);
 

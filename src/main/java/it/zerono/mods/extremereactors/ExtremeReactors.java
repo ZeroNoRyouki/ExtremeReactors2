@@ -23,10 +23,10 @@ import it.zerono.mods.extremereactors.config.Config;
 import it.zerono.mods.extremereactors.config.conditions.ConfigCondition;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.WorldGen;
+import it.zerono.mods.extremereactors.gamecontent.command.ExtremeReactorsCommand;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.network.UpdateClientsFuelRodsLayout;
-import it.zerono.mods.extremereactors.proxy.ClientProxy;
 import it.zerono.mods.extremereactors.proxy.IProxy;
-import it.zerono.mods.extremereactors.proxy.ServerProxy;
+import it.zerono.mods.extremereactors.proxy.ProxySafeReferent;
 import it.zerono.mods.zerocore.lib.init.IModInitializationHandler;
 import it.zerono.mods.zerocore.lib.network.IModMessage;
 import it.zerono.mods.zerocore.lib.network.NetworkHandler;
@@ -34,7 +34,9 @@ import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.crafting.CraftingHelper;
+import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
@@ -70,13 +72,15 @@ public class ExtremeReactors implements IModInitializationHandler {
         Config.initialize();
         Content.initialize();
 
-        s_proxy = DistExecutor.safeRunForDist(() -> ClientProxy::new, () -> ServerProxy::new);
+        s_proxy = DistExecutor.safeRunForDist(() -> ProxySafeReferent::client, () -> ProxySafeReferent::server);
 
         final IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
 
         modBus.addListener(this::onCommonInit);
         modBus.addListener(this::onInterModProcess);
         modBus.addGenericListener(IRecipeSerializer.class, this::onRegisterRecipeSerializer);
+
+        MinecraftForge.EVENT_BUS.addListener(this::onRegisterCommands);
 
         WorldGen.initialize();
     }
@@ -144,6 +148,10 @@ public class ExtremeReactors implements IModInitializationHandler {
 
     private void imcProcessAPIMessages(InterModProcessEvent event, String method) {
         event.getIMCStream((method::equals)).map(imc -> (Runnable) imc.getMessageSupplier().get()).forEach(Runnable::run);
+    }
+
+    private void onRegisterCommands(final RegisterCommandsEvent event) {
+        ExtremeReactorsCommand.register(event.getDispatcher());
     }
 
     private static ExtremeReactors s_instance;

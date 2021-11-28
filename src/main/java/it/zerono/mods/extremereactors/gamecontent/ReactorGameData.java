@@ -22,6 +22,8 @@ import it.zerono.mods.extremereactors.api.coolant.FluidMappingsRegistry;
 import it.zerono.mods.extremereactors.api.coolant.FluidsRegistry;
 import it.zerono.mods.extremereactors.api.coolant.TransitionsRegistry;
 import it.zerono.mods.extremereactors.api.reactor.*;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.Reactants;
+import net.minecraft.fluid.Fluid;
 import net.minecraft.item.Item;
 import net.minecraft.tags.ITag;
 import net.minecraft.util.ResourceLocation;
@@ -44,40 +46,50 @@ final class ReactorGameData {
     private static void registerReactants() {
 
         // Yellorium (register it as a FuelProperties.DEFAULT fuel)
-        ReactantsRegistry.register(REACTANT_YELLORIUM, ReactantType.Fuel, 0xc6ba54, "reactant.bigreactors.yellorium");
-
+        registerReactant(Reactants.Yellorium);
         // Blutonium
-        ReactantsRegistry.registerFuel(REACTANT_BLUTONIUM, 0x17179c, 2.55f, 0.875f, 2.0f, "reactant.bigreactors.blutonium");
+        registerReactantFuel(Reactants.Blutonium, 2.23f, 0.6f, 2.0f, 0.0137f, 0.0006f);
+        // Verderium
+        registerReactantFuel(Reactants.Verderium, 3.74f, 0.8741f, 2.0049f, 0.0312f, 0.0081f);
 
         // Cyanite
-        ReactantsRegistry.register(REACTANT_CYANITE, ReactantType.Waste, 0x5387b7, "reactant.bigreactors.cyanite");
-
+        registerReactant(Reactants.Cyanite);
         // Magentite
-        ReactantsRegistry.register(REACTANT_MAGENTITE, ReactantType.Waste, 0xe41de4, "reactant.bigreactors.magentite");
+        registerReactant(Reactants.Magentite);
+        // Rossinite
+        registerReactant(Reactants.Rossinite);
     }
 
     private static void registerReactantMappings() {
 
-        registerIngotReactantMapping(REACTANT_YELLORIUM, ContentTags.Items.INGOTS_YELLORIUM, 1);
-        registerIngotReactantMapping(REACTANT_YELLORIUM, "forge:ingots/uranium", 1);
-        registerIngotReactantMapping(REACTANT_YELLORIUM, ContentTags.Items.BLOCKS_YELLORIUM, 9);
-        registerIngotReactantMapping(REACTANT_YELLORIUM, "forge:storage_blocks/uranium", 9);
+        registerIngotReactantMapping(Reactants.Yellorium, ContentTags.Items.INGOTS_YELLORIUM, 1);
+        registerIngotReactantMapping(Reactants.Yellorium, "forge:ingots/uranium", 1);
+        registerIngotReactantMapping(Reactants.Yellorium, ContentTags.Items.BLOCKS_YELLORIUM, 9);
+        registerIngotReactantMapping(Reactants.Yellorium, "forge:storage_blocks/uranium", 9);
 
-        registerIngotReactantMapping(REACTANT_BLUTONIUM, ContentTags.Items.INGOTS_BLUTONIUM, 1);
-        registerIngotReactantMapping(REACTANT_BLUTONIUM, "forge:ingots/plutonium", 1);
-        registerIngotReactantMapping(REACTANT_BLUTONIUM, ContentTags.Items.BLOCKS_BLUTONIUM, 9);
-        registerIngotReactantMapping(REACTANT_BLUTONIUM, "forge:storage_blocks/plutonium", 9);
+        registerIngotReactantMapping(Reactants.Blutonium, ContentTags.Items.INGOTS_BLUTONIUM, 1);
+        registerIngotReactantMapping(Reactants.Blutonium, "forge:ingots/plutonium", 1);
+        registerIngotReactantMapping(Reactants.Blutonium, ContentTags.Items.BLOCKS_BLUTONIUM, 9);
+        registerIngotReactantMapping(Reactants.Blutonium, "forge:storage_blocks/plutonium", 9);
 
-        registerIngotReactantMapping(REACTANT_CYANITE, ContentTags.Items.INGOTS_CYANITE, 1);
-        registerIngotReactantMapping(REACTANT_CYANITE, ContentTags.Items.BLOCKS_CYANITE, 9);
-        registerIngotReactantMapping(REACTANT_MAGENTITE, ContentTags.Items.INGOTS_MAGENTITE, 1);
-        registerIngotReactantMapping(REACTANT_MAGENTITE, ContentTags.Items.BLOCKS_MAGENTITE, 9);
+        registerIngotReactantMapping(Reactants.Cyanite, ContentTags.Items.INGOTS_CYANITE, 1);
+        registerIngotReactantMapping(Reactants.Cyanite, ContentTags.Items.BLOCKS_CYANITE, 9);
+        registerIngotReactantMapping(Reactants.Magentite, ContentTags.Items.INGOTS_MAGENTITE, 1);
+        registerIngotReactantMapping(Reactants.Magentite, ContentTags.Items.BLOCKS_MAGENTITE, 9);
+
+        registerFluidReactantMapping(Reactants.Yellorium, ContentTags.Fluids.YELLORIUM);
+        registerFluidReactantMapping(Reactants.Cyanite, ContentTags.Fluids.CYANITE);
+        registerFluidReactantMapping(Reactants.Blutonium, ContentTags.Fluids.BLUTONIUM);
+        registerFluidReactantMapping(Reactants.Magentite, ContentTags.Fluids.MAGENTITE);
+        registerFluidReactantMapping(Reactants.Verderium, ContentTags.Fluids.VERDERIUM);
+        registerFluidReactantMapping(Reactants.Rossinite, ContentTags.Fluids.ROSSINITE);
     }
 
     private static void registerReactions() {
 
-        ReactionsRegistry.register(REACTANT_YELLORIUM, REACTANT_CYANITE, Reaction.STANDARD_REACTIVITY, Reaction.STANDARD_FISSIONRATE);
-        ReactionsRegistry.register(REACTANT_BLUTONIUM, REACTANT_MAGENTITE, 1.1f, 0.05f);
+        ReactionsRegistry.register(Reactants.Yellorium.getReactantName(), Reactants.Cyanite.getReactantName(), Reaction.STANDARD_REACTIVITY, Reaction.STANDARD_FISSIONRATE);
+        ReactionsRegistry.register(Reactants.Blutonium.getReactantName(), Reactants.Magentite.getReactantName(), 1.0871f, 0.051f);
+        ReactionsRegistry.register(Reactants.Verderium.getReactantName(), Reactants.Rossinite.getReactantName(), 1.0984f, 0.0743f);
     }
 
     private static void registerModerators() {
@@ -204,24 +216,33 @@ final class ReactorGameData {
 
     //region helpers
 
-    private static void registerIngotReactantMapping(final String reactantName, final ITag.INamedTag<Item> tag, final int ingotsCount) {
-        registerIngotReactantMapping(reactantName, tag.getName(), ingotsCount);
+    private static void registerReactant(final Reactants reactant) {
+        ReactantsRegistry.register(reactant.getReactantName(), reactant.getType(), reactant.getColour(), reactant.getLangKey());
     }
 
-    private static void registerIngotReactantMapping(final String reactantName, final String itemTagId, final int ingotsCount) {
-        registerIngotReactantMapping(reactantName, new ResourceLocation(itemTagId), ingotsCount);
+    private static void registerReactantFuel(final Reactants reactant, final float moderationFactor,
+                                             final float absorptionCoefficient, final float hardnessDivisor,
+                                             final float fissionEventsPerFuelUnit, final float fuelUnitsPerFissionEvent) {
+        ReactantsRegistry.registerFuel(reactant.getReactantName(), reactant.getColour(), moderationFactor, absorptionCoefficient,
+                hardnessDivisor, fissionEventsPerFuelUnit, fuelUnitsPerFissionEvent, reactant.getLangKey());
     }
 
-    private static void registerIngotReactantMapping(final String reactantName, final ResourceLocation itemTagId, final int ingotsCount) {
-        ReactantMappingsRegistry.registerSolid(reactantName, ingotsCount * ReactantMappingsRegistry.STANDARD_SOLID_REACTANT_AMOUNT, itemTagId);
+    private static void registerIngotReactantMapping(final Reactants reactant, final ITag.INamedTag<Item> tag, final int ingotsCount) {
+        registerIngotReactantMapping(reactant, tag.getName(), ingotsCount);
+    }
+
+    private static void registerIngotReactantMapping(final Reactants reactant, final String itemTagId, final int ingotsCount) {
+        registerIngotReactantMapping(reactant, new ResourceLocation(itemTagId), ingotsCount);
+    }
+
+    private static void registerIngotReactantMapping(final Reactants reactant, final ResourceLocation itemTagId, final int ingotsCount) {
+        ReactantMappingsRegistry.registerSolid(reactant.getReactantName(), ingotsCount * ReactantMappingsRegistry.STANDARD_SOLID_REACTANT_AMOUNT, itemTagId);
+    }
+
+    private static void registerFluidReactantMapping(final Reactants reactant, final ITag.INamedTag<Fluid> tag) {
+        ReactantMappingsRegistry.registerFluid(reactant.getReactantName(), tag.getName());
     }
 
     //endregion
-
-    private static final String REACTANT_YELLORIUM = "yellorium";
-    private static final String REACTANT_BLUTONIUM = "blutonium";
-    private static final String REACTANT_CYANITE = "cyanite";
-    private static final String REACTANT_MAGENTITE = "magentite";
-
     //endregion
 }

@@ -120,7 +120,7 @@ public class ReactantStack
 
     public boolean contains(final ReactantType type) {
         return this.getReactant()
-                .filter(reactant -> reactant.getType() == type)
+                .filter(reactant -> reactant.test(type))
                 .isPresent();
     }
 

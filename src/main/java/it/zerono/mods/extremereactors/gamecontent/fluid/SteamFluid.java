@@ -18,11 +18,11 @@
 
 package it.zerono.mods.extremereactors.gamecontent.fluid;
 
+import it.zerono.mods.extremereactors.gamecontent.CommonConstants;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.state.StateContainer;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvents;
 import net.minecraftforge.fluids.FluidAttributes;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
@@ -49,12 +49,6 @@ public abstract class SteamFluid
         public boolean isSource(final FluidState state) {
             return false;
         }
-
-        //region internals
-
-        private static final ResourceLocation TEXTURE = new ResourceLocation("block/water_flow");// ExtremeReactors.newID("fluid/steam_flowing"); //TODO define
-
-        //endregion
     }
 
     public static class Source
@@ -69,20 +63,14 @@ public abstract class SteamFluid
         public boolean isSource(final FluidState state) {
             return true;
         }
-
-        //region internals
-
-        private static final ResourceLocation TEXTURE = new ResourceLocation("block/water_still");// ExtremeReactors.newID("fluid/steam"); //TODO define
-
-        //endregion
     }
 
     //region internals
 
     protected SteamFluid() {
         super(new ForgeFlowingFluid.Properties(Content.Fluids.STEAM_SOURCE, Content.Fluids.STEAM_FLOWING,
-                FluidAttributes.builder(Source.TEXTURE, Flowing.TEXTURE)
-                        .overlay(OVERLAY_TEXTURE)
+                FluidAttributes.builder(CommonConstants.FLUID_TEXTURE_SOURCE_WATER, CommonConstants.FLUID_TEXTURE_FLOWING_WATER)
+                        .overlay(CommonConstants.FLUID_TEXTURE_OVERLAY_WATER)
                         .sound(SoundEvents.BUCKET_FILL, SoundEvents.BUCKET_EMPTY)
                         .density(1)
                         .gaseous()
@@ -91,8 +79,6 @@ public abstract class SteamFluid
                 .bucket(Content.Items.STEAM_BUCKET)
                 .block(Content.Blocks.STEAM));
     }
-
-    private static final ResourceLocation OVERLAY_TEXTURE = new ResourceLocation("block/water_overlay");
 
     //endregion
 }

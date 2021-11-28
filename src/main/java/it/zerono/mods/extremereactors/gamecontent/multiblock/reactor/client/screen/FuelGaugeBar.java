@@ -22,7 +22,7 @@ import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import it.zerono.mods.extremereactors.api.reactor.ReactantType;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.AbstractMultiblockScreen;
+import it.zerono.mods.extremereactors.gamecontent.CommonConstants;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.CachedSprites;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.MultiblockReactor;
 import it.zerono.mods.zerocore.lib.CodeHelper;
@@ -46,7 +46,7 @@ public class FuelGaugeBar
         this._reactor = reactor;
 
         this._tooltipsLines = ImmutableList.of(
-                new TranslationTextComponent("gui.bigreactors.reactor.controller.fuelbar.line1").setStyle(AbstractMultiblockScreen.STYLE_TOOLTIP_TITLE),
+                new TranslationTextComponent("gui.bigreactors.reactor.controller.fuelbar.line1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
                 new TranslationTextComponent("gui.bigreactors.reactor.controller.fuelbar.line2"),
                 new TranslationTextComponent("gui.bigreactors.reactor.controller.fuelbar.line3"),
                 CodeHelper.TEXT_EMPTY_LINE,
@@ -60,22 +60,22 @@ public class FuelGaugeBar
         this._tooltipsObjects = ImmutableList.of(
                 // @0
                 (NonNullSupplier<ITextComponent>)() -> new StringTextComponent(String.format("%.2f%%", this.getFillRatio() * 100f))
-                        .setStyle(AbstractMultiblockScreen.STYLE_TOOLTIP_VALUE),
+                        .setStyle(CommonConstants.STYLE_TOOLTIP_VALUE),
                 // @1
                 (NonNullSupplier<ITextComponent>)() -> new StringTextComponent(String.format("%.2f%%", this._reactor.getFuelContainer().isEmpty() ?
                         0f : ((float)this._reactor.getFuelContainer().getWasteAmount() / (float)(this.getFuelAmount() + this.getWasteAmount())) * 100f))
-                            .setStyle(AbstractMultiblockScreen.STYLE_TOOLTIP_VALUE),
+                            .setStyle(CommonConstants.STYLE_TOOLTIP_VALUE),
                 // @2
                 (NonNullSupplier<ITextComponent>)() -> (this.getFuelAmount() > 0 ?
                         new StringTextComponent(CodeHelper.formatAsMillibuckets(this.getFuelAmount())) : EMPTY)
-                            .setStyle(AbstractMultiblockScreen.STYLE_TOOLTIP_VALUE),
+                            .setStyle(CommonConstants.STYLE_TOOLTIP_VALUE),
                 // @3
                 (NonNullSupplier<ITextComponent>)() -> (this.getWasteAmount() > 0 ?
                         new StringTextComponent(CodeHelper.formatAsMillibuckets(this.getWasteAmount())) : EMPTY)
-                        .setStyle(AbstractMultiblockScreen.STYLE_TOOLTIP_VALUE),
+                        .setStyle(CommonConstants.STYLE_TOOLTIP_VALUE),
                 // @4
                 (NonNullSupplier<ITextComponent>)() -> new StringTextComponent(CodeHelper.formatAsMillibuckets(this.getFuelAmount() + this.getWasteAmount()))
-                        .setStyle(AbstractMultiblockScreen.STYLE_TOOLTIP_VALUE)
+                        .setStyle(CommonConstants.STYLE_TOOLTIP_VALUE)
         );
     }
 

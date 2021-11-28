@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "down": "bigreactors:block/fluidizer/plating",
+    "up": "bigreactors:block/fluidizer/plating",
+    "north": "bigreactors:block/fluidizer/plating",
+    "south": "bigreactors:block/fluidizer/plating",
+    "east": "bigreactors:block/fluidizer/plating",
+    "west": "bigreactors:block/fluidizer/plating",
+    "particle": "bigreactors:block/fluidizer/plating"
+  }
+}

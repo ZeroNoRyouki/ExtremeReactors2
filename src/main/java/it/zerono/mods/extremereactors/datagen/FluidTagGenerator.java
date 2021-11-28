@@ -23,9 +23,13 @@ import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.ContentTags;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.FluidTagsProvider;
+import net.minecraft.fluid.Fluid;
+import net.minecraft.tags.ITag;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.fluids.ForgeFlowingFluid;
 
 import javax.annotation.Nullable;
+import java.util.function.Supplier;
 
 public class FluidTagGenerator
     extends FluidTagsProvider {
@@ -50,8 +54,21 @@ public class FluidTagGenerator
     @Override
     protected void addTags() {
 
-        this.tag(ContentTags.Fluids.STEAM)
-                .add(Content.Fluids.STEAM_SOURCE.get(), Content.Fluids.STEAM_FLOWING.get());
+        this.tag(ContentTags.Fluids.STEAM, Content.Fluids.STEAM_SOURCE, Content.Fluids.STEAM_FLOWING);
+        this.tag(ContentTags.Fluids.YELLORIUM, Content.Fluids.YELLORIUM_SOURCE, Content.Fluids.YELLORIUM_FLOWING);
+        this.tag(ContentTags.Fluids.CYANITE, Content.Fluids.CYANITE_SOURCE, Content.Fluids.CYANITE_FLOWING);
+        this.tag(ContentTags.Fluids.BLUTONIUM, Content.Fluids.BLUTONIUM_SOURCE, Content.Fluids.BLUTONIUM_FLOWING);
+        this.tag(ContentTags.Fluids.MAGENTITE, Content.Fluids.MAGENTITE_SOURCE, Content.Fluids.MAGENTITE_FLOWING);
+        this.tag(ContentTags.Fluids.VERDERIUM, Content.Fluids.VERDERIUM_SOURCE, Content.Fluids.VERDERIUM_FLOWING);
+        this.tag(ContentTags.Fluids.ROSSINITE, Content.Fluids.ROSSINITE_SOURCE, Content.Fluids.ROSSINITE_FLOWING);
+    }
+
+    //endregion
+    //region internals
+
+    private void tag(final ITag.INamedTag<Fluid> tag, final Supplier<? extends ForgeFlowingFluid> source,
+                     final Supplier<? extends ForgeFlowingFluid> flowing) {
+        this.tag(tag).add(source.get(), flowing.get());
     }
 
     //endregion

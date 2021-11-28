@@ -1,0 +1,13 @@
+{
+  "type": "bigreactors:fluidizersolid",
+  "ingredient": {
+    "ingredient": {
+      "item": "bigreactors:yellorium_block"
+    },
+    "count": 1
+  },
+  "result": {
+    "fluid": "bigreactors:yellorium",
+    "count": 9000
+  }
+}
