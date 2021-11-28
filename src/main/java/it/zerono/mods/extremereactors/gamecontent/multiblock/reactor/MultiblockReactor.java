@@ -1368,18 +1368,18 @@ public class MultiblockReactor
 
     private static int internalSurfaceArea(final CuboidBoundingBox bb) {
 
-        int xSize = bb.getLengthX() - 1;
-        int ySize = bb.getLengthY() - 1;
-        int zSize = bb.getLengthZ() - 1;
+        final int xSize = bb.getLengthX() - 2;
+        final int ySize = bb.getLengthY() - 2;
+        final int zSize = bb.getLengthZ() - 2;
 
         return  2 * (xSize * ySize + xSize * zSize + ySize * zSize);
     }
 
     private static int externalSurfaceArea(final CuboidBoundingBox bb) {
 
-        int xSize = bb.getLengthX() + 1;
-        int ySize = bb.getLengthY() + 1;
-        int zSize = bb.getLengthZ() + 1;
+        final int xSize = bb.getLengthX();
+        final int ySize = bb.getLengthY();
+        final int zSize = bb.getLengthZ();
 
         return  2 * (xSize * ySize + xSize * zSize + ySize * zSize);
     }
