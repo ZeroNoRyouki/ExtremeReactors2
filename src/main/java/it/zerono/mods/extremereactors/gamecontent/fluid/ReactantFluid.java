@@ -19,6 +19,7 @@
 package it.zerono.mods.extremereactors.gamecontent.fluid;
 
 import it.zerono.mods.extremereactors.gamecontent.CommonConstants;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.Reactants;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.FlowingFluidBlock;
 import net.minecraft.block.material.Material;
@@ -43,10 +44,9 @@ public abstract class ReactantFluid
     public static class Flowing
             extends ReactantFluid {
 
-        public Flowing(final Supplier<ReactantFluid.Source> sourceFluid, final Supplier<ReactantFluid.Flowing> flowingFluid,
-                       final Supplier<ReactantFluid.Block> block, final Supplier<? extends Item> bucket,
-                       final int colour, final NonNullConsumer<LivingEntity> effectProvider) {
-            super(sourceFluid, flowingFluid, block, bucket, colour, effectProvider);
+        public Flowing(final Reactants reactant, final Supplier<ReactantFluid.Source> sourceFluid, final Supplier<ReactantFluid.Flowing> flowingFluid,
+                       final Supplier<ReactantFluid.Block> block, final Supplier<? extends Item> bucket) {
+            super(sourceFluid, flowingFluid, block, bucket, reactant.getColour(), reactant);
         }
 
         @Override
@@ -70,10 +70,9 @@ public abstract class ReactantFluid
     public static class Source
             extends ReactantFluid {
 
-        public Source(final Supplier<ReactantFluid.Source> sourceFluid, final Supplier<ReactantFluid.Flowing> flowingFluid,
-                      final Supplier<ReactantFluid.Block> block, final Supplier<? extends Item> bucket,
-                      final int colour, final NonNullConsumer<LivingEntity> effectProvider) {
-            super(sourceFluid, flowingFluid, block, bucket, colour, effectProvider);
+        public Source(final Reactants reactant, final Supplier<ReactantFluid.Source> sourceFluid, final Supplier<ReactantFluid.Flowing> flowingFluid,
+                      final Supplier<ReactantFluid.Block> block, final Supplier<? extends Item> bucket) {
+            super(sourceFluid, flowingFluid, block, bucket, reactant.getColour(), reactant);
         }
 
         @Override

@@ -615,61 +615,53 @@ public final class Content {
         public static final RegistryObject<ForgeFlowingFluid> STEAM_SOURCE = FLUIDS.register("steam", SteamFluid.Source::new);
         public static final RegistryObject<ForgeFlowingFluid> STEAM_FLOWING = FLUIDS.register("steam_flowing", SteamFluid.Flowing::new);
 
-        public static final RegistryObject<ReactantFluid.Source> YELLORIUM_SOURCE = registerFluidSource(Reactants.Yellorium,
-                Fluids.YELLORIUM_SOURCE, Fluids.YELLORIUM_FLOWING, Blocks.YELLORIUM_FLUID, Items.YELLORIUM_BUCKET);
+        public static final RegistryObject<ReactantFluid.Source> YELLORIUM_SOURCE = FLUIDS.register(Reactants.Yellorium.getFluidSourceName(),
+                () -> new ReactantFluid.Source(Reactants.Yellorium, Fluids.YELLORIUM_SOURCE, Fluids.YELLORIUM_FLOWING,
+                        Blocks.YELLORIUM_FLUID, Items.YELLORIUM_BUCKET));
 
-        public static final RegistryObject<ReactantFluid.Flowing> YELLORIUM_FLOWING = registerFluidFlowing(Reactants.Yellorium,
-                Fluids.YELLORIUM_SOURCE, Fluids.YELLORIUM_FLOWING, Blocks.YELLORIUM_FLUID, Items.YELLORIUM_BUCKET);
+        public static final RegistryObject<ReactantFluid.Flowing> YELLORIUM_FLOWING = FLUIDS.register(Reactants.Yellorium.getFluidFlowingName(),
+                () -> new ReactantFluid.Flowing(Reactants.Yellorium, Fluids.YELLORIUM_SOURCE, Fluids.YELLORIUM_FLOWING,
+                        Blocks.YELLORIUM_FLUID, Items.YELLORIUM_BUCKET));
 
-        public static final RegistryObject<ReactantFluid.Source> CYANITE_SOURCE = registerFluidSource(Reactants.Cyanite,
-                Fluids.CYANITE_SOURCE, Fluids.CYANITE_FLOWING, Blocks.CYANITE_FLUID, Items.CYANITE_BUCKET);
+        public static final RegistryObject<ReactantFluid.Source> CYANITE_SOURCE = FLUIDS.register(Reactants.Cyanite.getFluidSourceName(),
+                () -> new ReactantFluid.Source(Reactants.Cyanite, Fluids.CYANITE_SOURCE, Fluids.CYANITE_FLOWING,
+                        Blocks.CYANITE_FLUID, Items.CYANITE_BUCKET));
 
-        public static final RegistryObject<ReactantFluid.Flowing> CYANITE_FLOWING = registerFluidFlowing(Reactants.Cyanite,
-                Fluids.CYANITE_SOURCE, Fluids.CYANITE_FLOWING, Blocks.CYANITE_FLUID, Items.CYANITE_BUCKET);
+        public static final RegistryObject<ReactantFluid.Flowing> CYANITE_FLOWING = FLUIDS.register(Reactants.Cyanite.getFluidFlowingName(),
+                () -> new ReactantFluid.Flowing(Reactants.Cyanite, Fluids.CYANITE_SOURCE, Fluids.CYANITE_FLOWING,
+                        Blocks.CYANITE_FLUID, Items.CYANITE_BUCKET));
 
-        public static final RegistryObject<ReactantFluid.Source> BLUTONIUM_SOURCE = registerFluidSource(Reactants.Blutonium,
-                Fluids.BLUTONIUM_SOURCE, Fluids.BLUTONIUM_FLOWING, Blocks.BLUTONIUM_FLUID, Items.BLUTONIUM_BUCKET);
+        public static final RegistryObject<ReactantFluid.Source> BLUTONIUM_SOURCE = FLUIDS.register(Reactants.Blutonium.getFluidSourceName(),
+                () -> new ReactantFluid.Source(Reactants.Blutonium, Fluids.BLUTONIUM_SOURCE, Fluids.BLUTONIUM_FLOWING,
+                        Blocks.BLUTONIUM_FLUID, Items.BLUTONIUM_BUCKET));
 
-        public static final RegistryObject<ReactantFluid.Flowing> BLUTONIUM_FLOWING = registerFluidFlowing(Reactants.Blutonium,
-                Fluids.BLUTONIUM_SOURCE, Fluids.BLUTONIUM_FLOWING, Blocks.BLUTONIUM_FLUID, Items.BLUTONIUM_BUCKET);
+        public static final RegistryObject<ReactantFluid.Flowing> BLUTONIUM_FLOWING = FLUIDS.register(Reactants.Blutonium.getFluidFlowingName(),
+                () -> new ReactantFluid.Flowing(Reactants.Blutonium, Fluids.BLUTONIUM_SOURCE, Fluids.BLUTONIUM_FLOWING,
+                        Blocks.BLUTONIUM_FLUID, Items.BLUTONIUM_BUCKET));
 
-        public static final RegistryObject<ReactantFluid.Source> MAGENTITE_SOURCE = registerFluidSource(Reactants.Magentite,
-                Fluids.MAGENTITE_SOURCE, Fluids.MAGENTITE_FLOWING, Blocks.MAGENTITE_FLUID, Items.MAGENTITE_BUCKET);
+        public static final RegistryObject<ReactantFluid.Source> MAGENTITE_SOURCE = FLUIDS.register(Reactants.Magentite.getFluidSourceName(),
+                () -> new ReactantFluid.Source(Reactants.Magentite, Fluids.MAGENTITE_SOURCE, Fluids.MAGENTITE_FLOWING,
+                        Blocks.MAGENTITE_FLUID, Items.MAGENTITE_BUCKET));
 
-        public static final RegistryObject<ReactantFluid.Flowing> MAGENTITE_FLOWING = registerFluidFlowing(Reactants.Magentite,
-                Fluids.MAGENTITE_SOURCE, Fluids.MAGENTITE_FLOWING, Blocks.MAGENTITE_FLUID, Items.MAGENTITE_BUCKET);
+        public static final RegistryObject<ReactantFluid.Flowing> MAGENTITE_FLOWING = FLUIDS.register(Reactants.Magentite.getFluidFlowingName(),
+                () -> new ReactantFluid.Flowing(Reactants.Magentite, Fluids.MAGENTITE_SOURCE, Fluids.MAGENTITE_FLOWING,
+                        Blocks.MAGENTITE_FLUID, Items.MAGENTITE_BUCKET));
 
-        public static final RegistryObject<ReactantFluid.Source> VERDERIUM_SOURCE = registerFluidSource(Reactants.Verderium,
-                Fluids.VERDERIUM_SOURCE, Fluids.VERDERIUM_FLOWING, Blocks.VERDERIUM_FLUID, Items.VERDERIUM_BUCKET);
+        public static final RegistryObject<ReactantFluid.Source> VERDERIUM_SOURCE = FLUIDS.register(Reactants.Verderium.getFluidSourceName(),
+                () -> new ReactantFluid.Source(Reactants.Verderium, Fluids.VERDERIUM_SOURCE, Fluids.VERDERIUM_FLOWING,
+                        Blocks.VERDERIUM_FLUID, Items.VERDERIUM_BUCKET));
 
-        public static final RegistryObject<ReactantFluid.Flowing> VERDERIUM_FLOWING = registerFluidFlowing(Reactants.Verderium,
-                Fluids.VERDERIUM_SOURCE, Fluids.VERDERIUM_FLOWING, Blocks.VERDERIUM_FLUID, Items.VERDERIUM_BUCKET);
+        public static final RegistryObject<ReactantFluid.Flowing> VERDERIUM_FLOWING = FLUIDS.register(Reactants.Verderium.getFluidFlowingName(),
+                () -> new ReactantFluid.Flowing(Reactants.Verderium, Fluids.VERDERIUM_SOURCE, Fluids.VERDERIUM_FLOWING,
+                        Blocks.VERDERIUM_FLUID, Items.VERDERIUM_BUCKET));
 
-        public static final RegistryObject<ReactantFluid.Source> ROSSINITE_SOURCE = registerFluidSource(Reactants.Rossinite,
-                Fluids.ROSSINITE_SOURCE, Fluids.ROSSINITE_FLOWING, Blocks.ROSSINITE_FLUID, Items.ROSSINITE_BUCKET);
+        public static final RegistryObject<ReactantFluid.Source> ROSSINITE_SOURCE = FLUIDS.register(Reactants.Rossinite.getFluidSourceName(),
+                () -> new ReactantFluid.Source(Reactants.Rossinite, Fluids.ROSSINITE_SOURCE, Fluids.ROSSINITE_FLOWING,
+                        Blocks.ROSSINITE_FLUID, Items.ROSSINITE_BUCKET));
 
-        public static final RegistryObject<ReactantFluid.Flowing> ROSSINITE_FLOWING = registerFluidFlowing(Reactants.Rossinite,
-                Fluids.ROSSINITE_SOURCE, Fluids.ROSSINITE_FLOWING, Blocks.ROSSINITE_FLUID, Items.ROSSINITE_BUCKET);
-
-        //region internals
-
-        private static RegistryObject<ReactantFluid.Source> registerFluidSource(final Reactants reactant,
-                                                                                final Supplier<ReactantFluid.Source> source,
-                                                                                final Supplier<ReactantFluid.Flowing> flowing,
-                                                                                final Supplier<ReactantFluid.Block> block,
-                                                                                final Supplier<BucketItem> bucket) {
-            return FLUIDS.register(reactant.getFluidSourceName(), () -> new ReactantFluid.Source(source, flowing, block, bucket, reactant.getColour(), reactant));
-        }
-
-        private static RegistryObject<ReactantFluid.Flowing> registerFluidFlowing(final Reactants reactant,
-                                                                                  final Supplier<ReactantFluid.Source> source,
-                                                                                  final Supplier<ReactantFluid.Flowing> flowing,
-                                                                                  final Supplier<ReactantFluid.Block> block,
-                                                                                  final Supplier<BucketItem> bucket) {
-            return FLUIDS.register(reactant.getFluidFlowingName(), () -> new ReactantFluid.Flowing(source, flowing, block, bucket, reactant.getColour(), reactant));
-        }
-
-        //endregion
+        public static final RegistryObject<ReactantFluid.Flowing> ROSSINITE_FLOWING = FLUIDS.register(Reactants.Rossinite.getFluidFlowingName(),
+                () -> new ReactantFluid.Flowing(Reactants.Rossinite, Fluids.ROSSINITE_SOURCE, Fluids.ROSSINITE_FLOWING,
+                        Blocks.ROSSINITE_FLUID, Items.ROSSINITE_BUCKET));
     }
 
     public static final class TileEntityTypes {
