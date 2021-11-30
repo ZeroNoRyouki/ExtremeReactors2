@@ -30,9 +30,9 @@ import it.zerono.mods.extremereactors.api.internal.modpack.wrapper.AddRemoveSect
 import it.zerono.mods.extremereactors.api.internal.modpack.wrapper.ApiWrapper;
 import it.zerono.mods.extremereactors.api.internal.modpack.wrapper.SourceTag;
 import it.zerono.mods.zerocore.lib.tag.TagsHelper;
-import net.minecraft.world.level.material.Fluid;
-import net.minecraft.tags.Tag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.Tag;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;

@@ -21,8 +21,6 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.common.part;
 import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockPartType;
 import it.zerono.mods.zerocore.lib.multiblock.IMultiblockController;
 
-import it.zerono.mods.zerocore.lib.block.multiblock.MultiblockPartBlock.MultiblockPartProperties;
-
 public class ComputerPortBlock<Controller extends IMultiblockController<Controller>,
         PartType extends Enum<PartType> & IMultiblockPartType> extends GenericDeviceBlock<Controller, PartType> {
 

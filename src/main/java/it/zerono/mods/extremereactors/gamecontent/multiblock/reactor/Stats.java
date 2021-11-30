@@ -21,8 +21,6 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor;
 import it.zerono.mods.zerocore.lib.data.nbt.ISyncableEntity;
 import net.minecraft.nbt.CompoundTag;
 
-import it.zerono.mods.zerocore.lib.data.nbt.ISyncableEntity.SyncReason;
-
 public class Stats implements ISyncableEntity {
 
     public Stats(final IFuelContainer fc) {

@@ -28,10 +28,10 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.common.IFluidContai
 import it.zerono.mods.zerocore.lib.data.nbt.IMergeableEntity;
 import it.zerono.mods.zerocore.lib.data.nbt.ISyncableEntity;
 import it.zerono.mods.zerocore.lib.energy.EnergyBuffer;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.profiling.ProfilerFiller;
-import net.minecraft.core.Direction;
-import net.minecraft.core.BlockPos;
 
 import java.util.Optional;
 

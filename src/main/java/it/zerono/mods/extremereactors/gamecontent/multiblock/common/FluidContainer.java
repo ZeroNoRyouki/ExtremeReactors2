@@ -32,16 +32,14 @@ import it.zerono.mods.zerocore.lib.data.stack.OperationMode;
 import it.zerono.mods.zerocore.lib.data.stack.StackAdapters;
 import it.zerono.mods.zerocore.lib.fluid.handler.IndexedFluidHandlerForwarder;
 import it.zerono.mods.zerocore.lib.tag.TagsHelper;
-import net.minecraft.world.level.material.Fluid;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.*;
-
-import it.zerono.mods.zerocore.lib.data.nbt.ISyncableEntity.SyncReason;
 
 public class FluidContainer
         extends IndexedStackContainer<FluidType, Fluid, FluidStack>

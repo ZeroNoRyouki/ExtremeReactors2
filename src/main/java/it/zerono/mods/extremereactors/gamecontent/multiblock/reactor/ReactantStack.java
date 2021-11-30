@@ -37,8 +37,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.*;
 
-import it.zerono.mods.zerocore.lib.data.nbt.ISyncableEntity.SyncReason;
-
 @SuppressWarnings({"WeakerAccess"})
 public class ReactantStack
         implements ISyncableEntity {
