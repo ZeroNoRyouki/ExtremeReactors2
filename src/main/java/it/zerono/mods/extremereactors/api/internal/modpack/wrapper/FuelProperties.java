@@ -25,15 +25,26 @@ public class FuelProperties {
     public float ModerationFactor;
     public float AbsorptionCoefficient;
     public float HardnessDivisor;
+    public float FissionEventsPerFuelUnit;
+    public float FuelUnitsPerFissionEvent;
 
     public FuelProperties() {
-        this(DEFAULT.getModerationFactor(), DEFAULT.getAbsorptionCoefficient(), DEFAULT.getHardnessDivisor());
+        this(DEFAULT.getModerationFactor(), DEFAULT.getAbsorptionCoefficient(), DEFAULT.getHardnessDivisor(),
+                DEFAULT.getFissionEventsPerFuelUnit(), DEFAULT.getFuelUnitsPerFissionEvent());
     }
 
     FuelProperties(final float moderationFactor, final float absorptionCoefficient, final float hardnessDivisor) {
+        this(moderationFactor, absorptionCoefficient, hardnessDivisor, DEFAULT.getFissionEventsPerFuelUnit(),
+                DEFAULT.getFuelUnitsPerFissionEvent());
+    }
+
+    FuelProperties(final float moderationFactor, final float absorptionCoefficient, final float hardnessDivisor,
+                   final float fissionEventsPerFuelUnit, final float fuelUnitsPerFissionEvent) {
 
         this.ModerationFactor = moderationFactor;
         this.AbsorptionCoefficient = absorptionCoefficient;
         this.HardnessDivisor = hardnessDivisor;
+        this.FissionEventsPerFuelUnit = fissionEventsPerFuelUnit;
+        this.FuelUnitsPerFissionEvent = fuelUnitsPerFissionEvent;
     }
 }

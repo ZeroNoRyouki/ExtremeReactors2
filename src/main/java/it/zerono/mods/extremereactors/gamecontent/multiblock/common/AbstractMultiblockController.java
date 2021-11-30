@@ -77,7 +77,7 @@ public abstract class AbstractMultiblockController<Controller extends AbstractCu
 //     * @param data
 //     */
 //    @Override
-//    protected void onAttachedPartWithMultiblockData(final IMultiblockPart part, final CompoundNBT data) {
+//    protected void onAttachedPartWithMultiblockData(final IMultiblockPart part, final CompoundTag data) {
 //        this.syncDataFrom(data, SyncReason.FullSync);
 //    }
 

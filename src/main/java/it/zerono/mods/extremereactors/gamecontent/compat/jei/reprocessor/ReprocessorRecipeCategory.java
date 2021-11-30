@@ -18,17 +18,17 @@
 
 package it.zerono.mods.extremereactors.gamecontent.compat.jei.reprocessor;
 
-
 import com.mojang.blaze3d.vertex.PoseStack;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectLists;
 import it.zerono.mods.extremereactors.ExtremeReactors;
+import it.zerono.mods.extremereactors.gamecontent.CommonConstants;
 import it.zerono.mods.extremereactors.gamecontent.Content;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.AbstractMultiblockScreen;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.CommonIcons;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.MultiblockReprocessor;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.recipe.ReprocessorRecipe;
 import it.zerono.mods.zerocore.lib.CodeHelper;
+import it.zerono.mods.zerocore.lib.client.gui.Orientation;
 import it.zerono.mods.zerocore.lib.client.gui.Padding;
 import it.zerono.mods.zerocore.lib.client.gui.sprite.ISprite;
 import it.zerono.mods.zerocore.lib.client.gui.sprite.Sprite;
@@ -58,7 +58,7 @@ public class ReprocessorRecipeCategory
 
     public ReprocessorRecipeCategory(final IGuiHelper guiHelper) {
 
-        super(ReprocessorRecipe.ID, new TranslatableComponent("compat.bigreactors.jei.reprocessor.recipecategory.title"),
+        super(ReprocessorRecipe.ID, new TranslatableComponent("compat.bigreactors.jei.common.recipecategory.title"),
                 Content.Blocks.REPROCESSOR_WASTEINJECTOR.get().createItemStack(), guiHelper,
                 guiHelper.drawableBuilder(ExtremeReactors.newID("textures/gui/jei/reprocessor.png"), 0, 0, 96, 96)
                         .setTextureSize(96, 96)
@@ -71,8 +71,8 @@ public class ReprocessorRecipeCategory
 
         this._guiHelper = guiHelper;//remove
 
-        this._powerBar = ProgressBarDrawable.vertical(CommonIcons.PowerBar, 0, Padding.ZERO,
-                this._powerBarArea.Width, this._powerBarArea.Height);
+        this._powerBar = new ProgressBarDrawable(CommonIcons.PowerBar, 0, Padding.ZERO,
+                this._powerBarArea.Width, this._powerBarArea.Height, Orientation.BottomToTop);
     }
 
     //region AbstractModRecipeCategory
@@ -101,19 +101,17 @@ public class ReprocessorRecipeCategory
             this._recipeFluidSprite = ModRenderHelper.getFlowingFluidSprite(this._recipeFluid.getFluid());
             this._recipeProgressSprite = this._recipeFluidSprite.copyWith(CommonIcons.ReprocessorProgressBarMask.get());
 
-            this._fluidBar = ProgressBarDrawable.vertical(this::getRecipeFluidSprite, 0, Padding.ZERO, 16, 64);
+            this._fluidBar = new ProgressBarDrawable(this::getRecipeFluidSprite, 0, Padding.ZERO, 16, 64, Orientation.BottomToTop);
             this._fluidBar.setTint(Colour.fromARGB(this._recipeFluid.getFluid().getAttributes().getColor()));
             this._fluidBar.setProgress(MultiblockReprocessor.FLUID_CAPACITY, this._recipeFluid.getAmount());
 
             this._fluidBarTooltips = new ObjectArrayList<>(3);
             this._fluidBarTooltips.add(getFluidName(this._recipeFluid.getFluid())
-                    .setStyle(AbstractMultiblockScreen.STYLE_TOOLTIP_TITLE));
+                    .setStyle(CommonConstants.STYLE_TOOLTIP_TITLE));
             this._fluidBarTooltips.add(CodeHelper.TEXT_EMPTY_LINE);
             this._fluidBarTooltips.add(new TextComponent(String.format("%d mB", this._recipeFluid.getAmount()))
-                    .setStyle(AbstractMultiblockScreen.STYLE_TOOLTIP_VALUE));
+                    .setStyle(CommonConstants.STYLE_TOOLTIP_VALUE));
 
-//            this._progressBar = this._guiHelper.createAnimatedDrawable(new SpriteDrawable(() -> this._recipeProgressSprite, 0),
-//                    MultiblockReprocessor.TICKS, IDrawableAnimated.StartDirection.TOP, false);
             this._progressBar = null;
 
         } else {
@@ -129,10 +127,10 @@ public class ReprocessorRecipeCategory
 
         this._powerBarTooltips = new ObjectArrayList<>(3);
         this._powerBarTooltips.add(new TranslatableComponent("compat.bigreactors.jei.reprocessor.recipecategory.energy.tooltip.title")
-                .setStyle(AbstractMultiblockScreen.STYLE_TOOLTIP_TITLE));
+                .setStyle(CommonConstants.STYLE_TOOLTIP_TITLE));
         this._powerBarTooltips.add(CodeHelper.TEXT_EMPTY_LINE);
         this._powerBarTooltips.add(new TextComponent(String.format("%d FE", MultiblockReprocessor.TICK_ENERGY_COST * MultiblockReprocessor.TICKS))
-                .setStyle(AbstractMultiblockScreen.STYLE_TOOLTIP_VALUE));
+                .setStyle(CommonConstants.STYLE_TOOLTIP_VALUE));
     }
 
     @Override

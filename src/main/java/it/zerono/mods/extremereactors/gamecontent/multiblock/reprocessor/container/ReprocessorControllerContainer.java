@@ -26,28 +26,28 @@
 //import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
 //import it.zerono.mods.zerocore.lib.item.inventory.container.slot.SlotTemplate;
 //import it.zerono.mods.zerocore.lib.item.inventory.container.slot.type.SlotType;
-//import net.minecraft.entity.player.PlayerInventory;
-//import net.minecraft.entity.player.ServerPlayerEntity;
-//import net.minecraft.network.PacketBuffer;
+//import net.minecraft.world.entity.player.Inventory;
+//import net.minecraft.entity.player.ServerPlayer;
+//import net.minecraft.network.FriendlyByteBuf;
 //
 //public class ReprocessorControllerContainer
 //        extends ModTileContainer<ReprocessorControllerEntity> {
 //
-//    public ReprocessorControllerContainer(final int windowId, final PlayerInventory playerInventory,
-//                                          final ReprocessorControllerEntity port, final ServerPlayerEntity player) {
+//    public ReprocessorControllerContainer(final int windowId, final Inventory playerInventory,
+//                                          final ReprocessorControllerEntity port, final ServerPlayer player) {
 //
 //        this(windowId, playerInventory, port);
 //        port.enlistForUpdates(player, true);
 //    }
 //
-//    public ReprocessorControllerContainer(final int windowId, final PlayerInventory playerInventory,
-//                                          final PacketBuffer networkData) {
+//    public ReprocessorControllerContainer(final int windowId, final Inventory playerInventory,
+//                                          final FriendlyByteBuf networkData) {
 //        this(windowId, playerInventory, AbstractModBlockEntity.getGuiClientBlockEntity(networkData));
 //    }
 //
 //    //region internals
 //
-//    protected ReprocessorControllerContainer(final int windowId, final PlayerInventory playerInventory,
+//    protected ReprocessorControllerContainer(final int windowId, final Inventory playerInventory,
 //                                             final ReprocessorControllerEntity port) {
 //
 //        super(FACTORY, Content.ContainerTypes.REPROCESSOR_CONTROLLER.get(), windowId, port);

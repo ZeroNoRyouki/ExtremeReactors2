@@ -72,7 +72,7 @@ public final class FluidMappingsRegistry {
     }
 
     /**
-     * Get the ITag<Fluid> to Coolant mapping for the given FluidStack (if one exists)
+     * Get the Tag<Fluid> to Coolant mapping for the given FluidStack (if one exists)
      *
      * @param stack The FluidStack
      * @return The mapping, if one is found and the provided stack is not empty
@@ -82,7 +82,7 @@ public final class FluidMappingsRegistry {
     }
 
     /**
-     * Get the ITag<Fluid> to Coolant mapping for the given Fluid (if one exists)
+     * Get the Tag<Fluid> to Coolant mapping for the given Fluid (if one exists)
      *
      * @param fluid The Fluid
      * @return The mapping, if one is found
@@ -92,7 +92,7 @@ public final class FluidMappingsRegistry {
     }
 
     /**
-     * Get the ITag<Fluid> to Vapor mapping for the given FluidStack (if one exists)
+     * Get the Tag<Fluid> to Vapor mapping for the given FluidStack (if one exists)
      *
      * @param stack The FluidStack
      * @return The mapping, if one is found and the provided stack is not empty
@@ -102,7 +102,7 @@ public final class FluidMappingsRegistry {
     }
 
     /**
-     * Get the ITag<Fluid> to Vapor mapping for the given Fluid (if one exists)
+     * Get the Tag<Fluid> to Vapor mapping for the given Fluid (if one exists)
      *
      * @param fluid The Fluid
      * @return The mapping, if one is found
@@ -112,20 +112,20 @@ public final class FluidMappingsRegistry {
     }
 
     /**
-     * Get a list of Coolant to ITag<Fluid> mappings for the given Coolant.
+     * Get a list of Coolant to Tag<Fluid> mappings for the given Coolant.
      *
      * @param coolant The Coolant
-     * @return A list of Coolant to ITag<Fluid> mappings, if one is found. Note that Coolant is the source and the ITag<Fluid> is the product of the mapping
+     * @return A list of Coolant to Tag<Fluid> mappings, if one is found. Note that Coolant is the source and the Tag<Fluid> is the product of the mapping
      */
     public static Optional<List<IMapping<Coolant, Tag.Named<Fluid>>>> getFluidFrom(final Coolant coolant) {
         return Optional.ofNullable(s_coolantToFluid.get(coolant));
     }
 
     /**
-     * Get a list of Vapor to ITag<Fluid> mappings for the given Vapor.
+     * Get a list of Vapor to Tag<Fluid> mappings for the given Vapor.
      *
      * @param vapor The Vapor
-     * @return A list of Vapor to ITag<Fluid> mappings, if one is found. Note that Vapor is the source and the ITag<Fluid> is the product of the mapping
+     * @return A list of Vapor to Tag<Fluid> mappings, if one is found. Note that Vapor is the source and the Tag<Fluid> is the product of the mapping
      */
     public static Optional<List<IMapping<Vapor, Tag.Named<Fluid>>>> getFluidFrom(final Vapor vapor) {
         return Optional.ofNullable(s_vaporToFluid.get(vapor));

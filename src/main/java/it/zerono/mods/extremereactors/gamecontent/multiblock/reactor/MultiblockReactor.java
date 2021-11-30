@@ -62,6 +62,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fml.LogicalSide;
 
@@ -95,11 +96,11 @@ public class MultiblockReactor
         this._reactorToCoolantSystemHeatTransferCoefficient = 0f;
         this._reactorHeatLossCoefficient = 0f;
 
-        //noinspection unchecked
         this._attachedTickables = ObjectLists.emptyList();
         this._attachedControlRods = Lists.newLinkedList();
         this._attachedFuelRods = Lists.newLinkedList();
         this._attachedSolidAccessPorts = new ObjectArrayList<>(8);
+        this._attachedFluidAccessPorts = new ObjectArrayList<>(8);
         this._attachedPowerTaps = ObjectLists.emptyList();
         this._attachedFluidPorts = this._attachedOutputFluidPorts = this._attachedInputFluidPorts = ObjectLists.emptyList();
 
@@ -259,7 +260,7 @@ public class MultiblockReactor
             changed = true;
         }
 
-        //TODO liquid fuel (do it first, so solid fuel could be used as a backup)
+        changed |= this.refuelFluid();
         changed |= this.refuelSolid();
 
         return changed;
@@ -362,6 +363,9 @@ public class MultiblockReactor
 
             case SolidAccessPort:
                 return this._attachedSolidAccessPorts.size();
+
+            case FluidAccessPort:
+                return this._attachedFluidAccessPorts.size();
 
             case ActivePowerTapFE:
             case PassivePowerTapFE:
@@ -576,13 +580,8 @@ public class MultiblockReactor
      * @param voidLeftover if true, any remaining fuel will be voided
      */
     @Override
-    public void ejectFuel(boolean voidLeftover) {
-
-        if (ReactantHelper.ejectSolidReactant(ReactantType.Fuel, this._fuelContainer, voidLeftover, this.getInputSolidAccessPorts())) {
-
-            this.markReferenceCoordForUpdate();
-            this.markReferenceCoordDirty();
-        }
+    public void ejectFuel(final boolean voidLeftover) {
+        this.ejectReactant(ReactantType.Fuel, voidLeftover, this.getInputFluidAccessPorts(), this.getInputSolidAccessPorts());
     }
 
     /**
@@ -592,14 +591,10 @@ public class MultiblockReactor
      * @param portPosition coordinates of the Access Port to witch distribute fuel
      */
     @Override
-    public void ejectFuel(boolean voidLeftover, BlockPos portPosition) {
-
-        if (ReactantHelper.ejectSolidReactant(ReactantType.Fuel, this._fuelContainer, voidLeftover,
-                this.getInputSolidAccessPorts().filter(port -> portPosition.equals(port.getWorldPosition())))) {
-
-            this.markReferenceCoordForUpdate();
-            this.markReferenceCoordDirty();
-        }
+    public void ejectFuel(final boolean voidLeftover, final BlockPos portPosition) {
+        this.ejectReactant(ReactantType.Fuel, voidLeftover,
+                this.getInputFluidAccessPorts().filter(port -> portPosition.equals(port.getWorldPosition())),
+                this.getInputSolidAccessPorts().filter(port -> portPosition.equals(port.getWorldPosition())));
     }
 
     /**
@@ -616,14 +611,8 @@ public class MultiblockReactor
      * @param voidLeftover if true, any remaining waste will be voided
      */
     @Override
-    public void ejectWaste(boolean voidLeftover) {
-
-        if (ReactantHelper.ejectSolidReactant(ReactantType.Waste, this._fuelContainer, voidLeftover,
-                this.getOutputSolidAccessPorts())) {
-
-            this.markReferenceCoordForUpdate();
-            this.markReferenceCoordDirty();
-        }
+    public void ejectWaste(final boolean voidLeftover) {
+        this.ejectReactant(ReactantType.Waste, voidLeftover, this.getOutputFluidAccessPorts(), this.getOutputSolidAccessPorts());
     }
 
     /**
@@ -633,14 +622,10 @@ public class MultiblockReactor
      * @param portPosition coordinates of the Access Port to witch distribute waste
      */
     @Override
-    public void ejectWaste(boolean voidLeftover, BlockPos portPosition) {
-
-        if (ReactantHelper.ejectSolidReactant(ReactantType.Waste, this._fuelContainer, voidLeftover,
-                this.getOutputSolidAccessPorts().filter(port -> portPosition.equals(port.getWorldPosition())))) {
-
-            this.markReferenceCoordForUpdate();
-            this.markReferenceCoordDirty();
-        }
+    public void ejectWaste(final boolean voidLeftover, final BlockPos portPosition) {
+        this.ejectReactant(ReactantType.Waste, voidLeftover,
+                this.getInputFluidAccessPorts().filter(port -> portPosition.equals(port.getWorldPosition())),
+                this.getInputSolidAccessPorts().filter(port -> portPosition.equals(port.getWorldPosition())));
     }
 
     //endregion
@@ -759,6 +744,8 @@ public class MultiblockReactor
             this._attachedFuelRods.add((ReactorFuelRodEntity) newPart);
         } else if (newPart instanceof ReactorSolidAccessPortEntity) {
             this._attachedSolidAccessPorts.add((ReactorSolidAccessPortEntity) newPart);
+        } else if (newPart instanceof ReactorFluidAccessPortEntity) {
+            this._attachedFluidAccessPorts.add((ReactorFluidAccessPortEntity) newPart);
         } else if (newPart instanceof ReactorPowerTapEntity || newPart instanceof ReactorChargingPortEntity) {
 
             if (ObjectLists.<IPowerTap>emptyList() == this._attachedPowerTaps) {
@@ -796,6 +783,8 @@ public class MultiblockReactor
             this._attachedFuelRods.remove(oldPart);
         } else if (oldPart instanceof ReactorSolidAccessPortEntity) {
             this._attachedSolidAccessPorts.remove(oldPart);
+        } else if (oldPart instanceof ReactorFluidAccessPortEntity) {
+            this._attachedFluidAccessPorts.remove(oldPart);
         } else if ((oldPart instanceof ReactorPowerTapEntity || oldPart instanceof ReactorChargingPortEntity) &&
                 ObjectLists.<IPowerTap>emptyList() != this._attachedPowerTaps) {
             this._attachedPowerTaps.remove(oldPart);
@@ -968,6 +957,7 @@ public class MultiblockReactor
         this._attachedControlRods.clear();
         this._attachedFuelRods.clear();
         this._attachedSolidAccessPorts.clear();
+        this._attachedFluidAccessPorts.clear();
         this._attachedPowerTaps.clear();
         this._attachedFluidPorts.clear();
         this._attachedOutputFluidPorts = this._attachedInputFluidPorts = ObjectLists.emptyList();
@@ -1028,7 +1018,7 @@ public class MultiblockReactor
     /**
      * The "frame" consists of the outer edges of the machine, plus the corners.
      *
-     * @param world             World object for the world in which this controller is located.
+     * @param world             Level object for the world in which this controller is located.
      * @param x                 X coordinate of the block being tested
      * @param y                 Y coordinate of the block being tested
      * @param z                 Z coordinate of the block being tested
@@ -1042,7 +1032,7 @@ public class MultiblockReactor
     /**
      * The top consists of the top face, minus the edges.
      *
-     * @param world             World object for the world in which this controller is located.
+     * @param world             Level object for the world in which this controller is located.
      * @param x                 X coordinate of the block being tested
      * @param y                 Y coordinate of the block being tested
      * @param z                 Z coordinate of the block being tested
@@ -1056,7 +1046,7 @@ public class MultiblockReactor
     /**
      * The bottom consists of the bottom face, minus the edges.
      *
-     * @param world             World object for the world in which this controller is located.
+     * @param world             Level object for the world in which this controller is located.
      * @param x                 X coordinate of the block being tested
      * @param y                 Y coordinate of the block being tested
      * @param z                 Z coordinate of the block being tested
@@ -1070,7 +1060,7 @@ public class MultiblockReactor
     /**
      * The sides consists of the N/E/S/W-facing faces, minus the edges.
      *
-     * @param world             World object for the world in which this controller is located.
+     * @param world             Level object for the world in which this controller is located.
      * @param x                 X coordinate of the block being tested
      * @param y                 Y coordinate of the block being tested
      * @param z                 Z coordinate of the block being tested
@@ -1084,7 +1074,7 @@ public class MultiblockReactor
     /**
      * The interior is any block that does not touch blocks outside the machine.
      *
-     * @param world             World object for the world in which this controller is located.
+     * @param world             Level object for the world in which this controller is located.
      * @param x                 X coordinate of the block being tested
      * @param y                 Y coordinate of the block being tested
      * @param z                 Z coordinate of the block being tested
@@ -1145,6 +1135,18 @@ public class MultiblockReactor
 
     private Stream<IFuelSource<ItemStack>> getOutputSolidAccessPorts() {
         return this._attachedSolidAccessPorts.stream()
+                .filter(port -> null != port && port.isConnected() && port.getIoDirection().isOutput())
+                .map(port -> port);
+    }
+
+    private Stream<IFuelSource<FluidStack>> getInputFluidAccessPorts() {
+        return this._attachedFluidAccessPorts.stream()
+                .filter(port -> null != port && port.isConnected() && port.getIoDirection().isInput())
+                .map(port -> port);
+    }
+
+    private Stream<IFuelSource<FluidStack>> getOutputFluidAccessPorts() {
+        return this._attachedFluidAccessPorts.stream()
                 .filter(port -> null != port && port.isConnected() && port.getIoDirection().isOutput())
                 .map(port -> port);
     }
@@ -1264,6 +1266,27 @@ public class MultiblockReactor
 
     /**
      * Reactor UPDATE
+     * Inject new fluid fuel into the Reactor
+     */
+    private boolean refuelFluid() {
+
+        // is there any space for fuel?
+        if (this._fuelContainer.getFreeSpace(ReactantType.Fuel) < ReactantMappingsRegistry.STANDARD_FLUID_REACTANT_AMOUNT) {
+            return false;
+        }
+
+        if (ReactantHelper.refuelFluid(this._fuelContainer, this.getInputFluidAccessPorts(), this.getVariant())) {
+
+            this.markReferenceCoordForUpdate();
+            this.markReferenceCoordDirty();
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Reactor UPDATE
      * Distribute the available energy equally between all the Active Power Taps
      */
     private void distributeEnergyEqually() {
@@ -1351,18 +1374,18 @@ public class MultiblockReactor
 
     private static int internalSurfaceArea(final CuboidBoundingBox bb) {
 
-        int xSize = bb.getLengthX() - 1;
-        int ySize = bb.getLengthY() - 1;
-        int zSize = bb.getLengthZ() - 1;
+        final int xSize = bb.getLengthX() - 2;
+        final int ySize = bb.getLengthY() - 2;
+        final int zSize = bb.getLengthZ() - 2;
 
         return  2 * (xSize * ySize + xSize * zSize + ySize * zSize);
     }
 
     private static int externalSurfaceArea(final CuboidBoundingBox bb) {
 
-        int xSize = bb.getLengthX() + 1;
-        int ySize = bb.getLengthY() + 1;
-        int zSize = bb.getLengthZ() + 1;
+        final int xSize = bb.getLengthX();
+        final int ySize = bb.getLengthY();
+        final int zSize = bb.getLengthZ();
 
         return  2 * (xSize * ySize + xSize * zSize + ySize * zSize);
     }
@@ -1517,6 +1540,18 @@ public class MultiblockReactor
 
     //endregion
 
+    private void ejectReactant(final ReactantType type, final boolean voidLeftover,
+                               final Stream<IFuelSource<FluidStack>> fluidFuelSources,
+                               final Stream<IFuelSource<ItemStack>> solidFuelSources) {
+
+        if (ReactantHelper.ejectReactant(type, true, this._fuelContainer, voidLeftover, fluidFuelSources) ||
+                ReactantHelper.ejectReactant(type, false, this._fuelContainer, voidLeftover, solidFuelSources)) {
+
+            this.markReferenceCoordForUpdate();
+            this.markReferenceCoordDirty();
+        }
+    }
+
     private static final IFluidContainerAccess FLUID_CONTAINER_ACCESS = new IFluidContainerAccess() {
 
         @Override
@@ -1578,6 +1613,7 @@ public class MultiblockReactor
     private final List<ReactorControlRodEntity> _attachedControlRods;
     private final List<ReactorFuelRodEntity> _attachedFuelRods;
     private final List<ReactorSolidAccessPortEntity> _attachedSolidAccessPorts;
+    private final List<ReactorFluidAccessPortEntity> _attachedFluidAccessPorts;
     private List<IPowerTap> _attachedPowerTaps;
     private List<ReactorFluidPortEntity> _attachedFluidPorts;
     private List<ReactorFluidPortEntity> _attachedOutputFluidPorts;

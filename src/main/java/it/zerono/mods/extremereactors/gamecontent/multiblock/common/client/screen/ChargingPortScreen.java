@@ -19,11 +19,11 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen;
 
 //import it.zerono.mods.extremereactors.gamecontent.compat.patchouli.PatchouliCompat;
-
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.container.ChargingPortContainer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.AbstractMultiblockEntity;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.powertap.chargingport.AbstractChargingPortHandler;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.powertap.chargingport.IChargingPort;
+import it.zerono.mods.zerocore.base.CommonConstants;
 import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockVariantProvider;
 import it.zerono.mods.zerocore.lib.client.gui.ButtonState;
 import it.zerono.mods.zerocore.lib.client.gui.IControl;
@@ -106,7 +106,7 @@ public class ChargingPortScreen<Controller extends AbstractCuboidMultiblockContr
         this._btnEject.setIconForState(CommonIcons.ButtonManualEjectActive.get(), ButtonState.Active, ButtonState.ActiveHighlighted, ButtonState.DefaultHighlighted);
         this._btnEject.Clicked.subscribe(this::onManualEject);
         this._btnEject.setTooltips(
-                new TranslatableComponent("gui.bigreactors.generator.chargingport.dumpfuel.line1").setStyle(STYLE_TOOLTIP_TITLE),
+                new TranslatableComponent("gui.bigreactors.generator.chargingport.dumpfuel.line1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
                 TEXT_EMPTY_LINE,
                 new TranslatableComponent("gui.bigreactors.generator.chargingport.dumpfuel.line2"),
                 new TranslatableComponent("gui.bigreactors.generator.chargingport.dumpfuel.line3"),

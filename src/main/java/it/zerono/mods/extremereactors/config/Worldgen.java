@@ -64,7 +64,7 @@ public class Worldgen {
                 .defineInRange("userWorldGenVersion", 1, 0, Integer.MAX_VALUE);
 //
 //        this.dimensionWhitelist = builder
-//                .comment("World gen will be performed only in the dimensions listed here")
+//                .comment("Level gen will be performed only in the dimensions listed here")
 //                .translation("config.bigreactors.worldgen.dimensionWhitelist")
 //                .define("dimensionWhitelist", Collections.singletonList(0), object -> object instanceof Integer);
 //

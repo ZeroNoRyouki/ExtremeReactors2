@@ -18,6 +18,7 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor;
 
+import it.zerono.mods.extremereactors.api.reactor.FuelProperties;
 import it.zerono.mods.extremereactors.api.reactor.Reactant;
 
 import java.util.Optional;
@@ -27,6 +28,8 @@ public interface IFuelContainer {
     Optional<Reactant> getFuel();
 
     Optional<Reactant> getWaste();
+
+    FuelProperties getFuelProperties();
 
     int getFuelAmount();
 

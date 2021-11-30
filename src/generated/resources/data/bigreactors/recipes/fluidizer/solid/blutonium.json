@@ -1,0 +1,13 @@
+{
+  "type": "bigreactors:fluidizersolid",
+  "ingredient": {
+    "ingredient": {
+      "item": "bigreactors:blutonium_ingot"
+    },
+    "count": 1
+  },
+  "result": {
+    "fluid": "bigreactors:blutonium",
+    "count": 1000
+  }
+}

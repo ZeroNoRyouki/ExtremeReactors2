@@ -59,7 +59,7 @@ public class GlassBlock <Controller extends IMultiblockController<Controller>,
     }
 
 //    @Override
-//    public boolean isNormalCube(BlockState state, IBlockReader worldIn, BlockPos pos) {
+//    public boolean isNormalCube(BlockState state, BlockGetter worldIn, BlockPos pos) {
 //        return false;
 //    }
 

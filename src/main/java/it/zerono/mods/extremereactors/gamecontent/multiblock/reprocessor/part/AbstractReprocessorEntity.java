@@ -141,7 +141,7 @@ public abstract class AbstractReprocessorEntity
      */
     @Override
     public MultiblockReprocessor createController() {
-        return new MultiblockReprocessor(Objects.requireNonNull(this.getLevel(), "Trying to create a Controller from a Part without a World"));
+        return new MultiblockReprocessor(Objects.requireNonNull(this.getLevel(), "Trying to create a Controller from a Part without a Level"));
     }
 
     /**
@@ -179,7 +179,7 @@ public abstract class AbstractReprocessorEntity
                 () -> new CuboidPartVariantsModelData(partType.ordinal(), this.getUpdatedModelVariantIndex(), this.getOutwardFacings()));
     }
 
-    private static CuboidPartVariantsModelDataCache s_modelDataCaches = new CuboidPartVariantsModelDataCache();
+    private static final CuboidPartVariantsModelDataCache s_modelDataCaches = new CuboidPartVariantsModelDataCache();
 
     //endregion
 }

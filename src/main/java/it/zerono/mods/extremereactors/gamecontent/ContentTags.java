@@ -19,6 +19,7 @@
 package it.zerono.mods.extremereactors.gamecontent;
 
 import it.zerono.mods.extremereactors.ExtremeReactors;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.Reactants;
 import it.zerono.mods.zerocore.lib.tag.TagsHelper;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.Tag;
@@ -94,10 +95,21 @@ public class ContentTags {
         public static final Tag.Named<Fluid> STEAM = forgeTag("steam");
         public static final Tag.Named<Fluid> WATER = FluidTags.WATER;
 
+        public static final Tag.Named<Fluid> YELLORIUM = forgeTag(Reactants.Yellorium);
+        public static final Tag.Named<Fluid> CYANITE = forgeTag(Reactants.Cyanite);
+        public static final Tag.Named<Fluid> BLUTONIUM = forgeTag(Reactants.Blutonium);
+        public static final Tag.Named<Fluid> MAGENTITE = forgeTag(Reactants.Magentite);
+        public static final Tag.Named<Fluid> VERDERIUM = forgeTag(Reactants.Verderium);
+        public static final Tag.Named<Fluid> ROSSINITE = forgeTag(Reactants.Rossinite);
+
         //region internals
 
         private static Tag.Named<Fluid> forgeTag(final String name) {
             return TagsHelper.FLUIDS.createForgeTag(name);
+        }
+
+        private static Tag.Named<Fluid> forgeTag(final Reactants reactant) {
+            return forgeTag(reactant.getTagName());
         }
 
         //endregion

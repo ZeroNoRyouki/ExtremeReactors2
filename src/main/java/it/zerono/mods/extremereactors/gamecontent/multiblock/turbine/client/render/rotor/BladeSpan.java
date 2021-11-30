@@ -51,7 +51,7 @@ public class BladeSpan
         return (stateValue << 24) | (directionValue << 16) | length;
     }
 
-    //region NonNullConsumer<MatrixStack>
+    //region NonNullConsumer<PoseStack>
 
     @Override
     public void accept(final PoseStack stack) {

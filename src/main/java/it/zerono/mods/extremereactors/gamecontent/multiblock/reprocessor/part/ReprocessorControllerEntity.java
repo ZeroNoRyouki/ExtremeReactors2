@@ -155,7 +155,7 @@ public class ReprocessorControllerEntity
     }
 
     //endregion
-    //region INamedContainerProvider
+    //region MenuProvider
 
     /**
      * Create the SERVER-side container for this TileEntity
@@ -167,7 +167,6 @@ public class ReprocessorControllerEntity
     @Nullable
     @Override
     public AbstractContainerMenu createMenu(final int windowId, final Inventory inventory, final Player player) {
-//        return new ReprocessorControllerContainer(windowId, inventory, this, (ServerPlayerEntity)player);
         return ModTileContainer.empty(Content.ContainerTypes.REPROCESSOR_CONTROLLER.get(), windowId, this, (ServerPlayer)player);
     }
 

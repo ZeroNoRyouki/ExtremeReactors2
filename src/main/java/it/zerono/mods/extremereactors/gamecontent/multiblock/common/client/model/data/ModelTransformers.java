@@ -19,9 +19,9 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.model.data;
 
 import com.google.common.collect.Lists;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.AbstractMultiblockEntity;
 import it.zerono.mods.zerocore.lib.block.BlockFacings;
 import it.zerono.mods.zerocore.lib.block.property.BlockFacingsProperty;
+import it.zerono.mods.zerocore.lib.multiblock.AbstractMultiblockPart;
 import it.zerono.mods.zerocore.lib.multiblock.cuboid.AbstractCuboidMultiblockController;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -57,7 +57,7 @@ public class ModelTransformers {
         return MODEL_DEFAULT;
     }
 
-    public static <C extends AbstractCuboidMultiblockController<C>> byte getGlassVariantIndexFrom(final AbstractMultiblockEntity<C> entity) {
+    public static <C extends AbstractCuboidMultiblockController<C>> byte getGlassVariantIndexFrom(final AbstractMultiblockPart<C> entity) {
 
         if (!entity.isMachineAssembled()) {
             return 0;

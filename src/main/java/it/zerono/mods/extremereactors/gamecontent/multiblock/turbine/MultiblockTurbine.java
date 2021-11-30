@@ -710,7 +710,7 @@ public class MultiblockTurbine
     /**
      * The "frame" consists of the outer edges of the machine, plus the corners.
      *
-     * @param world             World object for the world in which this controller is located.
+     * @param world             Level object for the world in which this controller is located.
      * @param x                 X coordinate of the block being tested
      * @param y                 Y coordinate of the block being tested
      * @param z                 Z coordinate of the block being tested
@@ -724,7 +724,7 @@ public class MultiblockTurbine
     /**
      * The top consists of the top face, minus the edges.
      *
-     * @param world             World object for the world in which this controller is located.
+     * @param world             Level object for the world in which this controller is located.
      * @param x                 X coordinate of the block being tested
      * @param y                 Y coordinate of the block being tested
      * @param z                 Z coordinate of the block being tested
@@ -738,7 +738,7 @@ public class MultiblockTurbine
     /**
      * The bottom consists of the bottom face, minus the edges.
      *
-     * @param world             World object for the world in which this controller is located.
+     * @param world             Level object for the world in which this controller is located.
      * @param x                 X coordinate of the block being tested
      * @param y                 Y coordinate of the block being tested
      * @param z                 Z coordinate of the block being tested
@@ -752,7 +752,7 @@ public class MultiblockTurbine
     /**
      * The sides consists of the N/E/S/W-facing faces, minus the edges.
      *
-     * @param world             World object for the world in which this controller is located.
+     * @param world             Level object for the world in which this controller is located.
      * @param x                 X coordinate of the block being tested
      * @param y                 Y coordinate of the block being tested
      * @param z                 Z coordinate of the block being tested
@@ -766,7 +766,7 @@ public class MultiblockTurbine
     /**
      * The interior is any block that does not touch blocks outside the machine.
      *
-     * @param world             World object for the world in which this controller is located.
+     * @param world             Level object for the world in which this controller is located.
      * @param x                 X coordinate of the block being tested
      * @param y                 Y coordinate of the block being tested
      * @param z                 Z coordinate of the block being tested

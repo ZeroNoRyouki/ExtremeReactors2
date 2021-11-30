@@ -65,7 +65,7 @@ public class ReprocessorAccessPortEntity
         return this._direction;
     }
 
-    //region INamedContainerProvider
+    //region MenuProvider
 
     /**
      * Create the SERVER-side container for this TileEntity

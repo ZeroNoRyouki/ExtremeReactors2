@@ -163,7 +163,7 @@ public abstract class AbstractReactorEntity
         final Level myWorld = this.getLevel();
 
         if (null == myWorld) {
-            throw new RuntimeException("Trying to create a Controller from a Part without a World");
+            throw new RuntimeException("Trying to create a Controller from a Part without a Level");
         }
 
         return new MultiblockReactor(this.getLevel(), this.getMultiblockVariant().orElse(ReactorVariant.Basic));

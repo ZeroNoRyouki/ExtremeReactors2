@@ -20,10 +20,16 @@ package it.zerono.mods.extremereactors.gamecontent.compat.jei;
 
 import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.gamecontent.Content;
+import it.zerono.mods.extremereactors.gamecontent.compat.jei.fluidizer.FluidizerRecipeCategory;
 import it.zerono.mods.extremereactors.gamecontent.compat.jei.reprocessor.ReprocessorRecipeCategory;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.recipe.FluidizerFluidMixingRecipe;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.recipe.FluidizerSolidMixingRecipe;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.recipe.FluidizerSolidRecipe;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.recipe.IFluidizerRecipe;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.recipe.ReprocessorRecipe;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
+import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
 import net.minecraft.resources.ResourceLocation;
@@ -42,12 +48,22 @@ public class ExtremeReactorsJeiPlugin
 
     @Override
     public void registerCategories(final IRecipeCategoryRegistration registration) {
-        registration.addRecipeCategories(new ReprocessorRecipeCategory(registration.getJeiHelpers().getGuiHelper()));
+
+        final IGuiHelper guiHelper = registration.getJeiHelpers().getGuiHelper();
+
+        registration.addRecipeCategories(new ReprocessorRecipeCategory(guiHelper));
+        registration.addRecipeCategories(FluidizerRecipeCategory.solid(guiHelper));
+        registration.addRecipeCategories(FluidizerRecipeCategory.solidMixing(guiHelper));
+        registration.addRecipeCategories(FluidizerRecipeCategory.fluidMixing(guiHelper));
     }
 
     @Override
     public void registerRecipes(final IRecipeRegistration registration) {
+
         registration.addRecipes(Content.Recipes.REPROCESSOR_RECIPE_TYPE.getRecipes(), ReprocessorRecipe.ID);
+        registration.addRecipes(Content.Recipes.FLUIDIZER_RECIPE_TYPE.getRecipes(r -> r instanceof FluidizerSolidRecipe), IFluidizerRecipe.Type.Solid.getRecipeId());
+        registration.addRecipes(Content.Recipes.FLUIDIZER_RECIPE_TYPE.getRecipes(r -> r instanceof FluidizerSolidMixingRecipe), IFluidizerRecipe.Type.SolidMixing.getRecipeId());
+        registration.addRecipes(Content.Recipes.FLUIDIZER_RECIPE_TYPE.getRecipes(r -> r instanceof FluidizerFluidMixingRecipe), IFluidizerRecipe.Type.FluidMixing.getRecipeId());
     }
 
     //endregion

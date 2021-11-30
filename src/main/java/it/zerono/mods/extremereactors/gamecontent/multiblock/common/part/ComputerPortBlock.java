@@ -34,7 +34,7 @@ public class ComputerPortBlock<Controller extends IMultiblockController<Controll
     /*
     @Optional.Method(modid = IdReference.MODID_COMPUTERCRAFT)
     @Override
-    public IPeripheral getPeripheral(World world, BlockPos pos, EnumFacing side) {
+    public IPeripheral getPeripheral(Level world, BlockPos pos, EnumFacing side) {
 
         final TileEntity tileEntity = WorldHelper.getTile(world, pos);
         Connector computer = null;

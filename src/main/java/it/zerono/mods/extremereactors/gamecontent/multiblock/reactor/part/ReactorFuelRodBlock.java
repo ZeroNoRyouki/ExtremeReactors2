@@ -61,7 +61,7 @@ public class ReactorFuelRodBlock extends MultiblockPartBlock<MultiblockReactor, 
 
 //    @Override
 //    @OnlyIn(Dist.CLIENT)
-//    public void animateTick(BlockState state, World world, BlockPos pos, Random random) {
+//    public void animateTick(BlockState state, Level world, BlockPos pos, Random random) {
 //
 //        if (Config.CLIENT.disableReactorParticles.get()) {
 //            return;

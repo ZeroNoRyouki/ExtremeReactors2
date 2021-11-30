@@ -23,23 +23,18 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.*;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part.TurbineRedstonePortBlock;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part.TurbineRotorBearingBlock;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part.TurbineRotorComponentBlock;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.TurbineVariant;
-import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockPartType;
+import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockPartType2;
 import it.zerono.mods.zerocore.lib.block.multiblock.MultiblockPartBlock;
-import net.minecraft.core.BlockPos;
+import it.zerono.mods.zerocore.lib.block.multiblock.MultiblockPartTypeProperties;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.block.state.BlockState;
-
-import javax.annotation.Nullable;
-import java.util.function.Function;
-import java.util.function.Supplier;
+import net.minecraftforge.common.util.NonNullFunction;
+import net.minecraftforge.common.util.NonNullSupplier;
 
 public enum TurbinePartType
-        implements IMultiblockPartType {
+        implements IMultiblockPartType2<MultiblockTurbine, TurbinePartType> {
 
     Casing(() -> Content.TileEntityTypes.TURBINE_CASING::get,
             MultiblockPartBlock::new,
@@ -95,42 +90,26 @@ public enum TurbinePartType
             TurbineRedstonePortBlock::new, "part.bigreactors.turbine.redstoneport"),
     ;
 
-    TurbinePartType(final Supplier<Supplier<BlockEntityType<?>>> tileTypeSupplier,
-                    final Function<MultiblockPartBlock.MultiblockPartProperties<TurbinePartType>,
-                            MultiblockPartBlock<MultiblockTurbine, TurbinePartType>> blockFactory,
+    TurbinePartType(final NonNullSupplier<NonNullSupplier<BlockEntityType<?>>> tileTypeSupplier,
+                    final NonNullFunction<MultiblockPartBlock.MultiblockPartProperties<TurbinePartType>,
+                                                MultiblockPartBlock<MultiblockTurbine, TurbinePartType>> blockFactory,
                     final String translationKey) {
         this(tileTypeSupplier, blockFactory, translationKey, bp -> bp);
     }
 
-    TurbinePartType(final Supplier<Supplier<BlockEntityType<?>>> tileTypeSupplier,
-                    final Function<MultiblockPartBlock.MultiblockPartProperties<TurbinePartType>,
+    TurbinePartType(final NonNullSupplier<NonNullSupplier<BlockEntityType<?>>> tileTypeSupplier,
+                    final NonNullFunction<MultiblockPartBlock.MultiblockPartProperties<TurbinePartType>,
                             MultiblockPartBlock<MultiblockTurbine, TurbinePartType>> blockFactory,
                     final String translationKey,
-                    final Function<Block.Properties, Block.Properties> blockPropertiesFixer) {
-
-        this._tileTypeSupplier = tileTypeSupplier;
-        this._blockFactory = blockFactory;
-        this._translationKey = translationKey;
-        this._blockPropertiesFixer = blockPropertiesFixer;
+                    final NonNullFunction<Block.Properties, Block.Properties> blockPropertiesFixer) {
+        this._properties = new MultiblockPartTypeProperties<>(tileTypeSupplier, blockFactory, translationKey, blockPropertiesFixer);
     }
 
-    public MultiblockPartBlock<MultiblockTurbine, TurbinePartType> createBlock(TurbineVariant variant) {
-        return this._blockFactory.apply(MultiblockPartBlock.MultiblockPartProperties.create(this,
-                this._blockPropertiesFixer.apply(variant.getDefaultBlockProperties()))
-                .variant(variant));
-    }
-
-    //region IMultiblockPartType
-
-    @Nullable
-    @Override
-    public BlockEntity createTileEntity(BlockState state, BlockPos position) {
-        return this._tileTypeSupplier.get().get().create(position, state);
-    }
+    //region IMultiblockPartType2
 
     @Override
-    public String getTranslationKey() {
-        return this._translationKey;
+    public MultiblockPartTypeProperties<MultiblockTurbine, TurbinePartType> getPartTypeProperties() {
+        return this._properties;
     }
 
     @Override
@@ -141,30 +120,22 @@ public enum TurbinePartType
     //endregion
     //region internals
 
-    private static BlockBehaviour.Properties notOpaqueBlock(BlockBehaviour.Properties originals) {
-
+    private static BlockBehaviour.Properties rotorBlock(final BlockBehaviour.Properties originals) {
         return originals
                 .sound(SoundType.GLASS)
                 .noOcclusion()
                 .isRedstoneConductor((blockState, blockReader, pos) -> false)
                 .isViewBlocking((blockState, blockReader, pos) -> false);
     }
-    private static BlockBehaviour.Properties rotorBlock(BlockBehaviour.Properties originals) {
-        return originals
-                .noOcclusion()
-                .isRedstoneConductor((blockState, blockReader, pos) -> false)
-                .isViewBlocking((blockState, blockReader, pos) -> false)
-                .lightLevel(state -> 15);
-    }
+//    private static BlockBehaviour.Properties rotorBlock(BlockBehaviour.Properties originals) {
+//        return originals
+//                .noOcclusion()
+//                .isRedstoneConductor((blockState, blockReader, pos) -> false)
+//                .isViewBlocking((blockState, blockReader, pos) -> false)
+//                .lightLevel(state -> 15);
+//    }
 
-    private final Supplier<Supplier<BlockEntityType<?>>> _tileTypeSupplier;
-
-    private final Function<MultiblockPartBlock.MultiblockPartProperties<TurbinePartType>,
-            MultiblockPartBlock<MultiblockTurbine, TurbinePartType>> _blockFactory;
-
-    private final String _translationKey;
-
-    private final Function<Block.Properties, Block.Properties> _blockPropertiesFixer;
+    private final MultiblockPartTypeProperties<MultiblockTurbine, TurbinePartType> _properties;
 
     //endregion
 }

@@ -1,0 +1,38 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "name": "reactor_fluid_accessport_reinforced",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:copy_nbt",
+              "source": "block_entity",
+              "ops": [
+                {
+                  "source": "zcvase_payload.iodir",
+                  "target": "BlockEntityTag.zcvase_payload.iodir",
+                  "op": "replace"
+                },
+                {
+                  "source": "zcvase_payload.invin",
+                  "target": "BlockEntityTag.zcvase_payload.invin",
+                  "op": "replace"
+                },
+                {
+                  "source": "zcvase_payload.invout",
+                  "target": "BlockEntityTag.zcvase_payload.invout",
+                  "op": "replace"
+                }
+              ]
+            }
+          ],
+          "name": "bigreactors:reinforced_reactorfluidaccessport"
+        }
+      ]
+    }
+  ]
+}

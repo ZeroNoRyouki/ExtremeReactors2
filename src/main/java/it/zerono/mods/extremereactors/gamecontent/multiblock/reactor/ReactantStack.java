@@ -122,7 +122,7 @@ public class ReactantStack
 
     public boolean contains(final ReactantType type) {
         return this.getReactant()
-                .filter(reactant -> reactant.getType() == type)
+                .filter(reactant -> reactant.test(type))
                 .isPresent();
     }
 
@@ -179,11 +179,11 @@ public class ReactantStack
     }
 
     /**
-     * Sync the entity data to the given {@link CompoundNBT}
+     * Sync the entity data to the given {@link CompoundTag}
      *
-     * @param data       the {@link CompoundNBT} to write to
+     * @param data       the {@link CompoundTag} to write to
      * @param syncReason the reason why the synchronization is necessary
-     * @return the {@link CompoundNBT} the data was written to (usually {@code data})
+     * @return the {@link CompoundTag} the data was written to (usually {@code data})
      */
     @Override
     public CompoundTag syncDataTo(final CompoundTag data, final SyncReason syncReason) {

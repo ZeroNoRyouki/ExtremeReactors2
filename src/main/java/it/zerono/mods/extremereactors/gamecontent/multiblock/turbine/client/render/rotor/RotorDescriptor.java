@@ -86,7 +86,7 @@ public class RotorDescriptor
         //endregion
     }
 
-    //region NonNullConsumer<MatrixStack>
+    //region NonNullConsumer<PoseStack>
 
     @Override
     public void accept(final PoseStack stack) {

@@ -67,14 +67,6 @@ public class ReprocessorRecipe
     public static TwoToOneRecipeBuilder<ItemStack, FluidStack, ItemStack> builder(final IRecipeIngredient<ItemStack> ingot,
                                                                                   final IRecipeIngredient<FluidStack> fluid,
                                                                                   final IRecipeResult<ItemStack> result) {
-        if (ingot.isEmpty() || fluid.isEmpty()) {
-            throw new IllegalArgumentException("ReprocessorRecipe requires non empty ingredients.");
-        }
-
-        if (result.isEmpty()) {
-            throw new IllegalArgumentException("ReprocessorRecipe requires a non empty result.");
-        }
-
         return new TwoToOneRecipeBuilder<>(ID, ingot, fluid, result, JSON_LABELS_SUPPLIER);
     }
 

@@ -163,8 +163,8 @@ public abstract class AbstractRecipeGenerator
 
 //    protected static void recipeWithAlternativeTag(final Consumer<FinishedRecipe> c,
 //                                                   final ResourceLocation name, @Nullable final ResourceLocation alternativeName,
-//                                                   final ITag.INamedTag<Item> tag, @Nullable final ITag.INamedTag<Item> alternativeTag,
-//                                                   final Function<ITag.INamedTag<Item>, ShapedRecipeBuilder> recipe) {
+//                                                   final Tag.Named<Item> tag, @Nullable final Tag.Named<Item> alternativeTag,
+//                                                   final Function<Tag.Named<Item>, ShapedRecipeBuilder> recipe) {
 //
 //        if (null == alternativeTag || null == alternativeName) {
 //

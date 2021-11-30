@@ -52,6 +52,15 @@ public final class ItemGroups {
                         stack(Content.Blocks.REPROCESSOR_WASTEINJECTOR), stack(Content.Blocks.REPROCESSOR_FLUIDINJECTOR),
                         stack(Content.Blocks.REPROCESSOR_OUTPUTPORT), stack(Content.Blocks.REPROCESSOR_POWERPORT));
 
+                builder.add(stack(Content.Items.STEAM_BUCKET), stack(Content.Items.YELLORIUM_BUCKET), stack(Content.Items.CYANITE_BUCKET),
+                        stack(Content.Items.BLUTONIUM_BUCKET), stack(Content.Items.MAGENTITE_BUCKET), stack(Content.Items.VERDERIUM_BUCKET),
+                        stack(Content.Items.ROSSINITE_BUCKET));
+
+                builder.add(stack(Content.Blocks.FLUIDIZER_CASING), stack(Content.Blocks.FLUIDIZER_GLASS),
+                        stack(Content.Blocks.FLUIDIZER_CONTROLLER), stack(Content.Blocks.FLUIDIZER_SOLIDINJECTOR),
+                        stack(Content.Blocks.FLUIDIZER_FLUIDINJECTOR), stack(Content.Blocks.FLUIDIZER_OUTPUTPORT),
+                        stack(Content.Blocks.FLUIDIZER_POWERPORT));
+
                 return builder.build();
             });
 
@@ -68,6 +77,7 @@ public final class ItemGroups {
                     stack(Content.Blocks.REACTOR_CONTROLLER_REINFORCED), stack(Content.Blocks.REACTOR_CASING_REINFORCED),
                     stack(Content.Blocks.REACTOR_GLASS_REINFORCED), stack(Content.Blocks.REACTOR_FUELROD_REINFORCED),
                     stack(Content.Blocks.REACTOR_CONTROLROD_REINFORCED), stack(Content.Blocks.REACTOR_SOLID_ACCESSPORT_REINFORCED),
+                    stack(Content.Blocks.REACTOR_FLUID_ACCESSPORT_REINFORCED),
                     stack(Content.Blocks.REACTOR_POWERTAP_FE_ACTIVE_REINFORCED), stack(Content.Blocks.REACTOR_POWERTAP_FE_PASSIVE_REINFORCED),
                     stack(Content.Blocks.REACTOR_CHARGINGPORT_FE_REINFORCED),
                     stack(Content.Blocks.REACTOR_REDSTONEPORT_REINFORCED), stack(Content.Blocks.REACTOR_COMPUTERPORT_REINFORCED),

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "bigreactors:block/reactor/reinforced/accessport_fluid_out_connected"
+  }
+}

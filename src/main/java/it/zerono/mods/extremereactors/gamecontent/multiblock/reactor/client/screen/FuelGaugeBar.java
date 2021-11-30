@@ -22,9 +22,10 @@ import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import it.zerono.mods.extremereactors.api.reactor.ReactantType;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.AbstractMultiblockScreen;
+import it.zerono.mods.extremereactors.gamecontent.CommonConstants;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.CachedSprites;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.MultiblockReactor;
+import it.zerono.mods.zerocore.base.multiblock.client.screen.AbstractMultiblockScreen;
 import it.zerono.mods.zerocore.lib.CodeHelper;
 import it.zerono.mods.zerocore.lib.client.gui.ModContainerScreen;
 import it.zerono.mods.zerocore.lib.client.gui.control.MultiValueGaugeBar;
@@ -68,7 +69,7 @@ public class FuelGaugeBar
                 // @1
                 (NonNullSupplier<Component>)() -> new TextComponent(String.format("%.2f%%", this._reactor.getFuelContainer().isEmpty() ?
                         0f : ((float)this._reactor.getFuelContainer().getWasteAmount() / (float)(this.getFuelAmount() + this.getWasteAmount())) * 100f))
-                            .setStyle(AbstractMultiblockScreen.STYLE_TOOLTIP_VALUE),
+                            .setStyle(CommonConstants.STYLE_TOOLTIP_VALUE),
                 // @2
                 (NonNullSupplier<Component>)() -> (this.getFuelAmount() > 0 ?
                         new TextComponent(CodeHelper.formatAsMillibuckets(this.getFuelAmount())) : EMPTY)

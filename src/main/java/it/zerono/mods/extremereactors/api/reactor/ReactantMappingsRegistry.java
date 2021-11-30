@@ -40,10 +40,12 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.Tag;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.common.util.NonNullSupplier;
 import net.minecraftforge.event.TagsUpdatedEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.Mod;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
@@ -81,6 +83,28 @@ public final class ReactantMappingsRegistry {
     }
 
     /**
+     * Get the Source-Product fluid mapping for the given FluidStack (if one exists)
+     *
+     * @param stack The FluidStack
+     * @return The Source-Product fluid mapping, if one is found and the provided stack is not empty
+     */
+    public static Optional<IMapping<ResourceLocation, Reactant>> getFromFluid(final FluidStack stack) {
+
+        if (stack.isEmpty()) {
+            return Optional.empty();
+        }
+
+        final Fluid fluid = stack.getFluid();
+
+        return s_fluidTags
+                .find(tag -> tag.contains(fluid))
+                .filter(t -> t instanceof Tag.Named)
+                .map(t -> (Tag.Named<Fluid>)t)
+                .map(Tag.Named::getName)
+                .map(s_fluidToReactant::get);
+    }
+
+    /**
      * Get a list of Source-Product solid mappings for the given Reactant.
      *
      * @param reactant The Reactant
@@ -88,6 +112,16 @@ public final class ReactantMappingsRegistry {
      */
     public static Optional<List<IMapping<Reactant, ResourceLocation>>> getToSolid(final Reactant reactant) {
         return Optional.ofNullable(s_reactantToSolid.get(reactant));
+    }
+
+    /**
+     * Get a list of Source-Product fluid mappings for the given Reactant.
+     *
+     * @param reactant The Reactant
+     * @return A list of reactant => Fluid Tag mappings, if one is found. Note that reactant is the source and Fluid Tag is the product
+     */
+    public static Optional<List<IMapping<Reactant, ResourceLocation>>> getToFluid(final Reactant reactant) {
+        return Optional.ofNullable(s_reactantToFluid.get(reactant));
     }
 
     /**
@@ -102,6 +136,20 @@ public final class ReactantMappingsRegistry {
                 .map(TagsHelper::getTagFirstElement)
                 .map(item -> ItemHelper.stackFrom(item, amount))
                 .orElse(ItemStack.EMPTY);
+    }
+
+    /**
+     * Get a FluidStack filled with the given amount of the first available Fluid from the Fluid Tag associated with the provided mapping
+     *
+     * @param mapping the mapping
+     * @param amount the amount of fluid
+     * @return an FluidStack that contains the requested fluid, if any is found, or an empty FluidStack
+     */
+    public static FluidStack getFluidStackFrom(final IMapping<Reactant, ResourceLocation> mapping, final int amount) {
+        return s_fluidTags.getTag(mapping.getProduct())
+                .map(TagsHelper::getTagFirstElement)
+                .map(fluid -> new FluidStack(fluid, amount))
+                .orElse(FluidStack.EMPTY);
     }
 
     @Deprecated // use registerSolid, this method will be removed soon
@@ -151,10 +199,45 @@ public final class ReactantMappingsRegistry {
         });
     }
 
+    /**
+     * Register a Fluid Tag id as a valid Reactant source.
+     *
+     * For fuels, it will allow injection ports to accept Fluids in the inlet tank.
+     * For wastes, it will allow injection ports to eject Fluids into the outlet tank.
+     *
+     * @param reactantName The name of the Reactant produced by the source.
+     * @param sourceFluidTagId The Fluid Tag id of the source for the reactant.
+     */
+    public static void registerFluid(final String reactantName, final ResourceLocation sourceFluidTagId) {
+
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(reactantName));
+        Preconditions.checkNotNull(sourceFluidTagId);
+
+        InternalDispatcher.dispatch("mapping-register", () -> {
+
+            CodeHelper.optionalIfPresentOrElse(ReactantsRegistry.get(reactantName),
+                    reactant -> {
+
+                        final IMapping<ResourceLocation, Reactant> mapping = IMapping.of(sourceFluidTagId, 1, reactant, STANDARD_FLUID_REACTANT_AMOUNT);
+
+                        s_fluidToReactant.put(mapping.getSource(), mapping);
+                        s_reactantToFluid.computeIfAbsent(mapping.getProduct(), k -> Lists.newArrayList()).add(mapping.getReverse());
+
+                    },
+                    () -> ExtremeReactorsAPI.LOGGER.warn(MARKER, "Skipping registration for an unknown source reactant: {}", reactantName));
+        });
+    }
+
     public static void removeSolid(final String sourceItemTagId) {
 
         Preconditions.checkArgument(!Strings.isNullOrEmpty(sourceItemTagId));
         removeSolid(new ResourceLocation(sourceItemTagId));
+    }
+
+    public static void removeFluid(final String sourceFluidTagId) {
+
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(sourceFluidTagId));
+        removeFluid(new ResourceLocation(sourceFluidTagId));
     }
 
     public static void removeSolid(final ResourceLocation sourceItemTagId) {
@@ -179,6 +262,28 @@ public final class ReactantMappingsRegistry {
         });
     }
 
+    public static void removeFluid(final ResourceLocation sourceFluidTagId) {
+
+        Preconditions.checkNotNull(sourceFluidTagId);
+
+        InternalDispatcher.dispatch("mapping-remove", () -> {
+
+            final IMapping<ResourceLocation, Reactant> removedMapping = s_fluidToReactant.remove(sourceFluidTagId);
+
+            if (null != removedMapping) {
+
+                s_reactantToFluid.getOrDefault(removedMapping.getProduct(), Collections.emptyList())
+                        .removeIf(reactantToTagMapping -> reactantToTagMapping.getProduct().equals(sourceFluidTagId));
+
+                s_reactantToFluid.entrySet().stream()
+                        .filter(entry -> entry.getValue().isEmpty())
+                        .map(Map.Entry::getKey)
+                        .collect(Collectors.toSet())
+                        .forEach(s_reactantToFluid::remove);
+            }
+        });
+    }
+
     public static void fillReactantsTooltips(final Map<Item, Set<Component>> tooltipsMap,
                                              final NonNullSupplier<Set<Component>> setSupplier) {
 
@@ -188,13 +293,20 @@ public final class ReactantMappingsRegistry {
                 .forEach(id -> s_solidTags.forTag(id,
                         tag -> tag.getValues()
                                 .forEach(item -> tooltipsMap.computeIfAbsent(item, k -> setSupplier.get()).add(TOOLTIP_FUEL_SOURCE))));
+
+        s_fluidToReactant.values().stream()
+                .filter(mapping -> mapping.getProduct().getType().isFuel())
+                .map(IMapping::getSource)
+                .forEach(id -> s_fluidTags.forTag(id,
+                        tag -> tag.getValues()
+                                .forEach(fluid -> tooltipsMap.computeIfAbsent(fluid.getBucket(), k -> setSupplier.get()).add(TOOLTIP_FUEL_SOURCE))));
     }
 
     @SubscribeEvent(priority = EventPriority.LOW)
     public static void onVanillaTagsUpdated(final TagsUpdatedEvent event) {
 
         updateTags(s_solidToReactant.keySet(), s_solidTags, TagsHelper.ITEMS);
-        //TODO fluids
+        updateTags(s_fluidToReactant.keySet(), s_fluidTags, TagsHelper.FLUIDS);
     }
 
     public static void processWrapper(final ApiWrapper wrapper) {
@@ -256,15 +368,17 @@ public final class ReactantMappingsRegistry {
     // 1:1 mappings
     // - solid source -> Item Tag : reactant name mapping
     private static final Map<ResourceLocation, IMapping<ResourceLocation, Reactant>> s_solidToReactant = Maps.newHashMap();
-    //TODO fluids
+    // - fluid source -> Fluid Tag : reactant name mapping
+    private static final Map<ResourceLocation, IMapping<ResourceLocation, Reactant>> s_fluidToReactant = Maps.newHashMap();
 
     // 1:many mappings
     // - reactant name -> a list of reactant name : Item Tag mappings
     private static final Map<Reactant, List<IMapping<Reactant, ResourceLocation>>> s_reactantToSolid = Maps.newHashMap();
-    //TODO fluids
+    // - reactant name -> a list of reactant name : Fluid Tag mappings
+    private static final Map<Reactant, List<IMapping<Reactant, ResourceLocation>>> s_reactantToFluid = Maps.newHashMap();
 
     private static final TagList<Item> s_solidTags = new TagList<>(CollectionProviders.ITEMS_PROVIDER);
-    //TODO fluids
+    private static final TagList<Fluid> s_fluidTags = new TagList<>(CollectionProviders.FLUIDS_PROVIDER);
 
     private static final Marker MARKER = MarkerManager.getMarker("API/ReactantMappingsRegistry").addParents(ExtremeReactorsAPI.MARKER);
     private static final Marker WRAPPER = MarkerManager.getMarker("ModPack API Wrapper").addParents(MARKER);

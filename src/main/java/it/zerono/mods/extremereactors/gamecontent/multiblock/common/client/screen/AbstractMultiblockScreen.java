@@ -40,9 +40,7 @@ import it.zerono.mods.zerocore.lib.multiblock.IMultiblockController;
 import it.zerono.mods.zerocore.lib.multiblock.IMultiblockMachine;
 import it.zerono.mods.zerocore.lib.multiblock.cuboid.AbstractCuboidMultiblockController;
 import it.zerono.mods.zerocore.lib.multiblock.variant.IMultiblockVariant;
-import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.MenuProvider;
@@ -60,18 +58,6 @@ public abstract class AbstractMultiblockScreen<Controller extends AbstractCuboid
                                                 T extends AbstractMultiblockEntity<Controller> & MenuProvider,
                                                 C extends ModTileContainer<T>>
         extends ModTileContainerScreen<T, C> {
-
-    public static final Style STYLE_TOOLTIP_TITLE = Style.EMPTY
-            .withColor(ChatFormatting.YELLOW)
-            .withBold(true);
-
-    public static final Style STYLE_TOOLTIP_VALUE = Style.EMPTY
-            .withColor(ChatFormatting.DARK_AQUA)
-            .withBold(true);
-
-    public static final Style STYLE_TOOLTIP_INFO = Style.EMPTY
-            .withColor(ChatFormatting.DARK_PURPLE)
-            .withItalic(true);
 
     protected AbstractMultiblockScreen(final C container, final Inventory inventory,
                                        final PlayerInventoryUsage inventoryUsage, final Component title) {
