@@ -53,8 +53,12 @@ public class ReprocessorRecipe
         return this.getIngredient1().test(stack);
     }
 
-    public boolean match(final FluidStack stack) {
-        return this.getIngredient2().test(stack);
+    public boolean matchIgnoreAmount(final ItemStack stack) {
+        return this.getIngredient1().testIgnoreAmount(stack);
+    }
+
+    public boolean matchIgnoreAmount(final FluidStack stack) {
+        return this.getIngredient2().testIgnoreAmount(stack);
     }
 
     public static RecipeSerializer<ReprocessorRecipe> serializer() {
