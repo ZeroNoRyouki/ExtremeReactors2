@@ -71,6 +71,9 @@
         ,
         "1.17.1-2.0.33":"- Fix Reprocessor Waste Injector rejecting items from pipes\r\n- Bumped version to 2.0.33\r\n- Updated ZeroCore to version 1.16.5-2.1.7"
     },
+    "1.18.0":{
+        "1.18-2.0.32":"- Updated to Minecraft 1.18\r\n- Updated Forge to version 38.0.5\r\n- Updated CC: Tweaked to version 1.99.0\r\n- Updated ZeroCore to version 1.18-2.1.8"
+    },
     "promos":{
         "1.16.3-latest":"1.16.4-2.0.21",
         "1.16.3-recommended":"1.16.4-2.0.21",
@@ -79,6 +82,8 @@
         "1.16.5-latest":"1.16.5-2.0.33",
         "1.16.5-recommended":"1.16.5-2.0.33",
         "1.17.1-latest":"1.17.1-2.0.33",
-        "1.17.1-recommended":"1.17.1-2.0.33"
+        "1.17.1-recommended":"1.17.1-2.0.33",
+        "1.18.0-latest":"1.18-2.0.32",
+        "1.18.0-recommended":"1.18-2.0.32"
     }
 }
