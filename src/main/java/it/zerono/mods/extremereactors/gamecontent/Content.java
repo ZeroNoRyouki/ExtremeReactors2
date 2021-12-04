@@ -71,15 +71,15 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Material;
-import net.minecraftforge.common.extensions.IForgeContainerType;
+import net.minecraftforge.common.extensions.IForgeMenuType;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fmllegacy.RegistryObject;
-import net.minecraftforge.fmllegacy.network.IContainerFactory;
+import net.minecraftforge.network.IContainerFactory;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 
 import java.util.Collection;
 import java.util.function.Supplier;
@@ -999,7 +999,7 @@ public final class Content {
 
         private static <C extends AbstractContainerMenu> RegistryObject<MenuType<C>> registerContainer(final String name,
                                                                                                 final IContainerFactory<C> factory) {
-            return CONTAINERS.register(name, () -> IForgeContainerType.create(factory));
+            return CONTAINERS.register(name, () -> IForgeMenuType.create(factory));
         }
 
         //endregion

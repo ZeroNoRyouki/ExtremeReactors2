@@ -29,7 +29,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityInject;
+import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.common.capabilities.CapabilityToken;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
@@ -244,8 +245,7 @@ public class FluidPortHandlerForge<Controller extends AbstractGeneratorMultibloc
     }
 
     @SuppressWarnings("FieldMayBeFinal")
-    @CapabilityInject(IFluidHandler.class)
-    public static Capability<IFluidHandler> CAPAP_FORGE_FLUIDHANDLER = null;
+    public static Capability<IFluidHandler> CAPAP_FORGE_FLUIDHANDLER = CapabilityManager.get(new CapabilityToken<>(){});
 
     private IFluidHandler _consumer;
     private final FluidHandlerForwarder _capabilityForwarder;

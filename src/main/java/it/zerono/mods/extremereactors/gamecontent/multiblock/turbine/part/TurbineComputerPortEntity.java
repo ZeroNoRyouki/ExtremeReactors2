@@ -30,7 +30,8 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityInject;
+import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.common.capabilities.CapabilityToken;
 import net.minecraftforge.common.util.LazyOptional;
 
 import javax.annotation.Nonnull;
@@ -143,8 +144,7 @@ public class TurbineComputerPortEntity
     }
 
     @SuppressWarnings("FieldMayBeFinal")
-    @CapabilityInject(IPeripheral.class)
-    public static Capability<IPeripheral> CAPABILITY_CC_PERIPHERAL = null;
+    public static Capability<IPeripheral> CAPABILITY_CC_PERIPHERAL = CapabilityManager.get(new CapabilityToken<>(){});
 
     private final LazyOptional<ConnectorComputerCraft<MultiblockComputerPeripheral<MultiblockTurbine, TurbineComputerPortEntity>>> _ccConnector;
 

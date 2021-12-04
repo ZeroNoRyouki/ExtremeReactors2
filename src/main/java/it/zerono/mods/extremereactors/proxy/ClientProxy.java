@@ -159,7 +159,7 @@ public class ClientProxy
     @SubscribeEvent
     public void onTextureStitchPre(final TextureStitchEvent.Pre event) {
 
-        if (!event.getMap().location().equals(InventoryMenu.BLOCK_ATLAS)) {
+        if (!event.getAtlas().location().equals(InventoryMenu.BLOCK_ATLAS)) {
             return;
         }
 

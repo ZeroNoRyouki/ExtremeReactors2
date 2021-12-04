@@ -20,12 +20,10 @@ package it.zerono.mods.extremereactors.gamecontent;
 
 import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.config.Config;
+import it.zerono.mods.zerocore.lib.world.OreGenRegisteredFeature;
 import it.zerono.mods.zerocore.lib.world.WorldGenManager;
 import it.zerono.mods.zerocore.lib.world.WorldReGenHandler;
-import net.minecraft.core.Registry;
-import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.event.RegistryEvent;
@@ -49,30 +47,30 @@ public final class WorldGen {
 
     public static void register(final RegistryEvent.Register<Feature<?>> event) {
 
-        final Pair<ConfiguredFeature<?, ?>, ConfiguredFeature<?, ?>> yelloriteGenerators = WorldReGenHandler
-                .oreGenAndRegenFeatures(Content.Blocks.YELLORITE_ORE_BLOCK,
+        final Pair<OreGenRegisteredFeature, OreGenRegisteredFeature> yelloriteGenerators = WorldReGenHandler
+                .oreVeinWithRegen("yellorite", ExtremeReactors::newID, Content.Blocks.YELLORITE_ORE_BLOCK,
                         WorldGenManager.oreMatch(Tags.Blocks.STONE),
-                        Config.COMMON.worldgen.yelloriteOreMaxClustersPerChunk.get(),
                         Config.COMMON.worldgen.yelloriteOrePerCluster.get(),
-                        15, 5, Config.COMMON.worldgen.yelloriteOreMaxY.get());
+                        Config.COMMON.worldgen.yelloriteOreMaxClustersPerChunk.get(),
+                        15, Config.COMMON.worldgen.yelloriteOreMaxY.get());
 
-        final Pair<ConfiguredFeature<?, ?>, ConfiguredFeature<?, ?>> anglesiteGenerators = WorldReGenHandler
-                .oreGenAndRegenFeatures(Content.Blocks.ANGLESITE_ORE_BLOCK,
+        final Pair<OreGenRegisteredFeature, OreGenRegisteredFeature> anglesiteGenerators = WorldReGenHandler
+                .oreVeinWithRegen("anglesite", ExtremeReactors::newID, Content.Blocks.ANGLESITE_ORE_BLOCK,
                         WorldGenManager.oreMatch(Tags.Blocks.END_STONES),
-                        Config.COMMON.worldgen.anglesiteOreMaxClustersPerChunk.get(),
                         Config.COMMON.worldgen.anglesiteOrePerCluster.get(),
-                        5, 5, 200);
+                        Config.COMMON.worldgen.anglesiteOreMaxClustersPerChunk.get(),
+                        5, 200);
 
-        final Pair<ConfiguredFeature<?, ?>, ConfiguredFeature<?, ?>> benitoiteGenerators = WorldReGenHandler
-                .oreGenAndRegenFeatures(Content.Blocks.BENITOITE_ORE_BLOCK,
+        final Pair<OreGenRegisteredFeature, OreGenRegisteredFeature> benitoiteGenerators = WorldReGenHandler
+                .oreVeinWithRegen("benitoite", ExtremeReactors::newID, Content.Blocks.BENITOITE_ORE_BLOCK,
                         WorldGenManager.oreMatch(Tags.Blocks.NETHERRACK),
-                        Config.COMMON.worldgen.benitoiteOreMaxClustersPerChunk.get(),
                         Config.COMMON.worldgen.benitoiteOrePerCluster.get(),
-                        5, 5, 256);
+                        Config.COMMON.worldgen.benitoiteOreMaxClustersPerChunk.get(),
+                        5, 256);
 
-        registerToVanilla(yelloriteGenerators, "yellorite");
-        registerToVanilla(anglesiteGenerators, "anglesite");
-        registerToVanilla(benitoiteGenerators, "benitoite");
+        registerToVanilla(yelloriteGenerators);
+        registerToVanilla(anglesiteGenerators);
+        registerToVanilla(benitoiteGenerators);
 
         final Predicate<BiomeLoadingEvent> yelloriteGenEnabled = e -> Config.COMMON.worldgen.enableWorldGen.get() && Config.COMMON.worldgen.yelloriteOreEnableWorldGen.get();
         final Predicate<BiomeLoadingEvent> anglesiteGenEnabled = e -> Config.COMMON.worldgen.enableWorldGen.get() && Config.COMMON.worldgen.anglesiteOreEnableWorldGen.get();
@@ -82,17 +80,17 @@ public final class WorldGen {
         final Predicate<Biome> anglesiteReGenEnabled = e -> Config.COMMON.worldgen.anglesiteOreEnableWorldGen.get();
         final Predicate<Biome> benitoiteReGenEnabled = e -> Config.COMMON.worldgen.benitoiteOreEnableWorldGen.get();
 
-        s_regen.addGenAndRegenOre(yelloriteGenerators, yelloriteGenEnabled, yelloriteReGenEnabled);
-        s_regen.addGenAndRegenOre(anglesiteGenerators, anglesiteGenEnabled, anglesiteReGenEnabled);
-        s_regen.addGenAndRegenOre(benitoiteGenerators, benitoiteGenEnabled, benitoiteReGenEnabled);
+        s_regen.addOreVein(yelloriteGenerators, yelloriteGenEnabled, yelloriteReGenEnabled);
+        s_regen.addOreVein(anglesiteGenerators, anglesiteGenEnabled, anglesiteReGenEnabled);
+        s_regen.addOreVein(benitoiteGenerators, benitoiteGenEnabled, benitoiteReGenEnabled);
     }
 
     //region internals
 
-    private static void registerToVanilla(final Pair<ConfiguredFeature<?, ?>, ConfiguredFeature<?, ?>> generators, final String name) {
+    private static void registerToVanilla(final Pair<OreGenRegisteredFeature, OreGenRegisteredFeature> features) {
 
-        Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, ExtremeReactors.newID(name + "_gen"), generators.getLeft());
-        Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, ExtremeReactors.newID(name + "_regen"), generators.getRight());
+        features.getLeft().register();
+        features.getRight().register();
     }
 
     private static WorldReGenHandler s_regen;

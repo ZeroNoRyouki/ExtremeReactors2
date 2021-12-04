@@ -28,7 +28,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityInject;
+import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.common.capabilities.CapabilityToken;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 
@@ -83,8 +84,7 @@ public class ReprocessorFluidPortEntity
     //region internals
 
     @SuppressWarnings("FieldMayBeFinal")
-    @CapabilityInject(IFluidHandler.class)
-    public static Capability<IFluidHandler> CAPAP_FORGE_FLUIDHANDLER = null;
+    public static Capability<IFluidHandler> CAPAP_FORGE_FLUIDHANDLER = CapabilityManager.get(new CapabilityToken<>(){});
 
     private final FluidHandlerForwarder _forwarder;
     private final LazyOptional<IFluidHandler> _capability;

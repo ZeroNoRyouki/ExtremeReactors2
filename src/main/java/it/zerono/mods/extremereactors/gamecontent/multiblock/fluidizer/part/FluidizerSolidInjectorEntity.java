@@ -51,7 +51,8 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityInject;
+import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.common.capabilities.CapabilityToken;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.common.util.NonNullConsumer;
 import net.minecraftforge.fml.LogicalSide;
@@ -271,8 +272,7 @@ public class FluidizerSolidInjectorEntity
     }
 
     @SuppressWarnings("FieldMayBeFinal")
-    @CapabilityInject(IItemHandler.class)
-    private static Capability<IItemHandler> ITEM_HANDLER_CAPABILITY = null;
+    private static Capability<IItemHandler> ITEM_HANDLER_CAPABILITY = CapabilityManager.get(new CapabilityToken<>(){});
 
     private static final ResourceLocation SYNC_DATA_ID = ExtremeReactors.newID("solidinjector");
 

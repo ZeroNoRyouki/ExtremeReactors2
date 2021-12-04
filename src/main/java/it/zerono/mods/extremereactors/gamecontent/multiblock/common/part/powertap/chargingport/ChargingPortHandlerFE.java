@@ -24,7 +24,8 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.common.variant.IMul
 import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockVariantProvider;
 import it.zerono.mods.zerocore.lib.energy.EnergySystem;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityInject;
+import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.common.capabilities.CapabilityToken;
 import net.minecraftforge.energy.IEnergyStorage;
 
 public class ChargingPortHandlerFE<Controller extends AbstractGeneratorMultiblockController<Controller, V>,
@@ -66,8 +67,7 @@ public class ChargingPortHandlerFE<Controller extends AbstractGeneratorMultibloc
     }
 
     @SuppressWarnings("FieldMayBeFinal")
-    @CapabilityInject(IEnergyStorage.class)
-    private static Capability<IEnergyStorage> CAPAP_FORGE_ENERGYSTORAGE = null;
+    private static Capability<IEnergyStorage> CAPAP_FORGE_ENERGYSTORAGE = CapabilityManager.get(new CapabilityToken<>(){});
 
     //endregion
 }

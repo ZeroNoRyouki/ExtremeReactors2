@@ -30,9 +30,9 @@ import it.zerono.mods.zerocore.lib.world.WorldHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.util.Constants;
 
 import javax.annotation.Nullable;
 
@@ -135,11 +135,11 @@ public class DebugTests {
             for (int y = start_y; y <= end_y; ++y) {
 
                 pos.set(x, y, z);
-                world.setBlock(pos, ROD, Constants.BlockFlags.NO_NEIGHBOR_DROPS | Constants.BlockFlags.NO_RERENDER);
+                world.setBlock(pos, ROD, Block.UPDATE_SUPPRESS_DROPS | Block.UPDATE_INVISIBLE);
             }
 
             pos.set(x, end_y + 1, z);
-            world.setBlock(pos, CAP, Constants.BlockFlags.NO_NEIGHBOR_DROPS | Constants.BlockFlags.NO_RERENDER);
+            world.setBlock(pos, CAP, Block.UPDATE_SUPPRESS_DROPS | Block.UPDATE_INVISIBLE);
 
             z -= 2;
         }
@@ -182,15 +182,15 @@ public class DebugTests {
                 for (int y = start_y; y <= end_y; ++y) {
 
                     pos.set(x, y, z);
-                    world.setBlock(pos, pillar1, Constants.BlockFlags.NO_NEIGHBOR_DROPS | Constants.BlockFlags.NO_RERENDER);
+                    world.setBlock(pos, pillar1, Block.UPDATE_SUPPRESS_DROPS | Block.UPDATE_INVISIBLE);
                     pos.set(x, y, z + 1);
-                    world.setBlock(pos, pillar2, Constants.BlockFlags.NO_NEIGHBOR_DROPS | Constants.BlockFlags.NO_RERENDER);
+                    world.setBlock(pos, pillar2, Block.UPDATE_SUPPRESS_DROPS | Block.UPDATE_INVISIBLE);
                 }
 
                 pos.set(x, end_y + 1, z);
-                world.setBlock(pos, top1, Constants.BlockFlags.NO_NEIGHBOR_DROPS | Constants.BlockFlags.NO_RERENDER);
+                world.setBlock(pos, top1, Block.UPDATE_SUPPRESS_DROPS | Block.UPDATE_INVISIBLE);
                 pos.set(x, end_y + 1, z + 1);
-                world.setBlock(pos, top2, Constants.BlockFlags.NO_NEIGHBOR_DROPS | Constants.BlockFlags.NO_RERENDER);
+                world.setBlock(pos, top2, Block.UPDATE_SUPPRESS_DROPS | Block.UPDATE_INVISIBLE);
             }
         }
     }
