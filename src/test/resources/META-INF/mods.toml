@@ -30,7 +30,7 @@ issueTrackerURL="https://github.com/ZeroNoRyouki/ExtremeReactors2"
 
     modId="forge"
     mandatory=true
-    versionRange="[37.1.0,38)"
+    versionRange="[37.1.1,38)"
     ordering="NONE"
     side="BOTH"
 
@@ -38,6 +38,6 @@ issueTrackerURL="https://github.com/ZeroNoRyouki/ExtremeReactors2"
 
     modId="zerocore"
     mandatory=true
-    versionRange="[1.17.1-2.1.6,1.17.1-2.2.0)"
+    versionRange="[1.17.1-2.1.9,1.17.1-2.2.0)"
     ordering="AFTER"
     side="BOTH"
