@@ -35,7 +35,7 @@ public class ReprocessorAccessPortContainer
     public ReprocessorAccessPortContainer(final int windowId, final Inventory playerInventory,
                                           final ReprocessorAccessPortEntity port) {
 
-        super(factoryFor(port), Content.ContainerTypes.REPROCESSOR_ACCESSPORT.get(), windowId, port);
+        super(factoryFor(port), Content.ContainerTypes.REPROCESSOR_ACCESSPORT.get(), windowId, playerInventory, port);
 
         this.addInventory("inv", port.getItemInventory(port.getDirection()));
         this.addInventory(ModContainer.INVENTORYNAME_PLAYER_INVENTORY, playerInventory);

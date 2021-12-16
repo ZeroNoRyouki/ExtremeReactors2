@@ -45,7 +45,7 @@ public class FluidizerControllerContainer
     public FluidizerControllerContainer(final int windowId, final Inventory playerInventory,
                                         final FluidizerControllerEntity controller) {
 
-        super(ContainerFactory.EMPTY, Content.ContainerTypes.FLUIDIZER_CONTROLLER.get(), windowId, controller);
+        super(ContainerFactory.EMPTY, Content.ContainerTypes.FLUIDIZER_CONTROLLER.get(), windowId, playerInventory, controller);
 
         final MultiblockFluidizer fluidizer = controller.getMultiblockController().orElseThrow(IllegalStateException::new);
 

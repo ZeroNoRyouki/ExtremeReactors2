@@ -26,9 +26,9 @@ import it.zerono.mods.zerocore.lib.item.inventory.container.ModContainer;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
 import it.zerono.mods.zerocore.lib.item.inventory.container.slot.SlotTemplate;
 import it.zerono.mods.zerocore.lib.item.inventory.container.slot.type.SlotType;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.MenuType;
-import net.minecraft.network.FriendlyByteBuf;
 
 public class ChargingPortContainer<T extends AbstractModBlockEntity & IChargingPort>
         extends ModTileContainer<T> {
@@ -51,7 +51,7 @@ public class ChargingPortContainer<T extends AbstractModBlockEntity & IChargingP
     public ChargingPortContainer(final int windowId, final MenuType<? extends ModTileContainer<T>> type,
                                  final Inventory playerInventory, final T port) {
 
-        super(FACTORY, type, windowId, port);
+        super(FACTORY, type, windowId, playerInventory, port);
 
         this.addInventory(IoDirection.Input.name(), port.getChargingPortHandler().getItemStackHandler(IoDirection.Input));
         this.addInventory(IoDirection.Output.name(), port.getChargingPortHandler().getItemStackHandler(IoDirection.Output));

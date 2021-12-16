@@ -168,7 +168,7 @@ public class ReactorFluidPortEntity
     @Nullable
     @Override
     public AbstractContainerMenu createMenu(final int windowId, final Inventory inventory, final Player player) {
-        return ModTileContainer.empty(Content.ContainerTypes.REACTOR_FLUIDPORT.get(), windowId, this);
+        return ModTileContainer.empty(Content.ContainerTypes.REACTOR_FLUIDPORT.get(), windowId, inventory, this);
     }
 
     @Override

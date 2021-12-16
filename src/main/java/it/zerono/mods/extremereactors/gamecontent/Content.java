@@ -931,22 +931,22 @@ public final class Content {
 
         public static final RegistryObject<MenuType<ModTileContainer<ReactorControllerEntity>>> REACTOR_CONTROLLER =
                 registerContainer("reactorcontroller", (windowId, inv, data) ->
-                        ModTileContainer.empty(Content.ContainerTypes.REACTOR_CONTROLLER.get(), windowId, data));
+                        ModTileContainer.empty(Content.ContainerTypes.REACTOR_CONTROLLER.get(), windowId, inv, data));
 
         public static final RegistryObject<MenuType<ReactorSolidAccessPortContainer>> REACTOR_SOLID_ACCESSPORT =
                 registerContainer("reactoraccessport", ReactorSolidAccessPortContainer::new);
 
         public static final RegistryObject<MenuType<ModTileContainer<ReactorFluidAccessPortEntity>>> REACTOR_FLUID_ACCESSPORT =
                 registerContainer("reactoraccessportfluid", (windowId, inv, data) ->
-                        ModTileContainer.empty(Content.ContainerTypes.REACTOR_FLUID_ACCESSPORT.get(), windowId, data));
+                        ModTileContainer.empty(Content.ContainerTypes.REACTOR_FLUID_ACCESSPORT.get(), windowId, inv, data));
 
         public static final RegistryObject<MenuType<ModTileContainer<ReactorRedstonePortEntity>>> REACTOR_REDSTONEPORT =
                 registerContainer("reactorredstoneport", (windowId, inv, data) ->
-                        ModTileContainer.empty(Content.ContainerTypes.REACTOR_REDSTONEPORT.get(), windowId, data));
+                        ModTileContainer.empty(Content.ContainerTypes.REACTOR_REDSTONEPORT.get(), windowId, inv, data));
 
         public static final RegistryObject<MenuType<ModTileContainer<ReactorControlRodEntity>>> REACTOR_CONTROLROD =
                 registerContainer("reactorcontrolrod", (windowId, inv, data) ->
-                        ModTileContainer.empty(Content.ContainerTypes.REACTOR_CONTROLROD.get(), windowId, data));
+                        ModTileContainer.empty(Content.ContainerTypes.REACTOR_CONTROLROD.get(), windowId, inv, data));
 
         public static final RegistryObject<MenuType<ChargingPortContainer<ReactorChargingPortEntity>>> REACTOR_CHARGINGPORT =
                 registerContainer("reactorchargingport",
@@ -954,18 +954,18 @@ public final class Content {
 
         public static final RegistryObject<MenuType<ModTileContainer<ReactorFluidPortEntity>>> REACTOR_FLUIDPORT =
                 registerContainer("reactorfluidport", (windowId, inv, data) ->
-                        ModTileContainer.empty(Content.ContainerTypes.REACTOR_FLUIDPORT.get(), windowId, data));
+                        ModTileContainer.empty(Content.ContainerTypes.REACTOR_FLUIDPORT.get(), windowId, inv, data));
 
         //endregion
         //region Turbine
 
         public static final RegistryObject<MenuType<ModTileContainer<TurbineControllerEntity>>> TURBINE_CONTROLLER =
                 registerContainer("turbinecontroller", (windowId, inv, data) ->
-                        ModTileContainer.empty(Content.ContainerTypes.TURBINE_CONTROLLER.get(), windowId, data));
+                        ModTileContainer.empty(Content.ContainerTypes.TURBINE_CONTROLLER.get(), windowId, inv, data));
 
         public static final RegistryObject<MenuType<ModTileContainer<TurbineRedstonePortEntity>>> TURBINE_REDSTONEPORT =
                 registerContainer("turbineredstoneport", (windowId, inv, data) ->
-                        ModTileContainer.empty(Content.ContainerTypes.TURBINE_REDSTONEPORT.get(), windowId, data));
+                        ModTileContainer.empty(Content.ContainerTypes.TURBINE_REDSTONEPORT.get(), windowId, inv, data));
 
         public static final RegistryObject<MenuType<ChargingPortContainer<TurbineChargingPortEntity>>> TURBINE_CHARGINGPORT =
                 registerContainer("turbinechargingport",
@@ -973,14 +973,14 @@ public final class Content {
 
         public static final RegistryObject<MenuType<ModTileContainer<TurbineFluidPortEntity>>> TURBINE_FLUIDPORT =
                 registerContainer("turbinefluidport", (windowId, inv, data) ->
-                        ModTileContainer.empty(Content.ContainerTypes.TURBINE_FLUIDPORT.get(), windowId, data));
+                        ModTileContainer.empty(Content.ContainerTypes.TURBINE_FLUIDPORT.get(), windowId, inv, data));
 
         //endregion
         //region Reprocessor
 
         public static final RegistryObject<MenuType<ModTileContainer<ReprocessorControllerEntity>>> REPROCESSOR_CONTROLLER =
                 registerContainer("reprocessorcontroller", (windowId, inv, data) ->
-                        ModTileContainer.empty(Content.ContainerTypes.REPROCESSOR_CONTROLLER.get(), windowId, data));
+                        ModTileContainer.empty(Content.ContainerTypes.REPROCESSOR_CONTROLLER.get(), windowId, inv, data));
 
         public static final RegistryObject<MenuType<ReprocessorAccessPortContainer>> REPROCESSOR_ACCESSPORT =
                 registerContainer("reprocessoraccessport", ReprocessorAccessPortContainer::new);
