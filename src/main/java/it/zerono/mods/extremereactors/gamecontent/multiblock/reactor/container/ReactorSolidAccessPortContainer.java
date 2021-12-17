@@ -29,8 +29,8 @@ import it.zerono.mods.zerocore.lib.item.inventory.container.ModContainer;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
 import it.zerono.mods.zerocore.lib.item.inventory.container.slot.SlotTemplate;
 import it.zerono.mods.zerocore.lib.item.inventory.container.slot.type.SlotType;
-import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraftforge.items.IItemHandler;
 
 public class ReactorSolidAccessPortContainer extends ModTileContainer<ReactorSolidAccessPortEntity> {
@@ -54,7 +54,7 @@ public class ReactorSolidAccessPortContainer extends ModTileContainer<ReactorSol
     public ReactorSolidAccessPortContainer(final int windowId, final Inventory playerInventory,
                                            final ReactorSolidAccessPortEntity port) {
 
-        super(FACTORY, Content.ContainerTypes.REACTOR_SOLID_ACCESSPORT.get(), windowId, port);
+        super(FACTORY, Content.ContainerTypes.REACTOR_SOLID_ACCESSPORT.get(), windowId, playerInventory, port);
 
         this._fuelHandler = port.getItemStackHandler(ReactantType.Fuel);
         this._wasteHandler = port.getItemStackHandler(ReactantType.Waste);

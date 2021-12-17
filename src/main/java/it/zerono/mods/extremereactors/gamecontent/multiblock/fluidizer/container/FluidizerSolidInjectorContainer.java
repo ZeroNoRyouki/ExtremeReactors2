@@ -37,7 +37,7 @@ public class FluidizerSolidInjectorContainer
         super(new ContainerFactory()
                         .addStandardPlayerInventorySlots(0, 0)
                         .addSlot(0, "inv", new SlotTemplate(SlotType.Input, FluidizerSolidInjectorEntity::isItemValid), 0, 0),
-                Content.ContainerTypes.FLUIDIZER_SOLID_INJECTOR.get(), windowId, injector);
+                Content.ContainerTypes.FLUIDIZER_SOLID_INJECTOR.get(), windowId, playerInventory, injector);
 
         this.addInventory("inv", injector.getItemHandler());
         this.addInventory(ModContainer.INVENTORYNAME_PLAYER_INVENTORY, playerInventory);

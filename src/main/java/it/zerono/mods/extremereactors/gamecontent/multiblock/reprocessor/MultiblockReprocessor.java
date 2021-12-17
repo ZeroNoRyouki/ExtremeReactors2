@@ -112,11 +112,11 @@ public class MultiblockReprocessor
     }
 
     public boolean isValidIngredient(final ItemStack stack) {
-        return Content.Recipes.REPROCESSOR_RECIPE_TYPE.findFirst(recipe -> recipe.match(stack)).isPresent();
+        return Content.Recipes.REPROCESSOR_RECIPE_TYPE.findFirst(recipe -> recipe.matchIgnoreAmount(stack)).isPresent();
     }
 
     public boolean isValidIngredient(final FluidStack stack) {
-        return Content.Recipes.REPROCESSOR_RECIPE_TYPE.findFirst(recipe -> recipe.match(stack)).isPresent();
+        return Content.Recipes.REPROCESSOR_RECIPE_TYPE.findFirst(recipe -> recipe.matchIgnoreAmount(stack)).isPresent();
     }
 
     public IItemHandlerModifiable getItemHandler(final IoDirection direction) {
