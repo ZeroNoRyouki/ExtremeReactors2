@@ -29,6 +29,7 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.part.Re
 import it.zerono.mods.zerocore.lib.CodeHelper;
 import it.zerono.mods.zerocore.lib.client.gui.DesiredDimension;
 import it.zerono.mods.zerocore.lib.client.gui.IControl;
+import it.zerono.mods.zerocore.lib.client.gui.Orientation;
 import it.zerono.mods.zerocore.lib.client.gui.control.*;
 import it.zerono.mods.zerocore.lib.client.gui.databind.BindingGroup;
 import it.zerono.mods.zerocore.lib.client.gui.databind.MonoConsumerBinding;
@@ -346,7 +347,7 @@ public class ReprocessorControllerScreen
         this._progressBar.setDesiredDimension(16, 32);
         this._progressBar.setOverlay(new SpriteTextureMap(ExtremeReactors.newID("textures/gui/multiblock/reprocessor_controller_arrow.png"), 16, 32)
                 .sprite().ofSize(16, 32).build());
-        this._progressBar.setTopDown(true);
+        this._progressBar.setOrientation(Orientation.TopToBottom);
         p.addControl(this._progressBar);
 
         this.addBinding(MultiblockReprocessor::getRecipeProgress, this._progressBar::setValue);
