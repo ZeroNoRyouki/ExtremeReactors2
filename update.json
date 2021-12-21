@@ -82,6 +82,8 @@
     },
     "1.18.1":{
         "1.18.1-2.0.34":"- Updated to Minecraft 1.18.1\r\n- Fix multiblocks occasionally not assembling on world load\r\n- Fix Fluidizer and Reprocessor GUIs not synchronizing\r\n- Fix rendering issues in Fluidizer and Reprocessor GUIs\r\n- Updated Forge to version 39.0.5 (cfr [CVE-2021-44228])\r\n- Updated ZeroCore to version 2.1.9\r\n- Bumped version to 2.0.34"
+        ,
+        "1.18.1-2.0.35":"- Restored Patchouli support, the in-game book is back and now it can be translated in other languages (new machines still to be added in)\r\n- Updated Patchouli to version 1.18.1-61\r\n- Updated ZeroCore to version to 2.1.11\r\n- Bumped version to 2.0.35"
     },
     "promos":{
         "1.16.3-latest":"1.16.4-2.0.21",
@@ -94,7 +96,7 @@
         "1.17.1-recommended":"1.17.1-2.0.35",
         "1.18.0-latest":"1.18-2.0.32",
         "1.18.0-recommended":"1.18-2.0.32",
-        "1.18.1-latest":"1.18-2.0.34",
-        "1.18.1-recommended":"1.18-2.0.34"
+        "1.18.1-latest":"1.18-2.0.35",
+        "1.18.1-recommended":"1.18-2.0.35"
     }
 }
