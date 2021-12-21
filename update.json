@@ -74,6 +74,8 @@
         "1.17.1-2.0.33":"- Fix Reprocessor Waste Injector rejecting items from pipes\r\n- Bumped version to 2.0.33\r\n- Updated ZeroCore to version 1.16.5-2.1.7"
         ,
         "1.17.1-2.0.34":"- Fix multiblocks occasionally not assembling on world load\r\n- Fix Fluidizer and Reprocessor GUIs not synchronizing\r\n- Fix rendering issues in Fluidizer and Reprocessor GUIs\r\n- Updated Forge to version 37.1.1 (cfr [CVE-2021-44228])\r\n- Updated ZeroCore to version 2.1.9\r\n- Bumped version to 2.0.34"
+        ,
+        "1.17.1-2.0.35":"- Restored Patchouli support, the in-game book is back and now it can be translated in other languages (new machines still to be added in)\r\n- Updated Patchouli to version 1.17.1.57\r\n- Updated ZeroCore to version to 2.1.11\r\n- Bumped version to 2.0.35"
     },
     "1.18.0":{
         "1.18-2.0.32":"- Updated to Minecraft 1.18\r\n- Updated Forge to version 38.0.5\r\n- Updated CC: Tweaked to version 1.99.0\r\n- Updated ZeroCore to version 1.18-2.1.8"
@@ -88,8 +90,8 @@
         "1.16.4-recommended":"1.16.4-2.0.23",
         "1.16.5-latest":"1.16.5-2.0.34",
         "1.16.5-recommended":"1.16.5-2.0.34",
-        "1.17.1-latest":"1.17.1-2.0.34",
-        "1.17.1-recommended":"1.17.1-2.0.34",
+        "1.17.1-latest":"1.17.1-2.0.35",
+        "1.17.1-recommended":"1.17.1-2.0.35",
         "1.18.0-latest":"1.18-2.0.32",
         "1.18.0-recommended":"1.18-2.0.32",
         "1.18.1-latest":"1.18-2.0.34",
