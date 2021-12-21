@@ -6,5 +6,6 @@
     "show_progress": false,
     "show_toasts": false,
     "model": "bigreactors:erguide",
-    "book_texture": "patchouli:textures/gui/book_gray.png"
+    "book_texture": "patchouli:textures/gui/book_gray.png",
+    "use_resource_pack": true
 }

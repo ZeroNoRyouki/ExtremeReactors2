@@ -1,0 +1,11 @@
+{
+    "components": [
+        {
+            "type": "zerocore:zcspt_multiblock",
+            "multiblock_id": "#multiblock_id",
+            "text": "#text",
+            "x": 0,
+            "y": 10
+        }
+    ]
+}
