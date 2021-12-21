@@ -3,7 +3,8 @@
   "pools": [
     {
       "name": "fluidizerglass",
-      "rolls": 1,
+      "rolls": 1.0,
+      "bonus_rolls": 0.0,
       "entries": [
         {
           "type": "minecraft:item",
@@ -15,7 +16,8 @@
           "functions": [
             {
               "function": "minecraft:set_count",
-              "count": 1
+              "count": 1.0,
+              "add": false
             }
           ],
           "name": "bigreactors:fluidizerglass"
