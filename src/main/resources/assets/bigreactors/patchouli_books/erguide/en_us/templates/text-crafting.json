@@ -1,0 +1,17 @@
+{
+    "components": [
+        {
+            "type": "patchouli:text",
+            "text": "#text",
+            "x": 0,
+            "y": 0
+        },
+        {
+            "type": "zerocore:zcspt_crafting",
+            "recipe": "#recipe",
+            "title": "#title",
+            "x": 0,
+            "y": 50
+        }
+    ]
+}

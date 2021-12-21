@@ -18,6 +18,8 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.client.screen;
 
+import it.zerono.mods.extremereactors.ExtremeReactors;
+import it.zerono.mods.extremereactors.gamecontent.compat.patchouli.PatchouliCompat;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.AbstractRedstonePortScreen;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.CommonIcons;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.sensor.SensorBehavior;
@@ -63,7 +65,7 @@ public class TurbineRedstonePortScreen
     @Override
     protected void onScreenCreate() {
 
-        //this.addPatchouliHelpButton(PatchouliCompat.HANDBOOK_ID, ExtremeReactors.newID("turbine/part-redstoneport"), 1);
+        this.addPatchouliHelpButton(PatchouliCompat.HANDBOOK_ID, ExtremeReactors.newID("turbine/part-redstoneport"), 1);
 
         super.onScreenCreate();
 

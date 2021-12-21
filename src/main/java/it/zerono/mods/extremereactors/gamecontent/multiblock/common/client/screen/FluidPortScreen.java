@@ -19,6 +19,7 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen;
 
 import it.zerono.mods.extremereactors.gamecontent.CommonConstants;
+import it.zerono.mods.extremereactors.gamecontent.compat.patchouli.PatchouliCompat;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.AbstractGeneratorMultiblockController;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.AbstractMultiblockEntity;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.fluidport.IFluidPort;
@@ -59,7 +60,7 @@ public class FluidPortScreen<Controller extends AbstractGeneratorMultiblockContr
         this._btnInputDirection = new SwitchPictureButton(this, "directionInput", false, "direction");
         this._btnOutputDirection = new SwitchPictureButton(this, "directionOutput", false, "direction");
 
-        //this.addPatchouliHelpButton(PatchouliCompat.HANDBOOK_ID, bookEntryId, 1);
+        this.addPatchouliHelpButton(PatchouliCompat.HANDBOOK_ID, bookEntryId, 1);
     }
 
     //region ContainerScreen

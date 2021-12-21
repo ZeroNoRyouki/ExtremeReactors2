@@ -185,8 +185,8 @@ dependencies {
 
 
 	// patchouli
-//    compileOnly fg.deobf("vazkii.patchouli:Patchouli:${config.patchouli_version}:api")
-//    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${config.patchouli_version}")
+    compileOnly fg.deobf("vazkii.patchouli:Patchouli:${config.patchouli_version}:api")
+    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${config.patchouli_version}")
 
     // mekanism
 //    compileOnly "mekanism:Mekanism:${config.mekanism_version}:api"

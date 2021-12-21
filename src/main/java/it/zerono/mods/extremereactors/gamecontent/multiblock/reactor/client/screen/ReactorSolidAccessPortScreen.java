@@ -18,8 +18,10 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.screen;
 
+import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.api.reactor.ReactantType;
 import it.zerono.mods.extremereactors.gamecontent.CommonConstants;
+import it.zerono.mods.extremereactors.gamecontent.compat.patchouli.PatchouliCompat;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.AbstractMultiblockScreen;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.CommonIcons;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.MultiblockReactor;
@@ -76,7 +78,7 @@ public class ReactorSolidAccessPortScreen
     @Override
     protected void onScreenCreate() {
 
-        //this.addPatchouliHelpButton(PatchouliCompat.HANDBOOK_ID, ExtremeReactors.newID("reactor/part-solidaccessport"), 1);
+        this.addPatchouliHelpButton(PatchouliCompat.HANDBOOK_ID, ExtremeReactors.newID("reactor/part-solidaccessport"), 1);
 
         super.onScreenCreate();
 

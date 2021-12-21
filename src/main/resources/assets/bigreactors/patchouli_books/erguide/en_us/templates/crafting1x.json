@@ -1,0 +1,11 @@
+{
+    "components": [
+        {
+            "type": "zerocore:zcspt_crafting",
+            "recipe": "#recipe1",
+            "title": "#title1",
+            "x": 0,
+            "y": 0
+        }
+    ]
+}

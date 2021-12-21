@@ -20,6 +20,10 @@ package it.zerono.mods.extremereactors.datagen.recipes;
 
 import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.gamecontent.Content;
+import it.zerono.mods.extremereactors.gamecontent.ContentTags;
+import it.zerono.mods.extremereactors.gamecontent.compat.patchouli.PatchouliCompat;
+import it.zerono.mods.zerocore.lib.compat.Mods;
+import it.zerono.mods.zerocore.lib.datagen.provider.recipe.NbtResultFinishedRecipeAdapter;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
@@ -28,8 +32,11 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.Tag;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.common.Tags;
+import net.minecraftforge.common.crafting.ConditionalRecipe;
+import vazkii.patchouli.api.PatchouliAPI;
 
 import java.util.function.Consumer;
 
@@ -88,8 +95,8 @@ public class GenericRecipeGenerator
                 .unlockedBy("has_item", has(Content.Items.WRENCH.get()))
                 .save(c, ExtremeReactors.newID("misc/wrench"));
 
-//        this.book(c, "erguide", PatchouliCompat.HANDBOOK_ID, Items.BOOK, ContentTags.Items.INGOTS_YELLORIUM);
-//        this.book(c, "erguide_alt", PatchouliCompat.HANDBOOK_ID, Items.BOOK, TAG_INGOTS_URANIUM);
+        this.book(c, "erguide", PatchouliCompat.HANDBOOK_ID, Items.BOOK, ContentTags.Items.INGOTS_YELLORIUM);
+        this.book(c, "erguide_alt", PatchouliCompat.HANDBOOK_ID, Items.BOOK, TAG_INGOTS_URANIUM);
     }
 
     //endregion
@@ -99,22 +106,21 @@ public class GenericRecipeGenerator
                       final ItemLike ingredientBook,
                       final Tag<Item> ingredientItem) {
 
-        //TODO 1.17 Patchouli
-//        Mods.PATCHOULI.map(() -> PatchouliAPI.get().getBookStack(patchouliBookId)).ifPresent(book -> {
-//
-//                    ConditionalRecipe.builder()
-//                            .addCondition(modLoaded(Mods.PATCHOULI.id()))
-//                            .addRecipe(fr -> ShapedRecipeBuilder.shaped(book.getItem())
-//                                    .define('I', ingredientItem)
-//                                    .define('B', ingredientBook)
-//                                    .pattern("I")
-//                                    .pattern("B")
-//                                    .group(GROUP_GENERAL)
-//                                    .unlockedBy("has_item", has(ingredientItem))
-//                                    .save(NbtResultFinishedRecipeAdapter.from(fr, RecipeSerializer.SHAPED_RECIPE,
-//                                            nbt -> nbt.putString("patchouli:book", patchouliBookId.toString()))))
-//                            .build(c, ExtremeReactors.newID("misc/book/" + name));
-//                });
+        Mods.PATCHOULI.map(() -> PatchouliAPI.get().getBookStack(patchouliBookId)).ifPresent(book -> {
+
+                    ConditionalRecipe.builder()
+                            .addCondition(modLoaded(Mods.PATCHOULI.id()))
+                            .addRecipe(fr -> ShapedRecipeBuilder.shaped(book.getItem())
+                                    .define('I', ingredientItem)
+                                    .define('B', ingredientBook)
+                                    .pattern("I")
+                                    .pattern("B")
+                                    .group(GROUP_GENERAL)
+                                    .unlockedBy("has_item", has(ingredientItem))
+                                    .save(NbtResultFinishedRecipeAdapter.from(fr, RecipeSerializer.SHAPED_RECIPE,
+                                            nbt -> nbt.putString("patchouli:book", patchouliBookId.toString()))))
+                            .build(c, ExtremeReactors.newID("misc/book/" + name));
+                });
     }
 
     //endregion

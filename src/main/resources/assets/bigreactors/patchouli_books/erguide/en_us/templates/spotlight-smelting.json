@@ -1,0 +1,19 @@
+{
+    "components": [
+        {
+            "type": "zerocore:zcspt_spotlight",
+            "item": "#spotlightItem",
+            "text": "#spotlightText",
+            "x": 0,
+            "y": 0
+        },
+        {
+            "type": "zerocore:zcspt_smelting",
+            "recipe": "#recipe",
+            "recipe2": "#recipe2",
+            "text": "#recipeText",
+            "x": 0,
+            "y": 115
+        }
+    ]
+}

@@ -29,6 +29,7 @@ import it.zerono.mods.extremereactors.api.reactor.ReactantMappingsRegistry;
 import it.zerono.mods.extremereactors.api.turbine.CoilMaterialRegistry;
 import it.zerono.mods.extremereactors.config.Config;
 import it.zerono.mods.extremereactors.gamecontent.Content;
+import it.zerono.mods.extremereactors.gamecontent.compat.patchouli.PatchouliCompat;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.CachedSprites;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.ChargingPortScreen;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.FluidPortScreen;
@@ -65,6 +66,7 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.Tur
 import it.zerono.mods.zerocore.lib.CodeHelper;
 import it.zerono.mods.zerocore.lib.client.model.ICustomModelBuilder;
 import it.zerono.mods.zerocore.lib.client.model.ModBakedModelSupplier;
+import it.zerono.mods.zerocore.lib.compat.Mods;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.gui.screens.Screen;
@@ -141,8 +143,7 @@ public class ClientProxy
             registerScreens();
             
             // Patchouli multiblock rendering do not support IModelData-based models
-            //TODO 1.17 Patchouli
-            //Mods.PATCHOULI.ifPresent(PatchouliCompat::initialize);
+            Mods.PATCHOULI.ifPresent(PatchouliCompat::initialize);
         });
     }
 
