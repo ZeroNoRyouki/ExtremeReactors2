@@ -105,6 +105,7 @@ public class ReactorRecipeGenerator
         this.reactorFuelRod(c, variant, Content.Items.REACTOR_FUELROD_REINFORCED, metal, alternativeMetal, Tags.Items.GLASS);
         this.reactorControlRod(c, variant, Content.Items.REACTOR_CONTROLROD_REINFORCED, casing, metal, alternativeMetal);
         this.reactorSolidAccessPort(c, variant, Content.Items.REACTOR_SOLID_ACCESSPORT_REINFORCED, casing, metal, alternativeMetal);
+        this.reactorFluidAccessPort(c, variant, Content.Items.REACTOR_FLUID_ACCESSPORT_REINFORCED, casing, metal, alternativeMetal);
         this.reactorPowerTap(c, variant, "fe", Content.Items.REACTOR_POWERTAP_FE_PASSIVE_REINFORCED, Content.Items.REACTOR_POWERTAP_FE_ACTIVE_REINFORCED,
                 casing, () -> net.minecraft.item.Items.REDSTONE_BLOCK, () -> net.minecraft.item.Items.REDSTONE);
         this.reactorRedstonePort(c, variant, Content.Items.REACTOR_REDSTONEPORT_REINFORCED, casing, metal, alternativeMetal, Tags.Items.STORAGE_BLOCKS_GOLD);
@@ -340,6 +341,24 @@ public class ReactorRecipeGenerator
                                 .define('M', metalTag)
                                 .define('H', net.minecraft.item.Items.HOPPER)
                                 .define('W', Tags.Items.CHESTS_WOODEN)
+                                .define('X', net.minecraft.item.Items.PISTON)
+                                .pattern("CHC")
+                                .pattern("MWM")
+                                .pattern("CXC")
+                                .group(GROUP_REACTOR)
+                                .unlockedBy("has_item", has(casing.get())));
+    }
+
+    private void reactorFluidAccessPort(final Consumer<IFinishedRecipe> c, final ReactorVariant variant,
+                                        final Supplier<? extends IItemProvider> result, final Supplier<? extends IItemProvider> casing,
+                                        final ITag.INamedTag<Item> metal, @Nullable final ITag.INamedTag<Item> alternativeMetal) {
+        recipeWithAlternativeTag(c, reactorRecipeName(variant, "fluidaccessport"), reactorRecipeName(variant, "fluidaccessport_alt"),
+                metal, alternativeMetal, metalTag ->
+                        ShapedRecipeBuilder.shaped(result.get())
+                                .define('C', casing.get())
+                                .define('M', metalTag)
+                                .define('H', net.minecraft.item.Items.HOPPER)
+                                .define('W', net.minecraft.item.Items.BUCKET)
                                 .define('X', net.minecraft.item.Items.PISTON)
                                 .pattern("CHC")
                                 .pattern("MWM")
