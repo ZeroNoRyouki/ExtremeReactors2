@@ -82,6 +82,8 @@
         "1.17.1-2.0.35":"- Restored Patchouli support, the in-game book is back and now it can be translated in other languages (new machines still to be added in)\r\n- Updated Patchouli to version 1.17.1.57\r\n- Updated ZeroCore to version to 2.1.11\r\n- Bumped version to 2.0.35"
         ,
         "1.17.1-2.0.36":"- Added missing recipe for the Reactor Fuel Injection Port\r\n- Bumped version to 2.0.36"
+        ,
+        "1.17.1-2.0.37":"- Updated the in-game book with the documentation for the Reprocessor and the Fluidizer\r\n- Bumped version to 2.0.37"
     },
     "1.18.0":{
         "1.18-2.0.32":"- Updated to Minecraft 1.18\r\n- Updated Forge to version 38.0.5\r\n- Updated CC: Tweaked to version 1.99.0\r\n- Updated ZeroCore to version 1.18-2.1.8"
@@ -92,6 +94,8 @@
         "1.18.1-2.0.35":"- Restored Patchouli support, the in-game book is back and now it can be translated in other languages (new machines still to be added in)\r\n- Updated Patchouli to version 1.18.1-61\r\n- Updated ZeroCore to version to 2.1.11\r\n- Bumped version to 2.0.35"
     ,
         "1.18.1-2.0.36":"- Added missing recipe for the Reactor Fuel Injection Port\r\n- Bumped version to 2.0.36"
+    ,
+        "1.18.1-2.0.37":"- Updated the in-game book with the documentation for the Reprocessor and the Fluidizer\r\n- Bumped version to 2.0.37"
     },
     "promos":{
         "1.16.3-latest":"1.16.4-2.0.21",
@@ -100,11 +104,11 @@
         "1.16.4-recommended":"1.16.4-2.0.23",
         "1.16.5-latest":"1.16.5-2.0.37",
         "1.16.5-recommended":"1.16.5-2.0.37",
-        "1.17.1-latest":"1.17.1-2.0.36",
-        "1.17.1-recommended":"1.17.1-2.0.36",
+        "1.17.1-latest":"1.17.1-2.0.37",
+        "1.17.1-recommended":"1.17.1-2.0.37",
         "1.18.0-latest":"1.18-2.0.32",
         "1.18.0-recommended":"1.18-2.0.32",
-        "1.18.1-latest":"1.18-2.0.36",
-        "1.18.1-recommended":"1.18-2.0.36"
+        "1.18.1-latest":"1.18-2.0.37",
+        "1.18.1-recommended":"1.18-2.0.37"
     }
 }
