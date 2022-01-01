@@ -21,8 +21,12 @@ package it.zerono.mods.extremereactors.gamecontent.compat.patchouli;
 import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.config.Config;
 import it.zerono.mods.extremereactors.gamecontent.Content;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.FluidizerPartType;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.MultiblockFluidizer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.MultiblockReactor;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.ReactorPartType;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.MultiblockReprocessor;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.ReprocessorPartType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.MultiblockTurbine;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.TurbinePartType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part.TurbineRotorComponentBlock;
@@ -84,7 +88,6 @@ public final class PatchouliCompat {
                         EmptyModelData.INSTANCE
         );
 
-        //noinspection unchecked
         Patchouli.registerMultiblock(ExtremeReactors.newID("bookturbinerotor"),
                 PatchouliAPI.get().makeMultiblock(new String[][] {
                                 {
@@ -184,7 +187,6 @@ public final class PatchouliCompat {
         );
 
 
-        //noinspection unchecked
         Patchouli.registerMultiblock(ExtremeReactors.newID("bookturbinerotor_coil"),
                 PatchouliAPI.get().makeMultiblock(new String[][] {
                                 {
@@ -283,6 +285,103 @@ public final class PatchouliCompat {
                         'G', Blocks.GOLD_BLOCK.defaultBlockState()),
                 bs -> bs.getBlock().defaultBlockState(),
                 PatchouliCompat::turbineRotorModelDataMapper
+        );
+
+        //noinspection unchecked
+        Patchouli.registerMultiblock(ExtremeReactors.newID("bookreprocessor"),
+                PatchouliAPI.get().makeMultiblock(new String[][] {
+                                {
+                                        "CCC",
+                                        "CWC",
+                                        "CCC",
+                                },
+                                {
+                                        "CCC",
+                                        "C C",
+                                        "CCC",
+                                },
+                                {
+                                        "CCC",
+                                        "C A",
+                                        "CCC",
+                                },
+                                {
+                                        "CCC",
+                                        "C C",
+                                        "CCC",
+                                },
+                                {
+                                        "CCC",
+                                        "E C",
+                                        "CCC",
+                                },
+                                {
+                                        "COC",
+                                        "C C",
+                                        "CXC",
+                                },
+                                {
+                                        "CCC",
+                                        "C0C",
+                                        "CCC",
+                                }
+                        },
+                        '0', Content.Blocks.REPROCESSOR_COLLECTOR.get(),
+                        'C', Content.Blocks.REPROCESSOR_CASING.get(),
+                        'W', Content.Blocks.REPROCESSOR_WASTEINJECTOR.get(),
+                        'O', Content.Blocks.REPROCESSOR_OUTPUTPORT.get(),
+                        'A', Content.Blocks.REPROCESSOR_FLUIDINJECTOR.get(),
+                        'E', Content.Blocks.REPROCESSOR_POWERPORT.get(),
+                        'X', Content.Blocks.REPROCESSOR_CONTROLLER.get()),
+                bs -> bs.getBlock().defaultBlockState(),
+                bs -> (bs.getBlock() instanceof MultiblockPartBlock) ?
+                        new CuboidPartVariantsModelData(((MultiblockPartBlock<MultiblockReprocessor, ReprocessorPartType>)bs.getBlock()).getPartType().ordinal(), 0, BlockFacings.ALL) :
+                        EmptyModelData.INSTANCE
+        );
+
+        //noinspection unchecked
+        Patchouli.registerMultiblock(ExtremeReactors.newID("bookfluidizer"),
+                PatchouliAPI.get().makeMultiblock(new String[][] {
+                                {
+                                        "CCCCC",
+                                        "CCCPC",
+                                        "CCCCC",
+                                        "CCCCC",
+                                        "CCCCC",
+                                },
+                                {
+                                        "CGGGC",
+                                        "O   G",
+                                        "X   G",
+                                        "I   G",
+                                        "CCCCC",
+                                },
+                                {
+                                        "CGGGC",
+                                        "G   G",
+                                        "G   G",
+                                        "G   G",
+                                        "CCCCC",
+                                },
+                                {
+                                        "CCCCC",
+                                        "CCCCC",
+                                        "CC0CC",
+                                        "CCCCC",
+                                        "CCCCC",
+                                }
+                        },
+                        '0', Content.Blocks.FLUIDIZER_CASING.get(),
+                        'C', Content.Blocks.FLUIDIZER_CASING.get(),
+                        'G', Content.Blocks.FLUIDIZER_GLASS.get(),
+                        'P', Content.Blocks.FLUIDIZER_POWERPORT.get(),
+                        'O', Content.Blocks.FLUIDIZER_OUTPUTPORT.get(),
+                        'I', Content.Blocks.FLUIDIZER_SOLIDINJECTOR.get(),
+                        'X', Content.Blocks.FLUIDIZER_CONTROLLER.get()),
+                bs -> bs.getBlock().defaultBlockState(),
+                bs -> (bs.getBlock() instanceof MultiblockPartBlock) ?
+                        new CuboidPartVariantsModelData(((MultiblockPartBlock<MultiblockFluidizer, FluidizerPartType>)bs.getBlock()).getPartType().ordinal(), 0, BlockFacings.ALL) :
+                        EmptyModelData.INSTANCE
         );
     }
 
