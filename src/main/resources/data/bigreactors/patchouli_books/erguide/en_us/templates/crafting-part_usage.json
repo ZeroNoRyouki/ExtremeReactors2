@@ -1,0 +1,16 @@
+{
+    "include": [
+        {
+            "template": "crafting1x",
+            "as": "crafting",
+            "x": 0,
+            "y": 0
+        },
+        {
+            "template": "part_usage",
+            "as": "usage",
+            "x": 0,
+            "y": 70
+        }
+    ]
+}
