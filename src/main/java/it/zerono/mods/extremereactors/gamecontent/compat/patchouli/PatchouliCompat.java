@@ -21,8 +21,11 @@ package it.zerono.mods.extremereactors.gamecontent.compat.patchouli;
 import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.config.Config;
 import it.zerono.mods.extremereactors.gamecontent.Content;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.FluidizerPartType;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.MultiblockFluidizer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.MultiblockReactor;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.ReactorPartType;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.MultiblockReprocessor;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.ReprocessorPartType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.MultiblockTurbine;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.TurbinePartType;
@@ -332,7 +335,52 @@ public final class PatchouliCompat {
                         'X', Content.Blocks.REPROCESSOR_CONTROLLER.get()),
                 bs -> bs.getBlock().defaultBlockState(),
                 bs -> (bs.getBlock() instanceof MultiblockPartBlock) ?
-                        new CuboidPartVariantsModelData(((MultiblockPartBlock<MultiblockReactor, ReprocessorPartType>)bs.getBlock()).getPartType().ordinal(), 0, BlockFacings.ALL) :
+                        new CuboidPartVariantsModelData(((MultiblockPartBlock<MultiblockReprocessor, ReprocessorPartType>)bs.getBlock()).getPartType().ordinal(), 0, BlockFacings.ALL) :
+                        EmptyModelData.INSTANCE
+        );
+
+        //noinspection unchecked
+        Patchouli.registerMultiblock(ExtremeReactors.newID("bookfluidizer"),
+                PatchouliAPI.get().makeMultiblock(new String[][] {
+                                {
+                                        "CCCCC",
+                                        "CCCPC",
+                                        "CCCCC",
+                                        "CCCCC",
+                                        "CCCCC",
+                                },
+                                {
+                                        "CGGGC",
+                                        "O   G",
+                                        "X   G",
+                                        "I   G",
+                                        "CCCCC",
+                                },
+                                {
+                                        "CGGGC",
+                                        "G   G",
+                                        "G   G",
+                                        "G   G",
+                                        "CCCCC",
+                                },
+                                {
+                                        "CCCCC",
+                                        "CCCCC",
+                                        "CC0CC",
+                                        "CCCCC",
+                                        "CCCCC",
+                                }
+                        },
+                        '0', Content.Blocks.FLUIDIZER_CASING.get(),
+                        'C', Content.Blocks.FLUIDIZER_CASING.get(),
+                        'G', Content.Blocks.FLUIDIZER_GLASS.get(),
+                        'P', Content.Blocks.FLUIDIZER_POWERPORT.get(),
+                        'O', Content.Blocks.FLUIDIZER_OUTPUTPORT.get(),
+                        'I', Content.Blocks.FLUIDIZER_SOLIDINJECTOR.get(),
+                        'X', Content.Blocks.FLUIDIZER_CONTROLLER.get()),
+                bs -> bs.getBlock().defaultBlockState(),
+                bs -> (bs.getBlock() instanceof MultiblockPartBlock) ?
+                        new CuboidPartVariantsModelData(((MultiblockPartBlock<MultiblockFluidizer, FluidizerPartType>)bs.getBlock()).getPartType().ordinal(), 0, BlockFacings.ALL) :
                         EmptyModelData.INSTANCE
         );
     }
