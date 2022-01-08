@@ -16,7 +16,7 @@
             "type": "crafting-part_usage",
             "crafting.title1": "Solid Injector",
             "crafting.recipe1": "bigreactors:fluidizer/solidinjector",
-            "usage.text": "$(l)Mandatory:$() see $(l:bigreactors:fluidizer/operational_mode)operational mode$(/l)$(br)$(l)Valid positions:$() any face (not on frame)$(br)$(l)Graphical interface:$() no"
+            "usage.text": "$(l)Mandatory:$() see $(l:bigreactors:fluidizer/operational_mode)operational mode$(/l)$(br)$(l)Valid positions:$() any face (not on frame)$(br)$(l)Graphical interface:$() yes"
         }
     ]
 }

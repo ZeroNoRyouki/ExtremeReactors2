@@ -21,6 +21,7 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.client
 import com.google.common.collect.ImmutableList;
 import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.gamecontent.CommonConstants;
+import it.zerono.mods.extremereactors.gamecontent.compat.patchouli.PatchouliCompat;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.AbstractMultiblockScreen;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.CachedSprites;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.CommonIcons;
@@ -91,8 +92,7 @@ public class ReprocessorControllerScreen
 
         Panel p;
 
-        //TODO add Reprocessor to Patchouli book
-//        this.addPatchouliHelpButton(PatchouliCompat.HANDBOOK_ID, ExtremeReactors.newID("reactor/part-controller"), 1);
+        this.addPatchouliHelpButton(PatchouliCompat.HANDBOOK_ID, ExtremeReactors.newID("reprocessor/part-controller"), 1);
 
         super.onScreenCreate();
 

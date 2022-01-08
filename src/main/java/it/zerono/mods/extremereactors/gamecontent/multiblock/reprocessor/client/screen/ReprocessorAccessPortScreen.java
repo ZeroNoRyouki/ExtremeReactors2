@@ -55,8 +55,9 @@ public class ReprocessorAccessPortScreen
     @Override
     protected void onScreenCreate() {
 
-        //TODO add Reprocessor to Patchouli book
-//        this.addPatchouliHelpButton(PatchouliCompat.HANDBOOK_ID, ExtremeReactors.newID("reactor/part-solidaccessport"), 1);
+        final boolean inletMode = this.getTileEntity().getDirection().isInput();
+
+        this.addPatchouliHelpButton(PatchouliCompat.HANDBOOK_ID, ExtremeReactors.newID(inletMode ? "reprocessor/part-wasteinjector" : "reprocessor/part-outputport"), 1);
 
         super.onScreenCreate();
 
@@ -68,8 +69,7 @@ public class ReprocessorAccessPortScreen
         panel.setLayoutEngine(new VerticalLayoutEngine()
                 .setHorizontalAlignment(HorizontalAlignment.Center)
                 .setZeroMargins());
-        panel.addControl(this.slotPanel("slot", "inv", 79*0, 0,
-                this.getTileEntity().getDirection().isInput() ? CommonIcons.PortInputSlot : CommonIcons.PortOutputSlot));
+        panel.addControl(this.slotPanel("slot", "inv", 79*0, 0, inletMode ? CommonIcons.PortInputSlot : CommonIcons.PortOutputSlot));
         this.addControl(panel);
 
         // - player main inventory slots
