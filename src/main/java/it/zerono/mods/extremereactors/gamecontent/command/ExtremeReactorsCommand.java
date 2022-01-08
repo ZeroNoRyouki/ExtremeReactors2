@@ -28,15 +28,20 @@ import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import it.zerono.mods.extremereactors.Log;
 import it.zerono.mods.extremereactors.api.reactor.*;
+import it.zerono.mods.extremereactors.api.turbine.CoilMaterial;
+import it.zerono.mods.extremereactors.api.turbine.CoilMaterialRegistry;
 import it.zerono.mods.zerocore.lib.data.gfx.Colour;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
+import net.minecraft.command.arguments.ResourceLocationArgument;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 
 import java.lang.reflect.Field;
+import java.util.Optional;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -82,6 +87,21 @@ public final class ExtremeReactorsCommand {
                                 )
                         )
                 )
+                .then(Commands.literal("coils")
+                        .then(Commands.literal("get")
+                                .then(tagIdParam().executes(ExtremeReactorsCommand::getCoil))
+                        )
+                        .then(Commands.literal("set")
+                                .then(tagIdParam()
+                                        .then(floatCommand("efficiency", 0.0f, context -> setCoilValue(context,
+                                                CoilMaterial::getEfficiency, CoilMaterial::setEfficiency)))
+                                        .then(floatCommand("bonus", 0.0f, context -> setCoilValue(context,
+                                                CoilMaterial::getBonus, CoilMaterial::setBonus)))
+                                        .then(floatCommand("energyExtractionRate", 0.0f, context -> setCoilValue(context,
+                                                CoilMaterial::getEnergyExtractionRate, CoilMaterial::setEnergyExtractionRate)))
+                                )
+                        )
+                )
         );
     }
 
@@ -113,8 +133,16 @@ public final class ExtremeReactorsCommand {
         return Commands.argument(PARAM_NAME, StringArgumentType.string());
     }
 
+    private static RequiredArgumentBuilder<CommandSource, ResourceLocation> tagIdParam() {
+        return Commands.argument(PARAM_TAG, ResourceLocationArgument.id());
+    }
+
     private static String getName(final CommandContext<CommandSource> context) {
         return StringArgumentType.getString(context, PARAM_NAME);
+    }
+
+    private static ResourceLocation getTagId(final CommandContext<CommandSource> context) {
+        return ResourceLocationArgument.getId(context, PARAM_TAG);
     }
 
     private static String getString(final CommandContext<CommandSource> context) {
@@ -166,17 +194,9 @@ public final class ExtremeReactorsCommand {
 
         context.getSource().sendSuccess(ReactantsRegistry.get(getName(context))
                 .filter(r -> r.test(ReactantType.Fuel))
-                .map(r -> setReactantFuelValue(r, getFloat(context), getter, setter))
+                .map(r -> setValue(r, getFloat(context), getter, setter))
                 .orElse(new StringTextComponent("Fuel Reactant not found")), true);
         return 0;
-    }
-
-    private static ITextComponent setReactantFuelValue(final Reactant reactant, final float value,
-                                                       final Function<Reactant, Float> getter,
-                                                       final BiConsumer<Reactant, Float> setter) {
-
-        setter.accept(reactant, value);
-        return new StringTextComponent(String.format("Value set to %f", getter.apply(reactant)));
     }
 
     private static ITextComponent getTextFrom(final Reactant reactant) {
@@ -217,10 +237,10 @@ public final class ExtremeReactorsCommand {
 
     private static ITextComponent getTextFrom(final Reaction reaction) {
         return new StringTextComponent(String.format("[" +
-                TextFormatting.BOLD + "%s" + TextFormatting.RESET + " -> " +
-                TextFormatting.BOLD + "%s" + TextFormatting.RESET + "] " +
-                TextFormatting.ITALIC + "reactivity: " + TextFormatting.RESET + "%f; " +
-                TextFormatting.ITALIC + "fissionRate: " + TextFormatting.RESET + "%f",
+                        TextFormatting.BOLD + "%s" + TextFormatting.RESET + " -> " +
+                        TextFormatting.BOLD + "%s" + TextFormatting.RESET + "] " +
+                        TextFormatting.ITALIC + "reactivity: " + TextFormatting.RESET + "%f; " +
+                        TextFormatting.ITALIC + "fissionRate: " + TextFormatting.RESET + "%f",
                 reaction.getSource(), reaction.getProduct(), reaction.getReactivity(), reaction.getFissionRate()));
     }
 
@@ -248,8 +268,48 @@ public final class ExtremeReactorsCommand {
     }
 
     //endregion
+    //region coils
+
+    private static int getCoil(final CommandContext<CommandSource> context) {
+
+        context.getSource().sendSuccess(getCoilByName(context)
+                .map(ExtremeReactorsCommand::getTextFrom)
+                .orElse(new StringTextComponent("Coil not found")), true);
+        return 0;
+    }
+
+    private static int setCoilValue(final CommandContext<CommandSource> context, final Function<CoilMaterial, Float> getter,
+                                    final BiConsumer<CoilMaterial, Float> setter) {
+
+        context.getSource().sendSuccess(getCoilByName(context)
+                .map(c -> setValue(c, getFloat(context), getter, setter))
+                .orElse(new StringTextComponent("Coil not found")), true);
+        return 0;
+    }
+
+    private static ITextComponent getTextFrom(final CoilMaterial coil) {
+        return new StringTextComponent(String.format(
+                TextFormatting.ITALIC + "efficiency: " + TextFormatting.RESET + "%f; " +
+                        TextFormatting.ITALIC + "bonus: " + TextFormatting.RESET + "%f; " +
+                        TextFormatting.ITALIC + "energyExtractionRate: " + TextFormatting.RESET + "%f",
+                coil.getEfficiency(), coil.getBonus(), coil.getEnergyExtractionRate()));
+    }
+
+    private static Optional<CoilMaterial> getCoilByName(final CommandContext<CommandSource> context) {
+        return CoilMaterialRegistry.get(getTagId(context));
+    }
+
+    //endregion
+
+    private static <T> ITextComponent setValue(final T coil, final float value, final Function<T, Float> getter,
+                                               final BiConsumer<T, Float> setter) {
+
+        setter.accept(coil, value);
+        return new StringTextComponent(String.format("Value set to %f", getter.apply(coil)));
+    }
 
     private static final String PARAM_NAME = "name";
+    private static final String PARAM_TAG = "tag";
     private static final String PARAM_VALUE = "value";
 
     //endregion
