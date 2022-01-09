@@ -58,7 +58,7 @@ public class ReprocessorRecipeCategory
 
     public ReprocessorRecipeCategory(final IGuiHelper guiHelper) {
 
-        super(ReprocessorRecipe.ID, new TranslationTextComponent("compat.bigreactors.jei.common.recipecategory.title"),
+        super(ReprocessorRecipe.ID, new TranslationTextComponent("compat.bigreactors.jei.reprocessor.recipecategory.title"),
                 Content.Blocks.REPROCESSOR_WASTEINJECTOR.get().createItemStack(), guiHelper,
                 guiHelper.drawableBuilder(ExtremeReactors.newID("textures/gui/jei/reprocessor.png"), 0, 0, 96, 96)
                         .setTextureSize(96, 96)
@@ -126,7 +126,7 @@ public class ReprocessorRecipeCategory
         this._powerBar.setProgress(MultiblockReprocessor.ENERGY_CAPACITY, MultiblockReprocessor.TICKS * MultiblockReprocessor.TICK_ENERGY_COST);
 
         this._powerBarTooltips = new ObjectArrayList<>(3);
-        this._powerBarTooltips.add(new TranslationTextComponent("compat.bigreactors.jei.reprocessor.recipecategory.energy.tooltip.title")
+        this._powerBarTooltips.add(new TranslationTextComponent("compat.bigreactors.jei.common.recipecategory.energy.tooltip.title")
                 .setStyle(CommonConstants.STYLE_TOOLTIP_TITLE));
         this._powerBarTooltips.add(CodeHelper.TEXT_EMPTY_LINE);
         this._powerBarTooltips.add(new StringTextComponent(String.format("%d FE", MultiblockReprocessor.TICK_ENERGY_COST * MultiblockReprocessor.TICKS))
