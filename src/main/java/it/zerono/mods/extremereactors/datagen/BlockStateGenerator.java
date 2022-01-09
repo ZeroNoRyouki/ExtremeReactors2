@@ -43,6 +43,7 @@ public class BlockStateGenerator
 
         this.simpleBlocksAndItems(Content.Blocks.YELLORIUM_BLOCK, Content.Blocks.CYANITE_BLOCK,
                 Content.Blocks.GRAPHITE_BLOCK, Content.Blocks.BLUTONIUM_BLOCK, Content.Blocks.MAGENTITE_BLOCK,
+                Content.Blocks.LUDICRITE_BLOCK, Content.Blocks.RIDICULITE_BLOCK, Content.Blocks.INANITE_BLOCK,
                 Content.Blocks.YELLORITE_ORE_BLOCK, Content.Blocks.ANGLESITE_ORE_BLOCK, Content.Blocks.BENITOITE_ORE_BLOCK);
     }
 

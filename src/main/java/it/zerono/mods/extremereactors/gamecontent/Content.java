@@ -115,6 +115,10 @@ public final class Content {
         public static final RegistryObject<ModBlock> BLUTONIUM_BLOCK = registerMetalBlock(Reactants.Blutonium.getBlockName(), DyeColor.PURPLE);
         public static final RegistryObject<ModBlock> MAGENTITE_BLOCK = registerMetalBlock(Reactants.Magentite.getBlockName(), DyeColor.MAGENTA);
 
+        public static final RegistryObject<ModBlock> LUDICRITE_BLOCK = registerMetalBlock("ludicrite_block", DyeColor.PURPLE);
+        public static final RegistryObject<ModBlock> RIDICULITE_BLOCK = registerMetalBlock("ridiculite_block", DyeColor.PINK);
+        public static final RegistryObject<ModBlock> INANITE_BLOCK = registerMetalBlock("inanite_block", DyeColor.RED);
+
         //endregion
         //region ores
 
@@ -152,8 +156,7 @@ public final class Content {
                 () -> new ReactantFluid.Block(Fluids.ROSSINITE_SOURCE));
 
         //endregion
-        //region reactor
-        //region basic
+        //region reactor basic
 
         public static final RegistryObject<MultiblockPartBlock<MultiblockReactor, ReactorPartType>> REACTOR_CASING_BASIC =
                 registerReactorBlock("basic_reactorcasing", ReactorVariant.Basic, ReactorPartType.Casing);
@@ -186,7 +189,7 @@ public final class Content {
                 registerReactorBlock("basic_reactorchargingportfe", ReactorVariant.Basic, ReactorPartType.ChargingPortFE);
 
         //endregion
-        //region reinforced
+        //region reactor reinforced
 
         public static final RegistryObject<MultiblockPartBlock<MultiblockReactor, ReactorPartType>> REACTOR_CASING_REINFORCED =
                 registerReactorBlock("reinforced_reactorcasing", ReactorVariant.Reinforced, ReactorPartType.Casing);
@@ -237,9 +240,7 @@ public final class Content {
                 registerReactorBlock("reinforced_reactorchargingportfe", ReactorVariant.Reinforced, ReactorPartType.ChargingPortFE);
 
         //endregion
-        //endregion
-        //region turbine
-        //region basic
+        //region turbine basic
 
         public static final RegistryObject<MultiblockPartBlock<MultiblockTurbine, TurbinePartType>> TURBINE_CASING_BASIC =
                 registerTurbineBlock("basic_turbinecasing", TurbineVariant.Basic, TurbinePartType.Casing);
@@ -281,7 +282,7 @@ public final class Content {
                 registerTurbineBlock("basic_turbinechargingportfe", TurbineVariant.Basic, TurbinePartType.ChargingPortFE);
 
         //endregion
-        //region reinforced
+        //region turbine reinforced
 
         public static final RegistryObject<MultiblockPartBlock<MultiblockTurbine, TurbinePartType>> TURBINE_CASING_REINFORCED =
                 registerTurbineBlock("reinforced_turbinecasing", TurbineVariant.Reinforced, TurbinePartType.Casing);
@@ -325,7 +326,6 @@ public final class Content {
         public static final RegistryObject<GenericDeviceBlock<MultiblockTurbine, TurbinePartType>> TURBINE_CHARGINGPORT_FE_REINFORCED =
                 registerTurbineBlock("reinforced_turbinechargingportfe", TurbineVariant.Reinforced, TurbinePartType.ChargingPortFE);
 
-        //endregion
         //endregion
         //region reprocessor
 
@@ -445,18 +445,27 @@ public final class Content {
         public static final RegistryObject<ModItem> GRAPHITE_INGOT = registerItemGeneric("graphite_ingot");
         public static final RegistryObject<ModItem> BLUTONIUM_INGOT = registerItemGeneric(Reactants.Blutonium.getIngotName());
         public static final RegistryObject<ModItem> MAGENTITE_INGOT = registerItemGeneric(Reactants.Magentite.getIngotName());
+        public static final RegistryObject<ModItem> LUDICRITE_INGOT = registerItemGeneric("ludicrite_ingot");
+        public static final RegistryObject<ModItem> RIDICULITE_INGOT = registerItemGeneric("ridiculite_ingot");
+        public static final RegistryObject<ModItem> INANITE_INGOT = registerItemGeneric("inanite_ingot");
 
         public static final RegistryObject<ModItem> YELLORIUM_DUST = registerItemGeneric(Reactants.Yellorium.getDustName());
         public static final RegistryObject<ModItem> CYANITE_DUST = registerItemGeneric(Reactants.Cyanite.getDustName());
         public static final RegistryObject<ModItem> GRAPHITE_DUST = registerItemGeneric("graphite_dust");
         public static final RegistryObject<ModItem> BLUTONIUM_DUST = registerItemGeneric(Reactants.Blutonium.getDustName());
         public static final RegistryObject<ModItem> MAGENTITE_DUST = registerItemGeneric(Reactants.Magentite.getDustName());
+        public static final RegistryObject<ModItem> LUDICRITE_DUST = registerItemGeneric("ludicrite_dust");
+        public static final RegistryObject<ModItem> RIDICULITE_DUST = registerItemGeneric("ridiculite_dust");
+        public static final RegistryObject<ModItem> INANITE_DUST = registerItemGeneric("inanite_dust");
 
         public static final RegistryObject<BlockItem> YELLORIUM_BLOCK = registerItemBlock(Reactants.Yellorium.getBlockName(), () -> Blocks.YELLORIUM_BLOCK, ItemGroups.GENERAL);
         public static final RegistryObject<BlockItem> CYANITE_BLOCK = registerItemBlock(Reactants.Cyanite.getBlockName(), () -> Blocks.CYANITE_BLOCK, ItemGroups.GENERAL);
         public static final RegistryObject<BlockItem> GRAPHITE_BLOCK = registerItemBlock("graphite_block", () -> Blocks.GRAPHITE_BLOCK, ItemGroups.GENERAL);
         public static final RegistryObject<BlockItem> BLUTONIUM_BLOCK = registerItemBlock(Reactants.Blutonium.getBlockName(), () -> Blocks.BLUTONIUM_BLOCK, ItemGroups.GENERAL);
         public static final RegistryObject<BlockItem> MAGENTITE_BLOCK = registerItemBlock(Reactants.Magentite.getBlockName(), () -> Blocks.MAGENTITE_BLOCK, ItemGroups.GENERAL);
+        public static final RegistryObject<BlockItem> LUDICRITE_BLOCK = registerItemBlock("ludicrite_block", () -> Blocks.LUDICRITE_BLOCK, ItemGroups.GENERAL);
+        public static final RegistryObject<BlockItem> RIDICULITE_BLOCK = registerItemBlock("ridiculite_block", () -> Blocks.RIDICULITE_BLOCK, ItemGroups.GENERAL);
+        public static final RegistryObject<BlockItem> INANITE_BLOCK = registerItemBlock("inanite_block", () -> Blocks.INANITE_BLOCK, ItemGroups.GENERAL);
 
         //endregion
         //region crystals
@@ -483,8 +492,8 @@ public final class Content {
         public static final RegistryObject<BucketItem> ROSSINITE_BUCKET = registerBucket(Reactants.Rossinite.getBucketName(), Fluids.ROSSINITE_SOURCE);
 
         //endregion
-        //region reactor
-        //region basic
+        //region reactor basic
+
         public static final RegistryObject<BlockItem> REACTOR_CASING_BASIC = registerItemBlock("basic_reactorcasing", () -> Blocks.REACTOR_CASING_BASIC::get, ItemGroups.REACTOR);
         public static final RegistryObject<BlockItem> REACTOR_GLASS_BASIC = registerItemBlock("basic_reactorglass", () -> Blocks.REACTOR_GLASS_BASIC::get, ItemGroups.REACTOR);
         public static final RegistryObject<BlockItem> REACTOR_CONTROLLER_BASIC = registerItemBlock("basic_reactorcontroller", () -> Blocks.REACTOR_CONTROLLER_BASIC::get, ItemGroups.REACTOR);
@@ -495,8 +504,10 @@ public final class Content {
         public static final RegistryObject<BlockItem> REACTOR_POWERTAP_FE_PASSIVE_BASIC = registerItemBlock("basic_reactorpowertapfe_passive", () -> Blocks.REACTOR_POWERTAP_FE_PASSIVE_BASIC::get, ItemGroups.REACTOR);
         public static final RegistryObject<BlockItem> REACTOR_REDSTONEPORT_BASIC = registerItemBlock("basic_reactorredstoneport", () -> Blocks.REACTOR_REDSTONEPORT_BASIC::get, ItemGroups.REACTOR);
         public static final RegistryObject<BlockItem> REACTOR_CHARGINGPORT_FE_BASIC = registerItemBlock("basic_reactorchargingportfe", () -> Blocks.REACTOR_CHARGINGPORT_FE_BASIC::get, ItemGroups.REACTOR);
+
         //endregion
-        //region reinforced
+        //region reactor reinforced
+
         public static final RegistryObject<BlockItem> REACTOR_CASING_REINFORCED = registerItemBlock("reinforced_reactorcasing", () -> Blocks.REACTOR_CASING_REINFORCED::get, ItemGroups.REACTOR);
         public static final RegistryObject<BlockItem> REACTOR_GLASS_REINFORCED = registerItemBlock("reinforced_reactorglass", () -> Blocks.REACTOR_GLASS_REINFORCED::get, ItemGroups.REACTOR);
         public static final RegistryObject<BlockItem> REACTOR_CONTROLLER_REINFORCED = registerItemBlock("reinforced_reactorcontroller", () -> Blocks.REACTOR_CONTROLLER_REINFORCED::get, ItemGroups.REACTOR);
@@ -513,10 +524,10 @@ public final class Content {
         public static final RegistryObject<BlockItem> REACTOR_FLUIDPORT_MEKANISM_PASSIVE_REINFORCED = registerItemBlock("reinforced_reactorfluidport_mekanism_passive", () -> Blocks.REACTOR_FLUIDPORT_MEKANISM_PASSIVE_REINFORCED::get, ItemGroups.REACTOR);
         public static final RegistryObject<BlockItem> REACTOR_CREATIVE_WATER_GENERATOR_REINFORCED = registerItemBlock("reinforced_reactorcreativewatergenerator", () -> Blocks.REACTOR_CREATIVE_WATER_GENERATOR_REINFORCED::get, ItemGroups.REACTOR);
         public static final RegistryObject<BlockItem> REACTOR_CHARGINGPORT_FE_REINFORCED = registerItemBlock("reinforced_reactorchargingportfe", () -> Blocks.REACTOR_CHARGINGPORT_FE_REINFORCED::get, ItemGroups.REACTOR);
+
         //endregion
-        //endregion
-        //region turbine
-        //region basic
+        //region turbine basic
+
         public static final RegistryObject<BlockItem> TURBINE_CASING_BASIC = registerItemBlock("basic_turbinecasing", () -> Blocks.TURBINE_CASING_BASIC::get, ItemGroups.TURBINE);
         public static final RegistryObject<BlockItem> TURBINE_GLASS_BASIC = registerItemBlock("basic_turbineglass", () -> Blocks.TURBINE_GLASS_BASIC::get, ItemGroups.TURBINE);
         public static final RegistryObject<BlockItem> TURBINE_CONTROLLER_BASIC = registerItemBlock("basic_turbinecontroller", () -> Blocks.TURBINE_CONTROLLER_BASIC::get, ItemGroups.TURBINE);
@@ -530,8 +541,10 @@ public final class Content {
         public static final RegistryObject<BlockItem> TURBINE_REDSTONEPORT_BASIC = registerItemBlock("basic_turbineredstoneport", () -> Blocks.TURBINE_REDSTONEPORT_BASIC::get, ItemGroups.TURBINE);
         public static final RegistryObject<BlockItem> TURBINE_CREATIVE_STEAM_GENERATOR_BASIC = registerItemBlock("basic_turbinecreativesteamgenerator", () -> Blocks.TURBINE_CREATIVE_STEAM_GENERATOR_BASIC::get, ItemGroups.TURBINE);
         public static final RegistryObject<BlockItem> TURBINE_CHARGINGPORT_FE_BASIC = registerItemBlock("basic_turbinechargingportfe", () -> Blocks.TURBINE_CHARGINGPORT_FE_BASIC::get, ItemGroups.TURBINE);
+
         //endregion
-        //region reinforced
+        //region turbine reinforced
+
         public static final RegistryObject<BlockItem> TURBINE_CASING_REINFORCED = registerItemBlock("reinforced_turbinecasing", () -> Blocks.TURBINE_CASING_REINFORCED::get, ItemGroups.TURBINE);
         public static final RegistryObject<BlockItem> TURBINE_GLASS_REINFORCED = registerItemBlock("reinforced_turbineglass", () -> Blocks.TURBINE_GLASS_REINFORCED::get, ItemGroups.TURBINE);
         public static final RegistryObject<BlockItem> TURBINE_CONTROLLER_REINFORCED = registerItemBlock("reinforced_turbinecontroller", () -> Blocks.TURBINE_CONTROLLER_REINFORCED::get, ItemGroups.TURBINE);
@@ -546,7 +559,7 @@ public final class Content {
         public static final RegistryObject<BlockItem> TURBINE_COMPUTERPORT_REINFORCED = registerItemBlock("reinforced_turbinecomputerport", () -> Blocks.TURBINE_COMPUTERPORT_REINFORCED::get, ItemGroups.TURBINE);
         public static final RegistryObject<BlockItem> TURBINE_CREATIVE_STEAM_GENERATOR_REINFORCED = registerItemBlock("reinforced_turbinecreativesteamgenerator", () -> Blocks.TURBINE_CREATIVE_STEAM_GENERATOR_REINFORCED::get, ItemGroups.TURBINE);
         public static final RegistryObject<BlockItem> TURBINE_CHARGINGPORT_FE_REINFORCED = registerItemBlock("reinforced_turbinechargingportfe", () -> Blocks.TURBINE_CHARGINGPORT_FE_REINFORCED::get, ItemGroups.TURBINE);
-        //endregion
+
         //endregion
         //region reprocessor
 

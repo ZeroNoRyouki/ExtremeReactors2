@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "bigreactors:general",
+  "pattern": [
+    "III",
+    "ISI",
+    "III"
+  ],
+  "key": {
+    "I": {
+      "item": "bigreactors:ludicrite_ingot"
+    },
+    "S": {
+      "item": "minecraft:netherite_block"
+    }
+  },
+  "result": {
+    "item": "bigreactors:ludicrite_block"
+  }
+}

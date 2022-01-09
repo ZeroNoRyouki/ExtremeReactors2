@@ -66,18 +66,27 @@ public class ItemTagGenerator
         this.build(ContentTags.Items.INGOTS_GRAPHITE, Items.GRAPHITE_INGOT);
         this.build(ContentTags.Items.INGOTS_BLUTONIUM, Items.BLUTONIUM_INGOT);
         this.build(ContentTags.Items.INGOTS_MAGENTITE, Items.MAGENTITE_INGOT);
+        this.build(ContentTags.Items.INGOTS_LUDICRITE, Items.LUDICRITE_INGOT);
+        this.build(ContentTags.Items.INGOTS_RIDICULITE, Items.RIDICULITE_INGOT);
+        this.build(ContentTags.Items.INGOTS_INANITE, Items.INANITE_INGOT);
 
         this.build(ContentTags.Items.DUSTS_YELLORIUM, Items.YELLORIUM_DUST);
         this.build(ContentTags.Items.DUSTS_CYANITE, Items.CYANITE_DUST);
         this.build(ContentTags.Items.DUSTS_GRAPHITE, Items.GRAPHITE_DUST);
         this.build(ContentTags.Items.DUSTS_BLUTONIUM, Items.BLUTONIUM_DUST);
         this.build(ContentTags.Items.DUSTS_MAGENTITE, Items.MAGENTITE_DUST);
+        this.build(ContentTags.Items.DUSTS_LUDICRITE, Items.LUDICRITE_DUST);
+        this.build(ContentTags.Items.DUSTS_RIDICULITE, Items.RIDICULITE_DUST);
+        this.build(ContentTags.Items.DUSTS_INANITE, Items.INANITE_DUST);
 
         this.build(ContentTags.Items.BLOCKS_YELLORIUM, Items.YELLORIUM_BLOCK);
         this.build(ContentTags.Items.BLOCKS_CYANITE, Items.CYANITE_BLOCK);
         this.build(ContentTags.Items.BLOCKS_GRAPHITE, Items.GRAPHITE_BLOCK);
         this.build(ContentTags.Items.BLOCKS_BLUTONIUM, Items.BLUTONIUM_BLOCK);
         this.build(ContentTags.Items.BLOCKS_MAGENTITE, Items.MAGENTITE_BLOCK);
+        this.build(ContentTags.Items.BLOCKS_LUDICRITE, Items.LUDICRITE_BLOCK);
+        this.build(ContentTags.Items.BLOCKS_RIDICULITE, Items.RIDICULITE_BLOCK);
+        this.build(ContentTags.Items.BLOCKS_INANITE, Items.INANITE_BLOCK);
 
         this.build(ContentTags.Items.WRENCH, Items.WRENCH);
 

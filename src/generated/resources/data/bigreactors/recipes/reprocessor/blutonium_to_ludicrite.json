@@ -1,0 +1,18 @@
+{
+  "type": "bigreactors:reprocessor",
+  "waste": {
+    "ingredient": {
+      "item": "bigreactors:blutonium_ingot"
+    },
+    "count": 2
+  },
+  "fluid": {
+    "fluid": {
+      "fluid": "minecraft:lava",
+      "count": 1000
+    }
+  },
+  "result": {
+    "item": "bigreactors:ludicrite_ingot"
+  }
+}
