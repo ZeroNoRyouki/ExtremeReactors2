@@ -23,6 +23,9 @@
     "item.bigreactors.ridiculite_ingot": "Barra de Ridiculite",
     "item.bigreactors.inanite_ingot": "Barra de Inanite",
 
+    "_comment": "Items - nuggets",
+    "item.bigreactors.yellorium_nugget": "Yellorium Nugget",
+    "item.bigreactors.blutonium_nugget": "Blutonium Nugget",
 
     "_comment": "Itens - pós",
     "item.bigreactors.yellorium_dust": "Pó de Yellório",

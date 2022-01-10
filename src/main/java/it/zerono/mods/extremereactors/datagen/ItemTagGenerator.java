@@ -70,6 +70,10 @@ public class ItemTagGenerator
         this.build(ContentTags.Items.INGOTS_RIDICULITE, Items.RIDICULITE_INGOT);
         this.build(ContentTags.Items.INGOTS_INANITE, Items.INANITE_INGOT);
 
+        this.build(Tags.Items.NUGGETS, Items.YELLORIUM_NUGGET, Items.BLUTONIUM_NUGGET);
+        this.build(ContentTags.Items.NUGGETS_YELLORIUM, Items.YELLORIUM_NUGGET);
+        this.build(ContentTags.Items.NUGGETS_BLUTONIUM, Items.BLUTONIUM_NUGGET);
+
         this.build(ContentTags.Items.DUSTS_YELLORIUM, Items.YELLORIUM_DUST);
         this.build(ContentTags.Items.DUSTS_CYANITE, Items.CYANITE_DUST);
         this.build(ContentTags.Items.DUSTS_GRAPHITE, Items.GRAPHITE_DUST);

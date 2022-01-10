@@ -64,6 +64,9 @@ public class ContentTags {
         public static final ITag.INamedTag<Item> INGOTS_RIDICULITE = forgeTag("ingots/ridiculite");
         public static final ITag.INamedTag<Item> INGOTS_INANITE = forgeTag("ingots/inanite");
 
+        public static final ITag.INamedTag<Item> NUGGETS_YELLORIUM = forgeTag("nuggets/yellorium");
+        public static final ITag.INamedTag<Item> NUGGETS_BLUTONIUM = forgeTag("nuggets/blutonium");
+
         public static final ITag.INamedTag<Item> DUSTS_YELLORIUM = forgeTag("dusts/yellorium");
         public static final ITag.INamedTag<Item> DUSTS_CYANITE = forgeTag("dusts/cyanite");
         public static final ITag.INamedTag<Item> DUSTS_GRAPHITE = forgeTag("dusts/graphite");
