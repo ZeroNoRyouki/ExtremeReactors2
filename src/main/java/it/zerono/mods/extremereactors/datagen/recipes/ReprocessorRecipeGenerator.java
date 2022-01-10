@@ -70,7 +70,7 @@ public class ReprocessorRecipeGenerator
                 .build(c, ExtremeReactors.newID("reprocessor/cyanite_to_blutonium"));
 
         ReprocessorRecipe.builder(ItemStackRecipeIngredient.from(Content.Items.BLUTONIUM_INGOT.get(), 2),
-                        FluidStackRecipeIngredient.from(Fluids.LAVA, 1000),
+                        FluidStackRecipeIngredient.from(Content.Fluids.CYANITE_SOURCE.get(), 1000),
                         ItemStackRecipeResult.from(Content.Items.LUDICRITE_INGOT.get()))
                 .build(c, ExtremeReactors.newID("reprocessor/blutonium_to_ludicrite"));
 

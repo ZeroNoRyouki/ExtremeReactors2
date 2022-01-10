@@ -8,7 +8,7 @@
   },
   "fluid": {
     "fluid": {
-      "fluid": "minecraft:lava",
+      "fluid": "bigreactors:cyanite",
       "count": 1000
     }
   },
