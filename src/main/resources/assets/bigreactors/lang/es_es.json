@@ -23,6 +23,10 @@
     "item.bigreactors.ridiculite_ingot": "Lingote de Ridiculite",
     "item.bigreactors.inanite_ingot": "Lingote de Inanite",
 
+    "_comment": "Items - nuggets",
+    "item.bigreactors.yellorium_nugget": "Yellorium Nugget",
+    "item.bigreactors.blutonium_nugget": "Blutonium Nugget",
+
     "_comment": "Items - polvos",
     "item.bigreactors.yellorium_dust": "Polvo de Yellorio",
     "item.bigreactors.cyanite_dust": "Polvo de Cianita",

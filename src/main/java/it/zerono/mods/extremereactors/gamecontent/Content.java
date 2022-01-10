@@ -449,6 +449,9 @@ public final class Content {
         public static final RegistryObject<ModItem> RIDICULITE_INGOT = registerItemGeneric("ridiculite_ingot");
         public static final RegistryObject<ModItem> INANITE_INGOT = registerItemGeneric("inanite_ingot");
 
+        public static final RegistryObject<ModItem> YELLORIUM_NUGGET = registerItemGeneric(Reactants.Yellorium.getNuggetName());
+        public static final RegistryObject<ModItem> BLUTONIUM_NUGGET = registerItemGeneric(Reactants.Blutonium.getNuggetName());
+
         public static final RegistryObject<ModItem> YELLORIUM_DUST = registerItemGeneric(Reactants.Yellorium.getDustName());
         public static final RegistryObject<ModItem> CYANITE_DUST = registerItemGeneric(Reactants.Cyanite.getDustName());
         public static final RegistryObject<ModItem> GRAPHITE_DUST = registerItemGeneric("graphite_dust");

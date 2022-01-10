@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "bigreactors:general",
+  "ingredients": [
+    {
+      "item": "bigreactors:blutonium_ingot"
+    }
+  ],
+  "result": {
+    "item": "bigreactors:blutonium_nugget",
+    "count": 9
+  }
+}

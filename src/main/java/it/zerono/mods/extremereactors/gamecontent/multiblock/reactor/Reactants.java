@@ -64,6 +64,10 @@ public enum Reactants
         return this._name + "_ingot";
     }
 
+    public String getNuggetName() {
+        return this._name + "_nugget";
+    }
+
     public String getDustName() {
         return this._name + "_dust";
     }

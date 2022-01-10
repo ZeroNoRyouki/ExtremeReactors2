@@ -45,6 +45,7 @@ public class ItemModelGenerator
                 Content.Items.YELLORIUM_INGOT, Content.Items.CYANITE_INGOT, Content.Items.GRAPHITE_INGOT,
                 Content.Items.BLUTONIUM_INGOT, Content.Items.MAGENTITE_INGOT,
                 Content.Items.LUDICRITE_INGOT, Content.Items.RIDICULITE_INGOT, Content.Items.INANITE_INGOT,
+                Content.Items.YELLORIUM_NUGGET, Content.Items.BLUTONIUM_NUGGET,
                 Content.Items.ANGLESITE_CRYSTAL, Content.Items.BENITOITE_CRYSTAL);
     }
 

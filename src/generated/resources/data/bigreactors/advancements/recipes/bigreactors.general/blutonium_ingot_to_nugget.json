@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "bigreactors:blutonium_ingot_to_nugget"
+    ]
+  },
+  "criteria": {
+    "blutonium_has_ingot": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "bigreactors:blutonium_ingot"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "bigreactors:blutonium_ingot_to_nugget"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "blutonium_has_ingot",
+      "has_the_recipe"
+    ]
+  ]
+}
