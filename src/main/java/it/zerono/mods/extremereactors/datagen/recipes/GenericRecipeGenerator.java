@@ -71,9 +71,9 @@ public class GenericRecipeGenerator
         this.storageBlock3x3(c, "blutonium", Content.Items.BLUTONIUM_INGOT, Content.Items.BLUTONIUM_BLOCK);
         this.storageBlock3x3(c, "magentite", Content.Items.MAGENTITE_INGOT, Content.Items.MAGENTITE_BLOCK);
 
-        this.coil(c, "ludicrite_block", Content.Items.LUDICRITE_BLOCK, Content.Items.LUDICRITE_INGOT, Items.NETHERITE_BLOCK);
-        this.coil(c, "ridiculite_block", Content.Items.RIDICULITE_BLOCK, Content.Items.RIDICULITE_INGOT, Items.END_CRYSTAL);
-        this.coil(c, "inanite_block", Content.Items.INANITE_BLOCK, Content.Items.INANITE_INGOT, Items.NETHER_STAR);
+        this.coil(c, "ludicrite_block", Content.Items.LUDICRITE_BLOCK, Content.Items.LUDICRITE_INGOT, Items.END_CRYSTAL);
+        this.coil(c, "ridiculite_block", Content.Items.RIDICULITE_BLOCK, Content.Items.RIDICULITE_INGOT, Items.NETHER_STAR);
+        this.coil(c, "inanite_block", Content.Items.INANITE_BLOCK, Content.Items.INANITE_INGOT, Items.NETHERITE_BLOCK);
 
         // smelting
 
