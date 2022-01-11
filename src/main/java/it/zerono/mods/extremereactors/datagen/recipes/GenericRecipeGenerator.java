@@ -39,6 +39,7 @@ import net.minecraftforge.common.crafting.ConditionalRecipe;
 import vazkii.patchouli.api.PatchouliAPI;
 
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 public class GenericRecipeGenerator
         extends AbstractRecipeGenerator {
@@ -69,6 +70,15 @@ public class GenericRecipeGenerator
         this.storageBlock3x3(c, "graphite", Content.Items.GRAPHITE_INGOT, Content.Items.GRAPHITE_BLOCK);
         this.storageBlock3x3(c, "blutonium", Content.Items.BLUTONIUM_INGOT, Content.Items.BLUTONIUM_BLOCK);
         this.storageBlock3x3(c, "magentite", Content.Items.MAGENTITE_INGOT, Content.Items.MAGENTITE_BLOCK);
+
+        this.nugget(c, "yellorium", Content.Items.YELLORIUM_INGOT, Content.Items.YELLORIUM_NUGGET);
+        this.nugget(c, "blutonium", Content.Items.BLUTONIUM_INGOT, Content.Items.BLUTONIUM_NUGGET);
+
+        // nuggets
+
+        this.coil(c, "ludicrite_block", Content.Items.LUDICRITE_BLOCK, Content.Items.LUDICRITE_INGOT, Items.END_CRYSTAL);
+        this.coil(c, "ridiculite_block", Content.Items.RIDICULITE_BLOCK, Content.Items.RIDICULITE_INGOT, Items.NETHER_STAR);
+        this.coil(c, "inanite_block", Content.Items.INANITE_BLOCK, Content.Items.INANITE_INGOT, Items.NETHERITE_BLOCK);
 
         // smelting
 
@@ -101,6 +111,19 @@ public class GenericRecipeGenerator
 
     //endregion
     //region internals
+
+    private void coil(final Consumer<FinishedRecipe> c, final String name, final Supplier<? extends ItemLike> output,
+                      final Supplier<? extends ItemLike> ingot, final ItemLike special) {
+        ShapedRecipeBuilder.shaped(output.get())
+                .define('I', ingot.get())
+                .define('S', special)
+                .pattern("III")
+                .pattern("ISI")
+                .pattern("III")
+                .group(GROUP_GENERAL)
+                .unlockedBy("has_item", has(ingot.get()))
+                .save(c, ExtremeReactors.newID("turbine/" + name));
+    }
 
     private void book(final Consumer<FinishedRecipe> c, final String name, final ResourceLocation patchouliBookId,
                       final ItemLike ingredientBook,

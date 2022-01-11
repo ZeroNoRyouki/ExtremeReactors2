@@ -41,8 +41,11 @@ public class ItemModelGenerator
 
         generated(Content.Items.YELLORIUM_DUST, Content.Items.CYANITE_DUST, Content.Items.GRAPHITE_DUST,
                 Content.Items.BLUTONIUM_DUST, Content.Items.MAGENTITE_DUST,
+                Content.Items.LUDICRITE_DUST, Content.Items.RIDICULITE_DUST, Content.Items.INANITE_DUST,
                 Content.Items.YELLORIUM_INGOT, Content.Items.CYANITE_INGOT, Content.Items.GRAPHITE_INGOT,
                 Content.Items.BLUTONIUM_INGOT, Content.Items.MAGENTITE_INGOT,
+                Content.Items.LUDICRITE_INGOT, Content.Items.RIDICULITE_INGOT, Content.Items.INANITE_INGOT,
+                Content.Items.YELLORIUM_NUGGET, Content.Items.BLUTONIUM_NUGGET,
                 Content.Items.ANGLESITE_CRYSTAL, Content.Items.BENITOITE_CRYSTAL);
     }
 

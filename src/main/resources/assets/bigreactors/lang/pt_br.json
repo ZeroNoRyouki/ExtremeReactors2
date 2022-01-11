@@ -19,7 +19,13 @@
     "item.bigreactors.blutonium_ingot": "Barra de Blutônio",
     "item.bigreactors.magentite_ingot": "Barra de Magentite",
     "item.bigreactors.graphite_ingot": "Barra de Grafite",
-    "x_item.bigreactors.ingotludicrite": "Barra de Ludicrite",
+    "item.bigreactors.ludicrite_ingot": "Barra de Ludicrite",
+    "item.bigreactors.ridiculite_ingot": "Barra de Ridiculite",
+    "item.bigreactors.inanite_ingot": "Barra de Inanite",
+
+    "_comment": "Items - nuggets",
+    "item.bigreactors.yellorium_nugget": "Yellorium Nugget",
+    "item.bigreactors.blutonium_nugget": "Blutonium Nugget",
 
     "_comment": "Itens - pós",
     "item.bigreactors.yellorium_dust": "Pó de Yellório",
@@ -27,7 +33,9 @@
     "item.bigreactors.blutonium_dust": "Pó de Blutônio",
     "item.bigreactors.magentite_dust": "Pó de Magentite",
     "item.bigreactors.graphite_dust": "Pó de Grafite",
-    "x_item.bigreactors.dustludicrite": "Pó de Ludicrite",
+    "item.bigreactors.ludicrite_dust": "Pó de Ludicrite",
+    "item.bigreactors.ridiculite_dust": "Pó de Ridiculite",
+    "item.bigreactors.inanite_dust": "Pó de Inanite",
 
     "_comment": "Itens - minerais",
     "item.bigreactors.anglesite_crystal": "Anglesita (PbSO4)",
@@ -59,7 +67,9 @@
     "block.bigreactors.blutonium_block": "Bloco de Blutônio",
     "block.bigreactors.magentite_block": "Bloco de Magentite",
     "block.bigreactors.graphite_block": "Bloco de Grafite",
-    "x_block.bigreactors.blockludicrite": "Bloco de Ludicrite",
+    "block.bigreactors.ludicrite_block": "Bloco de Ludicrite",
+    "block.bigreactors.ridiculite_block": "Bloco de Ridiculite",
+    "block.bigreactors.inanite_block": "Bloco de Inanite",
 
     "_comment": "Blocos - minérios",
     "block.bigreactors.yellorite_ore": "Minério de Yellorite",

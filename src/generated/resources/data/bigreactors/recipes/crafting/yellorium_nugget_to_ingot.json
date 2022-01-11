@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "bigreactors:general",
+  "ingredients": [
+    {
+      "item": "bigreactors:yellorium_ingot"
+    }
+  ],
+  "result": {
+    "item": "bigreactors:yellorium_nugget",
+    "count": 9
+  }
+}

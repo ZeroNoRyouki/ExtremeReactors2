@@ -27,6 +27,7 @@ import it.zerono.mods.zerocore.lib.datagen.provider.recipe.BaseRecipeProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.Tag;
@@ -34,6 +35,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.crafting.conditions.ICondition;
+import net.minecraftforge.common.util.NonNullFunction;
 
 import java.util.Set;
 import java.util.function.BiFunction;
@@ -159,6 +161,31 @@ public abstract class AbstractRecipeGenerator
                                    final Supplier<? extends ItemLike> component,
                                    final Supplier<? extends ItemLike> storage) {
         this.storageBlock3x3(consumer, name, ExtremeReactors::newID, GROUP_GENERAL, component, storage);
+    }
+
+    protected void nugget(final Consumer<FinishedRecipe> consumer, final String name,
+                          final Supplier<? extends ItemLike> ingot, final Supplier<? extends ItemLike> nugget) {
+        this.nugget(consumer, name, ExtremeReactors::newID, GROUP_GENERAL, ingot, nugget);
+    }
+
+    //TODO: move to BaseRecipeProvider
+    protected void nugget(final Consumer<FinishedRecipe> consumer, final String name,
+                          final NonNullFunction<String, ResourceLocation> nameToIdConverter, final String group,
+                          final Supplier<? extends ItemLike> ingot, final Supplier<? extends ItemLike> nugget) {
+
+        // 3x3 nuggets -> 1 ingot
+        ShapelessRecipeBuilder.shapeless(ingot.get())
+                .requires(nugget.get(), 9)
+                .group(group)
+                .unlockedBy(name + "_has_ingot", has(ingot.get()))
+                .save(consumer, nameToIdConverter.apply(name + "_ingot_to_nugget"));
+
+        // 1 ingot -> 9 nuggets
+        ShapelessRecipeBuilder.shapeless(nugget.get(), 9)
+                .requires(ingot.get())
+                .group(group)
+                .unlockedBy("has_item", has(nugget.get()))
+                .save(consumer, nameToIdConverter.apply("crafting/" + name + "_nugget_to_ingot"));
     }
 
 //    protected static void recipeWithAlternativeTag(final Consumer<FinishedRecipe> c,

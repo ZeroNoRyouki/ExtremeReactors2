@@ -1,0 +1,36 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "bigreactors:general",
+  "ingredients": [
+    {
+      "item": "bigreactors:blutonium_nugget"
+    },
+    {
+      "item": "bigreactors:blutonium_nugget"
+    },
+    {
+      "item": "bigreactors:blutonium_nugget"
+    },
+    {
+      "item": "bigreactors:blutonium_nugget"
+    },
+    {
+      "item": "bigreactors:blutonium_nugget"
+    },
+    {
+      "item": "bigreactors:blutonium_nugget"
+    },
+    {
+      "item": "bigreactors:blutonium_nugget"
+    },
+    {
+      "item": "bigreactors:blutonium_nugget"
+    },
+    {
+      "item": "bigreactors:blutonium_nugget"
+    }
+  ],
+  "result": {
+    "item": "bigreactors:blutonium_ingot"
+  }
+}

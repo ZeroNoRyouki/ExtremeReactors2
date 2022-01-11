@@ -69,6 +69,21 @@ public class ReprocessorRecipeGenerator
                     ItemStackRecipeResult.from(Content.Items.BLUTONIUM_INGOT.get()))
                 .build(c, ExtremeReactors.newID("reprocessor/cyanite_to_blutonium"));
 
+        ReprocessorRecipe.builder(ItemStackRecipeIngredient.from(Content.Items.BLUTONIUM_INGOT.get(), 2),
+                        FluidStackRecipeIngredient.from(Content.Fluids.CYANITE_SOURCE.get(), 1000),
+                        ItemStackRecipeResult.from(Content.Items.LUDICRITE_INGOT.get()))
+                .build(c, ExtremeReactors.newID("reprocessor/blutonium_to_ludicrite"));
+
+        ReprocessorRecipe.builder(ItemStackRecipeIngredient.from(Content.Items.LUDICRITE_INGOT.get(), 2),
+                        FluidStackRecipeIngredient.from(Content.Fluids.MAGENTITE_SOURCE.get(), 1000),
+                        ItemStackRecipeResult.from(Content.Items.RIDICULITE_INGOT.get()))
+                .build(c, ExtremeReactors.newID("reprocessor/ludicrite_to_ridiculite"));
+
+        ReprocessorRecipe.builder(ItemStackRecipeIngredient.from(Content.Items.RIDICULITE_INGOT.get(), 2),
+                        FluidStackRecipeIngredient.from(Content.Fluids.ROSSINITE_SOURCE.get(), 1000),
+                        ItemStackRecipeResult.from(Content.Items.INANITE_INGOT.get()))
+                .build(c, ExtremeReactors.newID("reprocessor/ridiculite_to_inanite"));
+
         // reprocessor blocks
 
         this.casing(c);

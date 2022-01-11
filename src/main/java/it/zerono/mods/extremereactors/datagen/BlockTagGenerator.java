@@ -64,6 +64,9 @@ public class BlockTagGenerator
         this.build(ContentTags.Blocks.BLOCKS_BLUTONIUM, Blocks.BLUTONIUM_BLOCK);
         this.build(ContentTags.Blocks.BLOCKS_MAGENTITE, Blocks.MAGENTITE_BLOCK);
         this.build(ContentTags.Blocks.BLOCKS_GRAPHITE, Blocks.GRAPHITE_BLOCK);
+        this.build(ContentTags.Blocks.BLOCKS_LUDICRITE, Blocks.LUDICRITE_BLOCK);
+        this.build(ContentTags.Blocks.BLOCKS_RIDICULITE, Blocks.RIDICULITE_BLOCK);
+        this.build(ContentTags.Blocks.BLOCKS_INANITE, Blocks.INANITE_BLOCK);
 
         this.build(ContentTags.Blocks.ORE_YELLORITE, Blocks.YELLORITE_ORE_BLOCK);
 
