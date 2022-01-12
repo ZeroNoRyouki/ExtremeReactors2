@@ -43,6 +43,7 @@ public class BlockLootGenerator
 
         this.addDrop(Content.Blocks.YELLORIUM_BLOCK, Content.Blocks.CYANITE_BLOCK, Content.Blocks.GRAPHITE_BLOCK,
                 Content.Blocks.BLUTONIUM_BLOCK, Content.Blocks.MAGENTITE_BLOCK,
+                Content.Blocks.LUDICRITE_BLOCK, Content.Blocks.RIDICULITE_BLOCK, Content.Blocks.INANITE_BLOCK,
                 Content.Blocks.YELLORITE_ORE_BLOCK);
 
         this.addSilkDrop(Content.Blocks.ANGLESITE_ORE_BLOCK, Content.Items.ANGLESITE_CRYSTAL, 1, 3, Content.Blocks.ANGLESITE_ORE_BLOCK);

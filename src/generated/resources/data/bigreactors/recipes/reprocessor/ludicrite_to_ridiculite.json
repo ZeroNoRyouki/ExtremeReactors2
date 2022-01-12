@@ -1,0 +1,18 @@
+{
+  "type": "bigreactors:reprocessor",
+  "waste": {
+    "ingredient": {
+      "item": "bigreactors:ludicrite_ingot"
+    },
+    "count": 2
+  },
+  "fluid": {
+    "fluid": {
+      "fluid": "bigreactors:magentite",
+      "count": 1000
+    }
+  },
+  "result": {
+    "item": "bigreactors:ridiculite_ingot"
+  }
+}

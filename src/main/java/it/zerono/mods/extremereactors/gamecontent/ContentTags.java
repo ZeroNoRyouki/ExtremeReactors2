@@ -38,6 +38,9 @@ public class ContentTags {
         public static final Tag.Named<Block> BLOCKS_GRAPHITE = forgeTag("storage_blocks/graphite");
         public static final Tag.Named<Block> BLOCKS_BLUTONIUM = forgeTag("storage_blocks/blutonium");
         public static final Tag.Named<Block> BLOCKS_MAGENTITE = forgeTag("storage_blocks/magentite");
+        public static final Tag.Named<Block> BLOCKS_LUDICRITE = forgeTag("storage_blocks/ludicrite");
+        public static final Tag.Named<Block> BLOCKS_RIDICULITE = forgeTag("storage_blocks/ridiculite");
+        public static final Tag.Named<Block> BLOCKS_INANITE = forgeTag("storage_blocks/inanite");
 
         //region internals
 
@@ -57,18 +60,30 @@ public class ContentTags {
         public static final Tag.Named<Item> INGOTS_GRAPHITE = forgeTag("ingots/graphite");
         public static final Tag.Named<Item> INGOTS_BLUTONIUM = forgeTag("ingots/blutonium");
         public static final Tag.Named<Item> INGOTS_MAGENTITE = forgeTag("ingots/magentite");
+        public static final Tag.Named<Item> INGOTS_LUDICRITE = forgeTag("ingots/ludicrite");
+        public static final Tag.Named<Item> INGOTS_RIDICULITE = forgeTag("ingots/ridiculite");
+        public static final Tag.Named<Item> INGOTS_INANITE = forgeTag("ingots/inanite");
+
+        public static final Tag.Named<Item> NUGGETS_YELLORIUM = forgeTag("nuggets/yellorium");
+        public static final Tag.Named<Item> NUGGETS_BLUTONIUM = forgeTag("nuggets/blutonium");
 
         public static final Tag.Named<Item> DUSTS_YELLORIUM = forgeTag("dusts/yellorium");
         public static final Tag.Named<Item> DUSTS_CYANITE = forgeTag("dusts/cyanite");
         public static final Tag.Named<Item> DUSTS_GRAPHITE = forgeTag("dusts/graphite");
         public static final Tag.Named<Item> DUSTS_BLUTONIUM = forgeTag("dusts/blutonium");
         public static final Tag.Named<Item> DUSTS_MAGENTITE = forgeTag("dusts/magentite");
+        public static final Tag.Named<Item> DUSTS_LUDICRITE = forgeTag("dusts/ludicrite");
+        public static final Tag.Named<Item> DUSTS_RIDICULITE = forgeTag("dusts/ridiculite");
+        public static final Tag.Named<Item> DUSTS_INANITE = forgeTag("dusts/inanite");
 
         public static final Tag.Named<Item> BLOCKS_YELLORIUM = forgeTag("storage_blocks/yellorium");
         public static final Tag.Named<Item> BLOCKS_CYANITE = forgeTag("storage_blocks/cyanite");
         public static final Tag.Named<Item> BLOCKS_GRAPHITE = forgeTag("storage_blocks/graphite");
         public static final Tag.Named<Item> BLOCKS_BLUTONIUM = forgeTag("storage_blocks/blutonium");
         public static final Tag.Named<Item> BLOCKS_MAGENTITE = forgeTag("storage_blocks/magentite");
+        public static final Tag.Named<Item> BLOCKS_LUDICRITE = forgeTag("storage_blocks/ludicrite");
+        public static final Tag.Named<Item> BLOCKS_RIDICULITE = forgeTag("storage_blocks/ridiculite");
+        public static final Tag.Named<Item> BLOCKS_INANITE = forgeTag("storage_blocks/inanite");
 
         public static final Tag.Named<Item> WRENCH = forgeTag("tools/wrench");
 
