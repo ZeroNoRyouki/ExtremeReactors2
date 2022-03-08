@@ -23,7 +23,7 @@ import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.ContentTags;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.FluidTagsProvider;
-import net.minecraft.tags.Tag;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
@@ -66,7 +66,7 @@ public class FluidTagGenerator
     //endregion
     //region internals
 
-    private void tag(final Tag.Named<Fluid> tag, final Supplier<? extends ForgeFlowingFluid> source,
+    private void tag(final TagKey<Fluid> tag, final Supplier<? extends ForgeFlowingFluid> source,
                      final Supplier<? extends ForgeFlowingFluid> flowing) {
         this.tag(tag).add(source.get(), flowing.get());
     }

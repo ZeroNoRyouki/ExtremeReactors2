@@ -24,13 +24,13 @@ import it.zerono.mods.extremereactors.config.conditions.ConfigCondition;
 import it.zerono.mods.extremereactors.gamecontent.ContentTags;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.variant.IMultiblockGeneratorVariant;
 import it.zerono.mods.zerocore.lib.datagen.provider.recipe.BaseRecipeProvider;
+import it.zerono.mods.zerocore.lib.tag.TagsHelper;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.ItemTags;
-import net.minecraft.tags.Tag;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.common.Tags;
@@ -264,10 +264,10 @@ public abstract class AbstractRecipeGenerator
     protected static final String GROUP_REACTOR = ExtremeReactors.MOD_ID + ":reactor";
     protected static final String GROUP_TURBINE = ExtremeReactors.MOD_ID + ":turbine";
 
-    protected static final Tags.IOptionalNamedTag<Item> TAG_INGOTS_STEEL = ItemTags.createOptional(new ResourceLocation("forge", "ingots/steel"));
-    protected static final Tags.IOptionalNamedTag<Item> TAG_INGOTS_URANIUM = ItemTags.createOptional(new ResourceLocation("forge", "ingots/uranium"));
+    protected static final TagKey<Item> TAG_INGOTS_STEEL = TagsHelper.ITEMS.createKey("forge:ingots/steel");
+    protected static final TagKey<Item> TAG_INGOTS_URANIUM = TagsHelper.ITEMS.createKey("forge:ingots/uranium");
 
-    protected static final Set<Tag.Named<Item>> TAGS_YELLORIUM_INGOTS = ImmutableSet.of(ContentTags.Items.INGOTS_YELLORIUM, TAG_INGOTS_URANIUM);
+    protected static final Set<TagKey<Item>> TAGS_YELLORIUM_INGOTS = ImmutableSet.of(ContentTags.Items.INGOTS_YELLORIUM, TAG_INGOTS_URANIUM);
 
     //endregion
 }

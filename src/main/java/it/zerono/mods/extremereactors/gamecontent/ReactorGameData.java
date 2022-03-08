@@ -23,8 +23,7 @@ import it.zerono.mods.extremereactors.api.coolant.FluidsRegistry;
 import it.zerono.mods.extremereactors.api.coolant.TransitionsRegistry;
 import it.zerono.mods.extremereactors.api.reactor.*;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.Reactants;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.Tag;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.material.Fluid;
 
@@ -227,20 +226,16 @@ final class ReactorGameData {
                 hardnessDivisor, fissionEventsPerFuelUnit, fuelUnitsPerFissionEvent, reactant.getLangKey());
     }
 
-    private static void registerIngotReactantMapping(final Reactants reactant, final Tag.Named<Item> tag, final int ingotsCount) {
-        registerIngotReactantMapping(reactant, tag.getName(), ingotsCount);
+    private static void registerIngotReactantMapping(final Reactants reactant, final TagKey<Item> tag, final int ingotsCount) {
+        ReactantMappingsRegistry.registerSolid(reactant.getReactantName(), ingotsCount * ReactantMappingsRegistry.STANDARD_SOLID_REACTANT_AMOUNT, tag);
     }
 
     private static void registerIngotReactantMapping(final Reactants reactant, final String itemTagId, final int ingotsCount) {
-        registerIngotReactantMapping(reactant, new ResourceLocation(itemTagId), ingotsCount);
-    }
-
-    private static void registerIngotReactantMapping(final Reactants reactant, final ResourceLocation itemTagId, final int ingotsCount) {
         ReactantMappingsRegistry.registerSolid(reactant.getReactantName(), ingotsCount * ReactantMappingsRegistry.STANDARD_SOLID_REACTANT_AMOUNT, itemTagId);
     }
 
-    private static void registerFluidReactantMapping(final Reactants reactant, final Tag.Named<Fluid> tag) {
-        ReactantMappingsRegistry.registerFluid(reactant.getReactantName(), tag.getName());
+    private static void registerFluidReactantMapping(final Reactants reactant, final TagKey<Fluid> tag) {
+        ReactantMappingsRegistry.registerFluid(reactant.getReactantName(), tag);
     }
 
     //endregion

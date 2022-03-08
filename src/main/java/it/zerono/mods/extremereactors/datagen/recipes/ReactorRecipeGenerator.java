@@ -29,7 +29,7 @@ import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.Tag;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
@@ -63,7 +63,7 @@ public class ReactorRecipeGenerator
     @Override
     protected void buildCraftingRecipes(final Consumer<FinishedRecipe> c) {
 
-        Tag.Named<Item> core, metal, alternativeMetal;
+        TagKey<Item> core, metal, alternativeMetal;
         ReactorVariant variant;
         Supplier<? extends ItemLike> casing;
 
@@ -125,8 +125,8 @@ public class ReactorRecipeGenerator
 
     private void reactorCasing(final Consumer<FinishedRecipe> c, final ReactorVariant variant,
                                final Supplier<? extends ItemLike> result,
-                               final Tag<Item> core, final Tag.Named<Item> metal,
-                               @Nullable final Tag.Named<Item> alternativeMetal) {
+                               final TagKey<Item> core, final TagKey<Item> metal,
+                               @Nullable final TagKey<Item> alternativeMetal) {
 
         recipeWithAlternativeTag(c, reactorRecipeName(variant, "casing"), reactorRecipeName(variant, "casing_alt"),
                 metal, alternativeMetal, metalTag ->
@@ -142,8 +142,8 @@ public class ReactorRecipeGenerator
     }
 
     private void reactorCasingUpgrade(final Consumer<FinishedRecipe> c, final ReactorVariant variant,
-                                      final Supplier<? extends ItemLike> result, final Tag.Named<Item> metal,
-                                      @Nullable final Tag.Named<Item> alternativeMetal) {
+                                      final Supplier<? extends ItemLike> result, final TagKey<Item> metal,
+                                      @Nullable final TagKey<Item> alternativeMetal) {
 
         recipeWithAlternativeTag(c, reactorRecipeName(variant, "casing_upgrade"), reactorRecipeName(variant, "casing_upgrade_alt"),
                 metal, alternativeMetal, metalTag ->
@@ -160,7 +160,7 @@ public class ReactorRecipeGenerator
 
     private void reactorCasingRecycle(final Consumer<FinishedRecipe> c, final ReactorVariant variant,
                                       final Supplier<? extends ItemLike> casingResult,
-                                      final Tag.Named<Item> casingSourceTag,
+                                      final TagKey<Item> casingSourceTag,
                                       final Supplier<? extends ItemLike> glassSourceItem) {
 
         ShapelessRecipeBuilder.shapeless(casingResult.get(), 1)
@@ -178,7 +178,7 @@ public class ReactorRecipeGenerator
 
     private void reactorGlass(final Consumer<FinishedRecipe> c, final ReactorVariant variant,
                               final Supplier<? extends ItemLike> result,
-                              final Supplier<? extends ItemLike> casing, final Tag<Item> glass) {
+                              final Supplier<? extends ItemLike> casing, final TagKey<Item> glass) {
         ShapedRecipeBuilder.shaped(result.get())
                 .define('C', casing.get())
                 .define('G', glass)
@@ -190,7 +190,7 @@ public class ReactorRecipeGenerator
 
     private void reactorController(final Consumer<FinishedRecipe> c, final ReactorVariant variant,
                                    final Supplier<? extends ItemLike> result,
-                                   final Supplier<? extends ItemLike> casing, final Tag<Item> diamond) {
+                                   final Supplier<? extends ItemLike> casing, final TagKey<Item> diamond) {
 
         TAGS_YELLORIUM_INGOTS.forEach(yellorium -> ShapedRecipeBuilder.shaped(result.get())
                 .define('C', casing.get())
@@ -210,8 +210,8 @@ public class ReactorRecipeGenerator
 
     private void reactorFuelRod(final Consumer<FinishedRecipe> c, final ReactorVariant variant,
                                 final Supplier<? extends ItemLike> result,
-                                final Tag.Named<Item> metal, @Nullable final Tag.Named<Item> alternativeMetal,
-                                final Tag<Item> glass) {
+                                final TagKey<Item> metal, @Nullable final TagKey<Item> alternativeMetal,
+                                final TagKey<Item> glass) {
 
         TAGS_YELLORIUM_INGOTS.forEach(yellorium ->
                 recipeWithAlternativeTag(c, reactorRecipeName(variant, "fuelrod", yellorium),
@@ -231,7 +231,7 @@ public class ReactorRecipeGenerator
 
     private void reactorControlRod(final Consumer<FinishedRecipe> c, final ReactorVariant variant,
                                    final Supplier<? extends ItemLike> result, final Supplier<? extends ItemLike> casing,
-                                   final Tag.Named<Item> metal, @Nullable final Tag.Named<Item> alternativeMetal) {
+                                   final TagKey<Item> metal, @Nullable final TagKey<Item> alternativeMetal) {
 
         recipeWithAlternativeTag(c, reactorRecipeName(variant, "controlrod"), reactorRecipeName(variant, "controlrod_alt"),
                 metal, alternativeMetal, metalTag ->
@@ -333,7 +333,7 @@ public class ReactorRecipeGenerator
 
     private void reactorSolidAccessPort(final Consumer<FinishedRecipe> c, final ReactorVariant variant,
                                         final Supplier<? extends ItemLike> result, final Supplier<? extends ItemLike> casing,
-                                        final Tag.Named<Item> metal, @Nullable final Tag.Named<Item> alternativeMetal) {
+                                        final TagKey<Item> metal, @Nullable final TagKey<Item> alternativeMetal) {
         recipeWithAlternativeTag(c, reactorRecipeName(variant, "solidaccessport"), reactorRecipeName(variant, "solidaccessport_alt"),
                 metal, alternativeMetal, metalTag ->
                         ShapedRecipeBuilder.shaped(result.get())
@@ -351,7 +351,7 @@ public class ReactorRecipeGenerator
 
     private void reactorFluidAccessPort(final Consumer<FinishedRecipe> c, final ReactorVariant variant,
                                         final Supplier<? extends ItemLike> result, final Supplier<? extends ItemLike> casing,
-                                        final Tag.Named<Item> metal, @Nullable final Tag.Named<Item> alternativeMetal) {
+                                        final TagKey<Item> metal, @Nullable final TagKey<Item> alternativeMetal) {
         recipeWithAlternativeTag(c, reactorRecipeName(variant, "fluidaccessport"), reactorRecipeName(variant, "fluidaccessport_alt"),
                 metal, alternativeMetal, metalTag ->
                         ShapedRecipeBuilder.shaped(result.get())
@@ -369,8 +369,8 @@ public class ReactorRecipeGenerator
 
     private void reactorRedstonePort(final Consumer<FinishedRecipe> c, final ReactorVariant variant,
                                      final Supplier<? extends ItemLike> result, final Supplier<? extends ItemLike> casing,
-                                     final Tag.Named<Item> metal, @Nullable final Tag.Named<Item> alternativeMetal,
-                                     final Tag<Item> gold) {
+                                     final TagKey<Item> metal, @Nullable final TagKey<Item> alternativeMetal,
+                                     final TagKey<Item> gold) {
         recipeWithAlternativeTag(c, reactorRecipeName(variant, "redstoneport"), reactorRecipeName(variant, "redstoneport_alt"),
                 metal, alternativeMetal, metalTag ->
                         ShapedRecipeBuilder.shaped(result.get())
@@ -388,7 +388,7 @@ public class ReactorRecipeGenerator
 
     private void reactorComputerPort(final Consumer<FinishedRecipe> c, final ReactorVariant variant,
                                      final Supplier<? extends ItemLike> result, final Supplier<? extends ItemLike> casing,
-                                     final Tag.Named<Item> metal, @Nullable final Tag.Named<Item> alternativeMetal) {
+                                     final TagKey<Item> metal, @Nullable final TagKey<Item> alternativeMetal) {
         recipeWithAlternativeTag(c, reactorRecipeName(variant, "computerport"), reactorRecipeName(variant, "computerport_alt"),
                 metal, alternativeMetal, metalTag ->
                         ShapedRecipeBuilder.shaped(result.get())
@@ -409,8 +409,8 @@ public class ReactorRecipeGenerator
     }
 
     private static ResourceLocation reactorRecipeName(final IMultiblockGeneratorVariant variant, final String name,
-                                                      final Tag.Named<Item> tag) {
-        return ExtremeReactors.newID("reactor/" + variant.getName() + "/" + name + "_" + tag.getName().getPath().replace('/', '_'));
+                                                      final TagKey<Item> tag) {
+        return ExtremeReactors.newID("reactor/" + variant.getName() + "/" + name + "_" + tag.location().getPath().replace('/', '_'));
     }
 
     //endregion

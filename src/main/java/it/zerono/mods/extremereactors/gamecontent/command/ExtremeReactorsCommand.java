@@ -31,6 +31,7 @@ import it.zerono.mods.extremereactors.api.reactor.*;
 import it.zerono.mods.extremereactors.api.turbine.CoilMaterial;
 import it.zerono.mods.extremereactors.api.turbine.CoilMaterialRegistry;
 import it.zerono.mods.zerocore.lib.data.gfx.Colour;
+import it.zerono.mods.zerocore.lib.tag.TagsHelper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -296,7 +297,7 @@ public final class ExtremeReactorsCommand {
     }
 
     private static Optional<CoilMaterial> getCoilByName(final CommandContext<CommandSourceStack> context) {
-        return CoilMaterialRegistry.get(getTagId(context));
+        return CoilMaterialRegistry.get(TagsHelper.BLOCKS.createKey(getTagId(context)));
     }
 
     //endregion

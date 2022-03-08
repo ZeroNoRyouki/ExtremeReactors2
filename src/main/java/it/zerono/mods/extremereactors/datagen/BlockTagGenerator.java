@@ -26,7 +26,7 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.data.tags.TagsProvider;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.Tag;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraftforge.common.Tags;
@@ -71,7 +71,7 @@ public class BlockTagGenerator
         this.build(ContentTags.Blocks.ORE_YELLORITE, Blocks.YELLORITE_ORE_BLOCK);
 
         this.build(Tags.Blocks.ORES, Blocks.YELLORITE_ORE_BLOCK, Blocks.ANGLESITE_ORE_BLOCK, Blocks.BENITOITE_ORE_BLOCK);
-        this.build(TagsHelper.BLOCKS.createForgeOptionalTag("ores/uranium"), Blocks.YELLORITE_ORE_BLOCK);
+        this.build(TagsHelper.BLOCKS.createKey("forge:ores/uranium"), Blocks.YELLORITE_ORE_BLOCK);
 
         this.digWithIronPick(Blocks.getAll());
     }
@@ -80,7 +80,7 @@ public class BlockTagGenerator
     //region internals
 
     @SafeVarargs
-    private final void build(final Tag.Named<Block> tag, final Supplier<? extends Block>... blocks) {
+    private final void build(final TagKey<Block> tag, final Supplier<? extends Block>... blocks) {
 
         final TagsProvider.TagAppender<Block> builder = this.tag(tag);
 

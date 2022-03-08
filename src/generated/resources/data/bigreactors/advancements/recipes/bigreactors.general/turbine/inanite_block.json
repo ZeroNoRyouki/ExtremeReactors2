@@ -11,7 +11,9 @@
       "conditions": {
         "items": [
           {
-            "item": "bigreactors:inanite_ingot"
+            "items": [
+              "bigreactors:inanite_ingot"
+            ]
           }
         ]
       }

@@ -23,6 +23,7 @@ import it.zerono.mods.extremereactors.config.Config;
 import it.zerono.mods.zerocore.lib.world.OreGenRegisteredFeature;
 import it.zerono.mods.zerocore.lib.world.WorldGenManager;
 import it.zerono.mods.zerocore.lib.world.WorldReGenHandler;
+import net.minecraft.core.Holder;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraftforge.common.Tags;
@@ -76,9 +77,9 @@ public final class WorldGen {
         final Predicate<BiomeLoadingEvent> anglesiteGenEnabled = e -> Config.COMMON.worldgen.enableWorldGen.get() && Config.COMMON.worldgen.anglesiteOreEnableWorldGen.get();
         final Predicate<BiomeLoadingEvent> benitoiteGenEnabled = e -> Config.COMMON.worldgen.enableWorldGen.get() && Config.COMMON.worldgen.benitoiteOreEnableWorldGen.get();
 
-        final Predicate<Biome> yelloriteReGenEnabled = e -> Config.COMMON.worldgen.yelloriteOreEnableWorldGen.get();
-        final Predicate<Biome> anglesiteReGenEnabled = e -> Config.COMMON.worldgen.anglesiteOreEnableWorldGen.get();
-        final Predicate<Biome> benitoiteReGenEnabled = e -> Config.COMMON.worldgen.benitoiteOreEnableWorldGen.get();
+        final Predicate<Holder<Biome>> yelloriteReGenEnabled = e -> Config.COMMON.worldgen.yelloriteOreEnableWorldGen.get();
+        final Predicate<Holder<Biome>> anglesiteReGenEnabled = e -> Config.COMMON.worldgen.anglesiteOreEnableWorldGen.get();
+        final Predicate<Holder<Biome>> benitoiteReGenEnabled = e -> Config.COMMON.worldgen.benitoiteOreEnableWorldGen.get();
 
         s_regen.addOreVein(yelloriteGenerators, yelloriteGenEnabled, yelloriteReGenEnabled);
         s_regen.addOreVein(anglesiteGenerators, anglesiteGenEnabled, anglesiteReGenEnabled);

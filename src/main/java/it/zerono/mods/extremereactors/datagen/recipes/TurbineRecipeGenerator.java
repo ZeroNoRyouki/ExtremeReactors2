@@ -28,7 +28,7 @@ import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.Tag;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
@@ -62,7 +62,7 @@ public class TurbineRecipeGenerator
     @Override
     protected void buildCraftingRecipes(final Consumer<FinishedRecipe> c) {
 
-        Tag.Named<Item> core, metal, alternativeMetal;
+        TagKey<Item> core, metal, alternativeMetal;
         TurbineVariant variant;
         Supplier<? extends ItemLike> casing;
 
@@ -124,8 +124,8 @@ public class TurbineRecipeGenerator
 
     private void turbineCasing(final Consumer<FinishedRecipe> c, final TurbineVariant variant,
                                final Supplier<? extends ItemLike> result,
-                               final Tag<Item> core, final Tag.Named<Item> metal,
-                               @Nullable final Tag.Named<Item> alternativeMetal) {
+                               final TagKey<Item> core, final TagKey<Item> metal,
+                               @Nullable final TagKey<Item> alternativeMetal) {
 
         recipeWithAlternativeTag(c, turbineRecipeName(variant, "casing"), turbineRecipeName(variant, "casing_alt"),
                 metal, alternativeMetal, metalTag ->
@@ -141,8 +141,8 @@ public class TurbineRecipeGenerator
     }
 
     private void turbineCasingUpgrade(final Consumer<FinishedRecipe> c, final TurbineVariant variant,
-                                      final Supplier<? extends ItemLike> result, final Tag.Named<Item> metal,
-                                      @Nullable final Tag.Named<Item> alternativeMetal) {
+                                      final Supplier<? extends ItemLike> result, final TagKey<Item> metal,
+                                      @Nullable final TagKey<Item> alternativeMetal) {
 
         recipeWithAlternativeTag(c, turbineRecipeName(variant, "casing_upgrade"), turbineRecipeName(variant, "casing_upgrade_alt"),
                 metal, alternativeMetal, metalTag ->
@@ -159,7 +159,7 @@ public class TurbineRecipeGenerator
 
     private void turbineCasingRecycle(final Consumer<FinishedRecipe> c, final TurbineVariant variant,
                                       final Supplier<? extends ItemLike> casingResult,
-                                      final Tag.Named<Item> casingSourceTag,
+                                      final TagKey<Item> casingSourceTag,
                                       final Supplier<? extends ItemLike> glassSourceItem) {
 
         ShapelessRecipeBuilder.shapeless(casingResult.get(), 1)
@@ -177,7 +177,7 @@ public class TurbineRecipeGenerator
 
     private void turbineGlass(final Consumer<FinishedRecipe> c, final TurbineVariant variant,
                               final Supplier<? extends ItemLike> result,
-                              final Supplier<? extends ItemLike> casing, final Tag<Item> glass) {
+                              final Supplier<? extends ItemLike> casing, final TagKey<Item> glass) {
         ShapedRecipeBuilder.shaped(result.get())
                 .define('C', casing.get())
                 .define('G', glass)
@@ -189,7 +189,7 @@ public class TurbineRecipeGenerator
 
     private void turbineController(final Consumer<FinishedRecipe> c, final TurbineVariant variant,
                                    final Supplier<? extends ItemLike> result,
-                                   final Supplier<? extends ItemLike> casing, final Tag<Item> diamond) {
+                                   final Supplier<? extends ItemLike> casing, final TagKey<Item> diamond) {
         ShapedRecipeBuilder.shaped(result.get())
                 .define('C', casing.get())
                 .define('Y', ContentTags.Items.BLOCKS_CYANITE)
@@ -237,7 +237,7 @@ public class TurbineRecipeGenerator
 
     private void turbineComputerPort(final Consumer<FinishedRecipe> c, final TurbineVariant variant,
                                      final Supplier<? extends ItemLike> result, final Supplier<? extends ItemLike> casing,
-                                     final Tag.Named<Item> metal, @Nullable final Tag.Named<Item> alternativeMetal) {
+                                     final TagKey<Item> metal, @Nullable final TagKey<Item> alternativeMetal) {
         recipeWithAlternativeTag(c, turbineRecipeName(variant, "computerport"), turbineRecipeName(variant, "computerport_alt"),
                 metal, alternativeMetal, metalTag ->
                         ShapedRecipeBuilder.shaped(result.get())
@@ -285,7 +285,7 @@ public class TurbineRecipeGenerator
 
     private void turbineBlade(final Consumer<FinishedRecipe> c, final TurbineVariant variant,
                               final Supplier<? extends ItemLike> result,
-                              final Tag.Named<Item> metal, @Nullable final Tag.Named<Item> alternativeMetal) {
+                              final TagKey<Item> metal, @Nullable final TagKey<Item> alternativeMetal) {
 
         recipeWithAlternativeTag(c, turbineRecipeName(variant, "blade"), turbineRecipeName(variant, "blade_alt"),
                 metal, alternativeMetal, metalTag ->
@@ -299,7 +299,7 @@ public class TurbineRecipeGenerator
 
     private void turbineShaft(final Consumer<FinishedRecipe> c, final TurbineVariant variant,
                               final Supplier<? extends ItemLike> result,
-                              final Tag.Named<Item> metal, @Nullable final Tag.Named<Item> alternativeMetal) {
+                              final TagKey<Item> metal, @Nullable final TagKey<Item> alternativeMetal) {
 
         recipeWithAlternativeTag(c, turbineRecipeName(variant, "shaft"), turbineRecipeName(variant, "shaft_alt"),
                 metal, alternativeMetal, metalTag ->
@@ -315,7 +315,7 @@ public class TurbineRecipeGenerator
 
     private void turbineBearing(final Consumer<FinishedRecipe> c, final TurbineVariant variant,
                                 final Supplier<? extends ItemLike> result,
-                                final Tag.Named<Item> metal, @Nullable final Tag.Named<Item> alternativeMetal) {
+                                final TagKey<Item> metal, @Nullable final TagKey<Item> alternativeMetal) {
 
         recipeWithAlternativeTag(c, turbineRecipeName(variant, "bearing"), turbineRecipeName(variant, "bearing_alt"),
                 metal, alternativeMetal, metalTag ->
@@ -332,8 +332,8 @@ public class TurbineRecipeGenerator
 
     private void turbineRedstonePort(final Consumer<FinishedRecipe> c, final TurbineVariant variant,
                                      final Supplier<? extends ItemLike> result, final Supplier<? extends ItemLike> casing,
-                                     final Tag.Named<Item> metal, @Nullable final Tag.Named<Item> alternativeMetal,
-                                     final Tag<Item> gold) {
+                                     final TagKey<Item> metal, @Nullable final TagKey<Item> alternativeMetal,
+                                     final TagKey<Item> gold) {
         recipeWithAlternativeTag(c, turbineRecipeName(variant, "redstoneport"), turbineRecipeName(variant, "redstoneport_alt"),
                 metal, alternativeMetal, metalTag ->
                         ShapedRecipeBuilder.shaped(result.get())
@@ -353,8 +353,8 @@ public class TurbineRecipeGenerator
         return ExtremeReactors.newID("turbine/" + variant.getName() + "/" + name);
     }
 
-    private static ResourceLocation turbineRecipeName(final IMultiblockGeneratorVariant variant, final String name, final Tag.Named<Item> tag) {
-        return ExtremeReactors.newID("turbine/" + variant.getName() + "/" + name + "_" + tag.getName().getPath().replace('/', '_'));
+    private static ResourceLocation turbineRecipeName(final IMultiblockGeneratorVariant variant, final String name, final TagKey<Item> tag) {
+        return ExtremeReactors.newID("turbine/" + variant.getName() + "/" + name + "_" + tag.location().getPath().replace('/', '_'));
     }
 
     //endregion

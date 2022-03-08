@@ -51,6 +51,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -59,6 +60,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.CapabilityToken;
@@ -110,7 +112,6 @@ public class ReactorFluidAccessPortEntity
                                           final NonNullConsumer<Component> appender, final boolean isAdvancedTooltip) {
 
         final FluidTank tank = new FluidTank(TANK_CAPACITY);
-        MutableComponent text;
 
         if (data.contains("iodir")) {
             appender.accept(new TranslatableComponent(IoDirection.read(data, "iodir", IoDirection.Input).isInput() ?
@@ -217,7 +218,7 @@ public class ReactorFluidAccessPortEntity
         if (!outputStack.isEmpty()) {
 
             // Find matching mapping
-            final IMapping<ResourceLocation, Reactant> mapping = ReactantMappingsRegistry.getFromFluid(outputStack).orElse(null);
+            final IMapping<TagKey<Fluid>, Reactant> mapping = ReactantMappingsRegistry.getFromFluid(outputStack).orElse(null);
 
             if (null == mapping || !reactant.equals(mapping.getProduct())) {
                 // The fluid in the output tank is not compatible with the Reactant
@@ -244,7 +245,7 @@ public class ReactorFluidAccessPortEntity
         Since there is a 1:1 ratio between fluid fuels/wastes and reactants, there is really no "best" mapping.
         Pick the first one available.
         */
-        final IMapping<Reactant, ResourceLocation> bestMapping = ReactantMappingsRegistry.getToFluid(reactant)
+        final IMapping<Reactant, TagKey<Fluid>> bestMapping = ReactantMappingsRegistry.getToFluid(reactant)
                 .filter(list -> !list.isEmpty())
                 .map(list -> list.get(0))
                 .orElse(null);

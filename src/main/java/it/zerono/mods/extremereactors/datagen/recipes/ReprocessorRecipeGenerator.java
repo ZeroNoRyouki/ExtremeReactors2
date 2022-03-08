@@ -29,7 +29,7 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.Tag;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
@@ -144,7 +144,7 @@ public class ReprocessorRecipeGenerator
     }
 
     private void port(final Consumer<FinishedRecipe> c, final String name, final Supplier<? extends ItemLike> result,
-                      final ItemLike item1, final Tag<Item> tag2, final Tag<Item> tag3) {
+                      final ItemLike item1, final TagKey<Item> tag2, final TagKey<Item> tag3) {
         ShapedRecipeBuilder.shaped(result.get())
                 .define('C', Content.Items.REPROCESSOR_CASING.get())
                 .define('1', item1)

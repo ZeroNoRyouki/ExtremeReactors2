@@ -44,11 +44,12 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -220,7 +221,7 @@ public class ReactorSolidAccessPortEntity
         if (!outputStack.isEmpty()) {
 
             // Find matching mapping
-            final IMapping<ResourceLocation, Reactant> mapping = ReactantMappingsRegistry.getFromSolid(outputStack).orElse(null);
+            final IMapping<TagKey<Item>, Reactant> mapping = ReactantMappingsRegistry.getFromSolid(outputStack).orElse(null);
 
             if (null == mapping || !reactant.equals(mapping.getProduct())) {
                 // The items in the output slot are not compatible with the Reactant
@@ -254,14 +255,14 @@ public class ReactorSolidAccessPortEntity
         We have no items in the output slot. We need to figure out candidate mappings.
         Below here, we're using the reactant >> source mappings. This means that source == reactant, and product == item.
         */
-        IMapping<Reactant, ResourceLocation> bestMapping = null;
-        final List<IMapping<Reactant, ResourceLocation>> mappings = ReactantMappingsRegistry.getToSolid(reactant).orElse(null);
+        IMapping<Reactant, TagKey<Item>> bestMapping = null;
+        final List<IMapping<Reactant, TagKey<Item>>> mappings = ReactantMappingsRegistry.getToSolid(reactant).orElse(null);
 
         if (null != mappings) {
 
             int bestReactantAmount = 0;
 
-            for (final IMapping<Reactant, ResourceLocation> mapping: mappings) {
+            for (final IMapping<Reactant, TagKey<Item>> mapping: mappings) {
 
                 // How much product can we produce?
                 final int potentialProducts = mapping.getProductAmount(amount);

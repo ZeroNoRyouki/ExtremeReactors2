@@ -26,10 +26,12 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.IMu
 import it.zerono.mods.zerocore.lib.data.stack.OperationMode;
 import it.zerono.mods.zerocore.lib.fluid.FluidHelper;
 import it.zerono.mods.zerocore.lib.item.ItemHelper;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.event.TagsUpdatedEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -177,7 +179,7 @@ public class ReactantHelper {
 
     private static int refuelSolid(final FuelContainer container, final IFuelSource<ItemStack> fuelSource,
                                    final IMultiblockReactorVariant variant, final ItemStack fuelSourceStack,
-                                   final IMapping<ResourceLocation, Reactant> fuelMapping) {
+                                   final IMapping<TagKey<Item>, Reactant> fuelMapping) {
 
         // convert the source items to the equivalent amount of Reactant
 
@@ -254,7 +256,7 @@ public class ReactantHelper {
 
     private static int refuelFluid(final FuelContainer container, final IFuelSource<FluidStack> fuelSource,
                                    final IMultiblockReactorVariant variant, final FluidStack fuelSourceStack,
-                                   final IMapping<ResourceLocation, Reactant> fuelMapping) {
+                                   final IMapping<TagKey<Fluid>, Reactant> fuelMapping) {
 
         // 1 mb of fluid fuel is 1 mb of fuel.
 

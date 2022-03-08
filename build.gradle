@@ -31,6 +31,9 @@ minecraft {
 
     mappings channel: 'official', version: config.minecraft_mappings
 
+    //TEMP
+    accessTransformer file('src/main/resources/META-INF/accesstransformer.cfg')
+
 	def runDir = file("${rootProject.projectDir}/runs/run-${config.minecraft_version}")
 
     if (!runDir.exists()) {

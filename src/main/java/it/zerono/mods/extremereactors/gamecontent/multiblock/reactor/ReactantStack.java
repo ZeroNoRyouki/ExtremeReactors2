@@ -30,7 +30,8 @@ import it.zerono.mods.zerocore.lib.CodeHelper;
 import it.zerono.mods.zerocore.lib.data.nbt.ISyncableEntity;
 import it.zerono.mods.zerocore.lib.data.stack.IStackAdapter;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
 
 import java.util.List;
 import java.util.Optional;
@@ -61,7 +62,7 @@ public class ReactantStack
         this(other._reactant, other._amount);
     }
 
-    public ReactantStack(final IMapping<ResourceLocation, Reactant> mapping, final int itemCount) {
+    public ReactantStack(final IMapping<TagKey<Item>, Reactant> mapping, final int itemCount) {
         this(mapping.getProduct(), mapping.getProductAmount(itemCount));
     }
 

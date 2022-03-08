@@ -317,7 +317,7 @@ public class ClientProxy
 
         ReactantMappingsRegistry.fillReactantsTooltips(wipCache, Sets::newHashSet);
         ModeratorsRegistry.fillModeratorsTooltips(wipCache, Sets::newHashSet);
-        CoilMaterialRegistry.fillModeratorsTooltips(wipCache, Sets::newHashSet);
+        CoilMaterialRegistry.fillCoilsTooltips(wipCache, Sets::newHashSet);
 
         return new Object2ObjectArrayMap<>(wipCache);
     }

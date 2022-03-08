@@ -18,6 +18,8 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.common;
 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.Maps;
 import it.zerono.mods.extremereactors.api.IMapping;
 import it.zerono.mods.extremereactors.api.coolant.Coolant;
@@ -33,12 +35,16 @@ import it.zerono.mods.zerocore.lib.data.stack.StackAdapters;
 import it.zerono.mods.zerocore.lib.fluid.handler.IndexedFluidHandlerForwarder;
 import it.zerono.mods.zerocore.lib.tag.TagsHelper;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.material.Fluid;
+import net.minecraftforge.common.util.NonNullFunction;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 import java.util.function.*;
 
 public class FluidContainer
@@ -184,7 +190,7 @@ public class FluidContainer
     @Override
     public boolean isContentValidForIndex(final FluidType index, final Fluid content) {
 
-        // check if the the current content mach the provided one
+        // check if the current content mach the provided one
 
         final TestResult result = TestResult.from(this.getContent(index)
                 .map(fluid -> fluid.isSame(content)));
@@ -322,11 +328,7 @@ public class FluidContainer
         } else {
 
             // no, vaporize using the first fluid associated to the Vapor as the target fluid
-            return FluidMappingsRegistry.getFluidFrom(vaporization.getProduct())
-                    .filter(list -> !list.isEmpty())
-                    .map(list -> list.get(0))
-                    .map(IMapping::getProduct)
-                    .map(TagsHelper::getTagFirstElement)
+            return getVaporizationResult(vaporization.getProduct())
                     .map(gas -> this.vaporize(energyAbsorbed, variant, vaporization, liquidAmount, gas))
                     .orElse(energyAbsorbed);
         }
@@ -389,11 +391,7 @@ public class FluidContainer
         } else {
 
             // no, condensate using the first fluid associated to the Coolant as the target fluid
-            return FluidMappingsRegistry.getFluidFrom(condensation.getProduct())
-                    .filter(list -> !list.isEmpty())
-                    .map(list -> list.get(0))
-                    .map(IMapping::getProduct)
-                    .map(TagsHelper::getTagFirstElement)
+            return getCondensationResult(condensation.getProduct())
                     .map(liquid -> this.condensate(vaporUsed, condensation, liquid))
                     .orElse(vaporUsed);
         }
@@ -526,7 +524,51 @@ public class FluidContainer
         }
     }
 
+    private static <T> Optional<Fluid> getTransitionResult(final T transition, final Cache<T, Fluid> cache,
+                                                           final NonNullFunction<T, Optional<List<IMapping<T, TagKey<Fluid>>>>> mappingGetter) {
+
+        final Fluid result = cache.getIfPresent(transition);
+
+        if (null == result) {
+
+            final Optional<Fluid> fluid = mappingGetter.apply(transition)
+                    .map(list -> list.get(0))
+                    .map(IMapping::getProduct)
+                    .flatMap(TagsHelper.FLUIDS::getFirstObject);
+
+            if (fluid.isPresent()) {
+
+                cache.put(transition, fluid.get());
+                return fluid;
+            }
+        }
+
+        return Optional.ofNullable(result);
+    }
+
+    private static Optional<Fluid> getVaporizationResult(final Vapor vapor) {
+        return getTransitionResult(vapor, s_vaporizationCache, FluidMappingsRegistry::getFluidFrom);
+    }
+
+    private static Optional<Fluid> getCondensationResult(final Coolant coolant) {
+        return getTransitionResult(coolant, s_condensationCache, FluidMappingsRegistry::getFluidFrom);
+    }
+
     //endregion
+
+    private static final Cache<Vapor, Fluid> s_vaporizationCache = CacheBuilder.newBuilder()
+            .initialCapacity(4)
+            .concurrencyLevel(2)
+            .maximumSize(64)
+            .expireAfterAccess(5, TimeUnit.MINUTES)
+            .build();
+
+    private static final Cache<Coolant, Fluid> s_condensationCache = CacheBuilder.newBuilder()
+            .initialCapacity(4)
+            .concurrencyLevel(2)
+            .maximumSize(64)
+            .expireAfterAccess(5, TimeUnit.MINUTES)
+            .build();
 
     private final IFluidContainerAccess _accessGovernor;
     private Map<FluidType, IndexedFluidHandlerForwarder<FluidType>> _wrappers;

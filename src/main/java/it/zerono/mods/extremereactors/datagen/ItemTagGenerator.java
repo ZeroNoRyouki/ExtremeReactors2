@@ -27,7 +27,7 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.data.tags.TagsProvider;
-import net.minecraft.tags.Tag;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -99,11 +99,11 @@ public class ItemTagGenerator
         this.build(Tags.Items.DUSTS, Items.YELLORIUM_DUST, Items.CYANITE_DUST, Items.GRAPHITE_DUST, Items.BLUTONIUM_DUST,
                 Items.MAGENTITE_DUST);
 
-        this.build(TagsHelper.ITEMS.createForgeOptionalTag("dusts/uranium"), Items.YELLORIUM_DUST);
-        this.build(TagsHelper.ITEMS.createForgeOptionalTag("ingots/uranium"), Items.YELLORIUM_INGOT);
-        this.build(TagsHelper.ITEMS.createForgeOptionalTag("dusts/plutonium"), Items.BLUTONIUM_DUST);
-        this.build(TagsHelper.ITEMS.createForgeOptionalTag("ingots/plutonium"), Items.BLUTONIUM_INGOT);
-        this.build(TagsHelper.ITEMS.createForgeOptionalTag("ores/uranium"), Items.YELLORITE_ORE_BLOCK);
+        this.build(TagsHelper.ITEMS.createKey("forge:dusts/uranium"), Items.YELLORIUM_DUST);
+        this.build(TagsHelper.ITEMS.createKey("forge:ingots/uranium"), Items.YELLORIUM_INGOT);
+        this.build(TagsHelper.ITEMS.createKey("forge:dusts/plutonium"), Items.BLUTONIUM_DUST);
+        this.build(TagsHelper.ITEMS.createKey("forge:ingots/plutonium"), Items.BLUTONIUM_INGOT);
+        this.build(TagsHelper.ITEMS.createKey("forge:ores/uranium"), Items.YELLORITE_ORE_BLOCK);
 
         this.build(ContentTags.Items.USING_REACTOR_CASING_BASIC,
                 Content.Items.REACTOR_CONTROLLER_BASIC,
@@ -149,7 +149,7 @@ public class ItemTagGenerator
     //region internals
 
     @SafeVarargs
-    private final void build(final Tag.Named<Item> tag, final Supplier<? extends Item>... items) {
+    private final void build(final TagKey<Item> tag, final Supplier<? extends Item>... items) {
 
         final TagsProvider.TagAppender<Item> builder = this.tag(tag);
 

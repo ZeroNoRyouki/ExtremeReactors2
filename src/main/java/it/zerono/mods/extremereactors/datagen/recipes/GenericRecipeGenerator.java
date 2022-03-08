@@ -29,7 +29,7 @@ import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.tags.Tag;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -127,7 +127,7 @@ public class GenericRecipeGenerator
 
     private void book(final Consumer<FinishedRecipe> c, final String name, final ResourceLocation patchouliBookId,
                       final ItemLike ingredientBook,
-                      final Tag<Item> ingredientItem) {
+                      final TagKey<Item> ingredientItem) {
 
         Mods.PATCHOULI.map(() -> PatchouliAPI.get().getBookStack(patchouliBookId)).ifPresent(book -> {
 
