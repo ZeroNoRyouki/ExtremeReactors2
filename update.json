@@ -103,6 +103,9 @@
         ,
         "1.18.1-2.0.38":"- New end-game Turbine coils: Ludicrite, Ridiculite, Inanite\r\n- Added Yellorium and Blutonium Nuggets (@Lady Lexxie)\r\n- Added coils get/set to the /er command\r\n- Added help buttons on Reprocessor / Fluidizer GUIs\r\n- Fixed lang issues in the Reprocessor JEI plugin\r\n- Bumped version to 2.0.38"
     },
+    "1.18.2":{
+        "1.18.1-2.0.40":"- API: Tags-related methods signatures were modified due to the changes to the MC Tags system. This is a breaking change. Since I was already breaking stuff I cleaned up the API a bit too.\r\nPorted to Minecraft 1.18.2\r\nUpdated Forge version to 40.0.12\r\nUpdated CC:Tweaked version to 1.100.3\r\nUpdated Patchouli version to 1.18.2-66\n\n"
+    },
     "promos":{
         "1.16.3-latest":"1.16.4-2.0.21",
         "1.16.3-recommended":"1.16.4-2.0.21",
@@ -115,6 +118,8 @@
         "1.18.0-latest":"1.18-2.0.32",
         "1.18.0-recommended":"1.18-2.0.32",
         "1.18.1-latest":"1.18-2.0.38",
-        "1.18.1-recommended":"1.18-2.0.38"
+        "1.18.1-recommended":"1.18-2.0.38",
+        "1.18.2-latest":"1.18.1-2.0.40",
+        "1.18.2-recommended":"1.18.1-2.0.40"
     }
 }
