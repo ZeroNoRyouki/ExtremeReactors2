@@ -240,7 +240,7 @@ publishing {
 
     repositories {
         maven {
-            url "file:///${rootProject.projectDir}/maven"
+            url "file:///${rootProject.projectDir}/../Maven"
         }
     }
 }
