@@ -18,7 +18,6 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client;
 
-import com.google.common.base.Preconditions;
 import it.unimi.dsi.fastutil.ints.IntArraySet;
 import it.unimi.dsi.fastutil.ints.IntSet;
 import it.unimi.dsi.fastutil.ints.IntSets;
@@ -64,12 +63,8 @@ public class ClientFuelRodsLayout
     public FuelData getFuelData(final int fuelRodIndex) {
 
         if (this.isVertical()) {
-
-            Preconditions.checkArgument(fuelRodIndex >= 0 && fuelRodIndex < this._rodsFuelData.length);
-            return this._rodsFuelData[fuelRodIndex];
-
+            return fuelRodIndex >= 0 && fuelRodIndex < this._rodsFuelData.length ? this._rodsFuelData[fuelRodIndex] : FuelData.EMPTY;
         } else {
-
             return this._rodsFuelData[0];
         }
     }
@@ -219,6 +214,8 @@ public class ClientFuelRodsLayout
 
     public static class FuelData {
 
+        public static final FuelData EMPTY = new FuelData(true);
+
         FuelData(final boolean vertical) {
 
             this._vertical = vertical;
@@ -248,6 +245,10 @@ public class ClientFuelRodsLayout
         //region internals
 
         private boolean update(final float fuelAmount, final float wasteAmount) {
+
+            if (this == EMPTY) {
+                return false;
+            }
 
             final float levelStep = this._vertical ? VERTICAL_LEVEL_STEP : HORIZONTAL_LEVEL_STEP;
             final byte newFuelLevel = (byte)Math.round(fuelAmount / levelStep);
