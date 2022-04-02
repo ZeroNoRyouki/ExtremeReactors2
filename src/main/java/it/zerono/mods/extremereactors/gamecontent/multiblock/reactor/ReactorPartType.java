@@ -82,7 +82,7 @@ public enum ReactorPartType
             PowerTapBlock::new, "part.bigreactors.reactor.powertap_fe_passive"),
 
     ComputerPort(() -> Content.TileEntityTypes.REACTOR_COMPUTERPORT::get,
-            ComputerPortBlock::new, "part.bigreactors.reactor.computerport"),
+            GenericDeviceBlock::new, "part.bigreactors.reactor.computerport"),
 
     RedstonePort(() -> Content.TileEntityTypes.REACTOR_REDSTONEPORT::get,
             ReactorRedstonePortBlock::new, "part.bigreactors.reactor.redstoneport"),
