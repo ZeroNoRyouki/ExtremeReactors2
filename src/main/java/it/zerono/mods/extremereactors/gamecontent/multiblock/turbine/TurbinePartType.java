@@ -81,7 +81,7 @@ public enum TurbinePartType
             PowerTapBlock::new, "part.bigreactors.turbine.powertap_fe_passive"),
 
     ComputerPort(() -> Content.TileEntityTypes.TURBINE_COMPUTERPORT::get,
-            ComputerPortBlock::new, "part.bigreactors.turbine.computerport"),
+            GenericDeviceBlock::new, "part.bigreactors.turbine.computerport"),
 
     ChargingPortFE(() -> Content.TileEntityTypes.TURBINE_CHARGINGPORT_FE::get,
             GenericDeviceBlock::new, "part.bigreactors.turbine.chargingport_fe"),
