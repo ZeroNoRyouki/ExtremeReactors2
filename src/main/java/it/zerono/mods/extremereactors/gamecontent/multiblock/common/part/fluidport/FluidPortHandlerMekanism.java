@@ -203,7 +203,7 @@ public class FluidPortHandlerMekanism<Controller extends AbstractGeneratorMultib
             return GasStack.EMPTY;
         }
 
-        final int amountToRemove = gasMapping.getProductAmount((int)Math.max(amount, Integer.MAX_VALUE));
+        final int amountToRemove = gasMapping.getProductAmount((int)Math.min(amount, Integer.MAX_VALUE));
         final FluidStack removed = this._capabilityForwarder.drain(amountToRemove, action.toFluidAction());
 
         return getGasStack(removed);
