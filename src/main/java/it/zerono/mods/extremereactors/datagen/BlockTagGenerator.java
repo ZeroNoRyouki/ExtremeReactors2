@@ -74,6 +74,8 @@ public class BlockTagGenerator
         this.build(Tags.Blocks.ORES, Blocks.YELLORITE_ORE_BLOCK, Blocks.ANGLESITE_ORE_BLOCK, Blocks.BENITOITE_ORE_BLOCK);
         this.build(TagsHelper.BLOCKS.createKey("forge:ores/uranium"), Blocks.YELLORITE_ORE_BLOCK);
 
+        this.buildOptional(TagsHelper.BLOCKS.createKey("forge:storage_blocks/enderium"), new ResourceLocation("ftbic:enderium_block"));
+
         this.digWithIronPick(Blocks.getAll());
     }
 
