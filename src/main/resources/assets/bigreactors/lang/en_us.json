@@ -425,7 +425,7 @@
     "gui.bigreactors.turbine.controller.vaporbar.line4a": "  @3",
     "gui.bigreactors.turbine.controller.vaporbar.line4b": "% full",
     "gui.bigreactors.turbine.controller.vaporbar.line5": "Vapor fluids received from input Fluid",
-    "gui.bigreactors.turbine.controller.vaporbar.line6": "Ports are stored in this thank and then",
+    "gui.bigreactors.turbine.controller.vaporbar.line6": "Ports are stored in this tank and then",
     "gui.bigreactors.turbine.controller.vaporbar.line7": "used to drive the Turbine Rotor.",
 
     "gui.bigreactors.turbine.controller.rpmbar.line1": "Rotor Speed",
