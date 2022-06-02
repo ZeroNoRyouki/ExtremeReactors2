@@ -98,6 +98,8 @@
         "1.17.1-2.0.38":"- New end-game Turbine coils: Ludicrite, Ridiculite, Inanite\r\n- Added Yellorium and Blutonium Nuggets (@Lady Lexxie)\r\n- Added coils get/set to the /er command\r\n- Added help buttons on Reprocessor / Fluidizer GUIs\r\n- Fixed lang issues in the Reprocessor JEI plugin\r\n- Bumped version to 2.0.38"
         ,
         "1.17.1-2.0.41":"- Book: Added missing entry for the Fuel Injection Port and tweaked some pages a bit\n\nFIX: Return an empty FuelData when a FuelRod is not yet linked to a ControlRod. Closes #78. Thanks to DMSledge for the report.\n\nBumped version to 2.0.41\n\n"
+    ,
+        "1.17.1-2.0.44":"- Typo. Close #82\r\n- Updated ZeroCore to version 1.17.1-2.1.17 to fix a crash when an error is displayed on the screen\r\n- Bumped version to 2.0.44"
     },
     "1.18.0":{
         "1.18-2.0.32":"- Updated to Minecraft 1.18\r\n- Updated Forge to version 38.0.5\r\n- Updated CC: Tweaked to version 1.99.0\r\n- Updated ZeroCore to version 1.18-2.1.8"
@@ -117,6 +119,10 @@
         "1.18.1-2.0.40":"- API: Tags-related methods signatures were modified due to the changes to the MC Tags system. This is a breaking change. Since I was already breaking stuff I cleaned up the API a bit too.\r\nPorted to Minecraft 1.18.2\r\nUpdated Forge version to 40.0.12\r\nUpdated CC:Tweaked version to 1.100.3\r\nUpdated Patchouli version to 1.18.2-66"
         ,
         "1.18.1-2.0.41":"- Book: Added missing entry for the Fuel Injection Port and tweaked some pages a bit\r\nFIX: Return an empty FuelData when a FuelRod is not yet linked to a ControlRod. Closes #78. Thanks to DMSledge for the report.\r\nBumped version to 2.0.41\r\n"
+        ,
+        "1.18.1-2.0.42":"- Fix multiblock assembly in corer cases before opt2 is merged in\r\n- Added back support for Mekanism in 1.18.2\r\n- Updated Forge to version 40.1.0\r\n- Updated Mekanism to version 10.2.0.459\r\n- Updated CC:Tweaked to version 1.100.4\r\n- Updated JEI to version 9.7.0.100\r\n- Updated ZeroCore to version 2.1.16\r\n- Bumped version to 2.0.42\r\n"
+        ,
+        "1.18.2-2.0.44":"- Added Enderium Block from FTB Industrial Contraptions to the forge:storage_blocks/enderium so it can be used as a moderator\r\n- Typo. Close #82\r\n- Updated ZeroCore to version 1.18.2-2.1.17 to fix a crash when an error is displayed on the screen\r\n- Bumped version to 2.0.44"
     },
     "promos":{
         "1.16.3-latest":"1.16.4-2.0.21",
@@ -125,13 +131,13 @@
         "1.16.4-recommended":"1.16.4-2.0.23",
         "1.16.5-latest":"1.16.5-2.0.44",
         "1.16.5-recommended":"1.16.5-2.0.44",
-        "1.17.1-latest":"1.17.1-2.0.41",
-        "1.17.1-recommended":"1.17.1-2.0.41",
+        "1.17.1-latest":"1.17.1-2.0.44",
+        "1.17.1-recommended":"1.17.1-2.0.44",
         "1.18.0-latest":"1.18-2.0.32",
         "1.18.0-recommended":"1.18-2.0.32",
         "1.18.1-latest":"1.18-2.0.38",
         "1.18.1-recommended":"1.18-2.0.38",
-        "1.18.2-latest":"1.18.1-2.0.41",
-        "1.18.2-recommended":"1.18.1-2.0.41"
+        "1.18.2-latest":"1.18.1-2.0.44",
+        "1.18.2-recommended":"1.18.1-2.0.44"
     }
 }
