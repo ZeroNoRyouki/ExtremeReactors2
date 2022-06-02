@@ -27,6 +27,7 @@ import net.minecraft.data.BlockTagsProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.TagsProvider;
 import net.minecraft.tags.ITag;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
@@ -81,6 +82,15 @@ public class BlockTagGenerator
 
         for (final Supplier<? extends Block> block : blocks) {
             builder.add(block.get());
+        }
+    }
+
+    private void buildOptional(final ITag.INamedTag<Block> tag, final ResourceLocation... blockIDs) {
+
+        final TagsProvider.Builder<Block> builder = this.tag(tag);
+
+        for (final ResourceLocation id : blockIDs) {
+            builder.addOptional(id);
         }
     }
 
