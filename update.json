@@ -69,6 +69,8 @@
         "1.16.5-2.0.41":"- Book: Added missing entry for the Fuel Injection Port and tweaked some pages a bit\n\nFIX: Return an empty FuelData when a FuelRod is not yet linked to a ControlRod. Closes #78. Thanks to DMSledge for the report.\n\nBumped version to 2.0.41\n\n"
         ,
         "1.16.5-2.0.42":"- Fix multiblock assembly in corer cases before opt2 is merged in\n\n- Updated Forge to version 36.2.27\n\n- Updated ZeroCore to version 2.1.16\n\n- Bumped version to 2.0.42\n\n"
+        ,
+        "1.16.5-2.0.43":"- Fix Mekanism fluid port output amount\n\n- Bumped version to 2.0.43\n\n"
     },
     "1.17.1":{
         "1.17.1-2.0.26":"- First 1.17.1 release\r\n- A general performance / memory usage improvement version\n- Align ourself with the modified multiblock API from ZeroCore\n- New Fuel Rods rendering system. Expanding on the previous custom-model based system, now the fuel/waste levels are rendered along the the Fuel Rod model itself, removing the need of a Tile Entity Special Renderer, speeding things up quite a bit. The custom models are cached and created only when needed. Occlusion detection still in place, so no quads will be rendered if a Fuel Rod is surrounded be opaque blocks (or if there is no glass in the Reactor walls)\n- General speed and memory optimizations in the whole codebase\n- Fix Computer API reporting an incorrect value from getNumberOfControlRods(). Close #48\r\n- Bumped version to 2.0.26\r\n- Updated Minecraft to version 1.17.1\r\n- Updated Forge to version 37.0.27\r\n- Updated ZeroCore to version 2.1.2",
@@ -121,8 +123,8 @@
         "1.16.3-recommended":"1.16.4-2.0.21",
         "1.16.4-latest":"1.16.4-2.0.23",
         "1.16.4-recommended":"1.16.4-2.0.23",
-        "1.16.5-latest":"1.16.5-2.0.42",
-        "1.16.5-recommended":"1.16.5-2.0.42",
+        "1.16.5-latest":"1.16.5-2.0.43",
+        "1.16.5-recommended":"1.16.5-2.0.43",
         "1.17.1-latest":"1.17.1-2.0.42",
         "1.17.1-recommended":"1.17.1-2.0.42",
         "1.18.0-latest":"1.18-2.0.32",

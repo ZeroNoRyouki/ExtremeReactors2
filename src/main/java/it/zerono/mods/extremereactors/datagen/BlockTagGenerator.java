@@ -25,6 +25,7 @@ import it.zerono.mods.zerocore.lib.tag.TagsHelper;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.data.tags.TagsProvider;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.Tag;
 import net.minecraft.world.level.block.Block;
@@ -86,6 +87,15 @@ public class BlockTagGenerator
 
         for (final Supplier<? extends Block> block : blocks) {
             builder.add(block.get());
+        }
+    }
+
+    private void buildOptional(final Tag.Named<Block> tag, final ResourceLocation... blockIDs) {
+
+        final TagsProvider.TagAppender<Block> builder = this.tag(tag);
+
+        for (final ResourceLocation id : blockIDs) {
+            builder.addOptional(id);
         }
     }
 
