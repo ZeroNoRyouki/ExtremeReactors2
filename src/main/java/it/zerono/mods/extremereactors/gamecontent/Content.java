@@ -19,6 +19,8 @@
 package it.zerono.mods.extremereactors.gamecontent;
 
 import it.zerono.mods.extremereactors.ExtremeReactors;
+import it.zerono.mods.extremereactors.api.reactor.Moderator;
+import it.zerono.mods.extremereactors.gamecontent.fluid.ModeratorFluid;
 import it.zerono.mods.extremereactors.gamecontent.fluid.ReactantFluid;
 import it.zerono.mods.extremereactors.gamecontent.fluid.SteamFluid;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.container.ChargingPortContainer;
@@ -137,6 +139,8 @@ public final class Content {
                                 .noDrops()
                 ));
 
+        //region reactants
+
         public static final RegistryObject<ReactantFluid.Block> YELLORIUM_FLUID = BLOCKS.register(Reactants.Yellorium.getFluidName(),
                 () -> new ReactantFluid.Block(Fluids.YELLORIUM_SOURCE));
 
@@ -155,6 +159,19 @@ public final class Content {
         public static final RegistryObject<ReactantFluid.Block> ROSSINITE_FLUID = BLOCKS.register(Reactants.Rossinite.getFluidName(),
                 () -> new ReactantFluid.Block(Fluids.ROSSINITE_SOURCE));
 
+        //endregion
+        //region moderators
+
+        public static final RegistryObject<ModeratorFluid.Block> CRYOMISI_FLUID = BLOCKS.register("cryomisi",
+                () -> new ModeratorFluid.Block(Fluids.CRYOMISI_SOURCE));
+
+        public static final RegistryObject<ModeratorFluid.Block> TANGERIUM_FLUID = BLOCKS.register("tangerium",
+                () -> new ModeratorFluid.Block(Fluids.TANGERIUM_SOURCE));
+
+        public static final RegistryObject<ModeratorFluid.Block> REDFRIGIUM_FLUID = BLOCKS.register("redfrigium",
+                () -> new ModeratorFluid.Block(Fluids.REDFRIGIUM_SOURCE));
+
+        //endregion
         //endregion
         //region reactor basic
 
@@ -487,6 +504,9 @@ public final class Content {
         //region fluids
 
         public static final RegistryObject<BucketItem> STEAM_BUCKET = registerBucket("steam_bucket", Fluids.STEAM_SOURCE);
+
+        //region reactants
+
         public static final RegistryObject<BucketItem> YELLORIUM_BUCKET = registerBucket(Reactants.Yellorium.getBucketName(), Fluids.YELLORIUM_SOURCE);
         public static final RegistryObject<BucketItem> CYANITE_BUCKET = registerBucket(Reactants.Cyanite.getBucketName(), Fluids.CYANITE_SOURCE);
         public static final RegistryObject<BucketItem> BLUTONIUM_BUCKET = registerBucket(Reactants.Blutonium.getBucketName(), Fluids.BLUTONIUM_SOURCE);
@@ -494,6 +514,16 @@ public final class Content {
         public static final RegistryObject<BucketItem> VERDERIUM_BUCKET = registerBucket(Reactants.Verderium.getBucketName(), Fluids.VERDERIUM_SOURCE);
         public static final RegistryObject<BucketItem> ROSSINITE_BUCKET = registerBucket(Reactants.Rossinite.getBucketName(), Fluids.ROSSINITE_SOURCE);
 
+        //endregion
+        //region moderators
+
+        public static final RegistryObject<BucketItem> CRYOMISI_BUCKET = registerBucket("cryomisi_bucket", Fluids.CRYOMISI_SOURCE);
+
+        public static final RegistryObject<BucketItem> TANGERIUM_BUCKET = registerBucket("tangerium_bucket", Fluids.TANGERIUM_SOURCE);
+
+        public static final RegistryObject<BucketItem> REDFRIGIUM_BUCKET = registerBucket("redfrigium_bucket", Fluids.REDFRIGIUM_SOURCE);
+
+        //endregion
         //endregion
         //region reactor basic
 
@@ -631,6 +661,8 @@ public final class Content {
         public static final RegistryObject<ForgeFlowingFluid> STEAM_SOURCE = FLUIDS.register("steam", SteamFluid.Source::new);
         public static final RegistryObject<ForgeFlowingFluid> STEAM_FLOWING = FLUIDS.register("steam_flowing", SteamFluid.Flowing::new);
 
+        //region reactants
+
         public static final RegistryObject<ReactantFluid.Source> YELLORIUM_SOURCE = FLUIDS.register(Reactants.Yellorium.getFluidSourceName(),
                 () -> new ReactantFluid.Source(Reactants.Yellorium, Fluids.YELLORIUM_SOURCE, Fluids.YELLORIUM_FLOWING,
                         Blocks.YELLORIUM_FLUID, Items.YELLORIUM_BUCKET));
@@ -678,6 +710,35 @@ public final class Content {
         public static final RegistryObject<ReactantFluid.Flowing> ROSSINITE_FLOWING = FLUIDS.register(Reactants.Rossinite.getFluidFlowingName(),
                 () -> new ReactantFluid.Flowing(Reactants.Rossinite, Fluids.ROSSINITE_SOURCE, Fluids.ROSSINITE_FLOWING,
                         Blocks.ROSSINITE_FLUID, Items.ROSSINITE_BUCKET));
+
+        //endregion
+        //region moderators
+
+        public static final RegistryObject<ModeratorFluid.Source> CRYOMISI_SOURCE = FLUIDS.register("cryomisi",
+                () -> new ModeratorFluid.Source(Fluids.CRYOMISI_SOURCE, Fluids.CRYOMISI_FLOWING, Blocks.CRYOMISI_FLUID,
+                        Items.CRYOMISI_BUCKET, 0x0));
+
+        public static final RegistryObject<ModeratorFluid.Flowing> CRYOMISI_FLOWING = FLUIDS.register("cryomisi_flowing",
+                () -> new ModeratorFluid.Flowing(Fluids.CRYOMISI_SOURCE, Fluids.CRYOMISI_FLOWING, Blocks.CRYOMISI_FLUID,
+                        Items.CRYOMISI_BUCKET, 0x0));
+
+        public static final RegistryObject<ModeratorFluid.Source> TANGERIUM_SOURCE = FLUIDS.register("tangerium",
+                () -> new ModeratorFluid.Source(Fluids.TANGERIUM_SOURCE, Fluids.TANGERIUM_FLOWING, Blocks.TANGERIUM_FLUID,
+                        Items.TANGERIUM_BUCKET, 0x0));
+
+        public static final RegistryObject<ModeratorFluid.Flowing> TANGERIUM_FLOWING = FLUIDS.register("tangerium_flowing",
+                () -> new ModeratorFluid.Flowing(Fluids.TANGERIUM_SOURCE, Fluids.TANGERIUM_FLOWING, Blocks.TANGERIUM_FLUID,
+                        Items.TANGERIUM_BUCKET, 0x0));
+
+        public static final RegistryObject<ModeratorFluid.Source> REDFRIGIUM_SOURCE = FLUIDS.register("redfrigium",
+                () -> new ModeratorFluid.Source(Fluids.REDFRIGIUM_SOURCE, Fluids.REDFRIGIUM_FLOWING, Blocks.REDFRIGIUM_FLUID,
+                        Items.REDFRIGIUM_BUCKET, 0x0));
+
+        public static final RegistryObject<ModeratorFluid.Flowing> REDFRIGIUM_FLOWING = FLUIDS.register("redfrigium_flowing",
+                () -> new ModeratorFluid.Flowing(Fluids.REDFRIGIUM_SOURCE, Fluids.REDFRIGIUM_FLOWING, Blocks.REDFRIGIUM_FLUID,
+                        Items.REDFRIGIUM_BUCKET, 0x0));
+
+        //endregion
     }
 
     public static final class TileEntityTypes {
