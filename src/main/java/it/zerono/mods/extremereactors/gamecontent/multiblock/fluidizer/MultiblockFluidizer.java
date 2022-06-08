@@ -92,6 +92,14 @@ public class MultiblockFluidizer
         this._interiorInvisible = this._ingredientsChanged = this._active = false;
     }
 
+    public boolean isValidIngredient(final ItemStack stack) {
+        return null != this._recipeHolder && this._recipeHolder.isValidIngredient(stack);
+    }
+
+    public boolean isValidIngredient(final FluidStack stack) {
+        return null != this._recipeHolder && this._recipeHolder.isValidIngredient(stack);
+    }
+
     public IFluidHandler getFluidHandler() {
         return this._outputFluidHandler;
     }

@@ -83,12 +83,20 @@ public class FluidizerFluidMixingRecipe
         return ingredient1.test(stack1) && ingredient2.test(stack2);
     }
 
+    /**
+     * Check if the provided stack match one of the recipe ingredients ignoring the stack size
+     */
+    public boolean matchIgnoreAmount(final FluidStack stack) {
+        return this.getIngredient1().testIgnoreAmount(stack) || this.getIngredient2().testIgnoreAmount(stack);
+    }
+
     public static RecipeSerializer<FluidizerFluidMixingRecipe> serializer() {
         return new TwoToOneRecipeSerializer<>(FluidizerFluidMixingRecipe::new,
                 FluidStackRecipeIngredient::from, FluidStackRecipeIngredient::from,
                 FluidStackRecipeIngredient::from, FluidStackRecipeIngredient::from,
                 FluidStackRecipeResult::from, FluidStackRecipeResult::from, JSON_LABELS_SUPPLIER);
     }
+
 
     public static TwoToOneRecipeBuilder<FluidStack, FluidStack, FluidStack> builder(final IRecipeIngredient<FluidStack> ingredient1,
                                                                                     final IRecipeIngredient<FluidStack> ingredient2,

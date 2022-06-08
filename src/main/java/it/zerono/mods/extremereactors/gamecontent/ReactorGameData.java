@@ -135,6 +135,15 @@ final class ReactorGameData {
 
         // fluids
 
+        ModeratorsRegistry.registerFluid("bigreactors:cryomisi", 0.75f, 0.55f, 1.60f, IHeatEntity.CONDUCTIVITY_EMERALD);
+        ModeratorsRegistry.registerFluid("bigreactors:cryomisi_flowing", 0.68f, 0.49f, 1.40f, IHeatEntity.CONDUCTIVITY_EMERALD);
+
+        ModeratorsRegistry.registerFluid("bigreactors:tangerium", 0.90f, 0.75f, 2.00f, IHeatEntity.CONDUCTIVITY_GOLD);
+        ModeratorsRegistry.registerFluid("bigreactors:tangerium_flowing", 0.84f, 0.69f, 1.70f, IHeatEntity.CONDUCTIVITY_GOLD);
+
+        ModeratorsRegistry.registerFluid("bigreactors:redfrigium", 0.66f, 0.95f, 6.00f, IHeatEntity.CONDUCTIVITY_DIAMOND);
+        ModeratorsRegistry.registerFluid("bigreactors:redfrigium_flowing", 0.57f, 0.86f, 5.00f, IHeatEntity.CONDUCTIVITY_DIAMOND);
+
         ModeratorsRegistry.registerFluid("minecraft:water", Moderator.WATER.getAbsorption(), Moderator.WATER.getHeatEfficiency(), Moderator.WATER.getModeration(), Moderator.WATER.getHeatConductivity());
         ModeratorsRegistry.registerFluid("minecraft:flowing_water", Moderator.WATER.getAbsorption(), Moderator.WATER.getHeatEfficiency(), Moderator.WATER.getModeration(), Moderator.WATER.getHeatConductivity());
 

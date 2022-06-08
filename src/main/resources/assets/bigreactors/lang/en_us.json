@@ -50,6 +50,9 @@
     "item.bigreactors.magentite_bucket": "Magentite Bucket",
     "item.bigreactors.verderium_bucket": "Verderium Bucket",
     "item.bigreactors.rossinite_bucket": "Rossinite Bucket",
+    "item.bigreactors.cryomisi_bucket": "Cryomisi Bucket",
+    "item.bigreactors.tangerium_bucket": "Tangerium Bucket",
+    "item.bigreactors.redfrigium_bucket": "Redfrigium Bucket",
 
     "_comment": "Fluids",
     "fluid.bigreactors.water": "Water",
@@ -60,6 +63,9 @@
     "fluid.bigreactors.magentite": "Magentite",
     "fluid.bigreactors.verderium": "Verderium",
     "fluid.bigreactors.rossinite": "Rossinite",
+    "fluid.bigreactors.cryomisi": "Cryomisi",
+    "fluid.bigreactors.tangerium": "Tangerium",
+    "fluid.bigreactors.redfrigium": "Redfrigium",
 
     "_comment": "Blocks - metal blocks / ores",
     "block.bigreactors.yellorium_block": "Yellorium Block",

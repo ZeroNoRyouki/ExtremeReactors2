@@ -19,11 +19,9 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.part;
 
 import it.zerono.mods.extremereactors.ExtremeReactors;
-import it.zerono.mods.extremereactors.api.reactor.ReactantType;
 import it.zerono.mods.extremereactors.gamecontent.CommonConstants;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.container.FluidizerSolidInjectorContainer;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.ReactantHelper;
 import it.zerono.mods.zerocore.lib.CodeHelper;
 import it.zerono.mods.zerocore.lib.DebuggableHelper;
 import it.zerono.mods.zerocore.lib.IDebugMessages;
@@ -68,7 +66,7 @@ public class FluidizerSolidInjectorEntity
     public FluidizerSolidInjectorEntity(final BlockPos position, final BlockState blockState) {
 
         super(Content.TileEntityTypes.FLUIDIZER_SOLIDINJECTOR.get(), position, blockState);
-        this._solidItems = new ItemStackHolder(1, FluidizerSolidInjectorEntity::isItemValid).setOnLoadListener(this::onItemsChanged).setOnContentsChangedListener(this::onItemsChanged);
+        this._solidItems = new ItemStackHolder(1, ($, stack) -> this.isValidIngredient(stack)).setOnLoadListener(this::onItemsChanged).setOnContentsChangedListener(this::onItemsChanged);
         this._capability = LazyOptional.of(() -> this._solidItems);
     }
 
@@ -84,8 +82,8 @@ public class FluidizerSolidInjectorEntity
         return this._solidItems.getStackAt(0);
     }
 
-    public static boolean isItemValid(int ignore, final ItemStack stack) {
-        return ReactantHelper.isValidSource(ReactantType.Fuel, stack) || ReactantHelper.isValidSource(ReactantType.Waste, stack);
+    public boolean isValidIngredient(final ItemStack stack) {
+        return this.evalOnController(c -> c.isValidIngredient(stack), false);
     }
 
     public static void itemTooltipBuilder(final ItemStack stack, final CompoundTag data, final @Nullable BlockGetter world,
