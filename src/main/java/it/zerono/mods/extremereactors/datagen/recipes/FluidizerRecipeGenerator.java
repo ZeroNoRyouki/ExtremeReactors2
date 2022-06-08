@@ -37,6 +37,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.fluids.FluidStack;
 
@@ -80,6 +81,10 @@ public class FluidizerRecipeGenerator
         solidMixing(c, "verderium9", Content.Items.YELLORIUM_BLOCK, 2, Content.Items.BLUTONIUM_BLOCK, 1, Content.Fluids.VERDERIUM_SOURCE, 18);
         fluidMixing(c, "verderium", Content.Fluids.YELLORIUM_SOURCE, 2000, Content.Fluids.BLUTONIUM_SOURCE, 1000, Content.Fluids.VERDERIUM_SOURCE, 2000);
 
+        solidMixing(c, "cryomisi", Items.REDSTONE, 1, Items.SNOW_BLOCK, 1, Content.Fluids.CRYOMISI_SOURCE.get(), 500);
+        solidMixing(c, "tangerium", Content.Items.ANGLESITE_CRYSTAL.get(), 1, Items.ENDER_PEARL, 4, Content.Fluids.TANGERIUM_SOURCE.get(), 500);
+        fluidMixing(c, "redfrigium", Content.Fluids.CRYOMISI_SOURCE, 1000, Content.Fluids.TANGERIUM_SOURCE, 1000, Content.Fluids.REDFRIGIUM_SOURCE, 2000);
+
         // fluidizer blocks
 
         this.casing(c);
@@ -106,9 +111,15 @@ public class FluidizerRecipeGenerator
     private static void solid(final Consumer<FinishedRecipe> c, final String name,
                               final Supplier<? extends Item> ingredient, final Supplier<ReactantFluid.Source> result,
                               final int resultMultiplier) {
+        solid(c, name, ingredient.get(), 1, result.get(), ReactantMappingsRegistry.STANDARD_SOLID_REACTANT_AMOUNT * resultMultiplier);
+    }
 
-        FluidizerSolidRecipe.builder(ItemStackRecipeIngredient.from(ingredient.get()),
-                        FluidStackRecipeResult.from(new FluidStack(result.get(), ReactantMappingsRegistry.STANDARD_SOLID_REACTANT_AMOUNT * resultMultiplier)))
+    private static void solid(final Consumer<FinishedRecipe> c, final String name,
+                              final Item ingredient, final int ingredientAmount,
+                              final Fluid result, final int resultAmount) {
+
+        FluidizerSolidRecipe.builder(ItemStackRecipeIngredient.from(ingredient, ingredientAmount),
+                        FluidStackRecipeResult.from(new FluidStack(result, resultAmount)))
                 .build(c, ExtremeReactors.newID("fluidizer/solid/" + name));
     }
 
@@ -116,31 +127,45 @@ public class FluidizerRecipeGenerator
                                     final Supplier<? extends Item> ingredient1, final int ingredient1Amount,
                                     final Supplier<? extends Item> ingredient2, final int ingredient2Amount,
                                     final Supplier<ReactantFluid.Source> result, final int resultMultiplier) {
+        solidMixing(c, name, ingredient1.get(), ingredient1Amount, ingredient2.get(), ingredient2Amount, result.get(), ReactantMappingsRegistry.STANDARD_SOLID_REACTANT_AMOUNT * resultMultiplier);
+    }
 
-        FluidizerSolidMixingRecipe.builder(ItemStackRecipeIngredient.from(ingredient1.get(), ingredient1Amount),
-                        ItemStackRecipeIngredient.from(ingredient2.get(), ingredient2Amount),
-                        FluidStackRecipeResult.from(new FluidStack(result.get(), ReactantMappingsRegistry.STANDARD_SOLID_REACTANT_AMOUNT * resultMultiplier)))
+    private static void solidMixing(final Consumer<FinishedRecipe> c, final String name,
+                                    final Item ingredient1, final int ingredient1Amount,
+                                    final Item ingredient2, final int ingredient2Amount,
+                                    final Fluid result, final int resultAmount) {
+
+        FluidizerSolidMixingRecipe.builder(ItemStackRecipeIngredient.from(ingredient1, ingredient1Amount),
+                        ItemStackRecipeIngredient.from(ingredient2, ingredient2Amount),
+                        FluidStackRecipeResult.from(new FluidStack(result, resultAmount)))
                 .build(c, ExtremeReactors.newID("fluidizer/solidmixing/" + name + "_1"));
 
-        FluidizerSolidMixingRecipe.builder(ItemStackRecipeIngredient.from(ingredient2.get(), ingredient2Amount),
-                        ItemStackRecipeIngredient.from(ingredient1.get(), ingredient1Amount),
-                        FluidStackRecipeResult.from(new FluidStack(result.get(), ReactantMappingsRegistry.STANDARD_SOLID_REACTANT_AMOUNT * resultMultiplier)))
+        FluidizerSolidMixingRecipe.builder(ItemStackRecipeIngredient.from(ingredient2, ingredient2Amount),
+                        ItemStackRecipeIngredient.from(ingredient1, ingredient1Amount),
+                        FluidStackRecipeResult.from(new FluidStack(result, resultAmount)))
                 .build(c, ExtremeReactors.newID("fluidizer/solidmixing/" + name + "_2"));
     }
 
     private static void fluidMixing(final Consumer<FinishedRecipe> c, final String name,
-                                    final Supplier<ReactantFluid.Source> ingredient1, final int ingredient1Amount,
-                                    final Supplier<ReactantFluid.Source> ingredient2, final int ingredient2Amount,
-                                    final Supplier<ReactantFluid.Source> result, final int resultAmount) {
+                                    final Supplier<? extends Fluid> ingredient1, final int ingredient1Amount,
+                                    final Supplier<? extends Fluid> ingredient2, final int ingredient2Amount,
+                                    final Supplier<? extends Fluid> result, final int resultAmount) {
+        fluidMixing(c, name, ingredient1.get(), ingredient1Amount, ingredient2.get(), ingredient2Amount, result.get(), resultAmount);
+    }
 
-        FluidizerFluidMixingRecipe.builder(FluidStackRecipeIngredient.from(ingredient1.get(), ingredient1Amount),
-                        FluidStackRecipeIngredient.from(ingredient2.get(), ingredient2Amount),
-                        FluidStackRecipeResult.from(new FluidStack(result.get(), resultAmount)))
+    private static void fluidMixing(final Consumer<FinishedRecipe> c, final String name,
+                                    final Fluid ingredient1, final int ingredient1Amount,
+                                    final Fluid ingredient2, final int ingredient2Amount,
+                                    final Fluid result, final int resultAmount) {
+
+        FluidizerFluidMixingRecipe.builder(FluidStackRecipeIngredient.from(ingredient1, ingredient1Amount),
+                        FluidStackRecipeIngredient.from(ingredient2, ingredient2Amount),
+                        FluidStackRecipeResult.from(new FluidStack(result, resultAmount)))
                 .build(c, ExtremeReactors.newID("fluidizer/fluidmixing/" + name + "_1"));
 
-        FluidizerFluidMixingRecipe.builder(FluidStackRecipeIngredient.from(ingredient2.get(), ingredient2Amount),
-                        FluidStackRecipeIngredient.from(ingredient1.get(), ingredient1Amount),
-                        FluidStackRecipeResult.from(new FluidStack(result.get(), resultAmount)))
+        FluidizerFluidMixingRecipe.builder(FluidStackRecipeIngredient.from(ingredient2, ingredient2Amount),
+                        FluidStackRecipeIngredient.from(ingredient1, ingredient1Amount),
+                        FluidStackRecipeResult.from(new FluidStack(result, resultAmount)))
                 .build(c, ExtremeReactors.newID("fluidizer/fluidmixing/" + name + "_2"));
     }
 

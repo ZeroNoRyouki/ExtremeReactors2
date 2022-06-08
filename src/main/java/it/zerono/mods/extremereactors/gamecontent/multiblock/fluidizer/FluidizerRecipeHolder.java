@@ -18,6 +18,7 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer;
 
+import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.recipe.FluidizerFluidMixingRecipe;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.recipe.FluidizerSolidMixingRecipe;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.recipe.FluidizerSolidRecipe;
@@ -28,6 +29,8 @@ import it.zerono.mods.zerocore.lib.recipe.holder.IHeldRecipe;
 import it.zerono.mods.zerocore.lib.recipe.holder.IRecipeHolder;
 import it.zerono.mods.zerocore.lib.recipe.holder.RecipeHolder;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.LogicalSide;
 
 import java.util.function.Function;
@@ -98,6 +101,32 @@ class FluidizerRecipeHolder<Recipe extends ModRecipe & IFluidizerRecipe>
     @Override
     public int getEnergyUsageMultiplier() {
         return this._recipeHolder.getCurrentRecipe().map(held -> held.getRecipe().getEnergyUsageMultiplier()).orElse(1);
+    }
+
+    @Override
+    public boolean isValidIngredient(final ItemStack stack) {
+        return Content.Recipes.FLUIDIZER_RECIPE_TYPE.findFirst(recipe -> {
+
+            if (recipe instanceof FluidizerSolidRecipe) {
+                return ((FluidizerSolidRecipe) recipe).matchIgnoreAmount(stack);
+            } else if (recipe instanceof FluidizerSolidMixingRecipe) {
+                return ((FluidizerSolidMixingRecipe) recipe).matchIgnoreAmount(stack);
+            } else {
+                return false;
+            }
+        }).isPresent();
+    }
+
+    @Override
+    public boolean isValidIngredient(final FluidStack stack) {
+        return Content.Recipes.FLUIDIZER_RECIPE_TYPE.findFirst(recipe -> {
+
+            if (recipe instanceof FluidizerFluidMixingRecipe) {
+                return ((FluidizerFluidMixingRecipe) recipe).matchIgnoreAmount(stack);
+            } else {
+                return false;
+            }
+        }).isPresent();
     }
 
     //endregion

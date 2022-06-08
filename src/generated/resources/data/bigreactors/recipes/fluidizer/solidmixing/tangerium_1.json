@@ -1,0 +1,19 @@
+{
+  "type": "bigreactors:fluidizersolidmixing",
+  "ingredient1": {
+    "ingredient": {
+      "item": "bigreactors:anglesite_crystal"
+    },
+    "count": 1
+  },
+  "ingredient2": {
+    "ingredient": {
+      "item": "minecraft:ender_pearl"
+    },
+    "count": 4
+  },
+  "result": {
+    "fluid": "bigreactors:tangerium",
+    "count": 500
+  }
+}

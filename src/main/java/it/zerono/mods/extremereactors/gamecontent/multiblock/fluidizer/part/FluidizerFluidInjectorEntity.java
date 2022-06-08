@@ -19,10 +19,8 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.part;
 
 import it.zerono.mods.extremereactors.ExtremeReactors;
-import it.zerono.mods.extremereactors.api.reactor.ReactantType;
 import it.zerono.mods.extremereactors.gamecontent.CommonConstants;
 import it.zerono.mods.extremereactors.gamecontent.Content;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.ReactantHelper;
 import it.zerono.mods.zerocore.lib.CodeHelper;
 import it.zerono.mods.zerocore.lib.DebuggableHelper;
 import it.zerono.mods.zerocore.lib.IDebugMessages;
@@ -70,7 +68,7 @@ public class FluidizerFluidInjectorEntity
     public FluidizerFluidInjectorEntity(final BlockPos position, final BlockState blockState) {
 
         super(Content.TileEntityTypes.FLUIDIZER_FLUIDINJECTOR.get(), position, blockState);
-        this._fluids = new FluidStackHolder(1, FluidizerFluidInjectorEntity::isFluidValid).setOnLoadListener(this::onFluidsChanged).setOnContentsChangedListener(this::onFluidsChanged);
+        this._fluids = new FluidStackHolder(1, ($, stack) -> this.isValidIngredient(stack)).setOnLoadListener(this::onFluidsChanged).setOnContentsChangedListener(this::onFluidsChanged);
         this._fluids.setMaxCapacity(MAX_CAPACITY);
         this._capability = LazyOptional.of(() -> this._fluids);
     }
@@ -85,6 +83,10 @@ public class FluidizerFluidInjectorEntity
 
     public FluidStack getStack() {
         return this._fluids.getStackAt(0);
+    }
+
+    public boolean isValidIngredient(final FluidStack stack) {
+        return this.evalOnController(c -> c.isValidIngredient(stack), false);
     }
 
     public static void itemTooltipBuilder(final ItemStack stack, final CompoundTag data, final @Nullable BlockGetter world,
@@ -226,7 +228,7 @@ public class FluidizerFluidInjectorEntity
      */
     @Override
     public boolean canOpenGui(Level world, BlockPos position, BlockState state) {
-        return true;
+        return false;
     }
 
     //endregion
@@ -250,10 +252,6 @@ public class FluidizerFluidInjectorEntity
 
     //endregion
     //region internals
-
-    private static boolean isFluidValid(int ignore, final FluidStack stack) {
-        return ReactantHelper.isValidSource(ReactantType.Fuel, stack) || ReactantHelper.isValidSource(ReactantType.Waste, stack);
-    }
 
     private LazyOptional<IFluidHandler> getNeighborCapability() {
         return CodeHelper.optionalFlatMap(this.getPartWorld(), this.getOutwardDirection(),

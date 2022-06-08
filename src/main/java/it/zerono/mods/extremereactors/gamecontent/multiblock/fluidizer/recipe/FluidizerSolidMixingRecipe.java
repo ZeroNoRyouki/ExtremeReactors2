@@ -84,6 +84,13 @@ public class FluidizerSolidMixingRecipe
         return ingredient1.test(stack1) && ingredient2.test(stack2);
     }
 
+    /**
+     * Check if the provided stack match one of the recipe ingredients ignoring the stack size
+     */
+    public boolean matchIgnoreAmount(final ItemStack stack) {
+        return this.getIngredient1().testIgnoreAmount(stack) || this.getIngredient2().testIgnoreAmount(stack);
+    }
+
     public static RecipeSerializer<FluidizerSolidMixingRecipe> serializer() {
         return new TwoToOneRecipeSerializer<>(FluidizerSolidMixingRecipe::new,
                 ItemStackRecipeIngredient::from, ItemStackRecipeIngredient::from,
