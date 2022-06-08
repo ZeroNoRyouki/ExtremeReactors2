@@ -21,6 +21,8 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.recipe.IFluidizerRecipe;
 import it.zerono.mods.zerocore.lib.IDebuggable;
 import it.zerono.mods.zerocore.lib.data.nbt.ISyncableEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.FluidStack;
 
 interface IFluidizerRecipeHolder
         extends ISyncableEntity, IDebuggable {
@@ -47,4 +49,8 @@ interface IFluidizerRecipeHolder
     void refresh();
 
     int getEnergyUsageMultiplier();
+
+    boolean isValidIngredient(final ItemStack stack);
+
+    boolean isValidIngredient(final FluidStack stack);
 }

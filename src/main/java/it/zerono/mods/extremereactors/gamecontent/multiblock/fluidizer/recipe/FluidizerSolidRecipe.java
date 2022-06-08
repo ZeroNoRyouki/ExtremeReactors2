@@ -66,6 +66,10 @@ public class FluidizerSolidRecipe
         return this.getIngredient().test(stack);
     }
 
+    public boolean matchIgnoreAmount(final ItemStack stack) {
+        return this.getIngredient().testIgnoreAmount(stack);
+    }
+
     public static IRecipeSerializer<FluidizerSolidRecipe> serializer() {
         return new OneToOneRecipeSerializer<>(FluidizerSolidRecipe::new,
                 ItemStackRecipeIngredient::from, ItemStackRecipeIngredient::from,
