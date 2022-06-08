@@ -19,7 +19,6 @@
 package it.zerono.mods.extremereactors.gamecontent;
 
 import it.zerono.mods.extremereactors.ExtremeReactors;
-import it.zerono.mods.extremereactors.api.reactor.Moderator;
 import it.zerono.mods.extremereactors.gamecontent.fluid.ModeratorFluid;
 import it.zerono.mods.extremereactors.gamecontent.fluid.ReactantFluid;
 import it.zerono.mods.extremereactors.gamecontent.fluid.SteamFluid;
@@ -162,13 +161,13 @@ public final class Content {
         //endregion
         //region moderators
 
-        public static final RegistryObject<ModeratorFluid.Block> CRYOMISI_FLUID = BLOCKS.register("cryomisi",
+        public static final RegistryObject<ModeratorFluid.Block> CRYOMISI_FLUID = BLOCKS.register("cryomisi_fluid",
                 () -> new ModeratorFluid.Block(Fluids.CRYOMISI_SOURCE));
 
-        public static final RegistryObject<ModeratorFluid.Block> TANGERIUM_FLUID = BLOCKS.register("tangerium",
+        public static final RegistryObject<ModeratorFluid.Block> TANGERIUM_FLUID = BLOCKS.register("tangerium_fluid",
                 () -> new ModeratorFluid.Block(Fluids.TANGERIUM_SOURCE));
 
-        public static final RegistryObject<ModeratorFluid.Block> REDFRIGIUM_FLUID = BLOCKS.register("redfrigium",
+        public static final RegistryObject<ModeratorFluid.Block> REDFRIGIUM_FLUID = BLOCKS.register("redfrigium_fluid",
                 () -> new ModeratorFluid.Block(Fluids.REDFRIGIUM_SOURCE));
 
         //endregion
@@ -716,27 +715,27 @@ public final class Content {
 
         public static final RegistryObject<ModeratorFluid.Source> CRYOMISI_SOURCE = FLUIDS.register("cryomisi",
                 () -> new ModeratorFluid.Source(Fluids.CRYOMISI_SOURCE, Fluids.CRYOMISI_FLOWING, Blocks.CRYOMISI_FLUID,
-                        Items.CRYOMISI_BUCKET, 0x0));
+                        Items.CRYOMISI_BUCKET, 0xf5002d));
 
         public static final RegistryObject<ModeratorFluid.Flowing> CRYOMISI_FLOWING = FLUIDS.register("cryomisi_flowing",
                 () -> new ModeratorFluid.Flowing(Fluids.CRYOMISI_SOURCE, Fluids.CRYOMISI_FLOWING, Blocks.CRYOMISI_FLUID,
-                        Items.CRYOMISI_BUCKET, 0x0));
+                        Items.CRYOMISI_BUCKET, 0xf5002d));
 
         public static final RegistryObject<ModeratorFluid.Source> TANGERIUM_SOURCE = FLUIDS.register("tangerium",
                 () -> new ModeratorFluid.Source(Fluids.TANGERIUM_SOURCE, Fluids.TANGERIUM_FLOWING, Blocks.TANGERIUM_FLUID,
-                        Items.TANGERIUM_BUCKET, 0x0));
+                        Items.TANGERIUM_BUCKET, 0xcf463b));
 
         public static final RegistryObject<ModeratorFluid.Flowing> TANGERIUM_FLOWING = FLUIDS.register("tangerium_flowing",
                 () -> new ModeratorFluid.Flowing(Fluids.TANGERIUM_SOURCE, Fluids.TANGERIUM_FLOWING, Blocks.TANGERIUM_FLUID,
-                        Items.TANGERIUM_BUCKET, 0x0));
+                        Items.TANGERIUM_BUCKET, 0xcf463b));
 
         public static final RegistryObject<ModeratorFluid.Source> REDFRIGIUM_SOURCE = FLUIDS.register("redfrigium",
                 () -> new ModeratorFluid.Source(Fluids.REDFRIGIUM_SOURCE, Fluids.REDFRIGIUM_FLOWING, Blocks.REDFRIGIUM_FLUID,
-                        Items.REDFRIGIUM_BUCKET, 0x0));
+                        Items.REDFRIGIUM_BUCKET, 0xfcb3c1));
 
         public static final RegistryObject<ModeratorFluid.Flowing> REDFRIGIUM_FLOWING = FLUIDS.register("redfrigium_flowing",
                 () -> new ModeratorFluid.Flowing(Fluids.REDFRIGIUM_SOURCE, Fluids.REDFRIGIUM_FLOWING, Blocks.REDFRIGIUM_FLUID,
-                        Items.REDFRIGIUM_BUCKET, 0x0));
+                        Items.REDFRIGIUM_BUCKET, 0xfcb3c1));
 
         //endregion
     }

@@ -50,6 +50,9 @@
     "item.bigreactors.magentite_bucket": "Balde de Magentite",
     "item.bigreactors.verderium_bucket": "Balde de Verderium",
     "item.bigreactors.rossinite_bucket": "Balde de Rossinite",
+    "item.bigreactors.cryomisi_bucket": "Balde de Cryomisi",
+    "item.bigreactors.tangerium_bucket": "Balde de Tangerium",
+    "item.bigreactors.redfrigium_bucket": "Balde de Redfrigium",
 
     "_comment": "Fluidos",
     "fluid.bigreactors.water": "Água",
@@ -60,6 +63,9 @@
     "fluid.bigreactors.magentite": "Magentite",
     "fluid.bigreactors.verderium": "Verderium",
     "fluid.bigreactors.rossinite": "Rossinite",
+    "fluid.bigreactors.cryomisi": "Cryomisi",
+    "fluid.bigreactors.tangerium": "Tangerium",
+    "fluid.bigreactors.redfrigium": "Redfrigium",
 
     "_comment": "Blocos - blocos de metal / minérios",
     "block.bigreactors.yellorium_block": "Bloco de Yellório",
