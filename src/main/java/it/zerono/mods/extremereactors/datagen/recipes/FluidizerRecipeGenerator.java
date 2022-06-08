@@ -111,11 +111,6 @@ public class FluidizerRecipeGenerator
     private static void solid(final Consumer<FinishedRecipe> c, final String name,
                               final Supplier<? extends Item> ingredient, final Supplier<ReactantFluid.Source> result,
                               final int resultMultiplier) {
-//
-//        FluidizerSolidRecipe.builder(ItemStackRecipeIngredient.from(ingredient.get()),
-//                        FluidStackRecipeResult.from(new FluidStack(result.get(), ReactantMappingsRegistry.STANDARD_SOLID_REACTANT_AMOUNT * resultMultiplier)))
-//                .build(c, ExtremeReactors.newID("fluidizer/solid/" + name));
-
         solid(c, name, ingredient.get(), 1, result.get(), ReactantMappingsRegistry.STANDARD_SOLID_REACTANT_AMOUNT * resultMultiplier);
     }
 
@@ -133,16 +128,6 @@ public class FluidizerRecipeGenerator
                                     final Supplier<? extends Item> ingredient2, final int ingredient2Amount,
                                     final Supplier<ReactantFluid.Source> result, final int resultMultiplier) {
         solidMixing(c, name, ingredient1.get(), ingredient1Amount, ingredient2.get(), ingredient2Amount, result.get(), ReactantMappingsRegistry.STANDARD_SOLID_REACTANT_AMOUNT * resultMultiplier);
-//
-//        FluidizerSolidMixingRecipe.builder(ItemStackRecipeIngredient.from(ingredient1.get(), ingredient1Amount),
-//                        ItemStackRecipeIngredient.from(ingredient2.get(), ingredient2Amount),
-//                        FluidStackRecipeResult.from(new FluidStack(result.get(), ReactantMappingsRegistry.STANDARD_SOLID_REACTANT_AMOUNT * resultMultiplier)))
-//                .build(c, ExtremeReactors.newID("fluidizer/solidmixing/" + name + "_1"));
-//
-//        FluidizerSolidMixingRecipe.builder(ItemStackRecipeIngredient.from(ingredient2.get(), ingredient2Amount),
-//                        ItemStackRecipeIngredient.from(ingredient1.get(), ingredient1Amount),
-//                        FluidStackRecipeResult.from(new FluidStack(result.get(), ReactantMappingsRegistry.STANDARD_SOLID_REACTANT_AMOUNT * resultMultiplier)))
-//                .build(c, ExtremeReactors.newID("fluidizer/solidmixing/" + name + "_2"));
     }
 
     private static void solidMixing(final Consumer<FinishedRecipe> c, final String name,
