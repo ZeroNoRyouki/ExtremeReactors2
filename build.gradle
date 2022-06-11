@@ -1,17 +1,10 @@
-buildscript {
-    repositories {
-        maven { url = 'https://files.minecraftforge.net/maven' }
-        mavenCentral()
-    }
-    dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
-    }
+plugins {
+    id 'eclipse'
+    id 'maven-publish'
+    id 'net.minecraftforge.gradle' version '5.+'
 }
-apply plugin: 'net.minecraftforge.gradle'
-apply plugin: 'maven-publish'
-apply from: 'https://raw.githubusercontent.com/SizableShrimp/Forge-Class-Remapper/main/classremapper.gradle'
 
-evaluationDependsOn(":ZeroCore2-1.18")
+evaluationDependsOn(":ZeroCore2-1.19")
 
 file('build.properties').withReader {
 
@@ -32,7 +25,7 @@ minecraft {
     mappings channel: 'official', version: config.minecraft_mappings
 
     //TEMP
-    accessTransformer file('src/main/resources/META-INF/accesstransformer.cfg')
+//    accessTransformer file('src/main/resources/META-INF/accesstransformer.cfg')
 
 	def runDir = file("${rootProject.projectDir}/runs/run-${config.minecraft_version}")
 
@@ -56,7 +49,7 @@ minecraft {
 			
             mods {
                 zerocore {
-                    source project(':ZeroCore2-1.18').sourceSets.main
+                    source project(':ZeroCore2-1.19').sourceSets.main
                 }
 
                 bigreactors {
@@ -78,7 +71,7 @@ minecraft {
 			
             mods {
                 zerocore {
-                    source project(':ZeroCore2-1.18').sourceSets.main
+                    source project(':ZeroCore2-1.19').sourceSets.main
                 }
 
                 bigreactors {
@@ -104,7 +97,7 @@ minecraft {
 
             mods {
                 zerocore {
-                    source project(':ZeroCore2-1.18').sourceSets.main
+                    source project(':ZeroCore2-1.19').sourceSets.main
                 }
 
                 bigreactors {
@@ -134,7 +127,7 @@ processResources {
 
     from(sourceSets.main.resources.srcDirs) {
 	
-        include 'ExtremeReactors2-1.18/src/main/resources/META-INF/mods.toml'
+        include 'ExtremeReactors2-1.19/src/main/resources/META-INF/mods.toml'
         expand 'mod_version': version, 
 				'mod_name': config.mod_name,
 				'minecraft_versionrange': config.minecraft_versionrange,
@@ -176,28 +169,28 @@ repositories {
 
 dependencies {
 	minecraft "net.minecraftforge:forge:${config.minecraft_version}-${config.forge_version}"
-    implementation project(':ZeroCore2-1.18')
+    implementation project(':ZeroCore2-1.19')
 
     // JEI
-    compileOnly fg.deobf("mezz.jei:jei-${config.minecraft_version}:${config.jei_version}:api")
-    runtimeOnly fg.deobf("mezz.jei:jei-${config.minecraft_version}:${config.jei_version}")
+//    compileOnly fg.deobf("mezz.jei:jei-${config.minecraft_version}:${config.jei_version}:api")
+//    runtimeOnly fg.deobf("mezz.jei:jei-${config.minecraft_version}:${config.jei_version}")
 
 	// cc-tweaked
-    implementation fg.deobf("org.squiddev:cc-tweaked-${config.minecraft_version}:${config.cctweaked_version}")
+//    implementation fg.deobf("org.squiddev:cc-tweaked-${config.minecraft_version}:${config.cctweaked_version}")
 
 	// patchouli
-    compileOnly fg.deobf("vazkii.patchouli:Patchouli:${config.patchouli_version}:api")
-    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${config.patchouli_version}")
+//    compileOnly fg.deobf("vazkii.patchouli:Patchouli:${config.patchouli_version}:api")
+//    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${config.patchouli_version}")
 
     // mekanism
-    compileOnly "mekanism:Mekanism:${config.mekanism_version}:api"
-    runtimeOnly fg.deobf("mekanism:Mekanism:${config.mekanism_version}")
-    runtimeOnly fg.deobf("mekanism:Mekanism:${config.mekanism_version}:additions")
-    runtimeOnly fg.deobf("mekanism:Mekanism:${config.mekanism_version}:generators")
-    runtimeOnly fg.deobf("mekanism:Mekanism:${config.mekanism_version}:tools")
+//    compileOnly "mekanism:Mekanism:${config.mekanism_version}:api"
+//    runtimeOnly fg.deobf("mekanism:Mekanism:${config.mekanism_version}")
+//    runtimeOnly fg.deobf("mekanism:Mekanism:${config.mekanism_version}:additions")
+//    runtimeOnly fg.deobf("mekanism:Mekanism:${config.mekanism_version}:generators")
+//    runtimeOnly fg.deobf("mekanism:Mekanism:${config.mekanism_version}:tools")
 
 	// constructionwand
-    implementation fg.deobf("curse.maven:constructionwand-399558:3712396")
+//    implementation fg.deobf("curse.maven:constructionwand-399558:3712396")
 }
 
 task extremereactors_apiJar(type: Jar) {
@@ -245,4 +238,8 @@ publishing {
             url "file:///${rootProject.projectDir}/../Maven"
         }
     }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
 }
