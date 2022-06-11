@@ -26,23 +26,20 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.rotor.Rotor
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.IMultiblockTurbineVariant;
 import it.zerono.mods.zerocore.lib.CodeHelper;
 import it.zerono.mods.zerocore.lib.block.INeighborChangeListener;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.state.properties.EnumProperty;
-import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
-import net.minecraft.ChatFormatting;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 
 import javax.annotation.Nullable;
 import java.util.List;
-
-import it.zerono.mods.zerocore.lib.block.multiblock.MultiblockPartBlock.MultiblockPartProperties;
 
 public abstract class TurbineRotorComponentBlock
         extends GenericDeviceBlock<MultiblockTurbine, TurbinePartType>
@@ -128,7 +125,7 @@ public abstract class TurbineRotorComponentBlock
                 this._bladeTooltipInfo = this.getMultiblockVariant()
                         .filter(v -> v instanceof IMultiblockTurbineVariant)
                         .map(v -> (IMultiblockTurbineVariant) v)
-                        .map(variant -> (Component)new TranslatableComponent("gui.bigreactors.turbine.controller.rotorstatus.line3",
+                        .map(variant -> (Component)Component.translatable("gui.bigreactors.turbine.controller.rotorstatus.line3",
                                 String.format(ChatFormatting.DARK_AQUA + "" + ChatFormatting.BOLD + "%d", variant.getBaseFluidPerBlade()))
                                 .setStyle(Style.EMPTY
                                         .withColor(ChatFormatting.GRAY)

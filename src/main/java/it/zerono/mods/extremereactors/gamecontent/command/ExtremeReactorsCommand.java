@@ -38,7 +38,6 @@ import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.ResourceLocationArgument;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 
 import java.lang.reflect.Field;
@@ -161,7 +160,7 @@ public final class ExtremeReactorsCommand {
 
         context.getSource().sendSuccess(ReactantsRegistry.get(getName(context))
                 .map(ExtremeReactorsCommand::getTextFrom)
-                .orElse(new TextComponent("Reactant not found")), true);
+                .orElse(Component.literal("Reactant not found")), true);
         return 0;
     }
 
@@ -169,7 +168,7 @@ public final class ExtremeReactorsCommand {
 
         context.getSource().sendSuccess(ReactantsRegistry.get(getName(context))
                 .map(r -> setReactantColour(r, (int)Long.parseLong(getString(context), 16)))
-                .orElse(new TextComponent("Reactant not found")), true);
+                .orElse(Component.literal("Reactant not found")), true);
         return 0;
     }
 
@@ -181,12 +180,12 @@ public final class ExtremeReactorsCommand {
 
             f.setAccessible(true);
             f.set(reactant, Colour.fromRGBA(colour));
-            return new TextComponent(String.format("Reactant %s colour set to 0x%08X", reactant.getName(), colour));
+            return Component.literal(String.format("Reactant %s colour set to 0x%08X", reactant.getName(), colour));
 
         } catch (Exception ex) {
 
             Log.LOGGER.error(ex);
-            return new TextComponent("Exception raised while setting colour field");
+            return Component.literal("Exception raised while setting colour field");
         }
     }
 
@@ -196,13 +195,13 @@ public final class ExtremeReactorsCommand {
         context.getSource().sendSuccess(ReactantsRegistry.get(getName(context))
                 .filter(r -> r.test(ReactantType.Fuel))
                 .map(r -> setValue(r, getFloat(context), getter, setter))
-                .orElse(new TextComponent("Fuel Reactant not found")), true);
+                .orElse(Component.literal("Fuel Reactant not found")), true);
         return 0;
     }
 
     private static Component getTextFrom(final Reactant reactant) {
 
-        final MutableComponent text = new TextComponent(String.format("[" +
+        final MutableComponent text = Component.literal(String.format("[" +
                         ChatFormatting.BOLD + "%s" + ChatFormatting.RESET + "] " + ChatFormatting.GOLD + "%s; " + ChatFormatting.RESET +
                         ChatFormatting.ITALIC + "color: " + ChatFormatting.RESET + "%08X",
                 reactant.getType(), reactant.getName(), reactant.getColour().toRGBA()));
@@ -211,7 +210,7 @@ public final class ExtremeReactorsCommand {
 
             final FuelProperties properties = reactant.getFuelData();
 
-            text.append(new TextComponent(String.format("; " +
+            text.append(Component.literal(String.format("; " +
                             ChatFormatting.ITALIC + "moderation: " + ChatFormatting.RESET + "%f; " +
                             ChatFormatting.ITALIC + "absorption: " + ChatFormatting.RESET + "%f; " +
                             ChatFormatting.ITALIC + "hardness: " + ChatFormatting.RESET + "%f; " +
@@ -232,12 +231,12 @@ public final class ExtremeReactorsCommand {
         context.getSource().sendSuccess(ReactantsRegistry.get(getName(context))
                 .flatMap(ReactionsRegistry::get)
                 .map(ExtremeReactorsCommand::getTextFrom)
-                .orElse(new TextComponent("Reactant or reaction not found")), true);
+                .orElse(Component.literal("Reactant or reaction not found")), true);
         return 0;
     }
 
     private static Component getTextFrom(final Reaction reaction) {
-        return new TextComponent(String.format("[" +
+        return Component.literal(String.format("[" +
                         ChatFormatting.BOLD + "%s" + ChatFormatting.RESET + " -> " +
                         ChatFormatting.BOLD + "%s" + ChatFormatting.RESET + "] " +
                         ChatFormatting.ITALIC + "reactivity: " + ChatFormatting.RESET + "%f; " +
@@ -256,15 +255,15 @@ public final class ExtremeReactorsCommand {
 
                         f.setAccessible(true);
                         f.set(reaction, value);
-                        return new TextComponent(String.format("Reaction %s parameter %s set to %f", reaction.getSource(), fieldName, value));
+                        return Component.literal(String.format("Reaction %s parameter %s set to %f", reaction.getSource(), fieldName, value));
 
                     } catch (Exception ex) {
 
                         Log.LOGGER.error(ex);
-                        return new TextComponent(String.format("Exception raised while setting Reaction field %s", fieldName));
+                        return Component.literal(String.format("Exception raised while setting Reaction field %s", fieldName));
                     }
                 })
-                .orElse(new TextComponent("Reactant or reaction not found")), true);
+                .orElse(Component.literal("Reactant or reaction not found")), true);
         return 0;
     }
 
@@ -275,7 +274,7 @@ public final class ExtremeReactorsCommand {
 
         context.getSource().sendSuccess(getCoilByName(context)
                 .map(ExtremeReactorsCommand::getTextFrom)
-                .orElse(new TextComponent("Coil not found")), true);
+                .orElse(Component.literal("Coil not found")), true);
         return 0;
     }
 
@@ -284,12 +283,12 @@ public final class ExtremeReactorsCommand {
 
         context.getSource().sendSuccess(getCoilByName(context)
                 .map(c -> setValue(c, getFloat(context), getter, setter))
-                .orElse(new TextComponent("Coil not found")), true);
+                .orElse(Component.literal("Coil not found")), true);
         return 0;
     }
 
     private static Component getTextFrom(final CoilMaterial coil) {
-        return new TextComponent(String.format(
+        return Component.literal(String.format(
                 ChatFormatting.ITALIC + "efficiency: " + ChatFormatting.RESET + "%f; " +
                         ChatFormatting.ITALIC + "bonus: " + ChatFormatting.RESET + "%f; " +
                         ChatFormatting.ITALIC + "energyExtractionRate: " + ChatFormatting.RESET + "%f",
@@ -306,7 +305,7 @@ public final class ExtremeReactorsCommand {
                                                final BiConsumer<T, Float> setter) {
 
         setter.accept(coil, value);
-        return new TextComponent(String.format("Value set to %f", getter.apply(coil)));
+        return Component.literal(String.format("Value set to %f", getter.apply(coil)));
     }
 
     private static final String PARAM_NAME = "name";

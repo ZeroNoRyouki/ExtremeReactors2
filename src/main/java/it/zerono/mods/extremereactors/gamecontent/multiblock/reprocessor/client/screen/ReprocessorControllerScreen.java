@@ -21,7 +21,6 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.client
 import com.google.common.collect.ImmutableList;
 import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.gamecontent.CommonConstants;
-import it.zerono.mods.extremereactors.gamecontent.compat.patchouli.PatchouliCompat;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.AbstractMultiblockScreen;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.CachedSprites;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.CommonIcons;
@@ -48,8 +47,6 @@ import it.zerono.mods.zerocore.lib.item.inventory.PlayerInventoryUsage;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.Fluid;
@@ -93,7 +90,7 @@ public class ReprocessorControllerScreen
 
         Panel p;
 
-        this.addPatchouliHelpButton(PatchouliCompat.HANDBOOK_ID, ExtremeReactors.newID("reprocessor/part-controller"), 1);
+//        this.addPatchouliHelpButton(PatchouliCompat.HANDBOOK_ID, ExtremeReactors.newID("reprocessor/part-controller"), 1);
 
         super.onScreenCreate();
 
@@ -120,22 +117,22 @@ public class ReprocessorControllerScreen
         this.addBarIcon(CommonIcons.PowerBattery, 16, 16, p).useTooltipsFrom(this._energyBar);
 
         final BindableTextComponent<Double> energyStoredText = new BindableTextComponent<>(
-                stored -> new TextComponent(CodeHelper.formatAsHumanReadableNumber(stored,
+                stored -> Component.literal(CodeHelper.formatAsHumanReadableNumber(stored,
                         EnergySystem.ForgeEnergy.getUnit())).setStyle(CommonConstants.STYLE_TOOLTIP_VALUE));
 
         final BindableTextComponent<Double> energyStoredPercentageText = new BindableTextComponent<>(
-                percentage -> new TextComponent(String.format("%d", (int)(percentage * 100))).setStyle(CommonConstants.STYLE_TOOLTIP_VALUE));
+                percentage -> Component.literal(String.format("%d", (int)(percentage * 100))).setStyle(CommonConstants.STYLE_TOOLTIP_VALUE));
 
         this._energyBar.setDesiredDimension(18, 66);
         this._energyBar.setBackground(CommonIcons.BarBackground.get());
         this._energyBar.setPadding(1);
         this._energyBar.setTooltips(ImmutableList.of(
-                new TranslatableComponent("gui.bigreactors.reprocessor.controller.energybar.line1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
-                new TranslatableComponent("gui.bigreactors.reprocessor.controller.energybar.line2a").setStyle(CommonConstants.STYLE_TOOLTIP_VALUE)
-                        .append(new TranslatableComponent("gui.bigreactors.reprocessor.controller.energybar.line2b",
+                Component.translatable("gui.bigreactors.reprocessor.controller.energybar.line1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
+                Component.translatable("gui.bigreactors.reprocessor.controller.energybar.line2a").setStyle(CommonConstants.STYLE_TOOLTIP_VALUE)
+                        .append(Component.translatable("gui.bigreactors.reprocessor.controller.energybar.line2b",
                                 CodeHelper.formatAsHumanReadableNumber(MultiblockReprocessor.ENERGY_CAPACITY, EnergySystem.ForgeEnergy.getUnit()))),
-                new TranslatableComponent("gui.bigreactors.reprocessor.controller.energybar.line3a").setStyle(CommonConstants.STYLE_TOOLTIP_VALUE)
-                        .append(new TranslatableComponent("gui.bigreactors.reprocessor.controller.energybar.line3b"))
+                Component.translatable("gui.bigreactors.reprocessor.controller.energybar.line3a").setStyle(CommonConstants.STYLE_TOOLTIP_VALUE)
+                        .append(Component.translatable("gui.bigreactors.reprocessor.controller.energybar.line3b"))
                 ),
                 ImmutableList.of(
                         // @0
@@ -156,9 +153,9 @@ public class ReprocessorControllerScreen
 
         final BindableTextComponent<Component> fluidName = new BindableTextComponent<>((Component name) -> name);
         final BindableTextComponent<Integer> fluidAmount = new BindableTextComponent<>(
-                amount -> new TextComponent(CodeHelper.formatAsMillibuckets(amount)).setStyle(CommonConstants.STYLE_TOOLTIP_VALUE));
+                amount -> Component.literal(CodeHelper.formatAsMillibuckets(amount)).setStyle(CommonConstants.STYLE_TOOLTIP_VALUE));
         final BindableTextComponent<Double> fluidStoredPercentage = new BindableTextComponent<>(
-                percentage -> new TextComponent(String.format("%d", (int)(percentage * 100))).setStyle(CommonConstants.STYLE_TOOLTIP_VALUE));
+                percentage -> Component.literal(String.format("%d", (int)(percentage * 100))).setStyle(CommonConstants.STYLE_TOOLTIP_VALUE));
 
         p = this.vBarPanel();
         this.addBarIcon(CodeHelper.asNonNull(CachedSprites.VANILLA_BUCKET, () -> Sprite.EMPTY), p).useTooltipsFrom(this._fluidBar);
@@ -168,13 +165,13 @@ public class ReprocessorControllerScreen
         this._fluidBar.setBackground(CommonIcons.BarBackground.get());
         this._fluidBar.setPadding(1);
         this._fluidBar.setTooltips(ImmutableList.of(
-                new TranslatableComponent("gui.bigreactors.reprocessor.controller.coolantbar.line1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
-                new TranslatableComponent("gui.bigreactors.reactor.controller.coreheatbar.line2").setStyle(CommonConstants.STYLE_TOOLTIP_VALUE),
-                new TranslatableComponent("gui.bigreactors.reprocessor.controller.coolantbar.line3a").setStyle(CommonConstants.STYLE_TOOLTIP_VALUE)
-                        .append(new TranslatableComponent("gui.bigreactors.reprocessor.controller.coolantbar.line3b",
+                Component.translatable("gui.bigreactors.reprocessor.controller.coolantbar.line1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
+                Component.translatable("gui.bigreactors.reactor.controller.coreheatbar.line2").setStyle(CommonConstants.STYLE_TOOLTIP_VALUE),
+                Component.translatable("gui.bigreactors.reprocessor.controller.coolantbar.line3a").setStyle(CommonConstants.STYLE_TOOLTIP_VALUE)
+                        .append(Component.translatable("gui.bigreactors.reprocessor.controller.coolantbar.line3b",
                                 CodeHelper.formatAsMillibuckets(MultiblockReprocessor.FLUID_CAPACITY))),
-                new TranslatableComponent("gui.bigreactors.reprocessor.controller.coolantbar.line4a").setStyle(CommonConstants.STYLE_TOOLTIP_VALUE)
-                        .append(new TranslatableComponent("gui.bigreactors.reprocessor.controller.coolantbar.line4b"))
+                Component.translatable("gui.bigreactors.reprocessor.controller.coolantbar.line4a").setStyle(CommonConstants.STYLE_TOOLTIP_VALUE)
+                        .append(Component.translatable("gui.bigreactors.reprocessor.controller.coolantbar.line4b"))
                 ),
                 ImmutableList.of(
                         // @0
@@ -237,13 +234,13 @@ public class ReprocessorControllerScreen
         SwitchButton off = new SwitchButton(this, "off", "OFF", true, "onoff");
 
         on.setLayoutEngineHint(FixedLayoutEngine.hint(x, y, w, 16));
-        on.setTooltips(new TranslatableComponent("gui.bigreactors.reprocessor.controller.on.line1"));
+        on.setTooltips(Component.translatable("gui.bigreactors.reprocessor.controller.on.line1"));
         on.Activated.subscribe(this::onActiveStateChanged);
         on.Deactivated.subscribe(this::onActiveStateChanged);
         this.addBinding(MultiblockReprocessor::isMachineActive, on::setActive);
 
         off.setLayoutEngineHint(FixedLayoutEngine.hint(x + w, y, w, 16));
-        off.setTooltips(new TranslatableComponent("gui.bigreactors.reprocessor.controller.off.line1"));
+        off.setTooltips(Component.translatable("gui.bigreactors.reprocessor.controller.off.line1"));
         this.addBinding(MultiblockReprocessor::isMachineActive, active -> off.setActive(!active));
 
         commandPanel.addControl(on, off);
@@ -287,7 +284,7 @@ public class ReprocessorControllerScreen
             return TEXT_EMPTY;
         }
 
-        return new TranslatableComponent(fluidStack.getFluid().getAttributes().getTranslationKey())
+        return Component.translatable(fluidStack.getFluid().getAttributes().getTranslationKey())
                 .setStyle(CommonConstants.STYLE_TOOLTIP_VALUE);
     }
 
@@ -370,8 +367,8 @@ public class ReprocessorControllerScreen
         }
 
         if (!stack.isEmpty()) {
-            display.setTooltips(new TextComponent(String.format("%dx ", stack.getCount()))
-                    .append(new TranslatableComponent(stack.getItem().getDescriptionId()).setStyle(Style.EMPTY.withBold(true))));
+            display.setTooltips(Component.literal(String.format("%dx ", stack.getCount()))
+                    .append(Component.translatable(stack.getItem().getDescriptionId()).setStyle(Style.EMPTY.withBold(true))));
         }
     }
 
@@ -388,7 +385,7 @@ public class ReprocessorControllerScreen
         return c;
     }
 
-    private static final Component TEXT_EMPTY = new TranslatableComponent("gui.bigreactors.generic.empty").setStyle(CommonConstants.STYLE_TOOLTIP_VALUE);
+    private static final Component TEXT_EMPTY = Component.translatable("gui.bigreactors.generic.empty").setStyle(CommonConstants.STYLE_TOOLTIP_VALUE);
 
     private final static int VBARPANEL_WIDTH = 18;
     private final static int VBARPANEL_HEIGHT = 84;

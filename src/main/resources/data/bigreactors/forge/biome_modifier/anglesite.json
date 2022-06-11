@@ -1,0 +1,5 @@
+{
+    "type":"bigreactors:oregen_anglesite",
+    "biomes":"#minecraft:is_end",
+    "feature":"bigreactors:anglesite_ore"
+}

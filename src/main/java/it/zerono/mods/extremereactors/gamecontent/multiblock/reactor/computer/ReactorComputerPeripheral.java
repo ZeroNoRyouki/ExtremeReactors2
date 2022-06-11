@@ -33,7 +33,6 @@ import it.zerono.mods.zerocore.lib.energy.EnergySystem;
 import net.minecraftforge.common.util.NonNullConsumer;
 
 import java.util.Map;
-import java.util.Objects;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
@@ -107,13 +106,13 @@ public class ReactorComputerPeripheral
 
         methodConsumer.accept(new ComputerMethod<>("getCoolantAmountMax", wrapControllerValue(c -> c.getFluidContainer().getCapacity())));
 
-        methodConsumer.accept(new ComputerMethod<>("getCoolantType", wrapControllerValue(c -> c.getFluidContainer().getLiquid().map(f -> Objects.requireNonNull(f.getRegistryName()).toString()).orElse(""))));
+        methodConsumer.accept(new ComputerMethod<>("getCoolantType", wrapControllerValue(c -> c.getFluidContainer().getLiquid().map(f -> CodeHelper.getObjectId(f).toString()))));
 
         methodConsumer.accept(new ComputerMethod<>("getHotFluidAmount", wrapControllerValue(c -> c.getFluidContainer().getGasAmount())));
 
         methodConsumer.accept(new ComputerMethod<>("getHotFluidAmountMax", wrapControllerValue(c -> c.getFluidContainer().getCapacity())));
 
-        methodConsumer.accept(new ComputerMethod<>("getHotFluidType", wrapControllerValue(c -> c.getFluidContainer().getGas().map(f -> Objects.requireNonNull(f.getRegistryName()).toString()).orElse(""))));
+        methodConsumer.accept(new ComputerMethod<>("getHotFluidType", wrapControllerValue(c -> c.getFluidContainer().getGas().map(f -> CodeHelper.getObjectId(f).toString()))));
 
         methodConsumer.accept(new ComputerMethod<>("getFuelReactivity", wrapControllerValue(c -> c.getFuelFertility() * 100.0f)));
 
@@ -217,7 +216,7 @@ public class ReactorComputerPeripheral
             final Map<String, Object> stats = Maps.newHashMap();
             final IFluidContainer container = c.getFluidContainer();
 
-            stats.put("fluidType", container.getGas().map(f -> Objects.requireNonNull(f.getRegistryName()).toString()));
+            stats.put("fluidType", container.getGas().map(f -> CodeHelper.getObjectId(f).toString()));
             stats.put("fluidAmount", container.getGasAmount());
             stats.put("fluidCapacity", container.getCapacity());
             stats.put("fluidProducedLastTick", c.getOperationalMode().isPassive() ? 0.0f : c.getUiStats().getAmountGeneratedLastTick());
@@ -231,7 +230,7 @@ public class ReactorComputerPeripheral
             final Map<String, Object> stats = Maps.newHashMap();
             final IFluidContainer container = c.getFluidContainer();
 
-            stats.put("fluidType", container.getLiquid().map(f -> Objects.requireNonNull(f.getRegistryName()).toString()));
+            stats.put("fluidType", container.getLiquid().map(f -> CodeHelper.getObjectId(f).toString()));
             stats.put("fluidAmount", container.getLiquidAmount());
             stats.put("fluidCapacity", container.getCapacity());
 

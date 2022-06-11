@@ -23,9 +23,10 @@ import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part.TurbineRotorComponentBlock;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.rotor.RotorBladeState;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.rotor.RotorShaftState;
-import net.minecraft.world.level.block.Block;
+import it.zerono.mods.zerocore.lib.CodeHelper;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.model.generators.BlockModelProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.client.model.generators.ModelProvider;
@@ -131,7 +132,7 @@ public class TurbineBlockStateGenerator
         final ModelFile z4c = mbp.withExistingParent(fullResourceName(resourceName + "_z_4c", subFolder), this.ROTOR_SHAFT_Z_4C_ID).texture("0", texture0).texture("1", texture1);
 
         this.itemModels()
-                .getBuilder(block.getRegistryName().getPath())
+                .getBuilder(CodeHelper.getObjectId(block).getPath())
                 .parent(z4c);
 
         this.genShaftVariant(block, RotorShaftState.HIDDEN, this.TRANSPARENT_BLOCK_MODEL, 0, 0);

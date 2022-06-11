@@ -33,7 +33,6 @@ import it.zerono.mods.zerocore.lib.multiblock.cuboid.PartPosition;
 import it.zerono.mods.zerocore.lib.multiblock.validation.IMultiblockValidator;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -79,7 +78,7 @@ public abstract class AbstractReprocessorEntity
     }
 
     public Component getPartDisplayName() {
-        return new TranslatableComponent(this.getPartType().map(ReprocessorPartType::getTranslationKey).orElse("unknown"));
+        return Component.translatable(this.getPartType().map(ReprocessorPartType::getTranslationKey).orElse("unknown"));
     }
 
     public boolean isValidIngredient(final ItemStack stack) {

@@ -18,10 +18,8 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.screen;
 
-import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.api.reactor.ReactantType;
 import it.zerono.mods.extremereactors.gamecontent.CommonConstants;
-import it.zerono.mods.extremereactors.gamecontent.compat.patchouli.PatchouliCompat;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.AbstractMultiblockScreen;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.CommonIcons;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.MultiblockReactor;
@@ -44,7 +42,6 @@ import it.zerono.mods.zerocore.lib.item.inventory.PlayerInventoryUsage;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraftforge.common.util.NonNullSupplier;
 
@@ -78,7 +75,7 @@ public class ReactorSolidAccessPortScreen
     @Override
     protected void onScreenCreate() {
 
-        this.addPatchouliHelpButton(PatchouliCompat.HANDBOOK_ID, ExtremeReactors.newID("reactor/part-solidaccessport"), 1);
+//        this.addPatchouliHelpButton(PatchouliCompat.HANDBOOK_ID, ExtremeReactors.newID("reactor/part-solidaccessport"), 1);
 
         super.onScreenCreate();
 
@@ -110,9 +107,9 @@ public class ReactorSolidAccessPortScreen
         this.setButtonSpritesAndOverlayForState(this._btnInputDirection, ButtonState.Active, CommonIcons.ButtonInputDirectionActive);
         this._btnInputDirection.Activated.subscribe(this::onInputActivated);
         this._btnInputDirection.setTooltips(
-                new TranslatableComponent("gui.bigreactors.reactor.solidaccessport.directioninput.line1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
+                Component.translatable("gui.bigreactors.reactor.solidaccessport.directioninput.line1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
                 TEXT_EMPTY_LINE,
-                new TranslatableComponent("gui.bigreactors.reactor.solidaccessport.directioninput.line2")
+                Component.translatable("gui.bigreactors.reactor.solidaccessport.directioninput.line2")
         );
 
         // - output direction button
@@ -120,9 +117,9 @@ public class ReactorSolidAccessPortScreen
         this.setButtonSpritesAndOverlayForState(this._btnOutputDirection, ButtonState.Active, CommonIcons.ButtonOutputDirectionActive);
         this._btnOutputDirection.Activated.subscribe(this::onOutputActivated);
         this._btnOutputDirection.setTooltips(
-                new TranslatableComponent("gui.bigreactors.reactor.solidaccessport.directionoutput.line1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
+                Component.translatable("gui.bigreactors.reactor.solidaccessport.directionoutput.line1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
                 TEXT_EMPTY_LINE,
-                new TranslatableComponent("gui.bigreactors.reactor.solidaccessport.directionoutput.line2")
+                Component.translatable("gui.bigreactors.reactor.solidaccessport.directionoutput.line2")
         );
 
         this.addBinding(ReactorSolidAccessPortContainer::getIoDirection, value -> {
@@ -138,11 +135,11 @@ public class ReactorSolidAccessPortScreen
         this._btnDumpFuel.setIconForState(CommonIcons.ButtonDumpFuelActive.get(), ButtonState.Active, ButtonState.ActiveHighlighted, ButtonState.DefaultHighlighted);
         this._btnDumpFuel.Clicked.subscribe(this::onDumpFuel);
         this._btnDumpFuel.setTooltips(
-                new TranslatableComponent("gui.bigreactors.reactor.solidaccessport.dumpfuel.line1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
+                Component.translatable("gui.bigreactors.reactor.solidaccessport.dumpfuel.line1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
                 TEXT_EMPTY_LINE,
-                new TranslatableComponent("gui.bigreactors.reactor.solidaccessport.dumpfuel.line2"),
-                new TranslatableComponent("gui.bigreactors.reactor.solidaccessport.dumpfuel.line3"),
-                new TranslatableComponent("gui.bigreactors.reactor.solidaccessport.dumpfuel.line4")
+                Component.translatable("gui.bigreactors.reactor.solidaccessport.dumpfuel.line2"),
+                Component.translatable("gui.bigreactors.reactor.solidaccessport.dumpfuel.line3"),
+                Component.translatable("gui.bigreactors.reactor.solidaccessport.dumpfuel.line4")
         );
 
         // - dump waste command button
@@ -152,11 +149,11 @@ public class ReactorSolidAccessPortScreen
         this._btnDumpWaste.setIconForState(CommonIcons.ButtonDumpWasteActive.get(), ButtonState.Active, ButtonState.ActiveHighlighted, ButtonState.DefaultHighlighted);
         this._btnDumpWaste.Clicked.subscribe(this::onDumpWaste);
         this._btnDumpWaste.setTooltips(
-                new TranslatableComponent("gui.bigreactors.reactor.solidaccessport.dumpwaste.line1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
+                Component.translatable("gui.bigreactors.reactor.solidaccessport.dumpwaste.line1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
                 TEXT_EMPTY_LINE,
-                new TranslatableComponent("gui.bigreactors.reactor.solidaccessport.dumpwaste.line2"),
-                new TranslatableComponent("gui.bigreactors.reactor.solidaccessport.dumpwaste.line3"),
-                new TranslatableComponent("gui.bigreactors.reactor.solidaccessport.dumpwaste.line4")
+                Component.translatable("gui.bigreactors.reactor.solidaccessport.dumpwaste.line2"),
+                Component.translatable("gui.bigreactors.reactor.solidaccessport.dumpwaste.line3"),
+                Component.translatable("gui.bigreactors.reactor.solidaccessport.dumpwaste.line4")
         );
 
         panel.addControl(this.buttonsPanel(this._btnInputDirection, this._btnOutputDirection, this._btnDumpFuel, this._btnDumpWaste));

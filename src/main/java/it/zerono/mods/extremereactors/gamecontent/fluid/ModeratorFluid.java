@@ -84,7 +84,7 @@ public abstract class ModeratorFluid
             super(fluid, ModeratorFluid.Block.Properties.of(Material.WATER)
                     .lightLevel(state -> 7)
                     .strength(70.0F)
-                    .noDrops());
+                    .noLootTable());
         }
     }
 

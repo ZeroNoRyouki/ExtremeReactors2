@@ -28,7 +28,6 @@ import it.zerono.mods.extremereactors.api.internal.modpack.wrapper.ApiWrapper;
 import it.zerono.mods.zerocore.lib.tag.TagList;
 import it.zerono.mods.zerocore.lib.tag.TagsHelper;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -199,7 +198,7 @@ public class CoilMaterialRegistry {
     private static final TagList<Block> s_tags = TagList.blocks();
     private static final Map<TagKey<Block>, CoilMaterial> s_materials = new Object2ObjectArrayMap<>(32);
 
-    private static final Component TOOLTIP_COIL = new TranslatableComponent("api.bigreactors.reactor.tooltip.coil").setStyle(ExtremeReactorsAPI.STYLE_TOOLTIP);
+    private static final Component TOOLTIP_COIL = Component.translatable("api.bigreactors.reactor.tooltip.coil").setStyle(ExtremeReactorsAPI.STYLE_TOOLTIP);
 
     private static final Marker MARKER = MarkerManager.getMarker("API/CoilMaterialRegistry").addParents(ExtremeReactorsAPI.MARKER);
     private static final Marker WRAPPER = MarkerManager.getMarker("ModPack API Wrapper").addParents(MARKER);

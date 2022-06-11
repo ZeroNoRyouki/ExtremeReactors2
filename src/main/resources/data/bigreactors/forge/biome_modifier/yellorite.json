@@ -1,0 +1,5 @@
+{
+    "type":"bigreactors:oregen_yellorite",
+    "biomes":"#minecraft:is_overworld",
+    "feature":"bigreactors:yellorite_ore"
+}

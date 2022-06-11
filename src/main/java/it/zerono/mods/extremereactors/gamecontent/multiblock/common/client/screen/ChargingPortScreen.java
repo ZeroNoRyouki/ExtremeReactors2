@@ -18,7 +18,7 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen;
 
-import it.zerono.mods.extremereactors.gamecontent.compat.patchouli.PatchouliCompat;
+//import it.zerono.mods.extremereactors.gamecontent.compat.patchouli.PatchouliCompat;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.container.ChargingPortContainer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.AbstractMultiblockEntity;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.powertap.chargingport.AbstractChargingPortHandler;
@@ -38,7 +38,6 @@ import it.zerono.mods.zerocore.lib.multiblock.IMultiblockMachine;
 import it.zerono.mods.zerocore.lib.multiblock.cuboid.AbstractCuboidMultiblockController;
 import it.zerono.mods.zerocore.lib.multiblock.variant.IMultiblockVariant;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
@@ -56,7 +55,7 @@ public class ChargingPortScreen<Controller extends AbstractCuboidMultiblockContr
                 mainTextureFromVariant(container.getTileEntity().getMultiblockVariant().orElseThrow(IllegalStateException::new)));
 
         this._btnEject = new Button(this, "eject", "");
-        this.addPatchouliHelpButton(PatchouliCompat.HANDBOOK_ID, bookEntryId, 1);
+//        this.addPatchouliHelpButton(PatchouliCompat.HANDBOOK_ID, bookEntryId, 1);
     }
 
     //region AbstractMultiblockScreen
@@ -106,11 +105,11 @@ public class ChargingPortScreen<Controller extends AbstractCuboidMultiblockContr
         this._btnEject.setIconForState(CommonIcons.ButtonManualEjectActive.get(), ButtonState.Active, ButtonState.ActiveHighlighted, ButtonState.DefaultHighlighted);
         this._btnEject.Clicked.subscribe(this::onManualEject);
         this._btnEject.setTooltips(
-                new TranslatableComponent("gui.bigreactors.generator.chargingport.dumpfuel.line1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
+                Component.translatable("gui.bigreactors.generator.chargingport.dumpfuel.line1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
                 TEXT_EMPTY_LINE,
-                new TranslatableComponent("gui.bigreactors.generator.chargingport.dumpfuel.line2"),
-                new TranslatableComponent("gui.bigreactors.generator.chargingport.dumpfuel.line3"),
-                new TranslatableComponent("gui.bigreactors.generator.chargingport.dumpfuel.line4")
+                Component.translatable("gui.bigreactors.generator.chargingport.dumpfuel.line2"),
+                Component.translatable("gui.bigreactors.generator.chargingport.dumpfuel.line3"),
+                Component.translatable("gui.bigreactors.generator.chargingport.dumpfuel.line4")
         );
 
         panel.addControl(this._btnEject);

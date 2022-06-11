@@ -48,7 +48,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.TagKey;
@@ -114,7 +113,7 @@ public class ReactorFluidAccessPortEntity
         final FluidTank tank = new FluidTank(TANK_CAPACITY);
 
         if (data.contains("iodir")) {
-            appender.accept(new TranslatableComponent(IoDirection.read(data, "iodir", IoDirection.Input).isInput() ?
+            appender.accept(Component.translatable(IoDirection.read(data, "iodir", IoDirection.Input).isInput() ?
                     "gui.bigreactors.reactor.fluidaccessport.directioninput.line1" :
                     "gui.bigreactors.reactor.fluidaccessport.directionoutput.line1").setStyle(CommonConstants.STYLE_TOOLTIP_VALUE));
         }
@@ -137,13 +136,13 @@ public class ReactorFluidAccessPortEntity
         final MutableComponent text;
 
         if (tank.isEmpty()) {
-            text = new TranslatableComponent("gui.bigreactors.generic.empty");
+            text = Component.translatable("gui.bigreactors.generic.empty");
         } else {
-            text = new TranslatableComponent("gui.bigreactors.reactor.fluidaccessport.item.reactant",
+            text = Component.translatable("gui.bigreactors.reactor.fluidaccessport.item.reactant",
                     FluidHelper.getFluidName(tank.getFluid()), tank.getFluidAmount(), TANK_CAPACITY);
         }
 
-        return new TranslatableComponent(labelKey).append(text.setStyle(CommonConstants.STYLE_TOOLTIP_VALUE));
+        return Component.translatable(labelKey).append(text.setStyle(CommonConstants.STYLE_TOOLTIP_VALUE));
     }
 
     //region client render support

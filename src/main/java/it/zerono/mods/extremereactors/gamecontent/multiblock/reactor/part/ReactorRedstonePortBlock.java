@@ -25,18 +25,15 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.ReactorPart
 import it.zerono.mods.zerocore.lib.block.INeighborChangeListener;
 import it.zerono.mods.zerocore.lib.multiblock.cuboid.AbstractCuboidMultiblockPart;
 import it.zerono.mods.zerocore.lib.world.WorldHelper;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.core.particles.DustParticleOptions;
-import net.minecraft.core.Direction;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.particles.DustParticleOptions;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-
-import java.util.Random;
-
-import it.zerono.mods.zerocore.lib.block.multiblock.MultiblockPartBlock.MultiblockPartProperties;
 
 public class ReactorRedstonePortBlock
         extends GenericDeviceBlock<MultiblockReactor, ReactorPartType>
@@ -72,7 +69,7 @@ public class ReactorRedstonePortBlock
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void animateTick(BlockState state, Level world, BlockPos pos, Random random) {
+    public void animateTick(BlockState state, Level world, BlockPos pos, RandomSource random) {
 
         if (Config.CLIENT.disableReactorParticles.get()) {
             return;

@@ -41,7 +41,6 @@ import it.zerono.mods.zerocore.lib.multiblock.IMultiblockMachine;
 import it.zerono.mods.zerocore.lib.multiblock.cuboid.AbstractCuboidMultiblockController;
 import it.zerono.mods.zerocore.lib.multiblock.variant.IMultiblockVariant;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
@@ -341,12 +340,12 @@ public abstract class AbstractMultiblockScreen<Controller extends AbstractCuboid
         return this._mainTextMap.sprite().from(0, 202).ofSize(18, 18).build();
     }
 
-    protected static final Component INDICATOR_ACTIVE_REACTOR = new TranslatableComponent("gui.bigreactors.reactor.active");
-    protected static final Component INDICATOR_INACTIVE_REACTOR = new TranslatableComponent("gui.bigreactors.reactor.inactive");
-    protected static final Component INDICATOR_ACTIVE_TURBINE = new TranslatableComponent("gui.bigreactors.turbine.active");
-    protected static final Component INDICATOR_INACTIVE_TURBINE = new TranslatableComponent("gui.bigreactors.turbine.inactive");
-    protected static final Component INDICATOR_ACTIVE_REPROCESSOR = new TranslatableComponent("gui.bigreactors.reprocessor.active");
-    protected static final Component INDICATOR_INACTIVE_REPROCESSOR = new TranslatableComponent("gui.bigreactors.reprocessor.inactive");
+    protected static final Component INDICATOR_ACTIVE_REACTOR = Component.translatable("gui.bigreactors.reactor.active");
+    protected static final Component INDICATOR_INACTIVE_REACTOR = Component.translatable("gui.bigreactors.reactor.inactive");
+    protected static final Component INDICATOR_ACTIVE_TURBINE = Component.translatable("gui.bigreactors.turbine.active");
+    protected static final Component INDICATOR_INACTIVE_TURBINE = Component.translatable("gui.bigreactors.turbine.inactive");
+    protected static final Component INDICATOR_ACTIVE_REPROCESSOR = Component.translatable("gui.bigreactors.reprocessor.active");
+    protected static final Component INDICATOR_INACTIVE_REPROCESSOR = Component.translatable("gui.bigreactors.reprocessor.inactive");
 
     private static final int DEFAULT_GUI_WIDTH = 224;
     private static final int DEFAULT_GUI_HEIGHT = 166;

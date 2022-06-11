@@ -19,10 +19,8 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.screen;
 
 import com.google.common.collect.ImmutableList;
-import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.api.reactor.ReactantType;
 import it.zerono.mods.extremereactors.gamecontent.CommonConstants;
-import it.zerono.mods.extremereactors.gamecontent.compat.patchouli.PatchouliCompat;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.AbstractGeneratorMultiblockController;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.AbstractMultiblockScreen;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.CommonIcons;
@@ -51,8 +49,6 @@ import it.zerono.mods.zerocore.lib.item.inventory.PlayerInventoryUsage;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.api.distmarker.Dist;
@@ -129,7 +125,7 @@ public class ReactorControllerScreen
         final Panel infoPanelLeft = this.hInfoPanel();
         final Panel infoPanelRight = this.hInfoPanel();
 
-        this.addPatchouliHelpButton(PatchouliCompat.HANDBOOK_ID, ExtremeReactors.newID("reactor/part-controller"), 1);
+//        this.addPatchouliHelpButton(PatchouliCompat.HANDBOOK_ID, ExtremeReactors.newID("reactor/part-controller"), 1);
 
         super.onScreenCreate();
 
@@ -202,22 +198,22 @@ public class ReactorControllerScreen
         // - core heat bar
 
         final BindableTextComponent<Double> coreHeatText = new BindableTextComponent<>(
-                heat -> new TextComponent(String.format("%.0f C", heat)).setStyle(CommonConstants.STYLE_TOOLTIP_VALUE));
+                heat -> Component.literal(String.format("%.0f C", heat)).setStyle(CommonConstants.STYLE_TOOLTIP_VALUE));
 
         p = this.vBarPanel();
         this.addBarIcon(CommonIcons.ButtonSensorOutputFuelTemperature, p).useTooltipsFrom(this._coreHeatBar);
 
         this._coreHeatBar.setTooltips(ImmutableList.of(
-                new TranslatableComponent("gui.bigreactors.reactor.controller.coreheatbar.line1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
-                new TranslatableComponent("gui.bigreactors.reactor.controller.coreheatbar.line2"),
+                Component.translatable("gui.bigreactors.reactor.controller.coreheatbar.line1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
+                Component.translatable("gui.bigreactors.reactor.controller.coreheatbar.line2"),
                 TEXT_EMPTY_LINE,
-                new TranslatableComponent("gui.bigreactors.reactor.controller.coreheatbar.line3"),
-                new TranslatableComponent("gui.bigreactors.reactor.controller.coreheatbar.line4"),
+                Component.translatable("gui.bigreactors.reactor.controller.coreheatbar.line3"),
+                Component.translatable("gui.bigreactors.reactor.controller.coreheatbar.line4"),
                 TEXT_EMPTY_LINE,
-                new TranslatableComponent("gui.bigreactors.reactor.controller.coreheatbar.line5"),
-                new TranslatableComponent("gui.bigreactors.reactor.controller.coreheatbar.line6"),
-                new TranslatableComponent("gui.bigreactors.reactor.controller.coreheatbar.line7"),
-                new TranslatableComponent("gui.bigreactors.reactor.controller.coreheatbar.line8")),
+                Component.translatable("gui.bigreactors.reactor.controller.coreheatbar.line5"),
+                Component.translatable("gui.bigreactors.reactor.controller.coreheatbar.line6"),
+                Component.translatable("gui.bigreactors.reactor.controller.coreheatbar.line7"),
+                Component.translatable("gui.bigreactors.reactor.controller.coreheatbar.line8")),
                 ImmutableList.of(
                         // @0
                         coreHeatText
@@ -238,18 +234,18 @@ public class ReactorControllerScreen
         // - casing heat bar
 
         final BindableTextComponent<Double> reactorHeatText = new BindableTextComponent<>(
-                heat -> new TextComponent(String.format("%.0f C", heat)).setStyle(CommonConstants.STYLE_TOOLTIP_VALUE));
+                heat -> Component.literal(String.format("%.0f C", heat)).setStyle(CommonConstants.STYLE_TOOLTIP_VALUE));
 
         p = this.vBarPanel();
         this.addBarIcon(CommonIcons.ButtonSensorOutputCasingTemperature, p).useTooltipsFrom(this._casingHeatBar);
 
         this._casingHeatBar.setTooltips(ImmutableList.of(
-                new TranslatableComponent("gui.bigreactors.reactor.controller.casingheatbar.line1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
-                new TranslatableComponent("gui.bigreactors.reactor.controller.casingheatbar.line2"),
+                Component.translatable("gui.bigreactors.reactor.controller.casingheatbar.line1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
+                Component.translatable("gui.bigreactors.reactor.controller.casingheatbar.line2"),
                 TEXT_EMPTY_LINE,
-                new TranslatableComponent("gui.bigreactors.reactor.controller.casingheatbar.line3"),
-                new TranslatableComponent("gui.bigreactors.reactor.controller.casingheatbar.line4"),
-                new TranslatableComponent("gui.bigreactors.reactor.controller.casingheatbar.line5")),
+                Component.translatable("gui.bigreactors.reactor.controller.casingheatbar.line3"),
+                Component.translatable("gui.bigreactors.reactor.controller.casingheatbar.line4"),
+                Component.translatable("gui.bigreactors.reactor.controller.casingheatbar.line5")),
                 ImmutableList.of(
                         // @0
                         reactorHeatText
@@ -282,29 +278,29 @@ public class ReactorControllerScreen
             this.addBarIcon(CommonIcons.PowerBattery, 16, 16, p).useTooltipsFrom(this._energyBar);
 
             final BindableTextComponent<Double> energyStoredText = new BindableTextComponent<>(
-                    stored -> new TextComponent(CodeHelper.formatAsHumanReadableNumber(stored,
+                    stored -> Component.literal(CodeHelper.formatAsHumanReadableNumber(stored,
                             this._outputEnergySystem.getUnit())).setStyle(CommonConstants.STYLE_TOOLTIP_VALUE));
 
             final BindableTextComponent<Double> energyStoredPercentageText = new BindableTextComponent<>(
-                    percentage -> new TextComponent(String.format("%d", (int)(percentage * 100))).setStyle(CommonConstants.STYLE_TOOLTIP_VALUE));
+                    percentage -> Component.literal(String.format("%d", (int)(percentage * 100))).setStyle(CommonConstants.STYLE_TOOLTIP_VALUE));
 
             this._energyBar.setDesiredDimension(18, 66);
             this._energyBar.setBackground(CommonIcons.BarBackground.get());
             this._energyBar.setPadding(1);
             this._energyBar.setTooltips(ImmutableList.of(
-                    new TranslatableComponent("gui.bigreactors.reactor.controller.energybar.line1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
-                    new TranslatableComponent("gui.bigreactors.reactor.controller.energybar.line2a").setStyle(CommonConstants.STYLE_TOOLTIP_VALUE)
-                                .append(new TranslatableComponent("gui.bigreactors.reactor.controller.energybar.line2b",
+                    Component.translatable("gui.bigreactors.reactor.controller.energybar.line1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
+                    Component.translatable("gui.bigreactors.reactor.controller.energybar.line2a").setStyle(CommonConstants.STYLE_TOOLTIP_VALUE)
+                                .append(Component.translatable("gui.bigreactors.reactor.controller.energybar.line2b",
                                         CodeHelper.formatAsHumanReadableNumber(this._reactorCapacity, this._outputEnergySystem.getUnit()))),
-                    new TranslatableComponent("gui.bigreactors.reactor.controller.energybar.line3a").setStyle(CommonConstants.STYLE_TOOLTIP_VALUE)
-                                .append(new TranslatableComponent("gui.bigreactors.reactor.controller.energybar.line3b")),
+                    Component.translatable("gui.bigreactors.reactor.controller.energybar.line3a").setStyle(CommonConstants.STYLE_TOOLTIP_VALUE)
+                                .append(Component.translatable("gui.bigreactors.reactor.controller.energybar.line3b")),
                     TEXT_EMPTY_LINE,
-                    new TranslatableComponent("gui.bigreactors.reactor.controller.energybar.line4"),
-                    new TranslatableComponent("gui.bigreactors.reactor.controller.energybar.line5"),
-                    new TranslatableComponent("gui.bigreactors.reactor.controller.energybar.line6"),
+                    Component.translatable("gui.bigreactors.reactor.controller.energybar.line4"),
+                    Component.translatable("gui.bigreactors.reactor.controller.energybar.line5"),
+                    Component.translatable("gui.bigreactors.reactor.controller.energybar.line6"),
                     TEXT_EMPTY_LINE,
-                    new TranslatableComponent("gui.bigreactors.reactor.controller.energybar.line7"),
-                    new TranslatableComponent("gui.bigreactors.reactor.controller.energybar.line8")
+                    Component.translatable("gui.bigreactors.reactor.controller.energybar.line7"),
+                    Component.translatable("gui.bigreactors.reactor.controller.energybar.line8")
                     ),
                     ImmutableList.of(
                             // @0
@@ -322,7 +318,7 @@ public class ReactorControllerScreen
             // - energy generation ratio
 
             final BindableTextComponent<Double> energyGeneratedText = new BindableTextComponent<>(
-                    generated -> new TextComponent(String.format("%.2f %s", generated,
+                    generated -> Component.literal(String.format("%.2f %s", generated,
                             this._outputEnergySystem.getUnit())).setStyle(CommonConstants.STYLE_TOOLTIP_VALUE));
 
             p = this.hInfoPanelSlot();
@@ -331,17 +327,17 @@ public class ReactorControllerScreen
             p.addControl(c);
 
             this._lblEnergyRatio.setTooltips(ImmutableList.of(
-                    new TranslatableComponent("gui.bigreactors.reactor.controller.energyratio.line1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
-                    new TranslatableComponent("gui.bigreactors.reactor.controller.energyratio.line2a").setStyle(CommonConstants.STYLE_TOOLTIP_VALUE)
-                        .append(new TranslatableComponent("gui.bigreactors.reactor.controller.energyratio.line2b")),
+                    Component.translatable("gui.bigreactors.reactor.controller.energyratio.line1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
+                    Component.translatable("gui.bigreactors.reactor.controller.energyratio.line2a").setStyle(CommonConstants.STYLE_TOOLTIP_VALUE)
+                        .append(Component.translatable("gui.bigreactors.reactor.controller.energyratio.line2b")),
                     TEXT_EMPTY_LINE,
-                    new TranslatableComponent("gui.bigreactors.reactor.controller.energyratio.line3"),
-                    new TranslatableComponent("gui.bigreactors.reactor.controller.energyratio.line4"),
-                    new TranslatableComponent("gui.bigreactors.reactor.controller.energyratio.line5"),
+                    Component.translatable("gui.bigreactors.reactor.controller.energyratio.line3"),
+                    Component.translatable("gui.bigreactors.reactor.controller.energyratio.line4"),
+                    Component.translatable("gui.bigreactors.reactor.controller.energyratio.line5"),
                     TEXT_EMPTY_LINE,
-                    new TranslatableComponent("gui.bigreactors.reactor.controller.energyratio.line6"),
-                    new TranslatableComponent("gui.bigreactors.reactor.controller.energyratio.line7"),
-                    new TranslatableComponent("gui.bigreactors.reactor.controller.energyratio.line8")),
+                    Component.translatable("gui.bigreactors.reactor.controller.energyratio.line6"),
+                    Component.translatable("gui.bigreactors.reactor.controller.energyratio.line7"),
+                    Component.translatable("gui.bigreactors.reactor.controller.energyratio.line8")),
                     ImmutableList.of(
                             // @0
                             energyGeneratedText
@@ -362,7 +358,7 @@ public class ReactorControllerScreen
             ////////////////////////////////////////////////////////////////////////////////////////////
 
             final BindableTextComponent<Integer> tankCapacity = new BindableTextComponent<>(
-                    capacity -> new TextComponent(CodeHelper.formatAsHumanReadableNumber(capacity / 1000, "B")).setStyle(CommonConstants.STYLE_TOOLTIP_VALUE));
+                    capacity -> Component.literal(CodeHelper.formatAsHumanReadableNumber(capacity / 1000, "B")).setStyle(CommonConstants.STYLE_TOOLTIP_VALUE));
 
             this.addBinding((MultiblockReactor reactor) -> this._reactor.getFluidContainer().getCapacity(),
                     v -> {
@@ -376,23 +372,23 @@ public class ReactorControllerScreen
 
             final BindableTextComponent<Component> coolantFluidName = new BindableTextComponent<>((Component name) -> name);
             final BindableTextComponent<Integer> coolantAmount = new BindableTextComponent<>(
-                    amount -> new TextComponent(CodeHelper.formatAsHumanReadableNumber(amount / 1000, "B")).setStyle(CommonConstants.STYLE_TOOLTIP_VALUE));
+                    amount -> Component.literal(CodeHelper.formatAsHumanReadableNumber(amount / 1000, "B")).setStyle(CommonConstants.STYLE_TOOLTIP_VALUE));
             final BindableTextComponent<Double> coolantStoredPercentage = new BindableTextComponent<>(
-                    percentage -> new TextComponent(String.format("%d", (int)(percentage * 100))).setStyle(CommonConstants.STYLE_TOOLTIP_VALUE));
+                    percentage -> Component.literal(String.format("%d", (int)(percentage * 100))).setStyle(CommonConstants.STYLE_TOOLTIP_VALUE));
 
             p = this.vBarPanel();
             this.addBarIcon(CommonIcons.CoolantIcon, p).useTooltipsFrom(this._coolantBar);
 
             this._coolantBar.setTooltips(ImmutableList.of(
-                    new TranslatableComponent("gui.bigreactors.reactor.controller.coolantbar.line1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
-                    new TranslatableComponent("gui.bigreactors.reactor.controller.coreheatbar.line2").setStyle(CommonConstants.STYLE_TOOLTIP_VALUE),
-                    new TranslatableComponent("gui.bigreactors.reactor.controller.coolantbar.line3a").setStyle(CommonConstants.STYLE_TOOLTIP_VALUE)
-                            .append(new TranslatableComponent("gui.bigreactors.reactor.controller.coolantbar.line3b")),
-                    new TranslatableComponent("gui.bigreactors.reactor.controller.coolantbar.line4a").setStyle(CommonConstants.STYLE_TOOLTIP_VALUE)
-                            .append(new TranslatableComponent("gui.bigreactors.reactor.controller.coolantbar.line4b")),
+                    Component.translatable("gui.bigreactors.reactor.controller.coolantbar.line1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
+                    Component.translatable("gui.bigreactors.reactor.controller.coreheatbar.line2").setStyle(CommonConstants.STYLE_TOOLTIP_VALUE),
+                    Component.translatable("gui.bigreactors.reactor.controller.coolantbar.line3a").setStyle(CommonConstants.STYLE_TOOLTIP_VALUE)
+                            .append(Component.translatable("gui.bigreactors.reactor.controller.coolantbar.line3b")),
+                    Component.translatable("gui.bigreactors.reactor.controller.coolantbar.line4a").setStyle(CommonConstants.STYLE_TOOLTIP_VALUE)
+                            .append(Component.translatable("gui.bigreactors.reactor.controller.coolantbar.line4b")),
                     TEXT_EMPTY_LINE,
-                    new TranslatableComponent("gui.bigreactors.reactor.controller.coolantbar.line5"),
-                    new TranslatableComponent("gui.bigreactors.reactor.controller.coolantbar.line6")
+                    Component.translatable("gui.bigreactors.reactor.controller.coolantbar.line5"),
+                    Component.translatable("gui.bigreactors.reactor.controller.coolantbar.line6")
                     ),
                     ImmutableList.of(
                             // @0
@@ -429,24 +425,24 @@ public class ReactorControllerScreen
 
             final BindableTextComponent<Component> vaporFluidName = new BindableTextComponent<>((Component name) -> name);
             final BindableTextComponent<Integer> vaporAmount = new BindableTextComponent<>(
-                    amount -> new TextComponent(CodeHelper.formatAsHumanReadableNumber(amount / 1000, "B")).setStyle(CommonConstants.STYLE_TOOLTIP_VALUE));
+                    amount -> Component.literal(CodeHelper.formatAsHumanReadableNumber(amount / 1000, "B")).setStyle(CommonConstants.STYLE_TOOLTIP_VALUE));
             final BindableTextComponent<Double> vaporStoredPercentage = new BindableTextComponent<>(
-                    percentage -> new TextComponent(String.format("%d", (int)(percentage * 100))).setStyle(CommonConstants.STYLE_TOOLTIP_VALUE));
+                    percentage -> Component.literal(String.format("%d", (int)(percentage * 100))).setStyle(CommonConstants.STYLE_TOOLTIP_VALUE));
 
             p = this.vBarPanel();
             this.addBarIcon(CommonIcons.VaporIcon, p).useTooltipsFrom(this._vaporBar);
 
             this._vaporBar.setTooltips(ImmutableList.of(
-                    new TranslatableComponent("gui.bigreactors.reactor.controller.vaporbar.line1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
-                    new TranslatableComponent("gui.bigreactors.reactor.controller.vaporbar.line2").setStyle(CommonConstants.STYLE_TOOLTIP_VALUE),
-                    new TranslatableComponent("gui.bigreactors.reactor.controller.vaporbar.line3a").setStyle(CommonConstants.STYLE_TOOLTIP_VALUE)
-                            .append(new TranslatableComponent("gui.bigreactors.reactor.controller.vaporbar.line3b")),
-                    new TranslatableComponent("gui.bigreactors.reactor.controller.vaporbar.line4a").setStyle(CommonConstants.STYLE_TOOLTIP_VALUE)
-                            .append(new TranslatableComponent("gui.bigreactors.reactor.controller.vaporbar.line4b")),
+                    Component.translatable("gui.bigreactors.reactor.controller.vaporbar.line1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
+                    Component.translatable("gui.bigreactors.reactor.controller.vaporbar.line2").setStyle(CommonConstants.STYLE_TOOLTIP_VALUE),
+                    Component.translatable("gui.bigreactors.reactor.controller.vaporbar.line3a").setStyle(CommonConstants.STYLE_TOOLTIP_VALUE)
+                            .append(Component.translatable("gui.bigreactors.reactor.controller.vaporbar.line3b")),
+                    Component.translatable("gui.bigreactors.reactor.controller.vaporbar.line4a").setStyle(CommonConstants.STYLE_TOOLTIP_VALUE)
+                            .append(Component.translatable("gui.bigreactors.reactor.controller.vaporbar.line4b")),
                     TEXT_EMPTY_LINE,
-                    new TranslatableComponent("gui.bigreactors.reactor.controller.vaporbar.line5"),
-                    new TranslatableComponent("gui.bigreactors.reactor.controller.vaporbar.line6"),
-                    new TranslatableComponent("gui.bigreactors.reactor.controller.vaporbar.line7")
+                    Component.translatable("gui.bigreactors.reactor.controller.vaporbar.line5"),
+                    Component.translatable("gui.bigreactors.reactor.controller.vaporbar.line6"),
+                    Component.translatable("gui.bigreactors.reactor.controller.vaporbar.line7")
                     ),
                     ImmutableList.of(
                             // @0
@@ -479,7 +475,7 @@ public class ReactorControllerScreen
             // - vapor generation ratio
 
             final BindableTextComponent<Double> vaporGeneratedText = new BindableTextComponent<>(
-                    generated -> new TextComponent(String.format("%.2f %s", generated / 1000.0, "B")).setStyle(CommonConstants.STYLE_TOOLTIP_VALUE));
+                    generated -> Component.literal(String.format("%.2f %s", generated / 1000.0, "B")).setStyle(CommonConstants.STYLE_TOOLTIP_VALUE));
 
             p = this.hInfoPanelSlot();
             c = new Picture(this, "vaporRatio", CommonIcons.VaporIcon.get(), 16, 16);
@@ -487,13 +483,13 @@ public class ReactorControllerScreen
             p.addControl(c);
 
             this._lblVaporRatio.setTooltips(ImmutableList.of(
-                    new TranslatableComponent("gui.bigreactors.reactor.controller.vaporratio.line1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
-                    new TranslatableComponent("gui.bigreactors.reactor.controller.vaporratio.line2a").setStyle(CommonConstants.STYLE_TOOLTIP_VALUE)
-                            .append(new TranslatableComponent("gui.bigreactors.reactor.controller.vaporratio.line2b")),
+                    Component.translatable("gui.bigreactors.reactor.controller.vaporratio.line1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
+                    Component.translatable("gui.bigreactors.reactor.controller.vaporratio.line2a").setStyle(CommonConstants.STYLE_TOOLTIP_VALUE)
+                            .append(Component.translatable("gui.bigreactors.reactor.controller.vaporratio.line2b")),
                     TEXT_EMPTY_LINE,
-                    new TranslatableComponent("gui.bigreactors.reactor.controller.vaporratio.line3"),
-                    new TranslatableComponent("gui.bigreactors.reactor.controller.vaporratio.line4"),
-                    new TranslatableComponent("gui.bigreactors.reactor.controller.vaporratio.line5")),
+                    Component.translatable("gui.bigreactors.reactor.controller.vaporratio.line3"),
+                    Component.translatable("gui.bigreactors.reactor.controller.vaporratio.line4"),
+                    Component.translatable("gui.bigreactors.reactor.controller.vaporratio.line5")),
                     ImmutableList.of(
                             // @0
                             vaporGeneratedText
@@ -534,10 +530,10 @@ public class ReactorControllerScreen
         p.addControl(c);
 
         this._lblFuelUsage.setTooltips(
-                new TranslatableComponent("gui.bigreactors.reactor.controller.fuelusage.line1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
+                Component.translatable("gui.bigreactors.reactor.controller.fuelusage.line1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
                 TEXT_EMPTY_LINE,
-                new TranslatableComponent("gui.bigreactors.reactor.controller.fuelusage.line2"),
-                new TranslatableComponent("gui.bigreactors.reactor.controller.fuelusage.line3"));
+                Component.translatable("gui.bigreactors.reactor.controller.fuelusage.line2"),
+                Component.translatable("gui.bigreactors.reactor.controller.fuelusage.line3"));
         this.addBinding((MultiblockReactor reactor) -> reactor.getUiStats().getFuelConsumedLastTick(),
                 value -> this._lblFuelUsage.setText(CodeHelper.formatAsMillibuckets(value) + "/t"));
         p.addControl(this._lblFuelUsage);
@@ -551,11 +547,11 @@ public class ReactorControllerScreen
         p.addControl(c);
 
         this._lblFuelRichness.setTooltips(
-                new TranslatableComponent("gui.bigreactors.reactor.controller.fuelrichness.line1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
+                Component.translatable("gui.bigreactors.reactor.controller.fuelrichness.line1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
                 TEXT_EMPTY_LINE,
-                new TranslatableComponent("gui.bigreactors.reactor.controller.fuelrichness.line2"),
-                new TranslatableComponent("gui.bigreactors.reactor.controller.fuelrichness.line3"),
-                new TranslatableComponent("gui.bigreactors.reactor.controller.fuelrichness.line4"));
+                Component.translatable("gui.bigreactors.reactor.controller.fuelrichness.line2"),
+                Component.translatable("gui.bigreactors.reactor.controller.fuelrichness.line3"),
+                Component.translatable("gui.bigreactors.reactor.controller.fuelrichness.line4"));
         this.addBinding((MultiblockReactor reactor) -> reactor.getUiStats().getFuelRichness(),
                 value -> this._lblFuelRichness.setText("%2.0f%%", value * 100f));
         p.addControl(this._lblFuelRichness);
@@ -578,13 +574,13 @@ public class ReactorControllerScreen
         SwitchButton off = new SwitchButton(this, "off", "OFF", true, "onoff");
 
         on.setLayoutEngineHint(FixedLayoutEngine.hint(x, y, w, 16));
-        on.setTooltips(new TranslatableComponent("gui.bigreactors.reactor.controller.on.line1"));
+        on.setTooltips(Component.translatable("gui.bigreactors.reactor.controller.on.line1"));
         on.Activated.subscribe(this::onActiveStateChanged);
         on.Deactivated.subscribe(this::onActiveStateChanged);
         this.addBinding(MultiblockReactor::isMachineActive, on::setActive);
 
         off.setLayoutEngineHint(FixedLayoutEngine.hint(x + w, y, w, 16));
-        off.setTooltips(new TranslatableComponent("gui.bigreactors.reactor.controller.off.line1"));
+        off.setTooltips(Component.translatable("gui.bigreactors.reactor.controller.off.line1"));
         this.addBinding(MultiblockReactor::isMachineActive, active -> off.setActive(!active));
 
         commandPanel.addControl(on, off);
@@ -600,9 +596,9 @@ public class ReactorControllerScreen
         btn.enablePaintBlending(true);
         btn.setPadding(1);
         btn.setTooltips(ImmutableList.of(
-                        new TranslatableComponent("gui.bigreactors.reactor.controller.voidreactants.line1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
+                        Component.translatable("gui.bigreactors.reactor.controller.voidreactants.line1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
                         TEXT_EMPTY_LINE,
-                        new TranslatableComponent("gui.bigreactors.reactor.controller.voidreactants.line2"))
+                        Component.translatable("gui.bigreactors.reactor.controller.voidreactants.line2"))
         );
 
         commandPanel.addControl(btn);
@@ -623,15 +619,15 @@ public class ReactorControllerScreen
         swp.enablePaintBlending(true);
         swp.setPadding(1);
         swp.setTooltips(ImmutableList.of(
-                new TranslatableComponent("gui.bigreactors.reactor.controller.wasteeject.line1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
-                new TranslatableComponent("gui.bigreactors.reactor.controller.wasteeject.line2"),
+                Component.translatable("gui.bigreactors.reactor.controller.wasteeject.line1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
+                Component.translatable("gui.bigreactors.reactor.controller.wasteeject.line2"),
                 TEXT_EMPTY_LINE,
-                new TranslatableComponent("gui.bigreactors.reactor.controller.wasteeject.line3"),
-                new TranslatableComponent("gui.bigreactors.reactor.controller.wasteeject.line4"),
+                Component.translatable("gui.bigreactors.reactor.controller.wasteeject.line3"),
+                Component.translatable("gui.bigreactors.reactor.controller.wasteeject.line4"),
                 TEXT_EMPTY_LINE,
-                new TranslatableComponent("gui.bigreactors.reactor.controller.wasteeject.line5"),
-                new TranslatableComponent("gui.bigreactors.reactor.controller.wasteeject.line6"),
-                new TranslatableComponent("gui.bigreactors.reactor.controller.wasteeject.line7")),
+                Component.translatable("gui.bigreactors.reactor.controller.wasteeject.line5"),
+                Component.translatable("gui.bigreactors.reactor.controller.wasteeject.line6"),
+                Component.translatable("gui.bigreactors.reactor.controller.wasteeject.line7")),
                 ImmutableList.of(
                         // @0
                         wasteEjectionText
@@ -647,11 +643,11 @@ public class ReactorControllerScreen
         final Button scram = new Button(this, "scram", "SCRAM");
 
         scram.setLayoutEngineHint(FixedLayoutEngine.hint(x, y, 50, 25));
-        scram.setTooltips(new TranslatableComponent("gui.bigreactors.reactor.controller.scram.line1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
+        scram.setTooltips(Component.translatable("gui.bigreactors.reactor.controller.scram.line1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
                 TEXT_EMPTY_LINE,
-                new TranslatableComponent("gui.bigreactors.reactor.controller.scram.line2"),
-                new TranslatableComponent("gui.bigreactors.reactor.controller.scram.line3"),
-                new TranslatableComponent("gui.bigreactors.reactor.controller.scram.line4").setStyle(Style.EMPTY.withItalic(true)));
+                Component.translatable("gui.bigreactors.reactor.controller.scram.line2"),
+                Component.translatable("gui.bigreactors.reactor.controller.scram.line3"),
+                Component.translatable("gui.bigreactors.reactor.controller.scram.line4").setStyle(Style.EMPTY.withItalic(true)));
         scram.Clicked.subscribe(this::onScram);
         commandPanel.addControl(scram);
     }
@@ -798,7 +794,7 @@ public class ReactorControllerScreen
 
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     private static Component getFluidName(final Optional<Fluid> fluid) {
-        return fluid.map(f -> (Component)new TranslatableComponent(f.getAttributes().getTranslationKey()).setStyle(CommonConstants.STYLE_TOOLTIP_VALUE))
+        return fluid.map(f -> (Component)Component.translatable(f.getAttributes().getTranslationKey()).setStyle(CommonConstants.STYLE_TOOLTIP_VALUE))
                 .orElse(TEXT_EMPTY);
     }
 
@@ -841,9 +837,9 @@ public class ReactorControllerScreen
         return layout instanceof ClientFuelRodsLayout ? colourGetter.apply((ClientFuelRodsLayout)layout) : Colour.fromRGB(defaultColour);
     }
 
-    private static final Component TEXT_AUTOMATIC_WASTE_EJECT = new TranslatableComponent("gui.bigreactors.reactor.controller.wasteeject.mode.automatic").setStyle(CommonConstants.STYLE_TOOLTIP_VALUE);
-    private static final Component TEXT_MANUAL_WASTE_EJECT = new TranslatableComponent("gui.bigreactors.reactor.controller.wasteeject.mode.manual").setStyle(CommonConstants.STYLE_TOOLTIP_VALUE);
-    private static final Component TEXT_EMPTY = new TranslatableComponent("gui.bigreactors.generic.empty").setStyle(CommonConstants.STYLE_TOOLTIP_VALUE);
+    private static final Component TEXT_AUTOMATIC_WASTE_EJECT = Component.translatable("gui.bigreactors.reactor.controller.wasteeject.mode.automatic").setStyle(CommonConstants.STYLE_TOOLTIP_VALUE);
+    private static final Component TEXT_MANUAL_WASTE_EJECT = Component.translatable("gui.bigreactors.reactor.controller.wasteeject.mode.manual").setStyle(CommonConstants.STYLE_TOOLTIP_VALUE);
+    private static final Component TEXT_EMPTY = Component.translatable("gui.bigreactors.generic.empty").setStyle(CommonConstants.STYLE_TOOLTIP_VALUE);
 
     private final MultiblockReactor _reactor;
     private final OperationalMode _reactorMode;

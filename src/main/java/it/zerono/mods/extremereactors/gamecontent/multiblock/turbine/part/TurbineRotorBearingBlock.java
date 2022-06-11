@@ -23,20 +23,18 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.Generic
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.MultiblockTurbine;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.TurbinePartType;
 import it.zerono.mods.zerocore.lib.world.WorldHelper;
-import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.core.Direction;
-import net.minecraft.core.BlockPos;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.Optional;
-import java.util.Random;
-
-import it.zerono.mods.zerocore.lib.block.multiblock.MultiblockPartBlock.MultiblockPartProperties;
 
 public class TurbineRotorBearingBlock
         extends GenericDeviceBlock<MultiblockTurbine, TurbinePartType> {
@@ -54,7 +52,7 @@ public class TurbineRotorBearingBlock
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void animateTick(BlockState state, Level world, BlockPos position, Random random) {
+    public void animateTick(BlockState state, Level world, BlockPos position, RandomSource random) {
 
         if (Config.CLIENT.disableTurbineParticles.get()) {
             return;
@@ -65,7 +63,7 @@ public class TurbineRotorBearingBlock
 
     @OnlyIn(Dist.CLIENT)
     public void animateTick(final TurbineRotorBearingEntity bearing, final Level world,
-                            final BlockPos pos, final Random random) {
+                            final BlockPos pos, final RandomSource random) {
 
         bearing.getMultiblockController()
                 .filter(turbine -> !turbine.isInteriorInvisible())

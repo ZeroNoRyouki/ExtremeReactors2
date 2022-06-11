@@ -41,7 +41,7 @@ public class ConfigCondition
     }
 
     @Override
-    public boolean test() {
+    public boolean test(final IContext context) {
 
         switch (this._configName) {
 

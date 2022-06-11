@@ -37,7 +37,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
@@ -100,13 +99,13 @@ public class FluidizerFluidInjectorEntity
             holder.syncDataFrom(data.getCompound("inv"), SyncReason.FullSync);
 
             if (holder.isEmpty(0)) {
-                text = new TranslatableComponent("gui.bigreactors.generic.empty");
+                text = Component.translatable("gui.bigreactors.generic.empty");
             } else {
-                text = new TranslatableComponent("gui.bigreactors.reactor.fluidaccessport.item.reactant",
+                text = Component.translatable("gui.bigreactors.reactor.fluidaccessport.item.reactant",
                         FluidHelper.getFluidName(holder.getFluidInTank(0)), holder.getAmount(0));
             }
 
-            appender.accept(new TranslatableComponent("gui.bigreactors.generic.fuel.label")
+            appender.accept(Component.translatable("gui.bigreactors.generic.fuel.label")
                     .append(text.setStyle(CommonConstants.STYLE_TOOLTIP_VALUE)));
         }
     }

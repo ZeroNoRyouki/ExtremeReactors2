@@ -18,8 +18,6 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.client.screen;
 
-import it.zerono.mods.extremereactors.ExtremeReactors;
-import it.zerono.mods.extremereactors.gamecontent.compat.patchouli.PatchouliCompat;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.MultiblockFluidizer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.container.FluidizerControllerContainer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.part.FluidizerControllerEntity;
@@ -46,7 +44,6 @@ import it.zerono.mods.zerocore.lib.data.gfx.Colour;
 import it.zerono.mods.zerocore.lib.energy.EnergySystem;
 import it.zerono.mods.zerocore.lib.item.inventory.PlayerInventoryUsage;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.util.NonNullSupplier;
@@ -96,7 +93,7 @@ public class FluidizerControllerScreen
     @Override
     protected void onScreenCreate() {
 
-        this.addPatchouliHelpButton(PatchouliCompat.HANDBOOK_ID, ExtremeReactors.newID("fluidizer/part-controller"), 1);
+//        this.addPatchouliHelpButton(PatchouliCompat.HANDBOOK_ID, ExtremeReactors.newID("fluidizer/part-controller"), 1);
 
         super.onScreenCreate();
 
@@ -135,8 +132,8 @@ public class FluidizerControllerScreen
 
         final Supplier<Boolean> isActive = this.getMenu()::isFluidizerActive;
         final OnOff onOff = new OnOff(this, isActive, this::onActiveStateChanged,
-                new TranslatableComponent("gui.bigreactors.fluidizer.controller.on.line1"),
-                new TranslatableComponent("gui.bigreactors.fluidizer.controller.off.line1"));
+                Component.translatable("gui.bigreactors.fluidizer.controller.on.line1"),
+                Component.translatable("gui.bigreactors.fluidizer.controller.off.line1"));
 
         onOff.setLayoutEngineHint(FixedLayoutEngine.hint(0, 0, 50, 16));
         commandPanel.addControl(onOff);

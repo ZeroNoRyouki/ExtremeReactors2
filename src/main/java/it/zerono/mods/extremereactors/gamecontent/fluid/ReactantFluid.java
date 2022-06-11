@@ -94,7 +94,7 @@ public abstract class ReactantFluid
             super(fluid, Block.Properties.of(Material.WATER)
                     .lightLevel(state -> 6)
                     .strength(100.0F)
-                    .noDrops());
+                    .noLootTable());
 
             this._fluidSupplier = fluid;
         }

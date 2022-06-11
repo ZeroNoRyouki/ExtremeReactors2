@@ -19,10 +19,8 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.screen;
 
 import com.google.common.collect.ImmutableList;
-import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.api.reactor.ReactantType;
 import it.zerono.mods.extremereactors.gamecontent.CommonConstants;
-import it.zerono.mods.extremereactors.gamecontent.compat.patchouli.PatchouliCompat;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.AbstractMultiblockScreen;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.CommonIcons;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.MultiblockReactor;
@@ -47,8 +45,6 @@ import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraftforge.common.util.NonNullSupplier;
 import net.minecraftforge.fluids.FluidStack;
@@ -86,7 +82,7 @@ public class ReactorFluidAccessPortScreen
     @Override
     protected void onScreenCreate() {
 
-        this.addPatchouliHelpButton(PatchouliCompat.HANDBOOK_ID, ExtremeReactors.newID("reactor/part-fluidaccessport"), 1);
+//        this.addPatchouliHelpButton(PatchouliCompat.HANDBOOK_ID, ExtremeReactors.newID("reactor/part-fluidaccessport"), 1);
 
         super.onScreenCreate();
 
@@ -109,9 +105,9 @@ public class ReactorFluidAccessPortScreen
         this.setButtonSpritesAndOverlayForState(this._btnInputDirection, ButtonState.Active, CommonIcons.ButtonInputDirectionActive);
         this._btnInputDirection.Activated.subscribe(this::onInputActivated);
         this._btnInputDirection.setTooltips(
-                new TranslatableComponent("gui.bigreactors.reactor.fluidaccessport.directioninput.line1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
+                Component.translatable("gui.bigreactors.reactor.fluidaccessport.directioninput.line1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
                 TEXT_EMPTY_LINE,
-                new TranslatableComponent("gui.bigreactors.reactor.fluidaccessport.directioninput.line2")
+                Component.translatable("gui.bigreactors.reactor.fluidaccessport.directioninput.line2")
         );
 
         // -- output direction button
@@ -120,9 +116,9 @@ public class ReactorFluidAccessPortScreen
         this.setButtonSpritesAndOverlayForState(this._btnOutputDirection, ButtonState.Active, CommonIcons.ButtonOutputDirectionActive);
         this._btnOutputDirection.Activated.subscribe(this::onOutputActivated);
         this._btnOutputDirection.setTooltips(
-                new TranslatableComponent("gui.bigreactors.reactor.fluidaccessport.directionoutput.line1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
+                Component.translatable("gui.bigreactors.reactor.fluidaccessport.directionoutput.line1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
                 TEXT_EMPTY_LINE,
-                new TranslatableComponent("gui.bigreactors.reactor.fluidaccessport.directionoutput.line2")
+                Component.translatable("gui.bigreactors.reactor.fluidaccessport.directionoutput.line2")
         );
 
         this.addBinding(c -> c.getTileEntity().getIoDirection(), value -> {
@@ -138,11 +134,11 @@ public class ReactorFluidAccessPortScreen
         this._btnDumpFuel.setIconForState(CommonIcons.ButtonDumpFuelActive.get(), ButtonState.Active, ButtonState.ActiveHighlighted, ButtonState.DefaultHighlighted);
         this._btnDumpFuel.Clicked.subscribe(this::onDumpFuel);
         this._btnDumpFuel.setTooltips(
-                new TranslatableComponent("gui.bigreactors.reactor.fluidaccessport.dumpfuel.line1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
+                Component.translatable("gui.bigreactors.reactor.fluidaccessport.dumpfuel.line1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
                 TEXT_EMPTY_LINE,
-                new TranslatableComponent("gui.bigreactors.reactor.fluidaccessport.dumpfuel.line2"),
-                new TranslatableComponent("gui.bigreactors.reactor.fluidaccessport.dumpfuel.line3"),
-                new TranslatableComponent("gui.bigreactors.reactor.fluidaccessport.dumpfuel.line4")
+                Component.translatable("gui.bigreactors.reactor.fluidaccessport.dumpfuel.line2"),
+                Component.translatable("gui.bigreactors.reactor.fluidaccessport.dumpfuel.line3"),
+                Component.translatable("gui.bigreactors.reactor.fluidaccessport.dumpfuel.line4")
         );
 
         // -- dump waste command button
@@ -152,18 +148,18 @@ public class ReactorFluidAccessPortScreen
         this._btnDumpWaste.setIconForState(CommonIcons.ButtonDumpWasteActive.get(), ButtonState.Active, ButtonState.ActiveHighlighted, ButtonState.DefaultHighlighted);
         this._btnDumpWaste.Clicked.subscribe(this::onDumpWaste);
         this._btnDumpWaste.setTooltips(
-                new TranslatableComponent("gui.bigreactors.reactor.fluidaccessport.dumpwaste.line1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
+                Component.translatable("gui.bigreactors.reactor.fluidaccessport.dumpwaste.line1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
                 TEXT_EMPTY_LINE,
-                new TranslatableComponent("gui.bigreactors.reactor.fluidaccessport.dumpwaste.line2"),
-                new TranslatableComponent("gui.bigreactors.reactor.fluidaccessport.dumpwaste.line3"),
-                new TranslatableComponent("gui.bigreactors.reactor.fluidaccessport.dumpwaste.line4")
+                Component.translatable("gui.bigreactors.reactor.fluidaccessport.dumpwaste.line2"),
+                Component.translatable("gui.bigreactors.reactor.fluidaccessport.dumpwaste.line3"),
+                Component.translatable("gui.bigreactors.reactor.fluidaccessport.dumpwaste.line4")
         );
 
         panel.addControl(this.buttonsPanel(this._btnInputDirection, this._btnOutputDirection, this._btnDumpFuel, this._btnDumpWaste));
 
         // - tanks
 
-        final Component tankCapacity = new TextComponent(String.format("%d mB", ReactorFluidAccessPortEntity.TANK_CAPACITY)).setStyle(CommonConstants.STYLE_TOOLTIP_VALUE);
+        final Component tankCapacity = Component.literal(String.format("%d mB", ReactorFluidAccessPortEntity.TANK_CAPACITY)).setStyle(CommonConstants.STYLE_TOOLTIP_VALUE);
         final Panel tanksPanel = new Panel(this);
 
         tanksPanel.setDesiredDimension(47, VBARPANEL_HEIGHT);
@@ -178,23 +174,23 @@ public class ReactorFluidAccessPortScreen
 
         final BindableTextComponent<Component> fuelFluidName = new BindableTextComponent<>((Component name) -> name);
         final BindableTextComponent<Integer> fuelAmount = new BindableTextComponent<>(
-                amount -> new TextComponent(String.format("%d mB", amount)).setStyle(CommonConstants.STYLE_TOOLTIP_VALUE));
+                amount -> Component.literal(String.format("%d mB", amount)).setStyle(CommonConstants.STYLE_TOOLTIP_VALUE));
         final BindableTextComponent<Double> fuelStoredPercentage = new BindableTextComponent<>(
-                percentage -> new TextComponent(String.format("%d", (int)(percentage * 100))).setStyle(CommonConstants.STYLE_TOOLTIP_VALUE));
+                percentage -> Component.literal(String.format("%d", (int)(percentage * 100))).setStyle(CommonConstants.STYLE_TOOLTIP_VALUE));
 
         p = this.vBarPanel();
         this.addBarIcon(CommonIcons.FuelReactantIcon, p).useTooltipsFrom(this._fuelTank);
 
         this._fuelTank.setTooltips(ImmutableList.of(
-                        new TranslatableComponent("gui.bigreactors.reactor.fluidaccessport.fueltank.line1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
-                        new TranslatableComponent("gui.bigreactors.reactor.controller.coreheatbar.line2").setStyle(CommonConstants.STYLE_TOOLTIP_VALUE),
-                        new TranslatableComponent("gui.bigreactors.reactor.fluidaccessport.fueltank.line3a").setStyle(CommonConstants.STYLE_TOOLTIP_VALUE)
-                                .append(new TranslatableComponent("gui.bigreactors.reactor.fluidaccessport.fueltank.line3b")),
-                        new TranslatableComponent("gui.bigreactors.reactor.fluidaccessport.fueltank.line4a").setStyle(CommonConstants.STYLE_TOOLTIP_VALUE)
-                                .append(new TranslatableComponent("gui.bigreactors.reactor.fluidaccessport.fueltank.line4b")),
+                        Component.translatable("gui.bigreactors.reactor.fluidaccessport.fueltank.line1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
+                        Component.translatable("gui.bigreactors.reactor.controller.coreheatbar.line2").setStyle(CommonConstants.STYLE_TOOLTIP_VALUE),
+                        Component.translatable("gui.bigreactors.reactor.fluidaccessport.fueltank.line3a").setStyle(CommonConstants.STYLE_TOOLTIP_VALUE)
+                                .append(Component.translatable("gui.bigreactors.reactor.fluidaccessport.fueltank.line3b")),
+                        Component.translatable("gui.bigreactors.reactor.fluidaccessport.fueltank.line4a").setStyle(CommonConstants.STYLE_TOOLTIP_VALUE)
+                                .append(Component.translatable("gui.bigreactors.reactor.fluidaccessport.fueltank.line4b")),
                         TEXT_EMPTY_LINE,
-                        new TranslatableComponent("gui.bigreactors.reactor.fluidaccessport.fueltank.line5"),
-                        new TranslatableComponent("gui.bigreactors.reactor.fluidaccessport.fueltank.line6")
+                        Component.translatable("gui.bigreactors.reactor.fluidaccessport.fueltank.line5"),
+                        Component.translatable("gui.bigreactors.reactor.fluidaccessport.fueltank.line6")
                 ),
                 ImmutableList.of(
                         // @0
@@ -237,23 +233,23 @@ public class ReactorFluidAccessPortScreen
 
         final BindableTextComponent<Component> wasteFluidName = new BindableTextComponent<>((Component name) -> name);
         final BindableTextComponent<Integer> wasteAmount = new BindableTextComponent<>(
-                amount -> new TextComponent(String.format("%d mB", amount)).setStyle(CommonConstants.STYLE_TOOLTIP_VALUE));
+                amount -> Component.literal(String.format("%d mB", amount)).setStyle(CommonConstants.STYLE_TOOLTIP_VALUE));
         final BindableTextComponent<Double> wasteStoredPercentage = new BindableTextComponent<>(
-                percentage -> new TextComponent(String.format("%d", (int)(percentage * 100))).setStyle(CommonConstants.STYLE_TOOLTIP_VALUE));
+                percentage -> Component.literal(String.format("%d", (int)(percentage * 100))).setStyle(CommonConstants.STYLE_TOOLTIP_VALUE));
 
         p = this.vBarPanel();
         this.addBarIcon(CommonIcons.WasteReactantIcon, p).useTooltipsFrom(this._wasteTank);
 
         this._wasteTank.setTooltips(ImmutableList.of(
-                        new TranslatableComponent("gui.bigreactors.reactor.fluidaccessport.wastetank.line1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
-                        new TranslatableComponent("gui.bigreactors.reactor.fluidaccessport.wastetank.line2").setStyle(CommonConstants.STYLE_TOOLTIP_VALUE),
-                        new TranslatableComponent("gui.bigreactors.reactor.fluidaccessport.wastetank.line3a").setStyle(CommonConstants.STYLE_TOOLTIP_VALUE)
-                                .append(new TranslatableComponent("gui.bigreactors.reactor.fluidaccessport.wastetank.line3b")),
-                        new TranslatableComponent("gui.bigreactors.reactor.fluidaccessport.wastetank.line4a").setStyle(CommonConstants.STYLE_TOOLTIP_VALUE)
-                                .append(new TranslatableComponent("gui.bigreactors.reactor.fluidaccessport.wastetank.line4b")),
+                        Component.translatable("gui.bigreactors.reactor.fluidaccessport.wastetank.line1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
+                        Component.translatable("gui.bigreactors.reactor.fluidaccessport.wastetank.line2").setStyle(CommonConstants.STYLE_TOOLTIP_VALUE),
+                        Component.translatable("gui.bigreactors.reactor.fluidaccessport.wastetank.line3a").setStyle(CommonConstants.STYLE_TOOLTIP_VALUE)
+                                .append(Component.translatable("gui.bigreactors.reactor.fluidaccessport.wastetank.line3b")),
+                        Component.translatable("gui.bigreactors.reactor.fluidaccessport.wastetank.line4a").setStyle(CommonConstants.STYLE_TOOLTIP_VALUE)
+                                .append(Component.translatable("gui.bigreactors.reactor.fluidaccessport.wastetank.line4b")),
                         TEXT_EMPTY_LINE,
-                        new TranslatableComponent("gui.bigreactors.reactor.fluidaccessport.wastetank.line5"),
-                        new TranslatableComponent("gui.bigreactors.reactor.fluidaccessport.wastetank.line6")
+                        Component.translatable("gui.bigreactors.reactor.fluidaccessport.wastetank.line5"),
+                        Component.translatable("gui.bigreactors.reactor.fluidaccessport.wastetank.line6")
                 ),
                 ImmutableList.of(
                         // @0
@@ -435,7 +431,7 @@ public class ReactorFluidAccessPortScreen
         return c;
     }
 
-    private static final Component TEXT_EMPTY = new TranslatableComponent("gui.bigreactors.generic.empty").setStyle(CommonConstants.STYLE_TOOLTIP_VALUE);
+    private static final Component TEXT_EMPTY = Component.translatable("gui.bigreactors.generic.empty").setStyle(CommonConstants.STYLE_TOOLTIP_VALUE);
     private final static int VBARPANEL_WIDTH = 18;
     private final static int VBARPANEL_HEIGHT = 84;
 

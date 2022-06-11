@@ -1,0 +1,5 @@
+{
+    "type":"bigreactors:oregen_benitoite",
+    "biomes":"#minecraft:is_nether",
+    "feature":"bigreactors:benitoite_ore"
+}

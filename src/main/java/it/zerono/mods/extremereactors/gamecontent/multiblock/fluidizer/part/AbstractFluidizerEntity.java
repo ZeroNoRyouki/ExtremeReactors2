@@ -33,7 +33,6 @@ import it.zerono.mods.zerocore.lib.multiblock.cuboid.PartPosition;
 import it.zerono.mods.zerocore.lib.multiblock.validation.IMultiblockValidator;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.client.model.data.EmptyModelData;
@@ -76,7 +75,7 @@ public class AbstractFluidizerEntity
     }
 
     public Component getPartDisplayName() {
-        return new TranslatableComponent(this.getPartType().map(FluidizerPartType::getTranslationKey).orElse("unknown"));
+        return Component.translatable(this.getPartType().map(FluidizerPartType::getTranslationKey).orElse("unknown"));
     }
 
     //region client render support

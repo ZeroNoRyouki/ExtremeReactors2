@@ -1,0 +1,31 @@
+{
+    "feature":"bigreactors:anglesite_ore",
+    "placement":[
+        {
+            "type":"count",
+            "count":{
+                "type":"constant",
+                "value":10
+            }
+        },
+        {
+            "type":"in_square"
+        },
+        {
+            "type":"height_range",
+            "height":{
+                "type":"uniform",
+                "min_inclusive":{
+                    "above_bottom":0,
+                    "absolute": 5,
+                    "below_top": 0
+                },
+                "max_inclusive":{
+                    "absolute":200,
+                    "above_bottom":0,
+                    "below_top": 0
+                }
+            }
+        }
+    ]
+}

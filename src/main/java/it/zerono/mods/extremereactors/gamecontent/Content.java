@@ -18,6 +18,8 @@
 
 package it.zerono.mods.extremereactors.gamecontent;
 
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.gamecontent.fluid.ModeratorFluid;
 import it.zerono.mods.extremereactors.gamecontent.fluid.ReactantFluid;
@@ -51,6 +53,7 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.MultiblockT
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.TurbinePartType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part.*;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.TurbineVariant;
+import it.zerono.mods.extremereactors.loader.forge.gamecontent.worldgen.OreBiomeModifier;
 import it.zerono.mods.zerocore.lib.block.ModBlock;
 import it.zerono.mods.zerocore.lib.block.ModOreBlock;
 import it.zerono.mods.zerocore.lib.block.multiblock.MultiblockPartBlock;
@@ -61,18 +64,23 @@ import it.zerono.mods.zerocore.lib.item.ModItem;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
 import it.zerono.mods.zerocore.lib.recipe.ModRecipe;
 import it.zerono.mods.zerocore.lib.recipe.ModRecipeType;
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderSet;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.common.extensions.IForgeMenuType;
+import net.minecraftforge.common.world.BiomeModifier;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
 import net.minecraftforge.fml.common.Mod;
@@ -83,6 +91,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 import java.util.Collection;
+import java.util.function.BiFunction;
 import java.util.function.Supplier;
 
 public final class Content {
@@ -97,6 +106,7 @@ public final class Content {
         TileEntityTypes.initialize(bus);
         ContainerTypes.initialize(bus);
         Recipes.initialize(bus);
+        Biomes.initialize(bus);
 
         bus.addListener(Content::onCommonInit);
     }
@@ -140,7 +150,7 @@ public final class Content {
                         Block.Properties.of(Material.WATER)
                                 .noCollission()
                                 .strength(100.0F)
-                                .noDrops()
+                                .noLootTable()
                 ));
 
         //region reactants
@@ -1109,6 +1119,35 @@ public final class Content {
                 SERIALIZERS.register(IFluidizerRecipe.Type.SolidMixing.getRecipeName(), FluidizerSolidMixingRecipe::serializer);
         public static final RegistryObject<RecipeSerializer<FluidizerFluidMixingRecipe>> FLUIDIZER_FLUIDMIXING_RECIPE_SERIALIZER =
                 SERIALIZERS.register(IFluidizerRecipe.Type.FluidMixing.getRecipeName(), FluidizerFluidMixingRecipe::serializer);
+
+        //endregion
+    }
+
+    public static final class Biomes {
+
+        private static final DeferredRegister<Codec<? extends BiomeModifier>> BIOME_MODIFIER_SERIALIZERS =
+                DeferredRegister.create(ForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS, ExtremeReactors.MOD_ID);
+
+        static void initialize(final IEventBus bus) {
+            BIOME_MODIFIER_SERIALIZERS.register(bus);
+        }
+
+        public static final RegistryObject<Codec<OreBiomeModifier>> OREGEN_YELLORITE = register("oregen_yellorite", OreBiomeModifier::yellorite);
+
+        public static final RegistryObject<Codec<OreBiomeModifier>> OREGEN_ANGLESITE = register("oregen_anglesite", OreBiomeModifier::anglesite);
+
+        public static final RegistryObject<Codec<OreBiomeModifier>> OREGEN_BENITOITE = register("oregen_benitoite", OreBiomeModifier::benitoite);
+
+        //region internals
+
+        private static RegistryObject<Codec<OreBiomeModifier>> register(final String name,
+                                                                        final BiFunction<HolderSet<Biome>, Holder<PlacedFeature>, OreBiomeModifier> factory) {
+            return BIOME_MODIFIER_SERIALIZERS.register(name, () ->
+                    RecordCodecBuilder.create(builder -> builder.group(
+                            Biome.LIST_CODEC.fieldOf("biomes").forGetter(OreBiomeModifier::validBiomes),
+                            PlacedFeature.CODEC.fieldOf("feature").forGetter(OreBiomeModifier::feature)
+                    ).apply(builder, factory)));
+        }
 
         //endregion
     }

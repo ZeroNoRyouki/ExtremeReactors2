@@ -39,33 +39,31 @@ public class DataGenerationHandler {
         final DataGenerator generator = event.getGenerator();
         final ExistingFileHelper existing = event.getExistingFileHelper();
 
-        if (event.includeServer()) {
+        // server stuff
 
-            generator.addProvider(new BlockLootGenerator(generator));
+        generator.addProvider(event.includeServer(), new BlockLootGenerator(generator));
 
-            final BlockTagGenerator blockTagGenerator = new BlockTagGenerator(generator, existing);
+        final BlockTagGenerator blockTagGenerator = new BlockTagGenerator(generator, existing);
 
-            generator.addProvider(blockTagGenerator);
-            generator.addProvider(new ItemTagGenerator(generator, blockTagGenerator, existing));
+        generator.addProvider(event.includeServer(), blockTagGenerator);
+        generator.addProvider(event.includeServer(), new ItemTagGenerator(generator, blockTagGenerator, existing));
 
-            generator.addProvider(new FluidTagGenerator(generator, existing));
+        generator.addProvider(event.includeServer(), new FluidTagGenerator(generator, existing));
 
-            generator.addProvider(new GenericRecipeGenerator(generator));
-            generator.addProvider(new ReactorRecipeGenerator(generator));
-            generator.addProvider(new TurbineRecipeGenerator(generator));
-            generator.addProvider(new ReprocessorRecipeGenerator(generator));
-            generator.addProvider(new FluidizerRecipeGenerator(generator));
-        }
+        generator.addProvider(event.includeServer(), new GenericRecipeGenerator(generator));
+        generator.addProvider(event.includeServer(), new ReactorRecipeGenerator(generator));
+        generator.addProvider(event.includeServer(), new TurbineRecipeGenerator(generator));
+        generator.addProvider(event.includeServer(), new ReprocessorRecipeGenerator(generator));
+        generator.addProvider(event.includeServer(), new FluidizerRecipeGenerator(generator));
 
-        if (event.includeClient()) {
+        // client stuff
 
-            generator.addProvider(new BlockStateGenerator(generator, existing));
-            generator.addProvider(new ReactorBlockStateGenerator(generator, existing));
-            generator.addProvider(new TurbineBlockStateGenerator(generator, existing));
-            generator.addProvider(new ReprocessorBlockStateGenerator(generator, existing));
-            generator.addProvider(new FluidizerBlockStateGenerator(generator, existing));
+        generator.addProvider(event.includeClient(), new BlockStateGenerator(generator, existing));
+        generator.addProvider(event.includeClient(), new ReactorBlockStateGenerator(generator, existing));
+        generator.addProvider(event.includeClient(), new TurbineBlockStateGenerator(generator, existing));
+        generator.addProvider(event.includeClient(), new ReprocessorBlockStateGenerator(generator, existing));
+        generator.addProvider(event.includeClient(), new FluidizerBlockStateGenerator(generator, existing));
 
-            generator.addProvider(new ItemModelGenerator(generator, existing));
-        }
+        generator.addProvider(event.includeClient(), new ItemModelGenerator(generator, existing));
     }
 }

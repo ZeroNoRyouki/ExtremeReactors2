@@ -30,7 +30,6 @@ import it.zerono.mods.zerocore.lib.fluid.FluidHelper;
 import it.zerono.mods.zerocore.lib.tag.TagList;
 import it.zerono.mods.zerocore.lib.tag.TagsHelper;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
@@ -291,7 +290,7 @@ public final class ModeratorsRegistry {
                 .forEach(addAction);
     }
 
-    private static final Component TOOLTIP_MODERATOR = new TranslatableComponent("api.bigreactors.reactor.tooltip.moderator").setStyle(ExtremeReactorsAPI.STYLE_TOOLTIP);
+    private static final Component TOOLTIP_MODERATOR = Component.translatable("api.bigreactors.reactor.tooltip.moderator").setStyle(ExtremeReactorsAPI.STYLE_TOOLTIP);
 
     static {
 

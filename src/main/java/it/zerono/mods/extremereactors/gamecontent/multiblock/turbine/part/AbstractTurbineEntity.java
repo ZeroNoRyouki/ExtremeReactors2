@@ -34,7 +34,6 @@ import it.zerono.mods.zerocore.lib.multiblock.validation.IMultiblockValidator;
 import it.zerono.mods.zerocore.lib.multiblock.variant.IMultiblockVariant;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -64,9 +63,9 @@ public class AbstractTurbineEntity
     }
 
     public Component getPartDisplayName() {
-        return new TranslatableComponent("gui.bigreactors.multiblock_variant_part_format.title",
-                new TranslatableComponent(this.getMultiblockVariant().map(IMultiblockVariant::getTranslationKey).orElse("unknown")),
-                new TranslatableComponent(this.getPartType().map(TurbinePartType::getTranslationKey).orElse("unknown")));
+        return Component.translatable("gui.bigreactors.multiblock_variant_part_format.title",
+                Component.translatable(this.getMultiblockVariant().map(IMultiblockVariant::getTranslationKey).orElse("unknown")),
+                Component.translatable(this.getPartType().map(TurbinePartType::getTranslationKey).orElse("unknown")));
     }
 
     //region client render support

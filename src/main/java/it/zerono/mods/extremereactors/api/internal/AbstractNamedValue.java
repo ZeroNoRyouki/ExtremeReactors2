@@ -19,7 +19,6 @@
 package it.zerono.mods.extremereactors.api.internal;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 
 public abstract class AbstractNamedValue {
 
@@ -38,7 +37,7 @@ public abstract class AbstractNamedValue {
     }
 
     public Component getTranslatedName() {
-        return new TranslatableComponent(this.getTranslationKey());
+        return Component.translatable(this.getTranslationKey());
     }
 
     //region Object
