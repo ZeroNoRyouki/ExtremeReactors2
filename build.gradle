@@ -176,7 +176,7 @@ dependencies {
 //    runtimeOnly fg.deobf("mezz.jei:jei-${config.minecraft_version}:${config.jei_version}")
 
 	// cc-tweaked
-//    implementation fg.deobf("org.squiddev:cc-tweaked-${config.minecraft_version}:${config.cctweaked_version}")
+    implementation fg.deobf("org.squiddev:cc-tweaked-${config.minecraft_version}:${config.cctweaked_version}")
 
 	// patchouli
 //    compileOnly fg.deobf("vazkii.patchouli:Patchouli:${config.patchouli_version}:api")
