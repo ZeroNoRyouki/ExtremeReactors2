@@ -40,6 +40,6 @@ logoFile="logo.png"
 
     modId="zerocore"
     mandatory=true
-    versionRange="[1.19-2.1.18,1.19-2.2.0)"
+    versionRange="[1.19-2.1.20,1.19-2.2.0)"
     ordering="AFTER"
     side="BOTH"
