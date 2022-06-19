@@ -110,9 +110,9 @@
         "1.18.1-2.0.34":"- Updated to Minecraft 1.18.1\r\n- Fix multiblocks occasionally not assembling on world load\r\n- Fix Fluidizer and Reprocessor GUIs not synchronizing\r\n- Fix rendering issues in Fluidizer and Reprocessor GUIs\r\n- Updated Forge to version 39.0.5 (cfr [CVE-2021-44228])\r\n- Updated ZeroCore to version 2.1.9\r\n- Bumped version to 2.0.34"
         ,
         "1.18.1-2.0.35":"- Restored Patchouli support, the in-game book is back and now it can be translated in other languages (new machines still to be added in)\r\n- Updated Patchouli to version 1.18.1-61\r\n- Updated ZeroCore to version to 2.1.11\r\n- Bumped version to 2.0.35"
-    ,
+        ,
         "1.18.1-2.0.36":"- Added missing recipe for the Reactor Fuel Injection Port\r\n- Bumped version to 2.0.36"
-    ,
+        ,
         "1.18.1-2.0.37":"- Updated the in-game book with the documentation for the Reprocessor and the Fluidizer\r\n- Bumped version to 2.0.37"
         ,
         "1.18.1-2.0.38":"- New end-game Turbine coils: Ludicrite, Ridiculite, Inanite\r\n- Added Yellorium and Blutonium Nuggets (@Lady Lexxie)\r\n- Added coils get/set to the /er command\r\n- Added help buttons on Reprocessor / Fluidizer GUIs\r\n- Fixed lang issues in the Reprocessor JEI plugin\r\n- Bumped version to 2.0.38"
@@ -128,6 +128,11 @@
         ,
         "1.18.2-2.0.45":"- Added three new Moderators for your Reactors as a nod to the past!\r\n- The Fluidizer recipes now accepts non-reactants ingredients\r\n- Bumped version to 2.0.45"
     },
+    "1.19":{
+        "1.19-2.0.46":"- Updated Minecraft to version 1.19\r\n- World-gen is not defined by json files, yeah....\r\n- Updated Forge to version 41.0.17\r\n- Updated ZeroCore to version 2.1.18\r\n- Bumped version to 2.0.46"
+        ,
+        "1.19-2.0.47":"- Added back CC-Tweaked support\r\n- Support for the Fluids API of Forge\r\n- Updated Forge to version 41.0.38\r\n- Updated CC-Tweaked to version 1.19-1.100.7\r\n- Updated ZeroCore to version 2.1.20\r\n- Bumped version to 2.0.47"
+    },
     "promos":{
         "1.16.3-latest":"1.16.4-2.0.21",
         "1.16.3-recommended":"1.16.4-2.0.21",
@@ -142,6 +147,8 @@
         "1.18.1-latest":"1.18-2.0.38",
         "1.18.1-recommended":"1.18-2.0.38",
         "1.18.2-latest":"1.18.1-2.0.45",
-        "1.18.2-recommended":"1.18.1-2.0.45"
+        "1.18.2-recommended":"1.18.1-2.0.45",
+        "1.19-latest":"1.19-2.0.47",
+        "1.19-recommended":"1.19-2.0.47"
     }
 }
