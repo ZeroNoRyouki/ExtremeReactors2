@@ -45,6 +45,7 @@ import it.zerono.mods.zerocore.lib.client.render.ModRenderHelper;
 import it.zerono.mods.zerocore.lib.client.text.BindableTextComponent;
 import it.zerono.mods.zerocore.lib.data.gfx.Colour;
 import it.zerono.mods.zerocore.lib.energy.EnergySystem;
+import it.zerono.mods.zerocore.lib.fluid.FluidHelper;
 import it.zerono.mods.zerocore.lib.item.inventory.PlayerInventoryUsage;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
 import net.minecraft.network.chat.Component;
@@ -409,7 +410,7 @@ public class ReactorControllerScreen
                                 .ifPresent(fluid -> {
 
                                     this._coolantBar.setBarSprite(ModRenderHelper.getFlowingFluidSprite(fluid));
-                                    this._coolantBar.setBarSpriteTint(Colour.fromARGB(fluid.getAttributes().getColor()));
+                                    this._coolantBar.setBarSpriteTint(ModRenderHelper.getFluidTintColour(fluid));
                                 });
                     }, coolantFluidName);
             this.addBinding((MultiblockReactor reactor) -> reactor.getFluidContainer().getLiquidAmount(), (Consumer<Integer>)this._coolantBar::setValue, coolantAmount);
@@ -463,7 +464,7 @@ public class ReactorControllerScreen
                                 .ifPresent(fluid -> {
 
                                     this._vaporBar.setBarSprite(ModRenderHelper.getFlowingFluidSprite(fluid));
-                                    this._vaporBar.setBarSpriteTint(Colour.fromARGB(fluid.getAttributes().getColor()));
+                                    this._vaporBar.setBarSpriteTint(ModRenderHelper.getFluidTintColour(fluid));
                                 });
                     }, vaporFluidName);
             this.addBinding((MultiblockReactor reactor) -> reactor.getFluidContainer().getGasAmount(), (Consumer<Integer>)this._vaporBar::setValue, vaporAmount);
@@ -794,7 +795,9 @@ public class ReactorControllerScreen
 
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     private static Component getFluidName(final Optional<Fluid> fluid) {
-        return fluid.map(f -> (Component)Component.translatable(f.getAttributes().getTranslationKey()).setStyle(CommonConstants.STYLE_TOOLTIP_VALUE))
+        return fluid
+                .map(FluidHelper::getFluidName)
+                .map(c -> (Component)c.setStyle(CommonConstants.STYLE_TOOLTIP_VALUE))
                 .orElse(TEXT_EMPTY);
     }
 

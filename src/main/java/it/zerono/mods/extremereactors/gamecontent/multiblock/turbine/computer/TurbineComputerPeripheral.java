@@ -28,6 +28,7 @@ import it.zerono.mods.zerocore.lib.compat.computer.ComputerMethod;
 import it.zerono.mods.zerocore.lib.compat.computer.LuaHelper;
 import it.zerono.mods.zerocore.lib.compat.computer.MultiblockComputerPeripheral;
 import it.zerono.mods.zerocore.lib.energy.EnergySystem;
+import it.zerono.mods.zerocore.lib.fluid.FluidHelper;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.common.util.NonNullConsumer;
@@ -142,7 +143,10 @@ public class TurbineComputerPeripheral
 
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     private static String getFluidName(final Optional<Fluid> fluid) {
-        return fluid.map(f -> Component.translatable(f.getAttributes().getTranslationKey()).getString()).orElse("");
+        return fluid
+                .map(FluidHelper::getFluidName)
+                .map(Component::getString)
+                .orElse("");
     }
 
     //endregion

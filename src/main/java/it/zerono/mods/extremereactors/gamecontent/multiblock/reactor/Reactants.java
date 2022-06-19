@@ -24,6 +24,7 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Rarity;
 import net.minecraftforge.common.util.NonNullConsumer;
 
 import javax.annotation.Nonnull;
@@ -32,12 +33,12 @@ import java.util.List;
 public enum Reactants
         implements NonNullConsumer<LivingEntity> {
 
-    Yellorium(ReactantType.Fuel, "yellorium", 0xc6ba54, MobEffects.WEAKNESS, MobEffects.MOVEMENT_SLOWDOWN),
-    Cyanite(ReactantType.Waste, "cyanite", 0x5387b7, MobEffects.WEAKNESS, MobEffects.MOVEMENT_SLOWDOWN, MobEffects.HUNGER),
-    Blutonium(ReactantType.Fuel, "blutonium", 0x17179c, MobEffects.WEAKNESS, MobEffects.MOVEMENT_SLOWDOWN, MobEffects.HUNGER, MobEffects.POISON),
-    Magentite(ReactantType.Waste, "magentite", 0xe41de4, MobEffects.WEAKNESS, MobEffects.MOVEMENT_SLOWDOWN, MobEffects.HUNGER, MobEffects.WITHER),
-    Verderium(ReactantType.Fuel, "verderium", 0x00FF00, MobEffects.WITHER, MobEffects.HUNGER, MobEffects.POISON, MobEffects.WEAKNESS, MobEffects.BLINDNESS),
-    Rossinite(ReactantType.Waste, "rossinite", 0xFF0000, MobEffects.MOVEMENT_SPEED, MobEffects.DIG_SPEED, MobEffects.SLOW_FALLING, MobEffects.HERO_OF_THE_VILLAGE),
+    Yellorium(ReactantType.Fuel, "yellorium", 0xc6ba54, 2000, 5, Rarity.RARE, MobEffects.WEAKNESS, MobEffects.MOVEMENT_SLOWDOWN),
+    Cyanite(ReactantType.Waste, "cyanite", 0x5387b7, 2000, 6, Rarity.RARE, MobEffects.WEAKNESS, MobEffects.MOVEMENT_SLOWDOWN, MobEffects.HUNGER),
+    Blutonium(ReactantType.Fuel, "blutonium", 0x17179c, 2500, 7, Rarity.RARE, MobEffects.WEAKNESS, MobEffects.MOVEMENT_SLOWDOWN, MobEffects.HUNGER, MobEffects.POISON),
+    Magentite(ReactantType.Waste, "magentite", 0xe41de4, 2500, 8, Rarity.RARE, MobEffects.WEAKNESS, MobEffects.MOVEMENT_SLOWDOWN, MobEffects.HUNGER, MobEffects.WITHER),
+    Verderium(ReactantType.Fuel, "verderium", 0x00FF00, 3000, 9, Rarity.EPIC, MobEffects.WITHER, MobEffects.HUNGER, MobEffects.POISON, MobEffects.WEAKNESS, MobEffects.BLINDNESS),
+    Rossinite(ReactantType.Waste, "rossinite", 0xFF0000, 460, 12, Rarity.EPIC, MobEffects.MOVEMENT_SPEED, MobEffects.DIG_SPEED, MobEffects.SLOW_FALLING, MobEffects.HERO_OF_THE_VILLAGE),
     ;
 
     public ReactantType getType() {
@@ -92,6 +93,18 @@ public enum Reactants
         return this._colour;
     }
 
+    public int getFluidDensity() {
+        return this._fluidDensity;
+    }
+
+    public int getFluidLightLevel() {
+        return this._fluidLightLevel;
+    }
+
+    public Rarity getRarity() {
+        return this._rarity;
+    }
+
     //region NonNullConsumer<LivingEntity>
 
     @Override
@@ -102,11 +115,15 @@ public enum Reactants
     //endregion
     //region internal
 
-    Reactants(final ReactantType type, final String name, final int colour, final MobEffect... effects) {
+    Reactants(final ReactantType type, final String name, final int colour, final int density, final int lightLevel,
+              final Rarity rarity, final MobEffect... effects) {
 
         this._type = type;
         this._name = name;
         this._colour = colour;
+        this._fluidDensity = density;
+        this._fluidLightLevel = lightLevel;
+        this._rarity = rarity;
         this._effects = new ObjectArrayList<>(effects);
     }
 
@@ -114,6 +131,10 @@ public enum Reactants
     private final String _name;
     private final int _colour;
     private final List<MobEffect> _effects;
+
+    private final int _fluidDensity;
+    private final int _fluidLightLevel;
+    private final Rarity _rarity;
 
     //endregion
 }

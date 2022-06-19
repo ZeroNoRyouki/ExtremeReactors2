@@ -22,7 +22,6 @@ import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.api.reactor.ReactantMappingsRegistry;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.ContentTags;
-import it.zerono.mods.extremereactors.gamecontent.fluid.ReactantFluid;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.recipe.FluidizerFluidMixingRecipe;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.recipe.FluidizerSolidMixingRecipe;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.recipe.FluidizerSolidRecipe;
@@ -37,6 +36,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.fluids.FluidStack;
@@ -104,12 +104,12 @@ public class FluidizerRecipeGenerator
     //region internals
 
     private static void solid(final Consumer<FinishedRecipe> c, final String name,
-                              final Supplier<? extends Item> ingredient, final Supplier<ReactantFluid.Source> result) {
+                              final Supplier<? extends Item> ingredient, final Supplier<FlowingFluid> result) {
         solid(c, name, ingredient, result, 1);
     }
 
     private static void solid(final Consumer<FinishedRecipe> c, final String name,
-                              final Supplier<? extends Item> ingredient, final Supplier<ReactantFluid.Source> result,
+                              final Supplier<? extends Item> ingredient, final Supplier<FlowingFluid> result,
                               final int resultMultiplier) {
         solid(c, name, ingredient.get(), 1, result.get(), ReactantMappingsRegistry.STANDARD_SOLID_REACTANT_AMOUNT * resultMultiplier);
     }
@@ -126,7 +126,7 @@ public class FluidizerRecipeGenerator
     private static void solidMixing(final Consumer<FinishedRecipe> c, final String name,
                                     final Supplier<? extends Item> ingredient1, final int ingredient1Amount,
                                     final Supplier<? extends Item> ingredient2, final int ingredient2Amount,
-                                    final Supplier<ReactantFluid.Source> result, final int resultMultiplier) {
+                                    final Supplier<FlowingFluid> result, final int resultMultiplier) {
         solidMixing(c, name, ingredient1.get(), ingredient1Amount, ingredient2.get(), ingredient2Amount, result.get(), ReactantMappingsRegistry.STANDARD_SOLID_REACTANT_AMOUNT * resultMultiplier);
     }
 

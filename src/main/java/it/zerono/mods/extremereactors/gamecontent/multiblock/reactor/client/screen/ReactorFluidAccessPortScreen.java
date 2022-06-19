@@ -215,8 +215,8 @@ public class ReactorFluidAccessPortScreen
 
                     } else {
 
-                        this._fuelTank.setBarSprite(ModRenderHelper.getFlowingFluidSprite(stack.getFluid()));
-                        this._fuelTank.setBarSpriteTint(Colour.fromARGB(stack.getFluid().getAttributes().getColor()));
+                        this._fuelTank.setBarSprite(ModRenderHelper.getFlowingFluidSprite(stack));
+                        this._fuelTank.setBarSpriteTint(ModRenderHelper.getFluidTintColour(stack));
                     }
                 }, fuelFluidName);
         this.addBinding(c -> this.getFluidAmount(ReactantType.Fuel), (Consumer<Integer>)this._fuelTank::setValue, fuelAmount);
@@ -274,8 +274,8 @@ public class ReactorFluidAccessPortScreen
 
                     } else {
 
-                        this._wasteTank.setBarSprite(ModRenderHelper.getFlowingFluidSprite(stack.getFluid()));
-                        this._wasteTank.setBarSpriteTint(Colour.fromARGB(stack.getFluid().getAttributes().getColor()));
+                        this._wasteTank.setBarSprite(ModRenderHelper.getFlowingFluidSprite(stack));
+                        this._wasteTank.setBarSpriteTint(ModRenderHelper.getFluidTintColour(stack));
                     }
                 }, wasteFluidName);
         this.addBinding(c -> this.getFluidAmount(ReactantType.Waste), (Consumer<Integer>)this._wasteTank::setValue, wasteAmount);

@@ -21,9 +21,8 @@ package it.zerono.mods.extremereactors.gamecontent;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import it.zerono.mods.extremereactors.ExtremeReactors;
-import it.zerono.mods.extremereactors.gamecontent.fluid.ModeratorFluid;
-import it.zerono.mods.extremereactors.gamecontent.fluid.ReactantFluid;
-import it.zerono.mods.extremereactors.gamecontent.fluid.SteamFluid;
+import it.zerono.mods.extremereactors.gamecontent.fluid.ReactorFluidType;
+import it.zerono.mods.extremereactors.gamecontent.fluid.ReactantFluidBlock;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.container.ChargingPortContainer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.GenericDeviceBlock;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.GlassBlock;
@@ -60,12 +59,14 @@ import it.zerono.mods.zerocore.lib.block.multiblock.MultiblockPartBlock;
 import it.zerono.mods.zerocore.lib.data.IoDirection;
 import it.zerono.mods.zerocore.lib.data.IoMode;
 import it.zerono.mods.zerocore.lib.energy.EnergySystem;
+import it.zerono.mods.zerocore.lib.fluid.SimpleFluidTypeRenderProperties;
 import it.zerono.mods.zerocore.lib.item.ModItem;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
 import it.zerono.mods.zerocore.lib.recipe.ModRecipe;
 import it.zerono.mods.zerocore.lib.recipe.ModRecipeType;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.*;
@@ -76,12 +77,19 @@ import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
+import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.pathfinder.BlockPathTypes;
+import net.minecraftforge.client.IFluidTypeRenderProperties;
+import net.minecraftforge.common.SoundActions;
 import net.minecraftforge.common.extensions.IForgeMenuType;
+import net.minecraftforge.common.util.NonNullFunction;
 import net.minecraftforge.common.world.BiomeModifier;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -92,6 +100,7 @@ import net.minecraftforge.registries.RegistryObject;
 
 import java.util.Collection;
 import java.util.function.BiFunction;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public final class Content {
@@ -149,41 +158,33 @@ public final class Content {
                 () -> new LiquidBlock(Fluids.STEAM_SOURCE,
                         Block.Properties.of(Material.WATER)
                                 .noCollission()
+                                .lightLevel($ -> 6)
                                 .strength(100.0F)
                                 .noLootTable()
                 ));
 
         //region reactants
 
-        public static final RegistryObject<ReactantFluid.Block> YELLORIUM_FLUID = BLOCKS.register(Reactants.Yellorium.getFluidName(),
-                () -> new ReactantFluid.Block(Fluids.YELLORIUM_SOURCE));
+        public static final RegistryObject<ReactantFluidBlock> YELLORIUM_FLUID = registerReactantFluidBlock(Reactants.Yellorium, Fluids.YELLORIUM_SOURCE);
 
-        public static final RegistryObject<ReactantFluid.Block> CYANITE_FLUID = BLOCKS.register(Reactants.Cyanite.getFluidName(),
-                () -> new ReactantFluid.Block(Fluids.CYANITE_SOURCE));
+        public static final RegistryObject<ReactantFluidBlock> CYANITE_FLUID = registerReactantFluidBlock(Reactants.Cyanite, Fluids.CYANITE_SOURCE);
 
-        public static final RegistryObject<ReactantFluid.Block> BLUTONIUM_FLUID = BLOCKS.register(Reactants.Blutonium.getFluidName(),
-                () -> new ReactantFluid.Block(Fluids.BLUTONIUM_SOURCE));
+        public static final RegistryObject<ReactantFluidBlock> BLUTONIUM_FLUID = registerReactantFluidBlock(Reactants.Blutonium, Fluids.BLUTONIUM_SOURCE);
 
-        public static final RegistryObject<ReactantFluid.Block> MAGENTITE_FLUID = BLOCKS.register(Reactants.Magentite.getFluidName(),
-                () -> new ReactantFluid.Block(Fluids.MAGENTITE_SOURCE));
+        public static final RegistryObject<ReactantFluidBlock> MAGENTITE_FLUID = registerReactantFluidBlock(Reactants.Magentite, Fluids.MAGENTITE_SOURCE);
 
-        public static final RegistryObject<ReactantFluid.Block> VERDERIUM_FLUID = BLOCKS.register(Reactants.Verderium.getFluidName(),
-                () -> new ReactantFluid.Block(Fluids.VERDERIUM_SOURCE));
+        public static final RegistryObject<ReactantFluidBlock> VERDERIUM_FLUID = registerReactantFluidBlock(Reactants.Verderium, Fluids.VERDERIUM_SOURCE);
 
-        public static final RegistryObject<ReactantFluid.Block> ROSSINITE_FLUID = BLOCKS.register(Reactants.Rossinite.getFluidName(),
-                () -> new ReactantFluid.Block(Fluids.ROSSINITE_SOURCE));
+        public static final RegistryObject<ReactantFluidBlock> ROSSINITE_FLUID = registerReactantFluidBlock(Reactants.Rossinite, Fluids.ROSSINITE_SOURCE);
 
         //endregion
         //region moderators
 
-        public static final RegistryObject<ModeratorFluid.Block> CRYOMISI_FLUID = BLOCKS.register("cryomisi_fluid",
-                () -> new ModeratorFluid.Block(Fluids.CRYOMISI_SOURCE));
+        public static final RegistryObject<LiquidBlock> CRYOMISI_FLUID = registerModeratorLiquidBlock("cryomisi_fluid", Fluids.CRYOMISI_SOURCE);
 
-        public static final RegistryObject<ModeratorFluid.Block> TANGERIUM_FLUID = BLOCKS.register("tangerium_fluid",
-                () -> new ModeratorFluid.Block(Fluids.TANGERIUM_SOURCE));
+        public static final RegistryObject<LiquidBlock> TANGERIUM_FLUID = registerModeratorLiquidBlock("tangerium_fluid", Fluids.TANGERIUM_SOURCE);
 
-        public static final RegistryObject<ModeratorFluid.Block> REDFRIGIUM_FLUID = BLOCKS.register("redfrigium_fluid",
-                () -> new ModeratorFluid.Block(Fluids.REDFRIGIUM_SOURCE));
+        public static final RegistryObject<LiquidBlock> REDFRIGIUM_FLUID = registerModeratorLiquidBlock("redfrigium_fluid", Fluids.REDFRIGIUM_SOURCE);
 
         //endregion
         //endregion
@@ -457,6 +458,15 @@ public final class Content {
             return BLOCKS.register(name, () -> (T) (partType.createBlock()));
         }
 
+        private static RegistryObject<LiquidBlock> registerModeratorLiquidBlock(final String name, final Supplier<FlowingFluid> source) {
+            return BLOCKS.register(name, () -> new LiquidBlock(source, BlockBehaviour.Properties.of(Material.WATER).noCollission().strength(100.0F).noLootTable()));
+        }
+
+        private static RegistryObject<ReactantFluidBlock> registerReactantFluidBlock(final Reactants reactant,
+                                                                                     final Supplier<? extends FlowingFluid> fluid) {
+            return BLOCKS.register(reactant.getFluidName(), () -> new ReactantFluidBlock(reactant, fluid));
+        }
+
         //endregion
     }
 
@@ -667,90 +677,170 @@ public final class Content {
     public static final class Fluids {
 
         private static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(ForgeRegistries.FLUIDS, ExtremeReactors.MOD_ID);
+        private static final DeferredRegister<FluidType> FLUID_TYPES = DeferredRegister.create(ForgeRegistries.Keys.FLUID_TYPES, ExtremeReactors.MOD_ID);
 
         static void initialize(final IEventBus bus) {
+
             FLUIDS.register(bus);
+            FLUID_TYPES.register(bus);
         }
 
-        public static final RegistryObject<ForgeFlowingFluid> STEAM_SOURCE = FLUIDS.register("steam", SteamFluid.Source::new);
-        public static final RegistryObject<ForgeFlowingFluid> STEAM_FLOWING = FLUIDS.register("steam_flowing", SteamFluid.Flowing::new);
+        public static RegistryObject<FluidType> STEAM_FLUID_TYPE = FLUID_TYPES.register("steam",
+                () -> new FluidType(FluidType.Properties.create()
+                        .density(1)
+                        .lightLevel(6)
+                        .canDrown(false)
+                        .canSwim(false)
+                        .canPushEntity(false)
+                        .fallDistanceModifier(0.1f)
+                        .canExtinguish(false)
+                        .canConvertToSource(false)
+                        .supportsBoating(false)
+                        .pathType(BlockPathTypes.WALKABLE)
+                        .sound(SoundActions.BUCKET_FILL, SoundEvents.BUCKET_FILL)
+                        .sound(SoundActions.BUCKET_EMPTY, SoundEvents.BUCKET_EMPTY)
+                        .canHydrate(false)
+                        .temperature(100)
+                        .rarity(Rarity.COMMON)) {
+
+            @Override
+            public void initializeClient(final Consumer<IFluidTypeRenderProperties> consumer) {
+                consumer.accept(new SimpleFluidTypeRenderProperties(0xffffffff, CommonConstants.FLUID_TEXTURE_SOURCE_WATER,
+                        CommonConstants.FLUID_TEXTURE_FLOWING_WATER, CommonConstants.FLUID_TEXTURE_OVERLAY_WATER));
+            }
+        });
+
+        public static final RegistryObject<FlowingFluid> STEAM_SOURCE = registerSteam("steam", ForgeFlowingFluid.Source::new);
+        public static final RegistryObject<FlowingFluid> STEAM_FLOWING = registerSteam("steam_flowing", ForgeFlowingFluid.Flowing::new);
 
         //region reactants
 
-        public static final RegistryObject<ReactantFluid.Source> YELLORIUM_SOURCE = FLUIDS.register(Reactants.Yellorium.getFluidSourceName(),
-                () -> new ReactantFluid.Source(Reactants.Yellorium, Fluids.YELLORIUM_SOURCE, Fluids.YELLORIUM_FLOWING,
-                        Blocks.YELLORIUM_FLUID, Items.YELLORIUM_BUCKET));
+        public static RegistryObject<FluidType> YELLORIUM_FLUID_TYPE = registerReactantFluidType(Reactants.Yellorium);
 
-        public static final RegistryObject<ReactantFluid.Flowing> YELLORIUM_FLOWING = FLUIDS.register(Reactants.Yellorium.getFluidFlowingName(),
-                () -> new ReactantFluid.Flowing(Reactants.Yellorium, Fluids.YELLORIUM_SOURCE, Fluids.YELLORIUM_FLOWING,
-                        Blocks.YELLORIUM_FLUID, Items.YELLORIUM_BUCKET));
+        public static final RegistryObject<FlowingFluid> YELLORIUM_SOURCE = FLUIDS.register(Reactants.Yellorium.getFluidSourceName(),
+                () -> new ForgeFlowingFluid.Source(new ForgeFlowingFluid.Properties(YELLORIUM_FLUID_TYPE, Fluids.YELLORIUM_SOURCE, Fluids.YELLORIUM_FLOWING)
+                        .bucket(Items.YELLORIUM_BUCKET)
+                        .block(Blocks.YELLORIUM_FLUID)));
 
-        public static final RegistryObject<ReactantFluid.Source> CYANITE_SOURCE = FLUIDS.register(Reactants.Cyanite.getFluidSourceName(),
-                () -> new ReactantFluid.Source(Reactants.Cyanite, Fluids.CYANITE_SOURCE, Fluids.CYANITE_FLOWING,
-                        Blocks.CYANITE_FLUID, Items.CYANITE_BUCKET));
+        public static final RegistryObject<FlowingFluid> YELLORIUM_FLOWING = FLUIDS.register(Reactants.Yellorium.getFluidFlowingName(),
+                () -> new ForgeFlowingFluid.Flowing(new ForgeFlowingFluid.Properties(YELLORIUM_FLUID_TYPE, Fluids.YELLORIUM_SOURCE, Fluids.YELLORIUM_FLOWING)
+                        .bucket(Items.YELLORIUM_BUCKET)
+                        .block(Blocks.YELLORIUM_FLUID)));
 
-        public static final RegistryObject<ReactantFluid.Flowing> CYANITE_FLOWING = FLUIDS.register(Reactants.Cyanite.getFluidFlowingName(),
-                () -> new ReactantFluid.Flowing(Reactants.Cyanite, Fluids.CYANITE_SOURCE, Fluids.CYANITE_FLOWING,
-                        Blocks.CYANITE_FLUID, Items.CYANITE_BUCKET));
+        public static RegistryObject<FluidType> CYANITE_FLUID_TYPE = registerReactantFluidType(Reactants.Cyanite);
 
-        public static final RegistryObject<ReactantFluid.Source> BLUTONIUM_SOURCE = FLUIDS.register(Reactants.Blutonium.getFluidSourceName(),
-                () -> new ReactantFluid.Source(Reactants.Blutonium, Fluids.BLUTONIUM_SOURCE, Fluids.BLUTONIUM_FLOWING,
-                        Blocks.BLUTONIUM_FLUID, Items.BLUTONIUM_BUCKET));
+        public static final RegistryObject<FlowingFluid> CYANITE_SOURCE = FLUIDS.register(Reactants.Cyanite.getFluidSourceName(),
+                () -> new ForgeFlowingFluid.Source(new ForgeFlowingFluid.Properties(CYANITE_FLUID_TYPE, Fluids.CYANITE_SOURCE, Fluids.CYANITE_FLOWING)
+                        .bucket(Items.CYANITE_BUCKET)
+                        .block(Blocks.CYANITE_FLUID)));
 
-        public static final RegistryObject<ReactantFluid.Flowing> BLUTONIUM_FLOWING = FLUIDS.register(Reactants.Blutonium.getFluidFlowingName(),
-                () -> new ReactantFluid.Flowing(Reactants.Blutonium, Fluids.BLUTONIUM_SOURCE, Fluids.BLUTONIUM_FLOWING,
-                        Blocks.BLUTONIUM_FLUID, Items.BLUTONIUM_BUCKET));
+        public static final RegistryObject<FlowingFluid> CYANITE_FLOWING = FLUIDS.register(Reactants.Cyanite.getFluidFlowingName(),
+                () -> new ForgeFlowingFluid.Flowing(new ForgeFlowingFluid.Properties(CYANITE_FLUID_TYPE, Fluids.CYANITE_SOURCE, Fluids.CYANITE_FLOWING)
+                        .bucket(Items.CYANITE_BUCKET)
+                        .block(Blocks.CYANITE_FLUID)));
 
-        public static final RegistryObject<ReactantFluid.Source> MAGENTITE_SOURCE = FLUIDS.register(Reactants.Magentite.getFluidSourceName(),
-                () -> new ReactantFluid.Source(Reactants.Magentite, Fluids.MAGENTITE_SOURCE, Fluids.MAGENTITE_FLOWING,
-                        Blocks.MAGENTITE_FLUID, Items.MAGENTITE_BUCKET));
+        public static RegistryObject<FluidType> BLUTONIUM_FLUID_TYPE = registerReactantFluidType(Reactants.Blutonium);
 
-        public static final RegistryObject<ReactantFluid.Flowing> MAGENTITE_FLOWING = FLUIDS.register(Reactants.Magentite.getFluidFlowingName(),
-                () -> new ReactantFluid.Flowing(Reactants.Magentite, Fluids.MAGENTITE_SOURCE, Fluids.MAGENTITE_FLOWING,
-                        Blocks.MAGENTITE_FLUID, Items.MAGENTITE_BUCKET));
+        public static final RegistryObject<FlowingFluid> BLUTONIUM_SOURCE = FLUIDS.register(Reactants.Blutonium.getFluidSourceName(),
+                () -> new ForgeFlowingFluid.Source(new ForgeFlowingFluid.Properties(BLUTONIUM_FLUID_TYPE, Fluids.BLUTONIUM_SOURCE, Fluids.BLUTONIUM_FLOWING)
+                        .bucket(Items.BLUTONIUM_BUCKET)
+                        .block(Blocks.BLUTONIUM_FLUID)));
 
-        public static final RegistryObject<ReactantFluid.Source> VERDERIUM_SOURCE = FLUIDS.register(Reactants.Verderium.getFluidSourceName(),
-                () -> new ReactantFluid.Source(Reactants.Verderium, Fluids.VERDERIUM_SOURCE, Fluids.VERDERIUM_FLOWING,
-                        Blocks.VERDERIUM_FLUID, Items.VERDERIUM_BUCKET));
+        public static final RegistryObject<FlowingFluid> BLUTONIUM_FLOWING = FLUIDS.register(Reactants.Blutonium.getFluidFlowingName(),
+                () -> new ForgeFlowingFluid.Flowing(new ForgeFlowingFluid.Properties(BLUTONIUM_FLUID_TYPE, Fluids.BLUTONIUM_SOURCE, Fluids.BLUTONIUM_FLOWING)
+                        .bucket(Items.BLUTONIUM_BUCKET)
+                        .block(Blocks.BLUTONIUM_FLUID)));
 
-        public static final RegistryObject<ReactantFluid.Flowing> VERDERIUM_FLOWING = FLUIDS.register(Reactants.Verderium.getFluidFlowingName(),
-                () -> new ReactantFluid.Flowing(Reactants.Verderium, Fluids.VERDERIUM_SOURCE, Fluids.VERDERIUM_FLOWING,
-                        Blocks.VERDERIUM_FLUID, Items.VERDERIUM_BUCKET));
+        public static RegistryObject<FluidType> MAGENTITE_FLUID_TYPE = registerReactantFluidType(Reactants.Magentite);
 
-        public static final RegistryObject<ReactantFluid.Source> ROSSINITE_SOURCE = FLUIDS.register(Reactants.Rossinite.getFluidSourceName(),
-                () -> new ReactantFluid.Source(Reactants.Rossinite, Fluids.ROSSINITE_SOURCE, Fluids.ROSSINITE_FLOWING,
-                        Blocks.ROSSINITE_FLUID, Items.ROSSINITE_BUCKET));
+        public static final RegistryObject<FlowingFluid> MAGENTITE_SOURCE = FLUIDS.register(Reactants.Magentite.getFluidSourceName(),
+                () -> new ForgeFlowingFluid.Source(new ForgeFlowingFluid.Properties(MAGENTITE_FLUID_TYPE, Fluids.MAGENTITE_SOURCE, Fluids.MAGENTITE_FLOWING)
+                        .bucket(Items.MAGENTITE_BUCKET)
+                        .block(Blocks.MAGENTITE_FLUID)));
 
-        public static final RegistryObject<ReactantFluid.Flowing> ROSSINITE_FLOWING = FLUIDS.register(Reactants.Rossinite.getFluidFlowingName(),
-                () -> new ReactantFluid.Flowing(Reactants.Rossinite, Fluids.ROSSINITE_SOURCE, Fluids.ROSSINITE_FLOWING,
-                        Blocks.ROSSINITE_FLUID, Items.ROSSINITE_BUCKET));
+        public static final RegistryObject<FlowingFluid> MAGENTITE_FLOWING = FLUIDS.register(Reactants.Magentite.getFluidFlowingName(),
+                () -> new ForgeFlowingFluid.Flowing(new ForgeFlowingFluid.Properties(MAGENTITE_FLUID_TYPE, Fluids.MAGENTITE_SOURCE, Fluids.MAGENTITE_FLOWING)
+                        .bucket(Items.MAGENTITE_BUCKET)
+                        .block(Blocks.MAGENTITE_FLUID)));
+
+        public static RegistryObject<FluidType> VERDERIUM_FLUID_TYPE = registerReactantFluidType(Reactants.Verderium);
+
+        public static final RegistryObject<FlowingFluid> VERDERIUM_SOURCE = FLUIDS.register(Reactants.Verderium.getFluidSourceName(),
+                () -> new ForgeFlowingFluid.Source(new ForgeFlowingFluid.Properties(VERDERIUM_FLUID_TYPE, Fluids.VERDERIUM_SOURCE, Fluids.VERDERIUM_FLOWING)
+                        .bucket(Items.VERDERIUM_BUCKET)
+                        .block(Blocks.VERDERIUM_FLUID)));
+
+        public static final RegistryObject<FlowingFluid> VERDERIUM_FLOWING = FLUIDS.register(Reactants.Verderium.getFluidFlowingName(),
+                () -> new ForgeFlowingFluid.Flowing(new ForgeFlowingFluid.Properties(VERDERIUM_FLUID_TYPE, Fluids.VERDERIUM_SOURCE, Fluids.VERDERIUM_FLOWING)
+                        .bucket(Items.VERDERIUM_BUCKET)
+                        .block(Blocks.VERDERIUM_FLUID)));
+
+        public static RegistryObject<FluidType> ROSSINITE_FLUID_TYPE = registerReactantFluidType(Reactants.Rossinite);
+
+        public static final RegistryObject<FlowingFluid> ROSSINITE_SOURCE = FLUIDS.register(Reactants.Rossinite.getFluidSourceName(),
+                () -> new ForgeFlowingFluid.Source(new ForgeFlowingFluid.Properties(ROSSINITE_FLUID_TYPE, Fluids.ROSSINITE_SOURCE, Fluids.ROSSINITE_FLOWING)
+                        .bucket(Items.ROSSINITE_BUCKET)
+                        .block(Blocks.ROSSINITE_FLUID)));
+
+        public static final RegistryObject<FlowingFluid> ROSSINITE_FLOWING = FLUIDS.register(Reactants.Rossinite.getFluidFlowingName(),
+                () -> new ForgeFlowingFluid.Flowing(new ForgeFlowingFluid.Properties(ROSSINITE_FLUID_TYPE, Fluids.ROSSINITE_SOURCE, Fluids.ROSSINITE_FLOWING)
+                        .bucket(Items.ROSSINITE_BUCKET)
+                        .block(Blocks.ROSSINITE_FLUID)));
 
         //endregion
         //region moderators
 
-        public static final RegistryObject<ModeratorFluid.Source> CRYOMISI_SOURCE = FLUIDS.register("cryomisi",
-                () -> new ModeratorFluid.Source(Fluids.CRYOMISI_SOURCE, Fluids.CRYOMISI_FLOWING, Blocks.CRYOMISI_FLUID,
-                        Items.CRYOMISI_BUCKET, 0xf5002d));
+        public static RegistryObject<FluidType> CRYOMISI_FLUID_TYPE = FLUID_TYPES.register("cryomisi",
+                () -> ReactorFluidType.of(0xf5002d, 1000, 6, Rarity.RARE));
 
-        public static final RegistryObject<ModeratorFluid.Flowing> CRYOMISI_FLOWING = FLUIDS.register("cryomisi_flowing",
-                () -> new ModeratorFluid.Flowing(Fluids.CRYOMISI_SOURCE, Fluids.CRYOMISI_FLOWING, Blocks.CRYOMISI_FLUID,
-                        Items.CRYOMISI_BUCKET, 0xf5002d));
+        public static final RegistryObject<FlowingFluid> CRYOMISI_SOURCE = FLUIDS.register("cryomisi",
+                () -> new ForgeFlowingFluid.Source(new ForgeFlowingFluid.Properties(CRYOMISI_FLUID_TYPE, Fluids.CRYOMISI_SOURCE, Fluids.CRYOMISI_FLOWING)
+                        .bucket(Items.CRYOMISI_BUCKET)
+                        .block(Blocks.CRYOMISI_FLUID)));
 
-        public static final RegistryObject<ModeratorFluid.Source> TANGERIUM_SOURCE = FLUIDS.register("tangerium",
-                () -> new ModeratorFluid.Source(Fluids.TANGERIUM_SOURCE, Fluids.TANGERIUM_FLOWING, Blocks.TANGERIUM_FLUID,
-                        Items.TANGERIUM_BUCKET, 0xcf463b));
+        public static final RegistryObject<FlowingFluid> CRYOMISI_FLOWING = FLUIDS.register("cryomisi_flowing",
+                () -> new ForgeFlowingFluid.Flowing(new ForgeFlowingFluid.Properties(CRYOMISI_FLUID_TYPE, Fluids.CRYOMISI_SOURCE, Fluids.CRYOMISI_FLOWING)
+                        .bucket(Items.CRYOMISI_BUCKET)
+                        .block(Blocks.CRYOMISI_FLUID)));
 
-        public static final RegistryObject<ModeratorFluid.Flowing> TANGERIUM_FLOWING = FLUIDS.register("tangerium_flowing",
-                () -> new ModeratorFluid.Flowing(Fluids.TANGERIUM_SOURCE, Fluids.TANGERIUM_FLOWING, Blocks.TANGERIUM_FLUID,
-                        Items.TANGERIUM_BUCKET, 0xcf463b));
+        public static RegistryObject<FluidType> TANGERIUM_FLUID_TYPE = FLUID_TYPES.register("tangerium",
+                () -> ReactorFluidType.of(0xcf463b, 1500, 5, Rarity.RARE));
 
-        public static final RegistryObject<ModeratorFluid.Source> REDFRIGIUM_SOURCE = FLUIDS.register("redfrigium",
-                () -> new ModeratorFluid.Source(Fluids.REDFRIGIUM_SOURCE, Fluids.REDFRIGIUM_FLOWING, Blocks.REDFRIGIUM_FLUID,
-                        Items.REDFRIGIUM_BUCKET, 0xfcb3c1));
+        public static final RegistryObject<FlowingFluid> TANGERIUM_SOURCE = FLUIDS.register("tangerium",
+                () -> new ForgeFlowingFluid.Source(new ForgeFlowingFluid.Properties(TANGERIUM_FLUID_TYPE, Fluids.TANGERIUM_SOURCE, Fluids.TANGERIUM_FLOWING)
+                        .bucket(Items.TANGERIUM_BUCKET)
+                        .block(Blocks.TANGERIUM_FLUID)));
 
-        public static final RegistryObject<ModeratorFluid.Flowing> REDFRIGIUM_FLOWING = FLUIDS.register("redfrigium_flowing",
-                () -> new ModeratorFluid.Flowing(Fluids.REDFRIGIUM_SOURCE, Fluids.REDFRIGIUM_FLOWING, Blocks.REDFRIGIUM_FLUID,
-                        Items.REDFRIGIUM_BUCKET, 0xfcb3c1));
+        public static final RegistryObject<FlowingFluid> TANGERIUM_FLOWING = FLUIDS.register("tangerium_flowing",
+                () -> new ForgeFlowingFluid.Flowing(new ForgeFlowingFluid.Properties(TANGERIUM_FLUID_TYPE, Fluids.TANGERIUM_SOURCE, Fluids.TANGERIUM_FLOWING)
+                        .bucket(Items.TANGERIUM_BUCKET)
+                        .block(Blocks.TANGERIUM_FLUID)));
+
+        public static RegistryObject<FluidType> REDFRIGIUM_FLUID_TYPE = FLUID_TYPES.register("redfrigium",
+                () -> ReactorFluidType.of(0xfcb3c1, 1500, 8, Rarity.EPIC));
+
+        public static final RegistryObject<FlowingFluid> REDFRIGIUM_SOURCE = FLUIDS.register("redfrigium",
+                () -> new ForgeFlowingFluid.Source(new ForgeFlowingFluid.Properties(REDFRIGIUM_FLUID_TYPE, Fluids.REDFRIGIUM_SOURCE, Fluids.REDFRIGIUM_FLOWING)
+                        .bucket(Items.REDFRIGIUM_BUCKET)
+                        .block(Blocks.REDFRIGIUM_FLUID)));
+
+        public static final RegistryObject<FlowingFluid> REDFRIGIUM_FLOWING = FLUIDS.register("redfrigium_flowing",
+                () -> new ForgeFlowingFluid.Flowing(new ForgeFlowingFluid.Properties(REDFRIGIUM_FLUID_TYPE, Fluids.REDFRIGIUM_SOURCE, Fluids.REDFRIGIUM_FLOWING)
+                        .bucket(Items.REDFRIGIUM_BUCKET)
+                        .block(Blocks.REDFRIGIUM_FLUID)));
+
+        //endregion
+        //region internals
+
+        private static RegistryObject<FlowingFluid> registerSteam(final String name, final NonNullFunction<ForgeFlowingFluid.Properties, FlowingFluid> factory) {
+            return FLUIDS.register(name, () -> factory.apply(new ForgeFlowingFluid.Properties(STEAM_FLUID_TYPE, STEAM_SOURCE, STEAM_FLOWING)
+                    .bucket(Items.STEAM_BUCKET)
+                    .block(Blocks.STEAM)));
+        }
+
+        private static RegistryObject<FluidType> registerReactantFluidType(final Reactants reactant) {
+            return FLUID_TYPES.register(reactant.getFluidName(), () -> ReactorFluidType.of(reactant));
+        }
 
         //endregion
     }

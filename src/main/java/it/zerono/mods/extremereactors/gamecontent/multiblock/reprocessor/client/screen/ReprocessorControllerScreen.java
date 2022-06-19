@@ -43,6 +43,7 @@ import it.zerono.mods.zerocore.lib.client.text.BindableTextComponent;
 import it.zerono.mods.zerocore.lib.data.IoDirection;
 import it.zerono.mods.zerocore.lib.data.gfx.Colour;
 import it.zerono.mods.zerocore.lib.energy.EnergySystem;
+import it.zerono.mods.zerocore.lib.fluid.FluidHelper;
 import it.zerono.mods.zerocore.lib.item.inventory.PlayerInventoryUsage;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
 import net.minecraft.network.chat.Component;
@@ -191,9 +192,8 @@ public class ReprocessorControllerScreen
 
                     if (!fluidStack.isEmpty()) {
 
-                        final Fluid fluid = fluidStack.getFluid();
-                        final ISprite fluidSprite = ModRenderHelper.getFlowingFluidSprite(fluid);
-                        final Colour fluidTint = Colour.fromARGB(fluid.getAttributes().getColor());
+                        final ISprite fluidSprite = ModRenderHelper.getFlowingFluidSprite(fluidStack);
+                        final Colour fluidTint = ModRenderHelper.getFluidTintColour(fluidStack);
 
                         this._fluidBar.setBarSprite(fluidSprite);
                         this._fluidBar.setBarSpriteTint(fluidTint);
@@ -284,8 +284,7 @@ public class ReprocessorControllerScreen
             return TEXT_EMPTY;
         }
 
-        return Component.translatable(fluidStack.getFluid().getAttributes().getTranslationKey())
-                .setStyle(CommonConstants.STYLE_TOOLTIP_VALUE);
+        return FluidHelper.getFluidName(fluidStack).setStyle(CommonConstants.STYLE_TOOLTIP_VALUE);
     }
 
     private Panel vBarPanel() {

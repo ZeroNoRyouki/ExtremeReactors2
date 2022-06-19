@@ -34,6 +34,7 @@ import it.zerono.mods.zerocore.lib.energy.EnergyHelper;
 import it.zerono.mods.zerocore.lib.energy.EnergySystem;
 import it.zerono.mods.zerocore.lib.energy.IWideEnergyStorage;
 import it.zerono.mods.zerocore.lib.energy.handler.WideEnergyStoragePolicyWrapper;
+import it.zerono.mods.zerocore.lib.fluid.FluidHelper;
 import it.zerono.mods.zerocore.lib.fluid.FluidTank;
 import it.zerono.mods.zerocore.lib.fluid.handler.FluidHandlerPolicyWrapper;
 import it.zerono.mods.zerocore.lib.item.inventory.ItemStackHolder;
@@ -56,7 +57,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.fluids.FluidAttributes;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.IFluidHandler;
@@ -77,7 +77,7 @@ public class MultiblockReprocessor
     public static final int TICK_ENERGY_COST = 25; // 25 FE per processed tick
     public static final int INTERNAL_HEIGHT = 5;
 
-    public static final int FLUID_CAPACITY = INTERNAL_HEIGHT * FluidAttributes.BUCKET_VOLUME;
+    public static final int FLUID_CAPACITY = INTERNAL_HEIGHT * FluidHelper.BUCKET_VOLUME;
     public static final int ENERGY_CAPACITY = INTERNAL_HEIGHT * 1000;
 
     public MultiblockReprocessor(final Level world) {
