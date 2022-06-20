@@ -1,5 +1,6 @@
 package it.zerono.mods.extremereactors.gamecontent.fluid;
 
+import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.gamecontent.CommonConstants;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.Reactants;
 import it.zerono.mods.zerocore.lib.fluid.SimpleFluidTypeRenderProperties;
@@ -15,12 +16,12 @@ import java.util.function.Consumer;
 public class ReactorFluidType
         extends FluidType {
 
-    public static ReactorFluidType of(final int tint, final int density, final int lightLevel, final Rarity rarity) {
-        return new ReactorFluidType(0xff000000 | tint, density, lightLevel, rarity);
+    public static ReactorFluidType of(final String registrationName, final int tint, final int density, final int lightLevel, final Rarity rarity) {
+        return new ReactorFluidType(registrationName, 0xff000000 | tint, density, lightLevel, rarity);
     }
 
     public static ReactorFluidType of(final Reactants reactant) {
-        return of(reactant.getColour(), reactant.getFluidDensity(), reactant.getFluidLightLevel(), reactant.getRarity());
+        return of(reactant.getReactantName(), reactant.getColour(), reactant.getFluidDensity(), reactant.getFluidLightLevel(), reactant.getRarity());
     }
 
     //region FluidType
@@ -33,9 +34,10 @@ public class ReactorFluidType
     //endregion
     //region internals
 
-    private ReactorFluidType(final int tint, final int density, final int lightLevel, final Rarity rarity) {
+    private ReactorFluidType(final String registrationName, final int tint, final int density, final int lightLevel, final Rarity rarity) {
 
         super(FluidType.Properties.create()
+                .descriptionId("fluid." + ExtremeReactors.MOD_ID + "." + registrationName)
                 .density(density)
                 .lightLevel(lightLevel)
                 .canDrown(true)

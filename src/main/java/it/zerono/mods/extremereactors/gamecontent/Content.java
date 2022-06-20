@@ -687,6 +687,7 @@ public final class Content {
 
         public static RegistryObject<FluidType> STEAM_FLUID_TYPE = FLUID_TYPES.register("steam",
                 () -> new FluidType(FluidType.Properties.create()
+                        .descriptionId("fluid." + ExtremeReactors.MOD_ID + ".steam")
                         .density(1)
                         .lightLevel(6)
                         .canDrown(false)
@@ -791,7 +792,7 @@ public final class Content {
         //region moderators
 
         public static RegistryObject<FluidType> CRYOMISI_FLUID_TYPE = FLUID_TYPES.register("cryomisi",
-                () -> ReactorFluidType.of(0xf5002d, 1000, 6, Rarity.RARE));
+                () -> ReactorFluidType.of("cryomisi", 0xf5002d, 1000, 6, Rarity.RARE));
 
         public static final RegistryObject<FlowingFluid> CRYOMISI_SOURCE = FLUIDS.register("cryomisi",
                 () -> new ForgeFlowingFluid.Source(new ForgeFlowingFluid.Properties(CRYOMISI_FLUID_TYPE, Fluids.CRYOMISI_SOURCE, Fluids.CRYOMISI_FLOWING)
@@ -804,7 +805,7 @@ public final class Content {
                         .block(Blocks.CRYOMISI_FLUID)));
 
         public static RegistryObject<FluidType> TANGERIUM_FLUID_TYPE = FLUID_TYPES.register("tangerium",
-                () -> ReactorFluidType.of(0xcf463b, 1500, 5, Rarity.RARE));
+                () -> ReactorFluidType.of("tangerium", 0xcf463b, 1500, 5, Rarity.RARE));
 
         public static final RegistryObject<FlowingFluid> TANGERIUM_SOURCE = FLUIDS.register("tangerium",
                 () -> new ForgeFlowingFluid.Source(new ForgeFlowingFluid.Properties(TANGERIUM_FLUID_TYPE, Fluids.TANGERIUM_SOURCE, Fluids.TANGERIUM_FLOWING)
@@ -817,7 +818,7 @@ public final class Content {
                         .block(Blocks.TANGERIUM_FLUID)));
 
         public static RegistryObject<FluidType> REDFRIGIUM_FLUID_TYPE = FLUID_TYPES.register("redfrigium",
-                () -> ReactorFluidType.of(0xfcb3c1, 1500, 8, Rarity.EPIC));
+                () -> ReactorFluidType.of("redfrigium", 0xfcb3c1, 1500, 8, Rarity.EPIC));
 
         public static final RegistryObject<FlowingFluid> REDFRIGIUM_SOURCE = FLUIDS.register("redfrigium",
                 () -> new ForgeFlowingFluid.Source(new ForgeFlowingFluid.Properties(REDFRIGIUM_FLUID_TYPE, Fluids.REDFRIGIUM_SOURCE, Fluids.REDFRIGIUM_FLOWING)
