@@ -132,6 +132,8 @@
         "1.19-2.0.46":"- Updated Minecraft to version 1.19\r\n- World-gen is not defined by json files, yeah....\r\n- Updated Forge to version 41.0.17\r\n- Updated ZeroCore to version 2.1.18\r\n- Bumped version to 2.0.46"
         ,
         "1.19-2.0.47":"- Added back CC-Tweaked support\r\n- Support for the Fluids API of Forge\r\n- Updated Forge to version 41.0.38\r\n- Updated CC-Tweaked to version 1.19-1.100.7\r\n- Updated ZeroCore to version 2.1.20\r\n- Bumped version to 2.0.47"
+        ,
+        "1.19-2.0.48":"- Fix fluid names not showing correctly. Close #88, thanks to MaxNeedsSnacks for the report.\r\n- Bumped version to 2.0.48"
     },
     "promos":{
         "1.16.3-latest":"1.16.4-2.0.21",
@@ -148,7 +150,7 @@
         "1.18.1-recommended":"1.18-2.0.38",
         "1.18.2-latest":"1.18.1-2.0.45",
         "1.18.2-recommended":"1.18.1-2.0.45",
-        "1.19-latest":"1.19-2.0.47",
-        "1.19-recommended":"1.19-2.0.47"
+        "1.19-latest":"1.19-2.0.48",
+        "1.19-recommended":"1.19-2.0.48"
     }
 }
