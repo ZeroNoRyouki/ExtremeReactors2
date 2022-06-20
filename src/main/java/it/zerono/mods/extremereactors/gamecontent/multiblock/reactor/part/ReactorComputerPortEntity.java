@@ -62,7 +62,6 @@ public class ReactorComputerPortEntity
 
         super.syncDataFrom(data, syncReason);
 
-//        this.executeOnComputerCraftConnector(c -> c.syncDataFrom(data, syncReason));
         if (null != this._ccConnector) {
             this._ccConnector.ifPresent(c -> c.syncDataFrom(data, syncReason));
         }
@@ -79,7 +78,6 @@ public class ReactorComputerPortEntity
 
         super.syncDataTo(data, syncReason);
 
-//        this.executeOnComputerCraftConnector(c -> c.syncDataTo(data, syncReason));
         if (null != this._ccConnector) {
             this._ccConnector.ifPresent(c -> c.syncDataTo(data, syncReason));
         }
@@ -94,7 +92,6 @@ public class ReactorComputerPortEntity
     public void onAttached(MultiblockReactor newController) {
 
         super.onAttached(newController);
-//        this.executeOnComputerCraftConnector(Connector::onAttachedToController);
 
         if (null != this._ccConnector) {
             //noinspection Convert2MethodRef
@@ -106,7 +103,7 @@ public class ReactorComputerPortEntity
     public void onDetached(MultiblockReactor oldController) {
 
         super.onDetached(oldController);
-//        this.executeOnComputerCraftConnector(Connector::onDetachedFromController);
+
         if (null != this._ccConnector) {
             //noinspection Convert2MethodRef
             this._ccConnector.ifPresent(c -> c.onDetachedFromController());
@@ -145,13 +142,6 @@ public class ReactorComputerPortEntity
 
         return this._peripheral;
     }
-
-//    private void executeOnComputerCraftConnector(final NonNullConsumer<ConnectorComputerCraft<MultiblockComputerPeripheral<MultiblockReactor, ReactorComputerPortEntity>>> c) {
-//
-//        if (null != this._ccConnector) {
-//            this._ccConnector.ifPresent(c);
-//        }
-//    }
 
     @SuppressWarnings("FieldMayBeFinal")
     public static Capability<IPeripheral> CAPABILITY_CC_PERIPHERAL = CapabilityManager.get(new CapabilityToken<>(){});
