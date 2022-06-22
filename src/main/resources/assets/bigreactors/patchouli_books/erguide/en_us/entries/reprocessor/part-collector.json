@@ -16,7 +16,7 @@
             "type": "crafting-part_usage",
             "crafting.title1": "Collector",
             "crafting.recipe1": "bigreactors:reprocessor/collector",
-            "usage.text": "$(l)Mandatory:$() one, and only one, is required$(br)$(l)Valid positions:$() bottom face (not on frame)$(br)$(l)Graphical interface:$() yes"
+            "usage.text": "$(l)Mandatory:$() one, and only one, is required$(br)$(l)Valid positions:$() bottom face (not on frame)$(br)$(l)Graphical interface:$() no"
         }
     ]
 }

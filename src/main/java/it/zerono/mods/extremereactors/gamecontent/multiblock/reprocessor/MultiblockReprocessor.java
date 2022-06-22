@@ -145,6 +145,10 @@ public class MultiblockReprocessor
         return this._fluidTank.getFluidAmount();
     }
 
+    public void voidFluid() {
+        this._fluidTank.setContent(FluidStack.EMPTY);
+    }
+
     public double getFluidStoredPercentage() {
         return this._fluidTank.getFluidAmountPercentage();
     }
