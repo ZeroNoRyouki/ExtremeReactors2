@@ -556,6 +556,8 @@
     "gui.bigreactors.reprocessor.controller.coolantbar.line4b": "% full",
     "gui.bigreactors.reprocessor.controller.on.line1": "Turn the Reprocessor on",
     "gui.bigreactors.reprocessor.controller.off.line1": "Turn the Reprocessor off",
+    "gui.bigreactors.reprocessor.controller.voidfluid.line1": "Void fluids",
+    "gui.bigreactors.reprocessor.controller.voidfluid.line2": "Void all fluids present in the Reprocessor",
 
     "gui.bigreactors.fluidizer.controller.tooltips_popup_max_width": "150",
     "gui.bigreactors.fluidizer.controller.fluidbar.line1": "Output Tank",

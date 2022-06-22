@@ -51,6 +51,7 @@ public class ReprocessorControllerEntity
         this.setCommandDispatcher(TileCommandDispatcher.<ReprocessorControllerEntity>builder()
                 .addServerHandler(CommonConstants.COMMAND_ACTIVATE, rce -> rce.setReprocessorActive(true))
                 .addServerHandler(CommonConstants.COMMAND_DEACTIVATE, rce -> rce.setReprocessorActive(false))
+                .addServerHandler(CommonConstants.COMMAND_VOID_FLUID, rce -> rce.voidFluid())
                 .build(this)
         );
     }
@@ -173,6 +174,15 @@ public class ReprocessorControllerEntity
     @Override
     public Component getDisplayName() {
         return super.getPartDisplayName();
+    }
+
+    //endregion
+    //region internals
+
+    private void voidFluid() {
+        this.getMultiblockController()
+                .filter(MultiblockReprocessor::isAssembled)
+                .ifPresent(MultiblockReprocessor::voidFluid);
     }
 
     //endregion

@@ -36,6 +36,8 @@ public final class CommonConstants {
     public static String COMMAND_DUMP_FUEL = "dumpfuel";
     public static String COMMAND_DUMP_WASTE = "dumpwaste";
 
+    public static String COMMAND_VOID_FLUID = "voidfluid";
+
     //endregion
     //region ids
 

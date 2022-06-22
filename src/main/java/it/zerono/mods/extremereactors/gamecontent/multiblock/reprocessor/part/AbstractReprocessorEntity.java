@@ -65,7 +65,6 @@ public abstract class AbstractReprocessorEntity
                 .filter(MultiblockReprocessor::isAssembled)
                 .ifPresent(c -> c.setMachineActive(active));
     }
-
     public IItemHandlerModifiable getItemInventory(final IoDirection direction) {
         return this.evalOnController(r -> r.getItemHandler(direction), ItemHelper.EMPTY_ITEM_HANDLER);
     }
