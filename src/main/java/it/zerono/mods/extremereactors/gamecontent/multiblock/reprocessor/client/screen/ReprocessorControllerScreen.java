@@ -28,6 +28,7 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.scree
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.MultiblockReprocessor;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.part.ReprocessorControllerEntity;
 import it.zerono.mods.zerocore.lib.CodeHelper;
+import it.zerono.mods.zerocore.lib.client.gui.ButtonState;
 import it.zerono.mods.zerocore.lib.client.gui.DesiredDimension;
 import it.zerono.mods.zerocore.lib.client.gui.IControl;
 import it.zerono.mods.zerocore.lib.client.gui.Orientation;
@@ -58,6 +59,8 @@ import net.minecraftforge.fluids.FluidStack;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
+
+import static it.zerono.mods.zerocore.lib.CodeHelper.TEXT_EMPTY_LINE;
 
 public class ReprocessorControllerScreen
         extends AbstractMultiblockScreen<MultiblockReprocessor, ReprocessorControllerEntity, ModTileContainer<ReprocessorControllerEntity>> {
@@ -246,6 +249,27 @@ public class ReprocessorControllerScreen
         off.setTooltips(new TranslatableComponent("gui.bigreactors.reprocessor.controller.off.line1"));
         this.addBinding(MultiblockReprocessor::isMachineActive, active -> off.setActive(!active));
 
+        y += 28;
+
+        // - void fluid
+
+        final Button btn = new Button(this, "voidfluid", "");
+
+        btn.Clicked.subscribe(this::onVoidFluid);
+        btn.setIconForState(CommonIcons.TrashCan.get(), ButtonState.Default);
+        btn.setLayoutEngineHint(FixedLayoutEngine.hint(x + 17, y, 18, 18));
+        btn.enablePaintBlending(true);
+        btn.setPadding(1);
+        btn.setTooltips(ImmutableList.of(
+                new TranslatableComponent("gui.bigreactors.reprocessor.controller.voidfluid.line1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
+                TEXT_EMPTY_LINE,
+                new TranslatableComponent("gui.bigreactors.reprocessor.controller.voidfluid.line2"))
+        );
+
+        commandPanel.addControl(btn);
+        y += 21;
+
+
         commandPanel.addControl(on, off);
     }
 
@@ -279,6 +303,10 @@ public class ReprocessorControllerScreen
                     CommonConstants.COMMAND_ACTIVATE :
                     CommonConstants.COMMAND_DEACTIVATE);
         }
+    }
+
+    private void onVoidFluid(final Button button, final Integer mouseButton) {
+        this.sendCommandToServer(CommonConstants.COMMAND_VOID_FLUID);
     }
 
     private static Component getFluidName(final FluidStack fluidStack) {
