@@ -19,6 +19,7 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.client.screen;
 
 import it.zerono.mods.extremereactors.ExtremeReactors;
+import it.zerono.mods.extremereactors.gamecontent.compat.patchouli.PatchouliCompat;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.AbstractMultiblockScreen;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.CommonIcons;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.MultiblockReprocessor;
@@ -56,7 +57,7 @@ public class ReprocessorAccessPortScreen
 
         final boolean inletMode = this.getTileEntity().getDirection().isInput();
 
-//        this.addPatchouliHelpButton(PatchouliCompat.HANDBOOK_ID, ExtremeReactors.newID(inletMode ? "reprocessor/part-wasteinjector" : "reprocessor/part-outputport"), 1);
+        this.addPatchouliHelpButton(PatchouliCompat.HANDBOOK_ID, ExtremeReactors.newID(inletMode ? "reprocessor/part-wasteinjector" : "reprocessor/part-outputport"), 1);
 
         super.onScreenCreate();
 
