@@ -21,18 +21,18 @@ package it.zerono.mods.extremereactors.api.coolant;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import it.unimi.dsi.fastutil.objects.ObjectLists;
 import it.zerono.mods.extremereactors.Log;
 import it.zerono.mods.extremereactors.api.ExtremeReactorsAPI;
 import it.zerono.mods.extremereactors.api.internal.InternalDispatcher;
 import it.zerono.mods.extremereactors.api.internal.modpack.wrapper.AddRemoveSection;
 import it.zerono.mods.extremereactors.api.internal.modpack.wrapper.ApiWrapper;
+import it.zerono.mods.zerocore.lib.data.gfx.Colour;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
 
-import java.util.Arrays;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Consumer;
 
 /**
@@ -88,8 +88,23 @@ public final class FluidsRegistry {
      * @param enthalpyOfVaporization the amount of energy needed to transform the coolant into a gas
      * @param translationKey The translation key for the name of the coolant
      */
+    @Deprecated // use the color-aware version below
     public static void registerCoolant(final String name, final float boilingPoint, final float enthalpyOfVaporization,
                                        final String translationKey) {
+        registerCoolant(name, boilingPoint, enthalpyOfVaporization, translationKey, 0xFFFFFFFF);
+    }
+
+    /**
+     * Register a new Coolant.
+     *
+     * @param name The name of this Coolant. Must be unique.
+     * @param boilingPoint the temperature at which the coolant changes into a gas
+     * @param enthalpyOfVaporization the amount of energy needed to transform the coolant into a gas
+     * @param translationKey The translation key for the name of the coolant
+     * @param rgbColour The color (in 0xRRGGBB form) to use when rendering the coolant.
+     */
+    public static void registerCoolant(final String name, final float boilingPoint, final float enthalpyOfVaporization,
+                                       final String translationKey, final int rgbColour) {
 
         Preconditions.checkArgument(!Strings.isNullOrEmpty(name));
 
@@ -99,7 +114,7 @@ public final class FluidsRegistry {
                 ExtremeReactorsAPI.LOGGER.warn(MARKER, "Overwriting data for Coolant {}", name);
             }
 
-            s_coolants.put(name, new Coolant(name, boilingPoint, enthalpyOfVaporization, translationKey));
+            s_coolants.put(name, new Coolant(name, Colour.fromRGB(rgbColour), boilingPoint, enthalpyOfVaporization, translationKey));
         });
     }
 
@@ -124,7 +139,21 @@ public final class FluidsRegistry {
      * @param fluidEnergyDensity the energy density of this vapor (in FE per mB)
      * @param translationKey The translation key for the name of the coolant
      */
+    @Deprecated // use the color-aware version below
     public static void registerVapor(final String name, final float fluidEnergyDensity, final String translationKey) {
+        registerVapor(name, fluidEnergyDensity, translationKey, 0xFFFFFFFF);
+    }
+
+    /**
+     * Register a new Vapor.
+     *
+     * @param name The name of this Vapor. Must be unique.
+     * @param fluidEnergyDensity the energy density of this vapor (in FE per mB)
+     * @param translationKey The translation key for the name of the coolant
+     * @param rgbColour The color (in 0xRRGGBB form) to use when rendering the vapor.
+     */
+    public static void registerVapor(final String name, final float fluidEnergyDensity, final String translationKey,
+                                     final int rgbColour) {
 
         Preconditions.checkArgument(!Strings.isNullOrEmpty(name));
 
@@ -134,7 +163,7 @@ public final class FluidsRegistry {
                 ExtremeReactorsAPI.LOGGER.warn(MARKER, "Overwriting data for Vapor {}", name);
             }
 
-            s_vapors.put(name, new Vapor(name, fluidEnergyDensity, translationKey));
+            s_vapors.put(name, new Vapor(name, Colour.fromRGB(rgbColour), fluidEnergyDensity, translationKey));
         });
     }
 
@@ -162,6 +191,14 @@ public final class FluidsRegistry {
         processWrapper("Vapors", wrapper.Vapors, s_vapors, FluidsRegistry::removeVapor,
                 (it.zerono.mods.extremereactors.api.internal.modpack.wrapper.Vapor w) ->
                         registerVapor(w.Name, w.FluidEnergyDensity, w.TranslationKey));
+    }
+
+    public static List<Coolant> getCoolants() {
+        return ObjectLists.unmodifiable(new ObjectArrayList<>(s_coolants.values()));
+    }
+
+    public static List<Vapor> getVapors() {
+        return ObjectLists.unmodifiable(new ObjectArrayList<>(s_vapors.values()));
     }
 
     //region internals

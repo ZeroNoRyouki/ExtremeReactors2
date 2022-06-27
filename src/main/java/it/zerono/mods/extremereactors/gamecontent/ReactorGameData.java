@@ -214,10 +214,10 @@ final class ReactorGameData {
 
         FluidsRegistry.registerCoolant("water", 100.0f,
                 4.0f, // Thermal Expansion converts 1 mB steam into 2 RF of work in a steam turbine, so we assume it's 50% efficient.
-                "fluid.bigreactors.water");
+                "coolant.bigreactors.water", 0x3F76E4);
         FluidMappingsRegistry.registerCoolantMapping("water", 1, ContentTags.Fluids.WATER);
 
-        FluidsRegistry.registerVapor("steam", 10.0f, "fluid.bigreactors.steam");
+        FluidsRegistry.registerVapor("steam", 10.0f, "vapor.bigreactors.steam", 0XFFFFFF);
         FluidMappingsRegistry.registerVaporMapping("steam", 1, ContentTags.Fluids.STEAM);
 
         TransitionsRegistry.register("water", "steam");

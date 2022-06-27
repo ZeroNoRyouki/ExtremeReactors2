@@ -22,6 +22,10 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
+import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
+import it.unimi.dsi.fastutil.objects.Object2ObjectMaps;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.zerono.mods.extremereactors.Log;
 import it.zerono.mods.extremereactors.api.ExtremeReactorsAPI;
 import it.zerono.mods.extremereactors.api.IMapping;
@@ -322,6 +326,14 @@ public final class ReactantMappingsRegistry {
         //TODO fluids
     }
 
+    public static Map<Reactant, List<IMapping<Reactant, ResourceLocation>>> getToSolidMap() {
+        return unmodifiableInverseMap(s_reactantToSolid);
+    }
+
+    public static Map<Reactant, List<IMapping<Reactant, ResourceLocation>>> getToFluidMap() {
+        return unmodifiableInverseMap(s_reactantToFluid);
+    }
+
     //region internals
 
     private ReactantMappingsRegistry() {
@@ -363,6 +375,17 @@ public final class ReactantMappingsRegistry {
         Arrays.stream(wrapperSection.Add)
                 .filter(Objects::nonNull)
                 .forEach(addAction);
+    }
+
+    private static Map<Reactant, List<IMapping<Reactant, ResourceLocation>>> unmodifiableInverseMap(final Map<Reactant, List<IMapping<Reactant, ResourceLocation>>> map) {
+
+        final Object2ObjectMap<Reactant, List<IMapping<Reactant, ResourceLocation>>> copy = new Object2ObjectArrayMap<>(map.size());
+
+        for (final Map.Entry<Reactant, List<IMapping<Reactant, ResourceLocation>>> entry : map.entrySet()) {
+            copy.put(entry.getKey(), new ObjectArrayList<>(entry.getValue()));
+        }
+
+        return Object2ObjectMaps.unmodifiable(copy);
     }
 
     // 1:1 mappings

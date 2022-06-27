@@ -21,6 +21,7 @@ package it.zerono.mods.extremereactors.api.coolant;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
+import it.unimi.dsi.fastutil.objects.Object2ObjectMaps;
 import it.zerono.mods.extremereactors.Log;
 import it.zerono.mods.extremereactors.api.ExtremeReactorsAPI;
 import it.zerono.mods.extremereactors.api.IMapping;
@@ -201,6 +202,14 @@ public final class TransitionsRegistry {
         Arrays.stream(wrapper.FluidTransitions.Add)
                 .filter(Objects::nonNull)
                 .forEach(mapping -> register(mapping.Source, mapping.SourceQuantity, mapping.Product, mapping.ProductQuantity));
+    }
+
+    public static Map<Coolant, IMapping<Coolant, Vapor>> getVaporizations() {
+        return Object2ObjectMaps.unmodifiable(new Object2ObjectArrayMap<>(s_vaporizations));
+    }
+
+    public static Map<Vapor, IMapping<Vapor, Coolant>> getCondensations() {
+        return Object2ObjectMaps.unmodifiable(new Object2ObjectArrayMap<>(s_condensations));
     }
 
     //region internals
