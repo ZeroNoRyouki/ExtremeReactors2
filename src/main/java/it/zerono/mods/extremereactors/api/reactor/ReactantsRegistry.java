@@ -21,6 +21,8 @@ package it.zerono.mods.extremereactors.api.reactor;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import it.unimi.dsi.fastutil.objects.ObjectLists;
 import it.zerono.mods.extremereactors.Log;
 import it.zerono.mods.extremereactors.api.ExtremeReactorsAPI;
 import it.zerono.mods.extremereactors.api.internal.InternalDispatcher;
@@ -28,10 +30,7 @@ import it.zerono.mods.extremereactors.api.internal.modpack.wrapper.ApiWrapper;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
 
-import java.util.Arrays;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * Keep track of all the Reactants that could be used inside a Reactor Fuel Rod
@@ -167,6 +166,10 @@ public final class ReactantsRegistry {
                         register(w.Name, ReactantType.Waste, w.RgbColour, w.TranslationKey);
                     }
                 });
+    }
+
+    public static List<Reactant> getReactants() {
+        return ObjectLists.unmodifiable(new ObjectArrayList<>(s_reactants.values()));
     }
 
     //region internals

@@ -19,6 +19,7 @@
 package it.zerono.mods.extremereactors.api.coolant;
 
 import it.zerono.mods.extremereactors.api.internal.AbstractNamedValue;
+import it.zerono.mods.zerocore.lib.data.gfx.Colour;
 
 /**
  * Describe the properties of a coolant, ie a fluid that can be used inside a Reactor
@@ -27,7 +28,7 @@ import it.zerono.mods.extremereactors.api.internal.AbstractNamedValue;
 public class Coolant
     extends AbstractNamedValue {
 
-    public static final Coolant EMPTY = new Coolant("empty", Float.MAX_VALUE, 0.0f, "gui.bigreactors.generic.empty");
+    public static final Coolant EMPTY = new Coolant("empty", Colour.WHITE, Float.MAX_VALUE, 0.0f, "gui.bigreactors.generic.empty");
 
     /**
      * Construct a new Coolant
@@ -37,11 +38,12 @@ public class Coolant
      * @param enthalpyOfVaporization the amount of energy needed to transform the coolant into a gas
      * @param translationKey The translation key for the name of the coolant
      */
-    Coolant(final String name, final float boilingPoint, final float enthalpyOfVaporization, final String translationKey) {
+    Coolant(final String name, final Colour colour, final float boilingPoint, final float enthalpyOfVaporization, final String translationKey) {
 
         super(name, translationKey);
         this._boilingPoint = Math.max(0.0f, boilingPoint);
         this._enthalpyOfVaporization = Math.max(0.0f, enthalpyOfVaporization);
+        this._colour = colour;
     }
 
     public float getBoilingPoint() {
@@ -52,26 +54,23 @@ public class Coolant
         return this._enthalpyOfVaporization;
     }
 
+    public Coolant copy() {
+        return new Coolant(this.getName(), this.getColour(), this.getBoilingPoint(), this.getEnthalpyOfVaporization(), this.getTranslationKey());
+    }
+
+    public Colour getColour() {
+        return this._colour;
+    }
+
     //region Object
 
     @Override
     public boolean equals(final Object obj) {
-
         return (this == obj) ||
                 (obj instanceof Coolant &&
                         super.equals(obj) &&
                         this.getBoilingPoint() == ((Coolant)obj).getBoilingPoint() &&
                         this.getEnthalpyOfVaporization() == ((Coolant)obj).getEnthalpyOfVaporization());
-
-//        if ((obj instanceof Coolant) && super.equals(obj)) {
-//
-//            final Coolant other = (Coolant)obj;
-//
-//            return this.getBoilingPoint() == other.getBoilingPoint() &&
-//                    this.getEnthalpyOfVaporization() == other.getEnthalpyOfVaporization();
-//        }
-//
-//        return false;
     }
 
     //endregion
@@ -79,6 +78,7 @@ public class Coolant
 
     private final float _boilingPoint;
     private final float _enthalpyOfVaporization;
+    private final Colour _colour;
 
     //endregion
 }

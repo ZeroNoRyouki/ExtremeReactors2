@@ -75,6 +75,8 @@
         "1.16.5-2.0.44":"- Typo. Close #82\r\n- Updated ZeroCore to version 1.16.5-2.1.17 to fix a crash when an error is displayed on the screen\r\n- Bumped version to 2.0.44"
         ,
         "1.16.5-2.0.45":"- Added three new Moderators for your Reactors as a nod to the past!\r\n- The Fluidizer recipes now accepts non-reactants ingredients\r\n- Bumped version to 2.0.45"
+        ,
+        "1.16.5-2.0.49":"- Added a button in the Reprocessor Controller GUI to void all fluids in the internal tank\r\n- Fixed a couple of errors in da book. Close #90, thanks to aharrisw for the report\r\n- Bumped version to 2.0.49"
     },
     "1.17.1":{
         "1.17.1-2.0.26":"- First 1.17.1 release\r\n- A general performance / memory usage improvement version\n- Align ourself with the modified multiblock API from ZeroCore\n- New Fuel Rods rendering system. Expanding on the previous custom-model based system, now the fuel/waste levels are rendered along the the Fuel Rod model itself, removing the need of a Tile Entity Special Renderer, speeding things up quite a bit. The custom models are cached and created only when needed. Occlusion detection still in place, so no quads will be rendered if a Fuel Rod is surrounded be opaque blocks (or if there is no glass in the Reactor walls)\n- General speed and memory optimizations in the whole codebase\n- Fix Computer API reporting an incorrect value from getNumberOfControlRods(). Close #48\r\n- Bumped version to 2.0.26\r\n- Updated Minecraft to version 1.17.1\r\n- Updated Forge to version 37.0.27\r\n- Updated ZeroCore to version 2.1.2",
@@ -102,6 +104,8 @@
         "1.17.1-2.0.41":"- Book: Added missing entry for the Fuel Injection Port and tweaked some pages a bit\n\nFIX: Return an empty FuelData when a FuelRod is not yet linked to a ControlRod. Closes #78. Thanks to DMSledge for the report.\n\nBumped version to 2.0.41\n\n"
         ,
         "1.17.1-2.0.44":"- Typo. Close #82\r\n- Updated ZeroCore to version 1.17.1-2.1.17 to fix a crash when an error is displayed on the screen\r\n- Bumped version to 2.0.44"
+        ,
+        "1.17.1-2.0.49":"- Added a button in the Reprocessor Controller GUI to void all fluids in the internal tank\r\n- Fixed a couple of errors in da book. Close #90, thanks to aharrisw for the report\r\n- Bumped version to 2.0.49"
     },
     "1.18.0":{
         "1.18-2.0.32":"- Updated to Minecraft 1.18\r\n- Updated Forge to version 38.0.5\r\n- Updated CC: Tweaked to version 1.99.0\r\n- Updated ZeroCore to version 1.18-2.1.8"
@@ -127,6 +131,8 @@
         "1.18.2-2.0.44":"- Added Enderium Block from FTB Industrial Contraptions to the forge:storage_blocks/enderium so it can be used as a moderator\r\n- Typo. Close #82\r\n- Updated ZeroCore to version 1.18.2-2.1.17 to fix a crash when an error is displayed on the screen\r\n- Bumped version to 2.0.44"
         ,
         "1.18.2-2.0.45":"- Added three new Moderators for your Reactors as a nod to the past!\r\n- The Fluidizer recipes now accepts non-reactants ingredients\r\n- Bumped version to 2.0.45"
+        ,
+        "1.18.2-2.0.49":"- Added a button in the Reprocessor Controller GUI to void all fluids in the internal tank\r\n- Fixed a couple of errors in da book. Close #90, thanks to aharrisw for the report\r\n- Bumped version to 2.0.49"
     },
     "1.19":{
         "1.19-2.0.46":"- Updated Minecraft to version 1.19\r\n- World-gen is not defined by json files, yeah....\r\n- Updated Forge to version 41.0.17\r\n- Updated ZeroCore to version 2.1.18\r\n- Bumped version to 2.0.46"
@@ -134,23 +140,27 @@
         "1.19-2.0.47":"- Added back CC-Tweaked support\r\n- Support for the Fluids API of Forge\r\n- Updated Forge to version 41.0.38\r\n- Updated CC-Tweaked to version 1.19-1.100.7\r\n- Updated ZeroCore to version 2.1.20\r\n- Bumped version to 2.0.47"
         ,
         "1.19-2.0.48":"- Fix fluid names not showing correctly. Close #88, thanks to MaxNeedsSnacks for the report.\r\n- Bumped version to 2.0.48"
+        ,
+        "1.19-2.0.49":"- Added a button in the Reprocessor Controller GUI to void all fluids in the internal tank\r\n- Bumped version to 2.0.49"
+        ,
+        "1.19-2.0.50":"- Added back Patchouli support\r\n- Updated Patchouli to version 1.19-72\r\n- Updated ZeroCore to version 2.1.21\r\n- Bumped version to 2.0.50"
     },
     "promos":{
         "1.16.3-latest":"1.16.4-2.0.21",
         "1.16.3-recommended":"1.16.4-2.0.21",
         "1.16.4-latest":"1.16.4-2.0.23",
         "1.16.4-recommended":"1.16.4-2.0.23",
-        "1.16.5-latest":"1.16.5-2.0.45",
-        "1.16.5-recommended":"1.16.5-2.0.45",
-        "1.17.1-latest":"1.17.1-2.0.44",
-        "1.17.1-recommended":"1.17.1-2.0.44",
+        "1.16.5-latest":"1.16.5-2.0.49",
+        "1.16.5-recommended":"1.16.5-2.0.49",
+        "1.17.1-latest":"1.17.1-2.0.49",
+        "1.17.1-recommended":"1.17.1-2.0.49",
         "1.18.0-latest":"1.18-2.0.32",
         "1.18.0-recommended":"1.18-2.0.32",
         "1.18.1-latest":"1.18-2.0.38",
         "1.18.1-recommended":"1.18-2.0.38",
-        "1.18.2-latest":"1.18.1-2.0.45",
-        "1.18.2-recommended":"1.18.1-2.0.45",
-        "1.19-latest":"1.19-2.0.48",
-        "1.19-recommended":"1.19-2.0.48"
+        "1.18.2-latest":"1.18.1-2.0.49",
+        "1.18.2-recommended":"1.18.1-2.0.49",
+        "1.19-latest":"1.19-2.0.50",
+        "1.19-recommended":"1.19-2.0.50"
     }
 }
