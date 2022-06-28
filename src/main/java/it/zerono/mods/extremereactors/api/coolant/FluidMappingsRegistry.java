@@ -22,6 +22,9 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
+import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
+import it.unimi.dsi.fastutil.objects.Object2ObjectMaps;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.zerono.mods.extremereactors.Log;
 import it.zerono.mods.extremereactors.api.ExtremeReactorsAPI;
 import it.zerono.mods.extremereactors.api.IMapping;
@@ -256,6 +259,14 @@ public final class FluidMappingsRegistry {
                 (source -> registerVaporMapping(source.ProductName, source.ProductQuantity, TagsHelper.FLUIDS.createOptionalTag(source.SourceTagId))));
     }
 
+    public static Map<Coolant, List<IMapping<Coolant, Tag.Named<Fluid>>>> getCoolantToFluidMap() {
+        return unmodifiableInverseMap(s_coolantToFluid);
+    }
+
+    public static Map<Vapor, List<IMapping<Vapor, Tag.Named<Fluid>>>> getVaporToFluidMap() {
+        return unmodifiableInverseMap(s_vaporToFluid);
+    }
+
     //region internals
 
     private FluidMappingsRegistry() {
@@ -338,6 +349,17 @@ public final class FluidMappingsRegistry {
         Arrays.stream(wrapperSection.Add)
                 .filter(Objects::nonNull)
                 .forEach(addAction);
+    }
+
+    private static <T> Map<T, List<IMapping<T, Tag.Named<Fluid>>>> unmodifiableInverseMap(final Map<T, List<IMapping<T, Tag.Named<Fluid>>>> map) {
+
+        final Object2ObjectMap<T, List<IMapping<T, Tag.Named<Fluid>>>> copy = new Object2ObjectArrayMap<>(map.size());
+
+        for (final Map.Entry<T, List<IMapping<T, Tag.Named<Fluid>>>> entry : map.entrySet()) {
+            copy.put(entry.getKey(), new ObjectArrayList<>(entry.getValue()));
+        }
+
+        return Object2ObjectMaps.unmodifiable(copy);
     }
 
     // 1:1 mappings

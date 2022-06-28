@@ -19,6 +19,7 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen;
 
 import it.zerono.mods.extremereactors.ExtremeReactors;
+import it.zerono.mods.extremereactors.gamecontent.CommonConstants;
 import it.zerono.mods.zerocore.lib.client.gui.sprite.AtlasSpriteSupplier;
 import it.zerono.mods.zerocore.lib.client.gui.sprite.AtlasSpriteTextureMap;
 import it.zerono.mods.zerocore.lib.client.gui.sprite.ISprite;
@@ -30,6 +31,7 @@ public final class CachedSprites {
 
     public static final Supplier<ISprite> REACTOR_FUEL_COLUMN_STILL;
     public static final Supplier<ISprite> REACTOR_FUEL_COLUMN_FLOWING;
+    public static final Supplier<ISprite> WATER_SOURCE;
 
     public static final ResourceLocation GUI_CHARGINGPORT_SLOT_ID;
     public static final Supplier<ISprite> GUI_CHARGINGPORT_SLOT;
@@ -43,6 +45,7 @@ public final class CachedSprites {
 
         REACTOR_FUEL_COLUMN_STILL = AtlasSpriteSupplier.create(ExtremeReactors.newID("fluid/fluid.fuelcolumn.still"), AtlasSpriteTextureMap.BLOCKS, true);
         REACTOR_FUEL_COLUMN_FLOWING = AtlasSpriteSupplier.create(ExtremeReactors.newID("fluid/fluid.fuelcolumn.flowing"), AtlasSpriteTextureMap.BLOCKS, true);
+        WATER_SOURCE = AtlasSpriteSupplier.create(CommonConstants.FLUID_TEXTURE_SOURCE_WATER, AtlasSpriteTextureMap.BLOCKS, true);
 
         GUI_CHARGINGPORT_SLOT_ID = ExtremeReactors.newID("gui/multiblock/charging");
         GUI_CHARGINGPORT_SLOT = AtlasSpriteSupplier.create(GUI_CHARGINGPORT_SLOT_ID, AtlasSpriteTextureMap.BLOCKS);

@@ -89,6 +89,10 @@ public class Reactant
                 .orElse(-1);
     }
 
+    public Reactant copy() {
+        return new Reactant(this.getName(), this.getType(), this.getColour().toRGBA(), this.getTranslationKey(), this.getFuelData());
+    }
+
     //region Predicate<ReactantType>
 
     /**

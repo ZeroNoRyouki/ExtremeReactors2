@@ -19,8 +19,15 @@
 package it.zerono.mods.extremereactors.gamecontent.compat.jei;
 
 import it.zerono.mods.extremereactors.ExtremeReactors;
+import it.zerono.mods.extremereactors.api.coolant.Coolant;
+import it.zerono.mods.extremereactors.api.coolant.FluidsRegistry;
+import it.zerono.mods.extremereactors.api.coolant.Vapor;
+import it.zerono.mods.extremereactors.api.reactor.Reactant;
+import it.zerono.mods.extremereactors.api.reactor.ReactantsRegistry;
+import it.zerono.mods.extremereactors.api.reactor.ReactionsRegistry;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.compat.jei.fluidizer.FluidizerRecipeCategory;
+import it.zerono.mods.extremereactors.gamecontent.compat.jei.reactor.*;
 import it.zerono.mods.extremereactors.gamecontent.compat.jei.reprocessor.ReprocessorRecipeCategory;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.recipe.FluidizerFluidMixingRecipe;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.recipe.FluidizerSolidMixingRecipe;
@@ -30,14 +37,21 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.recipe.
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.helpers.IGuiHelper;
+import mezz.jei.api.ingredients.IIngredientType;
+import mezz.jei.api.registration.IModIngredientRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
 import net.minecraft.resources.ResourceLocation;
 
 
+@SuppressWarnings("unused")
 @JeiPlugin
 public class ExtremeReactorsJeiPlugin
         implements IModPlugin {
+
+    public static final IIngredientType<Reactant> REACTANT_INGREDIENT_TYPE = () -> Reactant.class;
+    public static final IIngredientType<Coolant> COOLANT_INGREDIENT_TYPE = () -> Coolant.class;
+    public static final IIngredientType<Vapor> VAPOR_INGREDIENT_TYPE = () -> Vapor.class;
 
     //region IModPlugin
 
@@ -55,6 +69,13 @@ public class ExtremeReactorsJeiPlugin
         registration.addRecipeCategories(FluidizerRecipeCategory.solid(guiHelper));
         registration.addRecipeCategories(FluidizerRecipeCategory.solidMixing(guiHelper));
         registration.addRecipeCategories(FluidizerRecipeCategory.fluidMixing(guiHelper));
+        registration.addRecipeCategories(new ReactionsRecipeCategory(guiHelper));
+        registration.addRecipeCategories(this._reactantsSolidMappings = new ReactantFromSolidRecipeCategory(guiHelper));
+        registration.addRecipeCategories(this._reactantsFluidMappings = new ReactantFromFluidRecipeCategory(guiHelper));
+        registration.addRecipeCategories(this._vaporizations = TransitionsRecipeCategory.vaporization(guiHelper));
+        registration.addRecipeCategories(this._condensations = TransitionsRecipeCategory.condensation(guiHelper));
+        registration.addRecipeCategories(this._coolantsMappings = new CoolantFromFluidRecipeCategory(guiHelper));
+        registration.addRecipeCategories(this._vaporsMappings = new VaporFromFluidRecipeCategory(guiHelper));
     }
 
     @Override
@@ -64,12 +85,39 @@ public class ExtremeReactorsJeiPlugin
         registration.addRecipes(Content.Recipes.FLUIDIZER_RECIPE_TYPE.getRecipes(r -> r instanceof FluidizerSolidRecipe), IFluidizerRecipe.Type.Solid.getRecipeId());
         registration.addRecipes(Content.Recipes.FLUIDIZER_RECIPE_TYPE.getRecipes(r -> r instanceof FluidizerSolidMixingRecipe), IFluidizerRecipe.Type.SolidMixing.getRecipeId());
         registration.addRecipes(Content.Recipes.FLUIDIZER_RECIPE_TYPE.getRecipes(r -> r instanceof FluidizerFluidMixingRecipe), IFluidizerRecipe.Type.FluidMixing.getRecipeId());
+        registration.addRecipes(ReactionsRegistry.getReactions(), ReactionsRecipeCategory.ID);
+        registration.addRecipes(this._reactantsSolidMappings.getReactants(), this._reactantsSolidMappings.getUid());
+        registration.addRecipes(this._reactantsFluidMappings.getReactants(), this._reactantsFluidMappings.getUid());
+        registration.addRecipes(this._vaporizations.getTransitions(), this._vaporizations.getUid());
+        registration.addRecipes(this._condensations.getTransitions(), this._condensations.getUid());
+        registration.addRecipes(this._coolantsMappings.getCoolants(), this._coolantsMappings.getUid());
+        registration.addRecipes(this._vaporsMappings.getVapors(), this._vaporsMappings.getUid());
+    }
+
+    @Override
+    public void registerIngredients(final IModIngredientRegistration registration) {
+
+        registration.register(REACTANT_INGREDIENT_TYPE, ReactantsRegistry.getReactants(),
+                new ReactantIngredientHelper(), new ReactantIngredientRenderer());
+
+        registration.register(COOLANT_INGREDIENT_TYPE, FluidsRegistry.getCoolants(),
+                new CoolantIngredientHelper(), new CoolantIngredientRenderer());
+
+        registration.register(VAPOR_INGREDIENT_TYPE, FluidsRegistry.getVapors(),
+                new VaporIngredientHelper(), new VaporIngredientRenderer());
     }
 
     //endregion
     //region internals
 
     private static final ResourceLocation s_id = ExtremeReactors.newID("jeiplugin");
+
+    private ReactantFromSolidRecipeCategory _reactantsSolidMappings;
+    private ReactantFromFluidRecipeCategory _reactantsFluidMappings;
+    private TransitionsRecipeCategory<Coolant, Vapor, TransitionsRecipeCategory.VaporizationTransition> _vaporizations;
+    private TransitionsRecipeCategory<Vapor, Coolant, TransitionsRecipeCategory.CondensationTransition> _condensations;
+    private CoolantFromFluidRecipeCategory _coolantsMappings;
+    private VaporFromFluidRecipeCategory _vaporsMappings;
 
     //endregion
 }
