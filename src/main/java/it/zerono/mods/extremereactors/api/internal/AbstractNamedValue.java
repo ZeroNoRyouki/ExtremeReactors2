@@ -18,12 +18,24 @@
 
 package it.zerono.mods.extremereactors.api.internal;
 
+import com.google.common.base.Preconditions;
+import com.google.common.base.Strings;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 
 public abstract class AbstractNamedValue {
 
     protected AbstractNamedValue(final String name, final String translationKey) {
+
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(name));
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(translationKey));
+
+        for (int i = 0; i < name.length(); ++i) {
+            if (!ResourceLocation.isAllowedInResourceLocation(name.charAt(i))) {
+                throw new IllegalArgumentException("Names should be valid for use in a ResourceLocation");
+            }
+        }
 
         this._name = name;
         this._translationKey = translationKey;
