@@ -35,10 +35,9 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.recipe.IF
 import it.zerono.mods.zerocore.base.BaseHelper;
 import it.zerono.mods.zerocore.base.CommonConstants;
 import it.zerono.mods.zerocore.lib.CodeHelper;
+import it.zerono.mods.zerocore.lib.block.ModBlock;
 import it.zerono.mods.zerocore.lib.client.gui.Orientation;
 import it.zerono.mods.zerocore.lib.client.gui.Padding;
-import it.zerono.mods.zerocore.lib.client.gui.sprite.ISprite;
-import it.zerono.mods.zerocore.lib.client.render.ModRenderHelper;
 import it.zerono.mods.zerocore.lib.compat.jei.AbstractModRecipeCategory;
 import it.zerono.mods.zerocore.lib.compat.jei.drawable.ProgressBarDrawable;
 import it.zerono.mods.zerocore.lib.data.geometry.Rectangle;
@@ -55,19 +54,19 @@ import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 
 public abstract class FluidizerRecipeCategory<T extends ModRecipe & IFluidizerRecipe>
         extends AbstractModRecipeCategory<T> {
 
     public static FluidizerRecipeCategory<FluidizerSolidRecipe> solid(final IGuiHelper guiHelper) {
         return new FluidizerRecipeCategory<>(ExtremeReactorsJeiPlugin.FLUIDIZER_SOLID_JEI_RECIPE_TYPE,
-                IFluidizerRecipe.Type.Solid,
-                "compat.bigreactors.jei.fluidizer.recipecategory.solid.title", guiHelper) {
+                IFluidizerRecipe.Type.Solid, "compat.bigreactors.jei.fluidizer.recipecategory.solid.title",
+                guiHelper, Content.Blocks.FLUIDIZER_SOLIDINJECTOR) {
 
             @Override
             public void setRecipe(final IRecipeLayoutBuilder builder, final FluidizerSolidRecipe recipe, final IFocusGroup focuses) {
@@ -84,15 +83,13 @@ public abstract class FluidizerRecipeCategory<T extends ModRecipe & IFluidizerRe
 
     public static FluidizerRecipeCategory<FluidizerSolidMixingRecipe> solidMixing(final IGuiHelper guiHelper) {
         return new FluidizerRecipeCategory<>(ExtremeReactorsJeiPlugin.FLUIDIZER_SOLIDMIXING_JEI_RECIPE_TYPE,
-                IFluidizerRecipe.Type.SolidMixing,
-                "compat.bigreactors.jei.fluidizer.recipecategory.solidmixing.title", guiHelper) {
+                IFluidizerRecipe.Type.SolidMixing, "compat.bigreactors.jei.fluidizer.recipecategory.solidmixing.title",
+                guiHelper, Content.Blocks.FLUIDIZER_SOLIDINJECTOR) {
 
             @Override
             public void setRecipe(final IRecipeLayoutBuilder builder, final FluidizerSolidMixingRecipe recipe, final IFocusGroup focuses) {
 
                 super.setRecipe(builder, recipe, focuses);
-
-                // input solid ingredients
 
                 builder.addSlot(RecipeIngredientRole.INPUT, 26, 47)
                         .addIngredients(VanillaTypes.ITEM_STACK, recipe.getIngredient1().getMatchingElements());
@@ -105,15 +102,13 @@ public abstract class FluidizerRecipeCategory<T extends ModRecipe & IFluidizerRe
 
     public static FluidizerRecipeCategory<FluidizerFluidMixingRecipe> fluidMixing(final IGuiHelper guiHelper) {
         return new FluidizerRecipeCategory<>(ExtremeReactorsJeiPlugin.FLUIDIZER_FLUIDMIXING_JEI_RECIPE_TYPE,
-                IFluidizerRecipe.Type.FluidMixing,
-                "compat.bigreactors.jei.fluidizer.recipecategory.fluidmixing.title", guiHelper) {
+                IFluidizerRecipe.Type.FluidMixing, "compat.bigreactors.jei.fluidizer.recipecategory.fluidmixing.title",
+                guiHelper, Content.Blocks.FLUIDIZER_FLUIDINJECTOR) {
 
             @Override
             public void setRecipe(final IRecipeLayoutBuilder builder, final FluidizerFluidMixingRecipe recipe, final IFocusGroup focuses) {
 
                 super.setRecipe(builder, recipe, focuses);
-
-                // input solid ingredients
 
                 builder.addSlot(RecipeIngredientRole.INPUT, 26, 23)
                         .setFluidRenderer(FluidizerFluidMixingRecipe.getMaxResultAmount(), false, 16, 64)
@@ -145,12 +140,6 @@ public abstract class FluidizerRecipeCategory<T extends ModRecipe & IFluidizerRe
         // recipe output
 
         final FluidStack output = recipe.getResult().getResult();
-        final Fluid outputFluid = output.getFluid();
-
-        this._recipeOutputSprite = ModRenderHelper.getFlowingFluidSprite(outputFluid);
-
-        this._outputBar.setTint(ModRenderHelper.getFluidTintColour(outputFluid));
-        this._outputBar.setProgress(20_000, output.getAmount());
 
         this.addTooltips(71, 47,
                 BaseHelper.getFluidNameOrEmpty(output).setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
@@ -191,18 +180,17 @@ public abstract class FluidizerRecipeCategory<T extends ModRecipe & IFluidizerRe
     //region internals
 
     protected FluidizerRecipeCategory(final RecipeType<T> jeiRecipeType, final IFluidizerRecipe.Type recipeType,
-                                      final String titleKey, final IGuiHelper guiHelper) {
+                                      final String titleKey, final IGuiHelper guiHelper,
+                                      final Supplier<? extends ModBlock> iconSupplier) {
 
         super(jeiRecipeType, Component.translatable(titleKey),
-                Content.Blocks.REPROCESSOR_WASTEINJECTOR.get().createItemStack(), guiHelper, background(recipeType, guiHelper));
+                iconSupplier.get().createItemStack(), guiHelper, background(recipeType, guiHelper));
 
         this._tooltips = new Object2ObjectArrayMap<>(4);
 
         this._powerBarArea = new Rectangle(6, 23, 16, 64);
         this._powerBar = new ProgressBarDrawable(CommonIcons.PowerBar, 0, Padding.ZERO,
                 this._powerBarArea.Width, this._powerBarArea.Height, Orientation.BottomToTop);
-
-        this._outputBar = new ProgressBarDrawable(this::getRecipeOutputSprite, 0, Padding.ZERO, 16, 64, Orientation.BottomToTop);
 
         // progress bars
 
@@ -247,17 +235,11 @@ public abstract class FluidizerRecipeCategory<T extends ModRecipe & IFluidizerRe
                 .build();
     }
 
-    private ISprite getRecipeOutputSprite() {
-        return this._recipeOutputSprite;
-    }
-
     private final Rectangle _powerBarArea;
     private final ProgressBarDrawable _powerBar;
-    private final ProgressBarDrawable _outputBar;
     private final IDrawableAnimated _leftProgressBar;
     private final IDrawableAnimated _rightProgressBar;
     private final Map<Rectangle, List<Component>> _tooltips;
-    private ISprite _recipeOutputSprite;
 
     //endregion
 }

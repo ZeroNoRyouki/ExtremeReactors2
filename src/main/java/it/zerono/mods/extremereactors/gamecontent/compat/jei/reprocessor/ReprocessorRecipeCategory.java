@@ -68,8 +68,6 @@ public class ReprocessorRecipeCategory
         this._fluidBarrArea = new Rectangle(34, 23, 16, 64);
         this._fluidBarTooltips = this._powerBarTooltips = ObjectLists.emptyList();
 
-        this._guiHelper = guiHelper;//remove
-
         this._powerBar = new ProgressBarDrawable(CommonIcons.PowerBar, 0, Padding.ZERO,
                 this._powerBarArea.Width, this._powerBarArea.Height, Orientation.BottomToTop);
     }
@@ -91,33 +89,32 @@ public class ReprocessorRecipeCategory
 
         // input fluid ingredient
 
-        this._recipeFluid = recipe.getIngredient2().getMatchingElements().stream()
+        final FluidStack recipeFluid = recipe.getIngredient2().getMatchingElements().stream()
                 .filter(Objects::nonNull)
                 .filter(fs -> !fs.isEmpty())
                 .findAny()
                 .orElse(FluidStack.EMPTY);
 
-        if (!this._recipeFluid.isEmpty()) {
+        if (!recipeFluid.isEmpty()) {
 
-            this._recipeFluidSprite = ModRenderHelper.getFlowingFluidSprite(this._recipeFluid.getFluid());
-            this._recipeProgressSprite = this._recipeFluidSprite.copyWith(CommonIcons.ReprocessorProgressBarMask.get());
+            this._recipeFluidSprite = ModRenderHelper.getFlowingFluidSprite(recipeFluid.getFluid());
 
             this._fluidBar = new ProgressBarDrawable(this::getRecipeFluidSprite, 0, Padding.ZERO, 16, 64, Orientation.BottomToTop);
-            this._fluidBar.setTint(ModRenderHelper.getFluidTintColour(this._recipeFluid.getFluid()));
-            this._fluidBar.setProgress(MultiblockReprocessor.FLUID_CAPACITY, this._recipeFluid.getAmount());
+            this._fluidBar.setTint(ModRenderHelper.getFluidTintColour(recipeFluid.getFluid()));
+            this._fluidBar.setProgress(MultiblockReprocessor.FLUID_CAPACITY, recipeFluid.getAmount());
 
             this._fluidBarTooltips = new ObjectArrayList<>(3);
-            this._fluidBarTooltips.add(FluidHelper.getFluidName(this._recipeFluid.getFluid())
+            this._fluidBarTooltips.add(FluidHelper.getFluidName(recipeFluid.getFluid())
                     .setStyle(CommonConstants.STYLE_TOOLTIP_TITLE));
             this._fluidBarTooltips.add(CodeHelper.TEXT_EMPTY_LINE);
-            this._fluidBarTooltips.add(Component.literal(String.format("%d mB", this._recipeFluid.getAmount()))
+            this._fluidBarTooltips.add(Component.literal(String.format("%d mB", recipeFluid.getAmount()))
                     .setStyle(CommonConstants.STYLE_TOOLTIP_VALUE));
 
             this._progressBar = null;
 
         } else {
 
-            this._recipeFluidSprite = this._recipeProgressSprite = Sprite.EMPTY;
+            this._recipeFluidSprite = Sprite.EMPTY;
             this._progressBar = null;
             this._fluidBar = ProgressBarDrawable.empty();
         }
@@ -170,17 +167,13 @@ public class ReprocessorRecipeCategory
 
     private final Rectangle _powerBarArea;
     private final Rectangle _fluidBarrArea;
-
-    private final IGuiHelper _guiHelper;
     private final ProgressBarDrawable _powerBar;
     private List<Component> _powerBarTooltips;
     private ProgressBarDrawable _fluidBar;
     private List<Component> _fluidBarTooltips;
     private IDrawableAnimated _progressBar;
 
-    private FluidStack _recipeFluid;
     private ISprite _recipeFluidSprite;
-    private ISprite _recipeProgressSprite;
 
     //endregion
 }
