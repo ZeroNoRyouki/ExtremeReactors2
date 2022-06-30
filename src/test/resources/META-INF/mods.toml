@@ -38,6 +38,6 @@ issueTrackerURL="https://github.com/ZeroNoRyouki/ExtremeReactors2"
 
     modId="zerocore"
     mandatory=true
-    versionRange="[1.19-2.1.21,1.19-2.2.0)"
+    versionRange="[1.19-2.1.22,1.19-2.2.0)"
     ordering="AFTER"
     side="BOTH"

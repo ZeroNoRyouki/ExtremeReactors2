@@ -37,7 +37,7 @@ public class CoolantIngredientHelper
 
     @Override
     public Iterable<Integer> getColors(final Coolant coolant) {
-        return ObjectLists.singleton(0xFFFFFFFF);
+        return ObjectLists.singleton(coolant.getColour().toRGB());
     }
 
     @Override

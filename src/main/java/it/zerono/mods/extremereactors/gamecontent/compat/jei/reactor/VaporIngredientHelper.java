@@ -37,7 +37,7 @@ public class VaporIngredientHelper
 
     @Override
     public Iterable<Integer> getColors(final Vapor vapor) {
-        return ObjectLists.singleton(0xFFFFFFFF);
+        return ObjectLists.singleton(vapor.getColour().toRGB());
     }
 
     @Override
