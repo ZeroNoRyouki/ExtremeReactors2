@@ -26,7 +26,7 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.rotor.Rotor
 import net.minecraft.core.Direction;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.model.data.IModelData;
+import net.minecraftforge.client.model.data.ModelData;
 import net.minecraftforge.common.util.NonNullConsumer;
 
 @OnlyIn(Dist.CLIENT)
@@ -36,7 +36,7 @@ public class BladeSpan
     public final RotorBladeState State;
     public final short Length;
     public final Direction Direction;
-    public final IModelData BladeModelData;
+    public final ModelData BladeModelData;
     public final Matrix4f Translation;
 
     public static BladeSpan from(final RotorBladeState state, final short length, final Direction direction) {

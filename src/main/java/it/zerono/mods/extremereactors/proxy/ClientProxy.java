@@ -86,9 +86,8 @@ import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.client.event.ColorHandlerEvent;
-import net.minecraftforge.client.event.ModelBakeEvent;
-import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.client.event.ModelEvent;
+import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.event.TagsUpdatedEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
@@ -142,18 +141,18 @@ public class ClientProxy
             registerTileRenderers();
             registerScreens();
             
-            // Patchouli multiblock rendering do not support IModelData-based models
+            // Patchouli multiblock rendering do not support ModelData-based models
             Mods.PATCHOULI.ifPresent(PatchouliCompat::initialize);
         });
     }
 
     @SubscribeEvent
-    public void onRegisterModels(final ModelRegistryEvent event) {
-        this._modelBuilders.forEach(ICustomModelBuilder::onRegisterModels);
+    public void onRegisterModels(final ModelEvent.RegisterAdditional event) {
+        this._modelBuilders.forEach(b -> b.onRegisterModels(event));
     }
 
     @SubscribeEvent
-    public void onModelBake(final ModelBakeEvent event) {
+    public void onModelBake(final ModelEvent.BakingCompleted event) {
         this._modelBuilders.forEach(builder -> builder.onBakeModels(event));
     }
 
@@ -175,7 +174,7 @@ public class ClientProxy
     }
 
     @SubscribeEvent
-    public void onColorHandlerEvent(final ColorHandlerEvent.Block event) {
+    public void onColorHandlerEvent(final RegisterColorHandlersEvent.Block event) {
         event.getBlockColors().register(new ReactorFuelRodBlockColor(),
                 Content.Blocks.REACTOR_FUELROD_BASIC.get(),
                 Content.Blocks.REACTOR_FUELROD_REINFORCED.get());
@@ -284,6 +283,7 @@ public class ClientProxy
     @SafeVarargs
     private static void registerRenderType(RenderType type, Supplier<? extends Block>... blocks) {
 
+        // TODO check json models
         for (final Supplier<? extends Block> block : blocks) {
             ItemBlockRenderTypes.setRenderLayer(block.get(), type);
         }

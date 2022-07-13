@@ -27,7 +27,6 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.Tur
 import it.zerono.mods.zerocore.lib.CodeHelper;
 import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockPartTypeProvider;
 import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockVariantProvider;
-import it.zerono.mods.zerocore.lib.client.model.data.multiblock.CuboidPartVariantsModelData;
 import it.zerono.mods.zerocore.lib.client.model.data.multiblock.CuboidPartVariantsModelDataCache;
 import it.zerono.mods.zerocore.lib.multiblock.cuboid.PartPosition;
 import it.zerono.mods.zerocore.lib.multiblock.validation.IMultiblockValidator;
@@ -37,8 +36,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.client.model.data.EmptyModelData;
-import net.minecraftforge.client.model.data.IModelData;
+import net.minecraftforge.client.model.data.ModelData;
 
 public class AbstractTurbineEntity
         extends AbstractMultiblockEntity<MultiblockTurbine>
@@ -71,9 +69,9 @@ public class AbstractTurbineEntity
     //region client render support
 
     @Override
-    protected IModelData getUpdatedModelData() {
+    protected ModelData getUpdatedModelData() {
         return CodeHelper.optionalMap(this.getMultiblockVariant(), this.getPartType(), this::getUpdatedModelData)
-                .orElse(EmptyModelData.INSTANCE);
+                .orElse(ModelData.EMPTY);
     }
 
     protected int getUpdatedModelVariantIndex() {
@@ -156,11 +154,9 @@ public class AbstractTurbineEntity
     //endregion
     //region client render support
 
-    protected IModelData getUpdatedModelData(final IMultiblockTurbineVariant variant, final TurbinePartType partType) {
+    protected ModelData getUpdatedModelData(final IMultiblockTurbineVariant variant, final TurbinePartType partType) {
         return getVariantModelDataCache(variant).computeIfAbsent(partType.ordinal(), this.getUpdatedModelVariantIndex(),
-                this.getOutwardFacings(),
-                () -> new CuboidPartVariantsModelData(partType.ordinal(), this.getUpdatedModelVariantIndex(),
-                        this.getOutwardFacings()));
+                this.getOutwardFacings());
     }
 
     private static CuboidPartVariantsModelDataCache getVariantModelDataCache(final IMultiblockTurbineVariant variant) {

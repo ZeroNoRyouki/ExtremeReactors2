@@ -26,13 +26,15 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.FuelRodsLay
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.IFuelContainer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.model.ReactorFuelRodModel;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part.ReactorFuelRodEntity;
+import it.zerono.mods.zerocore.lib.client.render.ModRenderHelper;
 import it.zerono.mods.zerocore.lib.data.gfx.Colour;
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.client.model.data.ModelData;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -127,6 +129,7 @@ public class ClientFuelRodsLayout
 
         final Direction[] directions = this.getRadiateDirections();
         final RenderType solid = RenderType.solid();
+        final RandomSource rand = RandomSource.create();
 
         for (final ReactorFuelRodEntity fuelRod : fuelRods) {
 
@@ -138,7 +141,7 @@ public class ClientFuelRodsLayout
                 final BlockPos checkPosition = rodPosition.relative(direction);
                 final BlockState state = world.getBlockState(checkPosition);
 
-                if (state.isAir() || !ItemBlockRenderTypes.canRenderInLayer(state, solid)) {
+                if (state.isAir() || !ModRenderHelper.getModel(state).getRenderTypes(state, rand, ModelData.EMPTY).contains(solid)) {
 
                     occluded = false;
                     break;

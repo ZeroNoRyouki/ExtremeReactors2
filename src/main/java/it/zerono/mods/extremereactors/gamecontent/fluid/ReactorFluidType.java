@@ -7,7 +7,7 @@ import it.zerono.mods.zerocore.lib.fluid.SimpleFluidTypeRenderProperties;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
-import net.minecraftforge.client.IFluidTypeRenderProperties;
+import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.minecraftforge.common.SoundActions;
 import net.minecraftforge.fluids.FluidType;
 
@@ -27,7 +27,7 @@ public class ReactorFluidType
     //region FluidType
 
     @Override
-    public void initializeClient(final Consumer<IFluidTypeRenderProperties> consumer) {
+    public void initializeClient(final Consumer<IClientFluidTypeExtensions> consumer) {
         consumer.accept(new RenderProperties());
     }
 
@@ -67,7 +67,7 @@ public class ReactorFluidType
         //region SimpleFluidTypeRenderProperties
 
         @Override
-        public int getColorTint() {
+        public int getTintColor() {
             return _tintColour;
         }
 

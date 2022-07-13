@@ -21,14 +21,13 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.mod
 import it.unimi.dsi.fastutil.shorts.Short2ObjectArrayMap;
 import it.unimi.dsi.fastutil.shorts.Short2ObjectMap;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.ClientFuelRodsLayout;
-import it.zerono.mods.zerocore.lib.client.model.data.AbstractModelDataMap;
 import it.zerono.mods.zerocore.lib.client.model.data.NamedModelProperty;
+import net.minecraftforge.client.model.data.ModelData;
 import net.minecraftforge.client.model.data.ModelProperty;
 
 import java.util.Objects;
 
-public class ReactorFuelRodModelData
-    extends AbstractModelDataMap {
+public final class ReactorFuelRodModelData {
 
     public static final ModelProperty<Short> REACTANTS_MODEL_KEY = new NamedModelProperty<>("REACTANTS_MODEL_KEY", Objects::nonNull);
     public static final ModelProperty<Boolean> VERTICAL = new NamedModelProperty<>("VERTICAL", Objects::nonNull);
@@ -36,45 +35,52 @@ public class ReactorFuelRodModelData
     public static final ModelProperty<Byte> FUEL_LEVEL = new NamedModelProperty<>("FUEL_LEVEL", Objects::nonNull);
     public static final ModelProperty<Byte> WASTE_LEVEL = new NamedModelProperty<>("WASTE_LEVEL", Objects::nonNull);
 
-    public static ReactorFuelRodModelData from(final ClientFuelRodsLayout.FuelData fuelData, final boolean rodIsOccluded) {
-        return s_cache.computeIfAbsent(createKey(fuelData, rodIsOccluded), k -> new ReactorFuelRodModelData(k, fuelData, rodIsOccluded));
+    public static ModelData from(final ClientFuelRodsLayout.FuelData fuelData, final boolean rodIsOccluded) {
+        return s_cache.computeIfAbsent(createKey(fuelData, rodIsOccluded),
+                k -> ModelData.builder()
+                        .with(REACTANTS_MODEL_KEY, (short)(k & 0xFF))
+                        .with(VERTICAL, fuelData.isVertical())
+                        .with(OCCLUDED, rodIsOccluded)
+                        .with(FUEL_LEVEL, fuelData.getFuelLevel())
+                        .with(WASTE_LEVEL, fuelData.getWasteLevel())
+                        .build());
     }
 
-    public short getModelKey() {
+    public static short getModelKey(final ModelData data) {
 
-        final Short v = this.getData(REACTANTS_MODEL_KEY);
+        final Short v = data.get(REACTANTS_MODEL_KEY);
 
         //noinspection AutoUnboxing
         return null != v ? v : (short)0;
     }
 
-    public boolean isVertical() {
+    public static boolean isVertical(final ModelData data) {
 
-        final Boolean v = this.getData(VERTICAL);
-
-        //noinspection AutoUnboxing
-        return null != v && v;
-    }
-
-    public boolean isOccluded() {
-
-        final Boolean v = this.getData(OCCLUDED);
+        final Boolean v = data.get(VERTICAL);
 
         //noinspection AutoUnboxing
         return null != v && v;
     }
 
-    public byte getFuelLevel() {
+    public static boolean isOccluded(final ModelData data) {
 
-        final Byte v = this.getData(FUEL_LEVEL);
+        final Boolean v = data.get(OCCLUDED);
+
+        //noinspection AutoUnboxing
+        return null != v && v;
+    }
+
+    public static byte getFuelLevel(final ModelData data) {
+
+        final Byte v = data.get(FUEL_LEVEL);
 
         //noinspection AutoUnboxing
         return null != v ? v : (byte)0;
     }
 
-    public byte getWasteLevel() {
+    public static byte getWasteLevel(final ModelData data) {
 
-        final Byte v = this.getData(WASTE_LEVEL);
+        final Byte v = data.get(WASTE_LEVEL);
 
         //noinspection AutoUnboxing
         return null != v ? v : (byte)0;
@@ -82,15 +88,7 @@ public class ReactorFuelRodModelData
 
     //region internals
 
-    @SuppressWarnings("AutoBoxing")
-    private ReactorFuelRodModelData(final int dataKey, final ClientFuelRodsLayout.FuelData fuelData, final boolean rodIsOccluded) {
-
-        super(5);
-        this.addProperty(REACTANTS_MODEL_KEY, (short)(dataKey & 0xFF));
-        this.addProperty(VERTICAL, fuelData.isVertical());
-        this.addProperty(OCCLUDED, rodIsOccluded);
-        this.addProperty(FUEL_LEVEL, fuelData.getFuelLevel());
-        this.addProperty(WASTE_LEVEL, fuelData.getWasteLevel());
+    private ReactorFuelRodModelData() {
     }
 
     private static short createKey(final ClientFuelRodsLayout.FuelData fuelData, final boolean rodIsOccluded) {
@@ -98,7 +96,7 @@ public class ReactorFuelRodModelData
                 (fuelData.getFuelLevel() << 4) | (fuelData.getWasteLevel() & 0xf));
     }
 
-    private static final Short2ObjectMap<ReactorFuelRodModelData> s_cache = new Short2ObjectArrayMap<>(512);
+    private static final Short2ObjectMap<ModelData> s_cache = new Short2ObjectArrayMap<>(512);
 
     //endregion
 }

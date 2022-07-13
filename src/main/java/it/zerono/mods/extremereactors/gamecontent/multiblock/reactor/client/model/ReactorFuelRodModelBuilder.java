@@ -28,7 +28,7 @@ import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.client.event.ModelBakeEvent;
+import net.minecraftforge.client.event.ModelEvent;
 
 import java.util.Map;
 
@@ -47,13 +47,13 @@ public class ReactorFuelRodModelBuilder
     //region ICustomModelBuilder
 
     @Override
-    public void onRegisterModels() {
+    public void onRegisterModels(final ModelEvent.RegisterAdditional event) {
     }
 
     @Override
-    public void onBakeModels(final ModelBakeEvent event) {
+    public void onBakeModels(final ModelEvent.BakingCompleted event) {
 
-        final Map<ResourceLocation, BakedModel> registry = event.getModelRegistry();
+        final Map<ResourceLocation, BakedModel> registry = event.getModels();
 
         Object2ObjectMaps.fastForEach(this._ids, entry -> {
 

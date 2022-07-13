@@ -72,7 +72,7 @@ public class RotorBearingEntityRenderer
             descriptor.accept(stack);
 
             // render the shaft
-            ModRenderHelper.renderModel(shaft, section.ShaftModelData, stack, builder, combinedLight, combinedOverlay);
+            ModRenderHelper.renderModel(shaft, section.ShaftModelData, stack, builder, combinedLight, combinedOverlay, null);
 
             // render the blades
 
@@ -83,7 +83,7 @@ public class RotorBearingEntityRenderer
                 for (int i = 0; i < bladeSpan.Length; ++i) {
 
                     bladeSpan.accept(stack);
-                    ModRenderHelper.renderModel(blade, bladeSpan.BladeModelData, stack, builder, combinedLight, combinedOverlay);
+                    ModRenderHelper.renderModel(blade, bladeSpan.BladeModelData, stack, builder, combinedLight, combinedOverlay, null);
                 }
 
                 stack.popPose();

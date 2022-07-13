@@ -22,7 +22,6 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.Abstrac
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.MultiblockReprocessor;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.ReprocessorPartType;
 import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockPartTypeProvider;
-import it.zerono.mods.zerocore.lib.client.model.data.multiblock.CuboidPartVariantsModelData;
 import it.zerono.mods.zerocore.lib.client.model.data.multiblock.CuboidPartVariantsModelDataCache;
 import it.zerono.mods.zerocore.lib.data.IoDirection;
 import it.zerono.mods.zerocore.lib.energy.IWideEnergyStorage;
@@ -36,8 +35,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.client.model.data.EmptyModelData;
-import net.minecraftforge.client.model.data.IModelData;
+import net.minecraftforge.client.model.data.ModelData;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
@@ -91,8 +89,8 @@ public abstract class AbstractReprocessorEntity
     //region client render support
 
     @Override
-    protected IModelData getUpdatedModelData() {
-        return this.getPartType().map(this::getUpdatedModelData).orElse(EmptyModelData.INSTANCE);
+    protected ModelData getUpdatedModelData() {
+        return this.getPartType().map(this::getUpdatedModelData).orElse(ModelData.EMPTY);
     }
 
     protected int getUpdatedModelVariantIndex() {
@@ -172,9 +170,8 @@ public abstract class AbstractReprocessorEntity
     //endregion
     //region client render support
 
-    protected IModelData getUpdatedModelData(final ReprocessorPartType partType) {
-        return s_modelDataCaches.computeIfAbsent(partType.ordinal(), this.getUpdatedModelVariantIndex(), this.getOutwardFacings(),
-                () -> new CuboidPartVariantsModelData(partType.ordinal(), this.getUpdatedModelVariantIndex(), this.getOutwardFacings()));
+    protected ModelData getUpdatedModelData(final ReprocessorPartType partType) {
+        return s_modelDataCaches.computeIfAbsent(partType.ordinal(), this.getUpdatedModelVariantIndex(), this.getOutwardFacings());
     }
 
     private static final CuboidPartVariantsModelDataCache s_modelDataCaches = new CuboidPartVariantsModelDataCache();

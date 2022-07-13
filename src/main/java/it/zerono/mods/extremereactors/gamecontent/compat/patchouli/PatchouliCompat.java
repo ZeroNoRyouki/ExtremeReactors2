@@ -40,8 +40,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.client.model.data.EmptyModelData;
-import net.minecraftforge.client.model.data.IModelData;
+import net.minecraftforge.client.model.data.ModelData;
 import vazkii.patchouli.api.PatchouliAPI;
 
 public final class PatchouliCompat {
@@ -84,8 +83,8 @@ public final class PatchouliCompat {
                     'X', Content.Blocks.REACTOR_CONTROLLER_BASIC.get()),
                 bs -> bs.getBlock().defaultBlockState(),
                 bs -> (bs.getBlock() instanceof MultiblockPartBlock) ?
-                        new CuboidPartVariantsModelData(((MultiblockPartBlock<MultiblockReactor, ReactorPartType>)bs.getBlock()).getPartType().ordinal(), 0, BlockFacings.ALL) :
-                        EmptyModelData.INSTANCE
+                        CuboidPartVariantsModelData.from(((MultiblockPartBlock<MultiblockReactor, ReactorPartType>)bs.getBlock()).getPartType().ordinal(), 0, BlockFacings.ALL) :
+                        ModelData.EMPTY
         );
 
         Patchouli.registerMultiblock(ExtremeReactors.newID("bookturbinerotor"),
@@ -335,8 +334,8 @@ public final class PatchouliCompat {
                         'X', Content.Blocks.REPROCESSOR_CONTROLLER.get()),
                 bs -> bs.getBlock().defaultBlockState(),
                 bs -> (bs.getBlock() instanceof MultiblockPartBlock) ?
-                        new CuboidPartVariantsModelData(((MultiblockPartBlock<MultiblockReprocessor, ReprocessorPartType>)bs.getBlock()).getPartType().ordinal(), 0, BlockFacings.ALL) :
-                        EmptyModelData.INSTANCE
+                        CuboidPartVariantsModelData.from(((MultiblockPartBlock<MultiblockReprocessor, ReprocessorPartType>)bs.getBlock()).getPartType().ordinal(), 0, BlockFacings.ALL) :
+                        ModelData.EMPTY
         );
 
         //noinspection unchecked
@@ -380,14 +379,14 @@ public final class PatchouliCompat {
                         'X', Content.Blocks.FLUIDIZER_CONTROLLER.get()),
                 bs -> bs.getBlock().defaultBlockState(),
                 bs -> (bs.getBlock() instanceof MultiblockPartBlock) ?
-                        new CuboidPartVariantsModelData(((MultiblockPartBlock<MultiblockFluidizer, FluidizerPartType>)bs.getBlock()).getPartType().ordinal(), 0, BlockFacings.ALL) :
-                        EmptyModelData.INSTANCE
+                        CuboidPartVariantsModelData.from(((MultiblockPartBlock<MultiblockFluidizer, FluidizerPartType>)bs.getBlock()).getPartType().ordinal(), 0, BlockFacings.ALL) :
+                        ModelData.EMPTY
         );
     }
 
     //region internals
 
-    private static IModelData turbineRotorModelDataMapper(final BlockState state) {
+    private static ModelData turbineRotorModelDataMapper(final BlockState state) {
 
         final Block block = state.getBlock();
 
@@ -399,17 +398,17 @@ public final class PatchouliCompat {
             switch (part.getPartType()) {
 
                 case RotorShaft:
-                    return new CuboidPartVariantsModelData(TurbinePartType.RotorShaft.ordinal(), state.getValue(TurbineRotorComponentBlock.ROTOR_SHAFT_STATE).ordinal(), BlockFacings.ALL);
+                    return CuboidPartVariantsModelData.from(TurbinePartType.RotorShaft.ordinal(), state.getValue(TurbineRotorComponentBlock.ROTOR_SHAFT_STATE).ordinal(), BlockFacings.ALL);
 
                 case RotorBlade:
-                    return new CuboidPartVariantsModelData(TurbinePartType.RotorBlade.ordinal(), state.getValue(TurbineRotorComponentBlock.ROTOR_BLADE_STATE).ordinal(), BlockFacings.ALL);
+                    return CuboidPartVariantsModelData.from(TurbinePartType.RotorBlade.ordinal(), state.getValue(TurbineRotorComponentBlock.ROTOR_BLADE_STATE).ordinal(), BlockFacings.ALL);
 
                 default:
-                    return new CuboidPartVariantsModelData(part.getPartType().ordinal(), 0, BlockFacings.ALL);
+                    return CuboidPartVariantsModelData.from(part.getPartType().ordinal(), 0, BlockFacings.ALL);
             }
         }
 
-        return EmptyModelData.INSTANCE;
+        return ModelData.EMPTY;
     }
 
     //endregion

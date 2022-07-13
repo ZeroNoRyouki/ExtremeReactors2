@@ -24,7 +24,7 @@ import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.client.model.data.IModelData;
+import net.minecraftforge.client.model.data.ModelData;
 
 import javax.annotation.Nonnull;
 
@@ -37,7 +37,7 @@ public abstract class AbstractMultiblockEntity<Controller extends AbstractCuboid
 
     //region client render support
 
-    protected abstract IModelData getUpdatedModelData();
+    protected abstract ModelData getUpdatedModelData();
 
     //endregion
     //region AbstractCuboidMultiblockPart
@@ -91,7 +91,7 @@ public abstract class AbstractMultiblockEntity<Controller extends AbstractCuboid
      */
     @Nonnull
     @Override
-    public IModelData getModelData() {
+    public ModelData getModelData() {
 
         if (null == this._clientModelData) {
             this._clientModelData = this.getUpdatedModelData();
@@ -113,7 +113,7 @@ public abstract class AbstractMultiblockEntity<Controller extends AbstractCuboid
         });
     }
 
-    private IModelData _clientModelData;
+    private ModelData _clientModelData;
 
     //endregion
 }

@@ -23,37 +23,31 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.TurbinePartType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.rotor.RotorBladeState;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.rotor.RotorShaftState;
-import it.zerono.mods.zerocore.lib.client.model.data.AbstractModelDataMap;
 import it.zerono.mods.zerocore.lib.client.model.data.GenericProperties;
-import net.minecraftforge.client.model.data.IModelData;
+import net.minecraftforge.client.model.data.ModelData;
 
-public class ComponentModelData
-    extends AbstractModelDataMap
-    implements IModelData {
+public final class ComponentModelData {
 
-    public static IModelData from(final RotorBladeState state) {
+    public static ModelData from(final RotorBladeState state) {
         return from(s_bladeCache, state.ordinal(), TurbinePartType.RotorBlade.ordinal(), state.ordinal());
     }
 
-    public static IModelData from(final RotorShaftState state) {
+    public static ModelData from(final RotorShaftState state) {
         return from(s_shaftCache, state.ordinal(), TurbinePartType.RotorShaft.ordinal(), state.ordinal());
     }
 
     //region internals
 
-    private ComponentModelData(final int blockId, final int variantIndex) {
-
-        this.addProperty(GenericProperties.ID, blockId);
-        this.addProperty(GenericProperties.VARIANT_INDEX, variantIndex);
+    private static ModelData from(final Int2ObjectMap<ModelData> map, final int key,
+                                  final int blockId, final int variantIndex) {
+        return map.computeIfAbsent(key, k -> ModelData.builder()
+                .with(GenericProperties.ID, blockId)
+                .with(GenericProperties.VARIANT_INDEX, variantIndex)
+                .build());
     }
 
-    private static IModelData from(final Int2ObjectMap<IModelData> map, final int key,
-                                   final int blockId, final int variantIndex) {
-        return map.computeIfAbsent(key, k -> new ComponentModelData(blockId, variantIndex));
-    }
-
-    private static final Int2ObjectMap<IModelData> s_bladeCache = new Int2ObjectArrayMap<>(RotorBladeState.values().length);
-    private static final Int2ObjectMap<IModelData> s_shaftCache = new Int2ObjectArrayMap<>(RotorShaftState.values().length);
+    private static final Int2ObjectMap<ModelData> s_bladeCache = new Int2ObjectArrayMap<>(RotorBladeState.values().length);
+    private static final Int2ObjectMap<ModelData> s_shaftCache = new Int2ObjectArrayMap<>(RotorShaftState.values().length);
 
     //endregion
 }

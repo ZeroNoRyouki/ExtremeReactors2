@@ -42,8 +42,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.client.model.data.EmptyModelData;
-import net.minecraftforge.client.model.data.IModelData;
+import net.minecraftforge.client.model.data.ModelData;
 
 public class ReactorFuelRodEntity
         extends AbstractReactorEntity
@@ -123,7 +122,7 @@ public class ReactorFuelRodEntity
     }
 
     @Override
-    protected IModelData getUpdatedModelData() {
+    protected ModelData getUpdatedModelData() {
 
         final FuelRodsLayout layout = this.getFuelRodsLayoutForRendering();
 
@@ -135,7 +134,7 @@ public class ReactorFuelRodEntity
             return ReactorFuelRodModelData.from(fuelData, this.isOccluded());
         }
 
-        return EmptyModelData.INSTANCE;
+        return ModelData.EMPTY;
     }
 
     public FuelRodsLayout getFuelRodsLayout() {

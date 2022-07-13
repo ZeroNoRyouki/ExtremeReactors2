@@ -17,6 +17,7 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.mod
  */
 
 import com.google.common.collect.Lists;
+import com.mojang.math.Transformation;
 import com.mojang.math.Vector3f;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectLists;
@@ -26,16 +27,17 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.scree
 import it.zerono.mods.zerocore.lib.block.BlockFacings;
 import it.zerono.mods.zerocore.lib.client.model.AbstractDynamicBakedModel;
 import it.zerono.mods.zerocore.lib.client.render.ModRenderHelper;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.model.*;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.client.resources.model.ModelState;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.client.model.SimpleModelState;
-import net.minecraftforge.client.model.data.EmptyModelData;
-import net.minecraftforge.client.model.data.IModelData;
+import net.minecraftforge.client.model.data.ModelData;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -66,25 +68,20 @@ public class ReactorFuelRodModel
     @Nonnull
     @Override
     public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction side, @Nonnull RandomSource rand,
-                                    @Nonnull IModelData modelData) {
+                                    @Nonnull ModelData modelData, @Nullable RenderType renderType) {
 
         if (side != null) {
             return EMPTY_QUADS;
         }
 
-        if (!(modelData instanceof ReactorFuelRodModelData)) {
-            return this._baseModel.getQuads(state, null, rand, EmptyModelData.INSTANCE);
-        }
+        final short modelIndex = ReactorFuelRodModelData.getModelKey(modelData);
 
-        final ReactorFuelRodModelData fuelRodModelData = (ReactorFuelRodModelData)modelData;
-        final short modelIndex = fuelRodModelData.getModelKey();
-
-        if (fuelRodModelData.isOccluded()) {
+        if (ReactorFuelRodModelData.isOccluded(modelData)) {
             return EMPTY_QUADS;
         }
 
         if (0 == modelIndex) {
-            return this._baseModel.getQuads(state, null, rand, EmptyModelData.INSTANCE);
+            return this._baseModel.getQuads(state, null, rand, ModelData.EMPTY, renderType);
         }
 
         long lockStamp = this._lock.readLock();
@@ -102,9 +99,10 @@ public class ReactorFuelRodModel
 
             if (0L != writeLockStamp) {
 
-                final List<BakedQuad> tempQuads = Lists.newLinkedList(this._baseModel.getQuads(state, null, rand, EmptyModelData.INSTANCE));
+                final List<BakedQuad> tempQuads = Lists.newLinkedList(this._baseModel.getQuads(state, null, rand, ModelData.EMPTY, renderType));
 
-                tempQuads.addAll(this.buildQuads(fuelRodModelData.getFuelLevel(), fuelRodModelData.getWasteLevel(), fuelRodModelData.isVertical() ? Direction.Axis.Y : Direction.Axis.X));
+                tempQuads.addAll(this.buildQuads(ReactorFuelRodModelData.getFuelLevel(modelData), ReactorFuelRodModelData.getWasteLevel(modelData),
+                        ReactorFuelRodModelData.isVertical(modelData) ? Direction.Axis.Y : Direction.Axis.X));
                 this._cachedQuads.put(modelIndex, quads = new ObjectArrayList<>(tempQuads));
 
                 lockStamp = writeLockStamp;
@@ -124,7 +122,7 @@ public class ReactorFuelRodModel
 
     @Override
     public TextureAtlasSprite getParticleIcon() {
-        return this._baseModel.getParticleIcon(EmptyModelData.INSTANCE);
+        return this._baseModel.getParticleIcon(ModelData.EMPTY);
     }
 
     @Override
@@ -248,12 +246,13 @@ public class ReactorFuelRodModel
         final TextureAtlasSprite sprite = isVertical ? stillTexture : flowingTexture;
         final BlockElementFace partFace = new BlockElementFace(null, tintIndex, "",  new BlockFaceUV(uv, 0));
 
-        return this._faceBakery.bakeQuad(cubeFrom, cubeTo, partFace, sprite, direction, SimpleModelState.IDENTITY,
+        return this._faceBakery.bakeQuad(cubeFrom, cubeTo, partFace, sprite, direction, IDENTITY_MODEL_STATE,
                 null, true, FAKE_RESOURCELOCATION);
     }
 
     private static final List<BakedQuad> EMPTY_QUADS = ObjectLists.emptyList();
     private static final ResourceLocation FAKE_RESOURCELOCATION = new ResourceLocation("fake");
+    private static final ModelState IDENTITY_MODEL_STATE = new SimpleModelState(Transformation.identity(), false);
 
     private final StampedLock _lock;
     private final BakedModel _baseModel;

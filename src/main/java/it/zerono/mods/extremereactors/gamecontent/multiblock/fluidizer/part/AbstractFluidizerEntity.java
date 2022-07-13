@@ -18,13 +18,10 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.part;
 
-//import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.AbstractMultiblockEntity;
-
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.FluidizerPartType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.MultiblockFluidizer;
 import it.zerono.mods.zerocore.base.multiblock.part.AbstractMultiblockEntity;
 import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockPartTypeProvider;
-import it.zerono.mods.zerocore.lib.client.model.data.multiblock.CuboidPartVariantsModelData;
 import it.zerono.mods.zerocore.lib.client.model.data.multiblock.CuboidPartVariantsModelDataCache;
 import it.zerono.mods.zerocore.lib.energy.IWideEnergyStorage2;
 import it.zerono.mods.zerocore.lib.energy.NullEnergyHandlers;
@@ -35,8 +32,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.client.model.data.EmptyModelData;
-import net.minecraftforge.client.model.data.IModelData;
+import net.minecraftforge.client.model.data.ModelData;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 
 import java.util.Objects;
@@ -81,8 +77,8 @@ public class AbstractFluidizerEntity
     //region client render support
 
     @Override
-    protected IModelData getUpdatedModelData() {
-        return this.getPartType().map(this::getUpdatedModelData).orElse(EmptyModelData.INSTANCE);
+    protected ModelData getUpdatedModelData() {
+        return this.getPartType().map(this::getUpdatedModelData).orElse(ModelData.EMPTY);
     }
 
     protected int getUpdatedModelVariantIndex() {
@@ -157,9 +153,8 @@ public class AbstractFluidizerEntity
     //endregion
     //region client render support
 
-    protected IModelData getUpdatedModelData(final FluidizerPartType partType) {
-        return s_modelDataCaches.computeIfAbsent(partType.ordinal(), this.getUpdatedModelVariantIndex(), this.getOutwardFacings(),
-                () -> new CuboidPartVariantsModelData(partType.ordinal(), this.getUpdatedModelVariantIndex(), this.getOutwardFacings()));
+    protected ModelData getUpdatedModelData(final FluidizerPartType partType) {
+        return s_modelDataCaches.computeIfAbsent(partType.ordinal(), this.getUpdatedModelVariantIndex(), this.getOutwardFacings());
     }
 
     private static final CuboidPartVariantsModelDataCache s_modelDataCaches = new CuboidPartVariantsModelDataCache();

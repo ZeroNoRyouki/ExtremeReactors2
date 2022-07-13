@@ -24,7 +24,7 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.rotor.Rotor
 import net.minecraft.core.Direction;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.model.data.IModelData;
+import net.minecraftforge.client.model.data.ModelData;
 
 import java.util.List;
 
@@ -32,7 +32,7 @@ import java.util.List;
 public class ShaftSection {
 
     final RotorShaftState State;
-    final IModelData ShaftModelData;
+    final ModelData ShaftModelData;
     final BladeSpan[] Blades;
 
     public static Builder builder(final RotorShaftState state) {
