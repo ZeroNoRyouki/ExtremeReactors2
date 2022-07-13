@@ -849,7 +849,7 @@ public final class Content {
     public static final class TileEntityTypes {
 
         private static final DeferredRegister<BlockEntityType<?>> TILE_ENTITIES =
-                DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, ExtremeReactors.MOD_ID);
+                DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, ExtremeReactors.MOD_ID);
 
         static void initialize(final IEventBus bus) {
             TILE_ENTITIES.register(bus);
@@ -1098,7 +1098,7 @@ public final class Content {
     public static final class ContainerTypes {
 
         private static final DeferredRegister<MenuType<?>> CONTAINERS =
-                DeferredRegister.create(ForgeRegistries.CONTAINERS, ExtremeReactors.MOD_ID);
+                DeferredRegister.create(ForgeRegistries.MENU_TYPES, ExtremeReactors.MOD_ID);
 
         static void initialize(final IEventBus bus) {
             CONTAINERS.register(bus);
