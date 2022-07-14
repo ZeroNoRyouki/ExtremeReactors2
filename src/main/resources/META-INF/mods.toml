@@ -32,7 +32,7 @@ logoFile="logo.png"
 
 	modId="forge"
 	mandatory=true
-    versionRange="[41.0.63,42)"
+    versionRange="[41.0.98,42)"
 	ordering="NONE"
 	side="BOTH"
 
@@ -40,6 +40,6 @@ logoFile="logo.png"
 
     modId="zerocore"
     mandatory=true
-    versionRange="[1.19-2.1.22,1.19-2.2.0)"
+    versionRange="[1.19-2.1.23,1.19-2.2.0)"
     ordering="AFTER"
     side="BOTH"
