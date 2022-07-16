@@ -23,6 +23,7 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.Abstrac
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.IIOPortHandler;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.variant.IMultiblockGeneratorVariant;
 import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockVariantProvider;
+import it.zerono.mods.zerocore.lib.compat.Mods;
 import it.zerono.mods.zerocore.lib.data.IIoEntity;
 import it.zerono.mods.zerocore.lib.data.IoMode;
 import net.minecraftforge.fluids.FluidStack;
@@ -41,9 +42,9 @@ public interface IFluidPortHandler<Controller extends AbstractGeneratorMultibloc
             case Forge:
                 return new FluidPortHandlerForge<>(part, mode);
 
-//            case Mekanism:
-//                return Mods.MEKANISM.map(() -> (IFluidPortHandler<Controller, V>)new FluidPortHandlerMekanism<>(part, mode))
-//                        .orElseGet(EmptyFluidPortHandler::new);
+            case Mekanism:
+                return Mods.MEKANISM.map(() -> (IFluidPortHandler<Controller, V>)new FluidPortHandlerMekanism<>(part, mode))
+                        .orElseGet(EmptyFluidPortHandler::new);
 
             default:
                 throw new IllegalArgumentException("Unsupported Fluid Port: " + type);
