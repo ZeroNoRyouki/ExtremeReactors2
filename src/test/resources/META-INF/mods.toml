@@ -1,7 +1,7 @@
 # Extreme Reactors 2 TEST - mods.toml
 
 modLoader="javafml"
-loaderVersion="[41,42)"
+loaderVersion="[41,43"
 
 # The license for you mod. This is mandatory metadata and allows for easier comprehension of your redistributive properties.
 # Review your options at https://choosealicense.com/. All rights reserved is the default copyright stance, and is thus the default here.
@@ -30,7 +30,7 @@ issueTrackerURL="https://github.com/ZeroNoRyouki/ExtremeReactors2"
 
     modId="forge"
     mandatory=true
-    versionRange="[41.0.98,42)"
+    versionRange="[41.0.98,43)"
     ordering="NONE"
     side="BOTH"
 
