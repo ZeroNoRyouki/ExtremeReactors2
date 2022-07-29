@@ -154,6 +154,11 @@
         "1.19-2.0.51":"- API: names of named objects should respect the rules for ResourceLocations\r\n- API: added colour information to coolants and vapors\r\n- Added back JEI support\r\n- Added to the JEI plugin : reactants reactions, reactants solid/fluid mappings, coolants <=> vapors transitions, coolants and vapors mappings\r\n- Fixed icons in the Fluidizer JEI recipe category\r\n- Updated JEI to version 1.19-11.0.0.206\r\n- Updated ZeroCore to 2.1.22\r\n- Bumped version to 2.0.51"
         ,
         "1.19-2.0.52":"- Added back support for Mekanism\r\n- Updated Forge to version 41.0.98\r\n- Updated Mekanism to version 10.3.0.467\r\n- Updated JEI to version 11.0.0.211\r\n- Updated Patchouli to version 1.19-74\r\n- Updated ZeroCore version to 2.1.23\r\n- Bumped version to 2.0.52"
+        ,
+        "1.19-2.0.53":"- Permit running on 1.19.1 / Forge 42.x\r\n- Updated ZeroCore version to 2.1.24\r\n- Bumped version to 2.0.53"
+    },
+    "1.19.1":{
+        "1.19-2.0.53":"- Permit running on 1.19.1 / Forge 42.x\r\n- Updated ZeroCore version to 2.1.24\r\n- Bumped version to 2.0.53"
     },
     "promos":{
         "1.16.3-latest":"1.16.4-2.0.21",
@@ -170,7 +175,9 @@
         "1.18.1-recommended":"1.18-2.0.38",
         "1.18.2-latest":"1.18.1-2.0.51",
         "1.18.2-recommended":"1.18.1-2.0.51",
-        "1.19-latest":"1.19-2.0.51",
-        "1.19-recommended":"1.19-2.0.51"
+        "1.19-latest":"1.19-2.0.53",
+        "1.19-recommended":"1.19-2.0.51",
+        "1.19.1-latest":"1.19-2.0.53",
+        "1.19.1-recommended":"1.19-2.0.53"
     }
 }
