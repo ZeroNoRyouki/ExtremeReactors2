@@ -160,6 +160,9 @@
     "1.19.1":{
         "1.19-2.0.53":"- Permit running on 1.19.1 / Forge 42.x\r\n- Updated ZeroCore version to 2.1.24\r\n- Bumped version to 2.0.53"
     },
+    "1.19.2":{
+        "1.19-2.0.54":"- Updated to Minecraft 1.19.2\r\n- Updated ZeroCore to version 2.1.25\r\n- Bumped version to 2.0.54"
+    },
     "promos":{
         "1.16.3-latest":"1.16.4-2.0.21",
         "1.16.3-recommended":"1.16.4-2.0.21",
@@ -178,6 +181,8 @@
         "1.19-latest":"1.19-2.0.53",
         "1.19-recommended":"1.19-2.0.51",
         "1.19.1-latest":"1.19-2.0.53",
-        "1.19.1-recommended":"1.19-2.0.53"
+        "1.19.1-recommended":"1.19-2.0.53",
+        "1.19.2-latest":"1.19-2.0.54",
+        "1.19.2-recommended":"1.19-2.0.54"
     }
 }
