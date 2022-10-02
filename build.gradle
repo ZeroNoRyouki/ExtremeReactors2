@@ -194,7 +194,7 @@ dependencies {
     runtimeOnly fg.deobf("mekanism:Mekanism:${config.mekanism_version}:generators")
     runtimeOnly fg.deobf("mekanism:Mekanism:${config.mekanism_version}:tools")
 
-    implementation fg.deobf("curse.maven:constructionwand-399558:3285196")
+//    implementation fg.deobf("curse.maven:constructionwand-399558:3562328")
 }
 
 task extremereactors_apiJar(type: Jar) {
