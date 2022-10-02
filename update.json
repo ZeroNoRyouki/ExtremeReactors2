@@ -77,6 +77,8 @@
         "1.16.5-2.0.45":"- Added three new Moderators for your Reactors as a nod to the past!\r\n- The Fluidizer recipes now accepts non-reactants ingredients\r\n- Bumped version to 2.0.45"
         ,
         "1.16.5-2.0.49":"- Added a button in the Reprocessor Controller GUI to void all fluids in the internal tank\r\n- Fixed a couple of errors in da book. Close #90, thanks to aharrisw for the report\r\n- Bumped version to 2.0.49"
+        ,
+        "1.16.5-2.0.51":"- API: names of named objects should respect the rules for ResourceLocations\r\n- API: added colour information to coolants and vapors\r\n- Added to the JEI plugin : reactants reactions, reactants solid/fluid mappings, coolants <=> vapors transitions, coolants and vapors mappings\r\n- Fixed icons in the Fluidizer JEI recipe category\r\n- Updated ZeroCore to 2.1.22\r\n- Bumped version to 2.0.51"
     },
     "1.17.1":{
         "1.17.1-2.0.26":"- First 1.17.1 release\r\n- A general performance / memory usage improvement version\n- Align ourself with the modified multiblock API from ZeroCore\n- New Fuel Rods rendering system. Expanding on the previous custom-model based system, now the fuel/waste levels are rendered along the the Fuel Rod model itself, removing the need of a Tile Entity Special Renderer, speeding things up quite a bit. The custom models are cached and created only when needed. Occlusion detection still in place, so no quads will be rendered if a Fuel Rod is surrounded be opaque blocks (or if there is no glass in the Reactor walls)\n- General speed and memory optimizations in the whole codebase\n- Fix Computer API reporting an incorrect value from getNumberOfControlRods(). Close #48\r\n- Bumped version to 2.0.26\r\n- Updated Minecraft to version 1.17.1\r\n- Updated Forge to version 37.0.27\r\n- Updated ZeroCore to version 2.1.2",
@@ -106,6 +108,8 @@
         "1.17.1-2.0.44":"- Typo. Close #82\r\n- Updated ZeroCore to version 1.17.1-2.1.17 to fix a crash when an error is displayed on the screen\r\n- Bumped version to 2.0.44"
         ,
         "1.17.1-2.0.49":"- Added a button in the Reprocessor Controller GUI to void all fluids in the internal tank\r\n- Fixed a couple of errors in da book. Close #90, thanks to aharrisw for the report\r\n- Bumped version to 2.0.49"
+        ,
+        "1.17.1-2.0.51":"- API: names of named objects should respect the rules for ResourceLocations\r\n- API: added colour information to coolants and vapors\r\n- Added to the JEI plugin : reactants reactions, reactants solid/fluid mappings, coolants <=> vapors transitions, coolants and vapors mappings\r\n- Fixed icons in the Fluidizer JEI recipe category\r\n- Updated ZeroCore to 2.1.22\r\n- Bumped version to 2.0.51"
     },
     "1.18.0":{
         "1.18-2.0.32":"- Updated to Minecraft 1.18\r\n- Updated Forge to version 38.0.5\r\n- Updated CC: Tweaked to version 1.99.0\r\n- Updated ZeroCore to version 1.18-2.1.8"
@@ -133,6 +137,8 @@
         "1.18.2-2.0.45":"- Added three new Moderators for your Reactors as a nod to the past!\r\n- The Fluidizer recipes now accepts non-reactants ingredients\r\n- Bumped version to 2.0.45"
         ,
         "1.18.2-2.0.49":"- Added a button in the Reprocessor Controller GUI to void all fluids in the internal tank\r\n- Fixed a couple of errors in da book. Close #90, thanks to aharrisw for the report\r\n- Bumped version to 2.0.49"
+        ,
+        "1.18.2-2.0.51":"- API: names of named objects should respect the rules for ResourceLocations\r\n- API: added colour information to coolants and vapors\r\n- Added to the JEI plugin : reactants reactions, reactants solid/fluid mappings, coolants <=> vapors transitions, coolants and vapors mappings\r\n- Fixed icons in the Fluidizer JEI recipe category\r\n- Updated ZeroCore to 2.1.22\r\n- Bumped version to 2.0.51"
     },
     "1.19":{
         "1.19-2.0.46":"- Updated Minecraft to version 1.19\r\n- World-gen is not defined by json files, yeah....\r\n- Updated Forge to version 41.0.17\r\n- Updated ZeroCore to version 2.1.18\r\n- Bumped version to 2.0.46"
@@ -144,23 +150,39 @@
         "1.19-2.0.49":"- Added a button in the Reprocessor Controller GUI to void all fluids in the internal tank\r\n- Bumped version to 2.0.49"
         ,
         "1.19-2.0.50":"- Added back Patchouli support\r\n- Updated Patchouli to version 1.19-72\r\n- Updated ZeroCore to version 2.1.21\r\n- Bumped version to 2.0.50"
+        ,
+        "1.19-2.0.51":"- API: names of named objects should respect the rules for ResourceLocations\r\n- API: added colour information to coolants and vapors\r\n- Added back JEI support\r\n- Added to the JEI plugin : reactants reactions, reactants solid/fluid mappings, coolants <=> vapors transitions, coolants and vapors mappings\r\n- Fixed icons in the Fluidizer JEI recipe category\r\n- Updated JEI to version 1.19-11.0.0.206\r\n- Updated ZeroCore to 2.1.22\r\n- Bumped version to 2.0.51"
+        ,
+        "1.19-2.0.52":"- Added back support for Mekanism\r\n- Updated Forge to version 41.0.98\r\n- Updated Mekanism to version 10.3.0.467\r\n- Updated JEI to version 11.0.0.211\r\n- Updated Patchouli to version 1.19-74\r\n- Updated ZeroCore version to 2.1.23\r\n- Bumped version to 2.0.52"
+        ,
+        "1.19-2.0.53":"- Permit running on 1.19.1 / Forge 42.x\r\n- Updated ZeroCore version to 2.1.24\r\n- Bumped version to 2.0.53"
+    },
+    "1.19.1":{
+        "1.19-2.0.53":"- Permit running on 1.19.1 / Forge 42.x\r\n- Updated ZeroCore version to 2.1.24\r\n- Bumped version to 2.0.53"
+    },
+    "1.19.2":{
+        "1.19-2.0.54":"- Updated to Minecraft 1.19.2\r\n- Updated ZeroCore to version 2.1.25\r\n- Bumped version to 2.0.54"
     },
     "promos":{
         "1.16.3-latest":"1.16.4-2.0.21",
         "1.16.3-recommended":"1.16.4-2.0.21",
         "1.16.4-latest":"1.16.4-2.0.23",
         "1.16.4-recommended":"1.16.4-2.0.23",
-        "1.16.5-latest":"1.16.5-2.0.49",
-        "1.16.5-recommended":"1.16.5-2.0.49",
-        "1.17.1-latest":"1.17.1-2.0.49",
-        "1.17.1-recommended":"1.17.1-2.0.49",
+        "1.16.5-latest":"1.16.5-2.0.51",
+        "1.16.5-recommended":"1.16.5-2.0.51",
+        "1.17.1-latest":"1.17.1-2.0.51",
+        "1.17.1-recommended":"1.17.1-2.0.51",
         "1.18.0-latest":"1.18-2.0.32",
         "1.18.0-recommended":"1.18-2.0.32",
         "1.18.1-latest":"1.18-2.0.38",
         "1.18.1-recommended":"1.18-2.0.38",
-        "1.18.2-latest":"1.18.1-2.0.49",
-        "1.18.2-recommended":"1.18.1-2.0.49",
-        "1.19-latest":"1.19-2.0.50",
-        "1.19-recommended":"1.19-2.0.50"
+        "1.18.2-latest":"1.18.1-2.0.51",
+        "1.18.2-recommended":"1.18.1-2.0.51",
+        "1.19-latest":"1.19-2.0.53",
+        "1.19-recommended":"1.19-2.0.51",
+        "1.19.1-latest":"1.19-2.0.53",
+        "1.19.1-recommended":"1.19-2.0.53",
+        "1.19.2-latest":"1.19-2.0.54",
+        "1.19.2-recommended":"1.19-2.0.54"
     }
 }
