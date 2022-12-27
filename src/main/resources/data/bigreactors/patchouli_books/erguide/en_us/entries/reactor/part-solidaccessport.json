@@ -10,11 +10,11 @@
             "item": "bigreactors:reinforced_reactorsolidaccessport",
             "link_recipe": true,
             "title" : "Solid Access Port",
-            "text": "The Solid Access Port convert solid materials (usually ingots) into fuel reactants that will fill your $(l:bigreactors:reactor/part-fuelrod)Fuel Rods$(/l) and power your Reactor.$(br2)In the graphical interface you can set the Port mode: in $(bold)inlet mode$() the Port will accept fuel source materials, in $(bold)outlet mode$() it will output wastes."
+            "text": "The Solid Access Port converts solid materials (usually ingots) into fuel reactants that will fill your $(l:bigreactors:reactor/part-fuelrod)Fuel Rods$(/l) and power your Reactor.$(br2)In the graphical interface you can set the Port mode: in $(bold)inlet mode$() the Port will accept fuel source materials, in $(bold)outlet mode$() it will output waste."
         },
         {
             "type": "text",
-            "text": "A $(l:bigreactors:misc/wrench)wrench$(/l) can be used to change the Port mode.$(br2)The graphical interface can also be used to insert and extract materials manually.$(br2)The Solid Access Port is a quick solution to add fuel to your Reactor but, as every quick solutions ever, is not perfect and a small material loss is unavoidable."
+            "text": "A $(l:bigreactors:misc/wrench)wrench$(/l) can be used to change the Port mode.$(br2)The graphical interface can also be used to insert and extract materials manually.$(br2)The Solid Access Port is a quick solution to add fuel to your Reactor but, like every quick solution ever, it is not perfect and a small material loss is unavoidable."
         },
         {
             "type": "crafting2x",
@@ -25,7 +25,7 @@
         },
         {
             "type": "part_usage",
-            "text": "$(l)Mandatory:$() no, but you will need a couple anyway$(br)$(l)Valid positions:$() any face (not on frame)$(br)$(l)Variants:$() all$(br)$(l)Graphical interface:$() yes$(br)$(l)Wrench:$() a $(l:bigreactors:misc/wrench)wrench$(/l) can be used to toggle the Port mode"
+            "text": "$(l)Mandatory:$() no, but you will need a couple anyway$(br)$(l)Valid positions:$() any face (not on frame)$(br)$(l)Variants:$() all$(br)$(l)Graphical interface:$() yes$(br)$(l)Wrench:$() a $(l:bigreactors:misc/wrench)wrench$(/l) can be used to toggle the Port mode."
         }
     ]
 }

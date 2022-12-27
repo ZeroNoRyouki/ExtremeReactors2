@@ -6,7 +6,7 @@
     "pages": [
         {
             "type": "text",
-            "text": "Some Reactor or Turbine part that interact with external blocks are available in a $(bold)passive$() or $(bold)active$() form, or both.$(br2)A $(bold)passive$() part do nothing by itself. It does not try to send out energy, fluids or items nor it try to acquire them. The block connected to the part need to take the initiative and start the transfers."
+            "text": "Some Reactor or Turbine parts that interact with external blocks are available in a $(bold)passive$() or $(bold)active$() form, or both.$(br2)A $(bold)passive$() part does nothing by itself. It does not try to send out energy, fluids or items nor does it try to acquire them. The block connected to the part needs to take the initiative and start the transfer."
         },
         {
             "type": "text",

@@ -11,7 +11,7 @@
         },
         {
             "type": "text",
-            "text": "To build an actively cooled Reactor you need to include at least two Fluid Ports in the multiblock, one configured for inserting a coolant into the Reactor and one for extracting the generated vapor from the Reactor.$(br2)The extracted vapor can then be piped into your Turbines to generate energy."
+            "text": "To build an actively cooled Reactor you need to include at least two Fluid Ports in the multiblock, one configured to insert a coolant into the Reactor and one to extract the generated vapor from the Reactor.$(br2)The extracted vapor can then be piped into your Turbines to generate energy."
         }
     ]
 }

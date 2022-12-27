@@ -6,11 +6,11 @@
     "pages": [
         {
             "type": "text",
-            "text": "An $(l:bigreactors:reactor/active)actively cooled$(/l) Reactor / Turbine setup vaporize a coolant using the heat of the Reactor to generate a vapor that will be used to drive the rotors of many Turbines and generate energy.$(br2)A $(bold)coolant$() is a fluid that, if recognised, can be pumped into the Coolant Fluid Tank of the Reactor using a $(l:bigreactors:reactor/part-forgefluidport)Fluid Port$(/l) in input mode."
+            "text": "An $(l:bigreactors:reactor/active)actively cooled$(/l) Reactor / Turbine setup vaporizes a coolant using the heat of the Reactor to generate a vapor that can be used to drive the rotors of many Turbines and generate energy.$(br2)A $(bold)coolant$() is a fluid that, if recognised, can be pumped into the Coolant Fluid Tank of the Reactor using a $(l:bigreactors:reactor/part-forgefluidport)Fluid Port$(/l) in input mode."
         },
         {
             "type": "text",
-            "text": "A $(bold)vapor$() is a fluid that's the result of a coolant being vaporized inside a Reactor, and that can be pumped from a Reactor to a Turbine (using $(l:bigreactors:reactor/part-forgefluidport)Fluid Port$(/l)) to be used to drive the Turbine rotor and then be condensed back to the original coolant to let the cycle start again.$(br2)Only valid coolants and vapors can be used inside a Reactor or a Turbine."
+            "text": "A $(bold)vapor$() is a fluid that is the result of a coolant being vaporized inside a Reactor, and that can be pumped from a Reactor to a Turbine (using $(l:bigreactors:reactor/part-forgefluidport)Fluid Port$(/l)) to be used to drive the Turbine rotor and then be condensed back to the original coolant to let the cycle start again.$(br2)Only valid coolants and vapors can be used inside a Reactor or a Turbine."
         },
         {
             "type": "text",

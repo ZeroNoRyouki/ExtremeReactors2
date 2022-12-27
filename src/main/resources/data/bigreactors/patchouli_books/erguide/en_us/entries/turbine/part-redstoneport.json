@@ -10,7 +10,7 @@
             "item": "bigreactors:reinforced_turbineredstoneport",
             "link_recipe": true,
             "title" : "Redstone Port",
-            "text": "The Redstone Port allow you to automate your Turbine using Redstone.$(br2)Open the Port graphical interface to configure it. You can then choose between three input settings (that listen for a Redstone signal) and four output ones (that emit a Redstone signal)."
+            "text": "The Redstone Port allows you to automate your Turbine using Redstone.$(br2)Open the Port graphical interface to configure it. You can then choose between three input settings (that listen for a Redstone signal) and four output ones (that emit a Redstone signal)."
         },
         {
             "type": "text",
