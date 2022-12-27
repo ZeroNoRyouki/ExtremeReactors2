@@ -18,6 +18,7 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.common.part;
 
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part.ReactorFuelRodBlock;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part.TurbineRotorComponentBlock;
 import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockPartType;
 import it.zerono.mods.zerocore.lib.block.multiblock.MultiblockPartBlock;
@@ -39,7 +40,12 @@ public class GenericDeviceBlock<Controller extends IMultiblockController<Control
 
         final Block adjacentBlock = adjacentBlockState.getBlock();
 
+//        if (this == adjacentBlock) {
+//            return true;
+//        }
+
         return adjacentBlock instanceof MultiblockPartBlock &&
+                !(adjacentBlock instanceof ReactorFuelRodBlock) &&
                 !(adjacentBlock instanceof GlassBlock) &&
                 !(adjacentBlock instanceof TurbineRotorComponentBlock);
     }
