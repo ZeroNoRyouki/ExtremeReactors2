@@ -23,6 +23,7 @@ import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.MultiblockReactor;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.MultiblockTurbine;
 import it.zerono.mods.zerocore.lib.CodeHelper;
+import it.zerono.mods.zerocore.lib.client.gui.Theme;
 import it.zerono.mods.zerocore.lib.debug.DebugHelper;
 import it.zerono.mods.zerocore.lib.multiblock.IMultiblockController;
 import it.zerono.mods.zerocore.lib.multiblock.IMultiblockPart;
@@ -35,6 +36,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 
 import javax.annotation.Nullable;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class DebugTests {
 
@@ -69,6 +72,15 @@ public class DebugTests {
             case 11:
                 createOccludedRods(world, clickedPos);
                 break;
+
+            case 12: {
+
+                Path p = Paths.get("defaultTheme.json");
+                Log.LOGGER.info("Writing theme json at {}", p.toString());
+
+                CodeHelper.callOnLogicalClient(world, () -> Theme.write(p, Theme.DEFAULT));
+                break;
+            }
 
             default:
                 unknownTest(world, clickedPos);
