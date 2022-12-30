@@ -21,6 +21,7 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.client.s
 import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.gamecontent.compat.patchouli.PatchouliCompat;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.CommonIcons;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.GuiTheme;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.MultiblockFluidizer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.container.FluidizerSolidInjectorContainer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.part.FluidizerSolidInjectorEntity;
@@ -44,6 +45,7 @@ public class FluidizerSolidInjectorScreen
                                         final PlayerInventory inventory, final ITextComponent title) {
         super(container, inventory, PlayerInventoryUsage.Both, title,
                 () -> new SpriteTextureMap(ExtremeReactors.newID("textures/gui/multiblock/basic_background.png"), 256, 256));
+        this.setTheme(GuiTheme.ER.get());
     }
 
     //region AbstractMultiblockScreen
