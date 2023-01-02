@@ -10,7 +10,7 @@
             "item": "bigreactors:reinforced_turbinefluidport_forge_passive",
             "link_recipe": true,
             "title" : "Forge Fluid Port",
-            "text": "The Forge Fluid Port allow you to insert or extract fluids from a Turbine.$(br2)This Port accept and emit vanilla fluids but only if they are valid $(l:bigreactors:misc/coolantsystem)coolants or vapors$(/l).$(br2)A $(l:bigreactors:misc/wrench)wrench$(/l) can be used to change the Port from input to output mode."
+            "text": "The Forge Fluid Port allows you to insert or extract fluids from a Turbine.$(br2)This Port accept and emit vanilla fluids but only if they are valid $(l:bigreactors:misc/coolantsystem)coolants or vapors$(/l).$(br2)A $(l:bigreactors:misc/wrench)wrench$(/l) can be used to change the Port from input to output mode."
         },
         {
             "type": "bigreactors:crafting2x",

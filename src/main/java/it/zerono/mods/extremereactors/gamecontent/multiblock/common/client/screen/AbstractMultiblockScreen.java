@@ -98,6 +98,7 @@ public abstract class AbstractMultiblockScreen<Controller extends AbstractCuboid
 
         super(container, inventory, title, guiWidth, guiHeight);
         this._mainTextMap = mainTexture;
+        this.setTheme(GuiTheme.ER.get());
 
         switch (inventoryUsage) {
 
@@ -294,7 +295,7 @@ public abstract class AbstractMultiblockScreen<Controller extends AbstractCuboid
         final Label title = new Label(this, "title", this.getTitle()./*getFormattedText*/getString());
 
         title.setPadding(2);
-        title.setColor(Colour.BLACK);
+        title.setColor(this.getTheme().GUI_TITLE);
         title.setAutoSize(false);
         title.setLayoutEngineHint(FixedLayoutEngine.hint(17, 7, guiWidth - 47, 12));
 

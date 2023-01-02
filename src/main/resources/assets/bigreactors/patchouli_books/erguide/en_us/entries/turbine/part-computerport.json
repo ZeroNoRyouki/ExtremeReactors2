@@ -10,7 +10,7 @@
             "item": "bigreactors:reinforced_turbinecomputerport",
             "link_recipe": true,
             "title" : "Computer Port",
-            "text": "The Computer Port allow you to connect your Turbine to a computer for complex automation tasks.$(br2)A standard set of methods is exposed to the connected computer and you can use them to query the status of the Turbine and control is behavior."
+            "text": "The Computer Port allows you to connect your Turbine to a computer for complex automation tasks.$(br2)A standard set of methods is exposed to the connected computer and you can use them to query the status of the Turbine and control is behavior."
         },
         {
             "type": "text-crafting",

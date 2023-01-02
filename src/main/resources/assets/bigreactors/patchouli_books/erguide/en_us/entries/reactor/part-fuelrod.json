@@ -10,7 +10,7 @@
             "item": "bigreactors:reinforced_reactorfuelrod",
             "link_recipe": true,
             "title" : "Fuel Rod",
-            "text": "The Fuel Rod are placed inside your Reactor in long horizontal or vertical piles.$(br2)They act as a reservoir of reactants, either fuel or waste or a mix of the two, and are irradiated when the Reactor is active to generate the heat that ultimately will be converted to energy or used to vaporize coolants."
+            "text": "The Fuel Rods are placed inside your Reactor in long horizontal or vertical piles.$(br2)They act as a reservoir of reactants (either fuel or waste or a mix of the two) and are irradiated while the Reactor is turned on to generate the heat that ultimately will be converted to energy or used to vaporize coolants."
         },
         {
             "type": "patchouli:text",

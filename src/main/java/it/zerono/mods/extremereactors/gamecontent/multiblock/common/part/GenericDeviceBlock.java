@@ -18,15 +18,14 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.common.part;
 
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part.ReactorFuelRodBlock;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part.TurbineRotorComponentBlock;
 import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockPartType;
 import it.zerono.mods.zerocore.lib.block.multiblock.MultiblockPartBlock;
 import it.zerono.mods.zerocore.lib.multiblock.IMultiblockController;
+import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.core.Direction;
-
-import it.zerono.mods.zerocore.lib.block.multiblock.MultiblockPartBlock.MultiblockPartProperties;
 
 public class GenericDeviceBlock<Controller extends IMultiblockController<Controller>,
                                 PartType extends Enum<PartType> & IMultiblockPartType>
@@ -41,7 +40,12 @@ public class GenericDeviceBlock<Controller extends IMultiblockController<Control
 
         final Block adjacentBlock = adjacentBlockState.getBlock();
 
+//        if (this == adjacentBlock) {
+//            return true;
+//        }
+
         return adjacentBlock instanceof MultiblockPartBlock &&
+                !(adjacentBlock instanceof ReactorFuelRodBlock) &&
                 !(adjacentBlock instanceof GlassBlock) &&
                 !(adjacentBlock instanceof TurbineRotorComponentBlock);
     }

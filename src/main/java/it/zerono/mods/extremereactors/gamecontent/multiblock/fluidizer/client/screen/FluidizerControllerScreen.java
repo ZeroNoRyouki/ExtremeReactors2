@@ -20,6 +20,7 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.client.s
 
 import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.gamecontent.compat.patchouli.PatchouliCompat;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.GuiTheme;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.MultiblockFluidizer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.container.FluidizerControllerContainer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.part.FluidizerControllerEntity;
@@ -70,6 +71,7 @@ public class FluidizerControllerScreen
         this._indicator = new MachineStatusIndicator(this, "indicator");
         this._indicator.setTooltips(true, "gui.bigreactors.fluidizer.active");
         this._indicator.setTooltips(false, "gui.bigreactors.fluidizer.inactive");
+        this.setTheme(GuiTheme.ER.get());
     }
 
     //region ContainerScreen
