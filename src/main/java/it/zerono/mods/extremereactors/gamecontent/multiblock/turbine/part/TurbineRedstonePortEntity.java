@@ -332,7 +332,7 @@ public class TurbineRedstonePortEntity
      * then pass in south.
      */
     private int getRedstonePowerLevelFrom(final BlockPos position, final Direction direction) {
-        return this.mapPartWorld(w -> MathHelper.clamp(Math.max(w.getBestNeighborSignal(position), w.getSignal(position, direction)), 0, 15), 0);
+        return this.mapPartWorld(w -> MathHelper.clamp(w.getSignal(position, direction), 0, 15), 0);
     }
 
     /**
