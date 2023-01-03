@@ -102,7 +102,7 @@ public class ReactorRedstonePortEntity
 
                         final boolean nowPowered = powerLevel > 0;
 
-                        if (this._isExternallyPowered != nowPowered) {
+                        if (this._isExternallyPowered != nowPowered || this._externalPowerLevel != powerLevel) {
 
                             this._isExternallyPowered = nowPowered;
                             this._externalPowerLevel = powerLevel;
