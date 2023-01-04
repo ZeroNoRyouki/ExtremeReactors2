@@ -13,7 +13,7 @@
             "text": "The Rotor Bearing is the base of your Turbine $(l:bigreactors:turbine/rotor)Rotor$(/l) assembly.$(br2)It must be placed in one of the Turbine faces, usually in the center, and followed by some $(l:bigreactors:turbine/part-rotorshaft)Rotor Shaft$(/l) blocks."
         },
         {
-            "type": "crafting2x",
+            "type": "crafting1x",
             "title1": "Basic",
             "recipe1": "bigreactors:turbine/basic/bearing",
             "title2": "Reinforced",

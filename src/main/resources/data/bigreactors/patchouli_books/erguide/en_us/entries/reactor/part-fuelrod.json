@@ -17,7 +17,7 @@
             "text": "The first Fuel Rod of each pile must follow a $(l:bigreactors:reactor/part-casing)Casing block$(/l) and the last Fuel Rod of each pile must the followed by a $(l:bigreactors:reactor/part-controlrod)Control Rod$(/l).$(br2)You can make all your Fuel Rod piles vertical (following the Y axis) or horizontal (following either the X or Z axis) but you can't mix and match.$(br2)Note that as a consequence of this requirement, all your Control Rods must be placed on the same face of the Reactor."
         },
         {
-            "type": "crafting2x",
+            "type": "crafting1x",
             "title1": "Basic",
             "recipe1": "bigreactors:reactor/basic/fuelrod_ingots_yellorium",
             "title2": "Reinforced",

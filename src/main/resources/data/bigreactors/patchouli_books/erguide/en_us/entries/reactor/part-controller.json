@@ -17,7 +17,7 @@
             "text": "Depending on the operational mode of the Reactor, you can also check the status of its internal energy buffer and production ratio for $(l:bigreactors:reactor/passive)passively cooled$(/l) Reactors or the amount of coolant and vapor present in an $(l:bigreactors:reactor/active)actively cooled$(/l) Reactor.$(br2)If you hover on a control in the interface, a tooltip will be displayed with additional information or an explanatory text for that control."
         },
         {
-            "type": "crafting2x",
+            "type": "crafting1x",
             "title1": "Basic",
             "recipe1": "bigreactors:reactor/basic/controller_ingots_yellorium",
             "title2": "Reinforced",

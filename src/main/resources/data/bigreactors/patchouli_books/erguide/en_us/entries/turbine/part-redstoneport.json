@@ -25,7 +25,7 @@
             "text": "$(li)$(o)Energy Stored :$() the amount of energy stored in the internal energy buffer is above, below or in between a given value.$(br2)You will usually need two or more Redstone Port to fully automate a Turbine.$(br2)For more complex automations, check the $(l:bigreactors:turbine/part-computerport)Computer Port$(/l)."
         },
         {
-            "type": "crafting2x",
+            "type": "crafting1x",
             "title1": "Basic",
             "recipe1": "bigreactors:turbine/basic/redstoneport",
             "title2": "Reinforced",

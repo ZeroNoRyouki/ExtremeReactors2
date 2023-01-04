@@ -13,7 +13,7 @@
             "text": "The Forge Fluid Port allows you to insert or extract fluids from an $(l:bigreactors:reactor/active)actively cooled$(/l) Reactor.$(br2)This Port accepts and emits vanilla fluids but only if they are valid $(l:bigreactors:misc/coolantsystem)coolants or vapors$(/l).$(br2)A $(l:bigreactors:misc/wrench)wrench$(/l) can be used to change the Port from input to output mode."
         },
         {
-            "type": "crafting2x",
+            "type": "crafting1x",
             "title1": "Reinforced (Passive)",
             "recipe1": "bigreactors:reactor/reinforced/passivefluidport_forge",
             "title2": "Reinforced (Active)",

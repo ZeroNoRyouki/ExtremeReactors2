@@ -13,7 +13,7 @@
             "text": "Glass blocks are decorative blocks that can be used, instead of a $(l:bigreactors:turbine/part-casing)Housing$(/l) block, to show the interior of the Turbine."
         },
         {
-            "type": "crafting2x",
+            "type": "crafting1x",
             "title1": "Basic",
             "recipe1": "bigreactors:turbine/basic/glass",
             "title2": "Reinforced",

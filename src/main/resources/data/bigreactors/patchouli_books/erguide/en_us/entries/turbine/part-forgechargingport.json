@@ -17,7 +17,7 @@
             "text": "Once the item energy buffer is full, the item will be automatically moved to the interface output slot for you to collect.$(br2)If, for any reason, you need to stop the charging process, press the eject button to move the item to the output slot immediately."
         },
         {
-            "type": "crafting2x",
+            "type": "crafting1x",
             "title1": "Basic",
             "recipe1": "bigreactors:turbine/basic/chargingfe",
             "title2": "Reinforced",

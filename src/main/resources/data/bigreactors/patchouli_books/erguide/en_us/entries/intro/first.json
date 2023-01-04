@@ -17,21 +17,21 @@
             "text": "To build your first Reactor you need to craft the following Basic Reactor blocks:$(br2)$(li)22x Casing$(li)1x Controller$(li)1x Control Rod$(li)1x Fuel Rod$(li)1x Solid Access Port$(li)1x Active Forge Energy Power Tap$(br2)The Glass block is actually optional and can be replaced by another Casing block."
         },
         {
-            "type": "crafting2x",
+            "type": "crafting1x",
             "title1": "Casing",
             "recipe1": "bigreactors:reactor/basic/casing",
             "title2": "Glass",
             "recipe2": "bigreactors:reactor/basic/glass"
         },
         {
-            "type": "crafting2x",
+            "type": "crafting1x",
             "title1": "Controller",
             "recipe1": "bigreactors:reactor/basic/controller_ingots_uranium",
             "title2": "Control Rod",
             "recipe2": "bigreactors:reactor/basic/controlrod"
         },
         {
-            "type": "crafting2x",
+            "type": "crafting1x",
             "title1": "Fuel Rod",
             "recipe1": "bigreactors:reactor/basic/fuelrod_ingots_uranium",
             "title2": "Access Port",

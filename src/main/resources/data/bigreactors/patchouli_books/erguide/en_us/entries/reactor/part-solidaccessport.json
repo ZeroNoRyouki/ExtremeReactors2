@@ -17,7 +17,7 @@
             "text": "A $(l:bigreactors:misc/wrench)wrench$(/l) can be used to change the Port mode.$(br2)The graphical interface can also be used to insert and extract materials manually.$(br2)The Solid Access Port is a quick solution to add fuel to your Reactor but, like every quick solution ever, it is not perfect and a small material loss is unavoidable."
         },
         {
-            "type": "crafting2x",
+            "type": "crafting1x",
             "title1": "Basic",
             "recipe1": "bigreactors:reactor/basic/solidaccessport",
             "title2": "Reinforced",

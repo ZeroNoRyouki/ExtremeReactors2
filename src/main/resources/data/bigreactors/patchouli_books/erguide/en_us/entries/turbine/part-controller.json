@@ -17,7 +17,7 @@
             "text": "You can also regulate how much vapor is flowing around the $(l:bigreactors:turbine/rotor)Rotor$(/l), what to do with the vapor once it's condensed back to the original coolant and engage or disengage the $(l:bigreactors:turbine/coils)Induction Coils$(/l).$(br2)If you hover on a control in the interface, a tooltip will be displayed with additional information or an explanatory text for that control."
         },
         {
-            "type": "crafting2x",
+            "type": "crafting1x",
             "title1": "Basic",
             "recipe1": "bigreactors:turbine/basic/controller",
             "title2": "Reinforced",

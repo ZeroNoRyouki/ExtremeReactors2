@@ -13,7 +13,7 @@
             "text": "Casing blocks are the building blocks of the Reactor.$(br2)They are required to build its frame and are also used to craft the other parts. Casing blocks can also be used to fill the faces of the Reactor if you don't like glass too much.$(br2)You will craft a ton of them."
         },
         {
-            "type": "crafting2x",
+            "type": "crafting1x",
             "title1": "Basic",
             "recipe1": "bigreactors:reactor/basic/casing",
             "title2": "Reinforced",

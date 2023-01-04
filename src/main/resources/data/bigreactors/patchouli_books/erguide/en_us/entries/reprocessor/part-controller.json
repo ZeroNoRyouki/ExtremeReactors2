@@ -13,7 +13,7 @@
             "text": "The Controller is your main interface to the Reprocessor.$(br2)Right click on the Controller to open it's graphical user interface and from there you can turn the Reprocessor on or off, check how much fluids and energy are present in the machine and the status of the current re-processing job."
         },
         {
-            "type": "text-crafting",
+            "type": "crafting-text",
             "text": "If you hover on a control in the interface, a tooltip will be displayed with additional information or an explanatory text for that control.$(br2)",
             "title": "Controller",
             "recipe": "bigreactors:reprocessor/controller"

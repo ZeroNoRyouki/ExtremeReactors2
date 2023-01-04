@@ -17,14 +17,14 @@
             "text": "Only one $(l:bigreactors:misc/powersystem)power system$(/l) can be used for each Reactor and so only one type of Power Tap can be used to build a single Reactor.$(br2)The Power Tap is available in both $(l:bigreactors:misc/passiveactiveparts)passive and active$(/l) forms."
         },
         {
-            "type": "crafting2x",
+            "type": "crafting1x",
             "title1": "Basic (Passive)",
             "recipe1": "bigreactors:reactor/basic/passivetap_fe",
             "title2": "Reinforced (Passive)",
             "recipe2": "bigreactors:reactor/reinforced/passivetap_fe"
         },
         {
-            "type": "crafting2x",
+            "type": "crafting1x",
             "title1": "Basic (Active)",
             "recipe1": "bigreactors:reactor/basic/activetap_fe",
             "title2": "Reinforced (Active)",
