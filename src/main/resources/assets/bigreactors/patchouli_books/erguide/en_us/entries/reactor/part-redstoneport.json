@@ -29,7 +29,7 @@
             "text": "$(li)$(o)Vapor amount :$() the amount of vapor in the Turbine is above, below or in between a given value$(br2)You will usually need two or more Redstone Ports to fully automate a Reactor.$(br2)For more complex automation, check the $(l:bigreactors:reactor/part-computerport)Computer Port$(/l)."
         },
         {
-            "type": "bigreactors:crafting2x",
+            "type": "bigreactors:crafting1x",
             "title1": "Basic",
             "recipe1": "bigreactors:reactor/basic/redstoneport",
             "title2": "Reinforced",

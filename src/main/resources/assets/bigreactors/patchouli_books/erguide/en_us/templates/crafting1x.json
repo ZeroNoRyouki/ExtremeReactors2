@@ -3,7 +3,9 @@
         {
             "type": "zerocore:zcspt_crafting",
             "recipe": "#recipe1",
-            "title": "#title1",
+            "title1": "#title1",
+            "recipe2": "#recipe2",
+            "title2": "#title2",
             "x": 0,
             "y": 0
         }
