@@ -25,6 +25,7 @@ import it.zerono.mods.extremereactors.gamecontent.compat.patchouli.PatchouliComp
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.AbstractMultiblockScreen;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.CachedSprites;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.CommonIcons;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.GuiTheme;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.MultiblockReprocessor;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.part.ReprocessorControllerEntity;
 import it.zerono.mods.zerocore.lib.CodeHelper;
@@ -77,6 +78,7 @@ public class ReprocessorControllerScreen
         this._progressBar = new GaugeBar(this, "progress", 1.0, Sprite.EMPTY);
         this._inputInventoryDisplay = new Static(this, 16, 16);
         this._outputInventoryDisplay = new Static(this, 16, 16);
+        this.setTheme(GuiTheme.ER.get());
     }
 
     //region ContainerScreen

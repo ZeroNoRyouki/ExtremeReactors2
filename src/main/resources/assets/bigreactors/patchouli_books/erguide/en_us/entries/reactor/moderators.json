@@ -7,7 +7,7 @@
     "pages": [
         {
             "type": "patchouli:text",
-            "text": "A radiation moderator is a block or fluid that can be placed inside the Reactor to absorb part of the radiation emitted by the fuel and $(l:bigreactors:reactor/innerworking)move heat$(/l) away from the $(l:bigreactors:reactor/part-fuelrod)Fuel Rods$(/l).$(br2)A particular moderator could convert radiation to heat more or less efficiently than another one, or could absorb more radiation than others. Or it could conducts heat way better than it's companions."
+            "text": "A radiation moderator is a block or fluid that can be placed inside the Reactor to absorb part of the radiation emitted by the fuel and $(l:bigreactors:reactor/innerworking)move heat$(/l) away from the $(l:bigreactors:reactor/part-fuelrod)Fuel Rods$(/l).$(br2)A particular moderator could convert radiation to heat more or less efficiently than another one, or could absorb more radiation than others. Or it could conduct heat way better than it's companions."
         },
         {
             "type": "patchouli:text",

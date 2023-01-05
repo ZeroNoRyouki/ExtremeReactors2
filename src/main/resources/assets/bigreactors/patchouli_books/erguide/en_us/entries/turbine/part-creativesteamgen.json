@@ -14,7 +14,7 @@
         },
         {
             "type": "bigreactors:part_usage",
-            "text": "$(l)Mandatory:$() no$(br)$(l)Valid positions:$() any face (not on frame)$(br)$(l)Variants:$() all$(br)$(l)Graphical interface:$() no$(br)$(l)Creative mode:$() this part is only available in creative mode and there is no crafting recipe for it"
+            "text": "$(l)Mandatory:$() no$(br)$(l)Valid positions:$() any face (not on frame)$(br)$(l)Variants:$() all$(br)$(l)Graphical interface:$() no$(br)$(l)Creative mode:$() this part is only available in creative mode and there is no crafting recipe for it."
         }
     ]
 }
