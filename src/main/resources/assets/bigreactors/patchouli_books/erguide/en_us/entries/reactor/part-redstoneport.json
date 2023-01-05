@@ -10,7 +10,7 @@
             "item": "bigreactors:reinforced_reactorredstoneport",
             "link_recipe": true,
             "title" : "Redstone Port",
-            "text": "The Redstone Port allow you to automate your Reactor using Redstone.$(br2)Open the Port graphical interface to configure it. You can then choose between three input settings (that listen for a Redstone signal) and six output ones (that emit a Redstone signal)."
+            "text": "The Redstone Port allows you to automate your Reactor using Redstone.$(br2)Open the Port graphical interface to configure it. You can then choose between three input settings (that listen for a Redstone signal) and six output ones (that emit a Redstone signal)."
         },
         {
             "type": "patchouli:text",
@@ -26,10 +26,10 @@
         },
         {
             "type": "patchouli:text",
-            "text": "$(li)$(o)Vapor amount :$() the amount of vapor in the Turbine is above, below or in between a given value$(br2)You will usually need two or more Redstone Port to fully automate a Reactor.$(br2)For more complex automations, check the $(l:bigreactors:reactor/part-computerport)Computer Port$(/l)."
+            "text": "$(li)$(o)Vapor amount :$() the amount of vapor in the Turbine is above, below or in between a given value$(br2)You will usually need two or more Redstone Ports to fully automate a Reactor.$(br2)For more complex automation, check the $(l:bigreactors:reactor/part-computerport)Computer Port$(/l)."
         },
         {
-            "type": "bigreactors:crafting2x",
+            "type": "bigreactors:crafting1x",
             "title1": "Basic",
             "recipe1": "bigreactors:reactor/basic/redstoneport",
             "title2": "Reinforced",

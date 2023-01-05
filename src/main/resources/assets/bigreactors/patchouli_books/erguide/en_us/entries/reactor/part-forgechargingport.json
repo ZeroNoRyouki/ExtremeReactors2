@@ -10,14 +10,14 @@
             "item": "bigreactors:reinforced_reactorchargingportfe",
             "link_recipe": true,
             "title" : "Forge Charging Port",
-            "text": "The Forge Charging Port allow you to use the energy stored in your $(l:bigreactors:reactor/passive)passively cooled$(/l) Reactor to charge items that use the the Forge Energy $(l:bigreactors:misc/powersystem)power system$(/l) to function.$(br2)Open the graphical interface of the port and insert the item you want charged into the input slot in the center."
+            "text": "The Forge Charging Port allows you to use the energy stored in your $(l:bigreactors:reactor/passive)passively cooled$(/l) Reactor to charge items that use the the Forge Energy $(l:bigreactors:misc/powersystem)power system$(/l) to function.$(br2)Open the graphical interface of the port and insert the item you want charged into the input slot in the center."
         },
         {
             "type": "patchouli:text",
             "text": "Once the item energy buffer is full, the item will be automatically moved to the interface output slot for you to collect.$(br2)If, for any reason, you need to stop the charging process, press the eject button to move the item to the output slot immediately."
         },
         {
-            "type": "bigreactors:crafting2x",
+            "type": "bigreactors:crafting1x",
             "title1": "Basic",
             "recipe1": "bigreactors:reactor/basic/chargingfe",
             "title2": "Reinforced",

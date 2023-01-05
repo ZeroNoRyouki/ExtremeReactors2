@@ -102,7 +102,7 @@ public class TurbineRedstonePortEntity
 
                         final boolean nowPowered = powerLevel > 0;
 
-                        if (this._isExternallyPowered != nowPowered) {
+                        if (this._isExternallyPowered != nowPowered || this._externalPowerLevel != powerLevel) {
 
                             this._isExternallyPowered = nowPowered;
                             this._externalPowerLevel = powerLevel;
@@ -332,7 +332,7 @@ public class TurbineRedstonePortEntity
      * then pass in south.
      */
     private int getRedstonePowerLevelFrom(final BlockPos position, final Direction direction) {
-        return this.mapPartWorld(w -> Mth.clamp(Math.max(w.getBestNeighborSignal(position), w.getSignal(position, direction)), 0, 15), 0);
+        return this.mapPartWorld(w -> Mth.clamp(w.getSignal(position, direction), 0, 15), 0);
     }
 
     /**
