@@ -19,7 +19,6 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen;
 
 import it.zerono.mods.extremereactors.ExtremeReactors;
-import it.zerono.mods.extremereactors.Log;
 import it.zerono.mods.zerocore.lib.CodeHelper;
 import it.zerono.mods.zerocore.lib.client.gui.Theme;
 import net.minecraft.client.Minecraft;
@@ -31,7 +30,6 @@ import net.minecraftforge.common.util.NonNullSupplier;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 
@@ -72,12 +70,9 @@ public enum GuiTheme
     //region internals
 
     private void reload(ResourceManager resourceManager) {
-
-        try {
-            this._theme = Theme.read(resourceManager.getResource(ID));
-        } catch (IOException e) {
-            Log.LOGGER.error("Filed to acquire GUI theme.", e);
-        }
+        this._theme = resourceManager.getResource(ID)
+                .map(Theme::read)
+                .orElse(Theme.DEFAULT);
     }
 
     private final static ResourceLocation ID = ExtremeReactors.newID("er_gui_theme.json");
