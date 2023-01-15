@@ -40,9 +40,11 @@ import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.ingredients.IIngredientType;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.registration.IModIngredientRegistration;
+import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 
 @SuppressWarnings("unused")
 @JeiPlugin
@@ -111,6 +113,61 @@ public class ExtremeReactorsJeiPlugin
 
         registration.register(VAPOR_INGREDIENT_TYPE, FluidsRegistry.getVapors(),
                 new VaporIngredientHelper(), new VaporIngredientRenderer());
+    }
+
+    @Override
+    public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
+
+        ItemStack ingredient;
+
+        ingredient = Content.Blocks.REPROCESSOR_CONTROLLER.get().createItemStack();
+        registration.addRecipeCatalyst(ingredient, REPROCESSOR_JEI_RECIPE_TYPE);
+
+        ingredient = Content.Blocks.FLUIDIZER_CONTROLLER.get().createItemStack();
+        registration.addRecipeCatalyst(ingredient, FLUIDIZER_SOLID_JEI_RECIPE_TYPE);
+        registration.addRecipeCatalyst(ingredient, FLUIDIZER_SOLIDMIXING_JEI_RECIPE_TYPE);
+        registration.addRecipeCatalyst(ingredient, FLUIDIZER_FLUIDMIXING_JEI_RECIPE_TYPE);
+
+        ingredient = Content.Blocks.REACTOR_CONTROLLER_BASIC.get().createItemStack();
+        registration.addRecipeCatalyst(ingredient, REACTION_JEI_RECIPE_TYPE);
+
+        ingredient = Content.Blocks.REACTOR_CONTROLLER_REINFORCED.get().createItemStack();
+        registration.addRecipeCatalyst(ingredient, REACTION_JEI_RECIPE_TYPE);
+        registration.addRecipeCatalyst(ingredient, this._vaporizations.getRecipeType());
+        registration.addRecipeCatalyst(ingredient, this._condensations.getRecipeType());
+
+        ingredient = Content.Blocks.REACTOR_SOLID_ACCESSPORT_BASIC.get().createItemStack();
+        registration.addRecipeCatalyst(ingredient, this._reactantsSolidMappings.getRecipeType());
+
+        ingredient = Content.Blocks.REACTOR_SOLID_ACCESSPORT_REINFORCED.get().createItemStack();
+        registration.addRecipeCatalyst(ingredient, this._reactantsSolidMappings.getRecipeType());
+
+        ingredient = Content.Blocks.REACTOR_FLUID_ACCESSPORT_REINFORCED.get().createItemStack();
+        registration.addRecipeCatalyst(ingredient, this._reactantsFluidMappings.getRecipeType());
+
+        ingredient = Content.Blocks.REACTOR_FLUIDPORT_FORGE_PASSIVE_REINFORCED.get().createItemStack();
+        registration.addRecipeCatalyst(ingredient, this._vaporsMappings.getRecipeType());
+        registration.addRecipeCatalyst(ingredient, this._coolantsMappings.getRecipeType());
+
+        ingredient = Content.Blocks.REACTOR_FLUIDTPORT_FORGE_ACTIVE_REINFORCED.get().createItemStack();
+        registration.addRecipeCatalyst(ingredient, this._vaporsMappings.getRecipeType());
+        registration.addRecipeCatalyst(ingredient, this._coolantsMappings.getRecipeType());
+
+        ingredient = Content.Blocks.TURBINE_FLUIDPORT_FORGE_ACTIVE_BASIC.get().createItemStack();
+        registration.addRecipeCatalyst(ingredient, this._vaporsMappings.getRecipeType());
+        registration.addRecipeCatalyst(ingredient, this._coolantsMappings.getRecipeType());
+
+        ingredient = Content.Blocks.TURBINE_FLUIDPORT_FORGE_PASSIVE_BASIC.get().createItemStack();
+        registration.addRecipeCatalyst(ingredient, this._vaporsMappings.getRecipeType());
+        registration.addRecipeCatalyst(ingredient, this._coolantsMappings.getRecipeType());
+
+        ingredient = Content.Blocks.TURBINE_FLUIDPORT_FORGE_ACTIVE_REINFORCED.get().createItemStack();
+        registration.addRecipeCatalyst(ingredient, this._vaporsMappings.getRecipeType());
+        registration.addRecipeCatalyst(ingredient, this._coolantsMappings.getRecipeType());
+
+        ingredient = Content.Blocks.TURBINE_FLUIDPORT_FORGE_PASSIVE_REINFORCED.get().createItemStack();
+        registration.addRecipeCatalyst(ingredient, this._vaporsMappings.getRecipeType());
+        registration.addRecipeCatalyst(ingredient, this._coolantsMappings.getRecipeType());
     }
 
     //endregion
