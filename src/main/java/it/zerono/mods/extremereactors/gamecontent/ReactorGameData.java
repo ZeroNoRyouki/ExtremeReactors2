@@ -121,9 +121,7 @@ final class ReactorGameData {
         ModeratorsRegistry.registerSolid("forge:storage_blocks/lumium", 0.51f, 0.79f, 1.45f, IHeatEntity.CONDUCTIVITY_SILVER);
         ModeratorsRegistry.registerSolid("forge:storage_blocks/lead", 0.75f, 0.75f, 1.75f, IHeatEntity.CONDUCTIVITY_SILVER);
         ModeratorsRegistry.registerSolid("forge:storage_blocks/electrum", 0.53f, 0.82f, 1.47f, 2.2f); // Between gold and emerald
-        //blockElectrumFlux
         ModeratorsRegistry.registerSolid("forge:storage_blocks/platinum", 0.57f, 0.86f, 1.58f, IHeatEntity.CONDUCTIVITY_EMERALD);
-        //blockShiny
         ModeratorsRegistry.registerSolid("forge:storage_blocks/enderium", 0.60f, 0.88f, 1.60f, IHeatEntity.CONDUCTIVITY_DIAMOND);
         //blockTitanium
         //blockDraconium
@@ -164,19 +162,22 @@ final class ReactorGameData {
         ModeratorsRegistry.registerFluid("mekanism:ethene", 0.45f, 0.65f, 1.90f, IHeatEntity.CONDUCTIVITY_SILVER); // Etilene
         ModeratorsRegistry.registerFluid("mekanism:flowing_ethene", 0.37f, 0.65f, 1.90f, IHeatEntity.CONDUCTIVITY_SILVER); // Etilene
 
+        // Thermal
+        ModeratorsRegistry.registerFluid("thermal:ender", 0.92f, 0.76f, 2.02f, IHeatEntity.CONDUCTIVITY_GOLD); // Resonant Ender
+        ModeratorsRegistry.registerFluid("thermal:ender_flowing", 0.90f, 0.75f, 2.00f, IHeatEntity.CONDUCTIVITY_GOLD);
+        ModeratorsRegistry.registerFluid("thermal:redstone", 0.77f, 0.56f, 1.61f, IHeatEntity.CONDUCTIVITY_EMERALD); // Destabilized Redstone
+        ModeratorsRegistry.registerFluid("thermal:redstone_flowing", 0.75f, 0.55f, 1.60f, IHeatEntity.CONDUCTIVITY_EMERALD);
+
         /*
 
-        ReactorInterior.registerFluid("redstone", 0.75f, 0.55f, 1.60f, IHeatEntity.conductivityEmerald); // Thermal Foundation Destabilized Redstone
         ReactorInterior.registerFluid("liquidredstone", 0.65f, 0.45f, 1.50f, IHeatEntity.conductivityEmerald); // Substratum Liquid Redstone (toned down because a bit cheap on the crafting side)
 
         ReactorInterior.registerFluid("fluidtesla", 0.75f, 0.55f, 1.60f, IHeatEntity.conductivityEmerald); // Modularity
 
-        ReactorInterior.registerFluid("glowstone", 0.20f, 0.60f, 1.75f, IHeatEntity.conductivityCopper); // Thermal Foundation Energised Glowstone
         ReactorInterior.registerFluid("liquidglowstone", 0.18f, 0.50f, 1.55f, IHeatEntity.conductivityCopper); // Substratum Liquid Glowstone (toned down because a bit cheap on the crafting side)
 
         ReactorInterior.registerFluid("cryotheum", 0.66f, 0.95f, 6.00f, IHeatEntity.conductivityDiamond); // Thermal Foundation Gelid Cryotheum: an amazing moderator!
 
-        ReactorInterior.registerFluid("ender", 0.90f, 0.75f, 2.00f, IHeatEntity.conductivityGold); // Thermal Foundation Resonant Ender
         ReactorInterior.registerFluid("liquidenderpearl", 0.75f, 0.60f, 1.80f, IHeatEntity.conductivityGold); // Substratum Liquid Ender Pearl (toned down because a bit cheap on the crafting side)
 
         ReactorInterior.registerFluid("pyrotheum", 0.66f, 0.90f, 1.00f, IHeatEntity.conductivityIron); // Thermal Foundation Blazing Pyrotheum

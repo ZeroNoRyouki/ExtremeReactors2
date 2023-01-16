@@ -189,6 +189,11 @@ dependencies {
     runtimeOnly fg.deobf("mekanism:Mekanism:${config.mekanism_version}:generators")
     runtimeOnly fg.deobf("mekanism:Mekanism:${config.mekanism_version}:tools")
 
+    // thermal
+    runtimeOnly fg.deobf("curse.maven:thermalexp-69163:4112130")
+    runtimeOnly fg.deobf("curse.maven:thermalfnd-222880:4112137")
+    runtimeOnly fg.deobf("curse.maven:cofhcore-69162:4202944")
+    runtimeOnly fg.deobf("curse.maven:redarsenal-70631:4121288")
 
 	// constructionwand
 //    implementation fg.deobf("curse.maven:constructionwand-399558:3712396")
