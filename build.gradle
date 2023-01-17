@@ -1,7 +1,7 @@
 plugins {
     id 'eclipse'
     id 'maven-publish'
-    id 'net.minecraftforge.gradle' version '5.+'
+    id 'net.minecraftforge.gradle' version '5.1.+'
 }
 
 evaluationDependsOn(":ZeroCore2-1.19")
@@ -176,24 +176,24 @@ dependencies {
     runtimeOnly fg.deobf("mezz.jei:jei-${config.minecraft_version}-forge:${config.jei_version}")
 
 	// cc-tweaked
-    compileOnly fg.deobf("org.squiddev:cc-tweaked-${config.minecraft_version}:${config.cctweaked_version}")
+//    compileOnly fg.deobf("org.squiddev:cc-tweaked-${config.minecraft_version}:${config.cctweaked_version}")
 
 	// patchouli
-    compileOnly fg.deobf("vazkii.patchouli:Patchouli:${config.patchouli_version}:api")
-    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${config.patchouli_version}")
+//    compileOnly fg.deobf("vazkii.patchouli:Patchouli:${config.patchouli_version}:api")
+//    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${config.patchouli_version}")
 
     // mekanism
-    compileOnly "mekanism:Mekanism:${config.mekanism_version}:api"
-    runtimeOnly fg.deobf("mekanism:Mekanism:${config.mekanism_version}")
-    runtimeOnly fg.deobf("mekanism:Mekanism:${config.mekanism_version}:additions")
-    runtimeOnly fg.deobf("mekanism:Mekanism:${config.mekanism_version}:generators")
-    runtimeOnly fg.deobf("mekanism:Mekanism:${config.mekanism_version}:tools")
+//    compileOnly "mekanism:Mekanism:${config.mekanism_version}:api"
+//    runtimeOnly fg.deobf("mekanism:Mekanism:${config.mekanism_version}")
+//    runtimeOnly fg.deobf("mekanism:Mekanism:${config.mekanism_version}:additions")
+//    runtimeOnly fg.deobf("mekanism:Mekanism:${config.mekanism_version}:generators")
+//    runtimeOnly fg.deobf("mekanism:Mekanism:${config.mekanism_version}:tools")
 
     // thermal
-    runtimeOnly fg.deobf("curse.maven:thermalexp-69163:4112130")
-    runtimeOnly fg.deobf("curse.maven:thermalfnd-222880:4112137")
-    runtimeOnly fg.deobf("curse.maven:cofhcore-69162:4202944")
-    runtimeOnly fg.deobf("curse.maven:redarsenal-70631:4121288")
+//    runtimeOnly fg.deobf("curse.maven:thermalexp-69163:4112130")
+//    runtimeOnly fg.deobf("curse.maven:thermalfnd-222880:4112137")
+//    runtimeOnly fg.deobf("curse.maven:cofhcore-69162:4202944")
+//    runtimeOnly fg.deobf("curse.maven:redarsenal-70631:4121288")
 
 	// constructionwand
 //    implementation fg.deobf("curse.maven:constructionwand-399558:3712396")
