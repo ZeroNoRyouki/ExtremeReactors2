@@ -151,6 +151,8 @@
         "1.18.2-2.0.55":"- Fix error messages not being displayed on the correct client in lan games\r\n- Bumped version to 2.0.55"
         ,
         "1.18.2-2.0.60":"- JEI compat: linked various recipe categories (reactants, vapors, mappings, etc) to a figurehead block (controller, access port, etc) to simplify access to them\r\n- Updated ZeroCore to version 2.1.30\r\n- Bumped version to 2.0.60"
+        ,
+        "1.18.2-2.0.61":"- Fixed some recipes not showing up in JEI\r\n- Updated JEI to version 10.2.1.1002\r\n- Updated ZeroCore to version 2.1.31\r\n- Bumped version to 2.0.61"
     },
     "1.19":{
         "1.19-2.0.46":"- Updated Minecraft to version 1.19\r\n- World-gen is not defined by json files, yeah....\r\n- Updated Forge to version 41.0.17\r\n- Updated ZeroCore to version 2.1.18\r\n- Bumped version to 2.0.46"
@@ -192,8 +194,8 @@
         "1.18.0-recommended":"1.18-2.0.32",
         "1.18.1-latest":"1.18-2.0.38",
         "1.18.1-recommended":"1.18-2.0.38",
-        "1.18.2-latest":"1.18.1-2.0.60",
-        "1.18.2-recommended":"1.18.1-2.0.60",
+        "1.18.2-latest":"1.18.1-2.0.61",
+        "1.18.2-recommended":"1.18.1-2.0.61",
         "1.19-latest":"1.19-2.0.53",
         "1.19-recommended":"1.19-2.0.51",
         "1.19.1-latest":"1.19-2.0.53",
