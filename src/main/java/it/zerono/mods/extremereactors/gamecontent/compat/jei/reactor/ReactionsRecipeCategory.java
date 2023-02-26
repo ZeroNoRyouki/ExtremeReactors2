@@ -16,16 +16,16 @@ package it.zerono.mods.extremereactors.gamecontent.compat.jei.reactor;
  *
  */
 
+import it.unimi.dsi.fastutil.objects.ObjectLists;
 import it.zerono.mods.extremereactors.ExtremeReactors;
-import it.zerono.mods.extremereactors.api.reactor.Reactant;
 import it.zerono.mods.extremereactors.api.reactor.Reaction;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.compat.jei.ExtremeReactorsJeiPlugin;
 import it.zerono.mods.zerocore.lib.compat.jei.AbstractModRecipeCategory;
-import mezz.jei.api.gui.IRecipeLayout;
-import mezz.jei.api.gui.ingredient.IGuiIngredientGroup;
+import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.helpers.IGuiHelper;
-import mezz.jei.api.ingredients.IIngredients;
+import mezz.jei.api.recipe.IFocusGroup;
+import mezz.jei.api.recipe.RecipeIngredientRole;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 
@@ -35,7 +35,8 @@ public class ReactionsRecipeCategory
     public static ResourceLocation ID = ExtremeReactors.newID("jei_reactantsreactions");
 
     public ReactionsRecipeCategory(final IGuiHelper guiHelper) {
-        super(ID, new TranslatableComponent("compat.bigreactors.jei.reactantsreactions.recipecategory.title"),
+        super(ExtremeReactorsJeiPlugin.REACTION_JEI_RECIPE_TYPE,
+                new TranslatableComponent("compat.bigreactors.jei.reactantsreactions.recipecategory.title"),
                 Content.Blocks.REACTOR_FUELROD_BASIC.get().createItemStack(), guiHelper,
                 guiHelper.drawableBuilder(ExtremeReactors.newID("textures/gui/jei/mapping.png"), 0, 0, 144, 56)
                         .setTextureSize(144, 56)
@@ -45,29 +46,13 @@ public class ReactionsRecipeCategory
     //region AbstractModRecipeCategory
 
     @Override
-    public Class<? extends Reaction> getRecipeClass() {
-        return Reaction.class;
-    }
+    public void setRecipe(final IRecipeLayoutBuilder builder, final Reaction recipe, final IFocusGroup focuses) {
 
-    @Override
-    public void setIngredients(final Reaction recipe, final IIngredients ingredients) {
+        builder.addSlot(RecipeIngredientRole.INPUT, 33, 20)
+                .addIngredients(ExtremeReactorsJeiPlugin.REACTANT_INGREDIENT_TYPE, ObjectLists.singleton(recipe.getSource()));
 
-        ingredients.setInput(ExtremeReactorsJeiPlugin.REACTANT_INGREDIENT_TYPE, recipe.getSource());
-        ingredients.setOutput(ExtremeReactorsJeiPlugin.REACTANT_INGREDIENT_TYPE, recipe.getProduct());
-    }
-
-    @Override
-    public void setRecipe(final IRecipeLayout layout, final Reaction recipe, final IIngredients ingredients) {
-
-        final IGuiIngredientGroup<Reactant> group = layout.getIngredientsGroup(ExtremeReactorsJeiPlugin.REACTANT_INGREDIENT_TYPE);
-
-        // input
-        group.init(0, true, 33, 20);
-        group.set(0, recipe.getSource());
-
-        // output
-        group.init(1, false, 95, 20);
-        group.set(1, recipe.getProduct());
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 95, 20)
+                .addIngredients(ExtremeReactorsJeiPlugin.REACTANT_INGREDIENT_TYPE, ObjectLists.singleton(recipe.getProduct()));
     }
 
     //endregion

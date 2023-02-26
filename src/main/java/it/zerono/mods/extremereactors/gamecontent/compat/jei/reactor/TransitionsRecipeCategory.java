@@ -18,6 +18,7 @@
 
 package it.zerono.mods.extremereactors.gamecontent.compat.jei.reactor;
 
+import it.unimi.dsi.fastutil.objects.ObjectLists;
 import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.api.IMapping;
 import it.zerono.mods.extremereactors.api.coolant.Coolant;
@@ -26,12 +27,12 @@ import it.zerono.mods.extremereactors.api.coolant.Vapor;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.compat.jei.ExtremeReactorsJeiPlugin;
 import it.zerono.mods.zerocore.lib.compat.jei.AbstractModRecipeCategory;
-import mezz.jei.api.gui.IRecipeLayout;
-import mezz.jei.api.gui.ingredient.IGuiIngredientGroup;
+import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.helpers.IGuiHelper;
-import mezz.jei.api.ingredients.IIngredients;
+import mezz.jei.api.recipe.IFocusGroup;
+import mezz.jei.api.recipe.RecipeIngredientRole;
+import mezz.jei.api.recipe.RecipeType;
 import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
@@ -42,7 +43,7 @@ public class TransitionsRecipeCategory<Input, Output, Recipe extends Transitions
         extends AbstractModRecipeCategory<Recipe> {
 
     public static TransitionsRecipeCategory<Coolant, Vapor, VaporizationTransition> vaporization(final IGuiHelper guiHelper) {
-        return new TransitionsRecipeCategory<>(ExtremeReactors.newID("jei_vaporizations"), VaporizationTransition.class,
+        return new TransitionsRecipeCategory<>(RecipeType.create(ExtremeReactors.MOD_ID, "jei_vaporizations", VaporizationTransition.class),
                 "compat.bigreactors.jei.vaporization.recipecategory.title",
                 Content.Blocks.REACTOR_FLUID_ACCESSPORT_REINFORCED.get().createItemStack(), guiHelper,
                 TransitionsRegistry.getVaporizations().values().stream()
@@ -51,7 +52,7 @@ public class TransitionsRecipeCategory<Input, Output, Recipe extends Transitions
     }
 
     public static TransitionsRecipeCategory<Vapor, Coolant, CondensationTransition> condensation(final IGuiHelper guiHelper) {
-        return new TransitionsRecipeCategory<>(ExtremeReactors.newID("jei_condensations"), CondensationTransition.class,
+        return new TransitionsRecipeCategory<>(RecipeType.create(ExtremeReactors.MOD_ID, "jei_condensations", CondensationTransition.class),
                 "compat.bigreactors.jei.condensation.recipecategory.title",
                 Content.Blocks.REACTOR_FLUID_ACCESSPORT_REINFORCED.get().createItemStack(), guiHelper,
                 TransitionsRegistry.getCondensations().values().stream()
@@ -66,18 +67,8 @@ public class TransitionsRecipeCategory<Input, Output, Recipe extends Transitions
     //region AbstractModRecipeCategory<T>
 
     @Override
-    public Class<? extends Recipe> getRecipeClass() {
-        return this._recipeClass;
-    }
-
-    @Override
-    public void setIngredients(final Recipe recipe, final IIngredients ingredients) {
-        recipe.setIngredients(ingredients);
-    }
-
-    @Override
-    public void setRecipe(final IRecipeLayout recipeLayout, final Recipe recipe, final IIngredients ingredients) {
-        recipe.setRecipe(recipeLayout, ingredients);
+    public void setRecipe(final IRecipeLayoutBuilder builder, final Recipe recipe, final IFocusGroup focuses) {
+        recipe.setRecipe(builder, focuses);
     }
 
     //endregion
@@ -97,8 +88,7 @@ public class TransitionsRecipeCategory<Input, Output, Recipe extends Transitions
             return this._mapping.getProduct();
         }
 
-        protected abstract void setIngredients(IIngredients ingredients);
-        protected abstract void setRecipe(IRecipeLayout recipeLayout, IIngredients ingredients);
+        protected abstract void setRecipe(IRecipeLayoutBuilder builder, IFocusGroup focuses);
 
         //region internals
 
@@ -114,23 +104,13 @@ public class TransitionsRecipeCategory<Input, Output, Recipe extends Transitions
             super(mapping);
         }
 
-        @Override
-        protected void setIngredients(final IIngredients ingredients) {
+        protected void setRecipe(final IRecipeLayoutBuilder builder, final IFocusGroup focuses) {
 
-            ingredients.setInput(ExtremeReactorsJeiPlugin.COOLANT_INGREDIENT_TYPE, this.getInput());
-            ingredients.setOutput(ExtremeReactorsJeiPlugin.VAPOR_INGREDIENT_TYPE, this.getOutput());
-        }
+            builder.addSlot(RecipeIngredientRole.INPUT, 33, 20)
+                    .addIngredients(ExtremeReactorsJeiPlugin.COOLANT_INGREDIENT_TYPE, ObjectLists.singleton(this.getInput()));
 
-        @Override
-        protected void setRecipe(final IRecipeLayout recipeLayout, final IIngredients ingredients) {
-
-            final IGuiIngredientGroup<Coolant> input = recipeLayout.getIngredientsGroup(ExtremeReactorsJeiPlugin.COOLANT_INGREDIENT_TYPE);
-            final IGuiIngredientGroup<Vapor> output = recipeLayout.getIngredientsGroup(ExtremeReactorsJeiPlugin.VAPOR_INGREDIENT_TYPE);
-
-            input.init(0, true, 33, 20);
-            input.set(0, this.getInput());
-            output.init(1, false, 95, 20);
-            output.set(1, this.getOutput());
+            builder.addSlot(RecipeIngredientRole.OUTPUT, 95, 20)
+                    .addIngredients(ExtremeReactorsJeiPlugin.VAPOR_INGREDIENT_TYPE, ObjectLists.singleton(this.getOutput()));
         }
     }
 
@@ -142,42 +122,31 @@ public class TransitionsRecipeCategory<Input, Output, Recipe extends Transitions
         }
 
         @Override
-        protected void setIngredients(final IIngredients ingredients) {
+        protected void setRecipe(final IRecipeLayoutBuilder builder, final IFocusGroup focuses) {
 
-            ingredients.setInput(ExtremeReactorsJeiPlugin.VAPOR_INGREDIENT_TYPE, this.getInput());
-            ingredients.setOutput(ExtremeReactorsJeiPlugin.COOLANT_INGREDIENT_TYPE, this.getOutput());
-        }
+            builder.addSlot(RecipeIngredientRole.INPUT, 33, 20)
+                    .addIngredients(ExtremeReactorsJeiPlugin.VAPOR_INGREDIENT_TYPE, ObjectLists.singleton(this.getInput()));
 
-        @Override
-        protected void setRecipe(final IRecipeLayout recipeLayout, final IIngredients ingredients) {
-
-            final IGuiIngredientGroup<Vapor> input = recipeLayout.getIngredientsGroup(ExtremeReactorsJeiPlugin.VAPOR_INGREDIENT_TYPE);
-            final IGuiIngredientGroup<Coolant> output = recipeLayout.getIngredientsGroup(ExtremeReactorsJeiPlugin.COOLANT_INGREDIENT_TYPE);
-
-            input.init(0, true, 33, 20);
-            input.set(0, this.getInput());
-            output.init(1, false, 95, 20);
-            output.set(1, this.getOutput());
+            builder.addSlot(RecipeIngredientRole.OUTPUT, 95, 20)
+                    .addIngredients(ExtremeReactorsJeiPlugin.COOLANT_INGREDIENT_TYPE, ObjectLists.singleton(this.getOutput()));
         }
     }
 
     //endregion
     //region internals
 
-    protected TransitionsRecipeCategory(final ResourceLocation id, final Class<Recipe> recipeClass,
+    protected TransitionsRecipeCategory(final RecipeType<Recipe> type,
                                         final String titleTranslationKey, final ItemStack icon,
                                         final IGuiHelper guiHelper, final List<Recipe> transitions) {
 
-        super(id, new TranslatableComponent(titleTranslationKey), icon, guiHelper,
+        super(type, new TranslatableComponent(titleTranslationKey), icon, guiHelper,
                 guiHelper.drawableBuilder(ExtremeReactors.newID("textures/gui/jei/mapping.png"), 0, 0, 144, 56)
                         .setTextureSize(144, 56)
                         .build());
 
-        this._recipeClass = recipeClass;
         this._transitions = Objects.requireNonNull(transitions);
     }
 
-    private final Class<Recipe> _recipeClass;
     private final List<Recipe> _transitions;
 
     //endregion

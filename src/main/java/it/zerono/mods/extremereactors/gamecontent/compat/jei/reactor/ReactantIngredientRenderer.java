@@ -27,7 +27,6 @@ import mezz.jei.api.ingredients.IIngredientRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.TooltipFlag;
 
-import javax.annotation.Nullable;
 import java.util.List;
 
 public class ReactantIngredientRenderer
@@ -36,14 +35,9 @@ public class ReactantIngredientRenderer
     //region IIngredientRenderer<Reactant>
 
     @Override
-    public void render(final PoseStack matrix, final int x, final int y, @Nullable Reactant reactant) {
-
-        if (null != reactant) {
-
-            ModRenderHelper.paintVerticalProgressSprite(matrix, CachedSprites.REACTOR_FUEL_COLUMN_FLOWING.get(),
-                    reactant.getColour(), x, y, 0, 16, 16, 0, 1.0d);
-
-        }
+    public void render(final PoseStack matrix, final Reactant reactant) {
+        ModRenderHelper.paintVerticalProgressSprite(matrix, CachedSprites.REACTOR_FUEL_COLUMN_FLOWING.get(),
+                reactant.getColour(), 0, 0, 0, 16, 16, 0, 1.0d);
     }
 
     @Override

@@ -27,7 +27,6 @@ import mezz.jei.api.ingredients.IIngredientRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.TooltipFlag;
 
-import javax.annotation.Nullable;
 import java.util.List;
 
 public class CoolantIngredientRenderer
@@ -36,12 +35,9 @@ public class CoolantIngredientRenderer
     //region IIngredientRenderer<Coolant>
 
     @Override
-    public void render(final PoseStack matrix, final int x, final int y, @Nullable Coolant coolant) {
-
-        if (null != coolant) {
-            ModRenderHelper.paintVerticalProgressSprite(matrix, CachedSprites.WATER_SOURCE.get(),
-                    coolant.getColour(), x, y, 0, 16, 16, 0, 1.0d);
-        }
+    public void render(final PoseStack matrix, final Coolant coolant) {
+        ModRenderHelper.paintVerticalProgressSprite(matrix, CachedSprites.WATER_SOURCE.get(),
+                coolant.getColour(), 0, 0, 0, 16, 16, 0, 1.0d);
     }
 
     @Override

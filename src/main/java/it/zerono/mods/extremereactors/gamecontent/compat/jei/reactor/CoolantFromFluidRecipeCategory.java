@@ -28,12 +28,12 @@ import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.compat.jei.ExtremeReactorsJeiPlugin;
 import it.zerono.mods.zerocore.lib.compat.jei.AbstractModRecipeCategory;
 import it.zerono.mods.zerocore.lib.tag.TagsHelper;
-import mezz.jei.api.constants.VanillaTypes;
-import mezz.jei.api.gui.IRecipeLayout;
-import mezz.jei.api.gui.ingredient.IGuiFluidStackGroup;
-import mezz.jei.api.gui.ingredient.IGuiIngredientGroup;
+import mezz.jei.api.forge.ForgeTypes;
+import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.helpers.IGuiHelper;
-import mezz.jei.api.ingredients.IIngredients;
+import mezz.jei.api.recipe.IFocusGroup;
+import mezz.jei.api.recipe.RecipeIngredientRole;
+import mezz.jei.api.recipe.RecipeType;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.material.Fluid;
@@ -48,7 +48,7 @@ public class CoolantFromFluidRecipeCategory
 
     public CoolantFromFluidRecipeCategory(final IGuiHelper guiHelper) {
 
-        super(ExtremeReactors.newID("jei_coolantsmappings"),
+        super(RecipeType.create(ExtremeReactors.MOD_ID, "jei_coolantsmappings", Coolant.class),
                 new TranslatableComponent("compat.bigreactors.jei.coolantmappings.recipecategory.title"),
                 Content.Blocks.REACTOR_FLUID_ACCESSPORT_REINFORCED.get().createItemStack(), guiHelper,
                 guiHelper.drawableBuilder(ExtremeReactors.newID("textures/gui/jei/mapping.png"), 0, 0, 144, 56)
@@ -65,12 +65,7 @@ public class CoolantFromFluidRecipeCategory
     //region AbstractModRecipeCategory
 
     @Override
-    public Class<? extends Coolant> getRecipeClass() {
-        return Coolant.class;
-    }
-
-    @Override
-    public void setIngredients(final Coolant coolant, final IIngredients ingredients) {
+    public void setRecipe(final IRecipeLayoutBuilder builder, final Coolant coolant, final IFocusGroup focuses) {
 
         final List<FluidStack> inputs = new ObjectArrayList<>(16);
 
@@ -79,23 +74,11 @@ public class CoolantFromFluidRecipeCategory
                     .forEach(item -> inputs.add(new FluidStack(item, 1000)));
         }
 
-        ingredients.setInputLists(VanillaTypes.FLUID, ObjectLists.singleton(inputs));
-        ingredients.setOutput(ExtremeReactorsJeiPlugin.COOLANT_INGREDIENT_TYPE, coolant);
-    }
+        builder.addSlot(RecipeIngredientRole.INPUT, 33, 20)
+                .addIngredients(ForgeTypes.FLUID_STACK, inputs);
 
-    @Override
-    public void setRecipe(final IRecipeLayout layout, final Coolant coolant, final IIngredients ingredients) {
-
-        final IGuiIngredientGroup<Coolant> output = layout.getIngredientsGroup(ExtremeReactorsJeiPlugin.COOLANT_INGREDIENT_TYPE);
-        final IGuiFluidStackGroup inputs = layout.getFluidStacks();
-
-        // solid inputs
-        inputs.init(0, true, 33, 20);
-        inputs.set(ingredients);
-
-        // output
-        output.init(1, false, 95, 20);
-        output.set(1, coolant);
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 95, 20)
+                .addIngredients(ExtremeReactorsJeiPlugin.COOLANT_INGREDIENT_TYPE, ObjectLists.singleton(coolant));
     }
 
     //endregion
