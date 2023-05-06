@@ -16,6 +16,7 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.mod
  *
  */
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectLists;
@@ -38,6 +39,7 @@ import net.minecraftforge.client.model.data.IModelData;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.locks.StampedLock;
 
@@ -50,14 +52,15 @@ public class ReactorFuelRodModel
     public static int HORIZONTAL_MAX_STEPS = 10;
     public static int VERTICAL_MAX_STEPS = 12;
 
-    protected ReactorFuelRodModel(final IBakedModel baseModel) {
+    protected ReactorFuelRodModel(Map<Direction.Axis, IBakedModel> baseModels) {
 
-        super(baseModel.useAmbientOcclusion(), baseModel.isGui3d());
+        super(true, false);
 
         this._lock = new StampedLock();
-        this._baseModel = baseModel;
-        this._cachedQuads = new Short2ObjectArrayMap<>(208);
         this._faceBakery = new FaceBakery();
+
+        this._subTypes = new ModelSubType[baseModels.size()];
+        baseModels.forEach((axis, model) -> this._subTypes[axis.ordinal()] = new ModelSubType(axis, model));
     }
 
     //region AbstractDynamicBakedModel
@@ -72,10 +75,11 @@ public class ReactorFuelRodModel
         }
 
         if (!(modelData instanceof ReactorFuelRodModelData)) {
-            return this._baseModel.getQuads(state, null, rand, EmptyModelData.INSTANCE);
+            return this._subTypes[0]._baseModel.getQuads(state, null, rand, EmptyModelData.INSTANCE);
         }
 
         final ReactorFuelRodModelData fuelRodModelData = (ReactorFuelRodModelData)modelData;
+        final ModelSubType modelSubType = this._subTypes[fuelRodModelData.getOrientation().ordinal()];
         final short modelIndex = fuelRodModelData.getModelKey();
 
         if (fuelRodModelData.isOccluded()) {
@@ -83,11 +87,11 @@ public class ReactorFuelRodModel
         }
 
         if (0 == modelIndex) {
-            return this._baseModel.getQuads(state, null, rand, EmptyModelData.INSTANCE);
+            return modelSubType._baseModel.getQuads(state, null, rand, EmptyModelData.INSTANCE);
         }
 
         long lockStamp = this._lock.readLock();
-        List<BakedQuad> quads = this._cachedQuads.get(modelIndex);
+        List<BakedQuad> quads = modelSubType._cachedQuads.get(modelIndex);
 
         if (null != quads) {
 
@@ -101,10 +105,10 @@ public class ReactorFuelRodModel
 
             if (0L != writeLockStamp) {
 
-                final List<BakedQuad> tempQuads = Lists.newLinkedList(this._baseModel.getQuads(state, null, rand, EmptyModelData.INSTANCE));
+                final List<BakedQuad> tempQuads = Lists.newLinkedList(modelSubType._baseModel.getQuads(state, null, rand, EmptyModelData.INSTANCE));
 
-                tempQuads.addAll(this.buildQuads(fuelRodModelData.getFuelLevel(), fuelRodModelData.getWasteLevel(), fuelRodModelData.isVertical() ? Direction.Axis.Y : Direction.Axis.X));
-                this._cachedQuads.put(modelIndex, quads = new ObjectArrayList<>(tempQuads));
+                tempQuads.addAll(this.buildQuads(fuelRodModelData.getFuelLevel(), fuelRodModelData.getWasteLevel(), modelSubType._axis));
+                modelSubType._cachedQuads.put(modelIndex, quads = new ObjectArrayList<>(tempQuads));
 
                 lockStamp = writeLockStamp;
                 break;
@@ -123,33 +127,47 @@ public class ReactorFuelRodModel
 
     @Override
     public TextureAtlasSprite getParticleIcon() {
-        return this._baseModel.getParticleTexture(EmptyModelData.INSTANCE);
+        return this._subTypes[0]._baseModel.getParticleTexture(EmptyModelData.INSTANCE);
+    }
+
+    @Override
+    public TextureAtlasSprite getParticleTexture(@Nonnull IModelData modelData) {
+
+        final int subType;
+
+        if (modelData instanceof ReactorFuelRodModelData) {
+            subType = ((ReactorFuelRodModelData)modelData).getOrientation().ordinal();
+        } else {
+            subType = 0;
+        }
+
+        return this._subTypes[subType]._baseModel.getParticleTexture(EmptyModelData.INSTANCE);
     }
 
     @Override
     public ItemOverrideList getOverrides() {
-        return this._baseModel.getOverrides();
+        return this._subTypes[0]._baseModel.getOverrides();
     }
 
     @Override
     @SuppressWarnings("deprecation")
     public ItemCameraTransforms getTransforms() {
-        return this._baseModel.getTransforms();
+        return this._subTypes[0]._baseModel.getTransforms();
     }
 
     @Override
     public boolean isCustomRenderer() {
-        return this._baseModel.isCustomRenderer();
+        return false;
     }
 
     @Override
     public boolean usesBlockLight() {
-        return this._baseModel.usesBlockLight();
+        return true;
     }
 
     @Override
     public boolean isGui3d() {
-        return this._baseModel.isGui3d();
+        return false;
     }
 
     @Override
@@ -235,7 +253,7 @@ public class ReactorFuelRodModel
             fuelVisibleFaces.stream().forEach(direction -> quads.add(this.createFace(direction, from, to, fuelFlowingUV, stillUV, 0, fuelColumnFlowing, fuelColumnStill)));
         }
 
-        return new ObjectArrayList<>(quads);
+        return quads;
     }
 
     private BakedQuad createFace(final Direction direction, final Vector3f cubeFrom, final Vector3f cubeTo,
@@ -251,12 +269,32 @@ public class ReactorFuelRodModel
                 null, true, FAKE_RESOURCELOCATION);
     }
 
+    private static class ModelSubType {
+
+        public ModelSubType(Direction.Axis axis, IBakedModel baseModel) {
+
+            Preconditions.checkNotNull(axis, "Axis cannot be null");
+            Preconditions.checkNotNull(baseModel, "Base model cannot be null");
+
+            this._axis = axis;
+            this._baseModel = baseModel;
+            this._cachedQuads = new Short2ObjectArrayMap<>(208);
+        }
+
+        //region internals
+
+        private final Direction.Axis _axis;
+        private final IBakedModel _baseModel;
+        private final Short2ObjectMap<List<BakedQuad>> _cachedQuads;
+
+        //endregion
+    }
+
     private static final List<BakedQuad> EMPTY_QUADS = ObjectLists.emptyList();
     private static final ResourceLocation FAKE_RESOURCELOCATION = new ResourceLocation("fake");
 
     private final StampedLock _lock;
-    private final IBakedModel _baseModel;
-    private final Short2ObjectMap<List<BakedQuad>> _cachedQuads;
+    private final ModelSubType[] _subTypes;
     private final FaceBakery _faceBakery;
 
     //endregion

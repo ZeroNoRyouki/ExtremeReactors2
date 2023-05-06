@@ -69,9 +69,7 @@ public abstract class AbstractMultiblockEntity<Controller extends AbstractCuboid
 
     @Override
     public void markForRenderUpdate() {
-
         this.updateClientRenderState();
-        super.markForRenderUpdate();
     }
 
     //endregion
