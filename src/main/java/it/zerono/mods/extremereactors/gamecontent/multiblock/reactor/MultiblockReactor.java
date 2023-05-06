@@ -30,7 +30,6 @@ import it.zerono.mods.extremereactors.api.reactor.radiation.EnergyConversion;
 import it.zerono.mods.extremereactors.api.reactor.radiation.IRadiationModerator;
 import it.zerono.mods.extremereactors.api.reactor.radiation.IrradiationData;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.*;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.AbstractMultiblockEntity;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.powertap.IPowerTap;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.powertap.IPowerTapHandler;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.network.UpdateClientsFuelRodsLayout;
@@ -42,7 +41,6 @@ import it.zerono.mods.zerocore.lib.IDebuggable;
 import it.zerono.mods.zerocore.lib.block.ModBlock;
 import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockPartTypeProvider;
 import it.zerono.mods.zerocore.lib.data.IoDirection;
-import it.zerono.mods.zerocore.lib.data.IteratorTracker;
 import it.zerono.mods.zerocore.lib.data.geometry.CuboidBoundingBox;
 import it.zerono.mods.zerocore.lib.data.stack.AllowedHandlerAction;
 import it.zerono.mods.zerocore.lib.data.stack.OperationMode;
@@ -98,13 +96,12 @@ public class MultiblockReactor
 
         this._attachedTickables = ObjectLists.emptyList();
         this._attachedControlRods = Lists.newLinkedList();
-        this._attachedFuelRods = Lists.newLinkedList();
+        this._attachedFuelRods = new FuelRodsMap();
         this._attachedSolidAccessPorts = new ObjectArrayList<>(8);
         this._attachedFluidAccessPorts = new ObjectArrayList<>(8);
         this._attachedPowerTaps = ObjectLists.emptyList();
         this._attachedFluidPorts = this._attachedOutputFluidPorts = this._attachedInputFluidPorts = ObjectLists.emptyList();
 
-        this._irradiationSourceTracker = new IteratorTracker<>(this._attachedFuelRods::iterator);
         this._logic = new ReactorLogic(this, this.getEnergyBuffer());
 
         this._sendUpdateFuelRodsLayoutDelayedRunnable = CodeHelper.delayedRunnable(this::sendUpdateFuelRodsLayout, 20 * 10);
@@ -127,7 +124,6 @@ public class MultiblockReactor
         this._fuelToReactorHeatTransferCoefficient = 0f;
         this._reactorToCoolantSystemHeatTransferCoefficient = 0f;
         this._reactorHeatLossCoefficient = 0f;
-        this._irradiationSourceTracker.reset();
         this._logic.reset();
         this.getEnergyBuffer().setEnergyStored(0);
 
@@ -137,6 +133,10 @@ public class MultiblockReactor
         this.updateReactorToCoolantSystemHeatTransferCoefficient();
         this.updateReactorHeatLossCoefficient();
         this.resizeFluidContainer();
+
+        this._fuelRodsLayout.reset();
+        this._attachedFuelRods.markFuelRodsForRenderUpdate();
+        this._attachedFuelRods.reset();
     }
 
     public Optional<ReactorControlRodEntity> getControlRodByIndex(int index) {
@@ -344,9 +344,8 @@ public class MultiblockReactor
     }
 
     @Override
-    public Optional<IIrradiationSource> getNextIrradiationSource() {
-        return this._irradiationSourceTracker.next()
-                .map(s -> s);
+    public IIrradiationSource getNextIrradiationSource() {
+        return this._attachedFuelRods.getNextIrradiationSource();
     }
 
     @SuppressWarnings("unchecked")
@@ -780,7 +779,7 @@ public class MultiblockReactor
         if (oldPart instanceof ReactorControlRodEntity) {
             this._attachedControlRods.remove(oldPart);
         } else if (oldPart instanceof ReactorFuelRodEntity) {
-            this._attachedFuelRods.remove(oldPart);
+            this._attachedFuelRods.remove((ReactorFuelRodEntity) oldPart);
         } else if (oldPart instanceof ReactorSolidAccessPortEntity) {
             this._attachedSolidAccessPorts.remove(oldPart);
         } else if (oldPart instanceof ReactorFluidAccessPortEntity) {
@@ -1204,14 +1203,9 @@ public class MultiblockReactor
                 // re-render all the fuel rod blocks when the fuel status changes
 
                 if (updatedIndices.contains(-1)) {
-                    this._attachedFuelRods.forEach(rod -> {
-                        rod.requestModelDataUpdate();
-                        rod.getPartWorldOrFail().sendBlockUpdated(rod.getWorldPosition(), rod.getBlockState(), rod.getBlockState(), 0);
-                    });
+                    this._attachedFuelRods.markFuelRodsForRenderUpdate();
                 } else {
-                    this._attachedFuelRods.stream()
-                            .filter(rod -> updatedIndices.contains(rod.getFuelRodIndex()))
-                            .forEach(AbstractMultiblockEntity::markForRenderUpdate);
+                    this._attachedFuelRods.markFuelRodsForRenderUpdate(updatedIndices);
                 }
             }
         }
@@ -1356,9 +1350,7 @@ public class MultiblockReactor
 
     private void updateFuelToReactorHeatTransferCoefficient() {
         // Calculate heat transfer based on fuel rod environment
-        this._fuelToReactorHeatTransferCoefficient = (float)this._attachedFuelRods.stream()
-                .mapToDouble(ReactorFuelRodEntity::getHeatTransferRate)
-                .sum();
+        this._fuelToReactorHeatTransferCoefficient = this._attachedFuelRods.getHeatTransferRate();
     }
 
     private void updateReactorToCoolantSystemHeatTransferCoefficient() {
@@ -1595,7 +1587,6 @@ public class MultiblockReactor
     private final Heat _reactorHeat;
     private final FuelContainer _fuelContainer;
     private final FluidContainer _fluidContainer;
-    private final IteratorTracker<ReactorFuelRodEntity> _irradiationSourceTracker;
     private final Stats _uiStats;
 
     private FuelRodsLayout _fuelRodsLayout;
@@ -1611,7 +1602,7 @@ public class MultiblockReactor
 
     private List<ITickableMultiblockPart> _attachedTickables;
     private final List<ReactorControlRodEntity> _attachedControlRods;
-    private final List<ReactorFuelRodEntity> _attachedFuelRods;
+    private final FuelRodsMap _attachedFuelRods;
     private final List<ReactorSolidAccessPortEntity> _attachedSolidAccessPorts;
     private final List<ReactorFluidAccessPortEntity> _attachedFluidAccessPorts;
     private List<IPowerTap> _attachedPowerTaps;

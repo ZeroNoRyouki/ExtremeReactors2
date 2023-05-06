@@ -37,7 +37,7 @@ public interface IReactorEnvironment {
 
     float getReactorHeatLossCoefficient();
 
-    Optional<IIrradiationSource> getNextIrradiationSource();
+    IIrradiationSource getNextIrradiationSource();
 
     /**
      * Get a Moderator from the Reactor internal volume
