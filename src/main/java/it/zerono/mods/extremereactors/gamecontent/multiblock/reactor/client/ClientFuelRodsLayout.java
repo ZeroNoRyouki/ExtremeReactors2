@@ -25,6 +25,7 @@ import it.zerono.mods.extremereactors.api.reactor.Reactant;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.FuelRodsLayout;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.IFuelContainer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.model.ReactorFuelRodModel;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.model.ReactorFuelRodModelData;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part.ReactorFuelRodEntity;
 import it.zerono.mods.zerocore.lib.data.gfx.Colour;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
@@ -35,7 +36,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.Arrays;
-import java.util.Collection;
 
 public class ClientFuelRodsLayout
         extends FuelRodsLayout {
@@ -44,19 +44,18 @@ public class ClientFuelRodsLayout
 
         super(direction, length);
 
-        this._reactantsChanged = false;
         this._assemblyFuelQuota = this._assemblyWasteQuota = 0.0f;
         this._fuelColor = this._wasteColor = Colour.WHITE;
 
         if (this.isVertical()) {
 
             this._rodsFuelData = new FuelData[this.getRodLength()];
-            Arrays.setAll(this._rodsFuelData, idx -> new FuelData(true));
+            Arrays.setAll(this._rodsFuelData, idx -> new FuelData(Direction.Axis.Y));
 
         } else {
 
             this._rodsFuelData = new FuelData[1];
-            this._rodsFuelData[0] = new FuelData(false);
+            this._rodsFuelData[0] = new FuelData(this.getAxis());
         }
     }
 
@@ -100,7 +99,7 @@ public class ClientFuelRodsLayout
         super.updateFuelData(fuelContainer, fuelRodsInReactor);
 
         // fuel/waste colors
-        this.updateGfx(fuelContainer);
+        final boolean reactantsChanged = this.updateGfx(fuelContainer);
 
         // fuel/waste quota for each fuel rod
         this.updateQuotas(fuelContainer, fuelRodsInReactor);
@@ -109,15 +108,15 @@ public class ClientFuelRodsLayout
 
         if (this.isVertical()) {
             // vertical column, fluids pool to the bottom (waste first)
-            return this.updateFuelDataVertically(this._reactantsChanged);
+            return this.updateFuelDataVertically(reactantsChanged);
         } else {
             // horizontal column, fluids distribute equally
-            return this.updateFuelDataHorizontally(this._reactantsChanged);
+            return this.updateFuelDataHorizontally(reactantsChanged);
         }
     }
 
     @Override
-    public void updateFuelRodsOcclusion(final Level world, final Collection<ReactorFuelRodEntity> fuelRods, final boolean interiorInvisible) {
+    public void updateFuelRodsOcclusion(final Level world, final Iterable<ReactorFuelRodEntity> fuelRods, final boolean interiorInvisible) {
 
         if (interiorInvisible) {
 
@@ -209,16 +208,29 @@ public class ClientFuelRodsLayout
         return Direction.Plane.VERTICAL == this.getOrientation();
     }
 
+    @Override
+    public ReactorFuelRodModelData getFuelRodModelData(int rodIndex, boolean rodOccluded) {
+        return ReactorFuelRodModelData.from(this.getFuelData(rodIndex), rodOccluded);
+    }
+
+    @Override
+    public void reset() {
+
+        this._fuelColor = this._wasteColor = Colour.WHITE;
+        this._assemblyFuelQuota = this._assemblyWasteQuota = 0f;
+        Arrays.stream(this._rodsFuelData).forEach(FuelData::reset);
+    }
+
     //endregion
     //region FuelData
 
     public static class FuelData {
 
-        public static final FuelData EMPTY = new FuelData(true);
+        public static final FuelData EMPTY = new FuelData(Direction.Axis.X);
 
-        FuelData(final boolean vertical) {
+        FuelData(Direction.Axis orientation) {
 
-            this._vertical = vertical;
+            this._orientation = orientation;
             this._fuelLevel = this._wasteLevel = 0;
         }
 
@@ -231,14 +243,22 @@ public class ClientFuelRodsLayout
         }
 
         public boolean isVertical() {
-            return this._vertical;
+            return this.getOrientation().isVertical();
+        }
+
+        public Direction.Axis getOrientation() {
+            return this._orientation;
+        }
+
+        public void reset() {
+            this._fuelLevel = this._wasteLevel = 0;
         }
 
         //region Object
 
         @Override
         public String toString() {
-            return String.format("Fuel lvl=%d, Waste lvl=%d", this._fuelLevel, this._wasteLevel);
+            return String.format("Fuel lvl=%d, Waste lvl=%d, Orientation=%s", this._fuelLevel, this._wasteLevel, this._orientation);
         }
 
         //endregion
@@ -250,10 +270,9 @@ public class ClientFuelRodsLayout
                 return false;
             }
 
-            final float levelStep = this._vertical ? VERTICAL_LEVEL_STEP : HORIZONTAL_LEVEL_STEP;
+            final float levelStep = this._orientation.isVertical() ? VERTICAL_LEVEL_STEP : HORIZONTAL_LEVEL_STEP;
             final byte newFuelLevel = (byte)Math.round(fuelAmount / levelStep);
             final byte newWasteLevel = (byte)Math.round(wasteAmount / levelStep);
-
             final boolean changed = this._fuelLevel != newFuelLevel || this._wasteLevel != newWasteLevel;
 
             if (changed) {
@@ -267,7 +286,7 @@ public class ClientFuelRodsLayout
 
         private byte _fuelLevel; /* level is 0-12 or 0-10 depending on layout orientation */
         private byte _wasteLevel;
-        private final boolean _vertical;
+        private final Direction.Axis _orientation;
 
         //endregion
     }
@@ -299,14 +318,14 @@ public class ClientFuelRodsLayout
         this.setAssemblyWasteQuota(computeAssemblyReactantQuota(fuelContainer.getWasteAmount(), this.getRodLength(), fuelRodsInReactor));
     }
 
-    private void updateGfx(final IFuelContainer fuelContainer) {
+    private boolean updateGfx(final IFuelContainer fuelContainer) {
 
         final Colour oldFuelColor = this.getFuelColor();
         final Colour oldWasteColor = this.getWasteColor();
 
         this._fuelColor = fuelContainer.getFuel().map(Reactant::getColour).orElse(Colour.WHITE);
         this._wasteColor = fuelContainer.getWaste().map(Reactant::getColour).orElse(Colour.WHITE);
-        this._reactantsChanged = !this.getFuelColor().equals(oldFuelColor) || !this.getWasteColor().equals(oldWasteColor);
+        return !this.getFuelColor().equals(oldFuelColor) || !this.getWasteColor().equals(oldWasteColor);
     }
 
     private static final float HORIZONTAL_LEVEL_STEP = ReactorFuelRodEntity.FUEL_CAPACITY_PER_FUEL_ROD / (float)ReactorFuelRodModel.HORIZONTAL_MAX_STEPS;
@@ -316,7 +335,6 @@ public class ClientFuelRodsLayout
     private final FuelData[] _rodsFuelData;
     private float _assemblyFuelQuota;
     private float _assemblyWasteQuota;
-    private boolean _reactantsChanged;
 
     private Colour _fuelColor;
     private Colour _wasteColor;

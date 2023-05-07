@@ -20,10 +20,10 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.mod
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
-import it.unimi.dsi.fastutil.objects.Object2ObjectMaps;
 import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.IMultiblockReactorVariant;
 import it.zerono.mods.zerocore.lib.client.model.ICustomModelBuilder;
+import it.zerono.mods.zerocore.lib.client.render.ModRenderHelper;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.core.Direction;
@@ -55,15 +55,14 @@ public class ReactorFuelRodModelBuilder
 
         final Map<ResourceLocation, BakedModel> registry = event.getModelRegistry();
 
-        Object2ObjectMaps.fastForEach(this._ids, entry -> {
+        final BakedModel missing = ModRenderHelper.getMissingModel(registry);
+        final Object2ObjectMap<Direction.Axis, BakedModel> baseModels = new Object2ObjectArrayMap<>(this._ids.size());
 
-            final ResourceLocation id = entry.getValue();
-            final BakedModel baseModel = registry.get(id);
+        this._ids.forEach((axis, id) -> baseModels.put(axis, registry.getOrDefault(id, missing)));
 
-            if (null != baseModel) {
-                registry.put(id, new ReactorFuelRodModel(baseModel));
-            }
-        });
+        final ReactorFuelRodModel fuelRodModel = new ReactorFuelRodModel(baseModels);
+
+        this._ids.forEach((axis, id) -> registry.put(id, fuelRodModel));
     }
 
     //endregion
