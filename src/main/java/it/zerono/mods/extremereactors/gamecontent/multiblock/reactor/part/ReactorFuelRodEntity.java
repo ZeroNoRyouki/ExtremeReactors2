@@ -123,18 +123,7 @@ public class ReactorFuelRodEntity
 
     @Override
     protected ModelData getUpdatedModelData() {
-
-        final FuelRodsLayout layout = this.getFuelRodsLayoutForRendering();
-
-        if (layout instanceof ClientFuelRodsLayout) {
-
-            final ClientFuelRodsLayout clientLayout = (ClientFuelRodsLayout)layout;
-            final ClientFuelRodsLayout.FuelData fuelData = clientLayout.getFuelData(this.getFuelRodIndex());
-
-            return ReactorFuelRodModelData.from(fuelData, this.isOccluded());
-        }
-
-        return ModelData.EMPTY;
+        return this.getFuelRodsLayoutForRendering().getFuelRodModelData(this.getFuelRodIndex(), this.isOccluded());
     }
 
     public FuelRodsLayout getFuelRodsLayout() {
