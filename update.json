@@ -154,7 +154,7 @@
         ,
         "1.18.2-2.0.60":"- JEI compat: linked various recipe categories (reactants, vapors, mappings, etc) to a figurehead block (controller, access port, etc) to simplify access to them\r\n- Updated ZeroCore to version 2.1.30\r\n- Bumped version to 2.0.60"
         ,
-        "1.18.2-2.0.61":"- Fixed some recipes not showing up in JEI\r\n- Updated JEI to version 10.2.1.1002\r\n- Updated ZeroCore to version 2.1.31\r\n- Bumped version to 2.0.61",
+        "1.18.2-2.0.61":"- Fixed some recipes not showing up in JEI\r\n- Updated JEI to version 10.2.1.1002\r\n- Updated ZeroCore to version 2.1.31\r\n- Bumped version to 2.0.61"
         ,
         "1.18.2-2.0.63":"- Fix Fuel Rods models not being rotated correctly for horizontal fuel assemblies. Thanks to Ssserpent for the report.\r\n- Fix Fuel Rods graphics updates on fuel levels changes.\r\n- Reworked how Fuel Rods are tracked to speed up their updates\r\n- Updated ZeroCore to version 2.1.34\r\n- Bumped version to 2.0.63"
     },
