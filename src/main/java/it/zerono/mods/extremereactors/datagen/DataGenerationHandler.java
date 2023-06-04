@@ -1,69 +1,47 @@
-/*
- *
- * DataGenerationHandler.java
- *
- * This file is part of Extreme Reactors 2 by ZeroNoRyouki, a Minecraft mod.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NON INFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- *
- * DO NOT REMOVE OR EDIT THIS HEADER
- *
- */
-
 package it.zerono.mods.extremereactors.datagen;
 
-import it.zerono.mods.extremereactors.ExtremeReactors;
-import it.zerono.mods.extremereactors.datagen.recipes.*;
-import net.minecraft.data.DataGenerator;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.data.event.GatherDataEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import it.zerono.mods.extremereactors.datagen.loot.BlockSubProvider;
+import it.zerono.mods.extremereactors.datagen.tag.BlockTagsDataProvider;
+import it.zerono.mods.extremereactors.datagen.tag.FluidTagsDataProvider;
+import it.zerono.mods.extremereactors.datagen.tag.ItemTagsDataProvider;
+import it.zerono.mods.zerocore.lib.datagen.IModDataGenerator;
+import net.minecraftforge.common.util.NonNullConsumer;
+import org.jetbrains.annotations.NotNull;
 
-@SuppressWarnings("unused")
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
-public class DataGenerationHandler {
+public class DataGenerationHandler
+        implements NonNullConsumer<IModDataGenerator> {
 
-    public static final ResourceLocation TRANSPARENT_TEXTURE = ExtremeReactors.newID("block/transparent");
+    @Override
+    public void accept(@NotNull IModDataGenerator generator) {
 
-    @SubscribeEvent
-    public static void gatherData(final GatherDataEvent event) {
+        // tags
 
-        final DataGenerator generator = event.getGenerator();
-        final ExistingFileHelper existing = event.getExistingFileHelper();
+        generator.addBlockTagsProvider(new BlockTagsDataProvider());
+        generator.addItemTagsProvider(new ItemTagsDataProvider());
+        generator.addFluidTagsProvider(new FluidTagsDataProvider());
 
-        // server stuff
+        // loot
 
-        generator.addProvider(event.includeServer(), new BlockLootGenerator(generator));
+        generator.addLootProvider(builder -> builder.addBlockProvider(BlockSubProvider::new));
 
-        final BlockTagGenerator blockTagGenerator = new BlockTagGenerator(generator, existing);
+        // recipes
 
-        generator.addProvider(event.includeServer(), blockTagGenerator);
-        generator.addProvider(event.includeServer(), new ItemTagGenerator(generator, blockTagGenerator, existing));
+        generator.addProvider(it.zerono.mods.extremereactors.datagen.recipe.GenericRecipesDataProvider::new);
+        generator.addProvider(it.zerono.mods.extremereactors.datagen.recipe.ReactorRecipesDataProvider::new);
+        generator.addProvider(it.zerono.mods.extremereactors.datagen.recipe.TurbineRecipesDataProvider::new);
+        generator.addProvider(it.zerono.mods.extremereactors.datagen.recipe.ReprocessorRecipesDataProvider::new);
+        generator.addProvider(it.zerono.mods.extremereactors.datagen.recipe.FluidizerRecipesDataProvider::new);
 
-        generator.addProvider(event.includeServer(), new FluidTagGenerator(generator, existing));
+        // atlas
 
-        generator.addProvider(event.includeServer(), new GenericRecipeGenerator(generator));
-        generator.addProvider(event.includeServer(), new ReactorRecipeGenerator(generator));
-        generator.addProvider(event.includeServer(), new TurbineRecipeGenerator(generator));
-        generator.addProvider(event.includeServer(), new ReprocessorRecipeGenerator(generator));
-        generator.addProvider(event.includeServer(), new FluidizerRecipeGenerator(generator));
+        generator.addProvider(it.zerono.mods.extremereactors.datagen.client.BlockAtlasSpriteSourcesDataProvider::new);
 
-        // client stuff
+        // block states and models
 
-        generator.addProvider(event.includeClient(), new BlockStateGenerator(generator, existing));
-        generator.addProvider(event.includeClient(), new ReactorBlockStateGenerator(generator, existing));
-        generator.addProvider(event.includeClient(), new TurbineBlockStateGenerator(generator, existing));
-        generator.addProvider(event.includeClient(), new ReprocessorBlockStateGenerator(generator, existing));
-        generator.addProvider(event.includeClient(), new FluidizerBlockStateGenerator(generator, existing));
-
-        generator.addProvider(event.includeClient(), new ItemModelGenerator(generator, existing));
+        generator.addProvider(it.zerono.mods.extremereactors.datagen.client.GenericModelsDataProvider::new);
+        generator.addProvider(it.zerono.mods.extremereactors.datagen.client.ReactorModelsDataProvider::new);
+        generator.addProvider(it.zerono.mods.extremereactors.datagen.client.TurbineModelsDataProvider::new);
+        generator.addProvider(it.zerono.mods.extremereactors.datagen.client.ReprocessorModelsDataProvider::new);
+        generator.addProvider(it.zerono.mods.extremereactors.datagen.client.FluidizerModelsDataProvider::new);
     }
 }
