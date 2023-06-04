@@ -1,9 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
-  "group": "bigreactors:turbine",
-  "pattern": [
-    "GCG"
-  ],
+  "category": "building",
   "key": {
     "C": {
       "item": "bigreactors:basic_turbinecasing"
@@ -12,6 +9,9 @@
       "tag": "forge:glass"
     }
   },
+  "pattern": [
+    "GCG"
+  ],
   "result": {
     "item": "bigreactors:basic_turbineglass"
   }

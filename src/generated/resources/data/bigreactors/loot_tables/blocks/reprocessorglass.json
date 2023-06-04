@@ -2,27 +2,19 @@
   "type": "minecraft:block",
   "pools": [
     {
-      "name": "reprocessorglass",
-      "rolls": 1.0,
       "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
       "entries": [
         {
           "type": "minecraft:item",
-          "conditions": [
-            {
-              "condition": "minecraft:survives_explosion"
-            }
-          ],
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": 1.0,
-              "add": false
-            }
-          ],
           "name": "bigreactors:reprocessorglass"
         }
-      ]
+      ],
+      "rolls": 1.0
     }
   ]
 }

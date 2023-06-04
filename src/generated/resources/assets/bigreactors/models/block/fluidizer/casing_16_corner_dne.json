@@ -2,7 +2,7 @@
   "parent": "bigreactors:block/fluidizer/casing_template",
   "textures": {
     "down": "bigreactors:block/fluidizer/casing_right_down",
-    "north": "bigreactors:block/fluidizer/casing_left_down",
-    "east": "bigreactors:block/fluidizer/casing_right_down"
+    "east": "bigreactors:block/fluidizer/casing_right_down",
+    "north": "bigreactors:block/fluidizer/casing_left_down"
   }
 }

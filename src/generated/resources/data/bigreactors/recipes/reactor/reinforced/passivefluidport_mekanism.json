@@ -4,24 +4,19 @@
     {
       "conditions": [
         {
-          "modid": "mekanism",
-          "type": "forge:mod_loaded"
+          "type": "forge:mod_loaded",
+          "modid": "mekanism"
         }
       ],
       "recipe": {
         "type": "minecraft:crafting_shaped",
-        "group": "bigreactors:reactor",
-        "pattern": [
-          "CSC",
-          "BXB",
-          "CSC"
-        ],
+        "category": "building",
         "key": {
-          "C": {
-            "item": "bigreactors:reinforced_reactorcasing"
-          },
           "B": {
             "item": "minecraft:lava_bucket"
+          },
+          "C": {
+            "item": "bigreactors:reinforced_reactorcasing"
           },
           "S": {
             "item": "minecraft:water_bucket"
@@ -30,6 +25,11 @@
             "item": "minecraft:emerald_block"
           }
         },
+        "pattern": [
+          "CSC",
+          "BXB",
+          "CSC"
+        ],
         "result": {
           "item": "bigreactors:reinforced_reactorfluidport_mekanism_passive"
         }

@@ -2,11 +2,11 @@
   "parent": "minecraft:block/cube",
   "textures": {
     "down": "bigreactors:block/turbine/reinforced/glass.0",
-    "up": "bigreactors:block/turbine/reinforced/glass.15",
-    "north": "bigreactors:block/turbine/reinforced/glass.1",
-    "south": "bigreactors:block/turbine/reinforced/glass.1",
     "east": "bigreactors:block/turbine/reinforced/glass.1",
-    "west": "bigreactors:block/turbine/reinforced/glass.1",
-    "particle": "bigreactors:block/turbine/reinforced/glass.0"
+    "north": "bigreactors:block/turbine/reinforced/glass.1",
+    "particle": "bigreactors:block/turbine/reinforced/glass.0",
+    "south": "bigreactors:block/turbine/reinforced/glass.1",
+    "up": "bigreactors:block/turbine/reinforced/glass.15",
+    "west": "bigreactors:block/turbine/reinforced/glass.1"
   }
 }

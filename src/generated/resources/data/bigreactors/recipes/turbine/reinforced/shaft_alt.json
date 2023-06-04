@@ -4,26 +4,26 @@
     {
       "conditions": [
         {
-          "tag": "forge:ingots/steel",
-          "type": "forge:tag_empty"
+          "type": "forge:tag_empty",
+          "tag": "forge:ingots/steel"
         }
       ],
       "recipe": {
         "type": "minecraft:crafting_shaped",
-        "group": "bigreactors:turbine",
+        "category": "building",
+        "key": {
+          "C": {
+            "tag": "forge:ingots/cyanite"
+          },
+          "I": {
+            "tag": "forge:storage_blocks/iron"
+          }
+        },
         "pattern": [
           " I ",
           "ICI",
           " I "
         ],
-        "key": {
-          "I": {
-            "tag": "forge:storage_blocks/iron"
-          },
-          "C": {
-            "tag": "forge:ingots/cyanite"
-          }
-        },
         "result": {
           "item": "bigreactors:reinforced_turbinerotorshaft"
         }

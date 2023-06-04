@@ -1,22 +1,22 @@
 {
   "type": "minecraft:crafting_shaped",
-  "group": "bigreactors:reactor",
-  "pattern": [
-    "CBC",
-    "BSB",
-    "CBC"
-  ],
+  "category": "building",
   "key": {
-    "C": {
-      "item": "bigreactors:reinforced_reactorcasing"
-    },
     "B": {
       "item": "minecraft:redstone_block"
+    },
+    "C": {
+      "item": "bigreactors:reinforced_reactorcasing"
     },
     "S": {
       "item": "minecraft:redstone"
     }
   },
+  "pattern": [
+    "CBC",
+    "BSB",
+    "CBC"
+  ],
   "result": {
     "item": "bigreactors:reinforced_reactorpowertapfe_active"
   }

@@ -1,11 +1,7 @@
 {
   "type": "minecraft:crafting_shaped",
-  "group": "bigreactors:general",
-  "pattern": [
-    "III",
-    "ISI",
-    "III"
-  ],
+  "category": "building",
+  "group": "bigreactors:coil",
   "key": {
     "I": {
       "item": "bigreactors:ridiculite_ingot"
@@ -14,6 +10,11 @@
       "item": "minecraft:nether_star"
     }
   },
+  "pattern": [
+    "III",
+    "ISI",
+    "III"
+  ],
   "result": {
     "item": "bigreactors:ridiculite_block"
   }

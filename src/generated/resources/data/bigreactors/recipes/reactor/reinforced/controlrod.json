@@ -4,24 +4,22 @@
     {
       "conditions": [
         {
+          "type": "forge:not",
           "value": {
-            "tag": "forge:ingots/steel",
-            "type": "forge:tag_empty"
-          },
-          "type": "forge:not"
+            "type": "forge:tag_empty",
+            "tag": "forge:ingots/steel"
+          }
         }
       ],
       "recipe": {
         "type": "minecraft:crafting_shaped",
-        "group": "bigreactors:reactor",
-        "pattern": [
-          "CRC",
-          "MXM",
-          "CGC"
-        ],
+        "category": "building",
         "key": {
           "C": {
             "item": "bigreactors:reinforced_reactorcasing"
+          },
+          "G": {
+            "tag": "forge:ingots/graphite"
           },
           "M": {
             "tag": "forge:ingots/steel"
@@ -29,13 +27,15 @@
           "R": {
             "tag": "forge:dusts/redstone"
           },
-          "G": {
-            "tag": "forge:ingots/graphite"
-          },
           "X": {
             "item": "minecraft:piston"
           }
         },
+        "pattern": [
+          "CRC",
+          "MXM",
+          "CGC"
+        ],
         "result": {
           "item": "bigreactors:reinforced_reactorcontrolrod"
         }

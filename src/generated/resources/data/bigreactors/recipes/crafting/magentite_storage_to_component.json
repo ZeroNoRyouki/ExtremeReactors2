@@ -1,13 +1,14 @@
 {
   "type": "minecraft:crafting_shapeless",
-  "group": "bigreactors:general",
+  "category": "misc",
+  "group": "bigreactors:reactants",
   "ingredients": [
     {
       "item": "bigreactors:magentite_block"
     }
   ],
   "result": {
-    "item": "bigreactors:magentite_ingot",
-    "count": 9
+    "count": 9,
+    "item": "bigreactors:magentite_ingot"
   }
 }

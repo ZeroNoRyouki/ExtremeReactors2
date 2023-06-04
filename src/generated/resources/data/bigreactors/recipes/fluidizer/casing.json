@@ -1,22 +1,22 @@
 {
   "type": "minecraft:crafting_shaped",
-  "group": "bigreactors:general",
-  "pattern": [
-    "ICI",
-    "CWC",
-    "ICI"
-  ],
+  "category": "building",
   "key": {
+    "C": {
+      "tag": "forge:ingots/yellorium"
+    },
     "I": {
       "tag": "forge:ingots/iron"
     },
     "W": {
       "item": "minecraft:water_bucket"
-    },
-    "C": {
-      "tag": "forge:ingots/yellorium"
     }
   },
+  "pattern": [
+    "ICI",
+    "CWC",
+    "ICI"
+  ],
   "result": {
     "item": "bigreactors:fluidizercasing"
   }

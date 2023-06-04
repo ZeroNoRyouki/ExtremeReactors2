@@ -4,30 +4,25 @@
     {
       "conditions": [
         {
+          "type": "forge:not",
           "value": {
-            "tag": "forge:ingots/steel",
-            "type": "forge:tag_empty"
-          },
-          "type": "forge:not"
+            "type": "forge:tag_empty",
+            "tag": "forge:ingots/steel"
+          }
         }
       ],
       "recipe": {
         "type": "minecraft:crafting_shaped",
-        "group": "bigreactors:reactor",
-        "pattern": [
-          "CHC",
-          "MWM",
-          "CXC"
-        ],
+        "category": "building",
         "key": {
           "C": {
             "item": "bigreactors:reinforced_reactorcasing"
           },
-          "M": {
-            "tag": "forge:ingots/steel"
-          },
           "H": {
             "item": "minecraft:hopper"
+          },
+          "M": {
+            "tag": "forge:ingots/steel"
           },
           "W": {
             "item": "minecraft:bucket"
@@ -36,6 +31,11 @@
             "item": "minecraft:piston"
           }
         },
+        "pattern": [
+          "CHC",
+          "MWM",
+          "CXC"
+        ],
         "result": {
           "item": "bigreactors:reinforced_reactorfluidaccessport"
         }

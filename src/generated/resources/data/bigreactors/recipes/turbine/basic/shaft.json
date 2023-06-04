@@ -1,19 +1,19 @@
 {
   "type": "minecraft:crafting_shaped",
-  "group": "bigreactors:turbine",
+  "category": "building",
+  "key": {
+    "C": {
+      "tag": "forge:ingots/cyanite"
+    },
+    "I": {
+      "tag": "forge:ingots/iron"
+    }
+  },
   "pattern": [
     " I ",
     "ICI",
     " I "
   ],
-  "key": {
-    "I": {
-      "tag": "forge:ingots/iron"
-    },
-    "C": {
-      "tag": "forge:ingots/cyanite"
-    }
-  },
   "result": {
     "item": "bigreactors:basic_turbinerotorshaft"
   }

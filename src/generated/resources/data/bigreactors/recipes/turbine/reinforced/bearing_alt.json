@@ -4,29 +4,29 @@
     {
       "conditions": [
         {
-          "tag": "forge:ingots/steel",
-          "type": "forge:tag_empty"
+          "type": "forge:tag_empty",
+          "tag": "forge:ingots/steel"
         }
       ],
       "recipe": {
         "type": "minecraft:crafting_shaped",
-        "group": "bigreactors:turbine",
-        "pattern": [
-          "IRI",
-          "B B",
-          "IRI"
-        ],
+        "category": "building",
         "key": {
+          "B": {
+            "tag": "forge:storage_blocks/iron"
+          },
           "I": {
             "tag": "forge:storage_blocks/iron"
           },
           "R": {
             "item": "minecraft:redstone_block"
-          },
-          "B": {
-            "tag": "forge:storage_blocks/iron"
           }
         },
+        "pattern": [
+          "IRI",
+          "B B",
+          "IRI"
+        ],
         "result": {
           "item": "bigreactors:reinforced_turbinerotorbearing"
         }

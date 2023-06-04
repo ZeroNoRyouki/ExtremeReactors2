@@ -1,22 +1,22 @@
 {
   "type": "minecraft:crafting_shaped",
-  "group": "bigreactors:reactor",
-  "pattern": [
-    "IGI",
-    "GCG",
-    "IGI"
-  ],
+  "category": "building",
   "key": {
-    "I": {
-      "tag": "forge:ingots/iron"
-    },
     "C": {
       "tag": "forge:sand"
     },
     "G": {
       "tag": "forge:ingots/graphite"
+    },
+    "I": {
+      "tag": "forge:ingots/iron"
     }
   },
+  "pattern": [
+    "IGI",
+    "GCG",
+    "IGI"
+  ],
   "result": {
     "item": "bigreactors:basic_reactorcasing"
   }

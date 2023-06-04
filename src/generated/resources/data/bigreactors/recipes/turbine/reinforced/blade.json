@@ -4,27 +4,27 @@
     {
       "conditions": [
         {
+          "type": "forge:not",
           "value": {
-            "tag": "forge:ingots/steel",
-            "type": "forge:tag_empty"
-          },
-          "type": "forge:not"
+            "type": "forge:tag_empty",
+            "tag": "forge:ingots/steel"
+          }
         }
       ],
       "recipe": {
         "type": "minecraft:crafting_shaped",
-        "group": "bigreactors:turbine",
+        "category": "building",
+        "key": {
+          "C": {
+            "tag": "forge:ingots/cyanite"
+          },
+          "I": {
+            "tag": "forge:ingots/steel"
+          }
+        },
         "pattern": [
           "ICI"
         ],
-        "key": {
-          "I": {
-            "tag": "forge:ingots/steel"
-          },
-          "C": {
-            "tag": "forge:ingots/cyanite"
-          }
-        },
         "result": {
           "item": "bigreactors:reinforced_turbinerotorblade"
         }

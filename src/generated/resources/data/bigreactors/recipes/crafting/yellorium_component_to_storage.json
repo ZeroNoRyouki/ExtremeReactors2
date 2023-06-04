@@ -1,0 +1,37 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "group": "bigreactors:reactants",
+  "ingredients": [
+    {
+      "item": "bigreactors:yellorium_ingot"
+    },
+    {
+      "item": "bigreactors:yellorium_ingot"
+    },
+    {
+      "item": "bigreactors:yellorium_ingot"
+    },
+    {
+      "item": "bigreactors:yellorium_ingot"
+    },
+    {
+      "item": "bigreactors:yellorium_ingot"
+    },
+    {
+      "item": "bigreactors:yellorium_ingot"
+    },
+    {
+      "item": "bigreactors:yellorium_ingot"
+    },
+    {
+      "item": "bigreactors:yellorium_ingot"
+    },
+    {
+      "item": "bigreactors:yellorium_ingot"
+    }
+  ],
+  "result": {
+    "item": "bigreactors:yellorium_block"
+  }
+}

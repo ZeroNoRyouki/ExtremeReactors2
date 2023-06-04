@@ -1,11 +1,7 @@
 {
   "type": "minecraft:crafting_shaped",
-  "group": "bigreactors:general",
-  "pattern": [
-    "III",
-    "ISI",
-    "III"
-  ],
+  "category": "building",
+  "group": "bigreactors:coil",
   "key": {
     "I": {
       "item": "bigreactors:inanite_ingot"
@@ -14,6 +10,11 @@
       "item": "minecraft:netherite_block"
     }
   },
+  "pattern": [
+    "III",
+    "ISI",
+    "III"
+  ],
   "result": {
     "item": "bigreactors:inanite_block"
   }

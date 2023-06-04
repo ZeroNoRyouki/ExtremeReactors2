@@ -1,13 +1,13 @@
 {
   "type": "bigreactors:fluidizersolid",
   "ingredient": {
+    "count": 1,
     "ingredient": {
       "item": "bigreactors:cyanite_block"
-    },
-    "count": 1
+    }
   },
   "result": {
-    "fluid": "bigreactors:cyanite",
-    "count": 9000
+    "count": 9000,
+    "fluid": "bigreactors:cyanite"
   }
 }

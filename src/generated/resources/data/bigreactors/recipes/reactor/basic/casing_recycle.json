@@ -1,13 +1,13 @@
 {
   "type": "minecraft:crafting_shapeless",
-  "group": "bigreactors:reactor",
+  "category": "building",
   "ingredients": [
     {
       "tag": "bigreactors:reactor/casing_user/basic"
     }
   ],
   "result": {
-    "item": "bigreactors:basic_reactorcasing",
-    "count": 4
+    "count": 4,
+    "item": "bigreactors:basic_reactorcasing"
   }
 }

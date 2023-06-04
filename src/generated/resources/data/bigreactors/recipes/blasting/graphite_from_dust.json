@@ -1,9 +1,11 @@
 {
   "type": "minecraft:blasting",
+  "category": "misc",
+  "cookingtime": 100,
+  "experience": 1.0,
+  "group": "bigreactors:graphite",
   "ingredient": {
     "item": "bigreactors:graphite_dust"
   },
-  "result": "bigreactors:graphite_ingot",
-  "experience": 1.0,
-  "cookingtime": 100
+  "result": "bigreactors:graphite_ingot"
 }

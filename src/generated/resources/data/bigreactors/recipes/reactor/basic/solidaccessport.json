@@ -1,20 +1,15 @@
 {
   "type": "minecraft:crafting_shaped",
-  "group": "bigreactors:reactor",
-  "pattern": [
-    "CHC",
-    "MWM",
-    "CXC"
-  ],
+  "category": "building",
   "key": {
     "C": {
       "item": "bigreactors:basic_reactorcasing"
     },
-    "M": {
-      "tag": "forge:ingots/iron"
-    },
     "H": {
       "item": "minecraft:hopper"
+    },
+    "M": {
+      "tag": "forge:ingots/iron"
     },
     "W": {
       "tag": "forge:chests/wooden"
@@ -23,6 +18,11 @@
       "item": "minecraft:piston"
     }
   },
+  "pattern": [
+    "CHC",
+    "MWM",
+    "CXC"
+  ],
   "result": {
     "item": "bigreactors:basic_reactorsolidaccessport"
   }

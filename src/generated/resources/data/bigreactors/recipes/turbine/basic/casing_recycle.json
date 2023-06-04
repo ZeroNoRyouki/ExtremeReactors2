@@ -1,13 +1,13 @@
 {
   "type": "minecraft:crafting_shapeless",
-  "group": "bigreactors:turbine",
+  "category": "building",
   "ingredients": [
     {
       "tag": "bigreactors:turbine/casing_user/basic"
     }
   ],
   "result": {
-    "item": "bigreactors:basic_turbinecasing",
-    "count": 4
+    "count": 4,
+    "item": "bigreactors:basic_turbinecasing"
   }
 }

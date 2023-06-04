@@ -1,22 +1,22 @@
 {
   "type": "minecraft:crafting_shaped",
-  "group": "bigreactors:turbine",
-  "pattern": [
-    "IRI",
-    "B B",
-    "IRI"
-  ],
+  "category": "building",
   "key": {
+    "B": {
+      "tag": "forge:storage_blocks/iron"
+    },
     "I": {
       "tag": "forge:ingots/iron"
     },
     "R": {
       "item": "minecraft:redstone_block"
-    },
-    "B": {
-      "tag": "forge:storage_blocks/iron"
     }
   },
+  "pattern": [
+    "IRI",
+    "B B",
+    "IRI"
+  ],
   "result": {
     "item": "bigreactors:basic_turbinerotorbearing"
   }

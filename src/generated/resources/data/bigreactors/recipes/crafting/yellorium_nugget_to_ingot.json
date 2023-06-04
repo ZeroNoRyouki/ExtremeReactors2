@@ -1,13 +1,37 @@
 {
   "type": "minecraft:crafting_shapeless",
-  "group": "bigreactors:general",
+  "category": "misc",
+  "group": "bigreactors:reactantNuggets",
   "ingredients": [
     {
-      "item": "bigreactors:yellorium_ingot"
+      "item": "bigreactors:yellorium_nugget"
+    },
+    {
+      "item": "bigreactors:yellorium_nugget"
+    },
+    {
+      "item": "bigreactors:yellorium_nugget"
+    },
+    {
+      "item": "bigreactors:yellorium_nugget"
+    },
+    {
+      "item": "bigreactors:yellorium_nugget"
+    },
+    {
+      "item": "bigreactors:yellorium_nugget"
+    },
+    {
+      "item": "bigreactors:yellorium_nugget"
+    },
+    {
+      "item": "bigreactors:yellorium_nugget"
+    },
+    {
+      "item": "bigreactors:yellorium_nugget"
     }
   ],
   "result": {
-    "item": "bigreactors:yellorium_nugget",
-    "count": 9
+    "item": "bigreactors:yellorium_ingot"
   }
 }

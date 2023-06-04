@@ -2,7 +2,7 @@
   "parent": "bigreactors:block/reprocessor/casing_template",
   "textures": {
     "down": "bigreactors:block/reprocessor/casing_right_down",
-    "north": "bigreactors:block/reprocessor/casing_left_down",
-    "east": "bigreactors:block/reprocessor/casing_right_down"
+    "east": "bigreactors:block/reprocessor/casing_right_down",
+    "north": "bigreactors:block/reprocessor/casing_left_down"
   }
 }

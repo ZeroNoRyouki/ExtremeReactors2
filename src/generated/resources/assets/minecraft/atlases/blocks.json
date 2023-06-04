@@ -1,0 +1,20 @@
+{
+  "sources": [
+    {
+      "type": "minecraft:single",
+      "resource": "bigreactors:fluid/fluid.fuelcolumn.still"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "bigreactors:fluid/fluid.fuelcolumn.flowing"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "bigreactors:gui/multiblock/charging"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "bigreactors:book/erguide/book"
+    }
+  ]
+}

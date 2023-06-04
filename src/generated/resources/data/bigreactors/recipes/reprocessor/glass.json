@@ -1,9 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
-  "group": "bigreactors:general",
-  "pattern": [
-    "GCG"
-  ],
+  "category": "building",
   "key": {
     "C": {
       "item": "bigreactors:reprocessorcasing"
@@ -12,6 +9,9 @@
       "tag": "forge:glass"
     }
   },
+  "pattern": [
+    "GCG"
+  ],
   "result": {
     "item": "bigreactors:reprocessorglass"
   }

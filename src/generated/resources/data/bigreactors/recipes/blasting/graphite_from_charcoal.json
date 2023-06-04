@@ -1,22 +1,11 @@
 {
-  "type": "forge:conditional",
-  "recipes": [
-    {
-      "conditions": [
-        {
-          "config_name": "registerCharcoalForSmelting",
-          "type": "bigreactors:config_condition"
-        }
-      ],
-      "recipe": {
-        "type": "minecraft:blasting",
-        "ingredient": {
-          "item": "minecraft:charcoal"
-        },
-        "result": "bigreactors:graphite_ingot",
-        "experience": 1.0,
-        "cookingtime": 100
-      }
-    }
-  ]
+  "type": "minecraft:blasting",
+  "category": "misc",
+  "cookingtime": 100,
+  "experience": 1.0,
+  "group": "bigreactors:graphite",
+  "ingredient": {
+    "item": "minecraft:charcoal"
+  },
+  "result": "bigreactors:graphite_ingot"
 }

@@ -1,13 +1,37 @@
 {
   "type": "minecraft:crafting_shapeless",
-  "group": "bigreactors:general",
+  "category": "misc",
+  "group": "bigreactors:reactantNuggets",
   "ingredients": [
     {
-      "item": "bigreactors:blutonium_ingot"
+      "item": "bigreactors:blutonium_nugget"
+    },
+    {
+      "item": "bigreactors:blutonium_nugget"
+    },
+    {
+      "item": "bigreactors:blutonium_nugget"
+    },
+    {
+      "item": "bigreactors:blutonium_nugget"
+    },
+    {
+      "item": "bigreactors:blutonium_nugget"
+    },
+    {
+      "item": "bigreactors:blutonium_nugget"
+    },
+    {
+      "item": "bigreactors:blutonium_nugget"
+    },
+    {
+      "item": "bigreactors:blutonium_nugget"
+    },
+    {
+      "item": "bigreactors:blutonium_nugget"
     }
   ],
   "result": {
-    "item": "bigreactors:blutonium_nugget",
-    "count": 9
+    "item": "bigreactors:blutonium_ingot"
   }
 }

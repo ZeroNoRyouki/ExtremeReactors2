@@ -1,22 +1,23 @@
 {
   "type": "minecraft:crafting_shaped",
-  "group": "bigreactors:general",
-  "pattern": [
-    "DI ",
-    "WII",
-    "IW "
-  ],
+  "category": "equipment",
+  "group": "bigreactors:wrench",
   "key": {
+    "D": {
+      "tag": "forge:dyes/green"
+    },
     "I": {
       "tag": "forge:ingots/iron"
     },
     "W": {
       "tag": "minecraft:wool"
-    },
-    "D": {
-      "tag": "forge:dyes/green"
     }
   },
+  "pattern": [
+    "DI ",
+    "WII",
+    "IW "
+  ],
   "result": {
     "item": "bigreactors:wrench"
   }

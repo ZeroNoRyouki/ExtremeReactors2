@@ -2,11 +2,11 @@
   "parent": "minecraft:block/cube",
   "textures": {
     "down": "bigreactors:block/reprocessor/glass.0",
-    "up": "bigreactors:block/reprocessor/glass.15",
-    "north": "bigreactors:block/reprocessor/glass.1",
-    "south": "bigreactors:block/reprocessor/glass.1",
     "east": "bigreactors:block/reprocessor/glass.1",
-    "west": "bigreactors:block/reprocessor/glass.1",
-    "particle": "bigreactors:block/reprocessor/glass.0"
+    "north": "bigreactors:block/reprocessor/glass.1",
+    "particle": "bigreactors:block/reprocessor/glass.0",
+    "south": "bigreactors:block/reprocessor/glass.1",
+    "up": "bigreactors:block/reprocessor/glass.15",
+    "west": "bigreactors:block/reprocessor/glass.1"
   }
 }

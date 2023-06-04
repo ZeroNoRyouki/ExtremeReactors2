@@ -1,6 +1,6 @@
 {
   "type": "minecraft:crafting_shapeless",
-  "group": "bigreactors:reactor",
+  "category": "building",
   "ingredients": [
     {
       "item": "bigreactors:reinforced_reactorglass"

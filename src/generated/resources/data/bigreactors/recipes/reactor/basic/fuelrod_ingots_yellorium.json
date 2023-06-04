@@ -1,25 +1,25 @@
 {
   "type": "minecraft:crafting_shaped",
-  "group": "bigreactors:reactor",
-  "pattern": [
-    "MGM",
-    "LYL",
-    "MGM"
-  ],
+  "category": "building",
   "key": {
-    "M": {
-      "tag": "forge:ingots/iron"
-    },
-    "Y": {
-      "tag": "forge:ingots/yellorium"
-    },
     "G": {
       "tag": "forge:ingots/graphite"
     },
     "L": {
       "tag": "forge:glass"
+    },
+    "M": {
+      "tag": "forge:ingots/iron"
+    },
+    "Y": {
+      "tag": "forge:ingots/yellorium"
     }
   },
+  "pattern": [
+    "MGM",
+    "LYL",
+    "MGM"
+  ],
   "result": {
     "item": "bigreactors:basic_reactorfuelrod"
   }

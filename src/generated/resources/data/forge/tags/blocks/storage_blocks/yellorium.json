@@ -1,6 +1,6 @@
 {
-  "replace": false,
   "values": [
+    "bigreactors:yellorium_block",
     "bigreactors:yellorium_block"
   ]
 }

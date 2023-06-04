@@ -1,19 +1,19 @@
 {
   "type": "bigreactors:fluidizersolidmixing",
   "ingredient1": {
+    "count": 1,
     "ingredient": {
       "item": "minecraft:snow_block"
-    },
-    "count": 1
+    }
   },
   "ingredient2": {
+    "count": 1,
     "ingredient": {
       "item": "minecraft:redstone"
-    },
-    "count": 1
+    }
   },
   "result": {
-    "fluid": "bigreactors:cryomisi",
-    "count": 500
+    "count": 500,
+    "fluid": "bigreactors:cryomisi"
   }
 }

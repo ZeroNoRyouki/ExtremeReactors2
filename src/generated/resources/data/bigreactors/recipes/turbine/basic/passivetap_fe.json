@@ -1,22 +1,22 @@
 {
   "type": "minecraft:crafting_shaped",
-  "group": "bigreactors:turbine",
-  "pattern": [
-    "CSC",
-    "SBS",
-    "CSC"
-  ],
+  "category": "building",
   "key": {
-    "C": {
-      "item": "bigreactors:basic_turbinecasing"
-    },
     "B": {
       "item": "minecraft:redstone_block"
+    },
+    "C": {
+      "item": "bigreactors:basic_turbinecasing"
     },
     "S": {
       "item": "minecraft:redstone"
     }
   },
+  "pattern": [
+    "CSC",
+    "SBS",
+    "CSC"
+  ],
   "result": {
     "item": "bigreactors:basic_turbinepowertapfe_passive"
   }

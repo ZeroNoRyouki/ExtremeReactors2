@@ -4,29 +4,29 @@
     {
       "conditions": [
         {
-          "tag": "forge:ingots/steel",
-          "type": "forge:tag_empty"
+          "type": "forge:tag_empty",
+          "tag": "forge:ingots/steel"
         }
       ],
       "recipe": {
         "type": "minecraft:crafting_shaped",
-        "group": "bigreactors:turbine",
-        "pattern": [
-          "IGI",
-          "GCG",
-          "IGI"
-        ],
+        "category": "building",
         "key": {
-          "I": {
-            "tag": "forge:storage_blocks/iron"
-          },
           "C": {
             "item": "bigreactors:basic_turbinecasing"
           },
           "G": {
             "tag": "forge:ingots/cyanite"
+          },
+          "I": {
+            "tag": "forge:storage_blocks/iron"
           }
         },
+        "pattern": [
+          "IGI",
+          "GCG",
+          "IGI"
+        ],
         "result": {
           "item": "bigreactors:reinforced_turbinecasing"
         }

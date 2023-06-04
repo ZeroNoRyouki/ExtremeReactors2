@@ -2,7 +2,7 @@
   "parent": "bigreactors:block/reactor/fuel_rod",
   "textures": {
     "cap": "bigreactors:block/reactor/reinforced/fuelrod_cap",
-    "side": "bigreactors:block/reactor/reinforced/fuelrod_vertical",
-    "particle": "bigreactors:block/reactor/reinforced/fuelrod_vertical"
+    "particle": "bigreactors:block/reactor/reinforced/fuelrod_vertical",
+    "side": "bigreactors:block/reactor/reinforced/fuelrod_vertical"
   }
 }

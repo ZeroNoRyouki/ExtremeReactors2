@@ -3,57 +3,57 @@
     "state=hidden": {
       "model": "bigreactors:block/transparentblock"
     },
+    "state=x_y_neg": {
+      "model": "bigreactors:block/turbine/basic/rotorblade_zy",
+      "x": 180,
+      "y": 270
+    },
+    "state=x_y_pos": {
+      "model": "bigreactors:block/turbine/basic/rotorblade_zy",
+      "y": 90
+    },
+    "state=x_z_neg": {
+      "model": "bigreactors:block/turbine/basic/rotorblade_z",
+      "y": 270
+    },
+    "state=x_z_pos": {
+      "model": "bigreactors:block/turbine/basic/rotorblade_z",
+      "y": 90
+    },
+    "state=y_x_neg": {
+      "model": "bigreactors:block/turbine/basic/rotorblade_z",
+      "x": 270,
+      "y": 180
+    },
     "state=y_x_pos": {
       "model": "bigreactors:block/turbine/basic/rotorblade_z",
       "x": 90
     },
-    "state=y_x_neg": {
+    "state=y_z_neg": {
       "model": "bigreactors:block/turbine/basic/rotorblade_z",
-      "x": -90,
-      "y": 180
+      "x": 270,
+      "y": 270
     },
     "state=y_z_pos": {
       "model": "bigreactors:block/turbine/basic/rotorblade_z",
       "x": 90,
       "y": 90
     },
-    "state=y_z_neg": {
+    "state=z_x_neg": {
       "model": "bigreactors:block/turbine/basic/rotorblade_z",
-      "x": -90,
-      "y": -90
-    },
-    "state=x_y_pos": {
-      "model": "bigreactors:block/turbine/basic/rotorblade_zy",
-      "y": 90
-    },
-    "state=x_y_neg": {
-      "model": "bigreactors:block/turbine/basic/rotorblade_zy",
-      "x": -180,
-      "y": -90
-    },
-    "state=x_z_pos": {
-      "model": "bigreactors:block/turbine/basic/rotorblade_z",
-      "y": 90
-    },
-    "state=x_z_neg": {
-      "model": "bigreactors:block/turbine/basic/rotorblade_z",
-      "y": -90
-    },
-    "state=z_y_pos": {
-      "model": "bigreactors:block/turbine/basic/rotorblade_zy",
+      "x": 180,
       "y": 180
-    },
-    "state=z_y_neg": {
-      "model": "bigreactors:block/turbine/basic/rotorblade_zy",
-      "x": 180
     },
     "state=z_x_pos": {
       "model": "bigreactors:block/turbine/basic/rotorblade_z",
       "x": 180
     },
-    "state=z_x_neg": {
-      "model": "bigreactors:block/turbine/basic/rotorblade_z",
-      "x": 180,
+    "state=z_y_neg": {
+      "model": "bigreactors:block/turbine/basic/rotorblade_zy",
+      "x": 180
+    },
+    "state=z_y_pos": {
+      "model": "bigreactors:block/turbine/basic/rotorblade_zy",
       "y": 180
     }
   }

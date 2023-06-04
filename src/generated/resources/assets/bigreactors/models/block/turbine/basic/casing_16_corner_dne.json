@@ -2,7 +2,7 @@
   "parent": "bigreactors:block/turbine/basic/casing_template",
   "textures": {
     "down": "bigreactors:block/turbine/basic/casing_right_down",
-    "north": "bigreactors:block/turbine/basic/casing_left_down",
-    "east": "bigreactors:block/turbine/basic/casing_right_down"
+    "east": "bigreactors:block/turbine/basic/casing_right_down",
+    "north": "bigreactors:block/turbine/basic/casing_left_down"
   }
 }

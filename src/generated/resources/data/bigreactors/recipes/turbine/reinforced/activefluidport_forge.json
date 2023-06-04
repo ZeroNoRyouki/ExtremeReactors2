@@ -1,22 +1,22 @@
 {
   "type": "minecraft:crafting_shaped",
-  "group": "bigreactors:turbine",
-  "pattern": [
-    "CBC",
-    "BSB",
-    "CBC"
-  ],
+  "category": "building",
   "key": {
-    "C": {
-      "item": "bigreactors:reinforced_turbinecasing"
-    },
     "B": {
       "item": "minecraft:lava_bucket"
+    },
+    "C": {
+      "item": "bigreactors:reinforced_turbinecasing"
     },
     "S": {
       "item": "minecraft:water_bucket"
     }
   },
+  "pattern": [
+    "CBC",
+    "BSB",
+    "CBC"
+  ],
   "result": {
     "item": "bigreactors:reinforced_turbinefluidport_forge_active"
   }

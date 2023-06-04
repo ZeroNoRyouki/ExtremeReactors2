@@ -2,7 +2,7 @@
   "parent": "bigreactors:block/reactor/reinforced/casing_template",
   "textures": {
     "down": "bigreactors:block/reactor/reinforced/casing_right_down",
-    "north": "bigreactors:block/reactor/reinforced/casing_left_down",
-    "east": "bigreactors:block/reactor/reinforced/casing_right_down"
+    "east": "bigreactors:block/reactor/reinforced/casing_right_down",
+    "north": "bigreactors:block/reactor/reinforced/casing_left_down"
   }
 }

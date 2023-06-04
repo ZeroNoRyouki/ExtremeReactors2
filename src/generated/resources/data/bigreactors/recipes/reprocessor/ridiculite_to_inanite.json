@@ -1,18 +1,18 @@
 {
   "type": "bigreactors:reprocessor",
-  "waste": {
-    "ingredient": {
-      "item": "bigreactors:ridiculite_ingot"
-    },
-    "count": 2
-  },
   "fluid": {
     "fluid": {
-      "fluid": "bigreactors:rossinite",
-      "count": 1000
+      "count": 1000,
+      "fluid": "bigreactors:rossinite"
     }
   },
   "result": {
     "item": "bigreactors:inanite_ingot"
+  },
+  "waste": {
+    "count": 2,
+    "ingredient": {
+      "item": "bigreactors:ridiculite_ingot"
+    }
   }
 }

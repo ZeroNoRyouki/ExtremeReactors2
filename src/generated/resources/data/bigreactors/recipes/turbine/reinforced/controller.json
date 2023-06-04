@@ -1,28 +1,28 @@
 {
   "type": "minecraft:crafting_shaped",
-  "group": "bigreactors:turbine",
+  "category": "building",
+  "key": {
+    "C": {
+      "item": "bigreactors:reinforced_turbinecasing"
+    },
+    "D": {
+      "tag": "forge:storage_blocks/diamond"
+    },
+    "R": {
+      "tag": "forge:dusts/redstone"
+    },
+    "X": {
+      "item": "minecraft:comparator"
+    },
+    "Y": {
+      "tag": "forge:storage_blocks/cyanite"
+    }
+  },
   "pattern": [
     "CXC",
     "YDY",
     "CRC"
   ],
-  "key": {
-    "C": {
-      "item": "bigreactors:reinforced_turbinecasing"
-    },
-    "Y": {
-      "tag": "forge:storage_blocks/cyanite"
-    },
-    "R": {
-      "tag": "forge:dusts/redstone"
-    },
-    "D": {
-      "tag": "forge:storage_blocks/diamond"
-    },
-    "X": {
-      "item": "minecraft:comparator"
-    }
-  },
   "result": {
     "item": "bigreactors:reinforced_turbinecontroller"
   }

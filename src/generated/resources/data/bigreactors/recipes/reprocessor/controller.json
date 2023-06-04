@@ -1,28 +1,28 @@
 {
   "type": "minecraft:crafting_shaped",
-  "group": "bigreactors:general",
+  "category": "building",
+  "key": {
+    "C": {
+      "item": "bigreactors:reprocessorcasing"
+    },
+    "E": {
+      "tag": "forge:gems/emerald"
+    },
+    "P": {
+      "tag": "forge:dusts/prismarine"
+    },
+    "X": {
+      "item": "minecraft:comparator"
+    },
+    "Y": {
+      "tag": "forge:ingots/cyanite"
+    }
+  },
   "pattern": [
     "CXC",
     "YEY",
     "CPC"
   ],
-  "key": {
-    "C": {
-      "item": "bigreactors:reprocessorcasing"
-    },
-    "Y": {
-      "tag": "forge:ingots/cyanite"
-    },
-    "P": {
-      "tag": "forge:dusts/prismarine"
-    },
-    "E": {
-      "tag": "forge:gems/emerald"
-    },
-    "X": {
-      "item": "minecraft:comparator"
-    }
-  },
   "result": {
     "item": "bigreactors:reprocessorcontroller"
   }

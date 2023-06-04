@@ -2,11 +2,11 @@
   "parent": "minecraft:block/cube",
   "textures": {
     "down": "bigreactors:block/fluidizer/glass.0",
-    "up": "bigreactors:block/fluidizer/glass.15",
-    "north": "bigreactors:block/fluidizer/glass.1",
-    "south": "bigreactors:block/fluidizer/glass.1",
     "east": "bigreactors:block/fluidizer/glass.1",
-    "west": "bigreactors:block/fluidizer/glass.1",
-    "particle": "bigreactors:block/fluidizer/glass.0"
+    "north": "bigreactors:block/fluidizer/glass.1",
+    "particle": "bigreactors:block/fluidizer/glass.0",
+    "south": "bigreactors:block/fluidizer/glass.1",
+    "up": "bigreactors:block/fluidizer/glass.15",
+    "west": "bigreactors:block/fluidizer/glass.1"
   }
 }

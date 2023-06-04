@@ -1,28 +1,28 @@
 {
   "type": "minecraft:crafting_shaped",
-  "group": "bigreactors:reactor",
+  "category": "building",
+  "key": {
+    "C": {
+      "item": "bigreactors:reinforced_reactorcasing"
+    },
+    "D": {
+      "tag": "forge:storage_blocks/diamond"
+    },
+    "R": {
+      "tag": "forge:dusts/redstone"
+    },
+    "X": {
+      "item": "minecraft:comparator"
+    },
+    "Y": {
+      "tag": "forge:ingots/uranium"
+    }
+  },
   "pattern": [
     "CXC",
     "YDY",
     "CRC"
   ],
-  "key": {
-    "C": {
-      "item": "bigreactors:reinforced_reactorcasing"
-    },
-    "Y": {
-      "tag": "forge:ingots/uranium"
-    },
-    "R": {
-      "tag": "forge:dusts/redstone"
-    },
-    "D": {
-      "tag": "forge:storage_blocks/diamond"
-    },
-    "X": {
-      "item": "minecraft:comparator"
-    }
-  },
   "result": {
     "item": "bigreactors:reinforced_reactorcontroller"
   }

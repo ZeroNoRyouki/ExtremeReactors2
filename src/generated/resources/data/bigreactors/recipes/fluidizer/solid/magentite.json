@@ -1,13 +1,13 @@
 {
   "type": "bigreactors:fluidizersolid",
   "ingredient": {
+    "count": 1,
     "ingredient": {
       "item": "bigreactors:magentite_ingot"
-    },
-    "count": 1
+    }
   },
   "result": {
-    "fluid": "bigreactors:magentite",
-    "count": 1000
+    "count": 1000,
+    "fluid": "bigreactors:magentite"
   }
 }

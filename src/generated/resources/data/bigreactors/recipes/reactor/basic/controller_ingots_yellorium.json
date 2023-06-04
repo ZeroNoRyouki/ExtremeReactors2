@@ -1,28 +1,28 @@
 {
   "type": "minecraft:crafting_shaped",
-  "group": "bigreactors:reactor",
+  "category": "building",
+  "key": {
+    "C": {
+      "item": "bigreactors:basic_reactorcasing"
+    },
+    "D": {
+      "tag": "forge:gems/diamond"
+    },
+    "R": {
+      "tag": "forge:dusts/redstone"
+    },
+    "X": {
+      "item": "minecraft:comparator"
+    },
+    "Y": {
+      "tag": "forge:ingots/yellorium"
+    }
+  },
   "pattern": [
     "CXC",
     "YDY",
     "CRC"
   ],
-  "key": {
-    "C": {
-      "item": "bigreactors:basic_reactorcasing"
-    },
-    "Y": {
-      "tag": "forge:ingots/yellorium"
-    },
-    "R": {
-      "tag": "forge:dusts/redstone"
-    },
-    "D": {
-      "tag": "forge:gems/diamond"
-    },
-    "X": {
-      "item": "minecraft:comparator"
-    }
-  },
   "result": {
     "item": "bigreactors:basic_reactorcontroller"
   }

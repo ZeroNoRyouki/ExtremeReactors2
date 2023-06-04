@@ -1,28 +1,28 @@
 {
   "type": "minecraft:crafting_shaped",
-  "group": "bigreactors:reactor",
+  "category": "building",
+  "key": {
+    "C": {
+      "item": "bigreactors:basic_reactorcasing"
+    },
+    "G": {
+      "tag": "forge:ingots/gold"
+    },
+    "M": {
+      "tag": "forge:ingots/iron"
+    },
+    "X": {
+      "item": "minecraft:repeater"
+    },
+    "Z": {
+      "item": "minecraft:comparator"
+    }
+  },
   "pattern": [
     "CZC",
     "MGM",
     "CXC"
   ],
-  "key": {
-    "C": {
-      "item": "bigreactors:basic_reactorcasing"
-    },
-    "M": {
-      "tag": "forge:ingots/iron"
-    },
-    "G": {
-      "tag": "forge:ingots/gold"
-    },
-    "Z": {
-      "item": "minecraft:comparator"
-    },
-    "X": {
-      "item": "minecraft:repeater"
-    }
-  },
   "result": {
     "item": "bigreactors:basic_reactorredstoneport"
   }

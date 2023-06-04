@@ -1,25 +1,25 @@
 {
   "type": "minecraft:crafting_shaped",
-  "group": "bigreactors:reactor",
-  "pattern": [
-    "212",
-    "GTG",
-    "212"
-  ],
+  "category": "building",
   "key": {
-    "T": {
-      "item": "bigreactors:reinforced_reactorpowertapfe_active"
-    },
-    "G": {
-      "tag": "forge:glass"
-    },
     "1": {
       "item": "minecraft:lapis_block"
     },
     "2": {
       "item": "minecraft:redstone_block"
+    },
+    "G": {
+      "tag": "forge:glass"
+    },
+    "T": {
+      "item": "bigreactors:reinforced_reactorpowertapfe_active"
     }
   },
+  "pattern": [
+    "212",
+    "GTG",
+    "212"
+  ],
   "result": {
     "item": "bigreactors:reinforced_reactorchargingportfe"
   }
