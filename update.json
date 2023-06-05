@@ -155,6 +155,8 @@
         "1.18.2-2.0.60":"- JEI compat: linked various recipe categories (reactants, vapors, mappings, etc) to a figurehead block (controller, access port, etc) to simplify access to them\r\n- Updated ZeroCore to version 2.1.30\r\n- Bumped version to 2.0.60"
         ,
         "1.18.2-2.0.61":"- Fixed some recipes not showing up in JEI\r\n- Updated JEI to version 10.2.1.1002\r\n- Updated ZeroCore to version 2.1.31\r\n- Bumped version to 2.0.61"
+        ,
+        "1.18.2-2.0.63":"- Fix Fuel Rods models not being rotated correctly for horizontal fuel assemblies. Thanks to Ssserpent for the report.\r\n- Fix Fuel Rods graphics updates on fuel levels changes.\r\n- Reworked how Fuel Rods are tracked to speed up their updates\r\n- Updated ZeroCore to version 2.1.34\r\n- Bumped version to 2.0.63"
     },
     "1.19":{
         "1.19-2.0.46":"- Updated Minecraft to version 1.19\r\n- World-gen is not defined by json files, yeah....\r\n- Updated Forge to version 41.0.17\r\n- Updated ZeroCore to version 2.1.18\r\n- Bumped version to 2.0.46"
@@ -186,6 +188,8 @@
         "1.19-2.0.61":"- Fixed some recipes not showing up in JEI\r\n- Updated JEI to version 11.6.0.1011\r\n- Updated ZeroCore to version 2.1.31\r\n- Bumped version to 2.0.61"
         ,
         "1.19-2.0.62":"- Fixed some recipes not showing up in JEI\r\n- Updated JEI to version 10.2.1.1002\r\n- Updated Forge to version 43.2.1\r\n- Updated ZeroCore to version 2.1.32\r\n- Bumped version to 2.0.62"
+        ,
+        "1.19.2-2.0.63":"- Fix Fuel Rods models not being rotated correctly for horizontal fuel assemblies. Thanks to Ssserpent for the report.\r\n- Fix Fuel Rods graphics updates on fuel levels changes.\r\n- Reworked how Fuel Rods are tracked to speed up their updates\r\n- Updated ZeroCore to version 2.1.34\r\n- Bumped version to 2.0.63"
     },
     "promos":{
         "1.16.3-latest":"1.16.4-2.0.21",
@@ -200,13 +204,13 @@
         "1.18.0-recommended":"1.18-2.0.32",
         "1.18.1-latest":"1.18-2.0.38",
         "1.18.1-recommended":"1.18-2.0.38",
-        "1.18.2-latest":"1.18.1-2.0.61",
-        "1.18.2-recommended":"1.18.1-2.0.61",
+        "1.18.2-latest":"1.18.1-2.0.63",
+        "1.18.2-recommended":"1.18.1-2.0.63",
         "1.19-latest":"1.19-2.0.53",
         "1.19-recommended":"1.19-2.0.51",
         "1.19.1-latest":"1.19-2.0.53",
         "1.19.1-recommended":"1.19-2.0.53",
-        "1.19.2-latest":"1.19-2.0.62",
-        "1.19.2-recommended":"1.19-2.0.62"
+        "1.19.2-latest":"1.19-2.0.63",
+        "1.19.2-recommended":"1.19-2.0.63"
     }
 }
