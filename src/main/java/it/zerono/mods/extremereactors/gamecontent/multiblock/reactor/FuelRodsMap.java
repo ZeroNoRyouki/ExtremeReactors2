@@ -48,11 +48,16 @@ public class FuelRodsMap
     
     public void remove(ReactorFuelRodEntity rod) {
 
-        final List<ReactorFuelRodEntity> list = this._verticalSlices.get(rod.getWorldPosition().getY());
+        final int y = rod.getWorldPosition().getY();
+        final List<ReactorFuelRodEntity> list = this._verticalSlices.get(y);
 
         if (null != list) {
 
             if (list.remove(rod)) {
+
+                if (list.isEmpty()) {
+                    this._verticalSlices.remove(y);
+                }
 
                 --this._elementCount;
                 this.onMapChanged();
