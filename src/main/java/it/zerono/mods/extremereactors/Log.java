@@ -32,6 +32,7 @@ public final class Log {
     public static final Marker TURBINE = MarkerManager.getMarker("turbine");
     public static final Marker REPROCESSOR = MarkerManager.getMarker("reprocessor");
     public static final Marker FLUIDIZER = MarkerManager.getMarker("fluidizer");
+    public static final Marker DATAGEN = MarkerManager.getMarker("datagen");
 
     private Log() {
     }
