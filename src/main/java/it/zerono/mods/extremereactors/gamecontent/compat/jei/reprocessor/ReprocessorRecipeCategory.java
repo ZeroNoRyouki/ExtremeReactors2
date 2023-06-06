@@ -21,7 +21,7 @@ package it.zerono.mods.extremereactors.gamecontent.compat.jei.reprocessor;
 import com.mojang.blaze3d.vertex.PoseStack;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectLists;
-import it.zerono.mods.extremereactors.ExtremeReactors;
+import it.zerono.mods.extremereactors.CommonLocations;
 import it.zerono.mods.extremereactors.gamecontent.CommonConstants;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.compat.jei.ExtremeReactorsJeiPlugin;
@@ -46,6 +46,7 @@ import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.fluids.FluidStack;
 
 import java.util.List;
@@ -59,7 +60,7 @@ public class ReprocessorRecipeCategory
         super(ExtremeReactorsJeiPlugin.REPROCESSOR_JEI_RECIPE_TYPE,
                 Component.translatable("compat.bigreactors.jei.reprocessor.recipecategory.title"),
                 Content.Blocks.REPROCESSOR_WASTEINJECTOR.get().createItemStack(), guiHelper,
-                guiHelper.drawableBuilder(ExtremeReactors.newID("textures/gui/jei/reprocessor.png"), 0, 0, 96, 96)
+                guiHelper.drawableBuilder(getBackgroundId(), 0, 0, 96, 96)
                         .setTextureSize(96, 96)
                         .addPadding(5, 5, 5, 78)
                         .build());
@@ -163,6 +164,10 @@ public class ReprocessorRecipeCategory
 
     private ISprite getRecipeFluidSprite() {
         return this._recipeFluidSprite;
+    }
+
+    private static ResourceLocation getBackgroundId() {
+        return CommonLocations.TEXTURES_GUI_JEI.buildWithSuffix("reprocessor.png");
     }
 
     private final Rectangle _powerBarArea;

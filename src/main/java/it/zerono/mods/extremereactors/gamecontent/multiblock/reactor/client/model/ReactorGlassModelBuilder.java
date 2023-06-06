@@ -42,7 +42,7 @@ public class ReactorGlassModelBuilder extends BlockVariantsModelBuilder {
     //region internals
 
     private static ResourceLocation getBlockStateRL(IMultiblockReactorVariant variant, BlockFacingsProperty blockStateVariant) {
-        return new ModelResourceLocation(ExtremeReactors.newID(variant.getName() + "_reactorglass"), blockStateVariant.asVariantString());
+        return new ModelResourceLocation(ExtremeReactors.ROOT_LOCATION.buildWithSuffix(variant.getName() + "_reactorglass"), blockStateVariant.asVariantString());
     }
 
     //endregion

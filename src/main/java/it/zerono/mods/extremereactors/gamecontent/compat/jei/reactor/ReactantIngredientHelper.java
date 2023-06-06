@@ -47,7 +47,7 @@ public class ReactantIngredientHelper
 
     @Override
     public ResourceLocation getResourceLocation(final Reactant reactant) {
-        return ExtremeReactors.newID("reactant_" + reactant.getName());
+        return ExtremeReactors.ROOT_LOCATION.buildWithSuffix("reactant_" + reactant.getName());
     }
 
     //endregion

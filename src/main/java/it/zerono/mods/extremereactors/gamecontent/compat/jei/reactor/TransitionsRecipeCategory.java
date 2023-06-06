@@ -141,9 +141,7 @@ public class TransitionsRecipeCategory<Input, Output, Recipe extends Transitions
                                         final IGuiHelper guiHelper, final List<Recipe> transitions) {
 
         super(type, Component.translatable(titleTranslationKey), icon, guiHelper,
-                guiHelper.drawableBuilder(ExtremeReactors.newID("textures/gui/jei/mapping.png"), 0, 0, 144, 56)
-                        .setTextureSize(144, 56)
-                        .build());
+                ExtremeReactorsJeiPlugin.defaultMappingDrawable(guiHelper));
 
         this._transitions = Objects.requireNonNull(transitions);
     }

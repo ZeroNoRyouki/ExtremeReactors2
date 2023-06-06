@@ -47,7 +47,7 @@ public class CoolantIngredientHelper
 
     @Override
     public ResourceLocation getResourceLocation(final Coolant coolant) {
-        return ExtremeReactors.newID("coolant_" + coolant.getName());
+        return ExtremeReactors.ROOT_LOCATION.buildWithSuffix("coolant_" + coolant.getName());
     }
 
     //endregion

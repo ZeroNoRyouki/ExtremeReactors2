@@ -18,10 +18,13 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.model;
 
+import com.google.common.base.Preconditions;
+import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockPartType;
 import it.zerono.mods.zerocore.lib.client.model.multiblock.CuboidPartVariantsModelBuilder;
+import it.zerono.mods.zerocore.lib.data.ResourceLocationBuilder;
 import it.zerono.mods.zerocore.lib.multiblock.variant.IMultiblockVariant;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.resources.ResourceLocation;
@@ -34,11 +37,17 @@ import java.util.stream.Collectors;
 public abstract class AbstractMultiblockModelBuilder<PartType extends Enum<PartType> & IMultiblockPartType>
         extends CuboidPartVariantsModelBuilder {
 
-    public AbstractMultiblockModelBuilder(final ResourceLocation template, final boolean ambientOcclusion) {
+    protected AbstractMultiblockModelBuilder(String multiblockShortName, ResourceLocationBuilder blockRoot,
+                                             ResourceLocation template, boolean ambientOcclusion) {
         super(template, ambientOcclusion);
-    }
 
-    protected abstract String getMultiblockShortName();
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(multiblockShortName),
+                "Multiblock short name must not be null or empty");
+        Preconditions.checkNotNull(blockRoot, "Block root must not be null");
+
+        this._multiblockShortName = multiblockShortName;
+        this._blockRoot = blockRoot;
+    }
 
     protected void addBlockWithVariants(final PartType partType, final IMultiblockVariant variant,
                                       final Predicate<PartType> isPartCompatibleWithVariant, final String blockCommonName,
@@ -80,11 +89,20 @@ public abstract class AbstractMultiblockModelBuilder<PartType extends Enum<PartT
 
     protected ResourceLocation getBlockStateRL(final IMultiblockVariant variant, final String blockCommonName,
                                                final String blockStateVariant) {
-        return new ModelResourceLocation(ExtremeReactors.newID(variant.getName() + "_" + this.getMultiblockShortName() + blockCommonName),
-                blockStateVariant);
+        return new ModelResourceLocation(ExtremeReactors.ROOT_LOCATION.buildWithSuffix(variant.getName() + "_" +
+                        this._multiblockShortName + blockCommonName), blockStateVariant);
     }
 
     protected ResourceLocation getModelRL(final IMultiblockVariant variant, final String modelName) {
-        return ExtremeReactors.newID("block/" + this.getMultiblockShortName() + "/" + variant.getName() + "/" + modelName);
+        return this._blockRoot
+                .appendPath(variant.getName())
+                .buildWithSuffix(modelName);
     }
+
+    //region internals
+
+    private final String _multiblockShortName;
+    private final ResourceLocationBuilder _blockRoot;
+
+    //endregion
 }

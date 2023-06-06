@@ -524,7 +524,7 @@ public class ReactorFluidAccessPortEntity
     @SuppressWarnings("FieldMayBeFinal")
     private static Capability<IFluidHandler> FLUID_HANDLER_CAPABILITY = CapabilityManager.get(new CapabilityToken<>(){});
 
-    private static final ResourceLocation SYNC_DATA_ID = ExtremeReactors.newID("injector");
+    private static final ResourceLocation SYNC_DATA_ID = ExtremeReactors.ROOT_LOCATION.buildWithSuffix("injector");
 
     private final FluidTank _fuelTank;
     private final FluidTank _wasteTank;

@@ -29,7 +29,9 @@ import java.util.function.Supplier;
 
 public final class CachedSprites {
 
+    public static final ResourceLocation REACTOR_FUEL_COLUMN_STILL_ID;
     public static final Supplier<ISprite> REACTOR_FUEL_COLUMN_STILL;
+    public static final ResourceLocation REACTOR_FUEL_COLUMN_FLOWING_ID;
     public static final Supplier<ISprite> REACTOR_FUEL_COLUMN_FLOWING;
     public static final Supplier<ISprite> WATER_SOURCE;
 
@@ -43,14 +45,19 @@ public final class CachedSprites {
 
     static {
 
-        REACTOR_FUEL_COLUMN_STILL = AtlasSpriteSupplier.create(ExtremeReactors.newID("fluid/fluid.fuelcolumn.still"), AtlasSpriteTextureMap.BLOCKS, true);
-        REACTOR_FUEL_COLUMN_FLOWING = AtlasSpriteSupplier.create(ExtremeReactors.newID("fluid/fluid.fuelcolumn.flowing"), AtlasSpriteTextureMap.BLOCKS, true);
-        WATER_SOURCE = AtlasSpriteSupplier.create(CommonConstants.FLUID_TEXTURE_SOURCE_WATER, AtlasSpriteTextureMap.BLOCKS, true);
+        final var fuelColumnIdBuilder = ExtremeReactors.ROOT_LOCATION.appendPath("fluid").append("fluid.fuelcolumn.");
 
-        GUI_CHARGINGPORT_SLOT_ID = ExtremeReactors.newID("gui/multiblock/charging");
+        REACTOR_FUEL_COLUMN_STILL_ID = fuelColumnIdBuilder.buildWithSuffix("still");
+        REACTOR_FUEL_COLUMN_FLOWING_ID = fuelColumnIdBuilder.buildWithSuffix("flowing");
+
+        REACTOR_FUEL_COLUMN_STILL = AtlasSpriteSupplier.create(REACTOR_FUEL_COLUMN_STILL_ID, AtlasSpriteTextureMap.BLOCKS);
+        REACTOR_FUEL_COLUMN_FLOWING = AtlasSpriteSupplier.create(REACTOR_FUEL_COLUMN_FLOWING_ID, AtlasSpriteTextureMap.BLOCKS);
+        WATER_SOURCE = AtlasSpriteSupplier.create(CommonConstants.FLUID_TEXTURE_SOURCE_WATER, AtlasSpriteTextureMap.BLOCKS);
+
+        GUI_CHARGINGPORT_SLOT_ID = ExtremeReactors.ROOT_LOCATION.appendPath("gui", "multiblock").buildWithSuffix("charging");
         GUI_CHARGINGPORT_SLOT = AtlasSpriteSupplier.create(GUI_CHARGINGPORT_SLOT_ID, AtlasSpriteTextureMap.BLOCKS);
 
-        VANILLA_BUCKET  = AtlasSpriteSupplier.create(new ResourceLocation("minecraft:item/bucket"), AtlasSpriteTextureMap.BLOCKS, false);
+        VANILLA_BUCKET  = AtlasSpriteSupplier.create(new ResourceLocation("minecraft:item/bucket"), AtlasSpriteTextureMap.BLOCKS);
     }
 
     //region internals

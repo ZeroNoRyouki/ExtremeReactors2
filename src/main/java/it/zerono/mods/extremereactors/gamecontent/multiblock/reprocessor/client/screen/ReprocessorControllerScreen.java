@@ -19,7 +19,7 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.client.screen;
 
 import com.google.common.collect.ImmutableList;
-import it.zerono.mods.extremereactors.ExtremeReactors;
+import it.zerono.mods.extremereactors.CommonLocations;
 import it.zerono.mods.extremereactors.gamecontent.CommonConstants;
 import it.zerono.mods.extremereactors.gamecontent.compat.patchouli.PatchouliCompat;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.AbstractMultiblockScreen;
@@ -68,7 +68,7 @@ public class ReprocessorControllerScreen
                                        final Inventory inventory, final Component title) {
 
         super(container, inventory, PlayerInventoryUsage.None, title,
-                () -> new SpriteTextureMap(ExtremeReactors.newID("textures/gui/multiblock/basic_background.png"), 256, 256));
+                () -> new SpriteTextureMap(CommonLocations.TEXTURES_GUI_MULTIBLOCK.buildWithSuffix("basic_background.png"), 256, 256));
 
         this._reprocessor = this.getMultiblockController().orElseThrow(IllegalStateException::new);
         this._bindings = new BindingGroup();
@@ -96,7 +96,7 @@ public class ReprocessorControllerScreen
 
         Panel p;
 
-        this.addPatchouliHelpButton(PatchouliCompat.HANDBOOK_ID, ExtremeReactors.newID("reprocessor/part-controller"), 1);
+        this.addPatchouliHelpButton(PatchouliCompat.HANDBOOK_ID, CommonLocations.REPROCESSOR.buildWithSuffix("part-controller"), 1);
 
         super.onScreenCreate();
 
@@ -371,7 +371,7 @@ public class ReprocessorControllerScreen
         // recipe progress
 
         this._progressBar.setDesiredDimension(16, 32);
-        this._progressBar.setOverlay(new SpriteTextureMap(ExtremeReactors.newID("textures/gui/multiblock/reprocessor_controller_arrow.png"), 16, 32)
+        this._progressBar.setOverlay(new SpriteTextureMap(CommonLocations.TEXTURES_GUI_MULTIBLOCK.buildWithSuffix("reprocessor_controller_arrow.png"), 16, 32)
                 .sprite().ofSize(16, 32).build());
         this._progressBar.setOrientation(Orientation.TopToBottom);
         p.addControl(this._progressBar);

@@ -51,9 +51,7 @@ public class VaporFromFluidRecipeCategory
         super(RecipeType.create(ExtremeReactors.MOD_ID, "jei_vaporsmappings", Vapor.class),
                 Component.translatable("compat.bigreactors.jei.vapormappings.recipecategory.title"),
                 Content.Blocks.REACTOR_FLUID_ACCESSPORT_REINFORCED.get().createItemStack(), guiHelper,
-                guiHelper.drawableBuilder(ExtremeReactors.newID("textures/gui/jei/mapping.png"), 0, 0, 144, 56)
-                        .setTextureSize(144, 56)
-                        .build());
+                ExtremeReactorsJeiPlugin.defaultMappingDrawable(guiHelper));
 
         this._mappings = FluidMappingsRegistry.getVaporToFluidMap();
     }

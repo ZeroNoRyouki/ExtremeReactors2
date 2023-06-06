@@ -18,7 +18,7 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.client.screen;
 
-import it.zerono.mods.extremereactors.ExtremeReactors;
+import it.zerono.mods.extremereactors.CommonLocations;
 import it.zerono.mods.extremereactors.gamecontent.compat.patchouli.PatchouliCompat;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.AbstractMultiblockScreen;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.CommonIcons;
@@ -44,7 +44,7 @@ public class ReprocessorAccessPortScreen
     public ReprocessorAccessPortScreen(final ReprocessorAccessPortContainer container,
                                        final Inventory inventory, final Component title) {
         super(container, inventory, PlayerInventoryUsage.Both, title,
-                () -> new SpriteTextureMap(ExtremeReactors.newID("textures/gui/multiblock/basic_background.png"), 256, 256));
+                () -> new SpriteTextureMap(CommonLocations.TEXTURES_GUI_MULTIBLOCK.buildWithSuffix("basic_background.png"), 256, 256));
         this.setTheme(GuiTheme.ER.get());
     }
 
@@ -59,7 +59,7 @@ public class ReprocessorAccessPortScreen
 
         final boolean inletMode = this.getTileEntity().getDirection().isInput();
 
-        this.addPatchouliHelpButton(PatchouliCompat.HANDBOOK_ID, ExtremeReactors.newID(inletMode ? "reprocessor/part-wasteinjector" : "reprocessor/part-outputport"), 1);
+        this.addPatchouliHelpButton(PatchouliCompat.HANDBOOK_ID, CommonLocations.REPROCESSOR.buildWithSuffix(inletMode ? "part-wasteinjector" : "part-outputport"), 1);
 
         super.onScreenCreate();
 

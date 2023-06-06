@@ -271,7 +271,7 @@ public class FluidizerSolidInjectorEntity
     @SuppressWarnings("FieldMayBeFinal")
     private static Capability<IItemHandler> ITEM_HANDLER_CAPABILITY = CapabilityManager.get(new CapabilityToken<>(){});
 
-    private static final ResourceLocation SYNC_DATA_ID = ExtremeReactors.newID("solidinjector");
+    private static final ResourceLocation SYNC_DATA_ID = ExtremeReactors.ROOT_LOCATION.buildWithSuffix("solidinjector");
 
     private final ItemStackHolder _solidItems;
     private final LazyOptional<IItemHandlerModifiable> _capability;

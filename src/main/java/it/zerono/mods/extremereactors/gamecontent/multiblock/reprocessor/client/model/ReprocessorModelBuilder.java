@@ -101,11 +101,11 @@ public class ReprocessorModelBuilder
     }
 
     protected ResourceLocation getBlockStateRL(final String blockCommonName, final String blockStateVariant) {
-        return new ModelResourceLocation(ExtremeReactors.newID("reprocessor" + blockCommonName), blockStateVariant);
+        return new ModelResourceLocation(ExtremeReactors.ROOT_LOCATION.buildWithSuffix("reprocessor" + blockCommonName), blockStateVariant);
     }
 
     protected static ResourceLocation getModelRL(final String modelName) {
-        return ExtremeReactors.newID("block/reprocessor/" + modelName);
+        return ExtremeReactors.ROOT_LOCATION.appendPath("block", "reprocessor").buildWithSuffix(modelName);
     }
 
     //endregion

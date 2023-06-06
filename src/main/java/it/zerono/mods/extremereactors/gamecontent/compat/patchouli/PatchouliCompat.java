@@ -45,7 +45,7 @@ import vazkii.patchouli.api.PatchouliAPI;
 
 public final class PatchouliCompat {
 
-    public static final ResourceLocation HANDBOOK_ID = ExtremeReactors.newID("erguide");
+    public static final ResourceLocation HANDBOOK_ID = ExtremeReactors.ROOT_LOCATION.buildWithSuffix("erguide");
 
     public static void initialize() {
 
@@ -56,7 +56,7 @@ public final class PatchouliCompat {
         Patchouli.initialize();
 
         //noinspection unchecked
-        Patchouli.registerMultiblock(ExtremeReactors.newID("bookfirstbasicreactor"),
+        Patchouli.registerMultiblock(ExtremeReactors.ROOT_LOCATION.buildWithSuffix("bookfirstbasicreactor"),
                 PatchouliAPI.get().makeMultiblock(new String[][] {
                         {
                             "CCC",
@@ -87,7 +87,7 @@ public final class PatchouliCompat {
                         ModelData.EMPTY
         );
 
-        Patchouli.registerMultiblock(ExtremeReactors.newID("bookturbinerotor"),
+        Patchouli.registerMultiblock(ExtremeReactors.ROOT_LOCATION.buildWithSuffix("bookturbinerotor"),
                 PatchouliAPI.get().makeMultiblock(new String[][] {
                                 {
                                         "       ",
@@ -186,7 +186,7 @@ public final class PatchouliCompat {
         );
 
 
-        Patchouli.registerMultiblock(ExtremeReactors.newID("bookturbinerotor_coil"),
+        Patchouli.registerMultiblock(ExtremeReactors.ROOT_LOCATION.buildWithSuffix("bookturbinerotor_coil"),
                 PatchouliAPI.get().makeMultiblock(new String[][] {
                                 {
                                         "       ",
@@ -287,7 +287,7 @@ public final class PatchouliCompat {
         );
 
         //noinspection unchecked
-        Patchouli.registerMultiblock(ExtremeReactors.newID("bookreprocessor"),
+        Patchouli.registerMultiblock(ExtremeReactors.ROOT_LOCATION.buildWithSuffix("bookreprocessor"),
                 PatchouliAPI.get().makeMultiblock(new String[][] {
                                 {
                                         "CCC",
@@ -339,7 +339,7 @@ public final class PatchouliCompat {
         );
 
         //noinspection unchecked
-        Patchouli.registerMultiblock(ExtremeReactors.newID("bookfluidizer"),
+        Patchouli.registerMultiblock(ExtremeReactors.ROOT_LOCATION.buildWithSuffix("bookfluidizer"),
                 PatchouliAPI.get().makeMultiblock(new String[][] {
                                 {
                                         "CCCCC",

@@ -18,6 +18,7 @@
 
 package it.zerono.mods.extremereactors.gamecontent.compat.jei;
 
+import it.zerono.mods.extremereactors.CommonLocations;
 import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.api.coolant.Coolant;
 import it.zerono.mods.extremereactors.api.coolant.FluidsRegistry;
@@ -36,6 +37,7 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.recipe.Fl
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.recipe.ReprocessorRecipe;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
+import mezz.jei.api.gui.drawable.IDrawableStatic;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.ingredients.IIngredientType;
 import mezz.jei.api.recipe.RecipeType;
@@ -60,6 +62,15 @@ public class ExtremeReactorsJeiPlugin
     public static final IIngredientType<Reactant> REACTANT_INGREDIENT_TYPE = () -> Reactant.class;
     public static final IIngredientType<Coolant> COOLANT_INGREDIENT_TYPE = () -> Coolant.class;
     public static final IIngredientType<Vapor> VAPOR_INGREDIENT_TYPE = () -> Vapor.class;
+
+    public static IDrawableStatic defaultMappingDrawable(IGuiHelper guiHelper) {
+
+        final var id = CommonLocations.TEXTURES_GUI_JEI.buildWithSuffix("mapping.png");
+
+        return guiHelper.drawableBuilder(id, 0, 0, 144, 56)
+                .setTextureSize(144, 56)
+                .build();
+    }
 
     //region IModPlugin
 
@@ -173,7 +184,7 @@ public class ExtremeReactorsJeiPlugin
     //endregion
     //region internals
 
-    private static final ResourceLocation s_id = ExtremeReactors.newID("jeiplugin");
+    private static final ResourceLocation s_id = ExtremeReactors.ROOT_LOCATION.buildWithSuffix("jeiplugin");
 
     private ReactantFromSolidRecipeCategory _reactantsSolidMappings;
     private ReactantFromFluidRecipeCategory _reactantsFluidMappings;

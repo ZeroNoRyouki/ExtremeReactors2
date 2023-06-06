@@ -21,6 +21,7 @@ package it.zerono.mods.extremereactors.gamecontent;
 import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.Reactants;
 import it.zerono.mods.zerocore.lib.tag.TagsHelper;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
@@ -95,7 +96,7 @@ public class ContentTags {
         //region internals
 
         private static TagKey<Item> tag(final String name) {
-            return TagsHelper.ITEMS.createKey(name, ExtremeReactors::newID);
+            return TagsHelper.ITEMS.createKey(new ResourceLocation(ExtremeReactors.MOD_ID, name));
         }
 
         private static TagKey<Item> forgeTag(final String name) {

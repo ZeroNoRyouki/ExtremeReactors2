@@ -51,7 +51,7 @@ public class ReactorFuelRodModelBuilder
     }
 
     @Override
-    public void onBakeModels(final ModelEvent.BakingCompleted event) {
+    public void onBakeModels(final ModelEvent.ModifyBakingResult event) {
 
         final Map<ResourceLocation, BakedModel> registry = event.getModels();
 
@@ -71,7 +71,7 @@ public class ReactorFuelRodModelBuilder
 
     private static ResourceLocation getBlockStateRL(final IMultiblockReactorVariant variant,
                                                     final Direction.Axis axis) {
-        return new ModelResourceLocation(ExtremeReactors.newID(variant.getName() + "_reactorfuelrod"),
+        return new ModelResourceLocation(ExtremeReactors.ROOT_LOCATION.buildWithSuffix(variant.getName() + "_reactorfuelrod"),
                 String.format("axis=%s", axis.getName()));
     }
 

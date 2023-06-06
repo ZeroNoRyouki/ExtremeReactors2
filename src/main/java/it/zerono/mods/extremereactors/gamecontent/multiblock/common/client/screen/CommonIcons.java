@@ -18,7 +18,7 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen;
 
-import it.zerono.mods.extremereactors.ExtremeReactors;
+import it.zerono.mods.extremereactors.CommonLocations;
 import it.zerono.mods.zerocore.lib.client.gui.sprite.ISprite;
 import it.zerono.mods.zerocore.lib.client.gui.sprite.ISpriteBuilder;
 import it.zerono.mods.zerocore.lib.client.gui.sprite.ISpriteTextureMap;
@@ -104,7 +104,8 @@ public enum CommonIcons implements NonNullSupplier<ISprite> {
     PortInputSlot(builder().from(136, 116).ofSize(38, 38).build()),
     PortOutputSlot(builder().from(136, 154).ofSize(38, 38).build()),
 
-    ReprocessorProgressBarMask(new SpriteTextureMap(ExtremeReactors.newID("textures/gui/multiblock/reprocessor_controller_arrow.png"), 16, 32)
+    ReprocessorProgressBarMask(new SpriteTextureMap(CommonLocations.TEXTURES_GUI_MULTIBLOCK
+            .buildWithSuffix("reprocessor_controller_arrow.png"), 16, 32)
             .sprite().ofSize(16, 32).build()),
 
     ;
@@ -127,7 +128,8 @@ public enum CommonIcons implements NonNullSupplier<ISprite> {
     private static ISpriteTextureMap getMap() {
 
         if (null == s_map) {
-            s_map = new SpriteTextureMap(ExtremeReactors.newID("textures/gui/multiblock/common_icons.png"), 192, 192);
+            s_map = new SpriteTextureMap(CommonLocations.TEXTURES_GUI_MULTIBLOCK
+                    .buildWithSuffix("common_icons.png"), 192, 192);
         }
 
         return s_map;

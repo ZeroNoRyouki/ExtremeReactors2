@@ -43,7 +43,7 @@ public class TurbineGlassModelBuilder
     //region internals
 
     private static ResourceLocation getBlockStateRL(final IMultiblockTurbineVariant variant, final BlockFacingsProperty blockStateVariant) {
-        return new ModelResourceLocation(ExtremeReactors.newID(variant.getName() + "_turbineglass"), blockStateVariant.asVariantString());
+        return new ModelResourceLocation(ExtremeReactors.ROOT_LOCATION.buildWithSuffix(variant.getName() + "_turbineglass"), blockStateVariant.asVariantString());
     }
 
     //endregion

@@ -51,9 +51,7 @@ public class CoolantFromFluidRecipeCategory
         super(RecipeType.create(ExtremeReactors.MOD_ID, "jei_coolantsmappings", Coolant.class),
                 Component.translatable("compat.bigreactors.jei.coolantmappings.recipecategory.title"),
                 Content.Blocks.REACTOR_FLUID_ACCESSPORT_REINFORCED.get().createItemStack(), guiHelper,
-                guiHelper.drawableBuilder(ExtremeReactors.newID("textures/gui/jei/mapping.png"), 0, 0, 144, 56)
-                        .setTextureSize(144, 56)
-                        .build());
+                ExtremeReactorsJeiPlugin.defaultMappingDrawable(guiHelper));
 
         this._mappings = FluidMappingsRegistry.getCoolantToFluidMap();
     }

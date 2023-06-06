@@ -51,9 +51,7 @@ public class ReactantFromSolidRecipeCategory
         super(RecipeType.create(ExtremeReactors.MOD_ID, "jei_reactantsmappings_solid", Reactant.class),
                 Component.translatable("compat.bigreactors.jei.reactantsmappings.solid.recipecategory.title"),
                 Content.Blocks.REACTOR_FUELROD_BASIC.get().createItemStack(), guiHelper,
-                guiHelper.drawableBuilder(ExtremeReactors.newID("textures/gui/jei/mapping.png"), 0, 0, 144, 56)
-                        .setTextureSize(144, 56)
-                        .build());
+                ExtremeReactorsJeiPlugin.defaultMappingDrawable(guiHelper));
 
         this._mappings = ReactantMappingsRegistry.getToSolidMap();
     }

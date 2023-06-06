@@ -57,7 +57,7 @@ public interface IFluidizerRecipe
         Type(final String name, final int ticks) {
 
             this._name = name;
-            this._id = ExtremeReactors.newID(name);
+            this._id = ExtremeReactors.ROOT_LOCATION.buildWithSuffix(name);
             this._ticks = ticks;
         }
 

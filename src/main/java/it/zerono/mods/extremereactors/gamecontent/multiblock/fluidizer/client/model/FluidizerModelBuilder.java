@@ -101,11 +101,11 @@ public class FluidizerModelBuilder
     }
 
     protected ResourceLocation getBlockStateRL(final String blockCommonName, final String blockStateVariant) {
-        return new ModelResourceLocation(ExtremeReactors.newID("fluidizer" + blockCommonName), blockStateVariant);
+        return new ModelResourceLocation(ExtremeReactors.ROOT_LOCATION.buildWithSuffix("fluidizer" + blockCommonName), blockStateVariant);
     }
 
     protected static ResourceLocation getModelRL(final String modelName) {
-        return ExtremeReactors.newID("block/fluidizer/" + modelName);
+        return ExtremeReactors.ROOT_LOCATION.appendPath("block", "fluidizer").buildWithSuffix(modelName);
     }
 
     //endregion

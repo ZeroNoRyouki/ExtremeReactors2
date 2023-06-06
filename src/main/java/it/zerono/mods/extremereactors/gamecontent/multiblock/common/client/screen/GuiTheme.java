@@ -75,7 +75,7 @@ public enum GuiTheme
                 .orElse(Theme.DEFAULT);
     }
 
-    private final static ResourceLocation ID = ExtremeReactors.newID("er_gui_theme.json");
+    private final static ResourceLocation ID = ExtremeReactors.ROOT_LOCATION.buildWithSuffix("er_gui_theme.json");
 
     @Nullable
     private Theme _theme;

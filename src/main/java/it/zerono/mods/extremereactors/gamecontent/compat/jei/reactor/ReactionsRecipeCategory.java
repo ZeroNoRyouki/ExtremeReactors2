@@ -17,7 +17,6 @@ package it.zerono.mods.extremereactors.gamecontent.compat.jei.reactor;
  */
 
 import it.unimi.dsi.fastutil.objects.ObjectLists;
-import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.api.reactor.Reaction;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.compat.jei.ExtremeReactorsJeiPlugin;
@@ -35,9 +34,7 @@ public class ReactionsRecipeCategory
         super(ExtremeReactorsJeiPlugin.REACTION_JEI_RECIPE_TYPE,
                 Component.translatable("compat.bigreactors.jei.reactantsreactions.recipecategory.title"),
                 Content.Blocks.REACTOR_FUELROD_BASIC.get().createItemStack(), guiHelper,
-                guiHelper.drawableBuilder(ExtremeReactors.newID("textures/gui/jei/mapping.png"), 0, 0, 144, 56)
-                        .setTextureSize(144, 56)
-                        .build());
+                ExtremeReactorsJeiPlugin.defaultMappingDrawable(guiHelper));
     }
 
     //region AbstractModRecipeCategory

@@ -19,7 +19,7 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen;
 
 import com.google.common.collect.ImmutableList;
-import it.zerono.mods.extremereactors.ExtremeReactors;
+import it.zerono.mods.extremereactors.CommonLocations;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.AbstractMultiblockEntity;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part.AbstractReactorEntity;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.part.AbstractReprocessorEntity;
@@ -77,18 +77,21 @@ public abstract class AbstractMultiblockScreen<Controller extends AbstractCuboid
     }
 
     protected static NonNullSupplier<SpriteTextureMap> mainTextureFromVariant(final IMultiblockVariant variant) {
-        return () -> new SpriteTextureMap(ExtremeReactors.newID("textures/gui/multiblock/" + variant.getName() + "_background.png"), 256, 256);
+        return () -> new SpriteTextureMap(CommonLocations.TEXTURES_GUI_MULTIBLOCK
+                .buildWithSuffix(variant.getName() + "_background.png"), 256, 256);
     }
 
     protected static NonNullSupplier<SpriteTextureMap> halfTextureFromVariant(final IMultiblockVariant variant) {
-        return () -> new SpriteTextureMap(ExtremeReactors.newID("textures/gui/multiblock/" + variant.getName() + "_background_half.png"), 256, 98);
+        return () -> new SpriteTextureMap(CommonLocations.TEXTURES_GUI_MULTIBLOCK
+                .buildWithPrefix(variant.getName() + "_background_half.png"), 256, 98);
     }
 
     protected AbstractMultiblockScreen(final C container, final Inventory inventory,
                                        final PlayerInventoryUsage inventoryUsage, final Component title,
                                        final int guiWidth, final int guiHeight) {
         this(container, inventory, inventoryUsage, title, guiWidth, guiHeight,
-                new SpriteTextureMap(ExtremeReactors.newID("textures/gui/multiblock/generic_background.png"), 256, 256));
+                new SpriteTextureMap(CommonLocations.TEXTURES_GUI_MULTIBLOCK
+                        .buildWithSuffix("generic_background.png"), 256, 256));
     }
 
     protected AbstractMultiblockScreen(final C container, final Inventory inventory,

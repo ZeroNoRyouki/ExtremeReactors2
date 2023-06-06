@@ -22,7 +22,7 @@ import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.model.AbstractMultiblockModelBuilder;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.TurbinePartType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.TurbineVariant;
-import net.minecraft.resources.ResourceLocation;
+import it.zerono.mods.zerocore.lib.data.ResourceLocationBuilder;
 
 import java.util.function.Predicate;
 
@@ -31,7 +31,9 @@ public class TurbineModelBuilder
 
     public TurbineModelBuilder(final TurbineVariant variant) {
 
-        super(getModelRL(variant, "assembledplating"), true);
+        super("turbine", TURBINE_LOCATION, TURBINE_LOCATION
+                        .appendPath(variant.getName())
+                        .buildWithSuffix("assembledplating"), true);
 
         final Predicate<TurbinePartType> isPartCompatible = variant::isPartCompatible;
 
@@ -88,19 +90,10 @@ public class TurbineModelBuilder
         this.addBlockWithVariants(TurbinePartType.ChargingPortFE, variant, isPartCompatible, "chargingportfe");
     }
 
-    //region AbstractMultiblockModelBuilder
-
-    @Override
-    protected String getMultiblockShortName() {
-        return "turbine";
-    }
-
-    //endregion
     //region internals
 
-    protected static ResourceLocation getModelRL(final TurbineVariant variant, final String modelName) {
-        return ExtremeReactors.newID("block/turbine/" + variant.getName() + "/" + modelName);
-    }
+    private static final ResourceLocationBuilder TURBINE_LOCATION = ExtremeReactors.ROOT_LOCATION
+            .appendPath("block", "turbine");
 
     //endregion
 }

@@ -18,7 +18,7 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.client.screen;
 
-import it.zerono.mods.extremereactors.ExtremeReactors;
+import it.zerono.mods.extremereactors.CommonLocations;
 import it.zerono.mods.extremereactors.gamecontent.compat.patchouli.PatchouliCompat;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.GuiTheme;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.MultiblockFluidizer;
@@ -97,7 +97,7 @@ public class FluidizerControllerScreen
     @Override
     protected void onScreenCreate() {
 
-        this.addPatchouliHelpButton(PatchouliCompat.HANDBOOK_ID, ExtremeReactors.newID("fluidizer/part-controller"), 1);
+        this.addPatchouliHelpButton(PatchouliCompat.HANDBOOK_ID, CommonLocations.FLUIDIZER.buildWithSuffix("part-controller"), 1);
 
         super.onScreenCreate();
 

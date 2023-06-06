@@ -47,7 +47,7 @@ public class VaporIngredientHelper
 
     @Override
     public ResourceLocation getResourceLocation(final Vapor vapor) {
-        return ExtremeReactors.newID("vapor_" + vapor.getName());
+        return ExtremeReactors.ROOT_LOCATION.buildWithSuffix("vapor_" + vapor.getName());
     }
 
     //endregion

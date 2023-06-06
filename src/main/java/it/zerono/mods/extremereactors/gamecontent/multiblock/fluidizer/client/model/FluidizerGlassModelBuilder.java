@@ -43,7 +43,7 @@ public class FluidizerGlassModelBuilder
     //region internals
 
     private static ResourceLocation getBlockStateRL(BlockFacingsProperty blockStateVariant) {
-        return new ModelResourceLocation(ExtremeReactors.newID("fluidizerglass"), blockStateVariant.asVariantString());
+        return new ModelResourceLocation(ExtremeReactors.ROOT_LOCATION.buildWithSuffix("fluidizerglass"), blockStateVariant.asVariantString());
     }
 
     //endregion

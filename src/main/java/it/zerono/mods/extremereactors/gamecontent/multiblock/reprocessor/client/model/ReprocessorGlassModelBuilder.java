@@ -42,7 +42,7 @@ public class ReprocessorGlassModelBuilder
     //region internals
 
     private static ResourceLocation getBlockStateRL(BlockFacingsProperty blockStateVariant) {
-        return new ModelResourceLocation(ExtremeReactors.newID("reprocessorglass"), blockStateVariant.asVariantString());
+        return new ModelResourceLocation(ExtremeReactors.ROOT_LOCATION.buildWithSuffix("reprocessorglass"), blockStateVariant.asVariantString());
     }
 
     //endregion

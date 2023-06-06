@@ -18,7 +18,7 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.client.screen;
 
-import it.zerono.mods.extremereactors.ExtremeReactors;
+import it.zerono.mods.extremereactors.CommonLocations;
 import it.zerono.mods.extremereactors.gamecontent.compat.patchouli.PatchouliCompat;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.CommonIcons;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.GuiTheme;
@@ -44,7 +44,8 @@ public class FluidizerSolidInjectorScreen
     public FluidizerSolidInjectorScreen(final FluidizerSolidInjectorContainer container,
                                         final Inventory inventory, final Component title) {
         super(container, inventory, PlayerInventoryUsage.Both, title,
-                () -> new SpriteTextureMap(ExtremeReactors.newID("textures/gui/multiblock/basic_background.png"), 256, 256));
+                () -> new SpriteTextureMap(CommonLocations.TEXTURES_GUI_MULTIBLOCK
+                        .buildWithSuffix("basic_background.png"), 256, 256));
         this.setTheme(GuiTheme.ER.get());
     }
 
@@ -57,7 +58,7 @@ public class FluidizerSolidInjectorScreen
     @Override
     protected void onScreenCreate() {
 
-        this.addPatchouliHelpButton(PatchouliCompat.HANDBOOK_ID, ExtremeReactors.newID("fluidizer/part-solidinjector"), 1);
+        this.addPatchouliHelpButton(PatchouliCompat.HANDBOOK_ID, CommonLocations.FLUIDIZER.buildWithSuffix("part-solidinjector"), 1);
 
         super.onScreenCreate();
 

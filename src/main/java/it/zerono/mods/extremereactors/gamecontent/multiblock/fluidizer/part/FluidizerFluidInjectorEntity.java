@@ -273,7 +273,7 @@ public class FluidizerFluidInjectorEntity
     @SuppressWarnings("FieldMayBeFinal")
     private static Capability<IFluidHandler> FLUID_HANDLER_CAPABILITY = CapabilityManager.get(new CapabilityToken<>(){});
 
-    private static final ResourceLocation SYNC_DATA_ID = ExtremeReactors.newID("fluidinjector");
+    private static final ResourceLocation SYNC_DATA_ID = ExtremeReactors.ROOT_LOCATION.buildWithSuffix("fluidinjector");
 
     private final FluidStackHolder _fluids;
     private final LazyOptional<IFluidHandler> _capability;

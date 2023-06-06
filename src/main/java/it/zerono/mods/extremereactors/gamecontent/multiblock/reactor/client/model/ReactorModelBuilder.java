@@ -22,7 +22,7 @@ import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.model.AbstractMultiblockModelBuilder;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.ReactorPartType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.ReactorVariant;
-import net.minecraft.resources.ResourceLocation;
+import it.zerono.mods.zerocore.lib.data.ResourceLocationBuilder;
 
 import java.util.function.Predicate;
 
@@ -31,7 +31,9 @@ public class ReactorModelBuilder
 
     public ReactorModelBuilder(final ReactorVariant variant) {
 
-        super(getModelRL(variant, "assembledplating"), true);
+        super("reactor", REACTOR_LOCATION, REACTOR_LOCATION
+                .appendPath(variant.getName())
+                .buildWithSuffix("assembledplating"), true);
 
         final Predicate<ReactorPartType> isPartCompatible = variant::isPartCompatible;
 
@@ -103,19 +105,10 @@ public class ReactorModelBuilder
         this.addBlockWithVariants(ReactorPartType.ChargingPortFE, variant, isPartCompatible, "chargingportfe");
     }
 
-    //region AbstractMultiblockModelBuilder
-
-    @Override
-    protected String getMultiblockShortName() {
-        return "reactor";
-    }
-
-    //endregion
     //region internals
 
-    protected static ResourceLocation getModelRL(final ReactorVariant variant, final String modelName) {
-        return ExtremeReactors.newID("block/reactor/" + variant.getName() + "/" + modelName);
-    }
+    private static final ResourceLocationBuilder REACTOR_LOCATION = ExtremeReactors.ROOT_LOCATION
+            .appendPath("block", "reactor");
 
     //endregion
 }

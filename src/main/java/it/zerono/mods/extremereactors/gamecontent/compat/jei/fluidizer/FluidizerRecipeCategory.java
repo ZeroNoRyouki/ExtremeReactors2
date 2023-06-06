@@ -22,7 +22,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectLists;
-import it.zerono.mods.extremereactors.ExtremeReactors;
+import it.zerono.mods.extremereactors.CommonLocations;
 import it.zerono.mods.extremereactors.config.Config;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.compat.jei.ExtremeReactorsJeiPlugin;
@@ -194,7 +194,7 @@ public abstract class FluidizerRecipeCategory<T extends ModRecipe & IFluidizerRe
 
         // progress bars
 
-        final ResourceLocation texture = ExtremeReactors.newID("textures/gui/jei/fluidizer.png");
+        final ResourceLocation texture = getBackgroundId();
         final IDrawableStatic leftBar = guiHelper.createDrawable(texture, 0, 176, 24, 16);
         final IDrawableStatic rightBar = guiHelper.createDrawable(texture, 0, 192, 24, 16);
 
@@ -229,10 +229,14 @@ public abstract class FluidizerRecipeCategory<T extends ModRecipe & IFluidizerRe
 
         final int ordinal = recipeType.ordinal() - 1;
 
-        return guiHelper.drawableBuilder(ExtremeReactors.newID("textures/gui/jei/fluidizer.png"),
+        return guiHelper.drawableBuilder(getBackgroundId(),
                         1 == ordinal ? 128 : 0, 2 == ordinal ? 88 : 0, 128, 88)
                 .addPadding(5, 5, 5, 5)
                 .build();
+    }
+
+    private static ResourceLocation getBackgroundId() {
+        return CommonLocations.TEXTURES_GUI_JEI.buildWithSuffix("fluidizer.png");
     }
 
     private final Rectangle _powerBarArea;

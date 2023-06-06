@@ -18,7 +18,7 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.client.screen;
 
-import it.zerono.mods.extremereactors.ExtremeReactors;
+import it.zerono.mods.extremereactors.CommonLocations;
 import it.zerono.mods.zerocore.lib.client.gui.sprite.ISprite;
 import it.zerono.mods.zerocore.lib.client.gui.sprite.ISpriteBuilder;
 import it.zerono.mods.zerocore.lib.client.gui.sprite.SpriteTextureMap;
@@ -46,7 +46,8 @@ public enum FluidizerIcons
     public static SpriteTextureMap getMap() {
 
         if (null == s_map) {
-            s_map = new SpriteTextureMap(ExtremeReactors.newID("textures/gui/multiblock/fluidizer.png"), 256, 256);
+            s_map = new SpriteTextureMap(CommonLocations.TEXTURES_GUI_MULTIBLOCK.buildWithSuffix("fluidizer.png"),
+                    256, 256);
         }
 
         return s_map;
