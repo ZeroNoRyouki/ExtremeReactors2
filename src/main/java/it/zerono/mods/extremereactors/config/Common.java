@@ -26,7 +26,6 @@ public class Common {
     public final Reactor reactor;
     public final Turbine turbine;
     public final Fluidizer fluidizer;
-    public final Recipes recipes;
     public final Worldgen worldgen;
 
     Common(final ForgeConfigSpec.Builder builder) {
@@ -37,7 +36,6 @@ public class Common {
         this.reactor = new Reactor(builder);
         this.turbine = new Turbine(builder);
         this.fluidizer = new Fluidizer(builder);
-        this.recipes = new Recipes(builder);
         this.worldgen = new Worldgen(builder);
 
         builder.pop();
