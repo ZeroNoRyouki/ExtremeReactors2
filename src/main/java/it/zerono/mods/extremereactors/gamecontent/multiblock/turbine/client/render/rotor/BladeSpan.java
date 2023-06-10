@@ -19,7 +19,6 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.client.render.rotor;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Matrix4f;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.rotor.RotorBladeState;
@@ -28,6 +27,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.model.data.ModelData;
 import net.minecraftforge.common.util.NonNullConsumer;
+import org.joml.Vector3fc;
 
 @OnlyIn(Dist.CLIENT)
 public class BladeSpan
@@ -37,7 +37,7 @@ public class BladeSpan
     public final short Length;
     public final Direction Direction;
     public final ModelData BladeModelData;
-    public final Matrix4f Translation;
+    public final Vector3fc Translation;
 
     public static BladeSpan from(final RotorBladeState state, final short length, final Direction direction) {
         return s_cache.computeIfAbsent(key(state, length, direction), k -> new BladeSpan(state, length, direction));
@@ -55,7 +55,7 @@ public class BladeSpan
 
     @Override
     public void accept(final PoseStack stack) {
-        stack.last().pose().multiply(this.Translation);
+        stack.last().pose().translate(this.Translation);
     }
 
     //endregion
@@ -93,7 +93,7 @@ public class BladeSpan
         this.Length = length;
         this.Direction = direction;
         this.BladeModelData = ComponentModelData.from(state);
-        this.Translation = CachedTranslations.getFor(direction);
+        this.Translation = direction.step();
     }
 
     private static final Int2ObjectMap<BladeSpan> s_cache = new Int2ObjectOpenHashMap<>(8);

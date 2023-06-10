@@ -23,7 +23,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.common.collect.Streams;
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
-import it.zerono.mods.extremereactors.ExtremeReactors;
+import it.zerono.mods.extremereactors.CommonLocations;
 import it.zerono.mods.extremereactors.api.reactor.ModeratorsRegistry;
 import it.zerono.mods.extremereactors.api.reactor.ReactantMappingsRegistry;
 import it.zerono.mods.extremereactors.api.turbine.CoilMaterialRegistry;
@@ -82,13 +82,11 @@ import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.event.ModelEvent;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
-import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.event.TagsUpdatedEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -116,7 +114,6 @@ public class ClientProxy
         bus = Mod.EventBusSubscriber.Bus.FORGE.bus().get();
         bus.addListener(this::onItemTooltip);
         bus.addListener(EventPriority.LOWEST, this::onVanillaTagsUpdated);
-        bus.addListener(this::onTextureStitchPre);
 
         CodeHelper.addResourceReloadListener(this);
     }
@@ -152,18 +149,8 @@ public class ClientProxy
     }
 
     @SubscribeEvent
-    public void onModelBake(final ModelEvent.BakingCompleted event) {
+    public void onModelBake(final ModelEvent.ModifyBakingResult event) {
         this._modelBuilders.forEach(builder -> builder.onBakeModels(event));
-    }
-
-    @SubscribeEvent
-    public void onTextureStitchPre(final TextureStitchEvent.Pre event) {
-
-        if (!event.getAtlas().location().equals(InventoryMenu.BLOCK_ATLAS)) {
-            return;
-        }
-
-        event.addSprite(CachedSprites.GUI_CHARGINGPORT_SLOT_ID);
     }
 
     public void onItemTooltip(final ItemTooltipEvent event) {
@@ -175,7 +162,7 @@ public class ClientProxy
 
     @SubscribeEvent
     public void onColorHandlerEvent(final RegisterColorHandlersEvent.Block event) {
-        event.getBlockColors().register(new ReactorFuelRodBlockColor(),
+        event.register(new ReactorFuelRodBlockColor(),
                 Content.Blocks.REACTOR_FUELROD_BASIC.get(),
                 Content.Blocks.REACTOR_FUELROD_REINFORCED.get());
     }
@@ -199,8 +186,6 @@ public class ClientProxy
     //region internals
 
     private static List<ICustomModelBuilder> initModels() {
-
-        //noinspection UnstableApiUsage
         return Streams.concat(
                 Arrays.stream(ReactorVariant.values())
                         .flatMap(v -> Stream.of(
@@ -232,18 +217,18 @@ public class ClientProxy
         registerScreen(Content.ContainerTypes.REACTOR_CONTROLROD, ReactorControlRodScreen::new);
         registerScreen(Content.ContainerTypes.REACTOR_CHARGINGPORT,
                 (ChargingPortContainer<ReactorChargingPortEntity> container, Inventory inventory, Component title) ->
-                        new ChargingPortScreen<>(container, inventory, title, ExtremeReactors.newID("reactor/part-forgechargingport")));
+                        new ChargingPortScreen<>(container, inventory, title, CommonLocations.REACTOR.buildWithSuffix("part-forgechargingport")));
         registerScreen(Content.ContainerTypes.REACTOR_FLUIDPORT,
                 (ModTileContainer<ReactorFluidPortEntity> container, Inventory inventory, Component title) ->
-                        new FluidPortScreen<>(container, inventory, title, ExtremeReactors.newID("reactor/part-forgefluidport")));
+                        new FluidPortScreen<>(container, inventory, title, CommonLocations.REACTOR.buildWithSuffix("part-forgefluidport")));
         // Turbine GUIs
         registerScreen(Content.ContainerTypes.TURBINE_CONTROLLER, TurbineControllerScreen::new);
         registerScreen(Content.ContainerTypes.TURBINE_CHARGINGPORT,
                 (ChargingPortContainer<TurbineChargingPortEntity> container, Inventory inventory, Component title) ->
-                        new ChargingPortScreen<>(container, inventory, title, ExtremeReactors.newID("turbine/part-forgechargingport")));
+                        new ChargingPortScreen<>(container, inventory, title, CommonLocations.TURBINE.buildWithSuffix("part-forgechargingport")));
         registerScreen(Content.ContainerTypes.TURBINE_FLUIDPORT,
                 (ModTileContainer<TurbineFluidPortEntity> container, Inventory inventory, Component title) ->
-                        new FluidPortScreen<>(container, inventory, title, ExtremeReactors.newID("turbine/part-forgefluidport")));
+                        new FluidPortScreen<>(container, inventory, title, CommonLocations.TURBINE.buildWithSuffix("part-forgefluidport")));
         registerScreen(Content.ContainerTypes.TURBINE_REDSTONEPORT, TurbineRedstonePortScreen::new);
 
         // Reprocessor GUIs

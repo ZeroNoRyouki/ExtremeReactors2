@@ -18,7 +18,6 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.mod
 
 import com.google.common.collect.Lists;
 import com.mojang.math.Transformation;
-import com.mojang.math.Vector3f;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectLists;
 import it.unimi.dsi.fastutil.shorts.Short2ObjectArrayMap;
@@ -38,6 +37,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.client.model.SimpleModelState;
 import net.minecraftforge.client.model.data.ModelData;
+import org.joml.Vector3f;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

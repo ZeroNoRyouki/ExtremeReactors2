@@ -20,7 +20,7 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.client
 
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Quaternion;
+import com.mojang.math.Axis;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.part.ReprocessorCollectorEntity;
 import it.zerono.mods.zerocore.lib.client.render.buffer.TintingRenderTypeBufferWrapper;
 import net.minecraft.client.Minecraft;
@@ -54,8 +54,7 @@ public class ReprocessorCollectorRender
         stack.pushPose();
 
         stack.translate(0.5, 6.0 - (5.5 * progress), 0.5);
-        stack.mulPose(new Quaternion(0, (float)((collector.getPartWorldOrFail().getGameTime() / 25.0) % (Math.PI * 2) +
-                (partialTicks / 25.0)), 0, false));
+        stack.mulPose(Axis.YP.rotationDegrees((360 * collector.getPartWorldOrFail().getGameTime() / 50.0f) + (partialTicks / 50.0f)));
         stack.scale(1.5F, 1.5F, 1.5F);
 
         final float startItemAlpha = (1.0f - (float)progress) + 0.25f;
