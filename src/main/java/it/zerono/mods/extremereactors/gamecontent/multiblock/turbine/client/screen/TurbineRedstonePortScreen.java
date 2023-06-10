@@ -30,11 +30,11 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part.Turbin
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.sensor.TurbineSensorSetting;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.sensor.TurbineSensorType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.TurbineVariant;
+import it.zerono.mods.zerocore.lib.CodeHelper;
 import it.zerono.mods.zerocore.lib.client.gui.control.TextInput;
 import it.zerono.mods.zerocore.lib.item.inventory.PlayerInventoryUsage;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
 import net.minecraft.network.chat.Component;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
 
 import java.util.Optional;
@@ -149,7 +149,7 @@ public class TurbineRedstonePortScreen
             } else {
 
                 final long originalValue = Long.parseLong(text);
-                final long value = Mth.clamp(originalValue, 0, this.getTileEntity().getMultiblockVariant().map(v -> (int)v.getMaxRotorSpeed()).orElse(0));
+                final long value = CodeHelper.mathClamp(originalValue, 0, this.getTileEntity().getMultiblockVariant().map(v -> (int)v.getMaxRotorSpeed()).orElse(0));
 
                 if (originalValue != value || '0' == text.charAt(0)) {
                     return Optional.of(Long.toString(value));
