@@ -9,7 +9,7 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.Rea
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.recipe.ReprocessorRecipe;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.TurbineVariant;
 import it.zerono.mods.zerocore.lib.data.ResourceLocationBuilder;
-import it.zerono.mods.zerocore.lib.datagen.provider.ModRecipeProvider;
+import it.zerono.mods.zerocore.lib.datagen.provider.recipe.ModRecipeProvider;
 import it.zerono.mods.zerocore.lib.datagen.provider.recipe.TwoToOneRecipeBuilder;
 import it.zerono.mods.zerocore.lib.recipe.ingredient.IRecipeIngredient;
 import it.zerono.mods.zerocore.lib.recipe.result.IRecipeResult;
