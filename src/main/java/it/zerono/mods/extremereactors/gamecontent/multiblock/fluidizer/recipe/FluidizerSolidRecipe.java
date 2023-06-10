@@ -20,16 +20,13 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.recipe;
 
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.zerocore.lib.data.stack.OperationMode;
-import it.zerono.mods.zerocore.lib.datagen.provider.recipe.OneToOneRecipeBuilder;
 import it.zerono.mods.zerocore.lib.recipe.AbstractOneToOneRecipe;
 import it.zerono.mods.zerocore.lib.recipe.ModRecipe;
 import it.zerono.mods.zerocore.lib.recipe.holder.AbstractHeldRecipe;
 import it.zerono.mods.zerocore.lib.recipe.holder.IRecipeHolder;
-import it.zerono.mods.zerocore.lib.recipe.ingredient.IRecipeIngredient;
 import it.zerono.mods.zerocore.lib.recipe.ingredient.IRecipeIngredientSource;
 import it.zerono.mods.zerocore.lib.recipe.ingredient.ItemStackRecipeIngredient;
 import it.zerono.mods.zerocore.lib.recipe.result.FluidStackRecipeResult;
-import it.zerono.mods.zerocore.lib.recipe.result.IRecipeResult;
 import it.zerono.mods.zerocore.lib.recipe.result.IRecipeResultTarget;
 import it.zerono.mods.zerocore.lib.recipe.serializer.OneToOneRecipeSerializer;
 import net.minecraft.resources.ResourceLocation;
@@ -74,11 +71,6 @@ public class FluidizerSolidRecipe
         return new OneToOneRecipeSerializer<>(FluidizerSolidRecipe::new,
                 ItemStackRecipeIngredient::from, ItemStackRecipeIngredient::from,
                 FluidStackRecipeResult::from, FluidStackRecipeResult::from);
-    }
-
-    public static OneToOneRecipeBuilder<ItemStack, FluidStack> builder(final IRecipeIngredient<ItemStack> ingredient,
-                                                                       final IRecipeResult<FluidStack> result) {
-        return new OneToOneRecipeBuilder<>(Type.Solid.getRecipeId(), ingredient, result);
     }
 
     //region IFluidizerRecipe

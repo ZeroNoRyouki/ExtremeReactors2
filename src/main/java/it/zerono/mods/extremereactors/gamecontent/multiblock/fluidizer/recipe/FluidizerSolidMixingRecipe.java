@@ -18,18 +18,16 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.recipe;
 
+import com.google.common.base.Preconditions;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.zerocore.lib.data.stack.OperationMode;
-import it.zerono.mods.zerocore.lib.datagen.provider.recipe.TwoToOneRecipeBuilder;
 import it.zerono.mods.zerocore.lib.recipe.AbstractTwoToOneRecipe;
 import it.zerono.mods.zerocore.lib.recipe.ModRecipe;
 import it.zerono.mods.zerocore.lib.recipe.holder.AbstractHeldRecipe;
 import it.zerono.mods.zerocore.lib.recipe.holder.IRecipeHolder;
-import it.zerono.mods.zerocore.lib.recipe.ingredient.IRecipeIngredient;
 import it.zerono.mods.zerocore.lib.recipe.ingredient.IRecipeIngredientSource;
 import it.zerono.mods.zerocore.lib.recipe.ingredient.ItemStackRecipeIngredient;
 import it.zerono.mods.zerocore.lib.recipe.result.FluidStackRecipeResult;
-import it.zerono.mods.zerocore.lib.recipe.result.IRecipeResult;
 import it.zerono.mods.zerocore.lib.recipe.result.IRecipeResultTarget;
 import it.zerono.mods.zerocore.lib.recipe.serializer.TwoToOneRecipeSerializer;
 import net.minecraft.resources.ResourceLocation;
@@ -38,8 +36,6 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraftforge.fluids.FluidStack;
 
-import java.util.function.IntFunction;
-
 public class FluidizerSolidMixingRecipe
         extends AbstractTwoToOneRecipe<ItemStack, ItemStack, FluidStack, ItemStackRecipeIngredient, ItemStackRecipeIngredient, FluidStackRecipeResult>
         implements IFluidizerRecipe {
@@ -47,7 +43,7 @@ public class FluidizerSolidMixingRecipe
     protected FluidizerSolidMixingRecipe(final ResourceLocation id, final ItemStackRecipeIngredient ingredient1,
                                          final ItemStackRecipeIngredient ingredient2, final FluidStackRecipeResult result) {
 
-        super(id, ingredient1, ingredient2, result, JSON_LABELS_SUPPLIER);
+        super(id, ingredient1, ingredient2, result, FluidizerSolidMixingRecipe::getLabel);
         s_maxResultAmount = Math.max(s_maxResultAmount, result.getAmount());
     }
 
@@ -95,13 +91,14 @@ public class FluidizerSolidMixingRecipe
         return new TwoToOneRecipeSerializer<>(FluidizerSolidMixingRecipe::new,
                 ItemStackRecipeIngredient::from, ItemStackRecipeIngredient::from,
                 ItemStackRecipeIngredient::from, ItemStackRecipeIngredient::from,
-                FluidStackRecipeResult::from, FluidStackRecipeResult::from, JSON_LABELS_SUPPLIER);
+                FluidStackRecipeResult::from, FluidStackRecipeResult::from, FluidizerSolidMixingRecipe::getLabel);
     }
 
-    public static TwoToOneRecipeBuilder<ItemStack, ItemStack, FluidStack> builder(final IRecipeIngredient<ItemStack> ingredient1,
-                                                                                  final IRecipeIngredient<ItemStack> ingredient2,
-                                                                                  final IRecipeResult<FluidStack> result) {
-        return new TwoToOneRecipeBuilder<>(Type.SolidMixing.getRecipeId(), ingredient1, ingredient2, result, JSON_LABELS_SUPPLIER);
+    public static String getLabel(int index) {
+
+        Preconditions.checkArgument(index >= 0 && index < LABELS.length, "Invalid label index");
+
+        return LABELS[index];
     }
 
     //region IFluidizerRecipe
@@ -176,7 +173,6 @@ public class FluidizerSolidMixingRecipe
     //region internals
 
     private static final String[] LABELS = {"ingredient1", "ingredient2"};
-    private static final IntFunction<String> JSON_LABELS_SUPPLIER = n -> LABELS[n];
     private static long s_maxResultAmount = 0;
 
     //endregion

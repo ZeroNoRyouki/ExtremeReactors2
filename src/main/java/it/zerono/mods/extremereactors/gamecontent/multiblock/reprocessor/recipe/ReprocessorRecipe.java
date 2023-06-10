@@ -20,12 +20,9 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.recipe
 
 import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.gamecontent.Content;
-import it.zerono.mods.zerocore.lib.datagen.provider.recipe.TwoToOneRecipeBuilder;
 import it.zerono.mods.zerocore.lib.recipe.AbstractTwoToOneRecipe;
 import it.zerono.mods.zerocore.lib.recipe.ingredient.FluidStackRecipeIngredient;
-import it.zerono.mods.zerocore.lib.recipe.ingredient.IRecipeIngredient;
 import it.zerono.mods.zerocore.lib.recipe.ingredient.ItemStackRecipeIngredient;
-import it.zerono.mods.zerocore.lib.recipe.result.IRecipeResult;
 import it.zerono.mods.zerocore.lib.recipe.result.ItemStackRecipeResult;
 import it.zerono.mods.zerocore.lib.recipe.serializer.TwoToOneRecipeSerializer;
 import net.minecraft.resources.ResourceLocation;
@@ -41,7 +38,7 @@ public class ReprocessorRecipe
                     ItemStackRecipeIngredient, FluidStackRecipeIngredient, ItemStackRecipeResult> {
 
     public static final String NAME = "reprocessor";
-    public static final ResourceLocation ID = ExtremeReactors.newID(NAME);
+    public static final ResourceLocation ID = ExtremeReactors.ROOT_LOCATION.buildWithSuffix(NAME);
     public static final IntFunction<String> JSON_LABELS_SUPPLIER;
 
     protected ReprocessorRecipe(final ResourceLocation id, final ItemStackRecipeIngredient ingot,
@@ -66,12 +63,6 @@ public class ReprocessorRecipe
                 ItemStackRecipeIngredient::from, ItemStackRecipeIngredient::from,
                 FluidStackRecipeIngredient::from, FluidStackRecipeIngredient::from,
                 ItemStackRecipeResult::from, ItemStackRecipeResult::from, JSON_LABELS_SUPPLIER);
-    }
-
-    public static TwoToOneRecipeBuilder<ItemStack, FluidStack, ItemStack> builder(final IRecipeIngredient<ItemStack> ingot,
-                                                                                  final IRecipeIngredient<FluidStack> fluid,
-                                                                                  final IRecipeResult<ItemStack> result) {
-        return new TwoToOneRecipeBuilder<>(ID, ingot, fluid, result, JSON_LABELS_SUPPLIER);
     }
 
     //region AbstractTwoToOneRecipe
