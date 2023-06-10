@@ -25,10 +25,10 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.part.Re
 import it.zerono.mods.zerocore.lib.client.render.buffer.TintingRenderTypeBufferWrapper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.entity.ItemRenderer;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 
 public class ReprocessorCollectorRender
@@ -60,11 +60,13 @@ public class ReprocessorCollectorRender
         final float startItemAlpha = (1.0f - (float)progress) + 0.25f;
         final float endItemAlpha = ((float)progress) - 0.10f;
 
-        ITEM_RENDERER.renderStatic(startItem, ItemTransforms.TransformType.GROUND, combinedLight, combinedOverlay,
-                stack, new TintingRenderTypeBufferWrapper(buffer, startItemAlpha, 1.0f, 1.0f, 1.0f), 0);
+        ITEM_RENDERER.renderStatic(startItem, ItemDisplayContext.GROUND, combinedLight, combinedOverlay,
+                stack, new TintingRenderTypeBufferWrapper(buffer, startItemAlpha, 1.0f, 1.0f, 1.0f),
+                collector.getCurrentWorld(), 0);
 
-        ITEM_RENDERER.renderStatic(endItem, ItemTransforms.TransformType.GROUND, combinedLight, combinedOverlay,
-                stack, new TintingRenderTypeBufferWrapper(buffer, endItemAlpha, 1.0f, 1.0f, 1.0f), 0);
+        ITEM_RENDERER.renderStatic(endItem, ItemDisplayContext.GROUND, combinedLight, combinedOverlay,
+                stack, new TintingRenderTypeBufferWrapper(buffer, endItemAlpha, 1.0f, 1.0f, 1.0f),
+                collector.getCurrentWorld(), 0);
 
         stack.popPose();
     }
