@@ -21,6 +21,7 @@ package it.zerono.mods.extremereactors.gamecontent;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import it.zerono.mods.extremereactors.ExtremeReactors;
+import it.zerono.mods.extremereactors.gamecontent.compat.patchouli.PatchouliCompat;
 import it.zerono.mods.extremereactors.gamecontent.fluid.ReactantFluidBlock;
 import it.zerono.mods.extremereactors.gamecontent.fluid.ReactorFluidType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.container.ChargingPortContainer;
@@ -56,16 +57,20 @@ import it.zerono.mods.extremereactors.loader.forge.gamecontent.worldgen.OreBiome
 import it.zerono.mods.zerocore.lib.block.ModBlock;
 import it.zerono.mods.zerocore.lib.block.ModOreBlock;
 import it.zerono.mods.zerocore.lib.block.multiblock.MultiblockPartBlock;
+import it.zerono.mods.zerocore.lib.compat.Mods;
 import it.zerono.mods.zerocore.lib.data.IoDirection;
 import it.zerono.mods.zerocore.lib.data.IoMode;
 import it.zerono.mods.zerocore.lib.energy.EnergySystem;
 import it.zerono.mods.zerocore.lib.fluid.SimpleFluidTypeRenderProperties;
 import it.zerono.mods.zerocore.lib.item.ModItem;
+import it.zerono.mods.zerocore.lib.item.creativetab.CreativeModeTabContentOutput;
+import it.zerono.mods.zerocore.lib.item.creativetab.ICreativeTabsBuilder;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
 import it.zerono.mods.zerocore.lib.recipe.ModRecipe;
 import it.zerono.mods.zerocore.lib.recipe.ModRecipeType;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
+import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
@@ -97,6 +102,7 @@ import net.minecraftforge.network.IContainerFactory;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+import vazkii.patchouli.api.PatchouliAPI;
 
 import java.util.Collection;
 import java.util.function.BiFunction;
@@ -118,6 +124,8 @@ public final class Content {
         Biomes.initialize(bus);
 
         bus.addListener(Content::onCommonInit);
+
+        registerCreativeTabs();
     }
 
     public static final class Blocks {
@@ -432,9 +440,9 @@ public final class Content {
 
         @SuppressWarnings("unchecked")
         private static <T extends MultiblockPartBlock<MultiblockReactor, ReactorPartType>>
-            RegistryObject<T> registerReactorBlock(final String name,
-                                                   final ReactorVariant variant,
-                                                   final ReactorPartType partType) {
+        RegistryObject<T> registerReactorBlock(final String name,
+                                               final ReactorVariant variant,
+                                               final ReactorPartType partType) {
             return BLOCKS.register(name, () -> (T) (partType.createBlock(variant)));
         }
 
@@ -502,14 +510,14 @@ public final class Content {
         public static final RegistryObject<ModItem> RIDICULITE_DUST = registerItemGeneric("ridiculite_dust");
         public static final RegistryObject<ModItem> INANITE_DUST = registerItemGeneric("inanite_dust");
 
-        public static final RegistryObject<BlockItem> YELLORIUM_BLOCK = registerItemBlock(Reactants.Yellorium.getBlockName(), () -> Blocks.YELLORIUM_BLOCK, ItemGroups.GENERAL);
-        public static final RegistryObject<BlockItem> CYANITE_BLOCK = registerItemBlock(Reactants.Cyanite.getBlockName(), () -> Blocks.CYANITE_BLOCK, ItemGroups.GENERAL);
-        public static final RegistryObject<BlockItem> GRAPHITE_BLOCK = registerItemBlock("graphite_block", () -> Blocks.GRAPHITE_BLOCK, ItemGroups.GENERAL);
-        public static final RegistryObject<BlockItem> BLUTONIUM_BLOCK = registerItemBlock(Reactants.Blutonium.getBlockName(), () -> Blocks.BLUTONIUM_BLOCK, ItemGroups.GENERAL);
-        public static final RegistryObject<BlockItem> MAGENTITE_BLOCK = registerItemBlock(Reactants.Magentite.getBlockName(), () -> Blocks.MAGENTITE_BLOCK, ItemGroups.GENERAL);
-        public static final RegistryObject<BlockItem> LUDICRITE_BLOCK = registerItemBlock("ludicrite_block", () -> Blocks.LUDICRITE_BLOCK, ItemGroups.GENERAL);
-        public static final RegistryObject<BlockItem> RIDICULITE_BLOCK = registerItemBlock("ridiculite_block", () -> Blocks.RIDICULITE_BLOCK, ItemGroups.GENERAL);
-        public static final RegistryObject<BlockItem> INANITE_BLOCK = registerItemBlock("inanite_block", () -> Blocks.INANITE_BLOCK, ItemGroups.GENERAL);
+        public static final RegistryObject<BlockItem> YELLORIUM_BLOCK = registerItemBlock(Reactants.Yellorium.getBlockName(), () -> Blocks.YELLORIUM_BLOCK);
+        public static final RegistryObject<BlockItem> CYANITE_BLOCK = registerItemBlock(Reactants.Cyanite.getBlockName(), () -> Blocks.CYANITE_BLOCK);
+        public static final RegistryObject<BlockItem> GRAPHITE_BLOCK = registerItemBlock("graphite_block", () -> Blocks.GRAPHITE_BLOCK);
+        public static final RegistryObject<BlockItem> BLUTONIUM_BLOCK = registerItemBlock(Reactants.Blutonium.getBlockName(), () -> Blocks.BLUTONIUM_BLOCK);
+        public static final RegistryObject<BlockItem> MAGENTITE_BLOCK = registerItemBlock(Reactants.Magentite.getBlockName(), () -> Blocks.MAGENTITE_BLOCK);
+        public static final RegistryObject<BlockItem> LUDICRITE_BLOCK = registerItemBlock("ludicrite_block", () -> Blocks.LUDICRITE_BLOCK);
+        public static final RegistryObject<BlockItem> RIDICULITE_BLOCK = registerItemBlock("ridiculite_block", () -> Blocks.RIDICULITE_BLOCK);
+        public static final RegistryObject<BlockItem> INANITE_BLOCK = registerItemBlock("inanite_block", () -> Blocks.INANITE_BLOCK);
 
         //endregion
         //region crystals
@@ -520,9 +528,9 @@ public final class Content {
         //endregion
         //region ores
 
-        public static final RegistryObject<BlockItem> YELLORITE_ORE_BLOCK = registerItemBlock("yellorite_ore", () -> Blocks.YELLORITE_ORE_BLOCK, ItemGroups.GENERAL);
-        public static final RegistryObject<BlockItem> ANGLESITE_ORE_BLOCK = registerItemBlock("anglesite_ore", () -> Blocks.ANGLESITE_ORE_BLOCK, ItemGroups.GENERAL);
-        public static final RegistryObject<BlockItem> BENITOITE_ORE_BLOCK = registerItemBlock("benitoite_ore", () -> Blocks.BENITOITE_ORE_BLOCK, ItemGroups.GENERAL);
+        public static final RegistryObject<BlockItem> YELLORITE_ORE_BLOCK = registerItemBlock("yellorite_ore", () -> Blocks.YELLORITE_ORE_BLOCK);
+        public static final RegistryObject<BlockItem> ANGLESITE_ORE_BLOCK = registerItemBlock("anglesite_ore", () -> Blocks.ANGLESITE_ORE_BLOCK);
+        public static final RegistryObject<BlockItem> BENITOITE_ORE_BLOCK = registerItemBlock("benitoite_ore", () -> Blocks.BENITOITE_ORE_BLOCK);
 
         //endregion
         //region fluids
@@ -551,94 +559,94 @@ public final class Content {
         //endregion
         //region reactor basic
 
-        public static final RegistryObject<BlockItem> REACTOR_CASING_BASIC = registerItemBlock("basic_reactorcasing", () -> Blocks.REACTOR_CASING_BASIC::get, ItemGroups.REACTOR);
-        public static final RegistryObject<BlockItem> REACTOR_GLASS_BASIC = registerItemBlock("basic_reactorglass", () -> Blocks.REACTOR_GLASS_BASIC::get, ItemGroups.REACTOR);
-        public static final RegistryObject<BlockItem> REACTOR_CONTROLLER_BASIC = registerItemBlock("basic_reactorcontroller", () -> Blocks.REACTOR_CONTROLLER_BASIC::get, ItemGroups.REACTOR);
-        public static final RegistryObject<BlockItem> REACTOR_FUELROD_BASIC = registerItemBlock("basic_reactorfuelrod", () -> Blocks.REACTOR_FUELROD_BASIC::get, ItemGroups.REACTOR);
-        public static final RegistryObject<BlockItem> REACTOR_CONTROLROD_BASIC = registerItemBlock("basic_reactorcontrolrod", () -> Blocks.REACTOR_CONTROLROD_BASIC::get, ItemGroups.REACTOR);
-        public static final RegistryObject<BlockItem> REACTOR_SOLID_ACCESSPORT_BASIC = registerItemBlock("basic_reactorsolidaccessport", () -> Blocks.REACTOR_SOLID_ACCESSPORT_BASIC::get, ItemGroups.REACTOR);
-        public static final RegistryObject<BlockItem> REACTOR_POWERTAP_FE_ACTIVE_BASIC = registerItemBlock("basic_reactorpowertapfe_active", () -> Blocks.REACTOR_POWERTAP_FE_ACTIVE_BASIC::get, ItemGroups.REACTOR);
-        public static final RegistryObject<BlockItem> REACTOR_POWERTAP_FE_PASSIVE_BASIC = registerItemBlock("basic_reactorpowertapfe_passive", () -> Blocks.REACTOR_POWERTAP_FE_PASSIVE_BASIC::get, ItemGroups.REACTOR);
-        public static final RegistryObject<BlockItem> REACTOR_REDSTONEPORT_BASIC = registerItemBlock("basic_reactorredstoneport", () -> Blocks.REACTOR_REDSTONEPORT_BASIC::get, ItemGroups.REACTOR);
-        public static final RegistryObject<BlockItem> REACTOR_CHARGINGPORT_FE_BASIC = registerItemBlock("basic_reactorchargingportfe", () -> Blocks.REACTOR_CHARGINGPORT_FE_BASIC::get, ItemGroups.REACTOR);
+        public static final RegistryObject<BlockItem> REACTOR_CASING_BASIC = registerItemBlock("basic_reactorcasing", () -> Blocks.REACTOR_CASING_BASIC::get);
+        public static final RegistryObject<BlockItem> REACTOR_GLASS_BASIC = registerItemBlock("basic_reactorglass", () -> Blocks.REACTOR_GLASS_BASIC::get);
+        public static final RegistryObject<BlockItem> REACTOR_CONTROLLER_BASIC = registerItemBlock("basic_reactorcontroller", () -> Blocks.REACTOR_CONTROLLER_BASIC::get);
+        public static final RegistryObject<BlockItem> REACTOR_FUELROD_BASIC = registerItemBlock("basic_reactorfuelrod", () -> Blocks.REACTOR_FUELROD_BASIC::get);
+        public static final RegistryObject<BlockItem> REACTOR_CONTROLROD_BASIC = registerItemBlock("basic_reactorcontrolrod", () -> Blocks.REACTOR_CONTROLROD_BASIC::get);
+        public static final RegistryObject<BlockItem> REACTOR_SOLID_ACCESSPORT_BASIC = registerItemBlock("basic_reactorsolidaccessport", () -> Blocks.REACTOR_SOLID_ACCESSPORT_BASIC::get);
+        public static final RegistryObject<BlockItem> REACTOR_POWERTAP_FE_ACTIVE_BASIC = registerItemBlock("basic_reactorpowertapfe_active", () -> Blocks.REACTOR_POWERTAP_FE_ACTIVE_BASIC::get);
+        public static final RegistryObject<BlockItem> REACTOR_POWERTAP_FE_PASSIVE_BASIC = registerItemBlock("basic_reactorpowertapfe_passive", () -> Blocks.REACTOR_POWERTAP_FE_PASSIVE_BASIC::get);
+        public static final RegistryObject<BlockItem> REACTOR_REDSTONEPORT_BASIC = registerItemBlock("basic_reactorredstoneport", () -> Blocks.REACTOR_REDSTONEPORT_BASIC::get);
+        public static final RegistryObject<BlockItem> REACTOR_CHARGINGPORT_FE_BASIC = registerItemBlock("basic_reactorchargingportfe", () -> Blocks.REACTOR_CHARGINGPORT_FE_BASIC::get);
 
         //endregion
         //region reactor reinforced
 
-        public static final RegistryObject<BlockItem> REACTOR_CASING_REINFORCED = registerItemBlock("reinforced_reactorcasing", () -> Blocks.REACTOR_CASING_REINFORCED::get, ItemGroups.REACTOR);
-        public static final RegistryObject<BlockItem> REACTOR_GLASS_REINFORCED = registerItemBlock("reinforced_reactorglass", () -> Blocks.REACTOR_GLASS_REINFORCED::get, ItemGroups.REACTOR);
-        public static final RegistryObject<BlockItem> REACTOR_CONTROLLER_REINFORCED = registerItemBlock("reinforced_reactorcontroller", () -> Blocks.REACTOR_CONTROLLER_REINFORCED::get, ItemGroups.REACTOR);
-        public static final RegistryObject<BlockItem> REACTOR_FUELROD_REINFORCED = registerItemBlock("reinforced_reactorfuelrod", () -> Blocks.REACTOR_FUELROD_REINFORCED::get, ItemGroups.REACTOR);
-        public static final RegistryObject<BlockItem> REACTOR_CONTROLROD_REINFORCED = registerItemBlock("reinforced_reactorcontrolrod", () -> Blocks.REACTOR_CONTROLROD_REINFORCED::get, ItemGroups.REACTOR);
-        public static final RegistryObject<BlockItem> REACTOR_SOLID_ACCESSPORT_REINFORCED = registerItemBlock("reinforced_reactorsolidaccessport", () -> Blocks.REACTOR_SOLID_ACCESSPORT_REINFORCED::get, ItemGroups.REACTOR);
-        public static final RegistryObject<BlockItem> REACTOR_FLUID_ACCESSPORT_REINFORCED = registerItemBlock("reinforced_reactorfluidaccessport", () -> Blocks.REACTOR_FLUID_ACCESSPORT_REINFORCED::get, ItemGroups.REACTOR);
-        public static final RegistryObject<BlockItem> REACTOR_POWERTAP_FE_ACTIVE_REINFORCED = registerItemBlock("reinforced_reactorpowertapfe_active", () -> Blocks.REACTOR_POWERTAP_FE_ACTIVE_REINFORCED::get, ItemGroups.REACTOR);
-        public static final RegistryObject<BlockItem> REACTOR_POWERTAP_FE_PASSIVE_REINFORCED = registerItemBlock("reinforced_reactorpowertapfe_passive", () -> Blocks.REACTOR_POWERTAP_FE_PASSIVE_REINFORCED::get, ItemGroups.REACTOR);
-        public static final RegistryObject<BlockItem> REACTOR_COMPUTERPORT_REINFORCED = registerItemBlock("reinforced_reactorcomputerport", () -> Blocks.REACTOR_COMPUTERPORT_REINFORCED::get, ItemGroups.REACTOR);
-        public static final RegistryObject<BlockItem> REACTOR_REDSTONEPORT_REINFORCED = registerItemBlock("reinforced_reactorredstoneport", () -> Blocks.REACTOR_REDSTONEPORT_REINFORCED::get, ItemGroups.REACTOR);
-        public static final RegistryObject<BlockItem> REACTOR_FLUIDPORT_FORGE_ACTIVE_REINFORCED = registerItemBlock("reinforced_reactorfluidport_forge_active", () -> Blocks.REACTOR_FLUIDTPORT_FORGE_ACTIVE_REINFORCED::get, ItemGroups.REACTOR);
-        public static final RegistryObject<BlockItem> REACTOR_FLUIDPORT_FORGE_PASSIVE_REINFORCED = registerItemBlock("reinforced_reactorfluidport_forge_passive", () -> Blocks.REACTOR_FLUIDPORT_FORGE_PASSIVE_REINFORCED::get, ItemGroups.REACTOR);
-        public static final RegistryObject<BlockItem> REACTOR_FLUIDPORT_MEKANISM_PASSIVE_REINFORCED = registerItemBlock("reinforced_reactorfluidport_mekanism_passive", () -> Blocks.REACTOR_FLUIDPORT_MEKANISM_PASSIVE_REINFORCED::get, ItemGroups.REACTOR);
-        public static final RegistryObject<BlockItem> REACTOR_CREATIVE_WATER_GENERATOR_REINFORCED = registerItemBlock("reinforced_reactorcreativewatergenerator", () -> Blocks.REACTOR_CREATIVE_WATER_GENERATOR_REINFORCED::get, ItemGroups.REACTOR);
-        public static final RegistryObject<BlockItem> REACTOR_CHARGINGPORT_FE_REINFORCED = registerItemBlock("reinforced_reactorchargingportfe", () -> Blocks.REACTOR_CHARGINGPORT_FE_REINFORCED::get, ItemGroups.REACTOR);
+        public static final RegistryObject<BlockItem> REACTOR_CASING_REINFORCED = registerItemBlock("reinforced_reactorcasing", () -> Blocks.REACTOR_CASING_REINFORCED::get);
+        public static final RegistryObject<BlockItem> REACTOR_GLASS_REINFORCED = registerItemBlock("reinforced_reactorglass", () -> Blocks.REACTOR_GLASS_REINFORCED::get);
+        public static final RegistryObject<BlockItem> REACTOR_CONTROLLER_REINFORCED = registerItemBlock("reinforced_reactorcontroller", () -> Blocks.REACTOR_CONTROLLER_REINFORCED::get);
+        public static final RegistryObject<BlockItem> REACTOR_FUELROD_REINFORCED = registerItemBlock("reinforced_reactorfuelrod", () -> Blocks.REACTOR_FUELROD_REINFORCED::get);
+        public static final RegistryObject<BlockItem> REACTOR_CONTROLROD_REINFORCED = registerItemBlock("reinforced_reactorcontrolrod", () -> Blocks.REACTOR_CONTROLROD_REINFORCED::get);
+        public static final RegistryObject<BlockItem> REACTOR_SOLID_ACCESSPORT_REINFORCED = registerItemBlock("reinforced_reactorsolidaccessport", () -> Blocks.REACTOR_SOLID_ACCESSPORT_REINFORCED::get);
+        public static final RegistryObject<BlockItem> REACTOR_FLUID_ACCESSPORT_REINFORCED = registerItemBlock("reinforced_reactorfluidaccessport", () -> Blocks.REACTOR_FLUID_ACCESSPORT_REINFORCED::get);
+        public static final RegistryObject<BlockItem> REACTOR_POWERTAP_FE_ACTIVE_REINFORCED = registerItemBlock("reinforced_reactorpowertapfe_active", () -> Blocks.REACTOR_POWERTAP_FE_ACTIVE_REINFORCED::get);
+        public static final RegistryObject<BlockItem> REACTOR_POWERTAP_FE_PASSIVE_REINFORCED = registerItemBlock("reinforced_reactorpowertapfe_passive", () -> Blocks.REACTOR_POWERTAP_FE_PASSIVE_REINFORCED::get);
+        public static final RegistryObject<BlockItem> REACTOR_COMPUTERPORT_REINFORCED = registerItemBlock("reinforced_reactorcomputerport", () -> Blocks.REACTOR_COMPUTERPORT_REINFORCED::get);
+        public static final RegistryObject<BlockItem> REACTOR_REDSTONEPORT_REINFORCED = registerItemBlock("reinforced_reactorredstoneport", () -> Blocks.REACTOR_REDSTONEPORT_REINFORCED::get);
+        public static final RegistryObject<BlockItem> REACTOR_FLUIDPORT_FORGE_ACTIVE_REINFORCED = registerItemBlock("reinforced_reactorfluidport_forge_active", () -> Blocks.REACTOR_FLUIDTPORT_FORGE_ACTIVE_REINFORCED::get);
+        public static final RegistryObject<BlockItem> REACTOR_FLUIDPORT_FORGE_PASSIVE_REINFORCED = registerItemBlock("reinforced_reactorfluidport_forge_passive", () -> Blocks.REACTOR_FLUIDPORT_FORGE_PASSIVE_REINFORCED::get);
+        public static final RegistryObject<BlockItem> REACTOR_FLUIDPORT_MEKANISM_PASSIVE_REINFORCED = registerItemBlock("reinforced_reactorfluidport_mekanism_passive", () -> Blocks.REACTOR_FLUIDPORT_MEKANISM_PASSIVE_REINFORCED::get);
+        public static final RegistryObject<BlockItem> REACTOR_CREATIVE_WATER_GENERATOR_REINFORCED = registerItemBlock("reinforced_reactorcreativewatergenerator", () -> Blocks.REACTOR_CREATIVE_WATER_GENERATOR_REINFORCED::get);
+        public static final RegistryObject<BlockItem> REACTOR_CHARGINGPORT_FE_REINFORCED = registerItemBlock("reinforced_reactorchargingportfe", () -> Blocks.REACTOR_CHARGINGPORT_FE_REINFORCED::get);
 
         //endregion
         //region turbine basic
 
-        public static final RegistryObject<BlockItem> TURBINE_CASING_BASIC = registerItemBlock("basic_turbinecasing", () -> Blocks.TURBINE_CASING_BASIC::get, ItemGroups.TURBINE);
-        public static final RegistryObject<BlockItem> TURBINE_GLASS_BASIC = registerItemBlock("basic_turbineglass", () -> Blocks.TURBINE_GLASS_BASIC::get, ItemGroups.TURBINE);
-        public static final RegistryObject<BlockItem> TURBINE_CONTROLLER_BASIC = registerItemBlock("basic_turbinecontroller", () -> Blocks.TURBINE_CONTROLLER_BASIC::get, ItemGroups.TURBINE);
-        public static final RegistryObject<BlockItem> TURBINE_ROTORBEARING_BASIC = registerItemBlock("basic_turbinerotorbearing", () -> Blocks.TURBINE_ROTORBEARING_BASIC::get, ItemGroups.TURBINE);
-        public static final RegistryObject<BlockItem> TURBINE_ROTORSHAFT_BASIC = registerItemBlock("basic_turbinerotorshaft", () -> Blocks.TURBINE_ROTORSHAFT_BASIC::get, ItemGroups.TURBINE);
-        public static final RegistryObject<BlockItem> TURBINE_ROTORBLADE_BASIC = registerItemBlock("basic_turbinerotorblade", () -> Blocks.TURBINE_ROTORBLADE_BASIC::get, ItemGroups.TURBINE);
-        public static final RegistryObject<BlockItem> TURBINE_POWERTAP_FE_ACTIVE_BASIC = registerItemBlock("basic_turbinepowertapfe_active", () -> Blocks.TURBINE_POWERTAP_FE_ACTIVE_BASIC::get, ItemGroups.TURBINE);
-        public static final RegistryObject<BlockItem> TURBINE_POWERTAP_FE_PASSIVE_BASIC = registerItemBlock("basic_turbinepowertapfe_passive", () -> Blocks.TURBINE_POWERTAP_FE_PASSIVE_BASIC::get, ItemGroups.TURBINE);
-        public static final RegistryObject<BlockItem> TURBINE_FLUIDPORT_FORGE_ACTIVE_BASIC = registerItemBlock("basic_turbinefluidport_forge_active", () -> Blocks.TURBINE_FLUIDPORT_FORGE_ACTIVE_BASIC::get, ItemGroups.TURBINE);
-        public static final RegistryObject<BlockItem> TURBINE_FLUIDPORT_FORGE_PASSIVE_BASIC = registerItemBlock("basic_turbinefluidport_forge_passive", () -> Blocks.TURBINE_FLUIDPORT_FORGE_PASSIVE_BASIC::get, ItemGroups.TURBINE);
-        public static final RegistryObject<BlockItem> TURBINE_REDSTONEPORT_BASIC = registerItemBlock("basic_turbineredstoneport", () -> Blocks.TURBINE_REDSTONEPORT_BASIC::get, ItemGroups.TURBINE);
-        public static final RegistryObject<BlockItem> TURBINE_CREATIVE_STEAM_GENERATOR_BASIC = registerItemBlock("basic_turbinecreativesteamgenerator", () -> Blocks.TURBINE_CREATIVE_STEAM_GENERATOR_BASIC::get, ItemGroups.TURBINE);
-        public static final RegistryObject<BlockItem> TURBINE_CHARGINGPORT_FE_BASIC = registerItemBlock("basic_turbinechargingportfe", () -> Blocks.TURBINE_CHARGINGPORT_FE_BASIC::get, ItemGroups.TURBINE);
+        public static final RegistryObject<BlockItem> TURBINE_CASING_BASIC = registerItemBlock("basic_turbinecasing", () -> Blocks.TURBINE_CASING_BASIC::get);
+        public static final RegistryObject<BlockItem> TURBINE_GLASS_BASIC = registerItemBlock("basic_turbineglass", () -> Blocks.TURBINE_GLASS_BASIC::get);
+        public static final RegistryObject<BlockItem> TURBINE_CONTROLLER_BASIC = registerItemBlock("basic_turbinecontroller", () -> Blocks.TURBINE_CONTROLLER_BASIC::get);
+        public static final RegistryObject<BlockItem> TURBINE_ROTORBEARING_BASIC = registerItemBlock("basic_turbinerotorbearing", () -> Blocks.TURBINE_ROTORBEARING_BASIC::get);
+        public static final RegistryObject<BlockItem> TURBINE_ROTORSHAFT_BASIC = registerItemBlock("basic_turbinerotorshaft", () -> Blocks.TURBINE_ROTORSHAFT_BASIC::get);
+        public static final RegistryObject<BlockItem> TURBINE_ROTORBLADE_BASIC = registerItemBlock("basic_turbinerotorblade", () -> Blocks.TURBINE_ROTORBLADE_BASIC::get);
+        public static final RegistryObject<BlockItem> TURBINE_POWERTAP_FE_ACTIVE_BASIC = registerItemBlock("basic_turbinepowertapfe_active", () -> Blocks.TURBINE_POWERTAP_FE_ACTIVE_BASIC::get);
+        public static final RegistryObject<BlockItem> TURBINE_POWERTAP_FE_PASSIVE_BASIC = registerItemBlock("basic_turbinepowertapfe_passive", () -> Blocks.TURBINE_POWERTAP_FE_PASSIVE_BASIC::get);
+        public static final RegistryObject<BlockItem> TURBINE_FLUIDPORT_FORGE_ACTIVE_BASIC = registerItemBlock("basic_turbinefluidport_forge_active", () -> Blocks.TURBINE_FLUIDPORT_FORGE_ACTIVE_BASIC::get);
+        public static final RegistryObject<BlockItem> TURBINE_FLUIDPORT_FORGE_PASSIVE_BASIC = registerItemBlock("basic_turbinefluidport_forge_passive", () -> Blocks.TURBINE_FLUIDPORT_FORGE_PASSIVE_BASIC::get);
+        public static final RegistryObject<BlockItem> TURBINE_REDSTONEPORT_BASIC = registerItemBlock("basic_turbineredstoneport", () -> Blocks.TURBINE_REDSTONEPORT_BASIC::get);
+        public static final RegistryObject<BlockItem> TURBINE_CREATIVE_STEAM_GENERATOR_BASIC = registerItemBlock("basic_turbinecreativesteamgenerator", () -> Blocks.TURBINE_CREATIVE_STEAM_GENERATOR_BASIC::get);
+        public static final RegistryObject<BlockItem> TURBINE_CHARGINGPORT_FE_BASIC = registerItemBlock("basic_turbinechargingportfe", () -> Blocks.TURBINE_CHARGINGPORT_FE_BASIC::get);
 
         //endregion
         //region turbine reinforced
 
-        public static final RegistryObject<BlockItem> TURBINE_CASING_REINFORCED = registerItemBlock("reinforced_turbinecasing", () -> Blocks.TURBINE_CASING_REINFORCED::get, ItemGroups.TURBINE);
-        public static final RegistryObject<BlockItem> TURBINE_GLASS_REINFORCED = registerItemBlock("reinforced_turbineglass", () -> Blocks.TURBINE_GLASS_REINFORCED::get, ItemGroups.TURBINE);
-        public static final RegistryObject<BlockItem> TURBINE_CONTROLLER_REINFORCED = registerItemBlock("reinforced_turbinecontroller", () -> Blocks.TURBINE_CONTROLLER_REINFORCED::get, ItemGroups.TURBINE);
-        public static final RegistryObject<BlockItem> TURBINE_ROTORBEARING_REINFORCED = registerItemBlock("reinforced_turbinerotorbearing", () -> Blocks.TURBINE_ROTORBEARING_REINFORCED::get, ItemGroups.TURBINE);
-        public static final RegistryObject<BlockItem> TURBINE_ROTORSHAFT_REINFORCED = registerItemBlock("reinforced_turbinerotorshaft", () -> Blocks.TURBINE_ROTORSHAFT_REINFORCED::get, ItemGroups.TURBINE);
-        public static final RegistryObject<BlockItem> TURBINE_ROTORBLADE_REINFORCED = registerItemBlock("reinforced_turbinerotorblade", () -> Blocks.TURBINE_ROTORBLADE_REINFORCED::get, ItemGroups.TURBINE);
-        public static final RegistryObject<BlockItem> TURBINE_POWERTAP_FE_ACTIVE_REINFORCED = registerItemBlock("reinforced_turbinepowertapfe_active", () -> Blocks.TURBINE_POWERTAP_FE_ACTIVE_REINFORCED::get, ItemGroups.TURBINE);
-        public static final RegistryObject<BlockItem> TURBINE_POWERTAP_FE_PASSIVE_REINFORCED = registerItemBlock("reinforced_turbinepowertapfe_passive", () -> Blocks.TURBINE_POWERTAP_FE_PASSIVE_REINFORCED::get, ItemGroups.TURBINE);
-        public static final RegistryObject<BlockItem> TURBINE_FLUIDPORT_FORGE_ACTIVE_REINFORCED = registerItemBlock("reinforced_turbinefluidport_forge_active", () -> Blocks.TURBINE_FLUIDPORT_FORGE_ACTIVE_REINFORCED::get, ItemGroups.TURBINE);
-        public static final RegistryObject<BlockItem> TURBINE_FLUIDPORT_FORGE_PASSIVE_REINFORCED = registerItemBlock("reinforced_turbinefluidport_forge_passive", () -> Blocks.TURBINE_FLUIDPORT_FORGE_PASSIVE_REINFORCED::get, ItemGroups.TURBINE);
-        public static final RegistryObject<BlockItem> TURBINE_REDSTONEPORT_REINFORCED = registerItemBlock("reinforced_turbineredstoneport", () -> Blocks.TURBINE_REDSTONEPORT_REINFORCED::get, ItemGroups.TURBINE);
-        public static final RegistryObject<BlockItem> TURBINE_COMPUTERPORT_REINFORCED = registerItemBlock("reinforced_turbinecomputerport", () -> Blocks.TURBINE_COMPUTERPORT_REINFORCED::get, ItemGroups.TURBINE);
-        public static final RegistryObject<BlockItem> TURBINE_CREATIVE_STEAM_GENERATOR_REINFORCED = registerItemBlock("reinforced_turbinecreativesteamgenerator", () -> Blocks.TURBINE_CREATIVE_STEAM_GENERATOR_REINFORCED::get, ItemGroups.TURBINE);
-        public static final RegistryObject<BlockItem> TURBINE_CHARGINGPORT_FE_REINFORCED = registerItemBlock("reinforced_turbinechargingportfe", () -> Blocks.TURBINE_CHARGINGPORT_FE_REINFORCED::get, ItemGroups.TURBINE);
+        public static final RegistryObject<BlockItem> TURBINE_CASING_REINFORCED = registerItemBlock("reinforced_turbinecasing", () -> Blocks.TURBINE_CASING_REINFORCED::get);
+        public static final RegistryObject<BlockItem> TURBINE_GLASS_REINFORCED = registerItemBlock("reinforced_turbineglass", () -> Blocks.TURBINE_GLASS_REINFORCED::get);
+        public static final RegistryObject<BlockItem> TURBINE_CONTROLLER_REINFORCED = registerItemBlock("reinforced_turbinecontroller", () -> Blocks.TURBINE_CONTROLLER_REINFORCED::get);
+        public static final RegistryObject<BlockItem> TURBINE_ROTORBEARING_REINFORCED = registerItemBlock("reinforced_turbinerotorbearing", () -> Blocks.TURBINE_ROTORBEARING_REINFORCED::get);
+        public static final RegistryObject<BlockItem> TURBINE_ROTORSHAFT_REINFORCED = registerItemBlock("reinforced_turbinerotorshaft", () -> Blocks.TURBINE_ROTORSHAFT_REINFORCED::get);
+        public static final RegistryObject<BlockItem> TURBINE_ROTORBLADE_REINFORCED = registerItemBlock("reinforced_turbinerotorblade", () -> Blocks.TURBINE_ROTORBLADE_REINFORCED::get);
+        public static final RegistryObject<BlockItem> TURBINE_POWERTAP_FE_ACTIVE_REINFORCED = registerItemBlock("reinforced_turbinepowertapfe_active", () -> Blocks.TURBINE_POWERTAP_FE_ACTIVE_REINFORCED::get);
+        public static final RegistryObject<BlockItem> TURBINE_POWERTAP_FE_PASSIVE_REINFORCED = registerItemBlock("reinforced_turbinepowertapfe_passive", () -> Blocks.TURBINE_POWERTAP_FE_PASSIVE_REINFORCED::get);
+        public static final RegistryObject<BlockItem> TURBINE_FLUIDPORT_FORGE_ACTIVE_REINFORCED = registerItemBlock("reinforced_turbinefluidport_forge_active", () -> Blocks.TURBINE_FLUIDPORT_FORGE_ACTIVE_REINFORCED::get);
+        public static final RegistryObject<BlockItem> TURBINE_FLUIDPORT_FORGE_PASSIVE_REINFORCED = registerItemBlock("reinforced_turbinefluidport_forge_passive", () -> Blocks.TURBINE_FLUIDPORT_FORGE_PASSIVE_REINFORCED::get);
+        public static final RegistryObject<BlockItem> TURBINE_REDSTONEPORT_REINFORCED = registerItemBlock("reinforced_turbineredstoneport", () -> Blocks.TURBINE_REDSTONEPORT_REINFORCED::get);
+        public static final RegistryObject<BlockItem> TURBINE_COMPUTERPORT_REINFORCED = registerItemBlock("reinforced_turbinecomputerport", () -> Blocks.TURBINE_COMPUTERPORT_REINFORCED::get);
+        public static final RegistryObject<BlockItem> TURBINE_CREATIVE_STEAM_GENERATOR_REINFORCED = registerItemBlock("reinforced_turbinecreativesteamgenerator", () -> Blocks.TURBINE_CREATIVE_STEAM_GENERATOR_REINFORCED::get);
+        public static final RegistryObject<BlockItem> TURBINE_CHARGINGPORT_FE_REINFORCED = registerItemBlock("reinforced_turbinechargingportfe", () -> Blocks.TURBINE_CHARGINGPORT_FE_REINFORCED::get);
 
         //endregion
         //region reprocessor
 
-        public static final RegistryObject<BlockItem> REPROCESSOR_CASING = registerItemBlock("reprocessorcasing", () -> Blocks.REPROCESSOR_CASING::get, ItemGroups.GENERAL);
-        public static final RegistryObject<BlockItem> REPROCESSOR_GLASS = registerItemBlock("reprocessorglass", () -> Blocks.REPROCESSOR_GLASS::get, ItemGroups.GENERAL);
-        public static final RegistryObject<BlockItem> REPROCESSOR_CONTROLLER = registerItemBlock("reprocessorcontroller", () -> Blocks.REPROCESSOR_CONTROLLER::get, ItemGroups.GENERAL);
-        public static final RegistryObject<BlockItem> REPROCESSOR_WASTEINJECTOR = registerItemBlock("reprocessorwasteinjector", () -> Blocks.REPROCESSOR_WASTEINJECTOR::get, ItemGroups.GENERAL);
-        public static final RegistryObject<BlockItem> REPROCESSOR_FLUIDINJECTOR = registerItemBlock("reprocessorfluidinjector", () -> Blocks.REPROCESSOR_FLUIDINJECTOR::get, ItemGroups.GENERAL);
-        public static final RegistryObject<BlockItem> REPROCESSOR_OUTPUTPORT = registerItemBlock("reprocessoroutputport", () -> Blocks.REPROCESSOR_OUTPUTPORT::get, ItemGroups.GENERAL);
-        public static final RegistryObject<BlockItem> REPROCESSOR_POWERPORT = registerItemBlock("reprocessorpowerport", () -> Blocks.REPROCESSOR_POWERPORT::get, ItemGroups.GENERAL);
-        public static final RegistryObject<BlockItem> REPROCESSOR_COLLECTOR = registerItemBlock("reprocessorcollector", () -> Blocks.REPROCESSOR_COLLECTOR::get, ItemGroups.GENERAL);
+        public static final RegistryObject<BlockItem> REPROCESSOR_CASING = registerItemBlock("reprocessorcasing", () -> Blocks.REPROCESSOR_CASING::get);
+        public static final RegistryObject<BlockItem> REPROCESSOR_GLASS = registerItemBlock("reprocessorglass", () -> Blocks.REPROCESSOR_GLASS::get);
+        public static final RegistryObject<BlockItem> REPROCESSOR_CONTROLLER = registerItemBlock("reprocessorcontroller", () -> Blocks.REPROCESSOR_CONTROLLER::get);
+        public static final RegistryObject<BlockItem> REPROCESSOR_WASTEINJECTOR = registerItemBlock("reprocessorwasteinjector", () -> Blocks.REPROCESSOR_WASTEINJECTOR::get);
+        public static final RegistryObject<BlockItem> REPROCESSOR_FLUIDINJECTOR = registerItemBlock("reprocessorfluidinjector", () -> Blocks.REPROCESSOR_FLUIDINJECTOR::get);
+        public static final RegistryObject<BlockItem> REPROCESSOR_OUTPUTPORT = registerItemBlock("reprocessoroutputport", () -> Blocks.REPROCESSOR_OUTPUTPORT::get);
+        public static final RegistryObject<BlockItem> REPROCESSOR_POWERPORT = registerItemBlock("reprocessorpowerport", () -> Blocks.REPROCESSOR_POWERPORT::get);
+        public static final RegistryObject<BlockItem> REPROCESSOR_COLLECTOR = registerItemBlock("reprocessorcollector", () -> Blocks.REPROCESSOR_COLLECTOR::get);
 
         //endregion
         //region fluidizer
 
-        public static final RegistryObject<BlockItem> FLUIDIZER_CASING = registerItemBlock("fluidizercasing", () -> Blocks.FLUIDIZER_CASING::get, ItemGroups.GENERAL);
-        public static final RegistryObject<BlockItem> FLUIDIZER_GLASS = registerItemBlock("fluidizerglass", () -> Blocks.FLUIDIZER_GLASS::get, ItemGroups.GENERAL);
-        public static final RegistryObject<BlockItem> FLUIDIZER_CONTROLLER = registerItemBlock("fluidizercontroller", () -> Blocks.FLUIDIZER_CONTROLLER::get, ItemGroups.GENERAL);
-        public static final RegistryObject<BlockItem> FLUIDIZER_SOLIDINJECTOR = registerItemBlock("fluidizersolidinjector", () -> Blocks.FLUIDIZER_SOLIDINJECTOR::get, ItemGroups.GENERAL);
-        public static final RegistryObject<BlockItem> FLUIDIZER_FLUIDINJECTOR = registerItemBlock("fluidizerfluidinjector", () -> Blocks.FLUIDIZER_FLUIDINJECTOR::get, ItemGroups.GENERAL);
-        public static final RegistryObject<BlockItem> FLUIDIZER_OUTPUTPORT = registerItemBlock("fluidizeroutputport", () -> Blocks.FLUIDIZER_OUTPUTPORT::get, ItemGroups.GENERAL);
-        public static final RegistryObject<BlockItem> FLUIDIZER_POWERPORT = registerItemBlock("fluidizerpowerport", () -> Blocks.FLUIDIZER_POWERPORT::get, ItemGroups.GENERAL);
+        public static final RegistryObject<BlockItem> FLUIDIZER_CASING = registerItemBlock("fluidizercasing", () -> Blocks.FLUIDIZER_CASING::get);
+        public static final RegistryObject<BlockItem> FLUIDIZER_GLASS = registerItemBlock("fluidizerglass", () -> Blocks.FLUIDIZER_GLASS::get);
+        public static final RegistryObject<BlockItem> FLUIDIZER_CONTROLLER = registerItemBlock("fluidizercontroller", () -> Blocks.FLUIDIZER_CONTROLLER::get);
+        public static final RegistryObject<BlockItem> FLUIDIZER_SOLIDINJECTOR = registerItemBlock("fluidizersolidinjector", () -> Blocks.FLUIDIZER_SOLIDINJECTOR::get);
+        public static final RegistryObject<BlockItem> FLUIDIZER_FLUIDINJECTOR = registerItemBlock("fluidizerfluidinjector", () -> Blocks.FLUIDIZER_FLUIDINJECTOR::get);
+        public static final RegistryObject<BlockItem> FLUIDIZER_OUTPUTPORT = registerItemBlock("fluidizeroutputport", () -> Blocks.FLUIDIZER_OUTPUTPORT::get);
+        public static final RegistryObject<BlockItem> FLUIDIZER_POWERPORT = registerItemBlock("fluidizerpowerport", () -> Blocks.FLUIDIZER_POWERPORT::get);
 
         //endregion
         //region misc
@@ -654,21 +662,19 @@ public final class Content {
 
         private static RegistryObject<ModItem> registerItemGeneric(final String name, final int maxStack) {
             return ITEMS.register(name,
-                    () -> new ModItem(new Item.Properties().tab(ItemGroups.GENERAL).stacksTo(maxStack)));
+                    () -> new ModItem(new Item.Properties().stacksTo(maxStack)));
         }
 
         private static RegistryObject<BlockItem> registerItemBlock(final String name,
-                                                                   final Supplier<Supplier<ModBlock>> blockSupplier,
-                                                                   final CreativeModeTab group) {
+                                                                   final Supplier<Supplier<ModBlock>> blockSupplier) {
             return ITEMS.register(name,
-                    () -> blockSupplier.get().get().createBlockItem(new Item.Properties().tab(group).stacksTo(64)));
+                    () -> blockSupplier.get().get().createBlockItem(new Item.Properties().stacksTo(64)));
         }
 
         private static RegistryObject<BucketItem> registerBucket(final String name, final Supplier<? extends Fluid> sourceFluid) {
             return ITEMS.register(name, () -> new BucketItem(sourceFluid, new Item.Properties()
                     .craftRemainder(net.minecraft.world.item.Items.BUCKET)
-                    .stacksTo(1)
-                    .tab(CreativeModeTab.TAB_MISC)));
+                    .stacksTo(1)));
         }
 
         //endregion
@@ -704,12 +710,12 @@ public final class Content {
                         .temperature(100)
                         .rarity(Rarity.COMMON)) {
 
-            @Override
-            public void initializeClient(final Consumer<IClientFluidTypeExtensions> consumer) {
-                consumer.accept(new SimpleFluidTypeRenderProperties(0xffffffff, CommonConstants.FLUID_TEXTURE_SOURCE_WATER,
-                        CommonConstants.FLUID_TEXTURE_FLOWING_WATER, CommonConstants.FLUID_TEXTURE_OVERLAY_WATER));
-            }
-        });
+                    @Override
+                    public void initializeClient(final Consumer<IClientFluidTypeExtensions> consumer) {
+                        consumer.accept(new SimpleFluidTypeRenderProperties(0xffffffff, CommonConstants.FLUID_TEXTURE_SOURCE_WATER,
+                                CommonConstants.FLUID_TEXTURE_FLOWING_WATER, CommonConstants.FLUID_TEXTURE_OVERLAY_WATER));
+                    }
+                });
 
         public static final RegistryObject<FlowingFluid> STEAM_SOURCE = registerSteam("steam", ForgeFlowingFluid.Source::new);
         public static final RegistryObject<FlowingFluid> STEAM_FLOWING = registerSteam("steam_flowing", ForgeFlowingFluid.Flowing::new);
@@ -1076,8 +1082,8 @@ public final class Content {
         @SuppressWarnings("ConstantConditions")
         @SafeVarargs
         private static <T extends BlockEntity> RegistryObject<BlockEntityType<T>> registerBlockEntity(final String name,
-                                                                                                    final BlockEntityType.BlockEntitySupplier<T> factory,
-                                                                                                    final Supplier<Supplier<Block>>... validBlockSuppliers) {
+                                                                                                      final BlockEntityType.BlockEntitySupplier<T> factory,
+                                                                                                      final Supplier<Supplier<Block>>... validBlockSuppliers) {
             return TILE_ENTITIES.register(name, () -> {
 
                 final Block[] validBlocks = new Block[validBlockSuppliers.length];
@@ -1175,7 +1181,7 @@ public final class Content {
         //region internals
 
         private static <C extends AbstractContainerMenu> RegistryObject<MenuType<C>> registerContainer(final String name,
-                                                                                                final IContainerFactory<C> factory) {
+                                                                                                       final IContainerFactory<C> factory) {
             return CONTAINERS.register(name, () -> IForgeMenuType.create(factory));
         }
 
@@ -1202,7 +1208,7 @@ public final class Content {
         //region Fluidizer
 
         public static final ModRecipeType<ModRecipe> FLUIDIZER_RECIPE_TYPE =
-                ModRecipeType.create(ExtremeReactors.newID("fluidizer"));
+                ModRecipeType.create(ExtremeReactors.ROOT_LOCATION.buildWithSuffix("fluidizer"));
 
         public static final RegistryObject<RecipeSerializer<FluidizerSolidRecipe>> FLUIDIZER_SOLID_RECIPE_SERIALIZER =
                 SERIALIZERS.register(IFluidizerRecipe.Type.Solid.getRecipeName(), FluidizerSolidRecipe::serializer);
@@ -1249,6 +1255,102 @@ public final class Content {
 
         ReactorGameData.register();
         TurbineGameData.register();
+    }
+
+    private static void registerCreativeTabs() {
+
+        ICreativeTabsBuilder.create()
+                .add(ExtremeReactors.ROOT_LOCATION.buildWithSuffix("tab.general"),
+                        builder -> builder
+                                .title(Component.translatable("itemGroup.bigreactors.general"))
+                                .icon(() -> new ItemStack(Items.YELLORITE_ORE_BLOCK.get())),
+                        (tab, enabledFeatureSet, showOpOnlyItems, output) -> {
+
+                            CreativeModeTabContentOutput.acceptAll(output,
+                                    Blocks.YELLORITE_ORE_BLOCK, Blocks.ANGLESITE_ORE_BLOCK, Blocks.BENITOITE_ORE_BLOCK,
+                                    Items.YELLORIUM_INGOT, Items.YELLORIUM_DUST, Blocks.YELLORIUM_BLOCK,
+                                    Items.BLUTONIUM_INGOT, Items.BLUTONIUM_DUST, Blocks.BLUTONIUM_BLOCK,
+                                    Items.CYANITE_INGOT, Items.CYANITE_DUST, Blocks.CYANITE_BLOCK,
+                                    Items.MAGENTITE_INGOT, Items.MAGENTITE_DUST, Blocks.MAGENTITE_BLOCK,
+                                    Items.GRAPHITE_INGOT, Items.GRAPHITE_DUST, Blocks.GRAPHITE_BLOCK,
+                                    Items.LUDICRITE_INGOT, Items.LUDICRITE_DUST, Blocks.LUDICRITE_BLOCK,
+                                    Items.RIDICULITE_INGOT, Items.RIDICULITE_DUST, Blocks.RIDICULITE_BLOCK,
+                                    Items.INANITE_INGOT, Items.INANITE_DUST, Blocks.INANITE_BLOCK,
+                                    Items.YELLORIUM_NUGGET, Items.BLUTONIUM_NUGGET,
+                                    Items.ANGLESITE_CRYSTAL, Items.BENITOITE_CRYSTAL,
+                                    Items.WRENCH);
+
+                            Mods.PATCHOULI.map(() -> PatchouliAPI.get().getBookStack(PatchouliCompat.HANDBOOK_ID))
+                                    .ifPresent(output::accept);
+
+                            CreativeModeTabContentOutput.acceptAll(output,
+                                    Blocks.REPROCESSOR_CASING, Blocks.REPROCESSOR_GLASS,
+                                    Blocks.REPROCESSOR_CONTROLLER, Blocks.REPROCESSOR_COLLECTOR,
+                                    Blocks.REPROCESSOR_WASTEINJECTOR, Blocks.REPROCESSOR_FLUIDINJECTOR,
+                                    Blocks.REPROCESSOR_OUTPUTPORT, Blocks.REPROCESSOR_POWERPORT);
+
+                            CreativeModeTabContentOutput.acceptAll(output,
+                                    Items.STEAM_BUCKET, Items.YELLORIUM_BUCKET, Items.CYANITE_BUCKET,
+                                    Items.BLUTONIUM_BUCKET, Items.MAGENTITE_BUCKET, Items.VERDERIUM_BUCKET,
+                                    Items.ROSSINITE_BUCKET, Items.CRYOMISI_BUCKET, Items.TANGERIUM_BUCKET,
+                                    Items.REDFRIGIUM_BUCKET);
+
+                            CreativeModeTabContentOutput.acceptAll(output,
+                                    Blocks.FLUIDIZER_CASING, Blocks.FLUIDIZER_GLASS,
+                                    Blocks.FLUIDIZER_CONTROLLER, Blocks.FLUIDIZER_SOLIDINJECTOR,
+                                    Blocks.FLUIDIZER_FLUIDINJECTOR, Blocks.FLUIDIZER_OUTPUTPORT,
+                                    Blocks.FLUIDIZER_POWERPORT);
+                        })
+                .add(ExtremeReactors.ROOT_LOCATION.buildWithSuffix("tab.reactor"),
+                        builder -> builder
+                                .title(Component.translatable("itemGroup.bigreactors.reactor"))
+                                .icon(() -> new ItemStack(Items.REACTOR_FUELROD_BASIC.get()))
+                                .noScrollBar(),
+                        (tab, enabledFeatureSet, showOpOnlyItems, output) -> CreativeModeTabContentOutput.acceptAll(output,
+
+                                Blocks.REACTOR_CONTROLLER_BASIC, Blocks.REACTOR_CASING_BASIC,
+                                Blocks.REACTOR_GLASS_BASIC, Blocks.REACTOR_FUELROD_BASIC,
+                                Blocks.REACTOR_CONTROLROD_BASIC, Blocks.REACTOR_SOLID_ACCESSPORT_BASIC,
+                                Blocks.REACTOR_CHARGINGPORT_FE_BASIC,
+                                Blocks.REACTOR_POWERTAP_FE_ACTIVE_BASIC, Blocks.REACTOR_POWERTAP_FE_PASSIVE_BASIC,
+                                Blocks.REACTOR_REDSTONEPORT_BASIC,
+
+                                Blocks.REACTOR_CONTROLLER_REINFORCED, Blocks.REACTOR_CASING_REINFORCED,
+                                Blocks.REACTOR_GLASS_REINFORCED, Blocks.REACTOR_FUELROD_REINFORCED,
+                                Blocks.REACTOR_CONTROLROD_REINFORCED, Blocks.REACTOR_SOLID_ACCESSPORT_REINFORCED,
+                                Blocks.REACTOR_FLUID_ACCESSPORT_REINFORCED,
+                                Blocks.REACTOR_POWERTAP_FE_ACTIVE_REINFORCED, Blocks.REACTOR_POWERTAP_FE_PASSIVE_REINFORCED,
+                                Blocks.REACTOR_CHARGINGPORT_FE_REINFORCED,
+                                Blocks.REACTOR_REDSTONEPORT_REINFORCED, Blocks.REACTOR_COMPUTERPORT_REINFORCED,
+                                Blocks.REACTOR_FLUIDTPORT_FORGE_ACTIVE_REINFORCED, Blocks.REACTOR_FLUIDPORT_FORGE_PASSIVE_REINFORCED,
+                                Blocks.REACTOR_FLUIDPORT_MEKANISM_PASSIVE_REINFORCED,
+                                Blocks.REACTOR_CREATIVE_WATER_GENERATOR_REINFORCED))
+
+                .add(ExtremeReactors.ROOT_LOCATION.buildWithSuffix("tab.turbine"),
+                        builder -> builder
+                                .title(Component.translatable("itemGroup.bigreactors.turbine"))
+                                .icon(() -> new ItemStack(Items.TURBINE_ROTORSHAFT_BASIC.get()))
+                                .noScrollBar(),
+                        (tab, enabledFeatureSet, showOpOnlyItems, output) -> CreativeModeTabContentOutput.acceptAll(output,
+
+                                Blocks.TURBINE_CONTROLLER_BASIC, Blocks.TURBINE_CASING_BASIC,
+                                Blocks.TURBINE_GLASS_BASIC, Blocks.TURBINE_ROTORBEARING_BASIC,
+                                Blocks.TURBINE_ROTORSHAFT_BASIC, Blocks.TURBINE_ROTORBLADE_BASIC,
+                                Blocks.TURBINE_POWERTAP_FE_ACTIVE_BASIC, Blocks.TURBINE_POWERTAP_FE_PASSIVE_BASIC,
+                                Blocks.TURBINE_CHARGINGPORT_FE_BASIC,
+                                Blocks.TURBINE_REDSTONEPORT_BASIC,
+                                Blocks.TURBINE_FLUIDPORT_FORGE_ACTIVE_BASIC, Blocks.TURBINE_FLUIDPORT_FORGE_PASSIVE_BASIC,
+                                Blocks.TURBINE_CREATIVE_STEAM_GENERATOR_BASIC,
+
+                                Blocks.TURBINE_CONTROLLER_REINFORCED, Blocks.TURBINE_CASING_REINFORCED,
+                                Blocks.TURBINE_GLASS_REINFORCED, Blocks.TURBINE_ROTORBEARING_REINFORCED,
+                                Blocks.TURBINE_ROTORSHAFT_REINFORCED, Blocks.TURBINE_ROTORBLADE_REINFORCED,
+                                Blocks.TURBINE_POWERTAP_FE_ACTIVE_REINFORCED, Blocks.TURBINE_POWERTAP_FE_PASSIVE_REINFORCED,
+                                Blocks.TURBINE_CHARGINGPORT_FE_REINFORCED,
+                                Blocks.TURBINE_REDSTONEPORT_REINFORCED, Blocks.TURBINE_COMPUTERPORT_REINFORCED,
+                                Blocks.TURBINE_FLUIDPORT_FORGE_ACTIVE_REINFORCED, Blocks.TURBINE_FLUIDPORT_FORGE_PASSIVE_REINFORCED,
+                                Blocks.TURBINE_CREATIVE_STEAM_GENERATOR_REINFORCED))
+                .build();
     }
 
     //endregion
