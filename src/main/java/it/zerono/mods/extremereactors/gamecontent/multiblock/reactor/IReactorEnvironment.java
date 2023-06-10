@@ -21,8 +21,6 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor;
 import it.zerono.mods.extremereactors.api.reactor.radiation.IRadiationModerator;
 import net.minecraft.core.BlockPos;
 
-import java.util.Optional;
-
 public interface IReactorEnvironment {
 
     boolean isSimulator();
@@ -37,7 +35,7 @@ public interface IReactorEnvironment {
 
     float getReactorHeatLossCoefficient();
 
-    Optional<IIrradiationSource> getNextIrradiationSource();
+    IIrradiationSource getNextIrradiationSource();
 
     /**
      * Get a Moderator from the Reactor internal volume

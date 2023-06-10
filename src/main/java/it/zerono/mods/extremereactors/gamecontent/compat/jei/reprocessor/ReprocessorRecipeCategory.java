@@ -31,26 +31,20 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.recipe.
 import it.zerono.mods.zerocore.lib.CodeHelper;
 import it.zerono.mods.zerocore.lib.client.gui.Orientation;
 import it.zerono.mods.zerocore.lib.client.gui.Padding;
-import it.zerono.mods.zerocore.lib.client.gui.sprite.ISprite;
-import it.zerono.mods.zerocore.lib.client.gui.sprite.Sprite;
-import it.zerono.mods.zerocore.lib.client.render.ModRenderHelper;
 import it.zerono.mods.zerocore.lib.compat.jei.AbstractModRecipeCategory;
 import it.zerono.mods.zerocore.lib.compat.jei.drawable.ProgressBarDrawable;
 import it.zerono.mods.zerocore.lib.data.geometry.Rectangle;
-import it.zerono.mods.zerocore.lib.fluid.FluidHelper;
 import mezz.jei.api.constants.VanillaTypes;
+import mezz.jei.api.forge.ForgeTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
-import mezz.jei.api.gui.drawable.IDrawableAnimated;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.fluids.FluidStack;
 
 import java.util.List;
-import java.util.Objects;
 
 public class ReprocessorRecipeCategory
         extends AbstractModRecipeCategory<ReprocessorRecipe> {
@@ -66,9 +60,6 @@ public class ReprocessorRecipeCategory
                         .build());
 
         this._powerBarArea = new Rectangle(6, 23, 16, 64);
-        this._fluidBarrArea = new Rectangle(34, 23, 16, 64);
-        this._fluidBarTooltips = this._powerBarTooltips = ObjectLists.emptyList();
-
         this._powerBar = new ProgressBarDrawable(CommonIcons.PowerBar, 0, Padding.ZERO,
                 this._powerBarArea.Width, this._powerBarArea.Height, Orientation.BottomToTop);
     }
@@ -90,35 +81,12 @@ public class ReprocessorRecipeCategory
 
         // input fluid ingredient
 
-        final FluidStack recipeFluid = recipe.getIngredient2().getMatchingElements().stream()
-                .filter(Objects::nonNull)
-                .filter(fs -> !fs.isEmpty())
-                .findAny()
-                .orElse(FluidStack.EMPTY);
+        builder.addSlot(RecipeIngredientRole.INPUT, 79 + 5, 1 + 5) // add the padding
+                .addIngredients(VanillaTypes.ITEM_STACK, recipe.getIngredient1().getMatchingElements());
 
-        if (!recipeFluid.isEmpty()) {
-
-            this._recipeFluidSprite = ModRenderHelper.getFlowingFluidSprite(recipeFluid.getFluid());
-
-            this._fluidBar = new ProgressBarDrawable(this::getRecipeFluidSprite, 0, Padding.ZERO, 16, 64, Orientation.BottomToTop);
-            this._fluidBar.setTint(ModRenderHelper.getFluidTintColour(recipeFluid.getFluid()));
-            this._fluidBar.setProgress(MultiblockReprocessor.FLUID_CAPACITY, recipeFluid.getAmount());
-
-            this._fluidBarTooltips = new ObjectArrayList<>(3);
-            this._fluidBarTooltips.add(FluidHelper.getFluidName(recipeFluid.getFluid())
-                    .setStyle(CommonConstants.STYLE_TOOLTIP_TITLE));
-            this._fluidBarTooltips.add(CodeHelper.TEXT_EMPTY_LINE);
-            this._fluidBarTooltips.add(Component.literal(String.format("%d mB", recipeFluid.getAmount()))
-                    .setStyle(CommonConstants.STYLE_TOOLTIP_VALUE));
-
-            this._progressBar = null;
-
-        } else {
-
-            this._recipeFluidSprite = Sprite.EMPTY;
-            this._progressBar = null;
-            this._fluidBar = ProgressBarDrawable.empty();
-        }
+        builder.addSlot(RecipeIngredientRole.INPUT, 34, 23)
+                .setFluidRenderer(MultiblockReprocessor.FLUID_CAPACITY, false, 16, 64)
+                .addIngredients(ForgeTypes.FLUID_STACK, recipe.getIngredient2().getMatchingElements());
 
         // energy ingredient
 
@@ -135,13 +103,7 @@ public class ReprocessorRecipeCategory
     @Override
     public void draw(final ReprocessorRecipe recipe, final IRecipeSlotsView recipeSlotsView, final PoseStack matrix,
                      final double mouseX, final double mouseY) {
-
         this._powerBar.draw(matrix, this._powerBarArea.getX1(), this._powerBarArea.getY1());
-        this._fluidBar.draw(matrix, this._fluidBarrArea.getX1(), this._fluidBarrArea.getY1());
-
-        if (null != this._progressBar) {
-            this._progressBar.draw(matrix, 79 + 5, 26 + 5);
-        }
     }
 
     @Override
@@ -152,33 +114,19 @@ public class ReprocessorRecipeCategory
             return this._powerBarTooltips;
         }
 
-        if (this._fluidBarrArea.contains(mouseX, mouseY)) {
-            return this._fluidBarTooltips;
-        }
-
         return ObjectLists.emptyList();
     }
 
     //endregion
     //region internals
 
-    private ISprite getRecipeFluidSprite() {
-        return this._recipeFluidSprite;
-    }
-
     private static ResourceLocation getBackgroundId() {
         return CommonLocations.TEXTURES_GUI_JEI.buildWithSuffix("reprocessor.png");
     }
 
     private final Rectangle _powerBarArea;
-    private final Rectangle _fluidBarrArea;
     private final ProgressBarDrawable _powerBar;
     private List<Component> _powerBarTooltips;
-    private ProgressBarDrawable _fluidBar;
-    private List<Component> _fluidBarTooltips;
-    private IDrawableAnimated _progressBar;
-
-    private ISprite _recipeFluidSprite;
 
     //endregion
 }

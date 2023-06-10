@@ -174,12 +174,10 @@ dependencies {
 	minecraft "net.minecraftforge:forge:${config.minecraft_version}-${config.forge_version}"
     implementation project(':ZeroCore2-1.19')
 
-    // JEI API
-    compileOnly fg.deobf("mezz.jei:jei-${config.minecraft_version}-common-api:${config.jei_version}")
-    compileOnly fg.deobf("mezz.jei:jei-${config.minecraft_version}-forge-api:${config.jei_version}")
-    // JEI runtime
-    runtimeOnly fg.deobf("mezz.jei:jei-${config.minecraft_version}-common:${config.jei_version}")
-    runtimeOnly fg.deobf("mezz.jei:jei-${config.minecraft_version}-forge:${config.jei_version}")
+    // JEI
+    compileOnly(fg.deobf("mezz.jei:jei-${config.minecraft_version}-common-api:${config.jei_version}"))
+    compileOnly(fg.deobf("mezz.jei:jei-${config.minecraft_version}-forge-api:${config.jei_version}"))
+    runtimeOnly(fg.deobf("mezz.jei:jei-${config.minecraft_version}-forge:${config.jei_version}"))
 
     // cc-tweaked
     compileOnly("cc.tweaked:cc-tweaked-${config.minecraft_version}-core-api:${config.cctweaked_version}")

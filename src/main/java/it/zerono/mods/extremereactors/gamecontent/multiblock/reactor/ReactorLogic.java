@@ -217,9 +217,11 @@ public class ReactorLogic
             return;
         }
 
-        this._reactor.getEnvironment().getNextIrradiationSource()
-                .filter(IIrradiationSource::isLinked)
-                .ifPresent(this::performIrradiationFrom);
+        final IIrradiationSource source = this._reactor.getEnvironment().getNextIrradiationSource();
+
+        if (source.isLinked()) {
+            this.performIrradiationFrom(source);
+        }
     }
 
     /**
