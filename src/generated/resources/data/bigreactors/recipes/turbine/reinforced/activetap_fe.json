@@ -19,5 +19,6 @@
   ],
   "result": {
     "item": "bigreactors:reinforced_turbinepowertapfe_active"
-  }
+  },
+  "show_notification": true
 }

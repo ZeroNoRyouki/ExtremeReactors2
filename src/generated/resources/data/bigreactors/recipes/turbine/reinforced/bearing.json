@@ -32,7 +32,8 @@
         ],
         "result": {
           "item": "bigreactors:reinforced_turbinerotorbearing"
-        }
+        },
+        "show_notification": true
       }
     }
   ]

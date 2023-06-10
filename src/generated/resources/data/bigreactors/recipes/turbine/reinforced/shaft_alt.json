@@ -26,7 +26,8 @@
         ],
         "result": {
           "item": "bigreactors:reinforced_turbinerotorshaft"
-        }
+        },
+        "show_notification": true
       }
     }
   ]

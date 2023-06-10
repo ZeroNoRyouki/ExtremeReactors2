@@ -38,7 +38,8 @@
         ],
         "result": {
           "item": "bigreactors:reinforced_turbineredstoneport"
-        }
+        },
+        "show_notification": true
       }
     }
   ]

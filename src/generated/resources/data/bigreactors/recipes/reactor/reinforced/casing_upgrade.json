@@ -32,7 +32,8 @@
         ],
         "result": {
           "item": "bigreactors:reinforced_reactorcasing"
-        }
+        },
+        "show_notification": true
       }
     }
   ]

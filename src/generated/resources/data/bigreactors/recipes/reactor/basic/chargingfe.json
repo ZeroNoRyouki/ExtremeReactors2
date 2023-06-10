@@ -22,5 +22,6 @@
   ],
   "result": {
     "item": "bigreactors:basic_reactorchargingportfe"
-  }
+  },
+  "show_notification": true
 }

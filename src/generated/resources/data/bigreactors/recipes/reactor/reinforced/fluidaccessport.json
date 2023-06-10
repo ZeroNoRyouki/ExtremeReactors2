@@ -38,7 +38,8 @@
         ],
         "result": {
           "item": "bigreactors:reinforced_reactorfluidaccessport"
-        }
+        },
+        "show_notification": true
       }
     }
   ]

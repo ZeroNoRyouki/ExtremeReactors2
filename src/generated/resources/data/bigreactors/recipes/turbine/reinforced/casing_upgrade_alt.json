@@ -29,7 +29,8 @@
         ],
         "result": {
           "item": "bigreactors:reinforced_turbinecasing"
-        }
+        },
+        "show_notification": true
       }
     }
   ]

@@ -16,5 +16,6 @@
   ],
   "result": {
     "item": "bigreactors:basic_turbinerotorshaft"
-  }
+  },
+  "show_notification": true
 }

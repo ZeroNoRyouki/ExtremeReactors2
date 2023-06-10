@@ -19,5 +19,6 @@
   ],
   "result": {
     "item": "bigreactors:fluidizercasing"
-  }
+  },
+  "show_notification": true
 }

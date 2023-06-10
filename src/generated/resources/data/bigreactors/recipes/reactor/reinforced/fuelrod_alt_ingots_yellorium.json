@@ -32,7 +32,8 @@
         ],
         "result": {
           "item": "bigreactors:reinforced_reactorfuelrod"
-        }
+        },
+        "show_notification": true
       }
     }
   ]

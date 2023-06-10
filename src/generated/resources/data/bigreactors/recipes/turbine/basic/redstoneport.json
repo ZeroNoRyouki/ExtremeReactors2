@@ -25,5 +25,6 @@
   ],
   "result": {
     "item": "bigreactors:basic_turbineredstoneport"
-  }
+  },
+  "show_notification": true
 }

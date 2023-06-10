@@ -14,5 +14,6 @@
   ],
   "result": {
     "item": "bigreactors:fluidizerglass"
-  }
+  },
+  "show_notification": true
 }

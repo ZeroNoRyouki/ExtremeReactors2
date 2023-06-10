@@ -38,7 +38,8 @@
         ],
         "result": {
           "item": "bigreactors:reinforced_reactorcomputerport"
-        }
+        },
+        "show_notification": true
       }
     }
   ]

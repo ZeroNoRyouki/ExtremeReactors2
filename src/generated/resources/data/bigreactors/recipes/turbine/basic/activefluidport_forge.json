@@ -19,5 +19,6 @@
   ],
   "result": {
     "item": "bigreactors:basic_turbinefluidport_forge_active"
-  }
+  },
+  "show_notification": true
 }

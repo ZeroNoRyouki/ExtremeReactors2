@@ -14,5 +14,6 @@
   ],
   "result": {
     "item": "bigreactors:basic_reactorglass"
-  }
+  },
+  "show_notification": true
 }

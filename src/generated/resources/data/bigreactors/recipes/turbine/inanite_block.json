@@ -17,5 +17,6 @@
   ],
   "result": {
     "item": "bigreactors:inanite_block"
-  }
+  },
+  "show_notification": true
 }

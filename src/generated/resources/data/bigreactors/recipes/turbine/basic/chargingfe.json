@@ -22,5 +22,6 @@
   ],
   "result": {
     "item": "bigreactors:basic_turbinechargingportfe"
-  }
+  },
+  "show_notification": true
 }

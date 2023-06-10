@@ -38,7 +38,8 @@
         ],
         "result": {
           "item": "bigreactors:reinforced_turbinecomputerport"
-        }
+        },
+        "show_notification": true
       }
     }
   ]

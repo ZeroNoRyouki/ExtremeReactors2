@@ -22,5 +22,6 @@
   ],
   "result": {
     "item": "bigreactors:basic_reactorfuelrod"
-  }
+  },
+  "show_notification": true
 }

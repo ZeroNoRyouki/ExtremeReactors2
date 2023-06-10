@@ -19,5 +19,6 @@
   ],
   "result": {
     "item": "bigreactors:reinforced_turbinepowertapfe_passive"
-  }
+  },
+  "show_notification": true
 }

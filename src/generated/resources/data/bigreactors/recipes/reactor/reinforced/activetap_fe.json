@@ -19,5 +19,6 @@
   ],
   "result": {
     "item": "bigreactors:reinforced_reactorpowertapfe_active"
-  }
+  },
+  "show_notification": true
 }

@@ -25,5 +25,6 @@
   ],
   "result": {
     "item": "bigreactors:basic_turbinecontroller"
-  }
+  },
+  "show_notification": true
 }

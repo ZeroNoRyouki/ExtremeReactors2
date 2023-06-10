@@ -22,5 +22,6 @@
   ],
   "result": {
     "item": "bigreactors:reprocessorwasteinjector"
-  }
+  },
+  "show_notification": true
 }

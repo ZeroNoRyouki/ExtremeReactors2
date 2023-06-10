@@ -22,5 +22,6 @@
   ],
   "result": {
     "item": "bigreactors:fluidizerpowerport"
-  }
+  },
+  "show_notification": true
 }

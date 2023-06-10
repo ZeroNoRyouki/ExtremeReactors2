@@ -38,7 +38,8 @@
         ],
         "result": {
           "item": "bigreactors:reinforced_reactorredstoneport"
-        }
+        },
+        "show_notification": true
       }
     }
   ]

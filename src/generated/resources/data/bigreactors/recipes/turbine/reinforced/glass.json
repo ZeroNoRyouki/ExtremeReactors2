@@ -14,5 +14,6 @@
   ],
   "result": {
     "item": "bigreactors:reinforced_turbineglass"
-  }
+  },
+  "show_notification": true
 }

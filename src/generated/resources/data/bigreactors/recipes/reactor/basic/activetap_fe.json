@@ -19,5 +19,6 @@
   ],
   "result": {
     "item": "bigreactors:basic_reactorpowertapfe_active"
-  }
+  },
+  "show_notification": true
 }

@@ -25,5 +25,6 @@
   ],
   "result": {
     "item": "bigreactors:basic_reactorcontrolrod"
-  }
+  },
+  "show_notification": true
 }

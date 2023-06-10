@@ -19,5 +19,6 @@
   ],
   "result": {
     "item": "bigreactors:reprocessorcasing"
-  }
+  },
+  "show_notification": true
 }

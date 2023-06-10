@@ -32,7 +32,8 @@
         ],
         "result": {
           "item": "bigreactors:reinforced_reactorfluidport_mekanism_passive"
-        }
+        },
+        "show_notification": true
       }
     }
   ]

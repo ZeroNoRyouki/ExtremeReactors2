@@ -22,5 +22,6 @@
   ],
   "result": {
     "item": "bigreactors:reinforced_reactorchargingportfe"
-  }
+  },
+  "show_notification": true
 }

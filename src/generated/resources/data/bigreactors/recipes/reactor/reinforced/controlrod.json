@@ -38,7 +38,8 @@
         ],
         "result": {
           "item": "bigreactors:reinforced_reactorcontrolrod"
-        }
+        },
+        "show_notification": true
       }
     }
   ]

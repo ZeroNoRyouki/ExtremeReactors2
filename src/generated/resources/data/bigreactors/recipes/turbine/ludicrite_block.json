@@ -17,5 +17,6 @@
   ],
   "result": {
     "item": "bigreactors:ludicrite_block"
-  }
+  },
+  "show_notification": true
 }

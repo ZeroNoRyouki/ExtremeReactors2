@@ -14,5 +14,6 @@
   ],
   "result": {
     "item": "bigreactors:basic_turbineglass"
-  }
+  },
+  "show_notification": true
 }

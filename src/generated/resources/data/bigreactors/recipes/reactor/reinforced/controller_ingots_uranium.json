@@ -25,5 +25,6 @@
   ],
   "result": {
     "item": "bigreactors:reinforced_reactorcontroller"
-  }
+  },
+  "show_notification": true
 }

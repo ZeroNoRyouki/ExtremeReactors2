@@ -24,7 +24,8 @@
         ],
         "result": {
           "item": "bigreactors:reinforced_turbinerotorblade"
-        }
+        },
+        "show_notification": true
       }
     }
   ]

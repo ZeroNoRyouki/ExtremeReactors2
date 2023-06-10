@@ -22,5 +22,6 @@
   ],
   "result": {
     "item": "bigreactors:fluidizerfluidinjector"
-  }
+  },
+  "show_notification": true
 }
