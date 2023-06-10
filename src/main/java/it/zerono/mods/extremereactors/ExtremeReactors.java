@@ -20,20 +20,18 @@ package it.zerono.mods.extremereactors;
 
 import it.zerono.mods.extremereactors.api.internal.modpack.wrapper.ApiWrapper;
 import it.zerono.mods.extremereactors.config.Config;
-import it.zerono.mods.extremereactors.config.conditions.ConfigCondition;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.command.ExtremeReactorsCommand;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.network.UpdateClientsFuelRodsLayout;
 import it.zerono.mods.extremereactors.proxy.IProxy;
 import it.zerono.mods.extremereactors.proxy.ProxySafeReferent;
+import it.zerono.mods.zerocore.lib.data.ResourceLocationBuilder;
 import it.zerono.mods.zerocore.lib.init.IModInitializationHandler;
 import it.zerono.mods.zerocore.lib.network.IModMessage;
 import it.zerono.mods.zerocore.lib.network.NetworkHandler;
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
@@ -42,14 +40,13 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegisterEvent;
 
 @Mod(value = ExtremeReactors.MOD_ID)
 public class ExtremeReactors implements IModInitializationHandler {
 
     public static final String MOD_ID = "bigreactors";
     public static final String MOD_NAME = "Extreme Reactors 2";
+    public static ResourceLocationBuilder ROOT_LOCATION = ResourceLocationBuilder.of(MOD_ID);
 
     public static ExtremeReactors getInstance() {
         return s_instance;
@@ -59,14 +56,10 @@ public class ExtremeReactors implements IModInitializationHandler {
         return s_proxy;
     }
 
-    public static ResourceLocation newID(final String path) {
-        return new ResourceLocation(MOD_ID, path);
-    }
-
     public ExtremeReactors() {
 
         s_instance = this;
-        this._network = new NetworkHandler(newID("network"), "1");
+        this._network = new NetworkHandler(ROOT_LOCATION.buildWithSuffix("network"), "1");
 
         Config.initialize();
         Content.initialize();
@@ -77,11 +70,8 @@ public class ExtremeReactors implements IModInitializationHandler {
 
         modBus.addListener(this::onCommonInit);
         modBus.addListener(this::onInterModProcess);
-        modBus.addListener(this::onRegisterRecipeSerializer);
 
         MinecraftForge.EVENT_BUS.addListener(this::onRegisterCommands);
-
-//        WorldGen.initialize();
     }
 
     /**
@@ -133,11 +123,6 @@ public class ExtremeReactors implements IModInitializationHandler {
 
         // ModPack API Wrapper
         ApiWrapper.processFile();
-    }
-
-    public void onRegisterRecipeSerializer(final RegisterEvent event) {
-        event.register(ForgeRegistries.Keys.RECIPE_SERIALIZERS,
-                helper -> CraftingHelper.register(ConfigCondition.Serializer.INSTANCE));
     }
 
     public <T extends IModMessage> void sendPacket(final T packet, final Level world, final BlockPos center, final int radius) {
