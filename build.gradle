@@ -43,7 +43,9 @@ minecraft {
             property 'mixin.env.refMapRemappingFile', "${project.projectDir}/build/createSrgToMcp/output.srg"
 
             workingDirectory runDir
-			
+
+            ideaModule "${rootProject.name}.${project.name}.main".replace(' ', '_')
+
             mods {
                 zerocore {
                     source project(':ZeroCore2-1.19').sourceSets.main
@@ -65,7 +67,9 @@ minecraft {
             property 'mixin.env.refMapRemappingFile', "${project.projectDir}/build/createSrgToMcp/output.srg"
             
 			workingDirectory serverDir
-			
+
+            ideaModule "${rootProject.name}.${project.name}.main".replace(' ', '_')
+
             mods {
                 zerocore {
                     source project(':ZeroCore2-1.19').sourceSets.main
@@ -91,6 +95,8 @@ minecraft {
                     '--existing', file('src/main/resources/'),
                     '--existing', file('src/generated/resources/'),
                     '--output', file('src/generated/resources/')
+
+            ideaModule "${rootProject.name}.${project.name}.main".replace(' ', '_')
 
             mods {
                 zerocore {
@@ -175,12 +181,14 @@ dependencies {
     runtimeOnly fg.deobf("mezz.jei:jei-${config.minecraft_version}-common:${config.jei_version}")
     runtimeOnly fg.deobf("mezz.jei:jei-${config.minecraft_version}-forge:${config.jei_version}")
 
-	// cc-tweaked
-//    compileOnly fg.deobf("org.squiddev:cc-tweaked-${config.minecraft_version}:${config.cctweaked_version}")
+    // cc-tweaked
+    compileOnly("cc.tweaked:cc-tweaked-${config.minecraft_version}-core-api:${config.cctweaked_version}")
+    compileOnly(fg.deobf("cc.tweaked:cc-tweaked-${config.minecraft_version}-forge-api:${config.cctweaked_version}"))
+    runtimeOnly(fg.deobf("cc.tweaked:cc-tweaked-${config.minecraft_version}-forge:${config.cctweaked_version}"))
 
 	// patchouli
-//    compileOnly fg.deobf("vazkii.patchouli:Patchouli:${config.patchouli_version}:api")
-//    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${config.patchouli_version}")
+    compileOnly fg.deobf("vazkii.patchouli:Patchouli:${config.patchouli_version}:api")
+    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${config.patchouli_version}")
 
     // mekanism
 //    compileOnly "mekanism:Mekanism:${config.mekanism_version}:api"
@@ -196,7 +204,7 @@ dependencies {
 //    runtimeOnly fg.deobf("curse.maven:redarsenal-70631:4121288")
 
 	// constructionwand
-//    implementation fg.deobf("curse.maven:constructionwand-399558:3712396")
+    implementation fg.deobf("curse.maven:constructionwand-399558:4455720")
 }
 
 task extremereactors_apiJar(type: Jar) {
