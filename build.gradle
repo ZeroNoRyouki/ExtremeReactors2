@@ -194,9 +194,9 @@ dependencies {
     runtimeOnly(fg.deobf("mezz.jei:jei-${config.minecraft_version}-forge:${config.jei_version}"))
 
     // cc-tweaked
-//    compileOnly("cc.tweaked:cc-tweaked-${config.minecraft_version}-core-api:${config.cctweaked_version}")
-//    compileOnly(fg.deobf("cc.tweaked:cc-tweaked-${config.minecraft_version}-forge-api:${config.cctweaked_version}"))
-//    runtimeOnly(fg.deobf("cc.tweaked:cc-tweaked-${config.minecraft_version}-forge:${config.cctweaked_version}"))
+    compileOnly("cc.tweaked:cc-tweaked-${config.minecraft_version}-core-api:${config.cctweaked_version}")
+    compileOnly(fg.deobf("cc.tweaked:cc-tweaked-${config.minecraft_version}-forge-api:${config.cctweaked_version}"))
+    runtimeOnly(fg.deobf("cc.tweaked:cc-tweaked-${config.minecraft_version}-forge:${config.cctweaked_version}"))
 
 	// patchouli
 //    compileOnly fg.deobf("vazkii.patchouli:Patchouli:${config.patchouli_version}:api")
