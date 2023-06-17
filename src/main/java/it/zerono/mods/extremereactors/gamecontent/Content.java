@@ -62,19 +62,19 @@ import it.zerono.mods.zerocore.lib.data.IoMode;
 import it.zerono.mods.zerocore.lib.energy.EnergySystem;
 import it.zerono.mods.zerocore.lib.fluid.SimpleFluidTypeRenderProperties;
 import it.zerono.mods.zerocore.lib.item.ModItem;
-import it.zerono.mods.zerocore.lib.item.creativetab.CreativeModeTabContentOutput;
-import it.zerono.mods.zerocore.lib.item.creativetab.ICreativeTabsBuilder;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
 import it.zerono.mods.zerocore.lib.recipe.ModRecipe;
 import it.zerono.mods.zerocore.lib.recipe.ModRecipeType;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.LiquidBlock;
@@ -82,10 +82,12 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.minecraftforge.common.SoundActions;
@@ -120,10 +122,9 @@ public final class Content {
         ContainerTypes.initialize(bus);
         Recipes.initialize(bus);
         Biomes.initialize(bus);
+        CreativeTabs.initialize(bus);
 
         bus.addListener(Content::onCommonInit);
-
-        registerCreativeTabs();
     }
 
     public static final class Blocks {
@@ -162,7 +163,11 @@ public final class Content {
 
         public static final RegistryObject<LiquidBlock> STEAM = BLOCKS.register("steam",
                 () -> new LiquidBlock(Fluids.STEAM_SOURCE,
-                        Block.Properties.of(Material.WATER)
+                        Block.Properties.of()
+                                .mapColor(MapColor.WATER)
+                                .replaceable()
+                                .pushReaction(PushReaction.DESTROY)
+                                .liquid()
                                 .noCollission()
                                 .lightLevel($ -> 6)
                                 .strength(100.0F)
@@ -420,7 +425,7 @@ public final class Content {
 
         private static RegistryObject<ModBlock> registerMetalBlock(final String name, final DyeColor color) {
             return BLOCKS.register(name,
-                    () -> new ModBlock(Block.Properties.of(Material.METAL, color).sound(SoundType.METAL)));
+                    () -> new ModBlock(Block.Properties.of().mapColor(color).sound(SoundType.METAL)));
         }
 
         private static RegistryObject<ModBlock> registerOreBlock(final String name, final DyeColor color) {
@@ -430,9 +435,11 @@ public final class Content {
         private static RegistryObject<ModBlock> registerOreBlock(final String name, final DyeColor color,
                                                                  final int minDroppedXP, final int maxDroppedXP) {
             return BLOCKS.register(name,
-                    () -> new ModOreBlock(Block.Properties.of(Material.STONE, color)
+                    () -> new ModOreBlock(Block.Properties.of()
+                            .mapColor(color)
                             .sound(SoundType.STONE)
                             .requiresCorrectToolForDrops()
+                            .instrument(NoteBlockInstrument.BASEDRUM)
                             .strength(3.0F, 3.0F), minDroppedXP, maxDroppedXP));
         }
 
@@ -465,7 +472,14 @@ public final class Content {
         }
 
         private static RegistryObject<LiquidBlock> registerModeratorLiquidBlock(final String name, final Supplier<FlowingFluid> source) {
-            return BLOCKS.register(name, () -> new LiquidBlock(source, BlockBehaviour.Properties.of(Material.WATER).noCollission().strength(100.0F).noLootTable()));
+            return BLOCKS.register(name, () -> new LiquidBlock(source, BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.WATER)
+                    .replaceable()
+                    .pushReaction(PushReaction.DESTROY)
+                    .liquid()
+                    .noCollission()
+                    .strength(100.0F)
+                    .noLootTable()));
         }
 
         private static RegistryObject<ReactantFluidBlock> registerReactantFluidBlock(final Reactants reactant,
@@ -1247,107 +1261,131 @@ public final class Content {
         //endregion
     }
 
+    public static final class CreativeTabs {
+
+        private static final DeferredRegister<CreativeModeTab> TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, ExtremeReactors.MOD_ID);
+
+        static void initialize(final IEventBus bus) {
+
+            final var tabGeneral = ExtremeReactors.ROOT_LOCATION.buildWithSuffix("tab.general");
+            final var tabReactor = ExtremeReactors.ROOT_LOCATION.buildWithSuffix("tab.reactor");
+            final var tabTurbine = ExtremeReactors.ROOT_LOCATION.buildWithSuffix("tab.turbine");
+
+            TABS.register(bus);
+
+            TABS.register("tab.general", () -> CreativeModeTab.builder()
+                    .title(Component.translatable("itemGroup.bigreactors.general"))
+                    .icon(() -> new ItemStack(Items.YELLORITE_ORE_BLOCK.get()))
+                    .withTabsBefore(CreativeModeTabs.SPAWN_EGGS)
+                    .withTabsAfter(tabReactor)
+                    .displayItems((parameters, output) -> {
+
+                        acceptAll(output, Blocks.YELLORITE_ORE_BLOCK, Blocks.ANGLESITE_ORE_BLOCK, Blocks.BENITOITE_ORE_BLOCK,
+                                Items.YELLORIUM_INGOT, Items.YELLORIUM_DUST, Blocks.YELLORIUM_BLOCK,
+                                Items.BLUTONIUM_INGOT, Items.BLUTONIUM_DUST, Blocks.BLUTONIUM_BLOCK,
+                                Items.CYANITE_INGOT, Items.CYANITE_DUST, Blocks.CYANITE_BLOCK,
+                                Items.MAGENTITE_INGOT, Items.MAGENTITE_DUST, Blocks.MAGENTITE_BLOCK,
+                                Items.GRAPHITE_INGOT, Items.GRAPHITE_DUST, Blocks.GRAPHITE_BLOCK,
+                                Items.LUDICRITE_INGOT, Items.LUDICRITE_DUST, Blocks.LUDICRITE_BLOCK,
+                                Items.RIDICULITE_INGOT, Items.RIDICULITE_DUST, Blocks.RIDICULITE_BLOCK,
+                                Items.INANITE_INGOT, Items.INANITE_DUST, Blocks.INANITE_BLOCK,
+                                Items.YELLORIUM_NUGGET, Items.BLUTONIUM_NUGGET,
+                                Items.ANGLESITE_CRYSTAL, Items.BENITOITE_CRYSTAL,
+                                Items.WRENCH);
+
+                        PatchouliCompat.consumeBookStack(PatchouliCompat.HANDBOOK_ID, output::accept);
+
+                        acceptAll(output, Blocks.REPROCESSOR_CASING, Blocks.REPROCESSOR_GLASS,
+                                Blocks.REPROCESSOR_CONTROLLER, Blocks.REPROCESSOR_COLLECTOR,
+                                Blocks.REPROCESSOR_WASTEINJECTOR, Blocks.REPROCESSOR_FLUIDINJECTOR,
+                                Blocks.REPROCESSOR_OUTPUTPORT, Blocks.REPROCESSOR_POWERPORT);
+
+                        acceptAll(output, Items.STEAM_BUCKET, Items.YELLORIUM_BUCKET, Items.CYANITE_BUCKET,
+                                Items.BLUTONIUM_BUCKET, Items.MAGENTITE_BUCKET, Items.VERDERIUM_BUCKET,
+                                Items.ROSSINITE_BUCKET, Items.CRYOMISI_BUCKET, Items.TANGERIUM_BUCKET,
+                                Items.REDFRIGIUM_BUCKET);
+
+                        acceptAll(output, Blocks.FLUIDIZER_CASING, Blocks.FLUIDIZER_GLASS,
+                                Blocks.FLUIDIZER_CONTROLLER, Blocks.FLUIDIZER_SOLIDINJECTOR,
+                                Blocks.FLUIDIZER_FLUIDINJECTOR, Blocks.FLUIDIZER_OUTPUTPORT,
+                                Blocks.FLUIDIZER_POWERPORT);
+                    })
+                    .build()
+            );
+
+            TABS.register("tab.reactor", () -> CreativeModeTab.builder()
+                    .title(Component.translatable("itemGroup.bigreactors.reactor"))
+                    .icon(() -> new ItemStack(Items.REACTOR_FUELROD_BASIC.get()))
+                    .noScrollBar()
+                    .withTabsBefore(tabGeneral)
+                    .withTabsAfter(tabTurbine)
+                    .displayItems((parameters, output) -> acceptAll(output,
+                            Blocks.REACTOR_CONTROLLER_BASIC, Blocks.REACTOR_CASING_BASIC,
+                            Blocks.REACTOR_GLASS_BASIC, Blocks.REACTOR_FUELROD_BASIC,
+                            Blocks.REACTOR_CONTROLROD_BASIC, Blocks.REACTOR_SOLID_ACCESSPORT_BASIC,
+                            Blocks.REACTOR_CHARGINGPORT_FE_BASIC,
+                            Blocks.REACTOR_POWERTAP_FE_ACTIVE_BASIC, Blocks.REACTOR_POWERTAP_FE_PASSIVE_BASIC,
+                            Blocks.REACTOR_REDSTONEPORT_BASIC,
+
+                            Blocks.REACTOR_CONTROLLER_REINFORCED, Blocks.REACTOR_CASING_REINFORCED,
+                            Blocks.REACTOR_GLASS_REINFORCED, Blocks.REACTOR_FUELROD_REINFORCED,
+                            Blocks.REACTOR_CONTROLROD_REINFORCED, Blocks.REACTOR_SOLID_ACCESSPORT_REINFORCED,
+                            Blocks.REACTOR_FLUID_ACCESSPORT_REINFORCED,
+                            Blocks.REACTOR_POWERTAP_FE_ACTIVE_REINFORCED, Blocks.REACTOR_POWERTAP_FE_PASSIVE_REINFORCED,
+                            Blocks.REACTOR_CHARGINGPORT_FE_REINFORCED,
+                            Blocks.REACTOR_REDSTONEPORT_REINFORCED, Blocks.REACTOR_COMPUTERPORT_REINFORCED,
+                            Blocks.REACTOR_FLUIDTPORT_FORGE_ACTIVE_REINFORCED, Blocks.REACTOR_FLUIDPORT_FORGE_PASSIVE_REINFORCED,
+                            Blocks.REACTOR_FLUIDPORT_MEKANISM_PASSIVE_REINFORCED,
+                            Blocks.REACTOR_CREATIVE_WATER_GENERATOR_REINFORCED))
+                    .build()
+            );
+
+            TABS.register("tab.turbine", () -> CreativeModeTab.builder()
+                    .title(Component.translatable("itemGroup.bigreactors.turbine"))
+                    .icon(() -> new ItemStack(Items.TURBINE_ROTORSHAFT_BASIC.get()))
+                    .noScrollBar()
+                    .withTabsBefore(tabReactor)
+                    .displayItems((parameters, output) -> acceptAll(output,
+                            Blocks.TURBINE_CONTROLLER_BASIC, Blocks.TURBINE_CASING_BASIC,
+                            Blocks.TURBINE_GLASS_BASIC, Blocks.TURBINE_ROTORBEARING_BASIC,
+                            Blocks.TURBINE_ROTORSHAFT_BASIC, Blocks.TURBINE_ROTORBLADE_BASIC,
+                            Blocks.TURBINE_POWERTAP_FE_ACTIVE_BASIC, Blocks.TURBINE_POWERTAP_FE_PASSIVE_BASIC,
+                            Blocks.TURBINE_CHARGINGPORT_FE_BASIC,
+                            Blocks.TURBINE_REDSTONEPORT_BASIC,
+                            Blocks.TURBINE_FLUIDPORT_FORGE_ACTIVE_BASIC, Blocks.TURBINE_FLUIDPORT_FORGE_PASSIVE_BASIC,
+                            Blocks.TURBINE_CREATIVE_STEAM_GENERATOR_BASIC,
+
+                            Blocks.TURBINE_CONTROLLER_REINFORCED, Blocks.TURBINE_CASING_REINFORCED,
+                            Blocks.TURBINE_GLASS_REINFORCED, Blocks.TURBINE_ROTORBEARING_REINFORCED,
+                            Blocks.TURBINE_ROTORSHAFT_REINFORCED, Blocks.TURBINE_ROTORBLADE_REINFORCED,
+                            Blocks.TURBINE_POWERTAP_FE_ACTIVE_REINFORCED, Blocks.TURBINE_POWERTAP_FE_PASSIVE_REINFORCED,
+                            Blocks.TURBINE_CHARGINGPORT_FE_REINFORCED,
+                            Blocks.TURBINE_REDSTONEPORT_REINFORCED, Blocks.TURBINE_COMPUTERPORT_REINFORCED,
+                            Blocks.TURBINE_FLUIDPORT_FORGE_ACTIVE_REINFORCED, Blocks.TURBINE_FLUIDPORT_FORGE_PASSIVE_REINFORCED,
+                            Blocks.TURBINE_CREATIVE_STEAM_GENERATOR_REINFORCED))
+                    .build()
+            );
+        }
+
+        //region internals
+
+        @SafeVarargs
+        static void acceptAll(CreativeModeTab.Output output, Supplier<? extends ItemLike>... items) {
+
+            for (var item : items) {
+                output.accept(item.get(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            }
+        }
+
+        //endregion
+    }
+
     //region internals
 
     private static void onCommonInit(final FMLCommonSetupEvent event) {
 
         ReactorGameData.register();
         TurbineGameData.register();
-    }
-
-    private static void registerCreativeTabs() {
-
-        ICreativeTabsBuilder.create()
-                .add(ExtremeReactors.ROOT_LOCATION.buildWithSuffix("tab.general"),
-                        builder -> builder
-                                .title(Component.translatable("itemGroup.bigreactors.general"))
-                                .icon(() -> new ItemStack(Items.YELLORITE_ORE_BLOCK.get())),
-                        (tab, enabledFeatureSet, showOpOnlyItems, output) -> {
-
-                            CreativeModeTabContentOutput.acceptAll(output,
-                                    Blocks.YELLORITE_ORE_BLOCK, Blocks.ANGLESITE_ORE_BLOCK, Blocks.BENITOITE_ORE_BLOCK,
-                                    Items.YELLORIUM_INGOT, Items.YELLORIUM_DUST, Blocks.YELLORIUM_BLOCK,
-                                    Items.BLUTONIUM_INGOT, Items.BLUTONIUM_DUST, Blocks.BLUTONIUM_BLOCK,
-                                    Items.CYANITE_INGOT, Items.CYANITE_DUST, Blocks.CYANITE_BLOCK,
-                                    Items.MAGENTITE_INGOT, Items.MAGENTITE_DUST, Blocks.MAGENTITE_BLOCK,
-                                    Items.GRAPHITE_INGOT, Items.GRAPHITE_DUST, Blocks.GRAPHITE_BLOCK,
-                                    Items.LUDICRITE_INGOT, Items.LUDICRITE_DUST, Blocks.LUDICRITE_BLOCK,
-                                    Items.RIDICULITE_INGOT, Items.RIDICULITE_DUST, Blocks.RIDICULITE_BLOCK,
-                                    Items.INANITE_INGOT, Items.INANITE_DUST, Blocks.INANITE_BLOCK,
-                                    Items.YELLORIUM_NUGGET, Items.BLUTONIUM_NUGGET,
-                                    Items.ANGLESITE_CRYSTAL, Items.BENITOITE_CRYSTAL,
-                                    Items.WRENCH);
-
-                            PatchouliCompat.consumeBookStack(PatchouliCompat.HANDBOOK_ID, output::accept);
-
-                            CreativeModeTabContentOutput.acceptAll(output,
-                                    Blocks.REPROCESSOR_CASING, Blocks.REPROCESSOR_GLASS,
-                                    Blocks.REPROCESSOR_CONTROLLER, Blocks.REPROCESSOR_COLLECTOR,
-                                    Blocks.REPROCESSOR_WASTEINJECTOR, Blocks.REPROCESSOR_FLUIDINJECTOR,
-                                    Blocks.REPROCESSOR_OUTPUTPORT, Blocks.REPROCESSOR_POWERPORT);
-
-                            CreativeModeTabContentOutput.acceptAll(output,
-                                    Items.STEAM_BUCKET, Items.YELLORIUM_BUCKET, Items.CYANITE_BUCKET,
-                                    Items.BLUTONIUM_BUCKET, Items.MAGENTITE_BUCKET, Items.VERDERIUM_BUCKET,
-                                    Items.ROSSINITE_BUCKET, Items.CRYOMISI_BUCKET, Items.TANGERIUM_BUCKET,
-                                    Items.REDFRIGIUM_BUCKET);
-
-                            CreativeModeTabContentOutput.acceptAll(output,
-                                    Blocks.FLUIDIZER_CASING, Blocks.FLUIDIZER_GLASS,
-                                    Blocks.FLUIDIZER_CONTROLLER, Blocks.FLUIDIZER_SOLIDINJECTOR,
-                                    Blocks.FLUIDIZER_FLUIDINJECTOR, Blocks.FLUIDIZER_OUTPUTPORT,
-                                    Blocks.FLUIDIZER_POWERPORT);
-                        })
-                .add(ExtremeReactors.ROOT_LOCATION.buildWithSuffix("tab.reactor"),
-                        builder -> builder
-                                .title(Component.translatable("itemGroup.bigreactors.reactor"))
-                                .icon(() -> new ItemStack(Items.REACTOR_FUELROD_BASIC.get()))
-                                .noScrollBar(),
-                        (tab, enabledFeatureSet, showOpOnlyItems, output) -> CreativeModeTabContentOutput.acceptAll(output,
-
-                                Blocks.REACTOR_CONTROLLER_BASIC, Blocks.REACTOR_CASING_BASIC,
-                                Blocks.REACTOR_GLASS_BASIC, Blocks.REACTOR_FUELROD_BASIC,
-                                Blocks.REACTOR_CONTROLROD_BASIC, Blocks.REACTOR_SOLID_ACCESSPORT_BASIC,
-                                Blocks.REACTOR_CHARGINGPORT_FE_BASIC,
-                                Blocks.REACTOR_POWERTAP_FE_ACTIVE_BASIC, Blocks.REACTOR_POWERTAP_FE_PASSIVE_BASIC,
-                                Blocks.REACTOR_REDSTONEPORT_BASIC,
-
-                                Blocks.REACTOR_CONTROLLER_REINFORCED, Blocks.REACTOR_CASING_REINFORCED,
-                                Blocks.REACTOR_GLASS_REINFORCED, Blocks.REACTOR_FUELROD_REINFORCED,
-                                Blocks.REACTOR_CONTROLROD_REINFORCED, Blocks.REACTOR_SOLID_ACCESSPORT_REINFORCED,
-                                Blocks.REACTOR_FLUID_ACCESSPORT_REINFORCED,
-                                Blocks.REACTOR_POWERTAP_FE_ACTIVE_REINFORCED, Blocks.REACTOR_POWERTAP_FE_PASSIVE_REINFORCED,
-                                Blocks.REACTOR_CHARGINGPORT_FE_REINFORCED,
-                                Blocks.REACTOR_REDSTONEPORT_REINFORCED, Blocks.REACTOR_COMPUTERPORT_REINFORCED,
-                                Blocks.REACTOR_FLUIDTPORT_FORGE_ACTIVE_REINFORCED, Blocks.REACTOR_FLUIDPORT_FORGE_PASSIVE_REINFORCED,
-                                Blocks.REACTOR_FLUIDPORT_MEKANISM_PASSIVE_REINFORCED,
-                                Blocks.REACTOR_CREATIVE_WATER_GENERATOR_REINFORCED))
-
-                .add(ExtremeReactors.ROOT_LOCATION.buildWithSuffix("tab.turbine"),
-                        builder -> builder
-                                .title(Component.translatable("itemGroup.bigreactors.turbine"))
-                                .icon(() -> new ItemStack(Items.TURBINE_ROTORSHAFT_BASIC.get()))
-                                .noScrollBar(),
-                        (tab, enabledFeatureSet, showOpOnlyItems, output) -> CreativeModeTabContentOutput.acceptAll(output,
-
-                                Blocks.TURBINE_CONTROLLER_BASIC, Blocks.TURBINE_CASING_BASIC,
-                                Blocks.TURBINE_GLASS_BASIC, Blocks.TURBINE_ROTORBEARING_BASIC,
-                                Blocks.TURBINE_ROTORSHAFT_BASIC, Blocks.TURBINE_ROTORBLADE_BASIC,
-                                Blocks.TURBINE_POWERTAP_FE_ACTIVE_BASIC, Blocks.TURBINE_POWERTAP_FE_PASSIVE_BASIC,
-                                Blocks.TURBINE_CHARGINGPORT_FE_BASIC,
-                                Blocks.TURBINE_REDSTONEPORT_BASIC,
-                                Blocks.TURBINE_FLUIDPORT_FORGE_ACTIVE_BASIC, Blocks.TURBINE_FLUIDPORT_FORGE_PASSIVE_BASIC,
-                                Blocks.TURBINE_CREATIVE_STEAM_GENERATOR_BASIC,
-
-                                Blocks.TURBINE_CONTROLLER_REINFORCED, Blocks.TURBINE_CASING_REINFORCED,
-                                Blocks.TURBINE_GLASS_REINFORCED, Blocks.TURBINE_ROTORBEARING_REINFORCED,
-                                Blocks.TURBINE_ROTORSHAFT_REINFORCED, Blocks.TURBINE_ROTORBLADE_REINFORCED,
-                                Blocks.TURBINE_POWERTAP_FE_ACTIVE_REINFORCED, Blocks.TURBINE_POWERTAP_FE_PASSIVE_REINFORCED,
-                                Blocks.TURBINE_CHARGINGPORT_FE_REINFORCED,
-                                Blocks.TURBINE_REDSTONEPORT_REINFORCED, Blocks.TURBINE_COMPUTERPORT_REINFORCED,
-                                Blocks.TURBINE_FLUIDPORT_FORGE_ACTIVE_REINFORCED, Blocks.TURBINE_FLUIDPORT_FORGE_PASSIVE_REINFORCED,
-                                Blocks.TURBINE_CREATIVE_STEAM_GENERATOR_REINFORCED))
-                .build();
     }
 
     //endregion

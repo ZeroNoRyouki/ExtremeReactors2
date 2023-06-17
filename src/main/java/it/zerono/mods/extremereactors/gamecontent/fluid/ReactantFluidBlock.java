@@ -1,6 +1,5 @@
 package it.zerono.mods.extremereactors.gamecontent.fluid;
 
-import it.zerono.mods.extremereactors.api.reactor.Reactant;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.Reactants;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
@@ -9,7 +8,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FlowingFluid;
-import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.material.PushReaction;
 import net.minecraftforge.common.util.NonNullConsumer;
 
 import java.util.function.Supplier;
@@ -19,7 +19,11 @@ public class ReactantFluidBlock
 
     public ReactantFluidBlock(final Reactants reactant, final Supplier<? extends FlowingFluid> fluid) {
 
-        super(fluid, Properties.of(Material.WATER)
+        super(fluid, Properties.of()
+                .mapColor(MapColor.WATER)
+                .replaceable()
+                .pushReaction(PushReaction.DESTROY)
+                .liquid()
                 .lightLevel(state -> 6)
                 .strength(100.0F)
                 .noLootTable());
