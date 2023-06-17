@@ -45,7 +45,7 @@ public class BlockSubProvider
                 Content.Blocks.REACTOR_REDSTONEPORT_REINFORCED, Content.Blocks.REACTOR_COMPUTERPORT_REINFORCED);
 
         this.add(Content.Blocks.REACTOR_FLUID_ACCESSPORT_REINFORCED.get(), LootTable.lootTable().withPool(LootPool.lootPool()
-                .name("reactor_fluid_accessport_reinforced")
+//                .name("reactor_fluid_accessport_reinforced")
                 .setRolls(ConstantValue.exactly(1))
                 .add(LootItem.lootTableItem(Content.Blocks.REACTOR_FLUID_ACCESSPORT_REINFORCED.get())
                         .apply(CopyNbtFunction.copyData(ContextNbtProvider.BLOCK_ENTITY)
