@@ -18,7 +18,6 @@
 
 package it.zerono.mods.extremereactors.gamecontent.compat.jei.reprocessor;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectLists;
 import it.zerono.mods.extremereactors.CommonLocations;
@@ -41,6 +40,7 @@ import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
@@ -101,9 +101,9 @@ public class ReprocessorRecipeCategory
     }
 
     @Override
-    public void draw(final ReprocessorRecipe recipe, final IRecipeSlotsView recipeSlotsView, final PoseStack matrix,
+    public void draw(final ReprocessorRecipe recipe, final IRecipeSlotsView recipeSlotsView, final GuiGraphics gfx,
                      final double mouseX, final double mouseY) {
-        this._powerBar.draw(matrix, this._powerBarArea.getX1(), this._powerBarArea.getY1());
+        this._powerBar.draw(gfx, this._powerBarArea.getX1(), this._powerBarArea.getY1());
     }
 
     @Override

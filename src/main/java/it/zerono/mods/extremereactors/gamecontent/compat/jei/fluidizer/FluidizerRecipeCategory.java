@@ -18,7 +18,6 @@
 
 package it.zerono.mods.extremereactors.gamecontent.compat.jei.fluidizer;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectLists;
@@ -52,6 +51,7 @@ import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.fluids.FluidStack;
@@ -152,17 +152,17 @@ public abstract class FluidizerRecipeCategory<T extends ModRecipe & IFluidizerRe
     }
 
     @Override
-    public void draw(final ModRecipe recipe, final IRecipeSlotsView recipeSlotsView, final PoseStack matrix,
+    public void draw(final ModRecipe recipe, final IRecipeSlotsView recipeSlotsView, final GuiGraphics gfx,
                      final double mouseX, final double mouseY) {
 
-        this._powerBar.draw(matrix, this._powerBarArea.getX1(), this._powerBarArea.getY1());
+        this._powerBar.draw(gfx, this._powerBarArea.getX1(), this._powerBarArea.getY1());
 
         if (null != this._leftProgressBar) {
-            this._leftProgressBar.draw(matrix, 45, 47);
+            this._leftProgressBar.draw(gfx, 45, 47);
         }
 
         if (null != this._rightProgressBar) {
-            this._rightProgressBar.draw(matrix, 84+5, 42+5);
+            this._rightProgressBar.draw(gfx, 84+5, 42+5);
         }
     }
 

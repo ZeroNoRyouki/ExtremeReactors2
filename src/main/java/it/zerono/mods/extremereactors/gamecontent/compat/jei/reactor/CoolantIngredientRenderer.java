@@ -18,12 +18,13 @@
 
 package it.zerono.mods.extremereactors.gamecontent.compat.jei.reactor;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import it.unimi.dsi.fastutil.objects.ObjectLists;
 import it.zerono.mods.extremereactors.api.coolant.Coolant;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.CachedSprites;
+import it.zerono.mods.zerocore.lib.client.gui.Orientation;
 import it.zerono.mods.zerocore.lib.client.render.ModRenderHelper;
 import mezz.jei.api.ingredients.IIngredientRenderer;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.TooltipFlag;
 
@@ -35,9 +36,9 @@ public class CoolantIngredientRenderer
     //region IIngredientRenderer<Coolant>
 
     @Override
-    public void render(final PoseStack matrix, final Coolant coolant) {
-        ModRenderHelper.paintVerticalProgressSprite(matrix, CachedSprites.WATER_SOURCE.get(),
-                coolant.getColour(), 0, 0, 0, 16, 16, 0, 1.0d);
+    public void render(final GuiGraphics gfx, final Coolant coolant) {
+        ModRenderHelper.paintOrientedProgressBarSprite(gfx, Orientation.BottomToTop, CachedSprites.WATER_SOURCE.get(),
+                0, 0, 0, 16, 16, 1.0d, coolant.getColour());
     }
 
     @Override

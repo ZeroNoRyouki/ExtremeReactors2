@@ -294,7 +294,7 @@ public abstract class AbstractMultiblockScreen<Controller extends AbstractCuboid
         titlePanel.setLayoutEngineHint(FixedLayoutEngine.hint(0, 0, guiWidth, TITLE_PANEL_HEIGHT));
         titlePanel.setLayoutEngine(new FixedLayoutEngine().setZeroMargins());
 
-        final Label title = new Label(this, "title", this.getTitle()./*getFormattedText*/getString());
+        final Label title = new Label(this, "title", this.getTitle().getString());
 
         title.setPadding(2);
         title.setColor(this.getTheme().GUI_TITLE);
