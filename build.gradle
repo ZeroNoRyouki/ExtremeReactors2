@@ -240,10 +240,10 @@ jar {
         attributes 'Implementation-Vendor': 'ZeroNoRyouki'
         attributes 'Implementation-Version': version
         attributes 'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
-    }	
-}
+    }
 
-jar.finalizedBy('reobfJar')
+    finalizedBy('reobfJar')
+}
 
 publish.dependsOn('reobfJar')
 
