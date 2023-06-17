@@ -158,7 +158,7 @@ public final class ExtremeReactorsCommand {
 
     private static int getReactant(final CommandContext<CommandSourceStack> context) {
 
-        context.getSource().sendSuccess(ReactantsRegistry.get(getName(context))
+        context.getSource().sendSuccess(() -> ReactantsRegistry.get(getName(context))
                 .map(ExtremeReactorsCommand::getTextFrom)
                 .orElse(Component.literal("Reactant not found")), true);
         return 0;
@@ -166,7 +166,7 @@ public final class ExtremeReactorsCommand {
 
     private static int setReactantColour(final CommandContext<CommandSourceStack> context) {
 
-        context.getSource().sendSuccess(ReactantsRegistry.get(getName(context))
+        context.getSource().sendSuccess(() -> ReactantsRegistry.get(getName(context))
                 .map(r -> setReactantColour(r, (int)Long.parseLong(getString(context), 16)))
                 .orElse(Component.literal("Reactant not found")), true);
         return 0;
@@ -192,7 +192,7 @@ public final class ExtremeReactorsCommand {
     private static int setReactantFuelValue(final CommandContext<CommandSourceStack> context, final Function<Reactant, Float> getter,
                                             final BiConsumer<Reactant, Float> setter) {
 
-        context.getSource().sendSuccess(ReactantsRegistry.get(getName(context))
+        context.getSource().sendSuccess(() -> ReactantsRegistry.get(getName(context))
                 .filter(r -> r.test(ReactantType.Fuel))
                 .map(r -> setValue(r, getFloat(context), getter, setter))
                 .orElse(Component.literal("Fuel Reactant not found")), true);
@@ -228,7 +228,7 @@ public final class ExtremeReactorsCommand {
 
     private static int getReaction(final CommandContext<CommandSourceStack> context) {
 
-        context.getSource().sendSuccess(ReactantsRegistry.get(getName(context))
+        context.getSource().sendSuccess(() -> ReactantsRegistry.get(getName(context))
                 .flatMap(ReactionsRegistry::get)
                 .map(ExtremeReactorsCommand::getTextFrom)
                 .orElse(Component.literal("Reactant or reaction not found")), true);
@@ -246,7 +246,7 @@ public final class ExtremeReactorsCommand {
 
     private static int setReactionValue(final CommandContext<CommandSourceStack> context, final String fieldName, final float value) {
 
-        context.getSource().sendSuccess(ReactantsRegistry.get(getName(context))
+        context.getSource().sendSuccess(() -> ReactantsRegistry.get(getName(context))
                 .flatMap(ReactionsRegistry::get)
                 .map(reaction -> {
                     try {
@@ -272,7 +272,7 @@ public final class ExtremeReactorsCommand {
 
     private static int getCoil(final CommandContext<CommandSourceStack> context) {
 
-        context.getSource().sendSuccess(getCoilByName(context)
+        context.getSource().sendSuccess(() -> getCoilByName(context)
                 .map(ExtremeReactorsCommand::getTextFrom)
                 .orElse(Component.literal("Coil not found")), true);
         return 0;
@@ -281,7 +281,7 @@ public final class ExtremeReactorsCommand {
     private static int setCoilValue(final CommandContext<CommandSourceStack> context, final Function<CoilMaterial, Float> getter,
                                     final BiConsumer<CoilMaterial, Float> setter) {
 
-        context.getSource().sendSuccess(getCoilByName(context)
+        context.getSource().sendSuccess(() -> getCoilByName(context)
                 .map(c -> setValue(c, getFloat(context), getter, setter))
                 .orElse(Component.literal("Coil not found")), true);
         return 0;
