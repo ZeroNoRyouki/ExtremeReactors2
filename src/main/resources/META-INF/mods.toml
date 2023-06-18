@@ -15,7 +15,7 @@ logoFile="logo.png"
 
 	modId="bigreactors"
     version="${file.jarVersion}"
-    updateJSONURL="https://raw.githubusercontent.com/ZeroNoRyouki/ExtremeReactors2/master/update.json"
+    updateJSONURL="https://raw.githubusercontent.com/ZeroNoRyouki/ModUpdates/master/ExtremeReactors2.json"
 	displayName="Extreme Reactors"
 	authors="ZeroNoRyouki"
 	description="Adds large, multiblock power generation machines to Minecraft. This is a continuation of the 1.7.10 mod Big Reactors from ErogenousBeef"
