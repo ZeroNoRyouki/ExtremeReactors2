@@ -1,4 +1,4 @@
 @echo off
 cd ..
-call gradlew.bat :ExtremeReactors2-1.19:build
-cd ExtremeReactors2-1.19
+call gradlew.bat :ExtremeReactors2-1.20:build
+cd ExtremeReactors2-1.20

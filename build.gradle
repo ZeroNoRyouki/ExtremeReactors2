@@ -9,7 +9,7 @@ plugins {
 
 import java.nio.file.Files
 
-evaluationDependsOn(":ZeroCore2-1.19")
+evaluationDependsOn(":ZeroCore2-1.20")
 
 file('build.properties').withReader {
 
@@ -62,7 +62,7 @@ minecraft {
 
             mods {
                 zerocore {
-                    source project(':ZeroCore2-1.19').sourceSets.main
+                    source project(':ZeroCore2-1.20').sourceSets.main
                 }
 
                 bigreactors {
@@ -86,7 +86,7 @@ minecraft {
 
             mods {
                 zerocore {
-                    source project(':ZeroCore2-1.19').sourceSets.main
+                    source project(':ZeroCore2-1.20').sourceSets.main
                 }
 
                 bigreactors {
@@ -114,7 +114,7 @@ minecraft {
 
             mods {
                 zerocore {
-                    source project(':ZeroCore2-1.19').sourceSets.main
+                    source project(':ZeroCore2-1.20').sourceSets.main
                 }
 
                 bigreactors {
@@ -144,7 +144,7 @@ processResources {
 
     from(sourceSets.main.resources.srcDirs) {
 	
-        include 'ExtremeReactors2-1.19/src/main/resources/META-INF/mods.toml'
+        include 'ExtremeReactors2-1.20/src/main/resources/META-INF/mods.toml'
         expand 'mod_version': version, 
 				'mod_name': config.mod_name,
 				'minecraft_versionrange': config.minecraft_versionrange,
@@ -186,7 +186,7 @@ repositories {
 
 dependencies {
 	minecraft "net.minecraftforge:forge:${config.minecraft_version}-${config.forge_version}"
-    implementation project(':ZeroCore2-1.19')
+    implementation project(':ZeroCore2-1.20')
 
     // JEI
     compileOnly(fg.deobf("mezz.jei:jei-${config.minecraft_version}-common-api:${config.jei_version}"))
