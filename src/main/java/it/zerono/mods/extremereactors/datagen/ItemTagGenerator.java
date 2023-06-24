@@ -92,7 +92,7 @@ public class ItemTagGenerator
         this.build(ContentTags.Items.BLOCKS_RIDICULITE, Items.RIDICULITE_BLOCK);
         this.build(ContentTags.Items.BLOCKS_INANITE, Items.INANITE_BLOCK);
 
-        this.build(ContentTags.Items.WRENCH, Items.WRENCH);
+        this.build(TagsHelper.TAG_WRENCH, Items.WRENCH);
 
         this.build(Tags.Items.INGOTS, Items.YELLORIUM_INGOT, Items.CYANITE_INGOT, Items.GRAPHITE_INGOT, Items.BLUTONIUM_INGOT,
                 Items.MAGENTITE_INGOT);
