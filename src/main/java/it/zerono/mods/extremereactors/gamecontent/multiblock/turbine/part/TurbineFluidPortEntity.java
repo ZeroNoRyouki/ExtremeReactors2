@@ -21,10 +21,9 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part;
 import it.zerono.mods.extremereactors.gamecontent.CommonConstants;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.fluidport.FluidPortType;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.fluidport.IFluidPort;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.fluidport.IFluidPortHandler;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.MultiblockTurbine;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.IMultiblockTurbineVariant;
+import it.zerono.mods.zerocore.base.multiblock.part.io.fluid.IFluidPort;
+import it.zerono.mods.zerocore.base.multiblock.part.io.fluid.IFluidPortHandler;
 import it.zerono.mods.zerocore.lib.block.INeighborChangeListener;
 import it.zerono.mods.zerocore.lib.block.TileCommandDispatcher;
 import it.zerono.mods.zerocore.lib.data.IoDirection;
@@ -43,19 +42,21 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fluids.capability.templates.EmptyFluidHandler;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class TurbineFluidPortEntity
         extends AbstractTurbineEntity
-        implements IFluidPort<MultiblockTurbine, IMultiblockTurbineVariant>, INeighborChangeListener, MenuProvider {
+        implements IFluidPort, INeighborChangeListener, MenuProvider {
 
     public TurbineFluidPortEntity(final FluidPortType type, final IoMode mode, final BlockEntityType<?> entityType,
                                   final BlockPos position, final BlockState blockState) {
 
         super(entityType, position, blockState);
-        this._handler = IFluidPortHandler.create(type, mode, this);
+        this._handler = FluidPortType.create(type, mode, this);
         this.setIoDirection(IoDirection.Input);
 
         this.setCommandDispatcher(TileCommandDispatcher.<TurbineFluidPortEntity>builder()
@@ -67,7 +68,7 @@ public class TurbineFluidPortEntity
     //region ICoolantPort
 
     @Override
-    public IFluidPortHandler<MultiblockTurbine, IMultiblockTurbineVariant> getFluidPortHandler() {
+    public IFluidPortHandler getFluidPortHandler() {
         return this._handler;
     }
 
@@ -123,7 +124,7 @@ public class TurbineFluidPortEntity
         }
 
         this._direction = direction;
-        this.getFluidPortHandler().update();
+        this.getFluidPortHandler().update(this::getUpdatedHandler);
         this.executeOnController(MultiblockTurbine::onFluidPortChanged);
         this.notifyBlockUpdate();
 
@@ -183,7 +184,7 @@ public class TurbineFluidPortEntity
 
         final int connectedOffset = this.isMachineAssembled() && this.getFluidPortHandler().isConnected() ? 1 : 0;
 
-        return this.getIoDirection().isInput() ? 2 + connectedOffset : 0 + connectedOffset;
+        return this.getIoDirection().isInput() ? 2 + connectedOffset : connectedOffset;
     }
 
     //endregion
@@ -209,7 +210,7 @@ public class TurbineFluidPortEntity
     public void onPostMachineAssembled(MultiblockTurbine controller) {
 
         super.onPostMachineAssembled(controller);
-        this.getFluidPortHandler().update();
+        this.getFluidPortHandler().update(this::getUpdatedHandler);
         this.notifyOutwardNeighborsOfStateChange();
     }
 
@@ -217,7 +218,7 @@ public class TurbineFluidPortEntity
     public void onPostMachineBroken() {
 
         super.onPostMachineBroken();
-        this.getFluidPortHandler().update();
+        this.getFluidPortHandler().update(this::getUpdatedHandler);
         this.notifyOutwardNeighborsOfStateChange();
     }
 
@@ -225,21 +226,21 @@ public class TurbineFluidPortEntity
     public void onAttached(MultiblockTurbine newController) {
 
         super.onAttached(newController);
-        this.getFluidPortHandler().update();
+        this.getFluidPortHandler().update(this::getUpdatedHandler);
     }
 
     @Override
     public void onAssimilated(MultiblockTurbine newController) {
 
         super.onAssimilated(newController);
-        this.getFluidPortHandler().update();
+        this.getFluidPortHandler().update(this::getUpdatedHandler);
     }
 
     @Override
     public void onDetached(MultiblockTurbine oldController) {
 
         super.onDetached(oldController);
-        this.getFluidPortHandler().update();
+        this.getFluidPortHandler().update(this::getUpdatedHandler);
     }
 
     //endregion
@@ -267,7 +268,13 @@ public class TurbineFluidPortEntity
     //endregion
     //region internals
 
-    private final IFluidPortHandler<MultiblockTurbine, IMultiblockTurbineVariant> _handler;
+    private IFluidHandler getUpdatedHandler(IoDirection direction) {
+        return this.getMultiblockController()
+                .flatMap(c -> c.getFluidHandler(direction))
+                .orElse(EmptyFluidHandler.INSTANCE);
+    }
+
+    private final IFluidPortHandler _handler;
     private IoDirection _direction;
 
     //endregion
