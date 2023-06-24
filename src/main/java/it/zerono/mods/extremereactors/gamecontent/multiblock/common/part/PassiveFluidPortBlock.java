@@ -18,6 +18,7 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.common.part;
 
+import it.zerono.mods.zerocore.base.multiblock.part.io.IOPortBlock;
 import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockPartType;
 import it.zerono.mods.zerocore.lib.multiblock.IMultiblockController;
 import net.minecraft.world.level.block.state.BlockState;

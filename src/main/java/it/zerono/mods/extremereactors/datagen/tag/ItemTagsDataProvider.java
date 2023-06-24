@@ -57,7 +57,7 @@ public class ItemTagsDataProvider
         builder.apply(ContentTags.Items.BLOCKS_RIDICULITE).add(Content.Items.RIDICULITE_BLOCK);
         builder.apply(ContentTags.Items.BLOCKS_INANITE).add(Content.Items.INANITE_BLOCK);
 
-        builder.apply(ContentTags.Items.WRENCH).add(Content.Items.WRENCH);
+        builder.apply(TagsHelper.TAG_WRENCH).add(Content.Items.WRENCH);
 
         builder.apply(Tags.Items.INGOTS).add(Content.Items.YELLORIUM_INGOT, Content.Items.CYANITE_INGOT,
                 Content.Items.GRAPHITE_INGOT, Content.Items.BLUTONIUM_INGOT, Content.Items.MAGENTITE_INGOT);

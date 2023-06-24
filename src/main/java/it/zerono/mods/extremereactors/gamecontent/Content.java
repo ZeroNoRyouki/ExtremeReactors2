@@ -25,9 +25,6 @@ import it.zerono.mods.extremereactors.gamecontent.compat.patchouli.PatchouliComp
 import it.zerono.mods.extremereactors.gamecontent.fluid.ReactantFluidBlock;
 import it.zerono.mods.extremereactors.gamecontent.fluid.ReactorFluidType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.container.ChargingPortContainer;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.GenericDeviceBlock;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.GlassBlock;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.IOPortBlock;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.fluidport.FluidPortType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.FluidizerPartType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.MultiblockFluidizer;
@@ -54,6 +51,9 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.TurbinePart
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part.*;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.TurbineVariant;
 import it.zerono.mods.extremereactors.loader.forge.gamecontent.worldgen.OreBiomeModifier;
+import it.zerono.mods.zerocore.base.multiblock.part.GenericDeviceBlock;
+import it.zerono.mods.zerocore.base.multiblock.part.GlassBlock;
+import it.zerono.mods.zerocore.base.multiblock.part.io.IOPortBlock;
 import it.zerono.mods.zerocore.lib.block.ModBlock;
 import it.zerono.mods.zerocore.lib.block.ModOreBlock;
 import it.zerono.mods.zerocore.lib.block.multiblock.MultiblockPartBlock;

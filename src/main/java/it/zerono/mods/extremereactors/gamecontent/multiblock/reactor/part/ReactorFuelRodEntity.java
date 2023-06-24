@@ -31,8 +31,7 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.FuelRodsLay
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.IIrradiationSource;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.IReactorReader;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.ReactantHelper;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.ClientFuelRodsLayout;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.model.ReactorFuelRodModelData;
+import it.zerono.mods.zerocore.base.multiblock.AbstractMultiblockController;
 import it.zerono.mods.zerocore.lib.CodeHelper;
 import it.zerono.mods.zerocore.lib.multiblock.cuboid.PartPosition;
 import it.zerono.mods.zerocore.lib.multiblock.validation.IMultiblockValidator;
@@ -132,7 +131,7 @@ public class ReactorFuelRodEntity
 
     public FuelRodsLayout getFuelRodsLayoutForRendering() {
         return this.isMachineAssembled() &&
-                this.testOnController(it.zerono.mods.extremereactors.gamecontent.multiblock.common.AbstractMultiblockController::isInteriorVisible) ?
+                this.testOnController(AbstractMultiblockController::isInteriorVisible) ?
                 this.getFuelRodsLayout() : FuelRodsLayout.EMPTY;
     }
 
