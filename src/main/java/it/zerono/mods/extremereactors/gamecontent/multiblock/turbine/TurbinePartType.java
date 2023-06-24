@@ -19,10 +19,14 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.turbine;
 
 import it.zerono.mods.extremereactors.gamecontent.Content;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.*;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.PassiveFluidPortBlock;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.PowerTapBlock;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part.TurbineRedstonePortBlock;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part.TurbineRotorBearingBlock;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part.TurbineRotorComponentBlock;
+import it.zerono.mods.zerocore.base.multiblock.part.GenericDeviceBlock;
+import it.zerono.mods.zerocore.base.multiblock.part.GlassBlock;
+import it.zerono.mods.zerocore.base.multiblock.part.io.IOPortBlock;
 import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockPartType2;
 import it.zerono.mods.zerocore.lib.block.multiblock.MultiblockPartBlock;
 import it.zerono.mods.zerocore.lib.block.multiblock.MultiblockPartTypeProperties;

@@ -24,11 +24,11 @@ import it.zerono.mods.extremereactors.Log;
 import it.zerono.mods.extremereactors.api.turbine.CoilMaterial;
 import it.zerono.mods.extremereactors.api.turbine.CoilMaterialRegistry;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.*;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.powertap.IPowerTap;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.powertap.IPowerTapHandler;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part.*;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.rotor.RotorComponentType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.IMultiblockTurbineVariant;
+import it.zerono.mods.zerocore.base.multiblock.part.io.power.IPowerPort;
+import it.zerono.mods.zerocore.base.multiblock.part.io.power.IPowerPortHandler;
 import it.zerono.mods.zerocore.lib.CodeHelper;
 import it.zerono.mods.zerocore.lib.IDebugMessages;
 import it.zerono.mods.zerocore.lib.IDebuggable;
@@ -580,7 +580,7 @@ public class MultiblockTurbine
         } else if (newPart instanceof TurbineRotorComponentEntity) {
             this._attachedRotorComponents.add((TurbineRotorComponentEntity)newPart);
         } else if (newPart instanceof TurbinePowerTapEntity || newPart instanceof TurbineChargingPortEntity) {
-            this._attachedPowerTaps.add((IPowerTap)newPart);
+            this._attachedPowerTaps.add((IPowerPort)newPart);
         } else if (newPart instanceof TurbineFluidPortEntity) {
             this._attachedFluidPorts.add((TurbineFluidPortEntity)newPart);
         }
@@ -620,8 +620,8 @@ public class MultiblockTurbine
             this.setOutputEnergySystem(INTERNAL_ENERGY_SYSTEM);
         } else {
             CodeHelper.optionalIfPresentOrThrow(this._attachedPowerTaps.stream()
-                            .map(IPowerTap::getPowerTapHandler)
-                            .map(IPowerTapHandler::getEnergySystem)
+                            .map(IPowerPort::getPowerPortHandler)
+                            .map(IPowerPortHandler::getEnergySystem)
                             .findFirst(),
                     this::setOutputEnergySystem);
         }
@@ -1037,8 +1037,8 @@ public class MultiblockTurbine
         if (!this._attachedPowerTaps.isEmpty()) {
 
             if (1 != this._attachedPowerTaps.stream()
-                    .map(IPowerTap::getPowerTapHandler)
-                    .map(IPowerTapHandler::getEnergySystem)
+                    .map(IPowerPort::getPowerPortHandler)
+                    .map(IPowerPortHandler::getEnergySystem)
                     .distinct()
                     .limit(2)
                     .count()) {
@@ -1179,7 +1179,7 @@ public class MultiblockTurbine
     private final Set<ITickableMultiblockPart> _attachedTickables;
     private final List<TurbineRotorBearingEntity> _attachedRotorBearings;
     private final Set<TurbineRotorComponentEntity> _attachedRotorComponents;
-    private final Set<IPowerTap> _attachedPowerTaps;
+    private final Set<IPowerPort> _attachedPowerTaps;
     private final Set<TurbineFluidPortEntity> _attachedFluidPorts;
     private final List<TurbineFluidPortEntity> _attachedOutputFluidPorts;
     private final List<TurbineFluidPortEntity> _attachedInputFluidPorts;

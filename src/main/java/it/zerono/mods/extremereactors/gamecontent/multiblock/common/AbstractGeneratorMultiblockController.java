@@ -18,11 +18,13 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.common;
 
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.IIOPortHandler;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.fluidport.IFluidPort;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.powertap.IPowerTap;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.variant.IMultiblockGeneratorVariant;
+import it.zerono.mods.zerocore.base.multiblock.AbstractMultiblockController;
+import it.zerono.mods.zerocore.base.multiblock.part.io.IIOPortHandler;
+import it.zerono.mods.zerocore.base.multiblock.part.io.fluid.IFluidPort;
+import it.zerono.mods.zerocore.base.multiblock.part.io.power.IPowerPort;
 import it.zerono.mods.zerocore.lib.data.IoDirection;
+import it.zerono.mods.zerocore.lib.data.WideAmount;
 import it.zerono.mods.zerocore.lib.energy.EnergyBuffer;
 import it.zerono.mods.zerocore.lib.energy.EnergySystem;
 import it.zerono.mods.zerocore.lib.energy.IWideEnergyProvider;
@@ -76,7 +78,7 @@ public abstract class AbstractGeneratorMultiblockController<Controller extends A
      * @param powerTaps the Power Taps
      * @return the amount of energy distributed
      */
-    protected static double distributeEnergyEqually(double energyAmount, final Collection<? extends IPowerTap> powerTaps) {
+    protected static double distributeEnergyEqually(double energyAmount, final Collection<? extends IPowerPort> powerTaps) {
 
         if (energyAmount <= 0 || powerTaps.isEmpty()) {
             return 0;
@@ -85,10 +87,10 @@ public abstract class AbstractGeneratorMultiblockController<Controller extends A
         final double energyPerTap = energyAmount / powerTaps.size();
 
         return powerTaps.stream()
-                .map(IPowerTap::getPowerTapHandler)
+                .map(IPowerPort::getPowerPortHandler)
                 .filter(IIOPortHandler::isActive)
                 .filter(IIOPortHandler::isConnected)
-                .mapToDouble(handler -> handler.outputEnergy(energyPerTap))
+                .mapToDouble(handler -> handler.outputEnergy(WideAmount.from(energyPerTap)).doubleValue())
                 .sum();
     }
 
@@ -108,8 +110,8 @@ public abstract class AbstractGeneratorMultiblockController<Controller extends A
      * @param coolantPorts the Coolant Ports
      * @return the amount of gas distributed
      */
-    protected static <Controller extends AbstractGeneratorMultiblockController<Controller, V>, V extends IMultiblockGeneratorVariant>
-            int distributeFluidEqually(final FluidStack availableFluid, final Collection<? extends IFluidPort<Controller, V>> coolantPorts) {
+    protected static int distributeFluidEqually(final FluidStack availableFluid,
+                                                final Collection<? extends IFluidPort> coolantPorts) {
 
         if (availableFluid.isEmpty() || coolantPorts.isEmpty()) {
             return 0;
@@ -133,8 +135,8 @@ public abstract class AbstractGeneratorMultiblockController<Controller extends A
      * @param coolantPorts the Coolant Ports
      * @return the amount of gas distributed
      */
-    protected static <Controller extends AbstractGeneratorMultiblockController<Controller, V>, V extends IMultiblockGeneratorVariant>
-    int acquireFluidEqually(final IFluidHandler destination, final int maxAmount, final Collection<? extends IFluidPort<Controller, V>> coolantPorts) {
+    protected static int acquireFluidEqually(final IFluidHandler destination, final int maxAmount,
+                                             final Collection<? extends IFluidPort> coolantPorts) {
 
         if (maxAmount <= 0 || coolantPorts.isEmpty()) {
             return 0;

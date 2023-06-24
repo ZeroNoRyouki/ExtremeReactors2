@@ -18,12 +18,13 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part;
 
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.GenericDeviceBlock;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.MultiblockTurbine;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.TurbinePartType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.rotor.RotorBladeState;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.rotor.RotorShaftState;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.IMultiblockTurbineVariant;
+import it.zerono.mods.zerocore.base.multiblock.part.GenericDeviceBlock;
+import it.zerono.mods.zerocore.base.multiblock.part.INeverCauseRenderingSkip;
 import it.zerono.mods.zerocore.lib.CodeHelper;
 import it.zerono.mods.zerocore.lib.block.INeighborChangeListener;
 import net.minecraft.block.Block;
@@ -44,7 +45,7 @@ import java.util.List;
 
 public abstract class TurbineRotorComponentBlock
         extends GenericDeviceBlock<MultiblockTurbine, TurbinePartType>
-        implements INeighborChangeListener.Notifier {
+        implements INeighborChangeListener.Notifier, INeverCauseRenderingSkip {
 
     public static final EnumProperty<RotorShaftState> ROTOR_SHAFT_STATE = EnumProperty.create("state", RotorShaftState.class);
     public static final EnumProperty<RotorBladeState> ROTOR_BLADE_STATE = EnumProperty.create("state", RotorBladeState.class);

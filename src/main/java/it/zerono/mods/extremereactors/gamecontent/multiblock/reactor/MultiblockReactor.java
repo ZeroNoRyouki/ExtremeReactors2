@@ -30,11 +30,11 @@ import it.zerono.mods.extremereactors.api.reactor.radiation.EnergyConversion;
 import it.zerono.mods.extremereactors.api.reactor.radiation.IRadiationModerator;
 import it.zerono.mods.extremereactors.api.reactor.radiation.IrradiationData;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.*;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.powertap.IPowerTap;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.powertap.IPowerTapHandler;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.network.UpdateClientsFuelRodsLayout;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part.*;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.IMultiblockReactorVariant;
+import it.zerono.mods.zerocore.base.multiblock.part.io.power.IPowerPort;
+import it.zerono.mods.zerocore.base.multiblock.part.io.power.IPowerPortHandler;
 import it.zerono.mods.zerocore.lib.CodeHelper;
 import it.zerono.mods.zerocore.lib.IDebugMessages;
 import it.zerono.mods.zerocore.lib.IDebuggable;
@@ -747,11 +747,11 @@ public class MultiblockReactor
             this._attachedFluidAccessPorts.add((ReactorFluidAccessPortEntity) newPart);
         } else if (newPart instanceof ReactorPowerTapEntity || newPart instanceof ReactorChargingPortEntity) {
 
-            if (ObjectLists.<IPowerTap>emptyList() == this._attachedPowerTaps) {
+            if (ObjectLists.<IPowerPort>emptyList() == this._attachedPowerTaps) {
                 this._attachedPowerTaps = new ObjectArrayList<>(4);
             }
 
-            this._attachedPowerTaps.add((IPowerTap) newPart);
+            this._attachedPowerTaps.add((IPowerPort) newPart);
 
         } else if (newPart instanceof ReactorFluidPortEntity) {
 
@@ -785,7 +785,7 @@ public class MultiblockReactor
         } else if (oldPart instanceof ReactorFluidAccessPortEntity) {
             this._attachedFluidAccessPorts.remove(oldPart);
         } else if ((oldPart instanceof ReactorPowerTapEntity || oldPart instanceof ReactorChargingPortEntity) &&
-                ObjectLists.<IPowerTap>emptyList() != this._attachedPowerTaps) {
+                ObjectLists.<IPowerPort>emptyList() != this._attachedPowerTaps) {
             this._attachedPowerTaps.remove(oldPart);
         } else if (oldPart instanceof ReactorFluidPortEntity && ObjectLists.<ReactorFluidPortEntity>emptyList() != this._attachedFluidPorts) {
             this._attachedFluidPorts.remove(oldPart);
@@ -803,8 +803,8 @@ public class MultiblockReactor
             this.setOutputEnergySystem(INTERNAL_ENERGY_SYSTEM);
         } else {
             CodeHelper.optionalIfPresentOrThrow(this._attachedPowerTaps.stream()
-                            .map(IPowerTap::getPowerTapHandler)
-                            .map(IPowerTapHandler::getEnergySystem)
+                            .map(IPowerPort::getPowerPortHandler)
+                            .map(IPowerPortHandler::getEnergySystem)
                             .findFirst(),
                     this::setOutputEnergySystem);
         }
@@ -1515,8 +1515,8 @@ public class MultiblockReactor
         if (!this._attachedPowerTaps.isEmpty()) {
 
             if (1 != this._attachedPowerTaps.stream()
-                    .map(IPowerTap::getPowerTapHandler)
-                    .map(IPowerTapHandler::getEnergySystem)
+                    .map(IPowerPort::getPowerPortHandler)
+                    .map(IPowerPortHandler::getEnergySystem)
                     .distinct()
                     .limit(2)
                     .count()) {
@@ -1605,7 +1605,7 @@ public class MultiblockReactor
     private final FuelRodsMap _attachedFuelRods;
     private final List<ReactorSolidAccessPortEntity> _attachedSolidAccessPorts;
     private final List<ReactorFluidAccessPortEntity> _attachedFluidAccessPorts;
-    private List<IPowerTap> _attachedPowerTaps;
+    private List<IPowerPort> _attachedPowerTaps;
     private List<ReactorFluidPortEntity> _attachedFluidPorts;
     private List<ReactorFluidPortEntity> _attachedOutputFluidPorts;
     private List<ReactorFluidPortEntity> _attachedInputFluidPorts;

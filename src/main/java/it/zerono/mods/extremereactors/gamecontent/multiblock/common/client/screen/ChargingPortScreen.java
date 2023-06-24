@@ -18,12 +18,11 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen;
 
-import it.zerono.mods.extremereactors.gamecontent.CommonConstants;
 import it.zerono.mods.extremereactors.gamecontent.compat.patchouli.PatchouliCompat;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.container.ChargingPortContainer;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.AbstractMultiblockEntity;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.powertap.chargingport.AbstractChargingPortHandler;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.powertap.chargingport.IChargingPort;
+import it.zerono.mods.zerocore.base.CommonConstants;
+import it.zerono.mods.zerocore.base.multiblock.part.AbstractMultiblockEntity;
+import it.zerono.mods.zerocore.base.multiblock.part.io.power.charging.IChargingPort;
 import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockVariantProvider;
 import it.zerono.mods.zerocore.lib.client.gui.ButtonState;
 import it.zerono.mods.zerocore.lib.client.gui.IControl;
@@ -128,7 +127,7 @@ public class ChargingPortScreen<Controller extends AbstractCuboidMultiblockContr
     }
 
     private void onManualEject(Button button, Integer mouseButton) {
-        this.sendCommandToServer(AbstractChargingPortHandler.TILE_COMMAND_EJECT);
+        this.sendCommandToServer(CommonConstants.COMMAND_EJECT);
     }
 
     private final Button _btnEject;

@@ -18,14 +18,15 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part;
 
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.powertap.IPowerTap;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.powertap.IPowerTapHandler;
+import it.zerono.mods.zerocore.base.multiblock.part.io.power.IPowerPort;
+import it.zerono.mods.zerocore.base.multiblock.part.io.power.IPowerPortHandler;
+import it.zerono.mods.zerocore.lib.data.IoDirection;
 import it.zerono.mods.zerocore.lib.energy.EnergySystem;
 import net.minecraft.tileentity.TileEntityType;
 
 public class AbstractTurbinePowerTapEntity
         extends AbstractTurbineEntity
-        implements IPowerTap {
+        implements IPowerPort {
 
     protected AbstractTurbinePowerTapEntity(final EnergySystem system, final TileEntityType<?> entityType) {
         super(entityType);
@@ -34,18 +35,28 @@ public class AbstractTurbinePowerTapEntity
     //region IPowerTap
 
     @Override
-    public IPowerTapHandler getPowerTapHandler() {
+    public IPowerPortHandler getPowerPortHandler() {
         return this._handler;
+    }
+
+    @Override
+    public IoDirection getIoDirection() {
+        return IoDirection.Output;
+    }
+
+    @Override
+    public void setIoDirection(IoDirection direction) {
+        throw new IllegalStateException("This port can only works in output mode");
     }
 
     //endregion
     //region internals
 
-    protected final void setHandler(final IPowerTapHandler handler) {
+    protected final void setHandler(final IPowerPortHandler handler) {
         this._handler = handler;
     }
 
-    private IPowerTapHandler _handler;
+    private IPowerPortHandler _handler;
 
     //endregion
 }

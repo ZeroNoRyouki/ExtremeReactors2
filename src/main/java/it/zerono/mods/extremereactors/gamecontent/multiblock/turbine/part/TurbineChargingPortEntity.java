@@ -20,9 +20,9 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part;
 
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.container.ChargingPortContainer;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.powertap.chargingport.AbstractChargingPortHandler;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.powertap.chargingport.IChargingPort;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.powertap.chargingport.IChargingPortHandler;
+import it.zerono.mods.zerocore.base.CommonConstants;
+import it.zerono.mods.zerocore.base.multiblock.part.io.power.charging.IChargingPort;
+import it.zerono.mods.zerocore.base.multiblock.part.io.power.charging.IChargingPortHandler;
 import it.zerono.mods.zerocore.lib.block.TileCommandDispatcher;
 import it.zerono.mods.zerocore.lib.energy.EnergySystem;
 import net.minecraft.block.BlockState;
@@ -45,10 +45,10 @@ public class TurbineChargingPortEntity
     public TurbineChargingPortEntity(final EnergySystem system, final TileEntityType<?> entityType) {
 
         super(system, entityType);
-        this.setHandler(IChargingPortHandler.create(system, this));
+        this.setHandler(IChargingPortHandler.create(system, this, 1, 1));
 
         this.setCommandDispatcher(TileCommandDispatcher.<TurbineChargingPortEntity>builder()
-                .addServerHandler(AbstractChargingPortHandler.TILE_COMMAND_EJECT, tile -> tile.getChargingPortHandler().eject())
+                .addServerHandler(CommonConstants.COMMAND_EJECT, tile -> tile.getChargingPortHandler().eject())
                 .build(this));
     }
 
@@ -56,7 +56,7 @@ public class TurbineChargingPortEntity
 
     @Override
     public IChargingPortHandler getChargingPortHandler() {
-        return (IChargingPortHandler)this.getPowerTapHandler();
+        return (IChargingPortHandler)this.getPowerPortHandler();
     }
 
     //endregion

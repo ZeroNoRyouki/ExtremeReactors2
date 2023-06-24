@@ -18,8 +18,8 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part;
 
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.powertap.IPowerTapHandler;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.MultiblockTurbine;
+import it.zerono.mods.zerocore.base.multiblock.part.io.power.IPowerPortHandler;
 import it.zerono.mods.zerocore.lib.block.INeighborChangeListener;
 import it.zerono.mods.zerocore.lib.data.IoMode;
 import it.zerono.mods.zerocore.lib.energy.EnergySystem;
@@ -40,7 +40,7 @@ public class TurbinePowerTapEntity
     public TurbinePowerTapEntity(final EnergySystem system, final IoMode mode, final TileEntityType<?> entityType) {
 
         super(system, entityType);
-        this.setHandler(IPowerTapHandler.create(system, mode, this));
+        this.setHandler(IPowerPortHandler.create(system, mode, this));
     }
 
     //region INeighborChangeListener
@@ -56,7 +56,7 @@ public class TurbinePowerTapEntity
     public void onNeighborBlockChanged(BlockState state, BlockPos neighborPosition, boolean isMoving) {
 
         if (this.isConnected()) {
-            this.getPowerTapHandler().checkConnections(this.getLevel(), this.getWorldPosition());
+            this.getPowerPortHandler().checkConnections(this.getLevel(), this.getWorldPosition());
         }
     }
 
@@ -70,7 +70,7 @@ public class TurbinePowerTapEntity
     public void onNeighborTileChanged(BlockState state, BlockPos neighborPosition) {
 
         if (this.isConnected()) {
-            this.getPowerTapHandler().checkConnections(this.getLevel(), this.getWorldPosition());
+            this.getPowerPortHandler().checkConnections(this.getLevel(), this.getWorldPosition());
         }
     }
 
@@ -81,14 +81,14 @@ public class TurbinePowerTapEntity
     public void onAttached(MultiblockTurbine newController) {
 
         super.onAttached(newController);
-        this.getPowerTapHandler().checkConnections(this.getLevel(), this.getWorldPosition());
+        this.getPowerPortHandler().checkConnections(this.getLevel(), this.getWorldPosition());
     }
 
     @Override
     public void onPostMachineAssembled(MultiblockTurbine controller) {
 
         super.onPostMachineAssembled(controller);
-        this.getPowerTapHandler().checkConnections(this.getLevel(), this.getWorldPosition());
+        this.getPowerPortHandler().checkConnections(this.getLevel(), this.getWorldPosition());
         this.notifyNeighborsOfTileChange();
     }
 
@@ -99,7 +99,7 @@ public class TurbinePowerTapEntity
     @Override
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable Direction side) {
 
-        final LazyOptional<T> cap = this.getPowerTapHandler().getCapability(capability, side);
+        final LazyOptional<T> cap = this.getPowerPortHandler().getCapability(capability, side);
 
         return null != cap ? cap : super.getCapability(capability, side);
     }

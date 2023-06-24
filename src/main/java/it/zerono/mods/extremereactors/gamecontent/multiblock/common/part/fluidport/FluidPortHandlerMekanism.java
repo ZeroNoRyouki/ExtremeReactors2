@@ -21,16 +21,16 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.fluidp
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.zerono.mods.extremereactors.api.IMapping;
 import it.zerono.mods.extremereactors.api.coolant.FluidMappingsRegistry;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.AbstractGeneratorMultiblockController;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.AbstractMultiblockEntity;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.variant.IMultiblockGeneratorVariant;
+import it.zerono.mods.zerocore.base.multiblock.part.AbstractMultiblockEntity;
+import it.zerono.mods.zerocore.base.multiblock.part.io.fluid.AbstractFluidPortHandler;
+import it.zerono.mods.zerocore.base.multiblock.part.io.fluid.IFluidPort;
+import it.zerono.mods.zerocore.base.multiblock.part.io.fluid.IFluidPortHandler;
 import it.zerono.mods.zerocore.lib.CodeHelper;
-import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockVariantProvider;
 import it.zerono.mods.zerocore.lib.compat.Mods;
-import it.zerono.mods.zerocore.lib.data.IIoEntity;
 import it.zerono.mods.zerocore.lib.data.IoDirection;
 import it.zerono.mods.zerocore.lib.data.IoMode;
 import it.zerono.mods.zerocore.lib.fluid.handler.FluidHandlerForwarder;
+import it.zerono.mods.zerocore.lib.multiblock.cuboid.AbstractCuboidMultiblockController;
 import mekanism.api.Action;
 import mekanism.api.chemical.gas.Gas;
 import mekanism.api.chemical.gas.GasStack;
@@ -42,10 +42,11 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
-import net.minecraft.world.IWorldReader;
+import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.common.util.NonNullFunction;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.EmptyFluidHandler;
@@ -53,15 +54,14 @@ import net.minecraftforge.fluids.capability.templates.EmptyFluidHandler;
 import javax.annotation.Nullable;
 import java.util.Map;
 
-public class FluidPortHandlerMekanism<Controller extends AbstractGeneratorMultiblockController<Controller, V>,
-            V extends IMultiblockGeneratorVariant,
-            T extends AbstractMultiblockEntity<Controller> & IMultiblockVariantProvider<? extends IMultiblockGeneratorVariant> & IIoEntity>
-        extends AbstractFluidPortHandler<Controller, V, T>
+public class FluidPortHandlerMekanism<Controller extends AbstractCuboidMultiblockController<Controller>,
+            T extends AbstractMultiblockEntity<Controller> & IFluidPort>
+        extends AbstractFluidPortHandler<Controller, T>
         implements IGasHandler {
 
     public FluidPortHandlerMekanism(final T part, final IoMode mode) {
 
-        super(FluidPortType.Mekanism, part, IoMode.Passive);
+        super(part, IoMode.Passive);
         this._capability = LazyOptional.of(() -> this);
         this._capabilityForwarder = new FluidHandlerForwarder(EmptyFluidHandler.INSTANCE);
         this._consumer = null;
@@ -86,10 +86,10 @@ public class FluidPortHandlerMekanism<Controller extends AbstractGeneratorMultib
     }
 
     /**
-     * If this is a Active Fluid Port in input mode, try to get fluids from the connected consumer (if there is one)
+     * If this is an Active Fluid Port in input mode, try to get fluids from the connected consumer (if there is one)
      *
      * @param destination the destination IFluidHandler that will receive the fluid
-     * @param maxAmount   the maximum amount of fluid the acquire
+     * @param maxAmount   the maximum amount of fluid to acquire
      */
     @Override
     public int inputFluid(IFluidHandler destination, int maxAmount) {
@@ -114,7 +114,7 @@ public class FluidPortHandlerMekanism<Controller extends AbstractGeneratorMultib
      * @param position the handler position
      */
     @Override
-    public void checkConnections(@Nullable final IWorldReader world, final BlockPos position) {
+    public void checkConnections(@Nullable final World world, final BlockPos position) {
         this._consumer = this.lookupConsumer(world, position, CAPAP_MEKANISM_GASHANDLER,
                 te -> te instanceof IFluidPortHandler, this._consumer);
     }
@@ -125,8 +125,8 @@ public class FluidPortHandlerMekanism<Controller extends AbstractGeneratorMultib
     }
 
     @Override
-    public void update() {
-        this.updateCapabilityForwarder();
+    public void update(NonNullFunction<IoDirection, IFluidHandler> handlerProvider) {
+        this._capabilityForwarder.setHandler(handlerProvider.apply(IoDirection.Output));
     }
 
     /**
@@ -138,7 +138,7 @@ public class FluidPortHandlerMekanism<Controller extends AbstractGeneratorMultib
      */
     @Nullable
     @Override
-    public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction direction) {
+    public <C> LazyOptional<C> getCapability(Capability<C> capability, @Nullable Direction direction) {
 
         if (CAPAP_MEKANISM_GASHANDLER == capability) {
             return this._capability.cast();
@@ -211,12 +211,6 @@ public class FluidPortHandlerMekanism<Controller extends AbstractGeneratorMultib
 
     //endregion
     //region internals
-
-    private void updateCapabilityForwarder() {
-        this._capabilityForwarder.setHandler(this.getPart().evalOnController(
-                c -> c.getFluidHandler(IoDirection.Output).orElse(EmptyFluidHandler.INSTANCE),
-                EmptyFluidHandler.INSTANCE));
-    }
 
     private static GasStack getGasStack(final FluidStack fluidStack) {
         return fluidStack.isEmpty() ? GasStack.EMPTY : getGasStack(fluidStack.getFluid(), fluidStack.getAmount());
