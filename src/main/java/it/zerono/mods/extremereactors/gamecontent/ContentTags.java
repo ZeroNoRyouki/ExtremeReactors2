@@ -85,8 +85,6 @@ public class ContentTags {
         public static final ITag.INamedTag<Item> BLOCKS_RIDICULITE = forgeTag("storage_blocks/ridiculite");
         public static final ITag.INamedTag<Item> BLOCKS_INANITE = forgeTag("storage_blocks/inanite");
 
-        public static final ITag.INamedTag<Item> WRENCH = forgeTag("tools/wrench");
-
         public static final ITag.INamedTag<Item> USING_REACTOR_CASING_BASIC = tag("reactor/casing_user/basic");
         public static final ITag.INamedTag<Item> USING_REACTOR_CASING_REINFORCED = tag("reactor/casing_user/reinforced");
         public static final ITag.INamedTag<Item> USING_TURBINE_CASING_BASIC = tag("turbine/casing_user/basic");
