@@ -1,7 +1,7 @@
 # Extreme Reactors 2 - mods.toml
 
 modLoader="javafml"
-loaderVersion="[46,49)"
+loaderVersion="[47,49)"
 
 # The license for you mod. This is mandatory metadata and allows for easier comprehension of your redistributive properties.
 # Review your options at https://choosealicense.com/. All rights reserved is the default copyright stance, and is thus the default here.
@@ -24,7 +24,7 @@ logoFile="logo.png"
 
     modId="minecraft"
     mandatory=true
-    versionRange="[1.20,1.21)"
+    versionRange="[1.20.1,1.21)"
     ordering="NONE"
     side="BOTH"
 	
@@ -32,7 +32,7 @@ logoFile="logo.png"
 
 	modId="forge"
 	mandatory=true
-    versionRange="[46.0.11,49)"
+    versionRange="[47.1.1,49)"
 	ordering="NONE"
 	side="BOTH"
 
