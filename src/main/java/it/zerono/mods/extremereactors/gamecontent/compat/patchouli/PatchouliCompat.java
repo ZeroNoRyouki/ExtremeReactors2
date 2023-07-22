@@ -37,12 +37,10 @@ import it.zerono.mods.zerocore.lib.block.multiblock.MultiblockPartBlock;
 import it.zerono.mods.zerocore.lib.client.model.data.multiblock.CuboidPartVariantsModelData;
 import it.zerono.mods.zerocore.lib.compat.patchouli.Patchouli;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.client.model.data.ModelData;
-import net.minecraftforge.common.util.NonNullConsumer;
 import vazkii.patchouli.api.PatchouliAPI;
 
 public final class PatchouliCompat {
@@ -384,10 +382,6 @@ public final class PatchouliCompat {
                         CuboidPartVariantsModelData.from(((MultiblockPartBlock<MultiblockFluidizer, FluidizerPartType>)bs.getBlock()).getPartType().ordinal(), 0, BlockFacings.ALL) :
                         ModelData.EMPTY
         );
-    }
-
-    public static void consumeBookStack(ResourceLocation id, NonNullConsumer<ItemStack> consumer) {
-        consumer.accept(PatchouliAPI.get().getBookStack(PatchouliCompat.HANDBOOK_ID));
     }
 
     //region internals

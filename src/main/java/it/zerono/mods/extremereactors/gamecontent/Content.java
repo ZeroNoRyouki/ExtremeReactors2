@@ -57,6 +57,7 @@ import it.zerono.mods.zerocore.base.multiblock.part.io.IOPortBlock;
 import it.zerono.mods.zerocore.lib.block.ModBlock;
 import it.zerono.mods.zerocore.lib.block.ModOreBlock;
 import it.zerono.mods.zerocore.lib.block.multiblock.MultiblockPartBlock;
+import it.zerono.mods.zerocore.lib.compat.patchouli.Patchouli;
 import it.zerono.mods.zerocore.lib.data.IoDirection;
 import it.zerono.mods.zerocore.lib.data.IoMode;
 import it.zerono.mods.zerocore.lib.energy.EnergySystem;
@@ -1293,7 +1294,7 @@ public final class Content {
                                 Items.ANGLESITE_CRYSTAL, Items.BENITOITE_CRYSTAL,
                                 Items.WRENCH);
 
-                        PatchouliCompat.consumeBookStack(PatchouliCompat.HANDBOOK_ID, output::accept);
+                        Patchouli.consumeBookStack(PatchouliCompat.HANDBOOK_ID, output::accept);
 
                         acceptAll(output, Blocks.REPROCESSOR_CASING, Blocks.REPROCESSOR_GLASS,
                                 Blocks.REPROCESSOR_CONTROLLER, Blocks.REPROCESSOR_COLLECTOR,
