@@ -21,6 +21,7 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.client
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
+import it.zerono.mods.extremereactors.config.Config;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.part.ReprocessorCollectorEntity;
 import it.zerono.mods.zerocore.lib.client.render.buffer.TintingRenderTypeBufferWrapper;
 import net.minecraft.client.Minecraft;
@@ -57,16 +58,24 @@ public class ReprocessorCollectorRender
         stack.mulPose(Axis.YP.rotationDegrees((360 * collector.getPartWorldOrFail().getGameTime() / 50.0f) + (partialTicks / 50.0f)));
         stack.scale(1.5F, 1.5F, 1.5F);
 
-        final float startItemAlpha = (1.0f - (float)progress) + 0.25f;
-        final float endItemAlpha = ((float)progress) - 0.10f;
+        if (Config.CLIENT.disableReprocessorMorphingAnimation) {
 
-        ITEM_RENDERER.renderStatic(startItem, ItemDisplayContext.GROUND, combinedLight, combinedOverlay,
-                stack, new TintingRenderTypeBufferWrapper(buffer, startItemAlpha, 1.0f, 1.0f, 1.0f),
-                collector.getCurrentWorld(), 0);
+            ITEM_RENDERER.renderStatic(startItem, ItemDisplayContext.GROUND, combinedLight, combinedOverlay,
+                    stack, buffer, collector.getCurrentWorld(), 0);
 
-        ITEM_RENDERER.renderStatic(endItem, ItemDisplayContext.GROUND, combinedLight, combinedOverlay,
-                stack, new TintingRenderTypeBufferWrapper(buffer, endItemAlpha, 1.0f, 1.0f, 1.0f),
-                collector.getCurrentWorld(), 0);
+        } else {
+
+            final float startItemAlpha = (1.0f - (float)progress) + 0.25f;
+            final float endItemAlpha = ((float)progress) - 0.10f;
+
+            ITEM_RENDERER.renderStatic(startItem, ItemDisplayContext.GROUND, combinedLight, combinedOverlay,
+                    stack, new TintingRenderTypeBufferWrapper(buffer, startItemAlpha, 1.0f, 1.0f, 1.0f),
+                    collector.getCurrentWorld(), 0);
+
+            ITEM_RENDERER.renderStatic(endItem, ItemDisplayContext.GROUND, combinedLight, combinedOverlay,
+                    stack, new TintingRenderTypeBufferWrapper(buffer, endItemAlpha, 1.0f, 1.0f, 1.0f),
+                    collector.getCurrentWorld(), 0);
+        }
 
         stack.popPose();
     }

@@ -18,6 +18,8 @@
 
 package it.zerono.mods.extremereactors.config;
 
+import it.zerono.mods.extremereactors.Log;
+import it.zerono.mods.zerocore.lib.CodeHelper;
 import net.minecraftforge.common.ForgeConfigSpec;
 
 import java.util.Calendar;
@@ -30,6 +32,7 @@ public class Client {
     public final ForgeConfigSpec.BooleanValue disableApiTooltips;
     public final ForgeConfigSpec.BooleanValue disablePatchouliTweaks;
     public final boolean isValentinesDay;
+    public final boolean disableReprocessorMorphingAnimation;
 
     Client(final ForgeConfigSpec.Builder builder) {
 
@@ -66,5 +69,10 @@ public class Client {
         final Calendar calendar = Calendar.getInstance();
 
         isValentinesDay = (calendar.get(Calendar.MONTH) == 1 && calendar.get(Calendar.DAY_OF_MONTH) == 14);
+
+        this.disableReprocessorMorphingAnimation = CodeHelper.isModLoaded("rubidium");
+        if (this.disableReprocessorMorphingAnimation) {
+            Log.LOGGER.warn(Log.REPROCESSOR, "The mod rubidium was detected: disabling morphing animation to avoid crashing while rendering.");
+        }
     }
 }
