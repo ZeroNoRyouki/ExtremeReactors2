@@ -54,6 +54,7 @@ import java.util.List;
 import java.util.Optional;
 
 @OnlyIn(Dist.CLIENT)
+@Deprecated
 public abstract class AbstractMultiblockScreen<Controller extends AbstractCuboidMultiblockController<Controller> & IMultiblockMachine,
                                                 T extends AbstractMultiblockEntity<Controller> & INamedContainerProvider,
                                                 C extends ModTileContainer<T>>
