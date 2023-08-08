@@ -23,6 +23,7 @@ import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.model.data.ModelTransformers;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.MultiblockTurbine;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.VentSetting;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.container.TurbineControllerContainer;
 import it.zerono.mods.zerocore.lib.IDebugMessages;
 import it.zerono.mods.zerocore.lib.block.TileCommandDispatcher;
 import it.zerono.mods.zerocore.lib.data.nbt.NBTHelper;
@@ -172,7 +173,7 @@ public class TurbineControllerEntity
     @Nullable
     @Override
     public Container createMenu(final int windowId, final PlayerInventory inventory, final PlayerEntity player) {
-        return ModTileContainer.empty(Content.ContainerTypes.TURBINE_CONTROLLER.get(), windowId, this, (ServerPlayerEntity)player);
+        return new TurbineControllerContainer(windowId, inventory, this);
     }
 
     @Override
