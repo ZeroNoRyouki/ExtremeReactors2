@@ -21,7 +21,9 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.part;
 import it.zerono.mods.extremereactors.gamecontent.CommonConstants;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.model.data.ModelTransformers;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.container.FluidizerControllerContainer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.MultiblockReprocessor;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.container.ReprocessorControllerContainer;
 import it.zerono.mods.zerocore.lib.IDebugMessages;
 import it.zerono.mods.zerocore.lib.block.TileCommandDispatcher;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
@@ -45,13 +47,15 @@ public class ReprocessorControllerEntity
         extends AbstractReprocessorEntity
         implements INamedContainerProvider, INetworkTileEntitySyncProvider {
 
+    public static String COMMAND_VOID_FLUID = "voidfluid";
+
     public ReprocessorControllerEntity() {
 
         super(Content.TileEntityTypes.REPROCESSOR_CONTROLLER.get());
         this.setCommandDispatcher(TileCommandDispatcher.<ReprocessorControllerEntity>builder()
                 .addServerHandler(CommonConstants.COMMAND_ACTIVATE, rce -> rce.setReprocessorActive(true))
                 .addServerHandler(CommonConstants.COMMAND_DEACTIVATE, rce -> rce.setReprocessorActive(false))
-                .addServerHandler(CommonConstants.COMMAND_VOID_FLUID, rce -> rce.voidFluid())
+                .addServerHandler(COMMAND_VOID_FLUID, rce -> rce.voidFluid())
                 .build(this)
         );
     }
@@ -168,7 +172,7 @@ public class ReprocessorControllerEntity
     @Nullable
     @Override
     public Container createMenu(final int windowId, final PlayerInventory inventory, final PlayerEntity player) {
-        return ModTileContainer.empty(Content.ContainerTypes.REPROCESSOR_CONTROLLER.get(), windowId, this, (ServerPlayerEntity)player);
+        return new ReprocessorControllerContainer(windowId, inventory, this);
     }
 
     @Override
