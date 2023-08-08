@@ -20,6 +20,8 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor;
 
 import it.zerono.mods.extremereactors.api.reactor.FuelProperties;
 import it.zerono.mods.extremereactors.api.reactor.Reactant;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.container.data.ReactantStackData;
+import it.zerono.mods.zerocore.lib.item.inventory.container.ModContainer;
 
 import java.util.Optional;
 
@@ -44,4 +46,8 @@ public interface IFuelContainer {
     default boolean isEmpty() {
         return 0 == this.getFuelAmount() + this.getWasteAmount();
     }
+
+    ReactantStackData getFuelStackData(int sampleFrequency, ModContainer container, boolean isClientSide);
+
+    ReactantStackData getWasteStackData(int sampleFrequency, ModContainer container, boolean isClientSide);
 }
