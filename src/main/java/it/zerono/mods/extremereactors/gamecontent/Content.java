@@ -36,16 +36,20 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.recipe.IF
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.MultiblockReactor;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.Reactants;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.ReactorPartType;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.container.ReactorControllerContainer;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.container.ReactorFluidAccessPortContainer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.container.ReactorSolidAccessPortContainer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part.*;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.ReactorVariant;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.MultiblockReprocessor;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.ReprocessorPartType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.container.ReprocessorAccessPortContainer;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.container.ReprocessorControllerContainer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.part.*;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.recipe.ReprocessorRecipe;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.MultiblockTurbine;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.TurbinePartType;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.container.TurbineControllerContainer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part.*;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.TurbineVariant;
 import it.zerono.mods.zerocore.base.multiblock.part.GenericDeviceBlock;
@@ -1000,16 +1004,14 @@ public final class Content {
 
         //region Reactor
 
-        public static final RegistryObject<ContainerType<ModTileContainer<ReactorControllerEntity>>> REACTOR_CONTROLLER =
-                registerContainer("reactorcontroller", (windowId, inv, data) ->
-                        ModTileContainer.empty(Content.ContainerTypes.REACTOR_CONTROLLER.get(), windowId, data));
+        public static final RegistryObject<ContainerType<ReactorControllerContainer>> REACTOR_CONTROLLER =
+                registerContainer("reactorcontroller", ReactorControllerContainer::new);
 
         public static final RegistryObject<ContainerType<ReactorSolidAccessPortContainer>> REACTOR_SOLID_ACCESSPORT =
                 registerContainer("reactoraccessport", ReactorSolidAccessPortContainer::new);
 
-        public static final RegistryObject<ContainerType<ModTileContainer<ReactorFluidAccessPortEntity>>> REACTOR_FLUID_ACCESSPORT =
-                registerContainer("reactoraccessportfluid", (windowId, inv, data) ->
-                        ModTileContainer.empty(Content.ContainerTypes.REACTOR_FLUID_ACCESSPORT.get(), windowId, data));
+        public static final RegistryObject<ContainerType<ReactorFluidAccessPortContainer>> REACTOR_FLUID_ACCESSPORT =
+                registerContainer("reactoraccessportfluid", ReactorFluidAccessPortContainer::new);
 
         public static final RegistryObject<ContainerType<ModTileContainer<ReactorRedstonePortEntity>>> REACTOR_REDSTONEPORT =
                 registerContainer("reactorredstoneport", (windowId, inv, data) ->
@@ -1030,9 +1032,8 @@ public final class Content {
         //endregion
         //region Turbine
 
-        public static final RegistryObject<ContainerType<ModTileContainer<TurbineControllerEntity>>> TURBINE_CONTROLLER =
-                registerContainer("turbinecontroller", (windowId, inv, data) ->
-                        ModTileContainer.empty(Content.ContainerTypes.TURBINE_CONTROLLER.get(), windowId, data));
+        public static final RegistryObject<ContainerType<TurbineControllerContainer>> TURBINE_CONTROLLER =
+                registerContainer("turbinecontroller", TurbineControllerContainer::new);
 
         public static final RegistryObject<ContainerType<ModTileContainer<TurbineRedstonePortEntity>>> TURBINE_REDSTONEPORT =
                 registerContainer("turbineredstoneport", (windowId, inv, data) ->
@@ -1049,9 +1050,8 @@ public final class Content {
         //endregion
         //region Reprocessor
 
-        public static final RegistryObject<ContainerType<ModTileContainer<ReprocessorControllerEntity>>> REPROCESSOR_CONTROLLER =
-                registerContainer("reprocessorcontroller", (windowId, inv, data) ->
-                        ModTileContainer.empty(Content.ContainerTypes.REPROCESSOR_CONTROLLER.get(), windowId, data));
+        public static final RegistryObject<ContainerType<ReprocessorControllerContainer>> REPROCESSOR_CONTROLLER =
+                registerContainer("reprocessorcontroller", ReprocessorControllerContainer::new);
 
         public static final RegistryObject<ContainerType<ReprocessorAccessPortContainer>> REPROCESSOR_ACCESSPORT =
                 registerContainer("reprocessoraccessport", ReprocessorAccessPortContainer::new);

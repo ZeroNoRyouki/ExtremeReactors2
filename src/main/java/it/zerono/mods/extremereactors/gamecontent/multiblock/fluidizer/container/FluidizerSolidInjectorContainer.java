@@ -34,7 +34,7 @@ public class FluidizerSolidInjectorContainer
 
     public FluidizerSolidInjectorContainer(final int windowId, final PlayerInventory playerInventory,
                                            final FluidizerSolidInjectorEntity injector) {
-        super(new ContainerFactory()
+        super(5, new ContainerFactory()
                         .addStandardPlayerInventorySlots(0, 0)
                         .addSlot(0, "inv", new SlotTemplate(SlotType.Input, ($, stack) -> injector.isValidIngredient(stack)), 0, 0),
                 Content.ContainerTypes.FLUIDIZER_SOLID_INJECTOR.get(), windowId, injector);

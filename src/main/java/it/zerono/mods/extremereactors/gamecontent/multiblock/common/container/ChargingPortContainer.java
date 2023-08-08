@@ -51,7 +51,7 @@ public class ChargingPortContainer<T extends AbstractModBlockEntity & IChargingP
     public ChargingPortContainer(final int windowId, final ContainerType<? extends ModTileContainer<T>> type,
                                  final PlayerInventory playerInventory, final T port) {
 
-        super(FACTORY, type, windowId, port);
+        super(5, FACTORY, type, windowId, port);
 
         this.addInventory(IoDirection.Input.name(), port.getChargingPortHandler().getItemStackHandler(IoDirection.Input));
         this.addInventory(IoDirection.Output.name(), port.getChargingPortHandler().getItemStackHandler(IoDirection.Output));
