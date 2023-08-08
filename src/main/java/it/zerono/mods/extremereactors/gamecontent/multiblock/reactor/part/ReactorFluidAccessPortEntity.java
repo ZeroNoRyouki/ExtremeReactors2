@@ -29,6 +29,7 @@ import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.IFuelSource;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.MultiblockReactor;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.ReactantHelper;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.container.ReactorFluidAccessPortContainer;
 import it.zerono.mods.zerocore.lib.CodeHelper;
 import it.zerono.mods.zerocore.lib.DebuggableHelper;
 import it.zerono.mods.zerocore.lib.IDebugMessages;
@@ -282,7 +283,7 @@ public class ReactorFluidAccessPortEntity
     @Nullable
     @Override
     public Container createMenu(final int windowId, final PlayerInventory inventory, final PlayerEntity player) {
-        return ModTileContainer.empty(Content.ContainerTypes.REACTOR_FLUID_ACCESSPORT.get(), windowId, this, (ServerPlayerEntity)player);
+        return new ReactorFluidAccessPortContainer(windowId, inventory, this);
     }
 
     @Override

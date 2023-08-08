@@ -18,66 +18,110 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.screen;
 
-import com.google.common.collect.ImmutableList;
 import it.zerono.mods.extremereactors.ExtremeReactors;
-import it.zerono.mods.extremereactors.api.reactor.ReactantType;
 import it.zerono.mods.extremereactors.gamecontent.CommonConstants;
 import it.zerono.mods.extremereactors.gamecontent.compat.patchouli.PatchouliCompat;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.AbstractMultiblockScreen;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.CommonIcons;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.CommonMultiblockScreen;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.MultiblockReactor;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.container.ReactorFluidAccessPortContainer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part.ReactorFluidAccessPortEntity;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.ReactorVariant;
+import it.zerono.mods.zerocore.base.client.screen.BaseScreenToolTipsBuilder;
+import it.zerono.mods.zerocore.base.client.screen.control.BarsPanel;
+import it.zerono.mods.zerocore.base.client.screen.control.FluidBar;
+import it.zerono.mods.zerocore.base.client.screen.control.MachineStatusIndicator;
 import it.zerono.mods.zerocore.lib.client.gui.ButtonState;
 import it.zerono.mods.zerocore.lib.client.gui.IControl;
-import it.zerono.mods.zerocore.lib.client.gui.control.*;
-import it.zerono.mods.zerocore.lib.client.gui.databind.BindingGroup;
-import it.zerono.mods.zerocore.lib.client.gui.databind.MonoConsumerBinding;
-import it.zerono.mods.zerocore.lib.client.gui.databind.MultiConsumerBinding;
-import it.zerono.mods.zerocore.lib.client.gui.layout.*;
+import it.zerono.mods.zerocore.lib.client.gui.control.Button;
+import it.zerono.mods.zerocore.lib.client.gui.control.Panel;
+import it.zerono.mods.zerocore.lib.client.gui.control.SwitchPictureButton;
+import it.zerono.mods.zerocore.lib.client.gui.layout.AnchoredLayoutEngine;
+import it.zerono.mods.zerocore.lib.client.gui.layout.FixedLayoutEngine;
 import it.zerono.mods.zerocore.lib.client.gui.sprite.ISprite;
-import it.zerono.mods.zerocore.lib.client.gui.sprite.Sprite;
 import it.zerono.mods.zerocore.lib.client.render.ModRenderHelper;
-import it.zerono.mods.zerocore.lib.client.text.BindableTextComponent;
 import it.zerono.mods.zerocore.lib.data.geometry.Point;
-import it.zerono.mods.zerocore.lib.data.gfx.Colour;
-import it.zerono.mods.zerocore.lib.fluid.FluidHelper;
 import it.zerono.mods.zerocore.lib.item.inventory.PlayerInventoryUsage;
-import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraftforge.common.util.NonNullSupplier;
-import net.minecraftforge.fluids.FluidStack;
-
-import java.util.function.Consumer;
-import java.util.function.Function;
-
-import static it.zerono.mods.zerocore.lib.CodeHelper.TEXT_EMPTY_LINE;
 
 public class ReactorFluidAccessPortScreen
-        extends AbstractMultiblockScreen<MultiblockReactor, ReactorFluidAccessPortEntity, ModTileContainer<ReactorFluidAccessPortEntity>> {
+        extends CommonMultiblockScreen<MultiblockReactor, ReactorFluidAccessPortEntity, ReactorFluidAccessPortContainer> {
 
-    public ReactorFluidAccessPortScreen(final ModTileContainer<ReactorFluidAccessPortEntity> container,
+    public ReactorFluidAccessPortScreen(final ReactorFluidAccessPortContainer container,
                                         final PlayerInventory inventory, final ITextComponent title) {
 
         super(container, inventory, PlayerInventoryUsage.None, title,
                 mainTextureFromVariant(container.getTileEntity().getMultiblockVariant().orElse(ReactorVariant.Basic)));
-        this._bindings = new BindingGroup();
+
+        this.addPatchouliHelpButton(PatchouliCompat.HANDBOOK_ID, ExtremeReactors.newID("reactor/part-fluidaccessport"), 1);
 
         this._btnInputDirection = new SwitchPictureButton(this, "directionInput", false, "direction");
-        this._btnOutputDirection = new SwitchPictureButton(this, "directionOutput", false, "direction");
-        this._btnDumpFuel = new Button(this, "dumpFuel", "");
-        this._btnDumpWaste = new Button(this, "dumpWaste", "");
+        this.setButtonSpritesAndOverlayForState(this._btnInputDirection, ButtonState.Default, CommonIcons.ButtonInputDirection);
+        this.setButtonSpritesAndOverlayForState(this._btnInputDirection, ButtonState.Active, CommonIcons.ButtonInputDirectionActive);
+        this._btnInputDirection.Activated.subscribe(this::onInputActivated);
+        this._btnInputDirection.setTooltips(new BaseScreenToolTipsBuilder()
+                .addTranslatableAsTitle("gui.bigreactors.reactor.fluidaccessport.directioninput.tooltip.title")
+                .addEmptyLine()
+                .addTranslatable("gui.bigreactors.reactor.fluidaccessport.directioninput.tooltip.body")
+        );
 
-        this._fuelTank = this.liquidBar("fuelTank", ReactorFluidAccessPortEntity.TANK_CAPACITY);
-        this._wasteTank = this.liquidBar("wasteTank", ReactorFluidAccessPortEntity.TANK_CAPACITY);
+        this._btnOutputDirection = new SwitchPictureButton(this, "directionOutput", false, "direction");
+        this.setButtonSpritesAndOverlayForState(this._btnOutputDirection, ButtonState.Default, CommonIcons.ButtonOutputDirection);
+        this.setButtonSpritesAndOverlayForState(this._btnOutputDirection, ButtonState.Active, CommonIcons.ButtonOutputDirectionActive);
+        this._btnOutputDirection.Activated.subscribe(this::onOutputActivated);
+        this._btnOutputDirection.setTooltips(new BaseScreenToolTipsBuilder()
+                .addTranslatableAsTitle("gui.bigreactors.reactor.fluidaccessport.directionoutput.tooltip.title")
+                .addEmptyLine()
+                .addTranslatable("gui.bigreactors.reactor.fluidaccessport.directionoutput.tooltip.body")
+        );
+
+        container.DIRECTION.bind(direction -> {
+
+            this._btnInputDirection.setActive(direction.isInput());
+            this._btnOutputDirection.setActive(direction.isOutput());
+        });
+
+        this._btnDumpFuel = new Button(this, "dumpFuel", "");
+        this._btnDumpFuel.setPadding(0);
+        this._btnDumpFuel.setIconForState(CommonIcons.ButtonDumpFuel.get(), ButtonState.Default);
+        this._btnDumpFuel.setIconForState(CommonIcons.ButtonDumpFuelActive.get(), ButtonState.Active, ButtonState.ActiveHighlighted, ButtonState.DefaultHighlighted);
+        this._btnDumpFuel.Clicked.subscribe(this::onDumpFuel);
+        this._btnDumpFuel.setTooltips(new BaseScreenToolTipsBuilder()
+                .addTranslatableAsTitle("gui.bigreactors.reactor.fluidaccessport.dumpfuel.tooltip.title")
+                .addEmptyLine()
+                .addTranslatable("gui.bigreactors.reactor.fluidaccessport.dumpfuel.tooltip.body")
+        );
+
+        this._btnDumpWaste = new Button(this, "dumpWaste", "");
+        this._btnDumpWaste.setPadding(0);
+        this._btnDumpWaste.setIconForState(CommonIcons.ButtonDumpWaste.get(), ButtonState.Default);
+        this._btnDumpWaste.setIconForState(CommonIcons.ButtonDumpWasteActive.get(), ButtonState.Active, ButtonState.ActiveHighlighted, ButtonState.DefaultHighlighted);
+        this._btnDumpWaste.Clicked.subscribe(this::onDumpWaste);
+        this._btnDumpWaste.setTooltips(new BaseScreenToolTipsBuilder()
+                .addTranslatableAsTitle("gui.bigreactors.reactor.fluidaccessport.dumpwaste.tooltip.title")
+                .addEmptyLine()
+                .addTranslatable("gui.bigreactors.reactor.fluidaccessport.dumpwaste.tooltip.body")
+        );
+
+        this._fuelTank = new FluidBar(this, "fuelTank", ReactorFluidAccessPortEntity.TANK_CAPACITY,
+                container.FUEL_STACK, CommonIcons.FuelReactantIcon, "gui.bigreactors.reactor.fluidaccessport.fueltank.tooltip.title",
+                "gui.bigreactors.reactor.fluidaccessport.fueltank.tooltip.body");
+
+        this._wasteTank = new FluidBar(this, "wasteTank", ReactorFluidAccessPortEntity.TANK_CAPACITY,
+                container.WASTE_STACK, CommonIcons.WasteReactantIcon, "gui.bigreactors.reactor.fluidaccessport.wastetank.tooltip.title",
+                "gui.bigreactors.reactor.fluidaccessport.wastetank.tooltip.body");
     }
 
-    //region AbstractMultiblockScreen
+    //region CommonMultiblockScreen
+
+    @Override
+    protected MachineStatusIndicator createStatusIndicator(ReactorFluidAccessPortContainer container) {
+        return this.createDefaultStatusIndicator(container.ACTIVE, "gui.bigreactors.reactor.active",
+                "gui.bigreactors.reactor.inactive");
+    }
 
     /**
      * Called when this screen is being created for the first time.
@@ -86,12 +130,9 @@ public class ReactorFluidAccessPortScreen
     @Override
     protected void onScreenCreate() {
 
-        this.addPatchouliHelpButton(PatchouliCompat.HANDBOOK_ID, ExtremeReactors.newID("reactor/part-fluidaccessport"), 1);
-
         super.onScreenCreate();
 
         final Panel panel = new Panel(this, "fluidaccessport");
-        Panel p;
 
         panel.setLayoutEngineHint(FixedLayoutEngine.hint(0, 0));
         panel.setDesiredDimension(this.getGuiWidth(), this.getGuiHeight() - 21);
@@ -99,205 +140,16 @@ public class ReactorFluidAccessPortScreen
                 .setHorizontalMargin(36)
                 .setVerticalMargin(13));
 
-        this.addControl(panel);
-
-        // - buttons
-
-        // -- input direction button
-
-        this.setButtonSpritesAndOverlayForState(this._btnInputDirection, ButtonState.Default, CommonIcons.ButtonInputDirection);
-        this.setButtonSpritesAndOverlayForState(this._btnInputDirection, ButtonState.Active, CommonIcons.ButtonInputDirectionActive);
-        this._btnInputDirection.Activated.subscribe(this::onInputActivated);
-        this._btnInputDirection.setTooltips(
-                new TranslationTextComponent("gui.bigreactors.reactor.fluidaccessport.directioninput.line1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
-                TEXT_EMPTY_LINE,
-                new TranslationTextComponent("gui.bigreactors.reactor.fluidaccessport.directioninput.line2")
-        );
-
-        // -- output direction button
-
-        this.setButtonSpritesAndOverlayForState(this._btnOutputDirection, ButtonState.Default, CommonIcons.ButtonOutputDirection);
-        this.setButtonSpritesAndOverlayForState(this._btnOutputDirection, ButtonState.Active, CommonIcons.ButtonOutputDirectionActive);
-        this._btnOutputDirection.Activated.subscribe(this::onOutputActivated);
-        this._btnOutputDirection.setTooltips(
-                new TranslationTextComponent("gui.bigreactors.reactor.fluidaccessport.directionoutput.line1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
-                TEXT_EMPTY_LINE,
-                new TranslationTextComponent("gui.bigreactors.reactor.fluidaccessport.directionoutput.line2")
-        );
-
-        this.addBinding(c -> c.getTileEntity().getIoDirection(), value -> {
-
-            this._btnInputDirection.setActive(value.isInput());
-            this._btnOutputDirection.setActive(value.isOutput());
-        });
-
-        // -- dump fuel command button
-
-        this._btnDumpFuel.setPadding(0);
-        this._btnDumpFuel.setIconForState(CommonIcons.ButtonDumpFuel.get(), ButtonState.Default);
-        this._btnDumpFuel.setIconForState(CommonIcons.ButtonDumpFuelActive.get(), ButtonState.Active, ButtonState.ActiveHighlighted, ButtonState.DefaultHighlighted);
-        this._btnDumpFuel.Clicked.subscribe(this::onDumpFuel);
-        this._btnDumpFuel.setTooltips(
-                new TranslationTextComponent("gui.bigreactors.reactor.fluidaccessport.dumpfuel.line1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
-                TEXT_EMPTY_LINE,
-                new TranslationTextComponent("gui.bigreactors.reactor.fluidaccessport.dumpfuel.line2"),
-                new TranslationTextComponent("gui.bigreactors.reactor.fluidaccessport.dumpfuel.line3"),
-                new TranslationTextComponent("gui.bigreactors.reactor.fluidaccessport.dumpfuel.line4")
-        );
-
-        // -- dump waste command button
-
-        this._btnDumpWaste.setPadding(0);
-        this._btnDumpWaste.setIconForState(CommonIcons.ButtonDumpWaste.get(), ButtonState.Default);
-        this._btnDumpWaste.setIconForState(CommonIcons.ButtonDumpWasteActive.get(), ButtonState.Active, ButtonState.ActiveHighlighted, ButtonState.DefaultHighlighted);
-        this._btnDumpWaste.Clicked.subscribe(this::onDumpWaste);
-        this._btnDumpWaste.setTooltips(
-                new TranslationTextComponent("gui.bigreactors.reactor.fluidaccessport.dumpwaste.line1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
-                TEXT_EMPTY_LINE,
-                new TranslationTextComponent("gui.bigreactors.reactor.fluidaccessport.dumpwaste.line2"),
-                new TranslationTextComponent("gui.bigreactors.reactor.fluidaccessport.dumpwaste.line3"),
-                new TranslationTextComponent("gui.bigreactors.reactor.fluidaccessport.dumpwaste.line4")
-        );
-
         panel.addControl(this.buttonsPanel(this._btnInputDirection, this._btnOutputDirection, this._btnDumpFuel, this._btnDumpWaste));
 
-        // - tanks
+        final BarsPanel barsPanel = new BarsPanel(this, "bars")
+                .add(this._fuelTank)
+                .addVerticalSeparator()
+                .add(this._wasteTank);
 
-        final ITextComponent tankCapacity = new StringTextComponent(String.format("%d mB", ReactorFluidAccessPortEntity.TANK_CAPACITY)).setStyle(CommonConstants.STYLE_TOOLTIP_VALUE);
-        final Panel tanksPanel = new Panel(this);
-
-        tanksPanel.setDesiredDimension(47, VBARPANEL_HEIGHT);
-        tanksPanel.setLayoutEngineHint(AnchoredLayoutEngine.Anchor.TopRight);
-        tanksPanel.setLayoutEngine(new HorizontalLayoutEngine()
-                .setZeroMargins()
-                .setVerticalAlignment(VerticalAlignment.Top)
-                .setHorizontalAlignment(HorizontalAlignment.Left));
-        panel.addControl(tanksPanel);
-
-        // -- fuel
-
-        final BindableTextComponent<ITextComponent> fuelFluidName = new BindableTextComponent<>((ITextComponent name) -> name);
-        final BindableTextComponent<Integer> fuelAmount = new BindableTextComponent<>(
-                amount -> new StringTextComponent(String.format("%d mB", amount)).setStyle(CommonConstants.STYLE_TOOLTIP_VALUE));
-        final BindableTextComponent<Double> fuelStoredPercentage = new BindableTextComponent<>(
-                percentage -> new StringTextComponent(String.format("%d", (int)(percentage * 100))).setStyle(CommonConstants.STYLE_TOOLTIP_VALUE));
-
-        p = this.vBarPanel();
-        this.addBarIcon(CommonIcons.FuelReactantIcon, p).useTooltipsFrom(this._fuelTank);
-
-        this._fuelTank.setTooltips(ImmutableList.of(
-                        new TranslationTextComponent("gui.bigreactors.reactor.fluidaccessport.fueltank.line1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
-                        new TranslationTextComponent("gui.bigreactors.reactor.controller.coreheatbar.line2").setStyle(CommonConstants.STYLE_TOOLTIP_VALUE),
-                        new TranslationTextComponent("gui.bigreactors.reactor.fluidaccessport.fueltank.line3a").setStyle(CommonConstants.STYLE_TOOLTIP_VALUE)
-                                .append(new TranslationTextComponent("gui.bigreactors.reactor.fluidaccessport.fueltank.line3b")),
-                        new TranslationTextComponent("gui.bigreactors.reactor.fluidaccessport.fueltank.line4a").setStyle(CommonConstants.STYLE_TOOLTIP_VALUE)
-                                .append(new TranslationTextComponent("gui.bigreactors.reactor.fluidaccessport.fueltank.line4b")),
-                        TEXT_EMPTY_LINE,
-                        new TranslationTextComponent("gui.bigreactors.reactor.fluidaccessport.fueltank.line5"),
-                        new TranslationTextComponent("gui.bigreactors.reactor.fluidaccessport.fueltank.line6")
-                ),
-                ImmutableList.of(
-                        // @0
-                        fuelFluidName,
-                        // @1
-                        fuelAmount,
-                        // @2
-                        tankCapacity,
-                        // @3
-                        fuelStoredPercentage
-                )
-        );
-        this.addBinding(c -> FluidHelper.getFluidName(this.getFluidStack(ReactantType.Fuel)),
-                v -> {
-
-                    final FluidStack stack = this.getFluidStack(ReactantType.Fuel);
-
-                    if (stack.isEmpty()) {
-
-                        this._fuelTank.setBarSprite(Sprite.EMPTY);
-                        this._fuelTank.setBarSpriteTint(Colour.WHITE);
-
-                    } else {
-
-                        this._fuelTank.setBarSprite(ModRenderHelper.getFlowingFluidSprite(stack.getFluid()));
-                        this._fuelTank.setBarSpriteTint(Colour.fromARGB(stack.getFluid().getAttributes().getColor()));
-                    }
-                }, fuelFluidName);
-        this.addBinding(c -> this.getFluidAmount(ReactantType.Fuel), (Consumer<Integer>)this._fuelTank::setValue, fuelAmount);
-        this.addBinding(c -> this.getFluidStoredPercentage(ReactantType.Fuel), v -> {}, fuelStoredPercentage);
-
-        p.addControl(this._fuelTank);
-        tanksPanel.addControl(p);
-
-        // -- separator
-
-        tanksPanel.addControl(this.vSeparatorPanel());
-
-        // -- waste
-
-        final BindableTextComponent<ITextComponent> wasteFluidName = new BindableTextComponent<>((ITextComponent name) -> name);
-        final BindableTextComponent<Integer> wasteAmount = new BindableTextComponent<>(
-                amount -> new StringTextComponent(String.format("%d mB", amount)).setStyle(CommonConstants.STYLE_TOOLTIP_VALUE));
-        final BindableTextComponent<Double> wasteStoredPercentage = new BindableTextComponent<>(
-                percentage -> new StringTextComponent(String.format("%d", (int)(percentage * 100))).setStyle(CommonConstants.STYLE_TOOLTIP_VALUE));
-
-        p = this.vBarPanel();
-        this.addBarIcon(CommonIcons.WasteReactantIcon, p).useTooltipsFrom(this._wasteTank);
-
-        this._wasteTank.setTooltips(ImmutableList.of(
-                        new TranslationTextComponent("gui.bigreactors.reactor.fluidaccessport.wastetank.line1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
-                        new TranslationTextComponent("gui.bigreactors.reactor.fluidaccessport.wastetank.line2").setStyle(CommonConstants.STYLE_TOOLTIP_VALUE),
-                        new TranslationTextComponent("gui.bigreactors.reactor.fluidaccessport.wastetank.line3a").setStyle(CommonConstants.STYLE_TOOLTIP_VALUE)
-                                .append(new TranslationTextComponent("gui.bigreactors.reactor.fluidaccessport.wastetank.line3b")),
-                        new TranslationTextComponent("gui.bigreactors.reactor.fluidaccessport.wastetank.line4a").setStyle(CommonConstants.STYLE_TOOLTIP_VALUE)
-                                .append(new TranslationTextComponent("gui.bigreactors.reactor.fluidaccessport.wastetank.line4b")),
-                        TEXT_EMPTY_LINE,
-                        new TranslationTextComponent("gui.bigreactors.reactor.fluidaccessport.wastetank.line5"),
-                        new TranslationTextComponent("gui.bigreactors.reactor.fluidaccessport.wastetank.line6")
-                ),
-                ImmutableList.of(
-                        // @0
-                        wasteFluidName,
-                        // @1
-                        wasteAmount,
-                        // @2
-                        tankCapacity,
-                        // @3
-                        wasteStoredPercentage
-                )
-        );
-        this.addBinding(c -> FluidHelper.getFluidName(this.getFluidStack(ReactantType.Waste)),
-                v -> {
-
-                    final FluidStack stack = this.getFluidStack(ReactantType.Waste);
-
-                    if (stack.isEmpty()) {
-
-                        this._wasteTank.setBarSprite(Sprite.EMPTY);
-                        this._wasteTank.setBarSpriteTint(Colour.WHITE);
-
-                    } else {
-
-                        this._wasteTank.setBarSprite(ModRenderHelper.getFlowingFluidSprite(stack.getFluid()));
-                        this._wasteTank.setBarSpriteTint(Colour.fromARGB(stack.getFluid().getAttributes().getColor()));
-                    }
-                }, wasteFluidName);
-        this.addBinding(c -> this.getFluidAmount(ReactantType.Waste), (Consumer<Integer>)this._wasteTank::setValue, wasteAmount);
-        this.addBinding(c -> this.getFluidStoredPercentage(ReactantType.Waste), v -> {}, wasteStoredPercentage);
-
-        p.addControl(this._wasteTank);
-        tanksPanel.addControl(p);
-    }
-
-    /**
-     * Called when this screen need to be updated after the TileEntity data changed.
-     * Override to handle this event
-     */
-    @Override
-    protected void onDataUpdated() {
-
-        super.onDataUpdated();
-        this._bindings.update();;
+        barsPanel.setLayoutEngineHint(AnchoredLayoutEngine.Anchor.TopRight);
+        panel.addControl(barsPanel);
+        this.addControl(panel);
     }
 
     //endregion
@@ -325,27 +177,6 @@ public class ReactorFluidAccessPortScreen
 
         options.putBoolean("void", Screen.hasShiftDown());
         this.sendCommandToServer(CommonConstants.COMMAND_DUMP_WASTE, options);
-    }
-
-    private <Value> void addBinding(final Function<ModTileContainer<ReactorFluidAccessPortEntity>, Value> supplier, final Consumer<Value> consumer) {
-        this._bindings.addBinding(new MonoConsumerBinding<>(this.getMenu(), supplier, consumer));
-    }
-
-    @SafeVarargs
-    private final <Value> void addBinding(final Function<ModTileContainer<ReactorFluidAccessPortEntity>, Value> supplier, final Consumer<Value>... consumers) {
-        this._bindings.addBinding(new MultiConsumerBinding<>(this.getMenu(), supplier, consumers));
-    }
-
-    private FluidStack getFluidStack(final ReactantType type) {
-        return this.getTileEntity().getFluidStackHandler(type).getFluidInTank(0);
-    }
-
-    private int getFluidAmount(final ReactantType type) {
-        return this.getFluidStack(type).getAmount();
-    }
-
-    private double getFluidStoredPercentage(final ReactantType type) {
-        return (double)this.getFluidAmount(type) / (double)ReactorFluidAccessPortEntity.TANK_CAPACITY;
     }
 
     private Panel buttonsPanel(final IControl setInput, final IControl setOutput,
@@ -382,72 +213,12 @@ public class ReactorFluidAccessPortScreen
         return p;
     }
 
-    //TODO move similar helpers to a common utility class when ZC.base is merged in
-    private GaugeBar liquidBar(final String name, final double maxValue) {
-
-        final GaugeBar bar = new GaugeBar(this, name, maxValue, CommonIcons.BarBackground.get());
-
-        bar.setDesiredDimension(18, 66);
-        bar.setBackground(CommonIcons.BarBackground.get());
-        bar.setPadding(1);
-
-        return bar;
-    }
-
-    private Panel vSeparatorPanel() {
-
-        final Panel p = new Panel(this);
-        final Static s = new Static(this, 1, VBARPANEL_HEIGHT);
-
-        p.setDesiredDimension(11, VBARPANEL_HEIGHT);
-        p.setLayoutEngine(new FixedLayoutEngine());
-
-        s.setColor(Colour.BLACK);
-        s.setLayoutEngineHint(FixedLayoutEngine.hint(5, 0, 1, VBARPANEL_HEIGHT));
-
-        p.addControl(s);
-
-        return p;
-    }
-
-    private Panel vBarPanel() {
-
-        final Panel p = new Panel(this);
-
-        p.setDesiredDimension(VBARPANEL_WIDTH, VBARPANEL_HEIGHT);
-        p.setLayoutEngine(new VerticalLayoutEngine()
-                .setZeroMargins()
-                .setControlsSpacing(2));
-
-        return p;
-    }
-
-    private IControl addBarIcon(final NonNullSupplier<ISprite> icon, final Panel parent) {
-        return this.addBarIcon(icon, 16, 16, parent);
-    }
-
-    private IControl addBarIcon(final NonNullSupplier<ISprite> icon, final int width, final int height, final Panel parent) {
-
-        final IControl c = new Picture(this, this.nextGenericName(), icon.get(), width, height);
-
-        c.setDesiredDimension(width, height);
-        parent.addControl(c);
-        return c;
-    }
-
-    private static final ITextComponent TEXT_EMPTY = new TranslationTextComponent("gui.bigreactors.generic.empty").setStyle(CommonConstants.STYLE_TOOLTIP_VALUE);
-    private final static int VBARPANEL_WIDTH = 18;
-    private final static int VBARPANEL_HEIGHT = 84;
-
-    private final BindingGroup _bindings;
-
     private final SwitchPictureButton _btnInputDirection;
     private final SwitchPictureButton _btnOutputDirection;
     private final Button _btnDumpFuel;
     private final Button _btnDumpWaste;
-
-    private final GaugeBar _fuelTank;
-    private final GaugeBar _wasteTank;
+    private final FluidBar _fuelTank;
+    private final FluidBar _wasteTank;
 
     //endregion
 }

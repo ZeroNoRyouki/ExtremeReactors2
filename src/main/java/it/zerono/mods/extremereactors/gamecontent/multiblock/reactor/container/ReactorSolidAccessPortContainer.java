@@ -54,7 +54,7 @@ public class ReactorSolidAccessPortContainer extends ModTileContainer<ReactorSol
     public ReactorSolidAccessPortContainer(final int windowId, final PlayerInventory playerInventory,
                                            final ReactorSolidAccessPortEntity port) {
 
-        super(FACTORY, Content.ContainerTypes.REACTOR_SOLID_ACCESSPORT.get(), windowId, port);
+        super(5, FACTORY, Content.ContainerTypes.REACTOR_SOLID_ACCESSPORT.get(), windowId, port);
 
         this._fuelHandler = port.getItemStackHandler(ReactantType.Fuel);
         this._wasteHandler = port.getItemStackHandler(ReactantType.Waste);
