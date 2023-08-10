@@ -41,10 +41,11 @@ import it.zerono.mods.zerocore.lib.IDebuggable;
 import it.zerono.mods.zerocore.lib.block.ModBlock;
 import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockPartTypeProvider;
 import it.zerono.mods.zerocore.lib.data.IoDirection;
+import it.zerono.mods.zerocore.lib.data.WideAmount;
 import it.zerono.mods.zerocore.lib.data.geometry.CuboidBoundingBox;
 import it.zerono.mods.zerocore.lib.data.stack.AllowedHandlerAction;
 import it.zerono.mods.zerocore.lib.data.stack.OperationMode;
-import it.zerono.mods.zerocore.lib.energy.EnergyBuffer;
+import it.zerono.mods.zerocore.lib.energy.WideEnergyBuffer;
 import it.zerono.mods.zerocore.lib.multiblock.IMultiblockController;
 import it.zerono.mods.zerocore.lib.multiblock.IMultiblockPart;
 import it.zerono.mods.zerocore.lib.multiblock.ITickableMultiblockPart;
@@ -125,7 +126,7 @@ public class MultiblockReactor
         this._reactorToCoolantSystemHeatTransferCoefficient = 0f;
         this._reactorHeatLossCoefficient = 0f;
         this._logic.reset();
-        this.getEnergyBuffer().setEnergyStored(0);
+        this.getEnergyBuffer().empty();
 
         this.resizeFuelContainer();
         this.calculateReactorVolume();
@@ -831,7 +832,7 @@ public class MultiblockReactor
 
         //resize energy buffer
 
-        this.getEnergyBuffer().setCapacity(this.getVariant().getPartEnergyCapacity() * this.getPartsCount());
+        this.getEnergyBuffer().setCapacity(WideAmount.from((long) this.getVariant().getPartEnergyCapacity() * this.getPartsCount()));
         this.getEnergyBuffer().setMaxExtract(this.getVariant().getMaxEnergyExtractionRate());
 
         //TODO check/fix
@@ -932,8 +933,10 @@ public class MultiblockReactor
             this._fuelHeat.set(otherReactor._fuelHeat.getAsDouble());
         }
 
-        if (otherReactor.getEnergyBuffer().getEnergyStored(INTERNAL_ENERGY_SYSTEM) > this.getEnergyBuffer().getEnergyStored(INTERNAL_ENERGY_SYSTEM)) {
-            this.getEnergyBuffer().setEnergyStored(otherReactor.getEnergyBuffer().getEnergyStored(INTERNAL_ENERGY_SYSTEM));
+        final WideAmount otherEnergy = otherReactor.getEnergyBuffer().getEnergyStored(INTERNAL_ENERGY_SYSTEM);
+
+        if (otherEnergy.greaterThan(this.getEnergyBuffer().getEnergyStored(INTERNAL_ENERGY_SYSTEM))) {
+            this.getEnergyBuffer().setEnergyStored(otherEnergy, INTERNAL_ENERGY_SYSTEM);
         }
 
         this._logic.syncDataFrom(otherReactor._logic);
@@ -1285,12 +1288,12 @@ public class MultiblockReactor
      */
     private void distributeEnergyEqually() {
 
-        final EnergyBuffer energyBuffer = this.getEnergyBuffer();
-        final double amountDistributed = distributeEnergyEqually(energyBuffer.getEnergyStored(),
+        final WideEnergyBuffer energyBuffer = this.getEnergyBuffer();
+        final WideAmount amountDistributed = distributeEnergyEqually(energyBuffer.getEnergyStored(),
                 this._attachedPowerTaps);
 
-        if (amountDistributed > 0) {
-            energyBuffer.modifyEnergyStored(-amountDistributed);
+        if (amountDistributed.greaterThan(WideAmount.ZERO)) {
+            energyBuffer.shrink(amountDistributed);
         }
     }
 

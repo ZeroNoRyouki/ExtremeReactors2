@@ -22,11 +22,10 @@ import it.zerono.mods.extremereactors.api.reactor.FuelProperties;
 import it.zerono.mods.extremereactors.api.reactor.Reactant;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.IMachineReader;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.IMultiblockReactorVariant;
+import it.zerono.mods.zerocore.lib.data.WideAmount;
 import it.zerono.mods.zerocore.lib.energy.EnergySystem;
-import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 
-import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.DoubleSupplier;
@@ -88,9 +87,8 @@ public interface IReactorReader
      * Returns the maximum amount of energy that can be stored expressed in the requested {@link EnergySystem}
      *
      * @param system the {@link EnergySystem} used by the request
-     * @param from   the direction the request is coming from
      */
-    double getCapacity(EnergySystem system, @Nullable Direction from);
+    WideAmount getCapacity(EnergySystem system);
 
     double getEnergyStoredPercentage();
 

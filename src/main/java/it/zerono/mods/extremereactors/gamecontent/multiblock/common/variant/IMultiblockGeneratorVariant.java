@@ -18,6 +18,7 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.common.variant;
 
+import it.zerono.mods.zerocore.lib.data.WideAmount;
 import it.zerono.mods.zerocore.lib.multiblock.variant.IMultiblockDimensionVariant;
 
 public interface IMultiblockGeneratorVariant
@@ -27,7 +28,7 @@ public interface IMultiblockGeneratorVariant
 
     float getEnergyGenerationEfficiency();
 
-    double getMaxEnergyExtractionRate();
+    WideAmount getMaxEnergyExtractionRate();
 
     double getChargerMaxRate();
 
