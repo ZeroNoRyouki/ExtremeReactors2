@@ -78,7 +78,7 @@ public class ReactorControllerScreen
         this._reactor = this.getMultiblockController().orElseThrow(IllegalStateException::new);
         this._reactorMode = this._reactor.getOperationalMode();
         this._outputEnergySystem = this._reactor.getOutputEnergySystem();
-        this._reactorCapacity = this._reactor.getCapacity(this._outputEnergySystem, null);
+        this._reactorCapacity = this._reactor.getCapacity(this._outputEnergySystem).doubleValue();
 
         this._bindings = new BindingGroup();
 
@@ -313,7 +313,7 @@ public class ReactorControllerScreen
                             energyStoredPercentageText
                     )
             );
-            this.addBinding((MultiblockReactor reactor) -> reactor.getEnergyStored(EnergySystem.REFERENCE, null),
+            this.addBinding((MultiblockReactor reactor) -> reactor.getEnergyStored(EnergySystem.REFERENCE).doubleValue(),
                     this._energyBar::setValue, energyStoredText);
             this.addBinding(AbstractGeneratorMultiblockController::getEnergyStoredPercentage, energyStoredPercentageText);
             p.addControl(this._energyBar);

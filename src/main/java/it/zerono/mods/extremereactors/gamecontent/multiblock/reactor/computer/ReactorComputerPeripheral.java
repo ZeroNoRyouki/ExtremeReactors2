@@ -68,13 +68,13 @@ public class ReactorComputerPeripheral
 
         methodConsumer.accept(new ComputerMethod<>("getVariant", wrapControllerValue(c -> c.getVariant().getName()))); //NEW
 
-        methodConsumer.accept(new ComputerMethod<>("getEnergyStored", wrapControllerValue(c -> c.getEnergyStored(c.getOutputEnergySystem(), null))));
+        methodConsumer.accept(new ComputerMethod<>("getEnergyStored", wrapControllerValue(c -> c.getEnergyStored(c.getOutputEnergySystem()).doubleValue())));
 
         methodConsumer.accept(new ComputerMethod<>("getEnergyStoredAsText", wrapControllerValue(c -> { //NEW
 
             final EnergySystem sys = c.getOutputEnergySystem();
 
-            return CodeHelper.formatAsHumanReadableNumber(c.getEnergyStored(sys, null), sys.getUnit());
+            return CodeHelper.formatAsHumanReadableNumber(c.getEnergyStored(sys).doubleValue(), sys.getUnit());
         })));
 
         methodConsumer.accept(new ComputerMethod<>("getNumberOfControlRods", wrapControllerValue(IReactorReader::getControlRodsCount)));
@@ -89,7 +89,7 @@ public class ReactorComputerPeripheral
 
         methodConsumer.accept(new ComputerMethod<>("getWasteAmount", wrapControllerValue(IReactorReader::getWasteAmount)));
 
-        methodConsumer.accept(new ComputerMethod<>("getFuelAmountMax", wrapControllerValue(IReactorReader::getCapacity)));
+        methodConsumer.accept(new ComputerMethod<>("getFuelAmountMax", wrapControllerValue(c -> c.getCapacity())));
 
         methodConsumer.accept(new ComputerMethod<>("getControlRodName", wrapControllerValue(controlRodByIndex(ReactorControlRodEntity::getName)), 1));
 
@@ -125,7 +125,7 @@ public class ReactorComputerPeripheral
                     (minCoords, rodCoords) -> rodCoords.subtract(minCoords)
                 ).orElse(null)), 1));
 
-        methodConsumer.accept(new ComputerMethod<>("getEnergyCapacity", wrapControllerValue(c -> c.getCapacity(c.getOutputEnergySystem(), null))));
+        methodConsumer.accept(new ComputerMethod<>("getEnergyCapacity", wrapControllerValue(c -> c.getCapacity(c.getOutputEnergySystem()).doubleValue())));
 
         methodConsumer.accept(new ComputerMethod<>("getControlRodsLevels", wrapControllerValue(c -> {
 
@@ -188,8 +188,8 @@ public class ReactorComputerPeripheral
             final Map<String, Object> stats = Maps.newHashMap();
             final EnergySystem sys = c.getOutputEnergySystem();
 
-            stats.put("energyStored", c.getEnergyStored(sys, null));
-            stats.put("energyCapacity", c.getCapacity(sys, null));
+            stats.put("energyStored", c.getEnergyStored(sys).doubleValue());
+            stats.put("energyCapacity", c.getCapacity(sys).doubleValue());
             stats.put("energyProducedLastTick", c.getUiStats().getAmountGeneratedLastTick());
             stats.put("energySystem", sys.getUnit()); //NEW
 

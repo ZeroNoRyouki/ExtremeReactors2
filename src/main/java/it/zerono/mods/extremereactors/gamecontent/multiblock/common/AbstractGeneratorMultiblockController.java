@@ -23,18 +23,20 @@ import it.zerono.mods.zerocore.base.multiblock.AbstractMultiblockController;
 import it.zerono.mods.zerocore.base.multiblock.part.io.IIOPortHandler;
 import it.zerono.mods.zerocore.base.multiblock.part.io.fluid.IFluidPort;
 import it.zerono.mods.zerocore.base.multiblock.part.io.power.IPowerPort;
+import it.zerono.mods.zerocore.base.multiblock.part.io.power.IPowerPortHandler;
 import it.zerono.mods.zerocore.lib.data.IoDirection;
 import it.zerono.mods.zerocore.lib.data.WideAmount;
-import it.zerono.mods.zerocore.lib.energy.EnergyBuffer;
+import it.zerono.mods.zerocore.lib.data.stack.OperationMode;
 import it.zerono.mods.zerocore.lib.energy.EnergySystem;
-import it.zerono.mods.zerocore.lib.energy.IWideEnergyProvider;
+import it.zerono.mods.zerocore.lib.energy.IWideEnergyStorage2;
+import it.zerono.mods.zerocore.lib.energy.WideEnergyBuffer;
+
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 
-import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -42,12 +44,12 @@ import java.util.Optional;
 public abstract class AbstractGeneratorMultiblockController<Controller extends AbstractGeneratorMultiblockController<Controller, V>,
             V extends IMultiblockGeneratorVariant>
         extends AbstractMultiblockController<Controller, V>
-        implements IWideEnergyProvider {
+        implements IWideEnergyStorage2 {
 
     public AbstractGeneratorMultiblockController(Level world) {
 
         super(world);
-        this._energyBuffer = new EnergyBuffer(INTERNAL_ENERGY_SYSTEM, 0); //TODO is starting from 0 a problem when loading NBT data?
+        this._energyBuffer = new WideEnergyBuffer(INTERNAL_ENERGY_SYSTEM, WideAmount.ZERO);
         this._outputEnergySystem = INTERNAL_ENERGY_SYSTEM;
 
         this.setInteriorInvisible(false);
@@ -55,7 +57,7 @@ public abstract class AbstractGeneratorMultiblockController<Controller extends A
 
     //region Energy production and storage
 
-    protected EnergyBuffer getEnergyBuffer() {
+    protected WideEnergyBuffer getEnergyBuffer() {
         return this._energyBuffer;
     }
 
@@ -68,7 +70,7 @@ public abstract class AbstractGeneratorMultiblockController<Controller extends A
     }
 
     public double getEnergyStoredPercentage() {
-        return this.getEnergyStored(INTERNAL_ENERGY_SYSTEM, null) / this.getCapacity(INTERNAL_ENERGY_SYSTEM, null);
+        return this.getEnergyStored(INTERNAL_ENERGY_SYSTEM).percentage(this.getCapacity(INTERNAL_ENERGY_SYSTEM));
     }
 
     /**
@@ -78,20 +80,27 @@ public abstract class AbstractGeneratorMultiblockController<Controller extends A
      * @param powerTaps the Power Taps
      * @return the amount of energy distributed
      */
-    protected static double distributeEnergyEqually(double energyAmount, final Collection<? extends IPowerPort> powerTaps) {
+    protected static WideAmount distributeEnergyEqually(WideAmount energyAmount,
+                                                        Collection<? extends IPowerPort> powerTaps) {
 
-        if (energyAmount <= 0 || powerTaps.isEmpty()) {
-            return 0;
+        if (energyAmount.isZero() || powerTaps.isEmpty()) {
+            return WideAmount.ZERO;
         }
 
-        final double energyPerTap = energyAmount / powerTaps.size();
+        energyAmount = energyAmount.divide(powerTaps.size()).toImmutable();
 
-        return powerTaps.stream()
-                .map(IPowerPort::getPowerPortHandler)
-                .filter(IIOPortHandler::isActive)
-                .filter(IIOPortHandler::isConnected)
-                .mapToDouble(handler -> handler.outputEnergy(WideAmount.from(energyPerTap)).doubleValue())
-                .sum();
+        WideAmount amountDistributed = WideAmount.ZERO;
+
+        for (final IPowerPort port : powerTaps) {
+
+            final IPowerPortHandler handler = port.getPowerPortHandler();
+
+            if (handler.isActive() && handler.isConnected()) {
+                amountDistributed = amountDistributed.add(handler.outputEnergy(energyAmount));
+            }
+        }
+
+        return amountDistributed;
     }
 
     //endregion
@@ -130,10 +139,6 @@ public abstract class AbstractGeneratorMultiblockController<Controller extends A
 
     /**
      * Distribute the given fluid equally between the specified Active Coolant Ports
-     *
-     * @param availableFluid the gas to distribute
-     * @param coolantPorts the Coolant Ports
-     * @return the amount of gas distributed
      */
     protected static int acquireFluidEqually(final IFluidHandler destination, final int maxAmount,
                                              final Collection<? extends IFluidPort> coolantPorts) {
@@ -154,64 +159,31 @@ public abstract class AbstractGeneratorMultiblockController<Controller extends A
     }
 
     //endregion
-    //region IWideEnergyProvider
+    //region IWideEnergyStorage2
 
-    /**
-     * Remove energy, expressed in the specified {@EnergySystem}, from an IWideEnergyProvider.
-     * Internal distribution is left entirely to the IWideEnergyProvider
-     *
-     * @param system    the {@link EnergySystem} used by the request
-     * @param from      the direction the request is coming from
-     * @param maxAmount maximum amount of energy to extract
-     * @param simulate  if true, the extraction will only be simulated
-     * @return amount of energy that was (or would have been, if simulated) extracted
-     */
     @Override
-    public double extractEnergy(EnergySystem system, @Nullable Direction from, double maxAmount, boolean simulate) {
-        return this.getEnergyBuffer().extractEnergy(system, maxAmount, simulate);
+    public WideAmount insertEnergy(EnergySystem system, WideAmount maxAmount, OperationMode mode) {
+        return this.getEnergyBuffer().insertEnergy(system, maxAmount, mode);
     }
 
-    /**
-     * Returns the amount of energy currently stored expressed in the specified {@link EnergySystem}
-     *
-     * @param system the {@link EnergySystem} used by the request
-     * @param from   the direction the request is coming from
-     */
     @Override
-    public double getEnergyStored(EnergySystem system, @Nullable Direction from) {
+    public WideAmount extractEnergy(EnergySystem system, WideAmount maxAmount, OperationMode mode) {
+        return this.getEnergyBuffer().extractEnergy(system, maxAmount, mode);
+    }
+
+    @Override
+    public WideAmount getEnergyStored(EnergySystem system) {
         return this.getEnergyBuffer().getEnergyStored(system);
     }
 
-    /**
-     * Returns the maximum amount of energy that can be stored expressed in the requested {@link EnergySystem}
-     *
-     * @param system the {@link EnergySystem} used by the request
-     * @param from   the direction the request is coming from
-     */
     @Override
-    public double getCapacity(EnergySystem system, @Nullable Direction from) {
+    public WideAmount getCapacity(EnergySystem system) {
         return this.getEnergyBuffer().getCapacity(system);
     }
 
-    /**
-     * Get the {@EnergySystem} used by this entity
-     *
-     * @return the {@EnergySystem} in use
-     */
     @Override
     public EnergySystem getEnergySystem() {
         return this.getEnergyBuffer().getEnergySystem();
-    }
-
-    /**
-     * Returns true if the entity can connect on a given side and support with the provided {@Link EnergySystem}.
-     *
-     * @param system the {@link EnergySystem} used by the request
-     * @param from   the direction the request is coming from
-     */
-    @Override
-    public boolean canConnectEnergy(EnergySystem system, @Nullable Direction from) {
-        return true;
     }
 
     //endregion
@@ -258,7 +230,7 @@ public abstract class AbstractGeneratorMultiblockController<Controller extends A
 
     protected static final EnergySystem INTERNAL_ENERGY_SYSTEM = EnergySystem.ForgeEnergy;
 
-    private final EnergyBuffer _energyBuffer;
+    private final WideEnergyBuffer _energyBuffer;
     private EnergySystem _outputEnergySystem;
 
     //endregion

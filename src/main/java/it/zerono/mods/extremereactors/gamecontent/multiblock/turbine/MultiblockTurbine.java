@@ -34,9 +34,10 @@ import it.zerono.mods.zerocore.lib.IDebugMessages;
 import it.zerono.mods.zerocore.lib.IDebuggable;
 import it.zerono.mods.zerocore.lib.block.ModBlock;
 import it.zerono.mods.zerocore.lib.data.IoDirection;
+import it.zerono.mods.zerocore.lib.data.WideAmount;
 import it.zerono.mods.zerocore.lib.data.stack.AllowedHandlerAction;
 import it.zerono.mods.zerocore.lib.data.stack.OperationMode;
-import it.zerono.mods.zerocore.lib.energy.EnergyBuffer;
+import it.zerono.mods.zerocore.lib.energy.WideEnergyBuffer;
 import it.zerono.mods.zerocore.lib.multiblock.AbstractMultiblockPart;
 import it.zerono.mods.zerocore.lib.multiblock.IMultiblockController;
 import it.zerono.mods.zerocore.lib.multiblock.IMultiblockPart;
@@ -96,7 +97,7 @@ public class MultiblockTurbine
         this.setMachineActive(false);
         this._fluidContainer.reset();
         this._data.reset();
-        this.getEnergyBuffer().setEnergyStored(0);
+        this.getEnergyBuffer().empty();
 
         this.resizeFluidContainer();
     }
@@ -637,7 +638,7 @@ public class MultiblockTurbine
 
         //resize energy buffer
 
-        this.getEnergyBuffer().setCapacity(this.getVariant().getPartEnergyCapacity() * this.getPartsCount());
+        this.getEnergyBuffer().setCapacity(WideAmount.from((long) this.getVariant().getPartEnergyCapacity() * this.getPartsCount()));
         this.getEnergyBuffer().setMaxExtract(this.getVariant().getMaxEnergyExtractionRate());
 
         this.resizeFluidContainer();
@@ -1061,11 +1062,11 @@ public class MultiblockTurbine
      */
     private void distributeEnergyEqually() {
 
-        final EnergyBuffer energyBuffer = this.getEnergyBuffer();
-        final double amountDistributed = distributeEnergyEqually(energyBuffer.getEnergyStored(), this._attachedPowerTaps);
+        final WideEnergyBuffer energyBuffer = this.getEnergyBuffer();
+        final WideAmount amountDistributed = distributeEnergyEqually(energyBuffer.getEnergyStored(), this._attachedPowerTaps);
 
-        if (amountDistributed > 0) {
-            energyBuffer.modifyEnergyStored(-amountDistributed);
+        if (amountDistributed.greaterThan(WideAmount.ZERO)) {
+            energyBuffer.shrink(amountDistributed);
         }
     }
 
