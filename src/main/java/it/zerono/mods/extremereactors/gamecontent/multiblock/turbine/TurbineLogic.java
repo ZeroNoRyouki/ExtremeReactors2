@@ -21,12 +21,12 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.turbine;
 import it.zerono.mods.extremereactors.api.coolant.Vapor;
 import it.zerono.mods.extremereactors.config.Config;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.IFluidContainer;
-import it.zerono.mods.zerocore.lib.energy.EnergyBuffer;
+import it.zerono.mods.zerocore.lib.energy.WideEnergyBuffer;
 import net.minecraft.util.profiling.ProfilerFiller;
 
 public class TurbineLogic {
 
-    TurbineLogic(final ITurbineReader turbine, final TurbineData data, final EnergyBuffer energyBuffer) {
+    TurbineLogic(final ITurbineReader turbine, final TurbineData data, final WideEnergyBuffer energyBuffer) {
 
         this._turbine = turbine;
         this._data = data;
@@ -155,7 +155,7 @@ public class TurbineLogic {
         rawEnergy = rawEnergy * Config.COMMON.general.powerProductionMultiplier.get() *
                 Config.COMMON.turbine.turbinePowerProductionMultiplier.get();
 
-        this._energyBuffer.modifyEnergyStored(rawEnergy);
+        this._energyBuffer.grow(rawEnergy);
         this._data.changeEnergyGeneratedLastTick(rawEnergy);
     }
 
@@ -170,7 +170,7 @@ public class TurbineLogic {
 
     private final ITurbineReader _turbine;
     private final TurbineData _data;
-    private final EnergyBuffer _energyBuffer;
+    private final WideEnergyBuffer _energyBuffer;
 
     //endregion
 }

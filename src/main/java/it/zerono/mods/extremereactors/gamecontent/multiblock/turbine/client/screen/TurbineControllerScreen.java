@@ -74,7 +74,7 @@ public class TurbineControllerScreen
 
         this._turbine = this.getMultiblockController().orElseThrow(IllegalStateException::new);
         this._outputEnergySystem = this._turbine.getOutputEnergySystem();
-        this._turbineEnergyCapacity = this._turbine.getCapacity(this._outputEnergySystem, null);
+        this._turbineEnergyCapacity = this._turbine.getCapacity(this._outputEnergySystem).doubleValue();
 
         this._bindings = new BindingGroup();
 
@@ -421,7 +421,7 @@ public class TurbineControllerScreen
                         energyStoredPercentageText
                 )
         );
-        this.addBinding((MultiblockTurbine turbine) -> turbine.getEnergyStored(EnergySystem.REFERENCE, null),
+        this.addBinding((MultiblockTurbine turbine) -> turbine.getEnergyStored(EnergySystem.REFERENCE).doubleValue(),
                 this._energyBar::setValue, energyStoredText);
         this.addBinding(AbstractGeneratorMultiblockController::getEnergyStoredPercentage, energyStoredPercentageText);
         p.addControl(this._energyBar);
