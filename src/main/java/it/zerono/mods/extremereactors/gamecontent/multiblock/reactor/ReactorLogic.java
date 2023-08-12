@@ -25,9 +25,10 @@ import it.zerono.mods.extremereactors.api.reactor.radiation.EnergyConversion;
 import it.zerono.mods.extremereactors.api.reactor.radiation.IrradiationData;
 import it.zerono.mods.extremereactors.config.Config;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.IFluidContainer;
+import it.zerono.mods.zerocore.lib.data.WideAmount;
 import it.zerono.mods.zerocore.lib.data.nbt.IMergeableEntity;
 import it.zerono.mods.zerocore.lib.data.nbt.ISyncableEntity;
-import it.zerono.mods.zerocore.lib.energy.EnergyBuffer;
+import it.zerono.mods.zerocore.lib.energy.WideEnergyBuffer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -38,7 +39,7 @@ import java.util.Optional;
 public class ReactorLogic
         implements ISyncableEntity, IMergeableEntity {
 
-    ReactorLogic(final IReactorMachine reactor, final EnergyBuffer energyBuffer) {
+    ReactorLogic(final IReactorMachine reactor, final WideEnergyBuffer energyBuffer) {
 
         this._reactor = reactor;
         this._energyBuffer = energyBuffer;
@@ -64,7 +65,7 @@ public class ReactorLogic
         }
 
         final double startingReactorHeat = reactorHeat.getAsDouble();
-        final double startingEnergy = this._energyBuffer.getEnergyStored();
+        final WideAmount startingEnergy = this._energyBuffer.getEnergyStored();
 
         this.getUiStats().setAmountGeneratedLastTick(0);
         this.getUiStats().setFuelConsumedLastTick(0);
@@ -119,7 +120,7 @@ public class ReactorLogic
         //////////////////////////////////////////////////////////////////////////////
 
         return reactantsChanged || startingReactorHeat != reactorHeat.getAsDouble() ||
-                startingEnergy != this._energyBuffer.getEnergyStored();
+                !startingEnergy.equals(this._energyBuffer.getEnergyStored());
     }
 
     void reset() {
@@ -326,7 +327,7 @@ public class ReactorLogic
                 Config.COMMON.reactor.reactorPowerProductionMultiplier.get() *
                 this._reactor.getVariant().getEnergyGenerationEfficiency();
 
-        this._energyBuffer.modifyEnergyStored(rawEnergy);
+        this._energyBuffer.grow(rawEnergy);
         this.getUiStats().changeAmountGeneratedLastTick(rawEnergy);
     }
 
@@ -474,7 +475,7 @@ public class ReactorLogic
     private static final float PASSIVE_COOLING_TRANSFER_EFFICIENCY = 0.2f;
 
     private final IReactorMachine _reactor;
-    private final EnergyBuffer _energyBuffer;
+    private final WideEnergyBuffer _energyBuffer;
 
     private float _fertility;
 

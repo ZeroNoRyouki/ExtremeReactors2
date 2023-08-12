@@ -71,13 +71,13 @@ public class TurbineComputerPeripheral
 
         methodConsumer.accept(new ComputerMethod<>("getEnergyProducedLastTick", wrapControllerValue(MultiblockTurbine::getEnergyGeneratedLastTick)));
 
-        methodConsumer.accept(new ComputerMethod<>("getEnergyStored", wrapControllerValue(c -> c.getEnergyStored(c.getOutputEnergySystem(), null))));
+        methodConsumer.accept(new ComputerMethod<>("getEnergyStored", wrapControllerValue(c -> c.getEnergyStored(c.getOutputEnergySystem()).doubleValue())));
 
         methodConsumer.accept(new ComputerMethod<>("getEnergyStoredAsText", wrapControllerValue(c -> { //NEW
 
             final EnergySystem sys = c.getOutputEnergySystem();
 
-            return CodeHelper.formatAsHumanReadableNumber(c.getEnergyStored(sys, null), sys.getUnit());
+            return CodeHelper.formatAsHumanReadableNumber(c.getEnergyStored(sys).doubleValue(), sys.getUnit());
         })));
 
         methodConsumer.accept(new ComputerMethod<>("getFluidAmountMax", wrapControllerValue(c -> c.getCapacity())));
@@ -106,15 +106,15 @@ public class TurbineComputerPeripheral
 
         methodConsumer.accept(new ComputerMethod<>("getInductorEngaged", wrapControllerValue(MultiblockTurbine::isInductorEngaged)));
 
-        methodConsumer.accept(new ComputerMethod<>("getEnergyCapacity", wrapControllerValue(c -> c.getCapacity(c.getOutputEnergySystem(), null))));
+        methodConsumer.accept(new ComputerMethod<>("getEnergyCapacity", wrapControllerValue(c -> c.getCapacity(c.getOutputEnergySystem()).doubleValue())));
 
         methodConsumer.accept(new ComputerMethod<>("getEnergyStats", wrapControllerValue(c -> {
 
             final Map<String, Object> stats = Maps.newHashMap();
             final EnergySystem sys = c.getOutputEnergySystem();
 
-            stats.put("energyStored", c.getEnergyStored(sys, null));
-            stats.put("energyCapacity", c.getCapacity(sys, null));
+            stats.put("energyStored", c.getEnergyStored(sys).doubleValue());
+            stats.put("energyCapacity", c.getCapacity(sys).doubleValue());
             stats.put("energyProducedLastTick", c.getEnergyGeneratedLastTick());
             stats.put("energySystem", sys.getUnit()); //NEW
 
