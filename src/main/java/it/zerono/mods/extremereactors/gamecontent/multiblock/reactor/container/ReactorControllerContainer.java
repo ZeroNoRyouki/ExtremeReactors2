@@ -25,7 +25,6 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.WasteEjecti
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.container.data.ReactantStackData;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part.ReactorControllerEntity;
 import it.zerono.mods.zerocore.lib.block.AbstractModBlockEntity;
-import it.zerono.mods.zerocore.lib.data.WideAmount;
 import it.zerono.mods.zerocore.lib.energy.EnergySystem;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ContainerFactory;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
@@ -51,7 +50,7 @@ public class ReactorControllerContainer
         this._reactantCapacity = IntData.immutable(this, isClientSide, reactor.getCapacity());
         this._fluidCapacity = IntData.immutable(this, isClientSide, reactor.getFluidContainer().getCapacity());
         this._energyCapacity = WideAmountData.immutable(this, isClientSide,
-                WideAmount.from(reactor.getCapacity(this._outputEnergySystem, null)));
+                reactor.getCapacity(this._outputEnergySystem));
         this._fuelRodsCount = IntData.immutable(this, isClientSide, reactor.getFuelRodsCount());
 
         this._active = BooleanData.of(this, isClientSide, () -> reactor::isMachineActive);
@@ -63,7 +62,7 @@ public class ReactorControllerContainer
         this._fuelRichness = FloatData.sampled(3, this, isClientSide, () -> () -> reactor.getUiStats().getFuelRichness());
         this._generatedLastTick = DoubleData.of(this, isClientSide, () -> () -> reactor.getUiStats().getAmountGeneratedLastTick());
         this._energyStored = WideAmountData.sampled(3, this, isClientSide,
-                () -> () -> WideAmount.from(reactor.getEnergyStored(this.getOutputEnergySystem(), null)));
+                () -> () -> reactor.getEnergyStored(this.getOutputEnergySystem()));
         this._fuelStack = reactor.getFuelContainer().getFuelStackData(2, this, isClientSide);
         this._wasteStack = reactor.getFuelContainer().getWasteStackData(2, this, isClientSide);
         this._coolantStack = reactor.getFluidContainer().getCoolantStackData(2, this, isClientSide);

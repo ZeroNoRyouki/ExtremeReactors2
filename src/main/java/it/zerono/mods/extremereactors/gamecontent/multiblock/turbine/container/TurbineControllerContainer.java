@@ -54,7 +54,7 @@ public class TurbineControllerContainer
         final boolean isClientSide = turbine.getWorld().isClientSide();
 
         this._outputEnergySystem = turbine.getOutputEnergySystem();
-        this._energyCapacity = WideAmount.from(turbine.getCapacity(this._outputEnergySystem, null));
+        this._energyCapacity = turbine.getCapacity(this._outputEnergySystem);
         this._fluidCapacity = turbine.getFluidContainer().getCapacity();
         this._rotorBladesCount = turbine.getRotorBladesCount();
         this._baseFluidPerBlade = turbine.getVariant().getBaseFluidPerBlade();
@@ -64,7 +64,7 @@ public class TurbineControllerContainer
         this.VAPOR_STACK = turbine.getFluidContainer().getVaporStackData(2, this, isClientSide);
         this.RPM = FloatData.of(this, isClientSide, () -> turbine::getRotorSpeed);
         this.ENERGY_STORED = WideAmountData.sampled(3, this, isClientSide,
-                () -> () -> WideAmount.from(turbine.getEnergyStored(this.getOutputEnergySystem(), null)));
+                () -> () -> turbine.getEnergyStored(this.getOutputEnergySystem()));
         this.ENERGY_GENERATED_LAST_TICK = WideAmountData.of(this, isClientSide,
                 () -> () -> WideAmount.from(turbine.getEnergyGeneratedLastTick()));
         this.FLUID_CONSUMED_LAST_TICK = IntData.of(this, isClientSide, () -> turbine::getFluidConsumedLastTick);

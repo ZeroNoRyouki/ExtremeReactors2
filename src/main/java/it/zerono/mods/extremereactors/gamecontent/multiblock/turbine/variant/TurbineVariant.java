@@ -23,6 +23,7 @@ import com.google.common.collect.Sets;
 import it.zerono.mods.extremereactors.config.Config;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.TurbinePartType;
 import it.zerono.mods.zerocore.lib.CodeHelper;
+import it.zerono.mods.zerocore.lib.data.WideAmount;
 import net.minecraft.block.Block;
 
 import java.util.Objects;
@@ -132,7 +133,7 @@ public enum TurbineVariant
     }
 
     @Override
-    public double getMaxEnergyExtractionRate() {
+    public WideAmount getMaxEnergyExtractionRate() {
         return this._maxEnergyExtractionRate;
     }
 
@@ -209,7 +210,7 @@ public enum TurbineVariant
         this._minParts = builder._minParts;
         this._partEnergyCapacity = builder._partEnergyCapacity;
         this._energyGenerationEfficiency = builder._energyGenerationEfficiency;
-        this._maxEnergyExtractionRate = builder._maxEnergyExtractionRate;
+        this._maxEnergyExtractionRate = WideAmount.asImmutable(builder._maxEnergyExtractionRate);
         this._maxChargerRate = builder._maxChargerRate;
         this._radiationAttenuation = builder._radiationAttenuation;
         this._residualRadiationAttenuation = builder._residualRadiationAttenuation;
@@ -423,7 +424,7 @@ public enum TurbineVariant
 
     private final int _partEnergyCapacity;
     private final float _energyGenerationEfficiency;
-    private final double _maxEnergyExtractionRate;
+    private final WideAmount _maxEnergyExtractionRate;
     private final double _maxChargerRate;
     private final int _partFluidCapacity;
     private final int _maxFluidCapacity;
