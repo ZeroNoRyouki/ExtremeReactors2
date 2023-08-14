@@ -58,6 +58,9 @@ public class TurbineControllerContainer
         this._fluidCapacity = turbine.getFluidContainer().getCapacity();
         this._rotorBladesCount = turbine.getRotorBladesCount();
         this._baseFluidPerBlade = turbine.getVariant().getBaseFluidPerBlade();
+        this._maxIntakeRateHardLimit = turbine.getMaxIntakeRateHardLimit();
+        this._maxIntakeRate = turbine.getMaxIntakeRate();
+        this._maxRotorSpeed = turbine.getVariant().getMaxRotorSpeed();
 
         this.ACTIVE = BooleanData.of(this, isClientSide, () -> turbine::isMachineActive);
         this.COOLANT_STACK = turbine.getFluidContainer().getCoolantStackData(2, this, isClientSide);
@@ -98,6 +101,18 @@ public class TurbineControllerContainer
         return this._baseFluidPerBlade;
     }
 
+    public int getMaxIntakeRateHardLimit() {
+        return this._maxIntakeRateHardLimit;
+    }
+
+    public int getMaxIntakeRate() {
+        return this._maxIntakeRate;
+    }
+
+    public float getMaxRotorSpeed() {
+        return this._maxRotorSpeed;
+    }
+
     //region internals
 
     private final EnergySystem _outputEnergySystem;
@@ -105,6 +120,9 @@ public class TurbineControllerContainer
     private final int _fluidCapacity;
     private final int _rotorBladesCount;
     private final int _baseFluidPerBlade;
+    private final int _maxIntakeRateHardLimit;
+    private final int _maxIntakeRate;
+    private final float _maxRotorSpeed;
 
     //endregion
 }

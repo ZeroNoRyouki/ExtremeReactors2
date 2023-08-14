@@ -64,8 +64,6 @@ public class TurbineControllerScreen
 
         this.addPatchouliHelpButton(PatchouliCompat.HANDBOOK_ID, ExtremeReactors.newID("turbine/part-controller"), 1);
 
-        final MultiblockTurbine turbine = this.getMultiblockController().orElseThrow(IllegalStateException::new);
-
         this._coolantBar = new FluidBar(this, "coolantBar", container.getFluidCapacity(), container.COOLANT_STACK,
                 CommonIcons.CoolantIcon, "gui.bigreactors.turbine.controller.coolantbar.title",
                 "gui.bigreactors.turbine.controller.coolantbar.footer");
@@ -73,13 +71,13 @@ public class TurbineControllerScreen
                 CommonIcons.VaporIcon, "gui.bigreactors.turbine.controller.coolantbar.title",
                 "gui.bigreactors.turbine.controller.vaporbar.footer");
 
-        this._rpmBar = new RpmBar(this, "rpmBar", turbine.getVariant().getMaxRotorSpeed(), container.RPM);
+        this._rpmBar = new RpmBar(this, "rpmBar", container.getMaxRotorSpeed(), container.RPM);
 
         this._energyBar = new EnergyBar(this, "energyBar", container.getOutputEnergySystem(),
                 container.getEnergyCapacity(), container.ENERGY_STORED, "gui.bigreactors.reactor_turbine.controller.energybar.tooltip.body");
 
-        final FlowRate flowRate = new FlowRate(this, "maxIntakeRate", turbine.getMaxIntakeRateHardLimit(),
-                turbine.getMaxIntakeRate(), this::onMaxIntakeRateChanged);
+        final FlowRate flowRate = new FlowRate(this, "maxIntakeRate", container.getMaxIntakeRateHardLimit(),
+                container.getMaxIntakeRate(), this::onMaxIntakeRateChanged);
 
         this._infoDisplay = new InformationDisplay(this, "info", layout -> layout.columns(2, 88, 112).rows(3));
         this._infoDisplay.addCellContent(flowRate, builder -> builder.setRowsSpan(3));
