@@ -35,26 +35,15 @@ import net.minecraftforge.items.IItemHandler;
 
 public class ReactorSolidAccessPortContainer extends ModTileContainer<ReactorSolidAccessPortEntity> {
 
-    public static final ContainerFactory FACTORY = new ContainerFactory() {
-        /**
-         * Override in your derived class to add your slots to the factory
-         * <p>
-         * Keep in mind that this is called during object construction
-         */
-        @Override
-        protected void onAddSlots() {
-
-            this.addStandardPlayerInventorySlots(8*0, 83*0);
-            this.addSlot(0, ReactantType.Fuel.name(), new SlotTemplate(SlotType.Input,
-                    (index, stack) -> ReactantHelper.isValidSource(ReactantType.Fuel, stack)), 87*0, 43*0);
-            this.addSlot(0, ReactantType.Waste.name(), new SlotTemplate(SlotType.Output), 137*0, 43*0);
-        }
-    };
-
     public ReactorSolidAccessPortContainer(final int windowId, final PlayerInventory playerInventory,
                                            final ReactorSolidAccessPortEntity port) {
 
-        super(5, FACTORY, Content.ContainerTypes.REACTOR_SOLID_ACCESSPORT.get(), windowId, port);
+        super(5,  new ContainerFactory()
+                .addStandardPlayerInventorySlots(0, 0)
+                .addSlot(0, ReactantType.Fuel.name(), new SlotTemplate(SlotType.Input,
+                        ($, stack) -> ReactantHelper.isValidSource(ReactantType.Fuel, stack)), 0, 0)
+                .addSlot(0, ReactantType.Waste.name(), new SlotTemplate(SlotType.Output), 0, 0),
+                Content.ContainerTypes.REACTOR_SOLID_ACCESSPORT.get(), windowId, port);
 
         this._fuelHandler = port.getItemStackHandler(ReactantType.Fuel);
         this._wasteHandler = port.getItemStackHandler(ReactantType.Waste);
