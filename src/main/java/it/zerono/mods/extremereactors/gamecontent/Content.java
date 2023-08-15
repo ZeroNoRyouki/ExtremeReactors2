@@ -1018,7 +1018,7 @@ public final class Content {
                 registerContainer("reactorredstoneport", (windowId, inv, data) ->
                         ModTileContainer.empty(Content.ContainerTypes.REACTOR_REDSTONEPORT.get(), windowId, data));
 
-        public static final RegistryObject<ContainerType<ModTileContainer<ReactorControlRodEntity>>> REACTOR_CONTROLROD =
+        public static final RegistryObject<ContainerType<ReactorControlRodContainer>> REACTOR_CONTROLROD =
                 registerContainer("reactorcontrolrod", ReactorControlRodContainer::new);
 
         public static final RegistryObject<ContainerType<ChargingPortContainer<ReactorChargingPortEntity>>> REACTOR_CHARGINGPORT =
