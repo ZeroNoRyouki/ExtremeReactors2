@@ -124,6 +124,7 @@ public class ReactorControlRodScreen
         this.addControl(this._insertionSection);
     }
 
+    //endregion
     //region internals
 
     private void sendSetInsertion(final int insertion, final boolean setAll) {
