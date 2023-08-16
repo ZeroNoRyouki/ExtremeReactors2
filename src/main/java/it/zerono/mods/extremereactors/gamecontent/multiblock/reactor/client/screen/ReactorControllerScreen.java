@@ -56,8 +56,7 @@ public class ReactorControllerScreen
 
     @Override
     protected MachineStatusIndicator createStatusIndicator(ReactorControllerContainer container) {
-        return this.createDefaultStatusIndicator(container.active(), "gui.bigreactors.reactor.active",
-                "gui.bigreactors.reactor.inactive");
+        return this.createReactorStatusIndicator(container.active());
     }
 
     @Override

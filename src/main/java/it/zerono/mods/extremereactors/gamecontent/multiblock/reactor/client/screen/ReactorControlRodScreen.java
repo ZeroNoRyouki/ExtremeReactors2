@@ -105,8 +105,7 @@ public class ReactorControlRodScreen
 
     @Override
     protected MachineStatusIndicator createStatusIndicator(ReactorControlRodContainer container) {
-        return this.createDefaultStatusIndicator(container.ACTIVE, "gui.bigreactors.reactor.active",
-                "gui.bigreactors.reactor.inactive");
+        return this.createReactorStatusIndicator(container.ACTIVE);
     }
 
     @Override

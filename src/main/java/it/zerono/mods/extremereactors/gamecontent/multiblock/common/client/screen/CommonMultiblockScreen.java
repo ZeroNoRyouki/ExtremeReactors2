@@ -83,6 +83,26 @@ public abstract class CommonMultiblockScreen<Controller extends AbstractCuboidMu
         return indicator;
     }
 
+    protected MachineStatusIndicator createReactorStatusIndicator(BooleanData bindableStatus) {
+        return this.createDefaultStatusIndicator(bindableStatus, "gui.bigreactors.reactor.active",
+                "gui.bigreactors.reactor.inactive");
+    }
+
+    protected MachineStatusIndicator createTurbineStatusIndicator(BooleanData bindableStatus) {
+        return this.createDefaultStatusIndicator(bindableStatus, "gui.bigreactors.turbine.active",
+                "gui.bigreactors.turbine.inactive");
+    }
+
+    protected MachineStatusIndicator createReprocessorStatusIndicator(BooleanData bindableStatus) {
+        return this.createDefaultStatusIndicator(bindableStatus, "gui.bigreactors.reprocessor.active",
+                "gui.bigreactors.reprocessor.inactive");
+    }
+
+    protected MachineStatusIndicator createFluidizerStatusIndicator(BooleanData bindableStatus) {
+        return this.createDefaultStatusIndicator(bindableStatus, "gui.bigreactors.fluidizer.active",
+                "gui.bigreactors.fluidizer.inactive");
+    }
+
     protected static NonNullSupplier<SpriteTextureMap> mainTextureFromVariant(IMultiblockVariant variant) {
         return () -> new SpriteTextureMap(ExtremeReactors.newID("textures/gui/multiblock/" + variant.getName() + "_background.png"), 256, 256);
     }

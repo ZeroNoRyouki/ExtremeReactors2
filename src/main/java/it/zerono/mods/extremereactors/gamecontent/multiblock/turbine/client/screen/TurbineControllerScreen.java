@@ -184,8 +184,7 @@ public class TurbineControllerScreen
 
     @Override
     protected MachineStatusIndicator createStatusIndicator(TurbineControllerContainer container) {
-        return this.createDefaultStatusIndicator(container.ACTIVE, "gui.bigreactors.turbine.active",
-                "gui.bigreactors.turbine.inactive");
+        return this.createTurbineStatusIndicator(container.ACTIVE);
     }
 
     @Override

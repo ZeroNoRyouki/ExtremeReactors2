@@ -95,8 +95,7 @@ public class ReprocessorControllerScreen
 
     @Override
     protected MachineStatusIndicator createStatusIndicator(ReprocessorControllerContainer container) {
-        return this.createDefaultStatusIndicator(container.ACTIVE, "gui.bigreactors.reprocessor.active",
-                "gui.bigreactors.reprocessor.inactive");
+        return this.createReprocessorStatusIndicator(container.ACTIVE);
     }
 
     @Override

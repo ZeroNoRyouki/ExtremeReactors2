@@ -71,8 +71,7 @@ public class FluidizerControllerScreen
 
     @Override
     protected MachineStatusIndicator createStatusIndicator(FluidizerControllerContainer container) {
-        return this.createDefaultStatusIndicator(container.ACTIVE, "gui.bigreactors.fluidizer.active",
-                "gui.bigreactors.fluidizer.inactive");
+        return this.createFluidizerStatusIndicator(container.ACTIVE);
     }
 
     @Override
