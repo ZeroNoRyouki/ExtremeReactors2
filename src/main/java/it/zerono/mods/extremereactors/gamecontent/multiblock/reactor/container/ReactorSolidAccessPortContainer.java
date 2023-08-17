@@ -20,6 +20,7 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.container;
 
 import it.zerono.mods.extremereactors.api.reactor.ReactantType;
 import it.zerono.mods.extremereactors.gamecontent.Content;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.MultiblockReactor;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.ReactantHelper;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part.ReactorSolidAccessPortEntity;
 import it.zerono.mods.zerocore.lib.block.AbstractModBlockEntity;
@@ -27,13 +28,17 @@ import it.zerono.mods.zerocore.lib.data.IoDirection;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ContainerFactory;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModContainer;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
+import it.zerono.mods.zerocore.lib.item.inventory.container.data.BooleanData;
+import it.zerono.mods.zerocore.lib.item.inventory.container.data.EnumData;
 import it.zerono.mods.zerocore.lib.item.inventory.container.slot.SlotTemplate;
 import it.zerono.mods.zerocore.lib.item.inventory.container.slot.type.SlotType;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.items.IItemHandler;
 
 public class ReactorSolidAccessPortContainer extends ModTileContainer<ReactorSolidAccessPortEntity> {
+
+    public final BooleanData ACTIVE;
+    public final EnumData<IoDirection> DIRECTION;
 
     public ReactorSolidAccessPortContainer(final int windowId, final PlayerInventory playerInventory,
                                            final ReactorSolidAccessPortEntity port) {
@@ -45,28 +50,20 @@ public class ReactorSolidAccessPortContainer extends ModTileContainer<ReactorSol
                 .addSlot(0, ReactantType.Waste.name(), new SlotTemplate(SlotType.Output), 0, 0),
                 Content.ContainerTypes.REACTOR_SOLID_ACCESSPORT.get(), windowId, port);
 
-        this._fuelHandler = port.getItemStackHandler(ReactantType.Fuel);
-        this._wasteHandler = port.getItemStackHandler(ReactantType.Waste);
+        final MultiblockReactor reactor = port.getMultiblockController().orElseThrow(IllegalStateException::new);
+        final boolean isClientSide = reactor.getWorld().isClientSide();
 
-        this.addInventory(ReactantType.Fuel.name(), this._fuelHandler);
-        this.addInventory(ReactantType.Waste.name(), this._wasteHandler);
+        this.ACTIVE = BooleanData.of(this, isClientSide, () -> reactor::isMachineActive);
+        this.DIRECTION = EnumData.of(this, isClientSide, IoDirection.class, () -> port::getIoDirection);
+
+        this.addInventory(ReactantType.Fuel.name(), port.getItemStackHandler(ReactantType.Fuel));
+        this.addInventory(ReactantType.Waste.name(), port.getItemStackHandler(ReactantType.Waste));
         this.addInventory(ModContainer.INVENTORYNAME_PLAYER_INVENTORY, playerInventory);
         this.createSlots();
     }
 
     public ReactorSolidAccessPortContainer(final int windowId, final PlayerInventory playerInventory,
                                            final PacketBuffer networkData) {
-        this(windowId, playerInventory, AbstractModBlockEntity.<ReactorSolidAccessPortEntity>getGuiClientBlockEntity(networkData));
+        this(windowId, playerInventory, AbstractModBlockEntity.getGuiClientBlockEntity(networkData));
     }
-
-    public IoDirection getIoDirection() {
-        return this.getTileEntity().getIoDirection();
-    }
-
-    //region internals
-
-    private final IItemHandler _fuelHandler;
-    private final IItemHandler _wasteHandler;
-
-    //endregion
 }
