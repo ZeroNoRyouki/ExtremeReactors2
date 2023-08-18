@@ -1,6 +1,6 @@
 /*
  *
- * FluidPortScreen.java
+ * AbstractFluidPortScreen.java
  *
  * This file is part of Extreme Reactors 2 by ZeroNoRyouki, a Minecraft mod.
  *
@@ -21,110 +21,77 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.scre
 import it.zerono.mods.extremereactors.gamecontent.CommonConstants;
 import it.zerono.mods.extremereactors.gamecontent.compat.patchouli.PatchouliCompat;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.AbstractGeneratorMultiblockController;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.common.container.FluidPortContainer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.variant.IMultiblockGeneratorVariant;
+import it.zerono.mods.zerocore.base.client.screen.BaseScreenToolTipsBuilder;
 import it.zerono.mods.zerocore.base.multiblock.part.AbstractMultiblockEntity;
 import it.zerono.mods.zerocore.base.multiblock.part.io.fluid.IFluidPort;
+import it.zerono.mods.zerocore.lib.IActivableMachine;
 import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockVariantProvider;
 import it.zerono.mods.zerocore.lib.client.gui.ButtonState;
 import it.zerono.mods.zerocore.lib.client.gui.control.SwitchPictureButton;
-import it.zerono.mods.zerocore.lib.client.gui.databind.BindingGroup;
-import it.zerono.mods.zerocore.lib.client.gui.databind.MonoConsumerBinding;
 import it.zerono.mods.zerocore.lib.client.gui.layout.FixedLayoutEngine;
 import it.zerono.mods.zerocore.lib.item.inventory.PlayerInventoryUsage;
-import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
 import it.zerono.mods.zerocore.lib.multiblock.IMultiblockMachine;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
 
-import java.util.function.Consumer;
-import java.util.function.Function;
-
-import static it.zerono.mods.zerocore.lib.CodeHelper.TEXT_EMPTY_LINE;
-
-public class FluidPortScreen<Controller extends AbstractGeneratorMultiblockController<Controller, V> & IMultiblockMachine,
+public abstract class AbstractFluidPortScreen<Controller extends AbstractGeneratorMultiblockController<Controller, V> & IMultiblockMachine & IActivableMachine,
         V extends IMultiblockGeneratorVariant,
         T extends AbstractMultiblockEntity<Controller> & IFluidPort & IMultiblockVariantProvider<V> & INamedContainerProvider>
-        extends AbstractMultiblockScreen<Controller, T, ModTileContainer<T>> {
+        extends CommonMultiblockScreen<Controller, T, FluidPortContainer<Controller, V, T>> {
 
-    public FluidPortScreen(final ModTileContainer<T> container, final PlayerInventory inventory,
-                           final ITextComponent title, final ResourceLocation bookEntryId) {
+    protected AbstractFluidPortScreen(final FluidPortContainer<Controller, V, T> container, final PlayerInventory inventory,
+                                      final ITextComponent title, final ResourceLocation bookEntryId) {
 
         super(container, inventory, PlayerInventoryUsage.Both, title, 224, 98,
                 halfTextureFromVariant(container.getTileEntity().getMultiblockVariant().orElseThrow(IllegalStateException::new)));
 
-        this._bindings = new BindingGroup();
+        this.addPatchouliHelpButton(PatchouliCompat.HANDBOOK_ID, bookEntryId, 1);
 
         this._btnInputDirection = new SwitchPictureButton(this, "directionInput", false, "direction");
-        this._btnOutputDirection = new SwitchPictureButton(this, "directionOutput", false, "direction");
-
-        this.addPatchouliHelpButton(PatchouliCompat.HANDBOOK_ID, bookEntryId, 1);
-    }
-
-    //region ContainerScreen
-
-    @Override
-    public boolean shouldCloseOnEsc() {
-        return true;
-    }
-
-    //endregion
-    //region AbstractMultiblockScreen
-
-    @Override
-    protected void onScreenCreate() {
-
-        super.onScreenCreate();
-
-        // - input direction button
         this.setButtonSpritesAndOverlayForState(this._btnInputDirection, ButtonState.Default, CommonIcons.ButtonInputDirection);
         this.setButtonSpritesAndOverlayForState(this._btnInputDirection, ButtonState.Active, CommonIcons.ButtonInputDirectionActive);
         this._btnInputDirection.setLayoutEngineHint(FixedLayoutEngine.hint(83, 26, 18, 18));
         this._btnInputDirection.setBackground(CommonIcons.ImageButtonBackground.get());
         this._btnInputDirection.setPadding(1);
-
         this._btnInputDirection.Activated.subscribe(this::onInputActivated);
-        this._btnInputDirection.setTooltips(
-                new TranslationTextComponent("gui.bigreactors.generator.fluidport.directioninput.line1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
-                TEXT_EMPTY_LINE,
-                new TranslationTextComponent("gui.bigreactors.generator.fluidport.directioninput.line2")
+        this._btnInputDirection.setTooltips(new BaseScreenToolTipsBuilder()
+                .addTranslatableAsTitle("gui.bigreactors.generator.fluidport.directioninput.tooltip.title")
+                .addEmptyLine()
+                .addTranslatable("gui.bigreactors.generator.fluidport.directioninput.tooltip.body")
         );
 
-        // - output direction button
+        this._btnOutputDirection = new SwitchPictureButton(this, "directionOutput", false, "direction");
         this.setButtonSpritesAndOverlayForState(this._btnOutputDirection, ButtonState.Default, CommonIcons.ButtonOutputDirection);
         this.setButtonSpritesAndOverlayForState(this._btnOutputDirection, ButtonState.Active, CommonIcons.ButtonOutputDirectionActive);
         this._btnOutputDirection.setLayoutEngineHint(FixedLayoutEngine.hint(123, 26, 18, 18));
         this._btnOutputDirection.setBackground(CommonIcons.ImageButtonBackground.get());
         this._btnOutputDirection.setPadding(1);
         this._btnOutputDirection.Activated.subscribe(this::onOutputActivated);
-        this._btnOutputDirection.setTooltips(
-                new TranslationTextComponent("gui.bigreactors.generator.fluidport.directionoutput.line1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
-                TEXT_EMPTY_LINE,
-                new TranslationTextComponent("gui.bigreactors.generator.fluidport.directionoutput.line2")
+        this._btnOutputDirection.setTooltips(new BaseScreenToolTipsBuilder()
+                .addTranslatableAsTitle("gui.bigreactors.generator.fluidport.directionoutput.tooltip.title")
+                .addEmptyLine()
+                .addTranslatable("gui.bigreactors.generator.fluidport.directionoutput.tooltip.body")
         );
 
-        //noinspection Convert2MethodRef
-        this.addBinding(t -> t.getIoDirection(), value -> {
+        container.DIRECTION.bind(direction -> {
 
-            this._btnInputDirection.setActive(value.isInput());
-            this._btnOutputDirection.setActive(value.isOutput());
+            this._btnInputDirection.setActive(direction.isInput());
+            this._btnOutputDirection.setActive(direction.isOutput());
         });
-
-        this.addControl(this._btnInputDirection);
-        this.addControl(this._btnOutputDirection);
     }
 
-    /**
-     * Called when this screen need to be updated after the TileEntity data changed.
-     * Override to handle this event
-     */
-    @Override
-    protected void onDataUpdated() {
+    //region AbstractMultiblockScreen
 
-        super.onDataUpdated();
-        this._bindings.update();;
+    @Override
+    protected void onScreenCreate() {
+
+        super.onScreenCreate();
+        this.addControl(this._btnInputDirection);
+        this.addControl(this._btnOutputDirection);
     }
 
     //endregion
@@ -137,12 +104,6 @@ public class FluidPortScreen<Controller extends AbstractGeneratorMultiblockContr
     private void onOutputActivated(SwitchPictureButton button) {
         this.sendCommandToServer(CommonConstants.COMMAND_SET_OUTPUT);
     }
-
-    private <Value> void addBinding(final Function<T, Value> supplier, final Consumer<Value> consumer) {
-        this._bindings.addBinding(new MonoConsumerBinding<>(this.getTileEntity(), supplier, consumer));
-    }
-
-    private final BindingGroup _bindings;
 
     private final SwitchPictureButton _btnInputDirection;
     private final SwitchPictureButton _btnOutputDirection;

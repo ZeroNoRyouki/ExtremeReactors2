@@ -23,6 +23,7 @@ import it.zerono.mods.extremereactors.gamecontent.fluid.ModeratorFluid;
 import it.zerono.mods.extremereactors.gamecontent.fluid.ReactantFluid;
 import it.zerono.mods.extremereactors.gamecontent.fluid.SteamFluid;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.container.ChargingPortContainer;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.common.container.FluidPortContainer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.fluidport.FluidPortType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.FluidizerPartType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.MultiblockFluidizer;
@@ -41,6 +42,7 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.container.R
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.container.ReactorFluidAccessPortContainer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.container.ReactorSolidAccessPortContainer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part.*;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.IMultiblockReactorVariant;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.ReactorVariant;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.MultiblockReprocessor;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.ReprocessorPartType;
@@ -52,6 +54,7 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.MultiblockT
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.TurbinePartType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.container.TurbineControllerContainer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part.*;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.IMultiblockTurbineVariant;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.TurbineVariant;
 import it.zerono.mods.zerocore.base.multiblock.part.GenericDeviceBlock;
 import it.zerono.mods.zerocore.base.multiblock.part.GlassBlock;
@@ -1025,9 +1028,9 @@ public final class Content {
                 registerContainer("reactorchargingport",
                         (windowId, inv, data) -> new ChargingPortContainer<>(windowId, Content.ContainerTypes.REACTOR_CHARGINGPORT.get(), inv, data));
 
-        public static final RegistryObject<ContainerType<ModTileContainer<ReactorFluidPortEntity>>> REACTOR_FLUIDPORT =
+        public static final RegistryObject<ContainerType<FluidPortContainer<MultiblockReactor, IMultiblockReactorVariant, ReactorFluidPortEntity>>> REACTOR_FLUIDPORT =
                 registerContainer("reactorfluidport", (windowId, inv, data) ->
-                        ModTileContainer.empty(Content.ContainerTypes.REACTOR_FLUIDPORT.get(), windowId, data));
+                        new FluidPortContainer<>(windowId, ContainerTypes.REACTOR_FLUIDPORT.get(), inv, data));
 
         //endregion
         //region Turbine
@@ -1043,9 +1046,9 @@ public final class Content {
                 registerContainer("turbinechargingport",
                         (windowId, inv, data) -> new ChargingPortContainer<>(windowId, Content.ContainerTypes.TURBINE_CHARGINGPORT.get(), inv, data));
 
-        public static final RegistryObject<ContainerType<ModTileContainer<TurbineFluidPortEntity>>> TURBINE_FLUIDPORT =
+        public static final RegistryObject<ContainerType<FluidPortContainer<MultiblockTurbine, IMultiblockTurbineVariant, TurbineFluidPortEntity>>> TURBINE_FLUIDPORT =
                 registerContainer("turbinefluidport", (windowId, inv, data) ->
-                        ModTileContainer.empty(Content.ContainerTypes.TURBINE_FLUIDPORT.get(), windowId, data));
+                        new FluidPortContainer<>(windowId, ContainerTypes.TURBINE_FLUIDPORT.get(), inv, data));
 
         //endregion
         //region Reprocessor

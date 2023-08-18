@@ -540,10 +540,14 @@
     "gui.bigreactors.generator.chargingport.dumpfuel.line3": "the input slot and put it in",
     "gui.bigreactors.generator.chargingport.dumpfuel.line4": "the output slot.",
 
-    "gui.bigreactors.generator.fluidport.directioninput.line1": "Inlet Mode",
-    "gui.bigreactors.generator.fluidport.directioninput.line2": "Sets this Fluid Port to inlet mode.",
-    "gui.bigreactors.generator.fluidport.directionoutput.line1": "Outlet Mode",
-    "gui.bigreactors.generator.fluidport.directionoutput.line2": "Sets this Fluid Port to outlet mode.",
+    "xgui.bigreactors.generator.fluidport.directioninput.line1": "Inlet Mode",
+    "xgui.bigreactors.generator.fluidport.directioninput.line2": "Sets this Fluid Port to inlet mode.",
+    "gui.bigreactors.generator.fluidport.directioninput.tooltip.title": "Inlet Mode",
+    "gui.bigreactors.generator.fluidport.directioninput.tooltip.body": "Sets this Fluid Port to inlet mode.",
+    "xgui.bigreactors.generator.fluidport.directionoutput.line1": "Outlet Mode",
+    "xgui.bigreactors.generator.fluidport.directionoutput.line2": "Sets this Fluid Port to outlet mode.",
+    "gui.bigreactors.generator.fluidport.directionoutput.tooltip.title": "Outlet Mode",
+    "gui.bigreactors.generator.fluidport.directionoutput.tooltip.body": "Sets this Fluid Port to outlet mode.",
 
     "gui.bigreactors.generator.redstoneport.sensortype.sensorlistlabel": "Settings:",
     "gui.bigreactors.generator.redstoneport.sensortype.input": "Signal direction: input",

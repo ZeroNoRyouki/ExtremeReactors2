@@ -32,7 +32,6 @@ import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.compat.patchouli.PatchouliCompat;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.CachedSprites;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.ChargingPortScreen;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.FluidPortScreen;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.container.ChargingPortContainer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.client.model.FluidizerGlassModelBuilder;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.client.model.FluidizerModelBuilder;
@@ -46,7 +45,6 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.mode
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.model.ReactorModelBuilder;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.screen.*;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part.ReactorChargingPortEntity;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part.ReactorFluidPortEntity;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.ReactorVariant;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.client.model.ReprocessorGlassModelBuilder;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.client.model.ReprocessorIOModelBuilder;
@@ -59,15 +57,14 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.client.mode
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.client.model.TurbineRotorModelBuilder;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.client.render.rotor.RotorBearingEntityRenderer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.client.screen.TurbineControllerScreen;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.client.screen.TurbineFluidPortScreen;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.client.screen.TurbineRedstonePortScreen;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part.TurbineChargingPortEntity;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part.TurbineFluidPortEntity;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.TurbineVariant;
 import it.zerono.mods.zerocore.lib.CodeHelper;
 import it.zerono.mods.zerocore.lib.client.model.ICustomModelBuilder;
 import it.zerono.mods.zerocore.lib.client.model.ModBakedModelSupplier;
 import it.zerono.mods.zerocore.lib.compat.Mods;
-import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
 import net.minecraft.block.Block;
 import net.minecraft.client.gui.IHasContainer;
 import net.minecraft.client.gui.ScreenManager;
@@ -245,17 +242,14 @@ public class ClientProxy
         registerScreen(Content.ContainerTypes.REACTOR_CHARGINGPORT,
                 (ChargingPortContainer<ReactorChargingPortEntity> container, PlayerInventory inventory, ITextComponent title) ->
                         new ChargingPortScreen<>(container, inventory, title, ExtremeReactors.newID("reactor/part-forgechargingport")));
-        registerScreen(Content.ContainerTypes.REACTOR_FLUIDPORT,
-                (ModTileContainer<ReactorFluidPortEntity> container, PlayerInventory inventory, ITextComponent title) ->
-                        new FluidPortScreen<>(container, inventory, title, ExtremeReactors.newID("reactor/part-forgefluidport")));
+        registerScreen(Content.ContainerTypes.REACTOR_FLUIDPORT, ReactorFluidPortScreen::new);
+
         // Turbine GUIs
         registerScreen(Content.ContainerTypes.TURBINE_CONTROLLER, TurbineControllerScreen::new);
         registerScreen(Content.ContainerTypes.TURBINE_CHARGINGPORT,
                 (ChargingPortContainer<TurbineChargingPortEntity> container, PlayerInventory inventory, ITextComponent title) ->
                         new ChargingPortScreen<>(container, inventory, title, ExtremeReactors.newID("turbine/part-forgechargingport")));
-        registerScreen(Content.ContainerTypes.TURBINE_FLUIDPORT,
-                (ModTileContainer<TurbineFluidPortEntity> container, PlayerInventory inventory, ITextComponent title) ->
-                        new FluidPortScreen<>(container, inventory, title, ExtremeReactors.newID("turbine/part-forgefluidport")));
+        registerScreen(Content.ContainerTypes.TURBINE_FLUIDPORT, TurbineFluidPortScreen::new);
         registerScreen(Content.ContainerTypes.TURBINE_REDSTONEPORT, TurbineRedstonePortScreen::new);
 
         // Reprocessor GUIs
