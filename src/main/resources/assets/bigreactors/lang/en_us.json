@@ -535,10 +535,12 @@
     "gui.bigreactors.fluidizer.controller.on.line1": "Turn the Fluidizer on",
     "gui.bigreactors.fluidizer.controller.off.line1": "Turn the Fluidizer off",
 
-    "gui.bigreactors.generator.chargingport.dumpfuel.line1": "Manual Ejection",
-    "gui.bigreactors.generator.chargingport.dumpfuel.line2": "Manually ejects the item from",
-    "gui.bigreactors.generator.chargingport.dumpfuel.line3": "the input slot and put it in",
-    "gui.bigreactors.generator.chargingport.dumpfuel.line4": "the output slot.",
+    "xgui.bigreactors.generator.chargingport.dumpfuel.line1": "Manual Ejection",
+    "xgui.bigreactors.generator.chargingport.dumpfuel.line2": "Manually ejects the item from",
+    "xgui.bigreactors.generator.chargingport.dumpfuel.line3": "the input slot and put it in",
+    "xgui.bigreactors.generator.chargingport.dumpfuel.line4": "the output slot.",
+    "gui.bigreactors.generator.chargingport.dumpfuel.tooltip.title": "Manual Ejection",
+    "gui.bigreactors.generator.chargingport.dumpfuel.tooltip.body": "Manually ejects the item from the input slot and put it in the output slot.",
 
     "xgui.bigreactors.generator.fluidport.directioninput.line1": "Inlet Mode",
     "xgui.bigreactors.generator.fluidport.directioninput.line2": "Sets this Fluid Port to inlet mode.",

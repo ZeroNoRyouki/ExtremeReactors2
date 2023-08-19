@@ -1024,7 +1024,7 @@ public final class Content {
         public static final RegistryObject<ContainerType<ReactorControlRodContainer>> REACTOR_CONTROLROD =
                 registerContainer("reactorcontrolrod", ReactorControlRodContainer::new);
 
-        public static final RegistryObject<ContainerType<ChargingPortContainer<ReactorChargingPortEntity>>> REACTOR_CHARGINGPORT =
+        public static final RegistryObject<ContainerType<ChargingPortContainer<MultiblockReactor, IMultiblockReactorVariant, ReactorChargingPortEntity>>> REACTOR_CHARGINGPORT =
                 registerContainer("reactorchargingport",
                         (windowId, inv, data) -> new ChargingPortContainer<>(windowId, Content.ContainerTypes.REACTOR_CHARGINGPORT.get(), inv, data));
 
@@ -1042,7 +1042,7 @@ public final class Content {
                 registerContainer("turbineredstoneport", (windowId, inv, data) ->
                         ModTileContainer.empty(Content.ContainerTypes.TURBINE_REDSTONEPORT.get(), windowId, data));
 
-        public static final RegistryObject<ContainerType<ChargingPortContainer<TurbineChargingPortEntity>>> TURBINE_CHARGINGPORT =
+        public static final RegistryObject<ContainerType<ChargingPortContainer<MultiblockTurbine, IMultiblockTurbineVariant, TurbineChargingPortEntity>>> TURBINE_CHARGINGPORT =
                 registerContainer("turbinechargingport",
                         (windowId, inv, data) -> new ChargingPortContainer<>(windowId, Content.ContainerTypes.TURBINE_CHARGINGPORT.get(), inv, data));
 
