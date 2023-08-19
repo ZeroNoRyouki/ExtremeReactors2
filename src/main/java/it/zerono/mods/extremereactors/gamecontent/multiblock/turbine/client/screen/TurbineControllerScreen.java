@@ -227,9 +227,9 @@ public class TurbineControllerScreen
 
         // COMMANDS
 
-        final Panel commandPanel = CommonPanels.verticalCommandPanel(this);
+        final Panel commandPanel = CommonPanels.verticalCommandPanel(this, 50);
 
-        barsPanel.addControl(commandPanel);
+        barsPanel.add(commandPanel);
 
         // - machine on/off
 

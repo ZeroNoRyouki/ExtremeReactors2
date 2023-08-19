@@ -185,7 +185,7 @@ public class ReactorControllerPanel
                                       @Nullable Runnable onVoidReactants, @Nullable Runnable onScram,
                                       TriConsumer<AbstractButtonControl, ButtonState, NonNullSupplier<ISprite>> setButtonSpritesAndOverlayForState) {
 
-        final Panel commandPanel = CommonPanels.verticalCommandPanel(gui);
+        final Panel commandPanel = CommonPanels.verticalCommandPanel(gui, 50);
         Button button;
         int x = 0;
         int y = 0;
@@ -269,7 +269,6 @@ public class ReactorControllerPanel
             commandPanel.addControl(button);
         }
 
-        commandPanel.setDesiredDimension(DesiredDimension.Width, 50);
         return commandPanel;
     }
 
