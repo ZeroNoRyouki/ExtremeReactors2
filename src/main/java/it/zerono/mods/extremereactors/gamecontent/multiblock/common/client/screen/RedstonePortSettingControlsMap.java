@@ -21,11 +21,11 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.scre
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.IMachineReader;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.sensor.AbstractSensorSetting;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.sensor.ISensorSettingFactory;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.sensor.ISensorType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.sensor.SensorBehavior;
+import it.zerono.mods.zerocore.lib.IMachineReader;
 import it.zerono.mods.zerocore.lib.client.gui.control.*;
 import net.minecraft.util.text.TranslationTextComponent;
 

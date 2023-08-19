@@ -19,7 +19,7 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.common.sensor;
 
 import com.google.common.collect.ImmutableList;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.IMachineReader;
+import it.zerono.mods.zerocore.lib.IMachineReader;
 import it.zerono.mods.zerocore.lib.data.IoDirection;
 import net.minecraftforge.common.util.NonNullFunction;
 

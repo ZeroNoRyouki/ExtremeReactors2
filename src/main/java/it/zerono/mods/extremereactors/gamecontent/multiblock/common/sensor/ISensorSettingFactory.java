@@ -18,7 +18,7 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.common.sensor;
 
-import it.zerono.mods.extremereactors.gamecontent.multiblock.IMachineReader;
+import it.zerono.mods.zerocore.lib.IMachineReader;
 
 public interface ISensorSettingFactory<Reader extends IMachineReader, Writer,
         SensorType extends Enum<SensorType> & ISensorType<Reader>,
