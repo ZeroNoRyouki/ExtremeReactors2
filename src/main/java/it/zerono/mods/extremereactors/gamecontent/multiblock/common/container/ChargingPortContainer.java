@@ -33,25 +33,13 @@ import net.minecraft.network.PacketBuffer;
 public class ChargingPortContainer<T extends AbstractModBlockEntity & IChargingPort>
         extends ModTileContainer<T> {
 
-    public static final ContainerFactory FACTORY = new ContainerFactory() {
-        /**
-         * Override in your derived class to add your slots to the factory
-         * <p>
-         * Keep in mind that this is called during object construction
-         */
-        @Override
-        protected void onAddSlots() {
-
-            this.addStandardPlayerInventorySlots(0, 0);
-            this.addSlot(0, IoDirection.Input.name(), new SlotTemplate(SlotType.Input, (index, stack) -> true), 0, 0);
-            this.addSlot(0, IoDirection.Output.name(), new SlotTemplate(SlotType.Output), 0, 0);
-        }
-    };
-
     public ChargingPortContainer(final int windowId, final ContainerType<? extends ModTileContainer<T>> type,
                                  final PlayerInventory playerInventory, final T port) {
 
-        super(5, FACTORY, type, windowId, port);
+        super(5, new ContainerFactory()
+                .addStandardPlayerInventorySlots(0, 0)
+                .addSlot(0, IoDirection.Input.name(), new SlotTemplate(SlotType.Input, (index, stack) -> true), 0, 0)
+                .addSlot(0, IoDirection.Output.name(), new SlotTemplate(SlotType.Output), 0, 0), type, windowId, port);
 
         this.addInventory(IoDirection.Input.name(), port.getChargingPortHandler().getItemStackHandler(IoDirection.Input));
         this.addInventory(IoDirection.Output.name(), port.getChargingPortHandler().getItemStackHandler(IoDirection.Output));
