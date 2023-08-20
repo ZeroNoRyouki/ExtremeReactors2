@@ -22,7 +22,6 @@ import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.gamecontent.compat.patchouli.PatchouliCompat;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.AbstractRedstonePortScreen;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.CommonIcons;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.sensor.SensorBehavior;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.ITurbineReader;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.ITurbineWriter;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.MultiblockTurbine;
@@ -30,6 +29,7 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part.Turbin
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.sensor.TurbineSensorSetting;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.sensor.TurbineSensorType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.TurbineVariant;
+import it.zerono.mods.zerocore.base.redstone.sensor.SensorBehavior;
 import it.zerono.mods.zerocore.lib.client.gui.control.TextInput;
 import it.zerono.mods.zerocore.lib.item.inventory.PlayerInventoryUsage;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;

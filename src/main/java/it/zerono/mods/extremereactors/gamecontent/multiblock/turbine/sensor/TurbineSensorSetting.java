@@ -19,10 +19,10 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.sensor;
 
 import it.zerono.mods.extremereactors.Log;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.sensor.AbstractSensorSetting;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.sensor.SensorBehavior;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.ITurbineReader;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.ITurbineWriter;
+import it.zerono.mods.zerocore.base.redstone.sensor.AbstractSensorSetting;
+import it.zerono.mods.zerocore.base.redstone.sensor.SensorBehavior;
 import it.zerono.mods.zerocore.lib.data.nbt.NBTHelper;
 import net.minecraft.nbt.CompoundNBT;
 

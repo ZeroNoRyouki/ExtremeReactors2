@@ -22,7 +22,6 @@ import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.gamecontent.compat.patchouli.PatchouliCompat;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.AbstractRedstonePortScreen;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.CommonIcons;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.sensor.SensorBehavior;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.IReactorReader;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.IReactorWriter;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.MultiblockReactor;
@@ -30,6 +29,7 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part.Reacto
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.sensor.ReactorSensorSetting;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.sensor.ReactorSensorType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.ReactorVariant;
+import it.zerono.mods.zerocore.base.redstone.sensor.SensorBehavior;
 import it.zerono.mods.zerocore.lib.item.inventory.PlayerInventoryUsage;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
 import net.minecraft.entity.player.PlayerInventory;

@@ -18,14 +18,14 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.sensor;
 
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.sensor.ISensorType;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.sensor.SensorBehavior;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.sensor.SensorTypeData;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.ITurbineReader;
+import it.zerono.mods.zerocore.base.redstone.sensor.ISensorType;
+import it.zerono.mods.zerocore.base.redstone.sensor.SensorBehavior;
+import it.zerono.mods.zerocore.base.redstone.sensor.SensorTypeData;
 import it.zerono.mods.zerocore.lib.CodeHelper;
 import it.zerono.mods.zerocore.lib.IDebugMessages;
 import it.zerono.mods.zerocore.lib.IDebuggable;
-import net.minecraftforge.common.util.NonNullFunction;
+import it.zerono.mods.zerocore.lib.functional.NonNullToIntFunction;
 import net.minecraftforge.fml.LogicalSide;
 
 import java.util.List;
@@ -66,7 +66,7 @@ public enum TurbineSensorType
         this(SensorTypeData.input(behaviors));
     }
 
-    TurbineSensorType(final NonNullFunction<ITurbineReader, Integer> outputSupplier, final SensorBehavior... behaviors) {
+    TurbineSensorType(final NonNullToIntFunction<ITurbineReader> outputSupplier, final SensorBehavior... behaviors) {
         this(SensorTypeData.output(outputSupplier, behaviors));
     }
 
@@ -93,8 +93,8 @@ public enum TurbineSensorType
     }
 
     @Override
-    public Integer apply(final ITurbineReader reader) {
-        return this._data.apply(reader);
+    public int applyAsInt(final ITurbineReader reader) {
+        return this._data.applyAsInt(reader);
     }
 
     @Override
