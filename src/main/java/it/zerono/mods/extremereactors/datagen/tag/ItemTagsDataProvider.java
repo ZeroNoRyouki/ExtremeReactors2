@@ -34,6 +34,7 @@ public class ItemTagsDataProvider
         builder.apply(ContentTags.Items.INGOTS_LUDICRITE).add(Content.Items.LUDICRITE_INGOT);
         builder.apply(ContentTags.Items.INGOTS_RIDICULITE).add(Content.Items.RIDICULITE_INGOT);
         builder.apply(ContentTags.Items.INGOTS_INANITE).add(Content.Items.INANITE_INGOT);
+        builder.apply(ContentTags.Items.INGOTS_INSANITE).add(Content.Items.INSANITE_INGOT);
 
         builder.apply(Tags.Items.NUGGETS).add(Content.Items.YELLORIUM_NUGGET, Content.Items.BLUTONIUM_NUGGET);
         builder.apply(ContentTags.Items.NUGGETS_YELLORIUM).add(Content.Items.YELLORIUM_NUGGET);
@@ -47,6 +48,7 @@ public class ItemTagsDataProvider
         builder.apply(ContentTags.Items.DUSTS_LUDICRITE).add(Content.Items.LUDICRITE_DUST);
         builder.apply(ContentTags.Items.DUSTS_RIDICULITE).add(Content.Items.RIDICULITE_DUST);
         builder.apply(ContentTags.Items.DUSTS_INANITE).add(Content.Items.INANITE_DUST);
+        builder.apply(ContentTags.Items.DUSTS_INSANITE).add(Content.Items.INSANITE_DUST);
 
         builder.apply(ContentTags.Items.BLOCKS_YELLORIUM).add(Content.Items.YELLORIUM_BLOCK);
         builder.apply(ContentTags.Items.BLOCKS_CYANITE).add(Content.Items.CYANITE_BLOCK);
@@ -56,6 +58,7 @@ public class ItemTagsDataProvider
         builder.apply(ContentTags.Items.BLOCKS_LUDICRITE).add(Content.Items.LUDICRITE_BLOCK);
         builder.apply(ContentTags.Items.BLOCKS_RIDICULITE).add(Content.Items.RIDICULITE_BLOCK);
         builder.apply(ContentTags.Items.BLOCKS_INANITE).add(Content.Items.INANITE_BLOCK);
+        builder.apply(ContentTags.Items.BLOCKS_INSANITE).add(Content.Items.INSANITE_BLOCK);
 
         builder.apply(TagsHelper.TAG_WRENCH).add(Content.Items.WRENCH);
 

@@ -49,6 +49,7 @@ public class GenericRecipesDataProvider
         this.coil(builder, "ludicrite_block", Content.Items.LUDICRITE_BLOCK, Content.Items.LUDICRITE_INGOT, Items.END_CRYSTAL);
         this.coil(builder, "ridiculite_block", Content.Items.RIDICULITE_BLOCK, Content.Items.RIDICULITE_INGOT, Items.NETHER_STAR);
         this.coil(builder, "inanite_block", Content.Items.INANITE_BLOCK, Content.Items.INANITE_INGOT, Items.NETHERITE_BLOCK);
+        this.coil(builder, "insanite_block", Content.Items.INSANITE_BLOCK, Content.Items.INSANITE_INGOT, Content.Items.INANITE_BLOCK.get());
 
         // smelting
 

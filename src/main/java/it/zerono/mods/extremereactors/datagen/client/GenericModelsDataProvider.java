@@ -32,6 +32,7 @@ public class GenericModelsDataProvider
         this.simpleBlock(Content.Blocks.LUDICRITE_BLOCK);
         this.simpleBlock(Content.Blocks.RIDICULITE_BLOCK);
         this.simpleBlock(Content.Blocks.INANITE_BLOCK);
+        this.simpleBlock(Content.Blocks.INSANITE_BLOCK);
         this.simpleBlock(Content.Blocks.YELLORITE_ORE_BLOCK);
         this.simpleBlock(Content.Blocks.ANGLESITE_ORE_BLOCK);
         this.simpleBlock(Content.Blocks.BENITOITE_ORE_BLOCK);
@@ -46,6 +47,7 @@ public class GenericModelsDataProvider
         this.simpleItem(Content.Items.LUDICRITE_DUST);
         this.simpleItem(Content.Items.RIDICULITE_DUST);
         this.simpleItem(Content.Items.INANITE_DUST);
+        this.simpleItem(Content.Items.INSANITE_DUST);
         this.simpleItem(Content.Items.YELLORIUM_INGOT);
         this.simpleItem(Content.Items.CYANITE_INGOT);
         this.simpleItem(Content.Items.GRAPHITE_INGOT);
@@ -54,6 +56,7 @@ public class GenericModelsDataProvider
         this.simpleItem(Content.Items.LUDICRITE_INGOT);
         this.simpleItem(Content.Items.RIDICULITE_INGOT);
         this.simpleItem(Content.Items.INANITE_INGOT);
+        this.simpleItem(Content.Items.INSANITE_INGOT);
         this.simpleItem(Content.Items.YELLORIUM_NUGGET);
         this.simpleItem(Content.Items.BLUTONIUM_NUGGET);
         this.simpleItem(Content.Items.ANGLESITE_CRYSTAL);

@@ -42,6 +42,7 @@ public class ContentTags {
         public static final TagKey<Block> BLOCKS_LUDICRITE = forgeTag("storage_blocks/ludicrite");
         public static final TagKey<Block> BLOCKS_RIDICULITE = forgeTag("storage_blocks/ridiculite");
         public static final TagKey<Block> BLOCKS_INANITE = forgeTag("storage_blocks/inanite");
+        public static final TagKey<Block> BLOCKS_INSANITE = forgeTag("storage_blocks/insanite");
 
         //region internals
 
@@ -64,6 +65,7 @@ public class ContentTags {
         public static final TagKey<Item> INGOTS_LUDICRITE = forgeTag("ingots/ludicrite");
         public static final TagKey<Item> INGOTS_RIDICULITE = forgeTag("ingots/ridiculite");
         public static final TagKey<Item> INGOTS_INANITE = forgeTag("ingots/inanite");
+        public static final TagKey<Item> INGOTS_INSANITE = forgeTag("ingots/insanite");
 
         public static final TagKey<Item> NUGGETS_YELLORIUM = forgeTag("nuggets/yellorium");
         public static final TagKey<Item> NUGGETS_BLUTONIUM = forgeTag("nuggets/blutonium");
@@ -76,6 +78,7 @@ public class ContentTags {
         public static final TagKey<Item> DUSTS_LUDICRITE = forgeTag("dusts/ludicrite");
         public static final TagKey<Item> DUSTS_RIDICULITE = forgeTag("dusts/ridiculite");
         public static final TagKey<Item> DUSTS_INANITE = forgeTag("dusts/inanite");
+        public static final TagKey<Item> DUSTS_INSANITE = forgeTag("dusts/insanite");
 
         public static final TagKey<Item> BLOCKS_YELLORIUM = forgeTag("storage_blocks/yellorium");
         public static final TagKey<Item> BLOCKS_CYANITE = forgeTag("storage_blocks/cyanite");
@@ -85,6 +88,7 @@ public class ContentTags {
         public static final TagKey<Item> BLOCKS_LUDICRITE = forgeTag("storage_blocks/ludicrite");
         public static final TagKey<Item> BLOCKS_RIDICULITE = forgeTag("storage_blocks/ridiculite");
         public static final TagKey<Item> BLOCKS_INANITE = forgeTag("storage_blocks/inanite");
+        public static final TagKey<Item> BLOCKS_INSANITE = forgeTag("storage_blocks/insanite");
 
         public static final TagKey<Item> USING_REACTOR_CASING_BASIC = tag("reactor/casing_user/basic");
         public static final TagKey<Item> USING_REACTOR_CASING_REINFORCED = tag("reactor/casing_user/reinforced");

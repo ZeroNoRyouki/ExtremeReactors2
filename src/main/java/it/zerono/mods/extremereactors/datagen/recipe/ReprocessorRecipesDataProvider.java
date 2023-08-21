@@ -1,7 +1,9 @@
 package it.zerono.mods.extremereactors.datagen.recipe;
 
+import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.ContentTags;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.recipe.ReprocessorRecipe;
 import it.zerono.mods.zerocore.lib.data.ResourceLocationBuilder;
 import it.zerono.mods.zerocore.lib.recipe.ingredient.FluidStackRecipeIngredient;
 import it.zerono.mods.zerocore.lib.recipe.ingredient.ItemStackRecipeIngredient;
@@ -55,6 +57,11 @@ public class ReprocessorRecipesDataProvider
                         FluidStackRecipeIngredient.from(Content.Fluids.ROSSINITE_SOURCE.get(), 1000),
                         ItemStackRecipeResult.from(Content.Items.INANITE_INGOT.get()))
                 .build(builder, idBuilder.buildWithSuffix("ridiculite_to_inanite"));
+
+        this.reprocessor(ItemStackRecipeIngredient.from(Content.Items.BENITOITE_CRYSTAL.get(), 16),
+                        FluidStackRecipeIngredient.from(Content.Fluids.ROSSINITE_SOURCE.get(), 2000),
+                        ItemStackRecipeResult.from(Content.Items.INSANITE_INGOT.get()))
+                .build(builder, idBuilder.buildWithSuffix("rossinite_to_insanite"));
 
         // reprocessor blocks
 

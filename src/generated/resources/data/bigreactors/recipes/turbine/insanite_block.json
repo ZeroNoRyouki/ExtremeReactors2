@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "bigreactors:coil",
+  "key": {
+    "I": {
+      "item": "bigreactors:insanite_ingot"
+    },
+    "S": {
+      "item": "bigreactors:inanite_block"
+    }
+  },
+  "pattern": [
+    "III",
+    "ISI",
+    "III"
+  ],
+  "result": {
+    "item": "bigreactors:insanite_block"
+  },
+  "show_notification": true
+}

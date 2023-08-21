@@ -35,6 +35,7 @@ public class BlockTagsDataProvider
         builder.apply(ContentTags.Blocks.BLOCKS_LUDICRITE).add(Content.Blocks.LUDICRITE_BLOCK);
         builder.apply(ContentTags.Blocks.BLOCKS_RIDICULITE).add(Content.Blocks.RIDICULITE_BLOCK);
         builder.apply(ContentTags.Blocks.BLOCKS_INANITE).add(Content.Blocks.INANITE_BLOCK);
+        builder.apply(ContentTags.Blocks.BLOCKS_INSANITE).add(Content.Blocks.INSANITE_BLOCK);
 
         builder.apply(ContentTags.Blocks.ORE_YELLORITE).add(Content.Blocks.YELLORITE_ORE_BLOCK);
         builder.apply(Tags.Blocks.ORES).add(Content.Blocks.YELLORITE_ORE_BLOCK,

@@ -41,7 +41,7 @@ public enum TurbineVariant
             .setEnergyGenerationEfficiency(0.75f)
             .setMaxEnergyExtractionRate(50_000)
             .setMaxChargerRate(500)
-            .setRadiationAttenuation(0.85f)
+            .setRadiationAttenuation(0.9f)
             .setResidualRadiationAttenuation(0.1f)
             .setMaxPermittedFlow(1000)
             .setBaseFluidPerBlade(15) // mB
@@ -57,7 +57,7 @@ public enum TurbineVariant
             .setTranslationKey("variant.bigreactors.turbine.reinforced")
             .setBlockPropertiesFixer(bp -> bp.strength(6.0F, 6.0F))
             .setPartEnergyCapacity(20_000)
-            .setEnergyGenerationEfficiency(0.8f)
+            .setEnergyGenerationEfficiency(0.85f)
             .setMaxEnergyExtractionRate(5_000_000)
             .setMaxChargerRate(5000)
             .setRadiationAttenuation(0.75f)
