@@ -143,6 +143,7 @@ public final class Content {
         public static final RegistryObject<ModBlock> LUDICRITE_BLOCK = registerMetalBlock("ludicrite_block", DyeColor.PURPLE);
         public static final RegistryObject<ModBlock> RIDICULITE_BLOCK = registerMetalBlock("ridiculite_block", DyeColor.PINK);
         public static final RegistryObject<ModBlock> INANITE_BLOCK = registerMetalBlock("inanite_block", DyeColor.RED);
+        public static final RegistryObject<ModBlock> INSANITE_BLOCK = registerMetalBlock("insanite_block", DyeColor.RED);
 
         //endregion
         //region ores
@@ -489,6 +490,7 @@ public final class Content {
         public static final RegistryObject<ModItem> LUDICRITE_INGOT = registerItemGeneric("ludicrite_ingot");
         public static final RegistryObject<ModItem> RIDICULITE_INGOT = registerItemGeneric("ridiculite_ingot");
         public static final RegistryObject<ModItem> INANITE_INGOT = registerItemGeneric("inanite_ingot");
+        public static final RegistryObject<ModItem> INSANITE_INGOT = registerItemGeneric("insanite_ingot");
 
         public static final RegistryObject<ModItem> YELLORIUM_NUGGET = registerItemGeneric(Reactants.Yellorium.getNuggetName());
         public static final RegistryObject<ModItem> BLUTONIUM_NUGGET = registerItemGeneric(Reactants.Blutonium.getNuggetName());
@@ -501,6 +503,7 @@ public final class Content {
         public static final RegistryObject<ModItem> LUDICRITE_DUST = registerItemGeneric("ludicrite_dust");
         public static final RegistryObject<ModItem> RIDICULITE_DUST = registerItemGeneric("ridiculite_dust");
         public static final RegistryObject<ModItem> INANITE_DUST = registerItemGeneric("inanite_dust");
+        public static final RegistryObject<ModItem> INSANITE_DUST = registerItemGeneric("insanite_dust");
 
         public static final RegistryObject<BlockItem> YELLORIUM_BLOCK = registerItemBlock(Reactants.Yellorium.getBlockName(), () -> Blocks.YELLORIUM_BLOCK, ItemGroups.GENERAL);
         public static final RegistryObject<BlockItem> CYANITE_BLOCK = registerItemBlock(Reactants.Cyanite.getBlockName(), () -> Blocks.CYANITE_BLOCK, ItemGroups.GENERAL);
@@ -510,6 +513,7 @@ public final class Content {
         public static final RegistryObject<BlockItem> LUDICRITE_BLOCK = registerItemBlock("ludicrite_block", () -> Blocks.LUDICRITE_BLOCK, ItemGroups.GENERAL);
         public static final RegistryObject<BlockItem> RIDICULITE_BLOCK = registerItemBlock("ridiculite_block", () -> Blocks.RIDICULITE_BLOCK, ItemGroups.GENERAL);
         public static final RegistryObject<BlockItem> INANITE_BLOCK = registerItemBlock("inanite_block", () -> Blocks.INANITE_BLOCK, ItemGroups.GENERAL);
+        public static final RegistryObject<BlockItem> INSANITE_BLOCK = registerItemBlock("insanite_block", () -> Blocks.INSANITE_BLOCK, ItemGroups.GENERAL);
 
         //endregion
         //region crystals

@@ -1,0 +1,18 @@
+{
+  "type": "bigreactors:reprocessor",
+  "waste": {
+    "ingredient": {
+      "item": "bigreactors:benitoite_crystal"
+    },
+    "count": 16
+  },
+  "fluid": {
+    "fluid": {
+      "fluid": "bigreactors:rossinite",
+      "count": 2000
+    }
+  },
+  "result": {
+    "item": "bigreactors:insanite_ingot"
+  }
+}
