@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "bigreactors:general",
+  "pattern": [
+    "III",
+    "ISI",
+    "III"
+  ],
+  "key": {
+    "I": {
+      "item": "bigreactors:insanite_ingot"
+    },
+    "S": {
+      "item": "bigreactors:inanite_block"
+    }
+  },
+  "result": {
+    "item": "bigreactors:insanite_block"
+  }
+}

@@ -84,7 +84,7 @@ public class ReprocessorRecipeGenerator
                         ItemStackRecipeResult.from(Content.Items.INANITE_INGOT.get()))
                 .build(c, ExtremeReactors.newID("reprocessor/ridiculite_to_inanite"));
 
-        ReprocessorRecipe.builder(ItemStackRecipeIngredient.from(Content.Items.ANGLESITE_CRYSTAL.get(), 16),
+        ReprocessorRecipe.builder(ItemStackRecipeIngredient.from(Content.Items.BENITOITE_CRYSTAL.get(), 16),
                         FluidStackRecipeIngredient.from(Content.Fluids.ROSSINITE_SOURCE.get(), 2000),
                         ItemStackRecipeResult.from(Content.Items.INSANITE_INGOT.get()))
                 .build(c, ExtremeReactors.newID("reprocessor/rossinite_to_insanite"));
