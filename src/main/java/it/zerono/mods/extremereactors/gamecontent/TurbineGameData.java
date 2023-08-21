@@ -64,9 +64,9 @@ final class TurbineGameData {
 //        TurbineCoil.registerBlock("blockTitanium", 3.1f, 1f, 2.7f);    // Mariculture
         CoilMaterialRegistry.register("forge:storage_blocks/enderium", 3.0f, 1.02f, 3.0f);
 
-        CoilMaterialRegistry.register("forge:storage_blocks/ludicrite", 3.997f, 1.03939f, 3.988f);
-        CoilMaterialRegistry.register("forge:storage_blocks/ridiculite", 4.28f, 1.084f, 3.968f);
-        CoilMaterialRegistry.register("forge:storage_blocks/inanite", 5.4104f, 1.102f, 4.013f);
+        CoilMaterialRegistry.register("forge:storage_blocks/ludicrite", 5.23f, 1.03939f, 3.45f);
+        CoilMaterialRegistry.register("forge:storage_blocks/ridiculite", 7.47f, 1.2055f, 3.46f);
+        CoilMaterialRegistry.register("forge:storage_blocks/inanite", 9.76f, 1.3f, 6.9328f);
 
 //        if (enableFantasyMetals) {
 //            // Metallurgy fantasy metals
