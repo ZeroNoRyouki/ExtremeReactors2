@@ -67,6 +67,7 @@ final class TurbineGameData {
         CoilMaterialRegistry.register("forge:storage_blocks/ludicrite", 5.23f, 1.03939f, 3.45f);
         CoilMaterialRegistry.register("forge:storage_blocks/ridiculite", 7.47f, 1.2055f, 3.46f);
         CoilMaterialRegistry.register("forge:storage_blocks/inanite", 9.76f, 1.3f, 6.9328f);
+        CoilMaterialRegistry.register("forge:storage_blocks/insanite", 13.74f, 1.41f, 6.9328f);
 
 //        if (enableFantasyMetals) {
 //            // Metallurgy fantasy metals

@@ -24,6 +24,7 @@
     "item.bigreactors.ludicrite_ingot": "Ludicrite Ingot",
     "item.bigreactors.ridiculite_ingot": "Ridiculite Ingot",
     "item.bigreactors.inanite_ingot": "Inanite Ingot",
+    "item.bigreactors.insanite_ingot": "Insanite Ingot",
 
     "_comment": "Items - nuggets",
     "item.bigreactors.yellorium_nugget": "Yellorium Nugget",
@@ -38,6 +39,7 @@
     "item.bigreactors.ludicrite_dust": "Ludicrite Dust",
     "item.bigreactors.ridiculite_dust": "Ridiculite Dust",
     "item.bigreactors.inanite_dust": "Inanite Dust",
+    "item.bigreactors.insanite_dust": "Insanite Dust",
 
     "_comment": "Items - minerals",
     "item.bigreactors.anglesite_crystal": "Anglesite (PbSO4)",
@@ -88,6 +90,7 @@
     "block.bigreactors.ludicrite_block": "Ludicrite Block",
     "block.bigreactors.ridiculite_block": "Ridiculite Block",
     "block.bigreactors.inanite_block": "Inanite Block",
+    "block.bigreactors.insanite_block": "Insanite Block",
 
     "_comment": "Blocks - ores",
     "block.bigreactors.yellorite_ore": "Yellorite Ore",

@@ -69,6 +69,7 @@ public class ItemTagGenerator
         this.build(ContentTags.Items.INGOTS_LUDICRITE, Items.LUDICRITE_INGOT);
         this.build(ContentTags.Items.INGOTS_RIDICULITE, Items.RIDICULITE_INGOT);
         this.build(ContentTags.Items.INGOTS_INANITE, Items.INANITE_INGOT);
+        this.build(ContentTags.Items.INGOTS_INSANITE, Items.INSANITE_INGOT);
 
         this.build(Tags.Items.NUGGETS, Items.YELLORIUM_NUGGET, Items.BLUTONIUM_NUGGET);
         this.build(ContentTags.Items.NUGGETS_YELLORIUM, Items.YELLORIUM_NUGGET);
@@ -82,6 +83,7 @@ public class ItemTagGenerator
         this.build(ContentTags.Items.DUSTS_LUDICRITE, Items.LUDICRITE_DUST);
         this.build(ContentTags.Items.DUSTS_RIDICULITE, Items.RIDICULITE_DUST);
         this.build(ContentTags.Items.DUSTS_INANITE, Items.INANITE_DUST);
+        this.build(ContentTags.Items.DUSTS_INSANITE, Items.INSANITE_DUST);
 
         this.build(ContentTags.Items.BLOCKS_YELLORIUM, Items.YELLORIUM_BLOCK);
         this.build(ContentTags.Items.BLOCKS_CYANITE, Items.CYANITE_BLOCK);
@@ -91,6 +93,7 @@ public class ItemTagGenerator
         this.build(ContentTags.Items.BLOCKS_LUDICRITE, Items.LUDICRITE_BLOCK);
         this.build(ContentTags.Items.BLOCKS_RIDICULITE, Items.RIDICULITE_BLOCK);
         this.build(ContentTags.Items.BLOCKS_INANITE, Items.INANITE_BLOCK);
+        this.build(ContentTags.Items.BLOCKS_INSANITE, Items.INSANITE_BLOCK);
 
         this.build(TagsHelper.TAG_WRENCH, Items.WRENCH);
 

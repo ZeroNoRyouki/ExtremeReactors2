@@ -41,7 +41,7 @@ public enum ReactorVariant
             .setEnergyGenerationEfficiency(0.8f)
             .setMaxEnergyExtractionRate(50000)
             .setMaxChargerRate(250)
-            .setRadiationAttenuation(0.85f)
+            .setRadiationAttenuation(0.9f)
             .setResidualRadiationAttenuation(0.1f)
             .setSolidFuelConversionEfficiency(0.5f)
             .setPartCompatibilityTest(ReactorVariant::isBasicPart)),
@@ -50,7 +50,7 @@ public enum ReactorVariant
             .setTranslationKey("variant.bigreactors.reactor.reinforced")
             .setBlockPropertiesFixer(bp -> bp.strength(6.0F, 6.0F))
             .setPartEnergyCapacity(30000)
-            .setEnergyGenerationEfficiency(0.75f)
+            .setEnergyGenerationEfficiency(0.85f)
             .setMaxEnergyExtractionRate(5000000)
             .setMaxChargerRate(5000)
             .setRadiationAttenuation(0.75f)

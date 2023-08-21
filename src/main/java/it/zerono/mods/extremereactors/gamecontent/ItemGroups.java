@@ -47,6 +47,7 @@ public final class ItemGroups {
                         stack(Content.Items.LUDICRITE_INGOT), stack(Content.Items.LUDICRITE_DUST), stack(Content.Blocks.LUDICRITE_BLOCK),
                         stack(Content.Items.RIDICULITE_INGOT), stack(Content.Items.RIDICULITE_DUST), stack(Content.Blocks.RIDICULITE_BLOCK),
                         stack(Content.Items.INANITE_INGOT), stack(Content.Items.INANITE_DUST), stack(Content.Blocks.INANITE_BLOCK),
+                        stack(Content.Items.INSANITE_INGOT), stack(Content.Items.INSANITE_DUST), stack(Content.Blocks.INSANITE_BLOCK),
                         stack(Content.Items.YELLORIUM_NUGGET), stack(Content.Items.BLUTONIUM_NUGGET),
                         stack(Content.Items.ANGLESITE_CRYSTAL), stack(Content.Items.BENITOITE_CRYSTAL),
                         stack(Content.Items.WRENCH));

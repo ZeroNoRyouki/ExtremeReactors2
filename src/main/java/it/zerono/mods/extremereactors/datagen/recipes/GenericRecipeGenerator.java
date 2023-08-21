@@ -65,20 +65,24 @@ public class GenericRecipeGenerator
     protected void buildShapelessRecipes(final Consumer<IFinishedRecipe> c) {
 
         // ingots / (storage) blocks
+
         this.storageBlock3x3(c, "yellorium", Content.Items.YELLORIUM_INGOT, Content.Items.YELLORIUM_BLOCK);
         this.storageBlock3x3(c, "cyanite", Content.Items.CYANITE_INGOT, Content.Items.CYANITE_BLOCK);
         this.storageBlock3x3(c, "graphite", Content.Items.GRAPHITE_INGOT, Content.Items.GRAPHITE_BLOCK);
         this.storageBlock3x3(c, "blutonium", Content.Items.BLUTONIUM_INGOT, Content.Items.BLUTONIUM_BLOCK);
         this.storageBlock3x3(c, "magentite", Content.Items.MAGENTITE_INGOT, Content.Items.MAGENTITE_BLOCK);
 
+        // nuggets
+
         this.nugget(c, "yellorium", Content.Items.YELLORIUM_INGOT, Content.Items.YELLORIUM_NUGGET);
         this.nugget(c, "blutonium", Content.Items.BLUTONIUM_INGOT, Content.Items.BLUTONIUM_NUGGET);
 
-        // nuggets
+        // turbine coils
 
         this.coil(c, "ludicrite_block", Content.Items.LUDICRITE_BLOCK, Content.Items.LUDICRITE_INGOT, Items.END_CRYSTAL);
         this.coil(c, "ridiculite_block", Content.Items.RIDICULITE_BLOCK, Content.Items.RIDICULITE_INGOT, Items.NETHER_STAR);
         this.coil(c, "inanite_block", Content.Items.INANITE_BLOCK, Content.Items.INANITE_INGOT, Items.NETHERITE_BLOCK);
+        this.coil(c, "insanite_block", Content.Items.INSANITE_BLOCK, Content.Items.INSANITE_INGOT, Content.Items.INANITE_BLOCK.get());
 
         // smelting
 
