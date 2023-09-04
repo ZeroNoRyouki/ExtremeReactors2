@@ -1,0 +1,13 @@
+{
+    "name": "Пассивно охлаждаемый",
+    "icon": "bigreactors:graphite_block",
+    "category": "bigreactors:reactor-operational_mode",
+    "read_by_default": true,
+    "sortnum": 1,
+    "pages": [
+        {
+            "type": "text",
+            "text": "Реактор с пассивным охлаждением - это реактор, который напрямую $(l:bigreactors:reactor/innerworking)вырабатывает энергию$(/l) и не использует внешние источники для рассеивания внутреннего тепла.$(br2)$(l:bigreactors:intro/first)Первый реактор$(/l), описанный на начальных страницах этой книги, - это реактор, работающий в режиме Пассивного Охлаждения."
+        }
+    ]
+}
