@@ -38,12 +38,13 @@
                   "function": "minecraft:explosion_decay"
                 }
               ],
-              "name": "bigreactors:benitoite_ore"
+              "name": "bigreactors:benitoite_crystal"
             }
           ]
         }
       ],
       "rolls": 1.0
     }
-  ]
+  ],
+  "random_sequence": "bigreactors:blocks/benitoite_ore"
 }
