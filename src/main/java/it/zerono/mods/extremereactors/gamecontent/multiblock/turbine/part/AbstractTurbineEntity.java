@@ -23,10 +23,9 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.MultiblockT
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.TurbinePartType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.IMultiblockTurbineVariant;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.TurbineVariant;
-import it.zerono.mods.zerocore.base.multiblock.part.AbstractMultiblockEntity;
+import it.zerono.mods.zerocore.base.multiblock.part.AbstractMultiblockMachineEntity;
 import it.zerono.mods.zerocore.lib.CodeHelper;
 import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockPartTypeProvider;
-import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockVariantProvider;
 import it.zerono.mods.zerocore.lib.client.model.data.multiblock.CuboidPartVariantsModelData;
 import it.zerono.mods.zerocore.lib.client.model.data.multiblock.CuboidPartVariantsModelDataCache;
 import it.zerono.mods.zerocore.lib.multiblock.cuboid.PartPosition;
@@ -41,9 +40,8 @@ import net.minecraftforge.client.model.data.EmptyModelData;
 import net.minecraftforge.client.model.data.IModelData;
 
 public class AbstractTurbineEntity
-        extends AbstractMultiblockEntity<MultiblockTurbine>
-        implements /*IHeatEntity, IRadiationModerator,*/ IMultiblockPartTypeProvider<MultiblockTurbine, TurbinePartType>,
-                    IMultiblockVariantProvider<IMultiblockTurbineVariant> {
+        extends AbstractMultiblockMachineEntity<MultiblockTurbine, IMultiblockTurbineVariant>
+        implements IMultiblockPartTypeProvider<MultiblockTurbine, TurbinePartType> {
 
     public AbstractTurbineEntity(final TileEntityType<?> type) {
         super(type);

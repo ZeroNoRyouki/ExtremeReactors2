@@ -19,7 +19,7 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.common;
 
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.variant.IMultiblockGeneratorVariant;
-import it.zerono.mods.zerocore.base.multiblock.AbstractMultiblockController;
+import it.zerono.mods.zerocore.base.multiblock.AbstractMultiblockMachineController;
 import it.zerono.mods.zerocore.base.multiblock.part.io.IIOPortHandler;
 import it.zerono.mods.zerocore.base.multiblock.part.io.fluid.IFluidPort;
 import it.zerono.mods.zerocore.base.multiblock.part.io.power.IPowerPort;
@@ -41,7 +41,7 @@ import java.util.Optional;
 @SuppressWarnings({"WeakerAccess"})
 public abstract class AbstractGeneratorMultiblockController<Controller extends AbstractGeneratorMultiblockController<Controller, V>,
             V extends IMultiblockGeneratorVariant>
-        extends AbstractMultiblockController<Controller, V>
+        extends AbstractMultiblockMachineController<Controller, V>
         implements IWideEnergyStorage2 {
 
     public AbstractGeneratorMultiblockController(World world) {
