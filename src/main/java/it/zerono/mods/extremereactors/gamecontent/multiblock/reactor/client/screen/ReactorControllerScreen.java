@@ -27,6 +27,7 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.scre
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.container.ReactorControllerContainer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part.ReactorControllerEntity;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.ReactorVariant;
+import it.zerono.mods.zerocore.base.client.screen.ClientBaseHelper;
 import it.zerono.mods.zerocore.base.client.screen.control.MachineStatusIndicator;
 import it.zerono.mods.zerocore.lib.client.gui.layout.VerticalLayoutEngine;
 import it.zerono.mods.zerocore.lib.item.inventory.PlayerInventoryUsage;
@@ -49,7 +50,7 @@ public class ReactorControllerScreen
 
         this._controllerPanel = new ReactorControllerPanel(this, this.getGuiWidth(), container,
                 this::onActiveStateChanged, this::onWasteEjectionChanged, this::onVoidReactants, this::onScram,
-                this::setButtonSpritesAndOverlayForState);
+                ClientBaseHelper::setButtonSpritesAndOverlayForState);
     }
 
     //region CommonMultiblockScreen

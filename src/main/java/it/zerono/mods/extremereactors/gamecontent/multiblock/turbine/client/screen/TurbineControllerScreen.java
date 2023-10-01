@@ -30,8 +30,8 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.container.T
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part.TurbineControllerEntity;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.TurbineVariant;
 import it.zerono.mods.zerocore.base.CommonConstants;
-import it.zerono.mods.zerocore.base.client.screen.AbstractBaseScreen;
 import it.zerono.mods.zerocore.base.client.screen.BaseScreenToolTipsBuilder;
+import it.zerono.mods.zerocore.base.client.screen.ClientBaseHelper;
 import it.zerono.mods.zerocore.base.client.screen.control.*;
 import it.zerono.mods.zerocore.lib.CodeHelper;
 import it.zerono.mods.zerocore.lib.client.gui.ButtonState;
@@ -138,8 +138,8 @@ public class TurbineControllerScreen
         this._inductorEngaged.bindActive(container.INDUCTOR_ENGAGED);
         this._inductorEngaged.Activated.subscribe(this::onInductorEngagedChanged);
         this._inductorEngaged.Deactivated.subscribe(this::onInductorEngagedChanged);
-        this.setButtonSpritesAndOverlayForState(this._inductorEngaged, ButtonState.Default, CommonIcons.ButtonInductor);
-        this.setButtonSpritesAndOverlayForState(this._inductorEngaged, ButtonState.Active, CommonIcons.ButtonInductorActive);
+        ClientBaseHelper.setButtonSpritesAndOverlayForState(this._inductorEngaged, ButtonState.Default, CommonIcons.ButtonInductor);
+        ClientBaseHelper.setButtonSpritesAndOverlayForState(this._inductorEngaged, ButtonState.Active, CommonIcons.ButtonInductorActive);
         this._inductorEngaged.setBackground(CommonIcons.ImageButtonBackground.get());
         this._inductorEngaged.enablePaintBlending(true);
         this._inductorEngaged.setPadding(1);
@@ -279,18 +279,18 @@ public class TurbineControllerScreen
         switch (setting) {
 
             case VentAll:
-                this.setButtonSpritesAndOverlayForState(swp, ButtonState.Default, CommonIcons.ButtonVentAll);
-                this.setButtonSpritesAndOverlayForState(swp, ButtonState.Active, CommonIcons.ButtonVentAllActive);
+                ClientBaseHelper.setButtonSpritesAndOverlayForState(swp, ButtonState.Default, CommonIcons.ButtonVentAll);
+                ClientBaseHelper.setButtonSpritesAndOverlayForState(swp, ButtonState.Active, CommonIcons.ButtonVentAllActive);
                 break;
 
             case VentOverflow:
-                this.setButtonSpritesAndOverlayForState(swp, ButtonState.Default, CommonIcons.ButtonVentOverflow);
-                this.setButtonSpritesAndOverlayForState(swp, ButtonState.Active, CommonIcons.ButtonVentOverflowActive);
+                ClientBaseHelper.setButtonSpritesAndOverlayForState(swp, ButtonState.Default, CommonIcons.ButtonVentOverflow);
+                ClientBaseHelper.setButtonSpritesAndOverlayForState(swp, ButtonState.Active, CommonIcons.ButtonVentOverflowActive);
                 break;
 
             case DoNotVent:
-                this.setButtonSpritesAndOverlayForState(swp, ButtonState.Default, CommonIcons.ButtonVentDoNot);
-                this.setButtonSpritesAndOverlayForState(swp, ButtonState.Active, CommonIcons.ButtonVentDoNotActive);
+                ClientBaseHelper.setButtonSpritesAndOverlayForState(swp, ButtonState.Default, CommonIcons.ButtonVentDoNot);
+                ClientBaseHelper.setButtonSpritesAndOverlayForState(swp, ButtonState.Active, CommonIcons.ButtonVentDoNotActive);
                 break;
         }
 
@@ -330,8 +330,8 @@ public class TurbineControllerScreen
         this.sendCommandToServer(TurbineControllerEntity.COMMAND_SET_INTAKERATE, data);
     }
 
-    private static final IFormattableTextComponent TEXT_INDUCTOR_ENGAGED = TextHelper.translatable("gui.bigreactors.turbine.controller.inductor.mode.engaged", AbstractBaseScreen::formatAsValue);
-    private static final IFormattableTextComponent TEXT_INDUCTOR_DISENGAGED = TextHelper.translatable("gui.bigreactors.turbine.controller.inductor.mode.disengaged", AbstractBaseScreen::formatAsValue);
+    private static final IFormattableTextComponent TEXT_INDUCTOR_ENGAGED = TextHelper.translatable("gui.bigreactors.turbine.controller.inductor.mode.engaged", ClientBaseHelper::formatAsValue);
+    private static final IFormattableTextComponent TEXT_INDUCTOR_DISENGAGED = TextHelper.translatable("gui.bigreactors.turbine.controller.inductor.mode.disengaged", ClientBaseHelper::formatAsValue);
 
     private final FluidBar _coolantBar;
     private final FluidBar _vaporBar;

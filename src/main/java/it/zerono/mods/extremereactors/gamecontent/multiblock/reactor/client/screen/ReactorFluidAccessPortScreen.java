@@ -28,6 +28,7 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.container.R
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part.ReactorFluidAccessPortEntity;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.ReactorVariant;
 import it.zerono.mods.zerocore.base.client.screen.BaseScreenToolTipsBuilder;
+import it.zerono.mods.zerocore.base.client.screen.ClientBaseHelper;
 import it.zerono.mods.zerocore.base.client.screen.control.BarsPanel;
 import it.zerono.mods.zerocore.base.client.screen.control.FluidBar;
 import it.zerono.mods.zerocore.base.client.screen.control.MachineStatusIndicator;
@@ -59,8 +60,8 @@ public class ReactorFluidAccessPortScreen
         this.addPatchouliHelpButton(PatchouliCompat.HANDBOOK_ID, ExtremeReactors.newID("reactor/part-fluidaccessport"), 1);
 
         this._btnInputDirection = new SwitchPictureButton(this, "directionInput", false, "direction");
-        this.setButtonSpritesAndOverlayForState(this._btnInputDirection, ButtonState.Default, CommonIcons.ButtonInputDirection);
-        this.setButtonSpritesAndOverlayForState(this._btnInputDirection, ButtonState.Active, CommonIcons.ButtonInputDirectionActive);
+        ClientBaseHelper.setButtonSpritesAndOverlayForState(this._btnInputDirection, ButtonState.Default, CommonIcons.ButtonInputDirection);
+        ClientBaseHelper.setButtonSpritesAndOverlayForState(this._btnInputDirection, ButtonState.Active, CommonIcons.ButtonInputDirectionActive);
         this._btnInputDirection.Activated.subscribe(this::onInputActivated);
         this._btnInputDirection.setTooltips(new BaseScreenToolTipsBuilder()
                 .addTranslatableAsTitle("gui.bigreactors.reactor.fluidaccessport.directioninput.tooltip.title")
@@ -69,8 +70,8 @@ public class ReactorFluidAccessPortScreen
         );
 
         this._btnOutputDirection = new SwitchPictureButton(this, "directionOutput", false, "direction");
-        this.setButtonSpritesAndOverlayForState(this._btnOutputDirection, ButtonState.Default, CommonIcons.ButtonOutputDirection);
-        this.setButtonSpritesAndOverlayForState(this._btnOutputDirection, ButtonState.Active, CommonIcons.ButtonOutputDirectionActive);
+        ClientBaseHelper.setButtonSpritesAndOverlayForState(this._btnOutputDirection, ButtonState.Default, CommonIcons.ButtonOutputDirection);
+        ClientBaseHelper.setButtonSpritesAndOverlayForState(this._btnOutputDirection, ButtonState.Active, CommonIcons.ButtonOutputDirectionActive);
         this._btnOutputDirection.Activated.subscribe(this::onOutputActivated);
         this._btnOutputDirection.setTooltips(new BaseScreenToolTipsBuilder()
                 .addTranslatableAsTitle("gui.bigreactors.reactor.fluidaccessport.directionoutput.tooltip.title")
@@ -187,7 +188,7 @@ public class ReactorFluidAccessPortScreen
         p.setLayoutEngineHint(AnchoredLayoutEngine.Anchor.TopLeft);
         p.setCustomBackgroundPainter((panel, matrix) -> {
 
-            final Point xy = panel.controlToScreen(0, 0+18);
+            final Point xy = panel.controlToScreen(0, 18);
             final ISprite border = CommonIcons.ImageButtonBorder.get();
             final int z = (int)panel.getGui().getZLevel();
 

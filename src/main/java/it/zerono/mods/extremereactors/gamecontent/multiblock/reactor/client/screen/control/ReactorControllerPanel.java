@@ -22,12 +22,11 @@ import it.unimi.dsi.fastutil.booleans.BooleanConsumer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.CommonIcons;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.screen.ReactorControllerScreen;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.container.IReactorControllerContainer;
-import it.zerono.mods.zerocore.base.client.screen.AbstractBaseScreen;
 import it.zerono.mods.zerocore.base.client.screen.BaseScreenToolTipsBuilder;
+import it.zerono.mods.zerocore.base.client.screen.ClientBaseHelper;
 import it.zerono.mods.zerocore.base.client.screen.control.*;
 import it.zerono.mods.zerocore.lib.CodeHelper;
 import it.zerono.mods.zerocore.lib.client.gui.ButtonState;
-import it.zerono.mods.zerocore.lib.client.gui.DesiredDimension;
 import it.zerono.mods.zerocore.lib.client.gui.control.*;
 import it.zerono.mods.zerocore.lib.client.gui.layout.FixedLayoutEngine;
 import it.zerono.mods.zerocore.lib.client.gui.layout.HorizontalAlignment;
@@ -73,7 +72,7 @@ public class ReactorControllerPanel
 
             final NonNullSupplier<ITextComponent> fluidCapacityText = container.fluidCapacity().asBindableText(capacity ->
                     TextHelper.literal(CodeHelper.formatAsHumanReadableNumber(capacity / 1000, "B"),
-                            AbstractBaseScreen::formatAsValue));
+                            ClientBaseHelper::formatAsValue));
 
             barsPanel.add(coolantBar(gui, container, fluidCapacityText))
                     .addTemperatureScale()
@@ -340,8 +339,8 @@ public class ReactorControllerPanel
         return infoDisplay;
     }
 
-    private static final IFormattableTextComponent TEXT_AUTOMATIC_WASTE_EJECT = TextHelper.translatable("gui.bigreactors.reactor.controller.wasteeject.mode.automatic", AbstractBaseScreen::formatAsValue);
-    private static final IFormattableTextComponent TEXT_MANUAL_WASTE_EJECT = TextHelper.translatable("gui.bigreactors.reactor.controller.wasteeject.mode.manual", AbstractBaseScreen::formatAsValue);
+    private static final IFormattableTextComponent TEXT_AUTOMATIC_WASTE_EJECT = TextHelper.translatable("gui.bigreactors.reactor.controller.wasteeject.mode.automatic", ClientBaseHelper::formatAsValue);
+    private static final IFormattableTextComponent TEXT_MANUAL_WASTE_EJECT = TextHelper.translatable("gui.bigreactors.reactor.controller.wasteeject.mode.manual", ClientBaseHelper::formatAsValue);
 
     //endregion
 }

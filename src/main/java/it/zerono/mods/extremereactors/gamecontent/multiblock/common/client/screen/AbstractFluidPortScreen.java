@@ -24,6 +24,7 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.common.AbstractGene
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.container.FluidPortContainer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.variant.IMultiblockGeneratorVariant;
 import it.zerono.mods.zerocore.base.client.screen.BaseScreenToolTipsBuilder;
+import it.zerono.mods.zerocore.base.client.screen.ClientBaseHelper;
 import it.zerono.mods.zerocore.base.multiblock.part.AbstractMultiblockEntity;
 import it.zerono.mods.zerocore.base.multiblock.part.io.fluid.IFluidPort;
 import it.zerono.mods.zerocore.lib.IActivableMachine;
@@ -52,8 +53,8 @@ public abstract class AbstractFluidPortScreen<Controller extends AbstractGenerat
         this.addPatchouliHelpButton(PatchouliCompat.HANDBOOK_ID, bookEntryId, 1);
 
         this._btnInputDirection = new SwitchPictureButton(this, "directionInput", false, "direction");
-        this.setButtonSpritesAndOverlayForState(this._btnInputDirection, ButtonState.Default, CommonIcons.ButtonInputDirection);
-        this.setButtonSpritesAndOverlayForState(this._btnInputDirection, ButtonState.Active, CommonIcons.ButtonInputDirectionActive);
+        ClientBaseHelper.setButtonSpritesAndOverlayForState(this._btnInputDirection, ButtonState.Default, CommonIcons.ButtonInputDirection);
+        ClientBaseHelper.setButtonSpritesAndOverlayForState(this._btnInputDirection, ButtonState.Active, CommonIcons.ButtonInputDirectionActive);
         this._btnInputDirection.setLayoutEngineHint(FixedLayoutEngine.hint(83, 26, 18, 18));
         this._btnInputDirection.setBackground(CommonIcons.ImageButtonBackground.get());
         this._btnInputDirection.setPadding(1);
@@ -65,8 +66,8 @@ public abstract class AbstractFluidPortScreen<Controller extends AbstractGenerat
         );
 
         this._btnOutputDirection = new SwitchPictureButton(this, "directionOutput", false, "direction");
-        this.setButtonSpritesAndOverlayForState(this._btnOutputDirection, ButtonState.Default, CommonIcons.ButtonOutputDirection);
-        this.setButtonSpritesAndOverlayForState(this._btnOutputDirection, ButtonState.Active, CommonIcons.ButtonOutputDirectionActive);
+        ClientBaseHelper.setButtonSpritesAndOverlayForState(this._btnOutputDirection, ButtonState.Default, CommonIcons.ButtonOutputDirection);
+        ClientBaseHelper.setButtonSpritesAndOverlayForState(this._btnOutputDirection, ButtonState.Active, CommonIcons.ButtonOutputDirectionActive);
         this._btnOutputDirection.setLayoutEngineHint(FixedLayoutEngine.hint(123, 26, 18, 18));
         this._btnOutputDirection.setBackground(CommonIcons.ImageButtonBackground.get());
         this._btnOutputDirection.setPadding(1);

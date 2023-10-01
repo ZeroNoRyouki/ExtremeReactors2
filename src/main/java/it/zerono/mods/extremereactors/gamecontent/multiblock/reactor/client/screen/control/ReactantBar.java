@@ -25,8 +25,8 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.scree
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.CommonMultiblockScreen;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.ReactantStack;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.container.data.ReactantStackData;
-import it.zerono.mods.zerocore.base.client.screen.AbstractBaseScreen;
 import it.zerono.mods.zerocore.base.client.screen.BaseScreenToolTipsBuilder;
+import it.zerono.mods.zerocore.base.client.screen.ClientBaseHelper;
 import it.zerono.mods.zerocore.base.client.screen.control.AbstractVerticalIconMultiValueGaugeBar;
 import it.zerono.mods.zerocore.lib.CodeHelper;
 import it.zerono.mods.zerocore.lib.client.gui.ModContainerScreen;
@@ -84,7 +84,7 @@ public class ReactantBar
             return CommonMultiblockScreen.EMPTY_VALUE;
         }
 
-        return TextHelper.literal(CodeHelper.formatAsMillibuckets(amount), AbstractBaseScreen::formatAsValue);
+        return TextHelper.literal(CodeHelper.formatAsMillibuckets(amount), ClientBaseHelper::formatAsValue);
     }
 
     private static IFormattableTextComponent formatFuelRodsCount(int count) {
@@ -97,7 +97,7 @@ public class ReactantBar
     }
 
     private IFormattableTextComponent formatFillRatio() {
-        return TextHelper.literal("%.2f%%", AbstractBaseScreen::formatAsValue, this._bar.getFillRatio() * 100f);
+        return TextHelper.literal("%.2f%%", ClientBaseHelper::formatAsValue, this._bar.getFillRatio() * 100f);
     }
 
     private static IFormattableTextComponent formatWastePercentage(int fuelAmount, int wasteAmount) {
@@ -105,9 +105,9 @@ public class ReactantBar
         final int totalAmount = fuelAmount + wasteAmount;
 
         if (0 == totalAmount) {
-            return TextHelper.literal("0%", AbstractBaseScreen::formatAsValue);
+            return TextHelper.literal("0%", ClientBaseHelper::formatAsValue);
         } else {
-            return TextHelper.literal("%.2f%%", AbstractBaseScreen::formatAsValue, (float) wasteAmount / (float) totalAmount * 100.0f);
+            return TextHelper.literal("%.2f%%", ClientBaseHelper::formatAsValue, (float) wasteAmount / (float) totalAmount * 100.0f);
         }
     }
 
