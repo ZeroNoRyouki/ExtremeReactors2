@@ -50,10 +50,10 @@ public enum FluidPortType {
                 return new FluidPortHandlerForge<>(part, mode);
 
             case Mekanism:
-//                return Mods.MEKANISM
-//                        .map(() -> (IFluidPortHandler) new FluidPortHandlerMekanism<>(part, mode))
-//                        .orElseGet(EmptyFluidPortHandler::new);
-                return new EmptyFluidPortHandler();
+                return Mods.MEKANISM
+                        .map(() -> (IFluidPortHandler) new FluidPortHandlerMekanism<>(part, mode))
+                        .orElseGet(EmptyFluidPortHandler::new);
+//                return new EmptyFluidPortHandler();
         }
 
         throw new IllegalArgumentException("Unsupported Fluid Port: " + type);
