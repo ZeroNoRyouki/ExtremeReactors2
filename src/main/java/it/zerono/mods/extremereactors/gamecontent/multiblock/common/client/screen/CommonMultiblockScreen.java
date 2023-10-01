@@ -51,7 +51,7 @@ public abstract class CommonMultiblockScreen<Controller extends AbstractCuboidMu
 
         super(container, inventory, inventoryUsage, title, mainTextureSupplier);
         this._indicator = createStatusIndicator(container);
-        this.setTheme(GuiTheme.ER.get());
+        this.initialize();
     }
 
     protected CommonMultiblockScreen(C container, PlayerInventory inventory, PlayerInventoryUsage inventoryUsage,
@@ -60,7 +60,7 @@ public abstract class CommonMultiblockScreen<Controller extends AbstractCuboidMu
 
         super(container, inventory, inventoryUsage, title, guiWidth, guiHeight, mainTextureSupplier);
         this._indicator = createStatusIndicator(container);
-        this.setTheme(GuiTheme.ER.get());
+        this.initialize();
     }
 
     protected CommonMultiblockScreen(C container, PlayerInventory inventory, PlayerInventoryUsage inventoryUsage,
@@ -68,7 +68,7 @@ public abstract class CommonMultiblockScreen<Controller extends AbstractCuboidMu
 
         super(container, inventory, inventoryUsage, title, guiWidth, guiHeight, mainTexture);
         this._indicator = createStatusIndicator(container);
-        this.setTheme(GuiTheme.ER.get());
+        this.initialize();
     }
 
     protected abstract MachineStatusIndicator createStatusIndicator(C container);
@@ -126,6 +126,12 @@ public abstract class CommonMultiblockScreen<Controller extends AbstractCuboidMu
 
     //endregion
     //region internals
+
+    private void initialize() {
+
+        this.setContentBounds(10, 0, this.getGuiWidth(), this.getGuiHeight() - 6 /* stop at the last "bolt" on the GUI background */);
+        this.setTheme(GuiTheme.ER.get());
+    }
 
     private final MachineStatusIndicator _indicator;
 
