@@ -48,7 +48,7 @@ public enum TurbineSensorType
     inputEngageCoils(SensorBehavior.SetFromSignal, SensorBehavior.ToggleOnPulse),
 
     // Input: flow regulator (0-100%)
-    inputFlowRegulator(SensorBehavior.SetFromSignal, SensorBehavior.SetFromSignalLevel, SensorBehavior.SetOnPulse, SensorBehavior.InsertOnPulse, SensorBehavior.RetractOnPulse),
+    inputFlowRegulator(SensorBehavior.SetFromSignal, SensorBehavior.SetFromSignalLevel, SensorBehavior.SetOnPulse, SensorBehavior.AugmentOnPulse, SensorBehavior.ReduceOnPulse),
 
     // Output: rotor speed
     outputRotorSpeed(r -> (int)r.getRotorSpeed(), SensorBehavior.ActiveWhileAbove, SensorBehavior.ActiveWhileBelow, SensorBehavior.ActiveWhileBetween),
@@ -116,7 +116,7 @@ public enum TurbineSensorType
     TurbineSensorType(final SensorTypeData<ITurbineReader> _data) {
 
         this._data = _data;
-        this._translationBaseName = "gui.bigreactors.turbine.redstoneport.sensortype." + CodeHelper.neutralLowercase(this.name())  + ".line";
+        this._translationBaseName = "gui.bigreactors.turbine.redstoneport.sensortype." + CodeHelper.neutralLowercase(this.name());
     }
 
     private final SensorTypeData<ITurbineReader> _data;

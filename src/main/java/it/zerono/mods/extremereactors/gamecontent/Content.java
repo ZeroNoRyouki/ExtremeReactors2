@@ -37,10 +37,7 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.recipe.IF
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.MultiblockReactor;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.Reactants;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.ReactorPartType;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.container.ReactorControlRodContainer;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.container.ReactorControllerContainer;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.container.ReactorFluidAccessPortContainer;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.container.ReactorSolidAccessPortContainer;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.container.*;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part.*;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.IMultiblockReactorVariant;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.ReactorVariant;
@@ -53,6 +50,7 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.recipe.
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.MultiblockTurbine;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.TurbinePartType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.container.TurbineControllerContainer;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.container.TurbineRedstonePortContainer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part.*;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.IMultiblockTurbineVariant;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.TurbineVariant;
@@ -66,7 +64,6 @@ import it.zerono.mods.zerocore.lib.data.IoDirection;
 import it.zerono.mods.zerocore.lib.data.IoMode;
 import it.zerono.mods.zerocore.lib.energy.EnergySystem;
 import it.zerono.mods.zerocore.lib.item.ModItem;
-import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
 import it.zerono.mods.zerocore.lib.recipe.ModRecipe;
 import it.zerono.mods.zerocore.lib.recipe.ModRecipeType;
 import net.minecraft.block.Block;
@@ -1017,9 +1014,8 @@ public final class Content {
         public static final RegistryObject<ContainerType<ReactorFluidAccessPortContainer>> REACTOR_FLUID_ACCESSPORT =
                 registerContainer("reactoraccessportfluid", ReactorFluidAccessPortContainer::new);
 
-        public static final RegistryObject<ContainerType<ModTileContainer<ReactorRedstonePortEntity>>> REACTOR_REDSTONEPORT =
-                registerContainer("reactorredstoneport", (windowId, inv, data) ->
-                        ModTileContainer.empty(Content.ContainerTypes.REACTOR_REDSTONEPORT.get(), windowId, data));
+        public static final RegistryObject<ContainerType<ReactorRedstonePortContainer>> REACTOR_REDSTONEPORT =
+                registerContainer("reactorredstoneport", ReactorRedstonePortContainer::new);
 
         public static final RegistryObject<ContainerType<ReactorControlRodContainer>> REACTOR_CONTROLROD =
                 registerContainer("reactorcontrolrod", ReactorControlRodContainer::new);
@@ -1038,9 +1034,8 @@ public final class Content {
         public static final RegistryObject<ContainerType<TurbineControllerContainer>> TURBINE_CONTROLLER =
                 registerContainer("turbinecontroller", TurbineControllerContainer::new);
 
-        public static final RegistryObject<ContainerType<ModTileContainer<TurbineRedstonePortEntity>>> TURBINE_REDSTONEPORT =
-                registerContainer("turbineredstoneport", (windowId, inv, data) ->
-                        ModTileContainer.empty(Content.ContainerTypes.TURBINE_REDSTONEPORT.get(), windowId, data));
+        public static final RegistryObject<ContainerType<TurbineRedstonePortContainer>> TURBINE_REDSTONEPORT =
+                registerContainer("turbineredstoneport", TurbineRedstonePortContainer::new);
 
         public static final RegistryObject<ContainerType<ChargingPortContainer<MultiblockTurbine, IMultiblockTurbineVariant, TurbineChargingPortEntity>>> TURBINE_CHARGINGPORT =
                 registerContainer("turbinechargingport",

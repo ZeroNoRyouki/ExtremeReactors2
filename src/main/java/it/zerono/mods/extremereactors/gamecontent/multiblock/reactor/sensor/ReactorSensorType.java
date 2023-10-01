@@ -45,10 +45,10 @@ public enum ReactorSensorType
     inputActive(SensorBehavior.SetFromSignal, SensorBehavior.ToggleOnPulse),
 
     // Input: control rod insertion (0-100)
-    inputSetControlRod(SensorBehavior.SetFromSignal, SensorBehavior.SetFromSignalLevel, SensorBehavior.SetOnPulse, SensorBehavior.InsertOnPulse, SensorBehavior.RetractOnPulse),
+    inputSetControlRod(SensorBehavior.SetFromSignal, SensorBehavior.SetFromSignalLevel, SensorBehavior.SetOnPulse, SensorBehavior.AugmentOnPulse, SensorBehavior.ReduceOnPulse),
 
     // Input: eject waste from the reactor
-    inputEjectWaste(SensorBehavior.EjectOnPulse),
+    inputEjectWaste(SensorBehavior.PerformOnPulse),
 
     // Output: Temperature of the reactor fuel
     outputFuelTemperature(r -> (int)r.getFuelHeatValue().getAsDouble(), SensorBehavior.ActiveWhileAbove, SensorBehavior.ActiveWhileBelow, SensorBehavior.ActiveWhileBetween),
@@ -128,7 +128,7 @@ public enum ReactorSensorType
     ReactorSensorType(final SensorTypeData<IReactorReader> _data) {
 
         this._data = _data;
-        this._translationBaseName = "gui.bigreactors.reactor.redstoneport.sensortype." + CodeHelper.neutralLowercase(this.name())  + ".line";
+        this._translationBaseName = "gui.bigreactors.reactor.redstoneport.sensortype." + CodeHelper.neutralLowercase(this.name());
     }
 
     private final SensorTypeData<IReactorReader> _data;
