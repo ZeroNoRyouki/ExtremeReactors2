@@ -29,6 +29,7 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.sensor.Reac
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.sensor.ReactorSensorType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.IMultiblockReactorVariant;
 import it.zerono.mods.zerocore.lib.block.AbstractModBlockEntity;
+import it.zerono.mods.zerocore.lib.item.inventory.container.data.BooleanData;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.network.PacketBuffer;
 
@@ -40,9 +41,20 @@ public class ReactorRedstonePortContainer
                                         ReactorRedstonePortEntity port) {
 
         super(windowId, playerInventory, port, Content.ContainerTypes.REACTOR_REDSTONEPORT.get(), ReactorSensorSettingData::of);
+        this._isPassive = port.evalOnController(reactor -> reactor.getOperationalMode().isPassive(), false);
     }
 
     public ReactorRedstonePortContainer(int windowId, PlayerInventory playerInventory, PacketBuffer networkData) {
         this(windowId, playerInventory, AbstractModBlockEntity.getGuiClientBlockEntity(networkData));
     }
+
+    public boolean isReactorInPassiveMode() {
+        return this._isPassive;
+    }
+
+    //region internals
+
+    private final boolean _isPassive;
+
+    //endregion
 }
