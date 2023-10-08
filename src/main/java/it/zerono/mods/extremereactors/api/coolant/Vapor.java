@@ -24,7 +24,7 @@ import it.zerono.mods.zerocore.lib.data.gfx.Colour;
 public class Vapor
         extends AbstractNamedValue {
 
-    public static final Vapor EMPTY = new Vapor("empty", Colour.WHITE, 0.0f, "gui.bigreactors.generic.empty");
+    public static final Vapor EMPTY = new Vapor("empty", Colour.WHITE, 0.0f, "gui.zerocore.base.generic.empty");
 
     /**
      * Construct a new Vapor

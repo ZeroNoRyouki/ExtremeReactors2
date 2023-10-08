@@ -99,7 +99,7 @@ public class FluidizerFluidInjectorEntity
             holder.syncDataFrom(data.getCompound("inv"), SyncReason.FullSync);
 
             if (holder.isEmpty(0)) {
-                text = new TranslationTextComponent("gui.bigreactors.generic.empty");
+                text = new TranslationTextComponent("gui.zerocore.base.generic.empty");
             } else {
                 text = new TranslationTextComponent("gui.bigreactors.reactor.fluidaccessport.item.reactant",
                         FluidHelper.getFluidName(holder.getFluidInTank(0)), holder.getAmount(0));

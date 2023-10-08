@@ -136,7 +136,7 @@ public class ReactorFluidAccessPortEntity
         final IFormattableTextComponent text;
 
         if (tank.isEmpty()) {
-            text = new TranslationTextComponent("gui.bigreactors.generic.empty");
+            text = new TranslationTextComponent("gui.zerocore.base.generic.empty");
         } else {
             text = new TranslationTextComponent("gui.bigreactors.reactor.fluidaccessport.item.reactant",
                     FluidHelper.getFluidName(tank.getFluid()), tank.getFluidAmount(), TANK_CAPACITY);

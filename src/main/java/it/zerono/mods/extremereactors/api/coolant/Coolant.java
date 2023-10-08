@@ -28,7 +28,7 @@ import it.zerono.mods.zerocore.lib.data.gfx.Colour;
 public class Coolant
     extends AbstractNamedValue {
 
-    public static final Coolant EMPTY = new Coolant("empty", Colour.WHITE, Float.MAX_VALUE, 0.0f, "gui.bigreactors.generic.empty");
+    public static final Coolant EMPTY = new Coolant("empty", Colour.WHITE, Float.MAX_VALUE, 0.0f, "gui.zerocore.base.generic.empty");
 
     /**
      * Construct a new Coolant

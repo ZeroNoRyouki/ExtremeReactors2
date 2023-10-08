@@ -44,7 +44,7 @@ public abstract class CommonMultiblockScreen<Controller extends AbstractCuboidMu
         C extends ModTileContainer<T>>
         extends AbstractMultiblockScreen<Controller, T, C> {
 
-    public static final IFormattableTextComponent EMPTY_VALUE = TextHelper.translatable("gui.bigreactors.generic.empty");
+    public static final IFormattableTextComponent EMPTY_VALUE = TextHelper.translatable("gui.zerocore.base.generic.empty");
 
     protected CommonMultiblockScreen(C container, PlayerInventory inventory, PlayerInventoryUsage inventoryUsage,
                                      ITextComponent title, NonNullSupplier<SpriteTextureMap> mainTextureSupplier) {
