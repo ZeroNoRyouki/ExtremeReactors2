@@ -127,7 +127,7 @@ public abstract class TurbineRotorComponentBlock
                 this._bladeTooltipInfo = this.getMultiblockVariant()
                         .filter(v -> v instanceof IMultiblockTurbineVariant)
                         .map(v -> (IMultiblockTurbineVariant) v)
-                        .map(variant -> (ITextComponent)new TranslationTextComponent("gui.bigreactors.turbine.controller.rotorstatus.line3",
+                        .map(variant -> (ITextComponent)new TranslationTextComponent("gui.bigreactors.turbine.controller.rotorstatus.tooltip.value2",
                                 String.format(TextFormatting.DARK_AQUA + "" + TextFormatting.BOLD + "%d", variant.getBaseFluidPerBlade()))
                                 .setStyle(Style.EMPTY
                                         .withColor(TextFormatting.GRAY)
