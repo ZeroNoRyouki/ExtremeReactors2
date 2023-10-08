@@ -68,7 +68,7 @@ public class TurbineControllerScreen
                 CommonIcons.CoolantIcon, "gui.bigreactors.turbine.controller.coolantbar.title",
                 "gui.bigreactors.turbine.controller.coolantbar.footer");
         this._vaporBar = new FluidBar(this, "vaporBar", container.getFluidCapacity(), container.VAPOR_STACK,
-                CommonIcons.VaporIcon, "gui.bigreactors.turbine.controller.coolantbar.title",
+                CommonIcons.VaporIcon, "gui.bigreactors.turbine.controller.vaporbar.title",
                 "gui.bigreactors.turbine.controller.vaporbar.footer");
 
         this._rpmBar = new RpmBar(this, "rpmBar", container.getMaxRotorSpeed(), container.RPM);
