@@ -23,6 +23,7 @@ public class FluidTagsDataProvider
                       NonNullFunction<TagKey<Fluid>, ModIntrinsicTagAppender<Fluid>> builder) {
 
         builder.apply(ContentTags.Fluids.STEAM).add(Content.Fluids.STEAM_SOURCE, Content.Fluids.STEAM_FLOWING);
+        builder.apply(ContentTags.Fluids.YELLORIUM).add(Content.Fluids.YELLORIUM_SOURCE, Content.Fluids.YELLORIUM_FLOWING);
         builder.apply(ContentTags.Fluids.CYANITE).add(Content.Fluids.CYANITE_SOURCE, Content.Fluids.CYANITE_FLOWING);
         builder.apply(ContentTags.Fluids.BLUTONIUM).add(Content.Fluids.BLUTONIUM_SOURCE, Content.Fluids.BLUTONIUM_FLOWING);
         builder.apply(ContentTags.Fluids.MAGENTITE).add(Content.Fluids.MAGENTITE_SOURCE, Content.Fluids.MAGENTITE_FLOWING);
