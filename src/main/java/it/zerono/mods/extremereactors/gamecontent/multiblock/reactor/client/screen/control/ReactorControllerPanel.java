@@ -196,13 +196,13 @@ public class ReactorControllerPanel
         switchButton = new SwitchButton(gui, "on", "ON", false, "onoff");
         switchButton.Activated.subscribe(btn -> onActiveStateChanged.accept(btn.getActive()));
         switchButton.Deactivated.subscribe(btn -> onActiveStateChanged.accept(btn.getActive()));
-        switchButton.setTooltips(TextHelper.translatable("gui.bigreactors.reactor.controller.on.line1"));
+        switchButton.setTooltips(TextHelper.translatable("gui.bigreactors.reactor.controller.on.title"));
         switchButton.setLayoutEngineHint(FixedLayoutEngine.hint(x, y, 25, 16));
         container.active().bind(switchButton::setActive);
         commandPanel.addControl(switchButton);
 
         switchButton = new SwitchButton(gui, "off", "OFF", true, "onoff");
-        switchButton.setTooltips(TextHelper.translatable("gui.bigreactors.reactor.controller.off.line1"));
+        switchButton.setTooltips(TextHelper.translatable("gui.bigreactors.reactor.controller.off.title"));
         switchButton.setLayoutEngineHint(FixedLayoutEngine.hint(x + 25, y, 25, 16));
         commandPanel.addControl(switchButton);
 

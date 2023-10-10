@@ -63,8 +63,8 @@ public class FluidizerControllerScreen
         this._recipePanel = new RecipePanel();
 
         this._onOff = new OnOff(this, this.getMenu().ACTIVE, this::onActiveStateChanged,
-                new TranslationTextComponent("gui.bigreactors.fluidizer.controller.on.line1"),
-                new TranslationTextComponent("gui.bigreactors.fluidizer.controller.off.line1"));
+                new TranslationTextComponent("gui.bigreactors.fluidizer.controller.on.title"),
+                new TranslationTextComponent("gui.bigreactors.fluidizer.controller.off.title"));
     }
 
     //region CommonMultiblockScreen

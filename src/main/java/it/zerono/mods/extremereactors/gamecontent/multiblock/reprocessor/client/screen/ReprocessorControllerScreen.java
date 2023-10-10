@@ -75,8 +75,8 @@ public class ReprocessorControllerScreen
         this._progressBar.setOrientation(Orientation.TopToBottom);
 
         this._onOff = new OnOff(this, this.getMenu().ACTIVE, this::onActiveStateChanged,
-                new TranslationTextComponent("gui.bigreactors.fluidizer.controller.on.line1"),
-                new TranslationTextComponent("gui.bigreactors.fluidizer.controller.off.line1"));
+                new TranslationTextComponent("gui.bigreactors.fluidizer.controller.on.title"),
+                new TranslationTextComponent("gui.bigreactors.fluidizer.controller.off.title"));
 
         this._voidFluid = new Button(this, "voidfluid", "");
         this._voidFluid.Clicked.subscribe(this::onVoidFluid);

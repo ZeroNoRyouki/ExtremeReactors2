@@ -129,10 +129,10 @@ public class TurbineControllerScreen
         this._on.Activated.subscribe(this::onActiveStateChanged);
         this._on.Deactivated.subscribe(this::onActiveStateChanged);
         container.ACTIVE.bind(this._on::setActive);
-        this._on.setTooltips(TextHelper.translatable("gui.bigreactors.turbine.controller.on.line1"));
+        this._on.setTooltips(TextHelper.translatable("gui.bigreactors.turbine.controller.on.title"));
 
         this._off = new SwitchButton(this, "off", "OFF", true, "onoff");
-        this._off.setTooltips(TextHelper.translatable("gui.bigreactors.turbine.controller.off.line1"));
+        this._off.setTooltips(TextHelper.translatable("gui.bigreactors.turbine.controller.off.title"));
 
         this._inductorEngaged = new SwitchPictureButton(this, "inductorEngaged", false);
         this._inductorEngaged.bindActive(container.INDUCTOR_ENGAGED);
