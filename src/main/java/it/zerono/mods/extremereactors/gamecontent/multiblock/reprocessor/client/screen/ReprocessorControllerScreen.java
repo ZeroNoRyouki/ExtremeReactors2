@@ -64,7 +64,7 @@ public class ReprocessorControllerScreen
                 container.ENERGY_STORED, null);
 
         this._fluidBar = new FluidBar(this, "fluidBar", container.getOutputCapacity(), container.FLUID_INPUT_STACK,
-                BaseIcons.Bucket, "gui.bigreactors.reprocessor.controller.coolantbar.line1", null);
+                BaseIcons.Bucket, "gui.bigreactors.reprocessor.controller.coolantbar.title", null);
 
         this._progressBar = new GaugeBar(this, "progress", 1.0, container.RECIPE_PROGRESS, Sprite.EMPTY);
         this._progressBar.setDesiredDimension(16, 32);
@@ -75,8 +75,8 @@ public class ReprocessorControllerScreen
         this._progressBar.setOrientation(Orientation.TopToBottom);
 
         this._onOff = new OnOff(this, this.getMenu().ACTIVE, this::onActiveStateChanged,
-                new TranslationTextComponent("gui.bigreactors.fluidizer.controller.on.title"),
-                new TranslationTextComponent("gui.bigreactors.fluidizer.controller.off.title"));
+                new TranslationTextComponent("gui.bigreactors.reprocessor.controller.on.title"),
+                new TranslationTextComponent("gui.bigreactors.reprocessor.controller.off.title"));
 
         this._voidFluid = new Button(this, "voidfluid", "");
         this._voidFluid.Clicked.subscribe(this::onVoidFluid);
