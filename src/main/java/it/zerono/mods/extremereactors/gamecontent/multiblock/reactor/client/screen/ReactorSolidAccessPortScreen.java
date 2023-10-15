@@ -96,7 +96,7 @@ public class ReactorSolidAccessPortScreen
         dumpFuel.setTooltips(new BaseScreenToolTipsBuilder()
                 .addTranslatableAsTitle("gui.bigreactors.reactor.solidaccessport.dumpfuel.tooltip.title")
                 .addEmptyLine()
-                .addTranslatableAsTitle("gui.bigreactors.reactor.solidaccessport.dumpfuel.tooltip.body")
+                .addTranslatable("gui.bigreactors.reactor.solidaccessport.dumpfuel.tooltip.body")
         );
 
         dumpWaste = new Button(this, "dumpWaste", "");
