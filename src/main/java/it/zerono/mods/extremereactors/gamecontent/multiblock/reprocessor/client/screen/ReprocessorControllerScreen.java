@@ -83,9 +83,9 @@ public class ReprocessorControllerScreen
         this._voidFluid.setIconForState(CommonIcons.TrashCan.get(), ButtonState.Default);
         this._voidFluid.enablePaintBlending(true);
         this._voidFluid.setTooltips(ImmutableList.of(
-                new TranslationTextComponent("gui.bigreactors.reprocessor.controller.voidfluid.line1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
+                new TranslationTextComponent("gui.bigreactors.reprocessor.controller.voidfluid.title").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
                 CodeHelper.TEXT_EMPTY_LINE,
-                new TranslationTextComponent("gui.bigreactors.reprocessor.controller.voidfluid.line2"))
+                new TranslationTextComponent("gui.bigreactors.reprocessor.controller.voidfluid.body"))
         );
 
         this.setTheme(GuiTheme.ER.get());

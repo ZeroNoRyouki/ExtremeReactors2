@@ -62,9 +62,9 @@ public abstract class AbstractChargingPortScreen<Controller extends AbstractGene
         this._btnEject.setIconForState(CommonIcons.ButtonManualEjectActive.get(), ButtonState.Active, ButtonState.ActiveHighlighted, ButtonState.DefaultHighlighted);
         this._btnEject.Clicked.subscribe(this::onManualEject);
         this._btnEject.setTooltips(new BaseScreenToolTipsBuilder()
-                .addTranslatableAsTitle("gui.bigreactors.generator.chargingport.dumpfuel.tooltip.title")
+                .addTranslatableAsTitle("gui.bigreactors.generator.chargingport.eject.tooltip.title")
                 .addEmptyLine()
-                .addTranslatable("gui.bigreactors.generator.chargingport.dumpfuel.tooltip.body")
+                .addTranslatable("gui.bigreactors.generator.chargingport.eject.tooltip.body")
         );
 
         this._playerInventoryGroup = this.createPlayerInventorySlotsGroupControl();

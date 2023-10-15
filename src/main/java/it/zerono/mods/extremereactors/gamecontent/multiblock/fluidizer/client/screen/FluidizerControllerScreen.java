@@ -141,7 +141,7 @@ public class FluidizerControllerScreen
             container.RECIPE_PROGRESS.bind(this::setProgress);
 
             this._outputFluidBar = new FluidBar(FluidizerControllerScreen.this, "outbar", container.getOutputCapacity(),
-                    container.FLUID_OUTPUT_STACK, BaseIcons.Bucket, "gui.bigreactors.fluidizer.controller.fluidbar.line1", null);
+                    container.FLUID_OUTPUT_STACK, BaseIcons.Bucket, "gui.bigreactors.fluidizer.controller.fluidbar.title", null);
             this._leftProgressBar = this.progressBar(true, FluidizerIcons.ProgressLeft, FluidizerIcons.ProgressLeftFilled);
             this._rightProgressBar = this.progressBar(false, FluidizerIcons.ProgressRight, FluidizerIcons.ProgressRightFilled);
 
