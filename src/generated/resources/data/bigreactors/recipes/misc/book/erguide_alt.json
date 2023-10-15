@@ -1,0 +1,34 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:mod_loaded",
+          "modid": "patchouli"
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shaped",
+        "category": "misc",
+        "key": {
+          "B": {
+            "item": "minecraft:book"
+          },
+          "I": {
+            "tag": "forge:ingots/uranium"
+          }
+        },
+        "pattern": [
+          "I",
+          "B"
+        ],
+        "result": {
+          "item": "patchouli:guide_book",
+          "nbt": "{\"patchouli:book\":\"bigreactors:erguide\"}"
+        },
+        "show_notification": true
+      }
+    }
+  ]
+}

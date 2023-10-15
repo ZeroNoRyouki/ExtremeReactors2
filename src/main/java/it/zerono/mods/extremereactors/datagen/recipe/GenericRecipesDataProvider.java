@@ -1,20 +1,28 @@
 package it.zerono.mods.extremereactors.datagen.recipe;
 
-import it.zerono.mods.extremereactors.Log;
+import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.gamecontent.Content;
+import it.zerono.mods.extremereactors.gamecontent.ContentTags;
+import it.zerono.mods.extremereactors.gamecontent.compat.patchouli.PatchouliCompat;
+import it.zerono.mods.zerocore.lib.compat.Mods;
 import it.zerono.mods.zerocore.lib.data.ResourceLocationBuilder;
+import it.zerono.mods.zerocore.lib.datagen.provider.recipe.NbtResultFinishedRecipeAdapter;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeCategory;
+import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.common.Tags;
+import net.minecraftforge.common.crafting.ConditionalRecipe;
+import vazkii.patchouli.api.PatchouliAPI;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
@@ -76,9 +84,8 @@ public class GenericRecipesDataProvider
                 .unlockedBy("has_item", has(Content.Items.WRENCH.get()))
                 .save(builder, this.miscRoot().buildWithSuffix("wrench"));
 
-//        this.book(builder, "erguide", PatchouliCompat.HANDBOOK_ID, Items.BOOK, ContentTags.Items.INGOTS_YELLORIUM);
-//        this.book(builder, "erguide_alt", PatchouliCompat.HANDBOOK_ID, Items.BOOK, TAG_INGOTS_URANIUM);
-        Log.LOGGER.info(Log.DATAGEN, "Skipping Patchouli book recipe generation");
+        this.book(builder, "erguide", PatchouliCompat.HANDBOOK_ID, Items.BOOK, ContentTags.Items.INGOTS_YELLORIUM);
+        this.book(builder, "erguide_alt", PatchouliCompat.HANDBOOK_ID, Items.BOOK, TAG_INGOTS_URANIUM);
     }
 
     //region internals
@@ -131,12 +138,11 @@ public class GenericRecipesDataProvider
     private void book(Consumer<FinishedRecipe> builder, String name, ResourceLocation patchouliBookId,
                       ItemLike book, TagKey<Item> item) {
 
-/*
-        Mods.PATCHOULI.map(() -> PatchouliAPI.get().getBookStack(patchouliBookId)).ifPresent(book -> {
+        Mods.PATCHOULI.map(() -> PatchouliAPI.get().getBookStack(patchouliBookId)).ifPresent(stack -> {
 
             ConditionalRecipe.builder()
                     .addCondition(modLoaded(Mods.PATCHOULI.id()))
-                    .addRecipe(fr -> ShapedRecipeBuilder.shaped(book.getItem())
+                    .addRecipe(fr -> ShapedRecipeBuilder.shaped(RecipeCategory.MISC, stack.getItem())
                             .define('I', item)
                             .define('B', book)
                             .pattern("I")
@@ -144,9 +150,8 @@ public class GenericRecipesDataProvider
                             .unlockedBy("has_item", has(item))
                             .save(NbtResultFinishedRecipeAdapter.from(fr, RecipeSerializer.SHAPED_RECIPE,
                                     nbt -> nbt.putString("patchouli:book", patchouliBookId.toString()))))
-                    .build(builder, ExtremeReactors.newID("misc/book/" + name));
+                    .build(builder, ExtremeReactors.ROOT_LOCATION.appendPath("misc", "book").buildWithSuffix(name));
         });
- */
     }
 
     //endregion
