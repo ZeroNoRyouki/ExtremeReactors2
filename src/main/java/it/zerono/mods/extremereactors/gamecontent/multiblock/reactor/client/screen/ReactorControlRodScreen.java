@@ -70,7 +70,7 @@ public class ReactorControlRodScreen
         nameSet.setTooltips(TextHelper.translatable("gui.bigreactors.reactor.controlrod.name.set.tooltip.line1"));
         nameSet.Clicked.subscribe((button, mousebutton) -> this.sendSetName(name.getText()));
 
-        this._nameSection = this.labeledControlSection("name", this.panelWidth(), "gui.bigreactors.reactor.controlrod.name.label",
+        this._nameSection = this.labeledControlSection("name", this.getContentWidth(), "gui.bigreactors.reactor.controlrod.name.label",
                 CommonIcons.LabelEdit, name, nameSet);
 
         final NumberInput.IntNumberInput insertion = new NumberInput.IntNumberInput(this, "insertion", 0, 100, 0);
@@ -97,7 +97,7 @@ public class ReactorControlRodScreen
         rodSetAll.setTooltips(TextHelper.translatable("gui.bigreactors.reactor.controlrod.insertion.setall.tooltip.body"));
         rodSetAll.Clicked.subscribe((button, mousebutton) -> this.sendSetInsertion(insertion.getAsInt(), true));
 
-        this._insertionSection = this.labeledControlSection("insertion", this.panelWidth(), "gui.bigreactors.reactor.controlrod.insertion.label",
+        this._insertionSection = this.labeledControlSection("insertion", this.getContentWidth(), "gui.bigreactors.reactor.controlrod.insertion.label",
                 CommonIcons.ButtonSensorInputSetControlRod, insertion, rodSet, rodSetAll);
     }
 
@@ -115,11 +115,11 @@ public class ReactorControlRodScreen
         this.setContentLayoutEngine(new VerticalLayoutEngine()
                 .setHorizontalAlignment(HorizontalAlignment.Left)
                 .setControlsSpacing(7)
-                .setHorizontalMargin(13)
+                .setHorizontalMargin(3)
                 .setVerticalMargin(7));
 
         this.addControl(this._nameSection);
-        this.addControl(CommonPanels.horizontalSeparator(this, this.panelWidth()));
+        this.addControl(CommonPanels.horizontalSeparator(this, this.getContentWidth()));
         this.addControl(this._insertionSection);
     }
 
@@ -143,10 +143,6 @@ public class ReactorControlRodScreen
         data.putString("name", name);
 
         this.sendCommandToServer(ReactorControlRodEntity.COMMAND_SET_NAME, data);
-    }
-
-    private int panelWidth() {
-        return this.getGuiWidth() - (13 * 2);
     }
 
     private IControl labeledControlSection(String name, int width, String labelKey, NonNullSupplier<ISprite> icon,

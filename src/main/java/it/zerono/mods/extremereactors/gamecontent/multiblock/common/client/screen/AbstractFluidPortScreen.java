@@ -30,14 +30,18 @@ import it.zerono.mods.zerocore.base.multiblock.part.io.fluid.IFluidPort;
 import it.zerono.mods.zerocore.lib.IActivableMachine;
 import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockVariantProvider;
 import it.zerono.mods.zerocore.lib.client.gui.ButtonState;
+import it.zerono.mods.zerocore.lib.client.gui.IControl;
+import it.zerono.mods.zerocore.lib.client.gui.control.Panel;
 import it.zerono.mods.zerocore.lib.client.gui.control.SwitchPictureButton;
-import it.zerono.mods.zerocore.lib.client.gui.layout.FixedLayoutEngine;
+import it.zerono.mods.zerocore.lib.client.gui.layout.AnchoredLayoutEngine;
 import it.zerono.mods.zerocore.lib.item.inventory.PlayerInventoryUsage;
 import it.zerono.mods.zerocore.lib.multiblock.IMultiblockMachine;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
+
+import static it.zerono.mods.zerocore.base.client.screen.ClientBaseHelper.SQUARE_BUTTON_DIMENSION;
 
 public abstract class AbstractFluidPortScreen<Controller extends AbstractGeneratorMultiblockController<Controller, V> & IMultiblockMachine & IActivableMachine,
         V extends IMultiblockGeneratorVariant,
@@ -52,27 +56,29 @@ public abstract class AbstractFluidPortScreen<Controller extends AbstractGenerat
 
         this.addPatchouliHelpButton(PatchouliCompat.HANDBOOK_ID, bookEntryId, 1);
 
-        this._btnInputDirection = new SwitchPictureButton(this, "directionInput", false, "direction");
-        ClientBaseHelper.setButtonSpritesAndOverlayForState(this._btnInputDirection, ButtonState.Default, CommonIcons.ButtonInputDirection);
-        ClientBaseHelper.setButtonSpritesAndOverlayForState(this._btnInputDirection, ButtonState.Active, CommonIcons.ButtonInputDirectionActive);
-        this._btnInputDirection.setLayoutEngineHint(FixedLayoutEngine.hint(83, 26, 18, 18));
-        this._btnInputDirection.setBackground(CommonIcons.ImageButtonBackground.get());
-        this._btnInputDirection.setPadding(1);
-        this._btnInputDirection.Activated.subscribe(this::onInputActivated);
-        this._btnInputDirection.setTooltips(new BaseScreenToolTipsBuilder()
+        final SwitchPictureButton inputDirection = new SwitchPictureButton(this, "directionInput", false, "direction");
+
+        inputDirection.setDesiredDimension(SQUARE_BUTTON_DIMENSION, SQUARE_BUTTON_DIMENSION);
+        ClientBaseHelper.setButtonSpritesAndOverlayForState(inputDirection, ButtonState.Default, CommonIcons.ButtonInputDirection);
+        ClientBaseHelper.setButtonSpritesAndOverlayForState(inputDirection, ButtonState.Active, CommonIcons.ButtonInputDirectionActive);
+        inputDirection.setBackground(CommonIcons.ImageButtonBackground.get());
+        inputDirection.setPadding(1);
+        inputDirection.Activated.subscribe(this::onInputActivated);
+        inputDirection.setTooltips(new BaseScreenToolTipsBuilder()
                 .addTranslatableAsTitle("gui.bigreactors.generator.fluidport.directioninput.tooltip.title")
                 .addEmptyLine()
                 .addTranslatable("gui.bigreactors.generator.fluidport.directioninput.tooltip.body")
         );
 
-        this._btnOutputDirection = new SwitchPictureButton(this, "directionOutput", false, "direction");
-        ClientBaseHelper.setButtonSpritesAndOverlayForState(this._btnOutputDirection, ButtonState.Default, CommonIcons.ButtonOutputDirection);
-        ClientBaseHelper.setButtonSpritesAndOverlayForState(this._btnOutputDirection, ButtonState.Active, CommonIcons.ButtonOutputDirectionActive);
-        this._btnOutputDirection.setLayoutEngineHint(FixedLayoutEngine.hint(123, 26, 18, 18));
-        this._btnOutputDirection.setBackground(CommonIcons.ImageButtonBackground.get());
-        this._btnOutputDirection.setPadding(1);
-        this._btnOutputDirection.Activated.subscribe(this::onOutputActivated);
-        this._btnOutputDirection.setTooltips(new BaseScreenToolTipsBuilder()
+        final SwitchPictureButton outputDirection = new SwitchPictureButton(this, "directionOutput", false, "direction");
+
+        outputDirection.setDesiredDimension(SQUARE_BUTTON_DIMENSION, SQUARE_BUTTON_DIMENSION);
+        ClientBaseHelper.setButtonSpritesAndOverlayForState(outputDirection, ButtonState.Default, CommonIcons.ButtonOutputDirection);
+        ClientBaseHelper.setButtonSpritesAndOverlayForState(outputDirection, ButtonState.Active, CommonIcons.ButtonOutputDirectionActive);
+        outputDirection.setBackground(CommonIcons.ImageButtonBackground.get());
+        outputDirection.setPadding(1);
+        outputDirection.Activated.subscribe(this::onOutputActivated);
+        outputDirection.setTooltips(new BaseScreenToolTipsBuilder()
                 .addTranslatableAsTitle("gui.bigreactors.generator.fluidport.directionoutput.tooltip.title")
                 .addEmptyLine()
                 .addTranslatable("gui.bigreactors.generator.fluidport.directionoutput.tooltip.body")
@@ -80,9 +86,13 @@ public abstract class AbstractFluidPortScreen<Controller extends AbstractGenerat
 
         container.DIRECTION.bind(direction -> {
 
-            this._btnInputDirection.setActive(direction.isInput());
-            this._btnOutputDirection.setActive(direction.isOutput());
+            inputDirection.setActive(direction.isInput());
+            outputDirection.setActive(direction.isOutput());
         });
+
+        this._buttons = this.buttonsPanel(inputDirection, outputDirection);
+
+        this.setContentLayoutEngine(new AnchoredLayoutEngine().setZeroMargins());
     }
 
     //region AbstractMultiblockScreen
@@ -91,8 +101,7 @@ public abstract class AbstractFluidPortScreen<Controller extends AbstractGenerat
     protected void onScreenCreate() {
 
         super.onScreenCreate();
-        this.addControl(this._btnInputDirection);
-        this.addControl(this._btnOutputDirection);
+        this.addControl(this._buttons);
     }
 
     //endregion
@@ -106,8 +115,22 @@ public abstract class AbstractFluidPortScreen<Controller extends AbstractGenerat
         this.sendCommandToServer(CommonConstants.COMMAND_SET_OUTPUT);
     }
 
-    private final SwitchPictureButton _btnInputDirection;
-    private final SwitchPictureButton _btnOutputDirection;
+    private Panel buttonsPanel(final IControl input, final IControl output) {
+
+        final Panel p = new Panel(this);
+
+        p.setDesiredDimension(SQUARE_BUTTON_DIMENSION * 5, SQUARE_BUTTON_DIMENSION);
+        p.setLayoutEngineHint(AnchoredLayoutEngine.Anchor.Center);
+        p.setLayoutEngine(new AnchoredLayoutEngine().setZeroMargins());
+        p.addControl(input, output);
+
+        input.setLayoutEngineHint(AnchoredLayoutEngine.Anchor.Left);
+        output.setLayoutEngineHint(AnchoredLayoutEngine.Anchor.Right);
+
+        return p;
+    }
+
+    private final IControl _buttons;
 
     //endregion
 }

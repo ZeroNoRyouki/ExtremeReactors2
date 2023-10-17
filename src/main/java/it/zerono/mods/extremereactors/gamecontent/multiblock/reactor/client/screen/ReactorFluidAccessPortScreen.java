@@ -38,7 +38,7 @@ import it.zerono.mods.zerocore.lib.client.gui.control.Button;
 import it.zerono.mods.zerocore.lib.client.gui.control.Panel;
 import it.zerono.mods.zerocore.lib.client.gui.control.SwitchPictureButton;
 import it.zerono.mods.zerocore.lib.client.gui.layout.AnchoredLayoutEngine;
-import it.zerono.mods.zerocore.lib.client.gui.layout.FixedLayoutEngine;
+import it.zerono.mods.zerocore.lib.client.gui.layout.FlowLayoutEngine;
 import it.zerono.mods.zerocore.lib.client.gui.sprite.ISprite;
 import it.zerono.mods.zerocore.lib.client.render.ModRenderHelper;
 import it.zerono.mods.zerocore.lib.data.geometry.Point;
@@ -47,6 +47,8 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.text.ITextComponent;
+
+import static it.zerono.mods.zerocore.base.client.screen.ClientBaseHelper.SQUARE_BUTTON_DIMENSION;
 
 public class ReactorFluidAccessPortScreen
         extends CommonMultiblockScreen<MultiblockReactor, ReactorFluidAccessPortEntity, ReactorFluidAccessPortContainer> {
@@ -59,21 +61,25 @@ public class ReactorFluidAccessPortScreen
 
         this.addPatchouliHelpButton(PatchouliCompat.HANDBOOK_ID, ExtremeReactors.newID("reactor/part-fluidaccessport"), 1);
 
-        this._btnInputDirection = new SwitchPictureButton(this, "directionInput", false, "direction");
-        ClientBaseHelper.setButtonSpritesAndOverlayForState(this._btnInputDirection, ButtonState.Default, CommonIcons.ButtonInputDirection);
-        ClientBaseHelper.setButtonSpritesAndOverlayForState(this._btnInputDirection, ButtonState.Active, CommonIcons.ButtonInputDirectionActive);
-        this._btnInputDirection.Activated.subscribe(this::onInputActivated);
-        this._btnInputDirection.setTooltips(new BaseScreenToolTipsBuilder()
+        final SwitchPictureButton inputDirection = new SwitchPictureButton(this, "directionInput", false, "direction");
+
+        ClientBaseHelper.setButtonSpritesAndOverlayForState(inputDirection, ButtonState.Default, CommonIcons.ButtonInputDirection);
+        ClientBaseHelper.setButtonSpritesAndOverlayForState(inputDirection, ButtonState.Active, CommonIcons.ButtonInputDirectionActive);
+        inputDirection.setDesiredDimension(16, 16);
+        inputDirection.Activated.subscribe(this::onInputActivated);
+        inputDirection.setTooltips(new BaseScreenToolTipsBuilder()
                 .addTranslatableAsTitle("gui.bigreactors.reactor.fluidaccessport.directioninput.tooltip.title")
                 .addEmptyLine()
                 .addTranslatable("gui.bigreactors.reactor.fluidaccessport.directioninput.tooltip.body")
         );
 
-        this._btnOutputDirection = new SwitchPictureButton(this, "directionOutput", false, "direction");
-        ClientBaseHelper.setButtonSpritesAndOverlayForState(this._btnOutputDirection, ButtonState.Default, CommonIcons.ButtonOutputDirection);
-        ClientBaseHelper.setButtonSpritesAndOverlayForState(this._btnOutputDirection, ButtonState.Active, CommonIcons.ButtonOutputDirectionActive);
-        this._btnOutputDirection.Activated.subscribe(this::onOutputActivated);
-        this._btnOutputDirection.setTooltips(new BaseScreenToolTipsBuilder()
+        final SwitchPictureButton outputDirection = new SwitchPictureButton(this, "directionOutput", false, "direction");
+
+        ClientBaseHelper.setButtonSpritesAndOverlayForState(outputDirection, ButtonState.Default, CommonIcons.ButtonOutputDirection);
+        ClientBaseHelper.setButtonSpritesAndOverlayForState(outputDirection, ButtonState.Active, CommonIcons.ButtonOutputDirectionActive);
+        outputDirection.setDesiredDimension(16, 16);
+        outputDirection.Activated.subscribe(this::onOutputActivated);
+        outputDirection.setTooltips(new BaseScreenToolTipsBuilder()
                 .addTranslatableAsTitle("gui.bigreactors.reactor.fluidaccessport.directionoutput.tooltip.title")
                 .addEmptyLine()
                 .addTranslatable("gui.bigreactors.reactor.fluidaccessport.directionoutput.tooltip.body")
@@ -81,39 +87,55 @@ public class ReactorFluidAccessPortScreen
 
         container.DIRECTION.bind(direction -> {
 
-            this._btnInputDirection.setActive(direction.isInput());
-            this._btnOutputDirection.setActive(direction.isOutput());
+            inputDirection.setActive(direction.isInput());
+            outputDirection.setActive(direction.isOutput());
         });
 
-        this._btnDumpFuel = new Button(this, "dumpFuel", "");
-        this._btnDumpFuel.setPadding(0);
-        this._btnDumpFuel.setIconForState(CommonIcons.ButtonDumpFuel.get(), ButtonState.Default);
-        this._btnDumpFuel.setIconForState(CommonIcons.ButtonDumpFuelActive.get(), ButtonState.Active, ButtonState.ActiveHighlighted, ButtonState.DefaultHighlighted);
-        this._btnDumpFuel.Clicked.subscribe(this::onDumpFuel);
-        this._btnDumpFuel.setTooltips(new BaseScreenToolTipsBuilder()
+        final Button dumpFuel = new Button(this, "dumpFuel", "");
+
+        dumpFuel.setPadding(0);
+        dumpFuel.setIconForState(CommonIcons.ButtonDumpFuel.get(), ButtonState.Default);
+        dumpFuel.setIconForState(CommonIcons.ButtonDumpFuelActive.get(), ButtonState.Active, ButtonState.ActiveHighlighted, ButtonState.DefaultHighlighted);
+        dumpFuel.setDesiredDimension(16, 16);
+        dumpFuel.Clicked.subscribe(this::onDumpFuel);
+        dumpFuel.setTooltips(new BaseScreenToolTipsBuilder()
                 .addTranslatableAsTitle("gui.bigreactors.reactor.fluidaccessport.dumpfuel.tooltip.title")
                 .addEmptyLine()
                 .addTranslatable("gui.bigreactors.reactor.fluidaccessport.dumpfuel.tooltip.body")
         );
 
-        this._btnDumpWaste = new Button(this, "dumpWaste", "");
-        this._btnDumpWaste.setPadding(0);
-        this._btnDumpWaste.setIconForState(CommonIcons.ButtonDumpWaste.get(), ButtonState.Default);
-        this._btnDumpWaste.setIconForState(CommonIcons.ButtonDumpWasteActive.get(), ButtonState.Active, ButtonState.ActiveHighlighted, ButtonState.DefaultHighlighted);
-        this._btnDumpWaste.Clicked.subscribe(this::onDumpWaste);
-        this._btnDumpWaste.setTooltips(new BaseScreenToolTipsBuilder()
+        final Button dumpWaste = new Button(this, "dumpWaste", "");
+
+        dumpWaste.setPadding(0);
+        dumpWaste.setIconForState(CommonIcons.ButtonDumpWaste.get(), ButtonState.Default);
+        dumpWaste.setIconForState(CommonIcons.ButtonDumpWasteActive.get(), ButtonState.Active, ButtonState.ActiveHighlighted, ButtonState.DefaultHighlighted);
+        dumpWaste.setDesiredDimension(16, 16);
+        dumpWaste.Clicked.subscribe(this::onDumpWaste);
+        dumpWaste.setTooltips(new BaseScreenToolTipsBuilder()
                 .addTranslatableAsTitle("gui.bigreactors.reactor.fluidaccessport.dumpwaste.tooltip.title")
                 .addEmptyLine()
                 .addTranslatable("gui.bigreactors.reactor.fluidaccessport.dumpwaste.tooltip.body")
         );
 
-        this._fuelTank = new FluidBar(this, "fuelTank", ReactorFluidAccessPortEntity.TANK_CAPACITY,
+        this._buttonsPanel = this.buttonsPanel(inputDirection, outputDirection, dumpFuel, dumpWaste);
+
+        final FluidBar fuelTank = new FluidBar(this, "fuelTank", ReactorFluidAccessPortEntity.TANK_CAPACITY,
                 container.FUEL_STACK, CommonIcons.FuelReactantIcon, "gui.bigreactors.reactor.fluidaccessport.fueltank.tooltip.title",
                 "gui.bigreactors.reactor.fluidaccessport.fueltank.tooltip.body");
 
-        this._wasteTank = new FluidBar(this, "wasteTank", ReactorFluidAccessPortEntity.TANK_CAPACITY,
+        final FluidBar wasteTank = new FluidBar(this, "wasteTank", ReactorFluidAccessPortEntity.TANK_CAPACITY,
                 container.WASTE_STACK, CommonIcons.WasteReactantIcon, "gui.bigreactors.reactor.fluidaccessport.wastetank.tooltip.title",
                 "gui.bigreactors.reactor.fluidaccessport.wastetank.tooltip.body");
+
+        this._barsPanel = new BarsPanel(this, "bars")
+                .add(fuelTank)
+                .addVerticalSeparator()
+                .add(wasteTank);
+        this._barsPanel.setLayoutEngineHint(AnchoredLayoutEngine.Anchor.TopRight);
+
+        this.setContentLayoutEngine(new AnchoredLayoutEngine()
+                .setHorizontalMargin(36)
+                .setVerticalMargin(13));
     }
 
     //region CommonMultiblockScreen
@@ -131,25 +153,8 @@ public class ReactorFluidAccessPortScreen
     protected void onScreenCreate() {
 
         super.onScreenCreate();
-
-        final Panel panel = new Panel(this, "fluidaccessport");
-
-        panel.setLayoutEngineHint(FixedLayoutEngine.hint(0, 0));
-        panel.setDesiredDimension(this.getGuiWidth(), this.getGuiHeight() - 21);
-        panel.setLayoutEngine(new AnchoredLayoutEngine()
-                .setHorizontalMargin(36)
-                .setVerticalMargin(13));
-
-        panel.addControl(this.buttonsPanel(this._btnInputDirection, this._btnOutputDirection, this._btnDumpFuel, this._btnDumpWaste));
-
-        final BarsPanel barsPanel = new BarsPanel(this, "bars")
-                .add(this._fuelTank)
-                .addVerticalSeparator()
-                .add(this._wasteTank);
-
-        barsPanel.setLayoutEngineHint(AnchoredLayoutEngine.Anchor.TopRight);
-        panel.addControl(barsPanel);
-        this.addControl(panel);
+        this.addControl(this._buttonsPanel);
+        this.addControl(this._barsPanel);
     }
 
     //endregion
@@ -184,41 +189,32 @@ public class ReactorFluidAccessPortScreen
 
         final Panel p = new Panel(this);
 
-        p.setDesiredDimension(18 * 2 + 2, 18 * 2 + 2 + 18);
+        p.setDesiredDimension(SQUARE_BUTTON_DIMENSION * 2 + 2,
+                SQUARE_BUTTON_DIMENSION * 2 + 2 + SQUARE_BUTTON_DIMENSION * 2);
         p.setLayoutEngineHint(AnchoredLayoutEngine.Anchor.TopLeft);
         p.setCustomBackgroundPainter((panel, matrix) -> {
 
-            final Point xy = panel.controlToScreen(0, 18);
+            final Point xy = panel.controlToScreen(0, SQUARE_BUTTON_DIMENSION);
             final ISprite border = CommonIcons.ImageButtonBorder.get();
             final int z = (int)panel.getGui().getZLevel();
 
-            ModRenderHelper.paintSprite(matrix, border, xy.X, xy.Y, z, 18, 18);
-            ModRenderHelper.paintSprite(matrix, border, xy.X + 20, xy.Y, z, 18, 18);
-            ModRenderHelper.paintSprite(matrix, border, xy.X, xy.Y + 20, z, 18, 18);
-            ModRenderHelper.paintSprite(matrix, border, xy.X + 20, xy.Y + 20, z, 18, 18);
+            ModRenderHelper.paintSprite(matrix, border, xy.X, xy.Y, z, SQUARE_BUTTON_DIMENSION, SQUARE_BUTTON_DIMENSION);
+            ModRenderHelper.paintSprite(matrix, border, xy.X + 2 + SQUARE_BUTTON_DIMENSION, xy.Y, z, SQUARE_BUTTON_DIMENSION, SQUARE_BUTTON_DIMENSION);
+            ModRenderHelper.paintSprite(matrix, border, xy.X, xy.Y + 2 + SQUARE_BUTTON_DIMENSION, z, SQUARE_BUTTON_DIMENSION, SQUARE_BUTTON_DIMENSION);
+            ModRenderHelper.paintSprite(matrix, border, xy.X + 2 + SQUARE_BUTTON_DIMENSION, xy.Y + 2 + SQUARE_BUTTON_DIMENSION, z, SQUARE_BUTTON_DIMENSION, SQUARE_BUTTON_DIMENSION);
         });
 
-        setInput.setLayoutEngineHint(FixedLayoutEngine.hint(1, 1+18, 16, 16));
-        p.addControl(setInput);
+        p.setLayoutEngine(new FlowLayoutEngine()
+                .setZeroMargins()
+                .setVerticalMargin(1 + SQUARE_BUTTON_DIMENSION)
+                .setHorizontalMargin(1)
+                .setControlsSpacing(4));
 
-        setOutput.setLayoutEngineHint(FixedLayoutEngine.hint(21, 1+18, 16, 16));
-        p.addControl(setOutput);
-
-        dumpFuel.setLayoutEngineHint(FixedLayoutEngine.hint(1, 21+18, 16, 16));
-        p.addControl(dumpFuel);
-
-        dumpWaste.setLayoutEngineHint(FixedLayoutEngine.hint(21, 21+18, 16, 16));
-        p.addControl(dumpWaste);
-
+        p.addControl(setInput, setOutput, dumpFuel, dumpWaste);
         return p;
     }
 
-    private final SwitchPictureButton _btnInputDirection;
-    private final SwitchPictureButton _btnOutputDirection;
-    private final Button _btnDumpFuel;
-    private final Button _btnDumpWaste;
-    private final FluidBar _fuelTank;
-    private final FluidBar _wasteTank;
+    private final IControl _buttonsPanel, _barsPanel;
 
     //endregion
 }

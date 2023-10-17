@@ -38,6 +38,7 @@ import it.zerono.mods.zerocore.lib.client.gui.control.Panel;
 import it.zerono.mods.zerocore.lib.client.gui.control.SlotsGroup;
 import it.zerono.mods.zerocore.lib.client.gui.control.SwitchPictureButton;
 import it.zerono.mods.zerocore.lib.client.gui.layout.FixedLayoutEngine;
+import it.zerono.mods.zerocore.lib.client.gui.layout.FlowLayoutEngine;
 import it.zerono.mods.zerocore.lib.client.gui.sprite.ISprite;
 import it.zerono.mods.zerocore.lib.client.render.ModRenderHelper;
 import it.zerono.mods.zerocore.lib.data.geometry.Point;
@@ -47,6 +48,8 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.common.util.NonNullSupplier;
+
+import static it.zerono.mods.zerocore.base.client.screen.ClientBaseHelper.SQUARE_BUTTON_DIMENSION;
 
 public class ReactorSolidAccessPortScreen
         extends CommonMultiblockScreen<MultiblockReactor, ReactorSolidAccessPortEntity, ReactorSolidAccessPortContainer> {
@@ -63,6 +66,7 @@ public class ReactorSolidAccessPortScreen
         final Button dumpFuel, dumpWaste;
 
         inputDirection = new SwitchPictureButton(this, "directionInput", false, "direction");
+        inputDirection.setDesiredDimension(16, 16);
         ClientBaseHelper.setButtonSpritesAndOverlayForState(inputDirection, ButtonState.Default, CommonIcons.ButtonInputDirection);
         ClientBaseHelper.setButtonSpritesAndOverlayForState(inputDirection, ButtonState.Active, CommonIcons.ButtonInputDirectionActive);
         inputDirection.Activated.subscribe(this::onInputActivated);
@@ -73,6 +77,7 @@ public class ReactorSolidAccessPortScreen
         );
 
         outputDirection = new SwitchPictureButton(this, "directionOutput", false, "direction");
+        outputDirection.setDesiredDimension(16, 16);
         ClientBaseHelper.setButtonSpritesAndOverlayForState(outputDirection, ButtonState.Default, CommonIcons.ButtonOutputDirection);
         ClientBaseHelper.setButtonSpritesAndOverlayForState(outputDirection, ButtonState.Active, CommonIcons.ButtonOutputDirectionActive);
         outputDirection.Activated.subscribe(this::onOutputActivated);
@@ -89,6 +94,7 @@ public class ReactorSolidAccessPortScreen
         });
 
         dumpFuel = new Button(this, "dumpFuel", "");
+        dumpFuel.setDesiredDimension(16, 16);
         dumpFuel.setPadding(0);
         dumpFuel.setIconForState(CommonIcons.ButtonDumpFuel.get(), ButtonState.Default);
         dumpFuel.setIconForState(CommonIcons.ButtonDumpFuelActive.get(), ButtonState.Active, ButtonState.ActiveHighlighted, ButtonState.DefaultHighlighted);
@@ -100,6 +106,7 @@ public class ReactorSolidAccessPortScreen
         );
 
         dumpWaste = new Button(this, "dumpWaste", "");
+        dumpWaste.setDesiredDimension(16, 16);
         dumpWaste.setPadding(0);
         dumpWaste.setIconForState(CommonIcons.ButtonDumpWaste.get(), ButtonState.Default);
         dumpWaste.setIconForState(CommonIcons.ButtonDumpWasteActive.get(), ButtonState.Active, ButtonState.ActiveHighlighted, ButtonState.DefaultHighlighted);
@@ -181,31 +188,29 @@ public class ReactorSolidAccessPortScreen
 
         final Panel p = new Panel(this);
 
-        p.setLayoutEngineHint(FixedLayoutEngine.hint(15, 0, 18 * 2 + 2, 18 * 2 + 2));
+        p.setDesiredDimension(SQUARE_BUTTON_DIMENSION * 2 + 2,
+                SQUARE_BUTTON_DIMENSION * 2 + 2 + SQUARE_BUTTON_DIMENSION * 2);
+
+        p.setLayoutEngineHint(FixedLayoutEngine.hint(15, 0, SQUARE_BUTTON_DIMENSION * 2 + 2, SQUARE_BUTTON_DIMENSION * 2 + 2));
         p.setCustomBackgroundPainter((panel, matrix) -> {
 
             final Point xy = panel.controlToScreen(0, 0);
             final ISprite border = CommonIcons.ImageButtonBorder.get();
             final int z = (int)panel.getGui().getZLevel();
 
-            ModRenderHelper.paintSprite(matrix, border, xy.X, xy.Y, z, 18, 18);
-            ModRenderHelper.paintSprite(matrix, border, xy.X + 20, xy.Y, z, 18, 18);
-            ModRenderHelper.paintSprite(matrix, border, xy.X, xy.Y + 20, z, 18, 18);
-            ModRenderHelper.paintSprite(matrix, border, xy.X + 20, xy.Y + 20, z, 18, 18);
+            ModRenderHelper.paintSprite(matrix, border, xy.X, xy.Y, z, SQUARE_BUTTON_DIMENSION, SQUARE_BUTTON_DIMENSION);
+            ModRenderHelper.paintSprite(matrix, border, xy.X + 2 + SQUARE_BUTTON_DIMENSION, xy.Y, z, SQUARE_BUTTON_DIMENSION, SQUARE_BUTTON_DIMENSION);
+            ModRenderHelper.paintSprite(matrix, border, xy.X, xy.Y + 2 + SQUARE_BUTTON_DIMENSION, z, SQUARE_BUTTON_DIMENSION, SQUARE_BUTTON_DIMENSION);
+            ModRenderHelper.paintSprite(matrix, border, xy.X + 2 + SQUARE_BUTTON_DIMENSION, xy.Y + 2 + SQUARE_BUTTON_DIMENSION, z, SQUARE_BUTTON_DIMENSION, SQUARE_BUTTON_DIMENSION);
         });
 
-        setInput.setLayoutEngineHint(FixedLayoutEngine.hint(1, 1, 16, 16));
-        p.addControl(setInput);
+        p.setLayoutEngine(new FlowLayoutEngine()
+                .setZeroMargins()
+                .setVerticalMargin(1)
+                .setHorizontalMargin(1)
+                .setControlsSpacing(4));
 
-        setOutput.setLayoutEngineHint(FixedLayoutEngine.hint(21, 1, 16, 16));
-        p.addControl(setOutput);
-
-        dumpFuel.setLayoutEngineHint(FixedLayoutEngine.hint(1, 21, 16, 16));
-        p.addControl(dumpFuel);
-
-        dumpWaste.setLayoutEngineHint(FixedLayoutEngine.hint(21, 21, 16, 16));
-        p.addControl(dumpWaste);
-
+        p.addControl(setInput, setOutput, dumpFuel, dumpWaste);
         return p;
     }
 
@@ -215,7 +220,7 @@ public class ReactorSolidAccessPortScreen
         final SlotsGroup sg = this.createSingleSlotGroupControl(groupName, reactant.name());
         final Panel p = new Panel(this);
 
-        sg.setLayoutEngineHint(FixedLayoutEngine.hint(10, 10, 18, 18));
+        sg.setLayoutEngineHint(FixedLayoutEngine.hint(10, 10, SQUARE_BUTTON_DIMENSION, SQUARE_BUTTON_DIMENSION));
 
         p.setBackground(slotBackground.get());
         p.setLayoutEngineHint(FixedLayoutEngine.hint(x, y, 38, 38));

@@ -29,7 +29,6 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part.Reacto
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.ReactorVariant;
 import it.zerono.mods.zerocore.base.client.screen.ClientBaseHelper;
 import it.zerono.mods.zerocore.base.client.screen.control.MachineStatusIndicator;
-import it.zerono.mods.zerocore.lib.client.gui.layout.VerticalLayoutEngine;
 import it.zerono.mods.zerocore.lib.item.inventory.PlayerInventoryUsage;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.text.ITextComponent;
@@ -48,7 +47,9 @@ public class ReactorControllerScreen
 
         this.addPatchouliHelpButton(PatchouliCompat.HANDBOOK_ID, ExtremeReactors.newID("reactor/part-controller"), 1);
 
-        this._controllerPanel = new ReactorControllerPanel(this, this.getGuiWidth(), container,
+        this.setContentBounds(14, 0);
+
+        this._controllerPanel = new ReactorControllerPanel(this, this.getContentWidth(), this.getContentHeight(), container,
                 this::onActiveStateChanged, this::onWasteEjectionChanged, this::onVoidReactants, this::onScram,
                 ClientBaseHelper::setButtonSpritesAndOverlayForState);
     }
@@ -64,11 +65,6 @@ public class ReactorControllerScreen
     protected void onScreenCreate() {
 
         super.onScreenCreate();
-        this.setContentLayoutEngine(new VerticalLayoutEngine()
-                .setVerticalMargin(1)
-                .setHorizontalMargin(13)
-                .setControlsSpacing(0));
-
         this.addControl(this._controllerPanel);
     }
 

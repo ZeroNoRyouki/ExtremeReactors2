@@ -178,6 +178,8 @@ public class TurbineControllerScreen
             this._ventOverflow.setActive(VentSetting.VentOverflow.test(setting));
             this._ventDoNotVent.setActive(VentSetting.DoNotVent.test(setting));
         });
+
+        this.setContentBounds(14, 0);
     }
 
     //region CommonMultiblockScreen
@@ -193,21 +195,10 @@ public class TurbineControllerScreen
         super.onScreenCreate();
 
         this.setContentLayoutEngine(new VerticalLayoutEngine()
-                .setVerticalMargin(1)
-                .setHorizontalMargin(13)
-                .setControlsSpacing(0));
-
-        // OUTER PANEL
-
-        final Panel outerPanel = new Panel(this);
-
-        outerPanel.setDesiredDimension(this.getGuiWidth() - 26, CommonPanels.STANDARD_PANEL_HEIGHT + 57);
-        outerPanel.setLayoutEngine(new VerticalLayoutEngine()
                 .setZeroMargins()
                 .setControlsSpacing(2)
                 .setVerticalAlignment(VerticalAlignment.Top)
                 .setHorizontalAlignment(HorizontalAlignment.Left));
-        this.addControl(outerPanel);
 
         // BARS
 
@@ -219,11 +210,12 @@ public class TurbineControllerScreen
                 .add(this._rpmBar)
                 .addEmptyPanel(11)
                 .add(this._energyBar)
-                .addVerticalSeparator();
+                .addVerticalSeparator()
+                .addEmptyPanel(4);
 
-        outerPanel.addControl(barsPanel);
-        outerPanel.addControl(CommonPanels.horizontalSeparator(this, this.getGuiWidth() - 32));
-        outerPanel.addControl(this._infoDisplay);
+        this.addControl(barsPanel);
+        this.addControl(CommonPanels.horizontalSeparator(this, this.getContentWidth()));
+        this.addControl(this._infoDisplay);
 
         // COMMANDS
 

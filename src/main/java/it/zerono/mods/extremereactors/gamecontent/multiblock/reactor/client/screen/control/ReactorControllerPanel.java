@@ -20,13 +20,13 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.scr
 
 import it.unimi.dsi.fastutil.booleans.BooleanConsumer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.CommonIcons;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.screen.ReactorControllerScreen;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.container.IReactorControllerContainer;
 import it.zerono.mods.zerocore.base.client.screen.BaseScreenToolTipsBuilder;
 import it.zerono.mods.zerocore.base.client.screen.ClientBaseHelper;
 import it.zerono.mods.zerocore.base.client.screen.control.*;
 import it.zerono.mods.zerocore.lib.CodeHelper;
 import it.zerono.mods.zerocore.lib.client.gui.ButtonState;
+import it.zerono.mods.zerocore.lib.client.gui.ModContainerScreen;
 import it.zerono.mods.zerocore.lib.client.gui.control.*;
 import it.zerono.mods.zerocore.lib.client.gui.layout.FixedLayoutEngine;
 import it.zerono.mods.zerocore.lib.client.gui.layout.HorizontalAlignment;
@@ -34,6 +34,7 @@ import it.zerono.mods.zerocore.lib.client.gui.layout.VerticalAlignment;
 import it.zerono.mods.zerocore.lib.client.gui.layout.VerticalLayoutEngine;
 import it.zerono.mods.zerocore.lib.client.gui.sprite.ISprite;
 import it.zerono.mods.zerocore.lib.data.WideAmount;
+import it.zerono.mods.zerocore.lib.item.inventory.container.ModContainer;
 import it.zerono.mods.zerocore.lib.text.TextHelper;
 import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
@@ -45,7 +46,8 @@ import javax.annotation.Nullable;
 public class ReactorControllerPanel
         extends Panel {
 
-    public ReactorControllerPanel(ReactorControllerScreen gui, int guiWidth, IReactorControllerContainer container,
+    public ReactorControllerPanel(ModContainerScreen<? extends ModContainer> gui, int width, int height,
+                                  IReactorControllerContainer container,
                                   BooleanConsumer onActiveStateChanged, BooleanConsumer onWasteEjectionChanged,
                                   @Nullable Runnable onVoidReactants, @Nullable Runnable onScram,
                                   TriConsumer<AbstractButtonControl, ButtonState, NonNullSupplier<ISprite>> setButtonSpritesAndOverlayForState) {
@@ -85,7 +87,7 @@ public class ReactorControllerPanel
 
         // main layout...
 
-        this.setDesiredDimension(guiWidth - 26, CommonPanels.STANDARD_PANEL_HEIGHT + 57);
+        this.setDesiredDimension(width, height);
         this.setLayoutEngine(new VerticalLayoutEngine()
                 .setZeroMargins()
                 .setControlsSpacing(2)
@@ -93,18 +95,18 @@ public class ReactorControllerPanel
                 .setHorizontalAlignment(HorizontalAlignment.Left));
 
         this.addControl(barsPanel);
-        this.addControl(CommonPanels.horizontalSeparator(gui, guiWidth - 29));
+        this.addControl(CommonPanels.horizontalSeparator(gui, width - 1));
         this.addControl(infoDisplay(gui, container, coreHeatBar));
     }
 
     //region internals
 
-    private static ReactantBar fuelBar(ReactorControllerScreen gui, IReactorControllerContainer container) {
+    private static ReactantBar fuelBar(ModContainerScreen<? extends ModContainer> gui, IReactorControllerContainer container) {
         return new ReactantBar(gui, "fuelBar", container.reactantCapacity(), container.fuelStack(),
                 container.wasteStack(), container.fuelRodsCount());
     }
 
-    private static HeatBar coreHeatBar(ReactorControllerScreen gui, IReactorControllerContainer container) {
+    private static HeatBar coreHeatBar(ModContainerScreen<? extends ModContainer> gui, IReactorControllerContainer container) {
         return new HeatBar(gui, "coreHeatBar", 2000.0, container.coreHeat(),
                 CommonIcons.ButtonSensorOutputFuelTemperature,
                 "gui.bigreactors.reactor.controller.coreheatbar.tooltip.title",
@@ -112,7 +114,7 @@ public class ReactorControllerPanel
                 "gui.bigreactors.reactor.controller.coreheatbar.tooltip.body");
     }
 
-    private static HeatBar casingHeatBar(ReactorControllerScreen gui, IReactorControllerContainer container) {
+    private static HeatBar casingHeatBar(ModContainerScreen<? extends ModContainer> gui, IReactorControllerContainer container) {
         return new HeatBar(gui, "casingHeatBar", 2000.0, container.casingHeat(),
                 CommonIcons.ButtonSensorOutputCasingTemperature,
                 "gui.bigreactors.reactor.controller.casingheatbar.tooltip.title",
@@ -120,7 +122,7 @@ public class ReactorControllerPanel
                 "gui.bigreactors.reactor.controller.casingheatbar.tooltip.body");
     }
 
-    private static EnergyBar energyBar(ReactorControllerScreen gui, IReactorControllerContainer container) {
+    private static EnergyBar energyBar(ModContainerScreen<? extends ModContainer> gui, IReactorControllerContainer container) {
 
         final EnergyBar bar = new EnergyBar(gui, "energyBar", container.getOutputEnergySystem(),
                 WideAmount.ZERO, container.energyStored(), "gui.bigreactors.reactor_turbine.controller.energybar.tooltip.body");
@@ -129,7 +131,7 @@ public class ReactorControllerPanel
         return bar;
     }
 
-    private static FluidBar coolantBar(ReactorControllerScreen gui, IReactorControllerContainer container,
+    private static FluidBar coolantBar(ModContainerScreen<? extends ModContainer> gui, IReactorControllerContainer container,
                                        NonNullSupplier<ITextComponent> fluidCapacityText) {
 
         final FluidBar coolantBar = new FluidBar(gui, "coolantBar", 0, container.coolantStack(),
@@ -154,7 +156,7 @@ public class ReactorControllerPanel
         return coolantBar;
     }
 
-    private static FluidBar vaporBar(ReactorControllerScreen gui, IReactorControllerContainer container,
+    private static FluidBar vaporBar(ModContainerScreen<? extends ModContainer> gui, IReactorControllerContainer container,
                                      NonNullSupplier<ITextComponent> fluidCapacityText) {
 
         final FluidBar vaporBar = new FluidBar(gui, "vaporBar", 0, container.vaporStack(),
@@ -179,7 +181,7 @@ public class ReactorControllerPanel
         return vaporBar;
     }
 
-    private static Panel commandPanel(ReactorControllerScreen gui, IReactorControllerContainer container,
+    private static Panel commandPanel(ModContainerScreen<? extends ModContainer> gui, IReactorControllerContainer container,
                                       BooleanConsumer onActiveStateChanged, BooleanConsumer onWasteEjectionChanged,
                                       @Nullable Runnable onVoidReactants, @Nullable Runnable onScram,
                                       TriConsumer<AbstractButtonControl, ButtonState, NonNullSupplier<ISprite>> setButtonSpritesAndOverlayForState) {
@@ -271,8 +273,8 @@ public class ReactorControllerPanel
         return commandPanel;
     }
 
-    private static InformationDisplay infoDisplay(ReactorControllerScreen gui, IReactorControllerContainer container,
-                                                  HeatBar coreHeatBar) {
+    private static InformationDisplay infoDisplay(ModContainerScreen<? extends ModContainer> gui,
+                                                  IReactorControllerContainer container, HeatBar coreHeatBar) {
 
         final InformationDisplay infoDisplay = new InformationDisplay(gui, "info", layout -> layout.columns(2).rows(3));
 
