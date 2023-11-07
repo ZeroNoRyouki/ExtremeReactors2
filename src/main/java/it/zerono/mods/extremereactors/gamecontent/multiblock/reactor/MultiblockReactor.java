@@ -351,37 +351,38 @@ public class MultiblockReactor
 
     @SuppressWarnings("unchecked")
     @Override
-    public int getPartsCount(ReactorPartType type) {
+    public int getPartsCount(IReactorPartType type) {
 
-        switch (type) {
+        if (type instanceof ReactorPartType partType) {
+            switch (partType) {
 
-            case ControlRod:
-                return this._attachedControlRods.size();
+                case ControlRod:
+                    return this._attachedControlRods.size();
 
-            case FuelRod:
-                return this._attachedFuelRods.size();
+                case FuelRod:
+                    return this._attachedFuelRods.size();
 
-            case SolidAccessPort:
-                return this._attachedSolidAccessPorts.size();
+                case SolidAccessPort:
+                    return this._attachedSolidAccessPorts.size();
 
-            case FluidAccessPort:
-                return this._attachedFluidAccessPorts.size();
+                case FluidAccessPort:
+                    return this._attachedFluidAccessPorts.size();
 
-            case ActivePowerTapFE:
-            case PassivePowerTapFE:
-            case ChargingPortFE:
-                return this._attachedPowerTaps.size();
+                case ActivePowerTapFE:
+                case PassivePowerTapFE:
+                case ChargingPortFE:
+                    return this._attachedPowerTaps.size();
 
-            case ActiveFluidPortForge:
-            case PassiveFluidPortForge:
-                return this._attachedFluidPorts.size();
-
-            default:
-                return this.getPartsCount(part -> part instanceof IMultiblockPartTypeProvider &&
-                        ((IMultiblockPartTypeProvider<MultiblockReactor, ReactorPartType>)part).getPartType()
-                                .filter(partType -> partType == type)
-                                .isPresent());
+                case ActiveFluidPortForge:
+                case PassiveFluidPortForge:
+                    return this._attachedFluidPorts.size();
+            }
         }
+
+        return this.getPartsCount(part -> part instanceof IMultiblockPartTypeProvider &&
+                ((IMultiblockPartTypeProvider<MultiblockReactor, IReactorPartType>)part).getPartType()
+                        .filter(partType -> partType == type)
+                        .isPresent());
     }
 
     /**

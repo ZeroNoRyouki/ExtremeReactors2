@@ -1,5 +1,6 @@
 package it.zerono.mods.extremereactors.datagen.recipe;
 
+import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.api.reactor.ReactantMappingsRegistry;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.ContentTags;
@@ -34,7 +35,7 @@ public class FluidizerRecipesDataProvider
 
     public FluidizerRecipesDataProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registryLookup,
                                         ResourceLocationBuilder modLocationRoot) {
-        super("Fluidizer recipes", output, registryLookup, modLocationRoot);
+        super(ExtremeReactors.MOD_ID, "Fluidizer recipes", output, registryLookup, modLocationRoot);
     }
 
     @Override

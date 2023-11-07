@@ -1,5 +1,6 @@
 package it.zerono.mods.extremereactors.datagen.recipe;
 
+import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.ContentTags;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.ReactorVariant;
@@ -26,7 +27,7 @@ public class ReactorRecipesDataProvider
 
     public ReactorRecipesDataProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registryLookup,
                                       ResourceLocationBuilder modLocationRoot) {
-        super("Reactor recipes", output, registryLookup, modLocationRoot);
+        super(ExtremeReactors.MOD_ID, "Reactor recipes", output, registryLookup, modLocationRoot);
     }
 
     @Override

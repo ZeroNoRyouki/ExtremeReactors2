@@ -22,13 +22,14 @@ import it.zerono.mods.extremereactors.api.radiation.RadiationPacket;
 import it.zerono.mods.extremereactors.api.reactor.IHeatEntity;
 import it.zerono.mods.extremereactors.api.reactor.radiation.IRadiationModerator;
 import it.zerono.mods.extremereactors.api.reactor.radiation.IrradiationData;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.IReactorPartType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.MultiblockReactor;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.ReactorPartType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.network.UpdateClientsFuelRodsLayout;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.IMultiblockReactorVariant;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.ReactorVariant;
 import it.zerono.mods.zerocore.base.multiblock.part.AbstractMultiblockEntity;
 import it.zerono.mods.zerocore.lib.CodeHelper;
+import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockPartType;
 import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockPartTypeProvider;
 import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockVariantProvider;
 import it.zerono.mods.zerocore.lib.client.model.data.multiblock.CuboidPartVariantsModelDataCache;
@@ -44,7 +45,7 @@ import net.minecraftforge.client.model.data.ModelData;
 
 public abstract class AbstractReactorEntity
         extends AbstractMultiblockEntity<MultiblockReactor>
-        implements IHeatEntity, IRadiationModerator, IMultiblockPartTypeProvider<MultiblockReactor, ReactorPartType>,
+        implements IHeatEntity, IRadiationModerator, IMultiblockPartTypeProvider<MultiblockReactor, IReactorPartType>,
                     IMultiblockVariantProvider<IMultiblockReactorVariant> {
 
     public AbstractReactorEntity(final BlockEntityType<?> type, final BlockPos position, final BlockState blockState) {
@@ -67,7 +68,7 @@ public abstract class AbstractReactorEntity
     public Component getPartDisplayName() {
         return Component.translatable("gui.bigreactors.multiblock_variant_part_format.title",
                 Component.translatable(this.getMultiblockVariant().map(IMultiblockVariant::getTranslationKey).orElse("unknown")),
-                Component.translatable(this.getPartType().map(ReactorPartType::getTranslationKey).orElse("unknown")));
+                Component.translatable(this.getPartType().map(IReactorPartType::getTranslationKey).orElse("unknown")));
     }
 
     //region client render support
@@ -196,8 +197,8 @@ public abstract class AbstractReactorEntity
     //endregion
     //region client render support
 
-    protected ModelData getUpdatedModelData(final IMultiblockReactorVariant variant, final ReactorPartType partType) {
-        return getVariantModelDataCache(variant).computeIfAbsent(partType.ordinal(), this.getUpdatedModelVariantIndex(),
+    protected ModelData getUpdatedModelData(final IMultiblockReactorVariant variant, final IMultiblockPartType partType) {
+        return getVariantModelDataCache(variant).computeIfAbsent(partType.getByteHashCode(), this.getUpdatedModelVariantIndex(),
                 this.getOutwardFacings());
     }
 

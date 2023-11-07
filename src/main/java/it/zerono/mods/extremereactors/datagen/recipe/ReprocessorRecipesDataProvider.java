@@ -3,7 +3,6 @@ package it.zerono.mods.extremereactors.datagen.recipe;
 import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.ContentTags;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.recipe.ReprocessorRecipe;
 import it.zerono.mods.zerocore.lib.data.ResourceLocationBuilder;
 import it.zerono.mods.zerocore.lib.recipe.ingredient.FluidStackRecipeIngredient;
 import it.zerono.mods.zerocore.lib.recipe.ingredient.ItemStackRecipeIngredient;
@@ -28,7 +27,7 @@ public class ReprocessorRecipesDataProvider
 
     public ReprocessorRecipesDataProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registryLookup,
                                           ResourceLocationBuilder modLocationRoot) {
-        super("Reprocessor recipes", output, registryLookup, modLocationRoot);
+        super(ExtremeReactors.MOD_ID, "Reprocessor recipes", output, registryLookup, modLocationRoot);
     }
 
     @Override

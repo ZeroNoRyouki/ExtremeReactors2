@@ -20,22 +20,34 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.mod
 
 import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.model.AbstractMultiblockModelBuilder;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.IReactorPartType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.ReactorPartType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.ReactorVariant;
 import it.zerono.mods.zerocore.lib.data.ResourceLocationBuilder;
 
+import java.util.Set;
 import java.util.function.Predicate;
 
 public class ReactorModelBuilder
-        extends AbstractMultiblockModelBuilder<ReactorPartType> {
+        extends AbstractMultiblockModelBuilder<IReactorPartType> {
 
     public ReactorModelBuilder(final ReactorVariant variant) {
+        this(variant, ExtremeReactors.ROOT_LOCATION, ExtremeReactors.ROOT_LOCATION
+                .appendPath("block", "reactor"));
+    }
 
-        super("reactor", REACTOR_LOCATION, REACTOR_LOCATION
+    private ReactorModelBuilder(ReactorVariant variant, ResourceLocationBuilder root, ResourceLocationBuilder blockRoot) {
+
+        super("reactor", root, blockRoot, blockRoot
                 .appendPath(variant.getName())
                 .buildWithSuffix("assembledplating"), true);
 
-        final Predicate<ReactorPartType> isPartCompatible = variant::isPartCompatible;
+        final Set<IReactorPartType> invalidPartsForBasicVariant = Set.of(ReactorPartType.ComputerPort,
+                ReactorPartType.ActiveFluidPortForge, ReactorPartType.PassiveFluidPortForge, ReactorPartType.FluidAccessPort,
+                ReactorPartType.PassiveFluidPortMekanism, ReactorPartType.CreativeWaterGenerator);
+
+        final Predicate<IReactorPartType> isPartCompatible = partType ->
+                ReactorVariant.Reinforced == variant || !invalidPartsForBasicVariant.contains(partType);
 
         this.addBlockWithVariants(ReactorPartType.Casing, variant, isPartCompatible, "casing",
                 "casing_01_face",
@@ -104,11 +116,4 @@ public class ReactorModelBuilder
 
         this.addBlockWithVariants(ReactorPartType.ChargingPortFE, variant, isPartCompatible, "chargingportfe");
     }
-
-    //region internals
-
-    private static final ResourceLocationBuilder REACTOR_LOCATION = ExtremeReactors.ROOT_LOCATION
-            .appendPath("block", "reactor");
-
-    //endregion
 }

@@ -44,7 +44,7 @@ public interface IReactorEnvironment {
      */
     IRadiationModerator getModerator(BlockPos position);
 
-    int getPartsCount(ReactorPartType type);
+    int getPartsCount(IReactorPartType type);
 
 
 

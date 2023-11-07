@@ -23,8 +23,8 @@ import it.zerono.mods.extremereactors.config.Config;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.FluidizerPartType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.MultiblockFluidizer;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.IReactorPartType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.MultiblockReactor;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.ReactorPartType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.MultiblockReprocessor;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.ReprocessorPartType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.MultiblockTurbine;
@@ -83,7 +83,7 @@ public final class PatchouliCompat {
                     'X', Content.Blocks.REACTOR_CONTROLLER_BASIC.get()),
                 bs -> bs.getBlock().defaultBlockState(),
                 bs -> (bs.getBlock() instanceof MultiblockPartBlock) ?
-                        CuboidPartVariantsModelData.from(((MultiblockPartBlock<MultiblockReactor, ReactorPartType>)bs.getBlock()).getPartType().ordinal(), 0, BlockFacings.ALL) :
+                        CuboidPartVariantsModelData.from(((MultiblockPartBlock<MultiblockReactor, IReactorPartType>)bs.getBlock()).getPartType().getByteHashCode(), 0, BlockFacings.ALL) :
                         ModelData.EMPTY
         );
 

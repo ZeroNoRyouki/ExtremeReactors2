@@ -30,10 +30,15 @@ public class TurbineModelBuilder
         extends AbstractMultiblockModelBuilder<TurbinePartType> {
 
     public TurbineModelBuilder(final TurbineVariant variant) {
+        this(variant, ExtremeReactors.ROOT_LOCATION, ExtremeReactors.ROOT_LOCATION
+                .appendPath("block", "turbine"));
+    }
 
-        super("turbine", TURBINE_LOCATION, TURBINE_LOCATION
-                        .appendPath(variant.getName())
-                        .buildWithSuffix("assembledplating"), true);
+    private TurbineModelBuilder(TurbineVariant variant, ResourceLocationBuilder root, ResourceLocationBuilder blockRoot) {
+
+        super("turbine", root, blockRoot, blockRoot
+                .appendPath(variant.getName())
+                .buildWithSuffix("assembledplating"), true);
 
         final Predicate<TurbinePartType> isPartCompatible = variant::isPartCompatible;
 
@@ -89,11 +94,4 @@ public class TurbineModelBuilder
 
         this.addBlockWithVariants(TurbinePartType.ChargingPortFE, variant, isPartCompatible, "chargingportfe");
     }
-
-    //region internals
-
-    private static final ResourceLocationBuilder TURBINE_LOCATION = ExtremeReactors.ROOT_LOCATION
-            .appendPath("block", "turbine");
-
-    //endregion
 }

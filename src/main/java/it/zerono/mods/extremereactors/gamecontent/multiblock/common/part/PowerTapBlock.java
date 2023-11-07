@@ -23,10 +23,8 @@ import it.zerono.mods.zerocore.lib.block.INeighborChangeListener;
 import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockPartType;
 import it.zerono.mods.zerocore.lib.multiblock.IMultiblockController;
 
-import it.zerono.mods.zerocore.lib.block.multiblock.MultiblockPartBlock.MultiblockPartProperties;
-
 public class PowerTapBlock<Controller extends IMultiblockController<Controller>,
-            PartType extends Enum<PartType> & IMultiblockPartType>
+            PartType extends IMultiblockPartType>
         extends GenericDeviceBlock<Controller, PartType>
         implements INeighborChangeListener.Notifier {
 

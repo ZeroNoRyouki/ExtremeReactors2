@@ -1,5 +1,6 @@
 package it.zerono.mods.extremereactors.datagen.recipe;
 
+import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.ContentTags;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.TurbineVariant;
@@ -25,7 +26,7 @@ public class TurbineRecipesDataProvider
 
     public TurbineRecipesDataProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registryLookup,
                                       ResourceLocationBuilder modLocationRoot) {
-        super("Turbine recipes", output, registryLookup, modLocationRoot);
+        super(ExtremeReactors.MOD_ID, "Turbine recipes", output, registryLookup, modLocationRoot);
     }
 
     @Override

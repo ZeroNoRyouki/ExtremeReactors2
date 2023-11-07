@@ -21,6 +21,7 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part;
 import it.zerono.mods.extremereactors.gamecontent.CommonConstants;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.fluidport.FluidPortType;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.IReactorPartType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.MultiblockReactor;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.ReactorPartType;
 import it.zerono.mods.zerocore.base.multiblock.part.io.fluid.IFluidPort;
@@ -202,7 +203,7 @@ public class ReactorFluidPortEntity
     @Override
     public boolean canOpenGui(Level world, BlockPos position, BlockState state) {
 
-        final ReactorPartType partType = this.getPartTypeOrDefault(ReactorPartType.Casing);
+        final IReactorPartType partType = this.getPartTypeOrDefault(ReactorPartType.Casing);
 
         return (ReactorPartType.ActiveFluidPortForge == partType || ReactorPartType.PassiveFluidPortForge == partType) &&
                 this.isMachineAssembled();

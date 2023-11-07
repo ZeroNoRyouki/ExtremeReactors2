@@ -18,7 +18,6 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor;
 
-import it.zerono.mods.extremereactors.config.Config;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.PassiveFluidPortBlock;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.PowerTapBlock;
@@ -28,7 +27,6 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part.Reacto
 import it.zerono.mods.zerocore.base.multiblock.part.GenericDeviceBlock;
 import it.zerono.mods.zerocore.base.multiblock.part.GlassBlock;
 import it.zerono.mods.zerocore.base.multiblock.part.io.IOPortBlock;
-import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockPartType2;
 import it.zerono.mods.zerocore.lib.block.multiblock.MultiblockPartBlock;
 import it.zerono.mods.zerocore.lib.block.multiblock.MultiblockPartTypeProperties;
 import net.minecraft.world.level.block.Block;
@@ -37,7 +35,7 @@ import net.minecraftforge.common.util.NonNullFunction;
 import net.minecraftforge.common.util.NonNullSupplier;
 
 public enum ReactorPartType
-        implements IMultiblockPartType2<MultiblockReactor, ReactorPartType> {
+        implements IReactorPartType {
 
     Casing(() -> Content.TileEntityTypes.REACTOR_CASING::get,
             MultiblockPartBlock::new,
@@ -96,33 +94,33 @@ public enum ReactorPartType
     ;
 
     ReactorPartType(final NonNullSupplier<NonNullSupplier<BlockEntityType<?>>> tileTypeSupplier,
-                    final NonNullFunction<MultiblockPartBlock.MultiblockPartProperties<ReactorPartType>,
-                            MultiblockPartBlock<MultiblockReactor, ReactorPartType>> blockFactory,
+                    final NonNullFunction<MultiblockPartBlock.MultiblockPartProperties<IReactorPartType>,
+                            MultiblockPartBlock<MultiblockReactor, IReactorPartType>> blockFactory,
                     final String translationKey) {
         this(tileTypeSupplier, blockFactory, translationKey, bp -> bp);
     }
 
     ReactorPartType(final NonNullSupplier<NonNullSupplier<BlockEntityType<?>>> tileTypeSupplier,
-                    final NonNullFunction<MultiblockPartBlock.MultiblockPartProperties<ReactorPartType>,
-                                                MultiblockPartBlock<MultiblockReactor, ReactorPartType>> blockFactory,
+                    final NonNullFunction<MultiblockPartBlock.MultiblockPartProperties<IReactorPartType>,
+                                                MultiblockPartBlock<MultiblockReactor, IReactorPartType>> blockFactory,
                     final String translationKey,
                     final NonNullFunction<Block.Properties, Block.Properties> blockPropertiesFixer) {
         this(tileTypeSupplier, blockFactory, translationKey, blockPropertiesFixer, ep -> ep);
     }
 
     ReactorPartType(final NonNullSupplier<NonNullSupplier<BlockEntityType<?>>> tileTypeSupplier,
-                    final NonNullFunction<MultiblockPartBlock.MultiblockPartProperties<ReactorPartType>,
-                            MultiblockPartBlock<MultiblockReactor, ReactorPartType>> blockFactory,
+                    final NonNullFunction<MultiblockPartBlock.MultiblockPartProperties<IReactorPartType>,
+                            MultiblockPartBlock<MultiblockReactor, IReactorPartType>> blockFactory,
                     final String translationKey,
                     final NonNullFunction<Block.Properties, Block.Properties> blockPropertiesFixer,
-                    final NonNullFunction<MultiblockPartBlock.MultiblockPartProperties<ReactorPartType>, MultiblockPartBlock.MultiblockPartProperties<ReactorPartType>> partPropertiesFixer) {
+                    final NonNullFunction<MultiblockPartBlock.MultiblockPartProperties<IReactorPartType>, MultiblockPartBlock.MultiblockPartProperties<IReactorPartType>> partPropertiesFixer) {
         this._properties = new MultiblockPartTypeProperties<>(tileTypeSupplier, blockFactory, translationKey, blockPropertiesFixer, partPropertiesFixer);
     }
 
     //region IMultiblockPartType2
 
     @Override
-    public MultiblockPartTypeProperties<MultiblockReactor, ReactorPartType> getPartTypeProperties() {
+    public MultiblockPartTypeProperties<MultiblockReactor, IReactorPartType> getPartTypeProperties() {
         return this._properties;
     }
 
@@ -134,7 +132,7 @@ public enum ReactorPartType
     //endregion
     //region internals
 
-    private final MultiblockPartTypeProperties<MultiblockReactor, ReactorPartType> _properties;
+    private final MultiblockPartTypeProperties<MultiblockReactor, IReactorPartType> _properties;
 
     //endregion
 }

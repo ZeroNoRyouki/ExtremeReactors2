@@ -19,8 +19,8 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part;
 
 import it.zerono.mods.extremereactors.config.Config;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.IReactorPartType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.MultiblockReactor;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.ReactorPartType;
 import it.zerono.mods.zerocore.base.multiblock.part.GenericDeviceBlock;
 import it.zerono.mods.zerocore.lib.block.INeighborChangeListener;
 import it.zerono.mods.zerocore.lib.multiblock.cuboid.AbstractCuboidMultiblockPart;
@@ -36,10 +36,10 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class ReactorRedstonePortBlock
-        extends GenericDeviceBlock<MultiblockReactor, ReactorPartType>
+        extends GenericDeviceBlock<MultiblockReactor, IReactorPartType>
         implements INeighborChangeListener.Notifier {
 
-    public ReactorRedstonePortBlock(final MultiblockPartProperties<ReactorPartType> properties) {
+    public ReactorRedstonePortBlock(final MultiblockPartProperties<IReactorPartType> properties) {
         super(properties);
     }
 

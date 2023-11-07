@@ -3,7 +3,6 @@ package it.zerono.mods.extremereactors.datagen.recipe;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
-import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.gamecontent.ContentTags;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.ReactorVariant;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.recipe.ReprocessorRecipe;
@@ -39,16 +38,18 @@ public abstract class AbstractRecipesDataProvider
     protected static final Set<TagKey<Item>> TAGS_YELLORIUM_INGOTS = ImmutableSet.of(ContentTags.Items.INGOTS_YELLORIUM, TAG_INGOTS_URANIUM);
 
 
-    protected AbstractRecipesDataProvider(String name, PackOutput output, CompletableFuture<HolderLookup.Provider> registryLookup,
+    protected AbstractRecipesDataProvider(String modId, String name, PackOutput output, CompletableFuture<HolderLookup.Provider> registryLookup,
                                           ResourceLocationBuilder modLocationRoot) {
+
         super(name, output, registryLookup, modLocationRoot);
+        this._modId = modId;
     }
 
     protected String group(String name) {
 
         Preconditions.checkArgument(!Strings.isNullOrEmpty(name), "Name must not be null or empty");
 
-        return ExtremeReactors.MOD_ID + ":" + name;
+        return this._modId + ":" + name;
     }
 
     protected ResourceLocationBuilder reactorRoot() {
@@ -109,4 +110,10 @@ public abstract class AbstractRecipesDataProvider
                 .unlockedBy("has_item", has(powerTap.get()))
                 .save(builder, name);
     }
+
+    //region internals
+
+    private final String _modId;
+
+    //endregion
 }

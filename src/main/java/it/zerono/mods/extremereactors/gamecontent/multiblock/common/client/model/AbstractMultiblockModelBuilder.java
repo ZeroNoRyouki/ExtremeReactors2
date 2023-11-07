@@ -21,7 +21,6 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.mode
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
-import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockPartType;
 import it.zerono.mods.zerocore.lib.client.model.multiblock.CuboidPartVariantsModelBuilder;
 import it.zerono.mods.zerocore.lib.data.ResourceLocationBuilder;
@@ -34,18 +33,21 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public abstract class AbstractMultiblockModelBuilder<PartType extends Enum<PartType> & IMultiblockPartType>
+public abstract class AbstractMultiblockModelBuilder<PartType extends IMultiblockPartType>
         extends CuboidPartVariantsModelBuilder {
 
-    protected AbstractMultiblockModelBuilder(String multiblockShortName, ResourceLocationBuilder blockRoot,
+    protected AbstractMultiblockModelBuilder(String multiblockShortName, ResourceLocationBuilder root,
+                                             ResourceLocationBuilder blockRoot,
                                              ResourceLocation template, boolean ambientOcclusion) {
         super(template, ambientOcclusion);
 
         Preconditions.checkArgument(!Strings.isNullOrEmpty(multiblockShortName),
                 "Multiblock short name must not be null or empty");
+        Preconditions.checkNotNull(root, "Root must not be null");
         Preconditions.checkNotNull(blockRoot, "Block root must not be null");
 
         this._multiblockShortName = multiblockShortName;
+        this._root = root;
         this._blockRoot = blockRoot;
     }
 
@@ -61,7 +63,7 @@ public abstract class AbstractMultiblockModelBuilder<PartType extends Enum<PartT
                           final Predicate<PartType> isPartCompatibleWithVariant, final String blockCommonName) {
 
         if (isPartCompatibleWithVariant.test(partType)) {
-            super.addBlock(partType.ordinal(), getBlockStateRL(variant, blockCommonName), 0, false);
+            super.addBlock(partType.getByteHashCode(), getBlockStateRL(variant, blockCommonName), 0, false);
         }
     }
 
@@ -79,7 +81,7 @@ public abstract class AbstractMultiblockModelBuilder<PartType extends Enum<PartT
                     .map(name -> getModelRL(variant, name))
                     .collect(Collectors.toCollection(() -> variants));
 
-            this.addModels(partType.ordinal(), variants);
+            this.addModels(partType.getByteHashCode(), variants);
         }
     }
 
@@ -89,7 +91,7 @@ public abstract class AbstractMultiblockModelBuilder<PartType extends Enum<PartT
 
     protected ResourceLocation getBlockStateRL(final IMultiblockVariant variant, final String blockCommonName,
                                                final String blockStateVariant) {
-        return new ModelResourceLocation(ExtremeReactors.ROOT_LOCATION.buildWithSuffix(variant.getName() + "_" +
+        return new ModelResourceLocation(this._root.buildWithSuffix(variant.getName() + "_" +
                         this._multiblockShortName + blockCommonName), blockStateVariant);
     }
 
@@ -102,6 +104,7 @@ public abstract class AbstractMultiblockModelBuilder<PartType extends Enum<PartT
     //region internals
 
     private final String _multiblockShortName;
+    private final ResourceLocationBuilder _root;
     private final ResourceLocationBuilder _blockRoot;
 
     //endregion

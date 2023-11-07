@@ -33,7 +33,7 @@ public class GenericRecipesDataProvider
 
     public GenericRecipesDataProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registryLookup,
                                       ResourceLocationBuilder modLocationRoot) {
-        super("Generic recipes", output, registryLookup, modLocationRoot);
+        super(ExtremeReactors.MOD_ID, "Generic recipes", output, registryLookup, modLocationRoot);
     }
 
     @Override

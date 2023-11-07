@@ -18,8 +18,8 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part;
 
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.IReactorPartType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.MultiblockReactor;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.ReactorPartType;
 import it.zerono.mods.zerocore.base.multiblock.part.INeverCauseRenderingSkip;
 import it.zerono.mods.zerocore.lib.block.multiblock.MultiblockPartBlock;
 import net.minecraft.core.BlockPos;
@@ -33,10 +33,10 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class ReactorFuelRodBlock
-        extends MultiblockPartBlock<MultiblockReactor, ReactorPartType>
+        extends MultiblockPartBlock<MultiblockReactor, IReactorPartType>
         implements INeverCauseRenderingSkip {
 
-    public ReactorFuelRodBlock(final MultiblockPartProperties<ReactorPartType> properties) {
+    public ReactorFuelRodBlock(final MultiblockPartProperties<IReactorPartType> properties) {
         super(properties);
     }
 

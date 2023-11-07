@@ -35,6 +35,7 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.recipe.Fl
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.recipe.FluidizerSolidMixingRecipe;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.recipe.FluidizerSolidRecipe;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.recipe.IFluidizerRecipe;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.IReactorPartType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.MultiblockReactor;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.Reactants;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.ReactorPartType;
@@ -203,85 +204,85 @@ public final class Content {
         //endregion
         //region reactor basic
 
-        public static final RegistryObject<MultiblockPartBlock<MultiblockReactor, ReactorPartType>> REACTOR_CASING_BASIC =
+        public static final RegistryObject<MultiblockPartBlock<MultiblockReactor, IReactorPartType>> REACTOR_CASING_BASIC =
                 registerReactorBlock("basic_reactorcasing", ReactorVariant.Basic, ReactorPartType.Casing);
 
-        public static final RegistryObject<GlassBlock<MultiblockReactor, ReactorPartType>> REACTOR_GLASS_BASIC =
+        public static final RegistryObject<GlassBlock<MultiblockReactor, IReactorPartType>> REACTOR_GLASS_BASIC =
                 registerReactorBlock("basic_reactorglass", ReactorVariant.Basic, ReactorPartType.Glass);
 
-        public static final RegistryObject<GenericDeviceBlock<MultiblockReactor, ReactorPartType>> REACTOR_CONTROLLER_BASIC =
+        public static final RegistryObject<GenericDeviceBlock<MultiblockReactor, IReactorPartType>> REACTOR_CONTROLLER_BASIC =
                 registerReactorBlock("basic_reactorcontroller", ReactorVariant.Basic, ReactorPartType.Controller);
 
         public static final RegistryObject<ReactorFuelRodBlock> REACTOR_FUELROD_BASIC =
                 registerReactorBlock("basic_reactorfuelrod", ReactorVariant.Basic, ReactorPartType.FuelRod);
 
-        public static final RegistryObject<GenericDeviceBlock<MultiblockReactor, ReactorPartType>> REACTOR_CONTROLROD_BASIC =
+        public static final RegistryObject<GenericDeviceBlock<MultiblockReactor, IReactorPartType>> REACTOR_CONTROLROD_BASIC =
                 registerReactorBlock("basic_reactorcontrolrod", ReactorVariant.Basic, ReactorPartType.ControlRod);
 
-        public static final RegistryObject<IOPortBlock<MultiblockReactor, ReactorPartType>> REACTOR_SOLID_ACCESSPORT_BASIC =
+        public static final RegistryObject<IOPortBlock<MultiblockReactor, IReactorPartType>> REACTOR_SOLID_ACCESSPORT_BASIC =
                 registerReactorBlock("basic_reactorsolidaccessport", ReactorVariant.Basic, ReactorPartType.SolidAccessPort);
 
-        public static final RegistryObject<GenericDeviceBlock<MultiblockReactor, ReactorPartType>> REACTOR_POWERTAP_FE_ACTIVE_BASIC =
+        public static final RegistryObject<GenericDeviceBlock<MultiblockReactor, IReactorPartType>> REACTOR_POWERTAP_FE_ACTIVE_BASIC =
                 registerReactorBlock("basic_reactorpowertapfe_active", ReactorVariant.Basic, ReactorPartType.ActivePowerTapFE);
 
-        public static final RegistryObject<GenericDeviceBlock<MultiblockReactor, ReactorPartType>> REACTOR_POWERTAP_FE_PASSIVE_BASIC =
+        public static final RegistryObject<GenericDeviceBlock<MultiblockReactor, IReactorPartType>> REACTOR_POWERTAP_FE_PASSIVE_BASIC =
                 registerReactorBlock("basic_reactorpowertapfe_passive", ReactorVariant.Basic, ReactorPartType.PassivePowerTapFE);
 
         public static final RegistryObject<ReactorRedstonePortBlock> REACTOR_REDSTONEPORT_BASIC =
                 registerReactorBlock("basic_reactorredstoneport", ReactorVariant.Basic, ReactorPartType.RedstonePort);
 
-        public static final RegistryObject<GenericDeviceBlock<MultiblockReactor, ReactorPartType>> REACTOR_CHARGINGPORT_FE_BASIC =
+        public static final RegistryObject<GenericDeviceBlock<MultiblockReactor, IReactorPartType>> REACTOR_CHARGINGPORT_FE_BASIC =
                 registerReactorBlock("basic_reactorchargingportfe", ReactorVariant.Basic, ReactorPartType.ChargingPortFE);
 
         //endregion
         //region reactor reinforced
 
-        public static final RegistryObject<MultiblockPartBlock<MultiblockReactor, ReactorPartType>> REACTOR_CASING_REINFORCED =
+        public static final RegistryObject<MultiblockPartBlock<MultiblockReactor, IReactorPartType>> REACTOR_CASING_REINFORCED =
                 registerReactorBlock("reinforced_reactorcasing", ReactorVariant.Reinforced, ReactorPartType.Casing);
 
-        public static final RegistryObject<GlassBlock<MultiblockReactor, ReactorPartType>> REACTOR_GLASS_REINFORCED =
+        public static final RegistryObject<GlassBlock<MultiblockReactor, IReactorPartType>> REACTOR_GLASS_REINFORCED =
                 registerReactorBlock("reinforced_reactorglass", ReactorVariant.Reinforced, ReactorPartType.Glass);
 
-        public static final RegistryObject<GenericDeviceBlock<MultiblockReactor, ReactorPartType>> REACTOR_CONTROLLER_REINFORCED =
+        public static final RegistryObject<GenericDeviceBlock<MultiblockReactor, IReactorPartType>> REACTOR_CONTROLLER_REINFORCED =
                 registerReactorBlock("reinforced_reactorcontroller", ReactorVariant.Reinforced, ReactorPartType.Controller);
 
         public static final RegistryObject<ReactorFuelRodBlock> REACTOR_FUELROD_REINFORCED =
                 registerReactorBlock("reinforced_reactorfuelrod", ReactorVariant.Reinforced, ReactorPartType.FuelRod);
 
-        public static final RegistryObject<GenericDeviceBlock<MultiblockReactor, ReactorPartType>> REACTOR_CONTROLROD_REINFORCED =
+        public static final RegistryObject<GenericDeviceBlock<MultiblockReactor, IReactorPartType>> REACTOR_CONTROLROD_REINFORCED =
                 registerReactorBlock("reinforced_reactorcontrolrod", ReactorVariant.Reinforced, ReactorPartType.ControlRod);
 
-        public static final RegistryObject<IOPortBlock<MultiblockReactor, ReactorPartType>> REACTOR_SOLID_ACCESSPORT_REINFORCED =
+        public static final RegistryObject<IOPortBlock<MultiblockReactor, IReactorPartType>> REACTOR_SOLID_ACCESSPORT_REINFORCED =
                 registerReactorBlock("reinforced_reactorsolidaccessport", ReactorVariant.Reinforced, ReactorPartType.SolidAccessPort);
 
-        public static final RegistryObject<IOPortBlock<MultiblockReactor, ReactorPartType>> REACTOR_FLUID_ACCESSPORT_REINFORCED =
+        public static final RegistryObject<IOPortBlock<MultiblockReactor, IReactorPartType>> REACTOR_FLUID_ACCESSPORT_REINFORCED =
                 registerReactorBlock("reinforced_reactorfluidaccessport", ReactorVariant.Reinforced, ReactorPartType.FluidAccessPort);
 
-        public static final RegistryObject<GenericDeviceBlock<MultiblockReactor, ReactorPartType>> REACTOR_POWERTAP_FE_ACTIVE_REINFORCED =
+        public static final RegistryObject<GenericDeviceBlock<MultiblockReactor, IReactorPartType>> REACTOR_POWERTAP_FE_ACTIVE_REINFORCED =
                 registerReactorBlock("reinforced_reactorpowertapfe_active", ReactorVariant.Reinforced, ReactorPartType.ActivePowerTapFE);
 
-        public static final RegistryObject<GenericDeviceBlock<MultiblockReactor, ReactorPartType>> REACTOR_POWERTAP_FE_PASSIVE_REINFORCED =
+        public static final RegistryObject<GenericDeviceBlock<MultiblockReactor, IReactorPartType>> REACTOR_POWERTAP_FE_PASSIVE_REINFORCED =
                 registerReactorBlock("reinforced_reactorpowertapfe_passive", ReactorVariant.Reinforced, ReactorPartType.PassivePowerTapFE);
 
-        public static final RegistryObject<IOPortBlock<MultiblockReactor, ReactorPartType>> REACTOR_FLUIDTPORT_FORGE_ACTIVE_REINFORCED =
+        public static final RegistryObject<IOPortBlock<MultiblockReactor, IReactorPartType>> REACTOR_FLUIDTPORT_FORGE_ACTIVE_REINFORCED =
                 registerReactorBlock("reinforced_reactorfluidport_forge_active", ReactorVariant.Reinforced, ReactorPartType.ActiveFluidPortForge);
 
-        public static final RegistryObject<IOPortBlock<MultiblockReactor, ReactorPartType>> REACTOR_FLUIDPORT_FORGE_PASSIVE_REINFORCED =
+        public static final RegistryObject<IOPortBlock<MultiblockReactor, IReactorPartType>> REACTOR_FLUIDPORT_FORGE_PASSIVE_REINFORCED =
                 registerReactorBlock("reinforced_reactorfluidport_forge_passive", ReactorVariant.Reinforced, ReactorPartType.PassiveFluidPortForge);
 
-        public static final RegistryObject<IOPortBlock<MultiblockReactor, ReactorPartType>> REACTOR_FLUIDPORT_MEKANISM_PASSIVE_REINFORCED =
+        public static final RegistryObject<IOPortBlock<MultiblockReactor, IReactorPartType>> REACTOR_FLUIDPORT_MEKANISM_PASSIVE_REINFORCED =
                 registerReactorBlock("reinforced_reactorfluidport_mekanism_passive", ReactorVariant.Reinforced, ReactorPartType.PassiveFluidPortMekanism);
 
-        public static final RegistryObject<GenericDeviceBlock<MultiblockReactor, ReactorPartType>> REACTOR_CREATIVE_WATER_GENERATOR_REINFORCED =
+        public static final RegistryObject<GenericDeviceBlock<MultiblockReactor, IReactorPartType>> REACTOR_CREATIVE_WATER_GENERATOR_REINFORCED =
                 registerReactorBlock("reinforced_reactorcreativewatergenerator", ReactorVariant.Reinforced, ReactorPartType.CreativeWaterGenerator);
 
         public static final RegistryObject<ReactorRedstonePortBlock> REACTOR_REDSTONEPORT_REINFORCED =
                 registerReactorBlock("reinforced_reactorredstoneport", ReactorVariant.Reinforced, ReactorPartType.RedstonePort);
 
-        public static final RegistryObject<GenericDeviceBlock<MultiblockReactor, ReactorPartType>> REACTOR_COMPUTERPORT_REINFORCED =
+        public static final RegistryObject<GenericDeviceBlock<MultiblockReactor, IReactorPartType>> REACTOR_COMPUTERPORT_REINFORCED =
                 registerReactorBlock("reinforced_reactorcomputerport", ReactorVariant.Reinforced, ReactorPartType.ComputerPort);
 
-        public static final RegistryObject<GenericDeviceBlock<MultiblockReactor, ReactorPartType>> REACTOR_CHARGINGPORT_FE_REINFORCED =
+        public static final RegistryObject<GenericDeviceBlock<MultiblockReactor, IReactorPartType>> REACTOR_CHARGINGPORT_FE_REINFORCED =
                 registerReactorBlock("reinforced_reactorchargingportfe", ReactorVariant.Reinforced, ReactorPartType.ChargingPortFE);
 
         //endregion
@@ -446,10 +447,10 @@ public final class Content {
         }
 
         @SuppressWarnings("unchecked")
-        private static <T extends MultiblockPartBlock<MultiblockReactor, ReactorPartType>>
+        private static <T extends MultiblockPartBlock<MultiblockReactor, IReactorPartType>>
         RegistryObject<T> registerReactorBlock(final String name,
                                                final ReactorVariant variant,
-                                               final ReactorPartType partType) {
+                                               final IReactorPartType partType) {
             return BLOCKS.register(name, () -> (T) (partType.createBlock(variant)));
         }
 

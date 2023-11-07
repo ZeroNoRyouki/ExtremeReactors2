@@ -19,17 +19,13 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant;
 
 import com.google.common.base.Preconditions;
-import com.google.common.collect.Sets;
 import it.zerono.mods.extremereactors.config.Config;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.ReactorPartType;
 import it.zerono.mods.zerocore.lib.CodeHelper;
-import net.minecraft.world.level.block.Block;
 import it.zerono.mods.zerocore.lib.data.WideAmount;
+import net.minecraft.world.level.block.Block;
 
 import java.util.Objects;
-import java.util.Set;
 import java.util.function.Function;
-import java.util.function.Predicate;
 
 public enum ReactorVariant
         implements IMultiblockReactorVariant {
@@ -43,8 +39,7 @@ public enum ReactorVariant
             .setMaxChargerRate(250)
             .setRadiationAttenuation(0.9f)
             .setResidualRadiationAttenuation(0.1f)
-            .setSolidFuelConversionEfficiency(0.5f)
-            .setPartCompatibilityTest(ReactorVariant::isBasicPart)),
+            .setSolidFuelConversionEfficiency(0.5f)),
 
     Reinforced(Builder.create(1000) // using 1000 here so the config values will win
             .setTranslationKey("variant.bigreactors.reactor.reinforced")
@@ -61,10 +56,6 @@ public enum ReactorVariant
             .setSolidFuelConversionEfficiency(0.75f)
             .setFluidFuelConversionEfficiency(0.95f)),
     ;
-
-    public boolean isPartCompatible(final ReactorPartType partType) {
-        return this._partTest.test(partType);
-    }
 
     //region IMultiblockGeneratorVariant
 
@@ -185,11 +176,6 @@ public enum ReactorVariant
         this._partFluidCapacity = builder._partFluidCapacity;
         this._maxFluidCapacity = builder._maxFluidCapacity;
         this._vaporGenerationEfficiency = builder._vaporGenerationEfficiency;
-        this._partTest = builder._partTest;
-    }
-
-    private static boolean isBasicPart(final ReactorPartType partType) {
-        return !BASIC_INVALID_PARTS.contains(partType);
     }
 
     private static final class Builder {
@@ -302,12 +288,6 @@ public enum ReactorVariant
             return this;
         }
 
-        public Builder setPartCompatibilityTest(final Predicate<ReactorPartType> test) {
-
-            this._partTest = test;
-            return this;
-        }
-
         //region internals
 
         private Builder(final int maxX, final int maxY, final int maxZ) {
@@ -318,7 +298,6 @@ public enum ReactorVariant
             this._maxZ = maxZ;
             this._minParts = 27;
             this._blockPropertiesFixer = null;
-            this._partTest = reactorPartType -> true;
         }
 
         private String _translationKey;
@@ -343,14 +322,8 @@ public enum ReactorVariant
 
         private Function<Block.Properties, Block.Properties> _blockPropertiesFixer;
 
-        private Predicate<ReactorPartType> _partTest;
-
         //endregion
     }
-
-    private static final Set<ReactorPartType> BASIC_INVALID_PARTS = Sets.immutableEnumSet(ReactorPartType.ComputerPort,
-            ReactorPartType.ActiveFluidPortForge, ReactorPartType.PassiveFluidPortForge, ReactorPartType.FluidAccessPort,
-            ReactorPartType.PassiveFluidPortMekanism, ReactorPartType.CreativeWaterGenerator);
 
     private final String _translationKey;
 
@@ -373,8 +346,6 @@ public enum ReactorVariant
     private final float _fluidFuelConversionEfficiency;
 
     private final Function<Block.Properties, Block.Properties> _blockPropertiesFixer;
-
-    private final Predicate<ReactorPartType> _partTest;
 
     //endregion
 }
