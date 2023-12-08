@@ -27,6 +27,7 @@ import it.zerono.mods.extremereactors.gamecontent.fluid.ReactorFluidType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.container.ChargingPortContainer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.fluidport.FluidPortType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.FluidizerPartType;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.IFluidizerPartType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.MultiblockFluidizer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.container.FluidizerControllerContainer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.container.FluidizerSolidInjectorContainer;
@@ -42,11 +43,13 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.ReactorPart
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.container.ReactorSolidAccessPortContainer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part.*;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.ReactorVariant;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.IReprocessorPartType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.MultiblockReprocessor;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.ReprocessorPartType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.container.ReprocessorAccessPortContainer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.part.*;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.recipe.ReprocessorRecipe;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.ITurbinePartType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.MultiblockTurbine;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.TurbinePartType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part.*;
@@ -288,139 +291,139 @@ public final class Content {
         //endregion
         //region turbine basic
 
-        public static final RegistryObject<MultiblockPartBlock<MultiblockTurbine, TurbinePartType>> TURBINE_CASING_BASIC =
+        public static final RegistryObject<MultiblockPartBlock<MultiblockTurbine, ITurbinePartType>> TURBINE_CASING_BASIC =
                 registerTurbineBlock("basic_turbinecasing", TurbineVariant.Basic, TurbinePartType.Casing);
 
-        public static final RegistryObject<GlassBlock<MultiblockTurbine, TurbinePartType>> TURBINE_GLASS_BASIC =
+        public static final RegistryObject<GlassBlock<MultiblockTurbine, ITurbinePartType>> TURBINE_GLASS_BASIC =
                 registerTurbineBlock("basic_turbineglass", TurbineVariant.Basic, TurbinePartType.Glass);
 
-        public static final RegistryObject<GenericDeviceBlock<MultiblockTurbine, TurbinePartType>> TURBINE_CONTROLLER_BASIC =
+        public static final RegistryObject<GenericDeviceBlock<MultiblockTurbine, ITurbinePartType>> TURBINE_CONTROLLER_BASIC =
                 registerTurbineBlock("basic_turbinecontroller", TurbineVariant.Basic, TurbinePartType.Controller);
 
         public static final RegistryObject<TurbineRotorBearingBlock> TURBINE_ROTORBEARING_BASIC =
                 registerTurbineBlock("basic_turbinerotorbearing", TurbineVariant.Basic, TurbinePartType.RotorBearing);
 
-        public static final RegistryObject<GenericDeviceBlock<MultiblockTurbine, TurbinePartType>> TURBINE_ROTORSHAFT_BASIC =
+        public static final RegistryObject<GenericDeviceBlock<MultiblockTurbine, ITurbinePartType>> TURBINE_ROTORSHAFT_BASIC =
                 registerTurbineBlock("basic_turbinerotorshaft", TurbineVariant.Basic, TurbinePartType.RotorShaft);
 
-        public static final RegistryObject<GenericDeviceBlock<MultiblockTurbine, TurbinePartType>> TURBINE_ROTORBLADE_BASIC =
+        public static final RegistryObject<GenericDeviceBlock<MultiblockTurbine, ITurbinePartType>> TURBINE_ROTORBLADE_BASIC =
                 registerTurbineBlock("basic_turbinerotorblade", TurbineVariant.Basic, TurbinePartType.RotorBlade);
 
-        public static final RegistryObject<GenericDeviceBlock<MultiblockTurbine, TurbinePartType>> TURBINE_POWERTAP_FE_ACTIVE_BASIC =
+        public static final RegistryObject<GenericDeviceBlock<MultiblockTurbine, ITurbinePartType>> TURBINE_POWERTAP_FE_ACTIVE_BASIC =
                 registerTurbineBlock("basic_turbinepowertapfe_active", TurbineVariant.Basic, TurbinePartType.ActivePowerTapFE);
 
-        public static final RegistryObject<GenericDeviceBlock<MultiblockTurbine, TurbinePartType>> TURBINE_POWERTAP_FE_PASSIVE_BASIC =
+        public static final RegistryObject<GenericDeviceBlock<MultiblockTurbine, ITurbinePartType>> TURBINE_POWERTAP_FE_PASSIVE_BASIC =
                 registerTurbineBlock("basic_turbinepowertapfe_passive", TurbineVariant.Basic, TurbinePartType.PassivePowerTapFE);
 
-        public static final RegistryObject<IOPortBlock<MultiblockTurbine, TurbinePartType>> TURBINE_FLUIDPORT_FORGE_ACTIVE_BASIC =
+        public static final RegistryObject<IOPortBlock<MultiblockTurbine, ITurbinePartType>> TURBINE_FLUIDPORT_FORGE_ACTIVE_BASIC =
                 registerTurbineBlock("basic_turbinefluidport_forge_active", TurbineVariant.Basic, TurbinePartType.ActiveFluidPortForge);
 
-        public static final RegistryObject<IOPortBlock<MultiblockTurbine, TurbinePartType>> TURBINE_FLUIDPORT_FORGE_PASSIVE_BASIC =
+        public static final RegistryObject<IOPortBlock<MultiblockTurbine, ITurbinePartType>> TURBINE_FLUIDPORT_FORGE_PASSIVE_BASIC =
                 registerTurbineBlock("basic_turbinefluidport_forge_passive", TurbineVariant.Basic, TurbinePartType.PassiveFluidPortForge);
 
-        public static final RegistryObject<GenericDeviceBlock<MultiblockTurbine, TurbinePartType>> TURBINE_CREATIVE_STEAM_GENERATOR_BASIC =
+        public static final RegistryObject<GenericDeviceBlock<MultiblockTurbine, ITurbinePartType>> TURBINE_CREATIVE_STEAM_GENERATOR_BASIC =
                 registerTurbineBlock("basic_turbinecreativesteamgenerator", TurbineVariant.Basic, TurbinePartType.CreativeSteamGenerator);
 
         public static final RegistryObject<TurbineRedstonePortBlock> TURBINE_REDSTONEPORT_BASIC =
                 registerTurbineBlock("basic_turbineredstoneport", TurbineVariant.Basic, TurbinePartType.RedstonePort);
 
-        public static final RegistryObject<GenericDeviceBlock<MultiblockTurbine, TurbinePartType>> TURBINE_CHARGINGPORT_FE_BASIC =
+        public static final RegistryObject<GenericDeviceBlock<MultiblockTurbine, ITurbinePartType>> TURBINE_CHARGINGPORT_FE_BASIC =
                 registerTurbineBlock("basic_turbinechargingportfe", TurbineVariant.Basic, TurbinePartType.ChargingPortFE);
 
         //endregion
         //region turbine reinforced
 
-        public static final RegistryObject<MultiblockPartBlock<MultiblockTurbine, TurbinePartType>> TURBINE_CASING_REINFORCED =
+        public static final RegistryObject<MultiblockPartBlock<MultiblockTurbine, ITurbinePartType>> TURBINE_CASING_REINFORCED =
                 registerTurbineBlock("reinforced_turbinecasing", TurbineVariant.Reinforced, TurbinePartType.Casing);
 
-        public static final RegistryObject<GlassBlock<MultiblockTurbine, TurbinePartType>> TURBINE_GLASS_REINFORCED =
+        public static final RegistryObject<GlassBlock<MultiblockTurbine, ITurbinePartType>> TURBINE_GLASS_REINFORCED =
                 registerTurbineBlock("reinforced_turbineglass", TurbineVariant.Reinforced, TurbinePartType.Glass);
 
-        public static final RegistryObject<GenericDeviceBlock<MultiblockTurbine, TurbinePartType>> TURBINE_CONTROLLER_REINFORCED =
+        public static final RegistryObject<GenericDeviceBlock<MultiblockTurbine, ITurbinePartType>> TURBINE_CONTROLLER_REINFORCED =
                 registerTurbineBlock("reinforced_turbinecontroller", TurbineVariant.Reinforced, TurbinePartType.Controller);
 
         public static final RegistryObject<TurbineRotorBearingBlock> TURBINE_ROTORBEARING_REINFORCED =
                 registerTurbineBlock("reinforced_turbinerotorbearing", TurbineVariant.Reinforced, TurbinePartType.RotorBearing);
 
-        public static final RegistryObject<GenericDeviceBlock<MultiblockTurbine, TurbinePartType>> TURBINE_ROTORSHAFT_REINFORCED =
+        public static final RegistryObject<GenericDeviceBlock<MultiblockTurbine, ITurbinePartType>> TURBINE_ROTORSHAFT_REINFORCED =
                 registerTurbineBlock("reinforced_turbinerotorshaft", TurbineVariant.Reinforced, TurbinePartType.RotorShaft);
 
-        public static final RegistryObject<GenericDeviceBlock<MultiblockTurbine, TurbinePartType>> TURBINE_ROTORBLADE_REINFORCED =
+        public static final RegistryObject<GenericDeviceBlock<MultiblockTurbine, ITurbinePartType>> TURBINE_ROTORBLADE_REINFORCED =
                 registerTurbineBlock("reinforced_turbinerotorblade", TurbineVariant.Reinforced, TurbinePartType.RotorBlade);
 
-        public static final RegistryObject<GenericDeviceBlock<MultiblockTurbine, TurbinePartType>> TURBINE_POWERTAP_FE_ACTIVE_REINFORCED =
+        public static final RegistryObject<GenericDeviceBlock<MultiblockTurbine, ITurbinePartType>> TURBINE_POWERTAP_FE_ACTIVE_REINFORCED =
                 registerTurbineBlock("reinforced_turbinepowertapfe_active", TurbineVariant.Reinforced, TurbinePartType.ActivePowerTapFE);
 
-        public static final RegistryObject<GenericDeviceBlock<MultiblockTurbine, TurbinePartType>> TURBINE_POWERTAP_FE_PASSIVE_REINFORCED =
+        public static final RegistryObject<GenericDeviceBlock<MultiblockTurbine, ITurbinePartType>> TURBINE_POWERTAP_FE_PASSIVE_REINFORCED =
                 registerTurbineBlock("reinforced_turbinepowertapfe_passive", TurbineVariant.Reinforced, TurbinePartType.PassivePowerTapFE);
 
-        public static final RegistryObject<IOPortBlock<MultiblockTurbine, TurbinePartType>> TURBINE_FLUIDPORT_FORGE_ACTIVE_REINFORCED =
+        public static final RegistryObject<IOPortBlock<MultiblockTurbine, ITurbinePartType>> TURBINE_FLUIDPORT_FORGE_ACTIVE_REINFORCED =
                 registerTurbineBlock("reinforced_turbinefluidport_forge_active", TurbineVariant.Reinforced, TurbinePartType.ActiveFluidPortForge);
 
-        public static final RegistryObject<IOPortBlock<MultiblockTurbine, TurbinePartType>> TURBINE_FLUIDPORT_FORGE_PASSIVE_REINFORCED =
+        public static final RegistryObject<IOPortBlock<MultiblockTurbine, ITurbinePartType>> TURBINE_FLUIDPORT_FORGE_PASSIVE_REINFORCED =
                 registerTurbineBlock("reinforced_turbinefluidport_forge_passive", TurbineVariant.Reinforced, TurbinePartType.PassiveFluidPortForge);
 
-        public static final RegistryObject<GenericDeviceBlock<MultiblockTurbine, TurbinePartType>> TURBINE_CREATIVE_STEAM_GENERATOR_REINFORCED =
+        public static final RegistryObject<GenericDeviceBlock<MultiblockTurbine, ITurbinePartType>> TURBINE_CREATIVE_STEAM_GENERATOR_REINFORCED =
                 registerTurbineBlock("reinforced_turbinecreativesteamgenerator", TurbineVariant.Reinforced, TurbinePartType.CreativeSteamGenerator);
 
         public static final RegistryObject<TurbineRedstonePortBlock> TURBINE_REDSTONEPORT_REINFORCED =
                 registerTurbineBlock("reinforced_turbineredstoneport", TurbineVariant.Reinforced, TurbinePartType.RedstonePort);
 
-        public static final RegistryObject<GenericDeviceBlock<MultiblockTurbine, TurbinePartType>> TURBINE_COMPUTERPORT_REINFORCED =
+        public static final RegistryObject<GenericDeviceBlock<MultiblockTurbine, ITurbinePartType>> TURBINE_COMPUTERPORT_REINFORCED =
                 registerTurbineBlock("reinforced_turbinecomputerport", TurbineVariant.Reinforced, TurbinePartType.ComputerPort);
 
-        public static final RegistryObject<GenericDeviceBlock<MultiblockTurbine, TurbinePartType>> TURBINE_CHARGINGPORT_FE_REINFORCED =
+        public static final RegistryObject<GenericDeviceBlock<MultiblockTurbine, ITurbinePartType>> TURBINE_CHARGINGPORT_FE_REINFORCED =
                 registerTurbineBlock("reinforced_turbinechargingportfe", TurbineVariant.Reinforced, TurbinePartType.ChargingPortFE);
 
         //endregion
         //region reprocessor
 
-        public static final RegistryObject<MultiblockPartBlock<MultiblockReprocessor, ReprocessorPartType>> REPROCESSOR_CASING =
+        public static final RegistryObject<MultiblockPartBlock<MultiblockReprocessor, IReprocessorPartType>> REPROCESSOR_CASING =
                 registerReprocessorBlock("reprocessorcasing", ReprocessorPartType.Casing);
 
-        public static final RegistryObject<GlassBlock<MultiblockReprocessor, ReprocessorPartType>> REPROCESSOR_GLASS =
+        public static final RegistryObject<GlassBlock<MultiblockReprocessor, IReprocessorPartType>> REPROCESSOR_GLASS =
                 registerReprocessorBlock("reprocessorglass", ReprocessorPartType.Glass);
 
-        public static final RegistryObject<GenericDeviceBlock<MultiblockReprocessor, ReprocessorPartType>> REPROCESSOR_CONTROLLER =
+        public static final RegistryObject<GenericDeviceBlock<MultiblockReprocessor, IReprocessorPartType>> REPROCESSOR_CONTROLLER =
                 registerReprocessorBlock("reprocessorcontroller", ReprocessorPartType.Controller);
 
-        public static final RegistryObject<GenericDeviceBlock<MultiblockReprocessor, ReprocessorPartType>> REPROCESSOR_WASTEINJECTOR =
+        public static final RegistryObject<GenericDeviceBlock<MultiblockReprocessor, IReprocessorPartType>> REPROCESSOR_WASTEINJECTOR =
                 registerReprocessorBlock("reprocessorwasteinjector", ReprocessorPartType.WasteInjector);
 
-        public static final RegistryObject<GenericDeviceBlock<MultiblockReprocessor, ReprocessorPartType>> REPROCESSOR_FLUIDINJECTOR =
+        public static final RegistryObject<GenericDeviceBlock<MultiblockReprocessor, IReprocessorPartType>> REPROCESSOR_FLUIDINJECTOR =
                 registerReprocessorBlock("reprocessorfluidinjector", ReprocessorPartType.FluidInjector);
 
-        public static final RegistryObject<GenericDeviceBlock<MultiblockReprocessor, ReprocessorPartType>> REPROCESSOR_OUTPUTPORT =
+        public static final RegistryObject<GenericDeviceBlock<MultiblockReprocessor, IReprocessorPartType>> REPROCESSOR_OUTPUTPORT =
                 registerReprocessorBlock("reprocessoroutputport", ReprocessorPartType.OutputPort);
 
-        public static final RegistryObject<GenericDeviceBlock<MultiblockReprocessor, ReprocessorPartType>> REPROCESSOR_POWERPORT =
+        public static final RegistryObject<GenericDeviceBlock<MultiblockReprocessor, IReprocessorPartType>> REPROCESSOR_POWERPORT =
                 registerReprocessorBlock("reprocessorpowerport", ReprocessorPartType.PowerPort);
 
-        public static final RegistryObject<GenericDeviceBlock<MultiblockReprocessor, ReprocessorPartType>> REPROCESSOR_COLLECTOR =
+        public static final RegistryObject<GenericDeviceBlock<MultiblockReprocessor, IReprocessorPartType>> REPROCESSOR_COLLECTOR =
                 registerReprocessorBlock("reprocessorcollector", ReprocessorPartType.Collector);
 
         //endregion
         //region fluidizer
 
-        public static final RegistryObject<MultiblockPartBlock<MultiblockFluidizer, FluidizerPartType>> FLUIDIZER_CASING =
+        public static final RegistryObject<MultiblockPartBlock<MultiblockFluidizer, IFluidizerPartType>> FLUIDIZER_CASING =
                 registerFluidizerBlock("fluidizercasing", FluidizerPartType.Casing);
 
-        public static final RegistryObject<GlassBlock<MultiblockFluidizer, FluidizerPartType>> FLUIDIZER_GLASS =
+        public static final RegistryObject<GlassBlock<MultiblockFluidizer, IFluidizerPartType>> FLUIDIZER_GLASS =
                 registerFluidizerBlock("fluidizerglass", FluidizerPartType.Glass);
 
-        public static final RegistryObject<GenericDeviceBlock<MultiblockFluidizer, FluidizerPartType>> FLUIDIZER_CONTROLLER =
+        public static final RegistryObject<GenericDeviceBlock<MultiblockFluidizer, IFluidizerPartType>> FLUIDIZER_CONTROLLER =
                 registerFluidizerBlock("fluidizercontroller", FluidizerPartType.Controller);
 
-        public static final RegistryObject<GenericDeviceBlock<MultiblockFluidizer, FluidizerPartType>> FLUIDIZER_SOLIDINJECTOR =
+        public static final RegistryObject<GenericDeviceBlock<MultiblockFluidizer, IFluidizerPartType>> FLUIDIZER_SOLIDINJECTOR =
                 registerFluidizerBlock("fluidizersolidinjector", FluidizerPartType.SolidInjector);
 
-        public static final RegistryObject<GenericDeviceBlock<MultiblockFluidizer, FluidizerPartType>> FLUIDIZER_FLUIDINJECTOR =
+        public static final RegistryObject<GenericDeviceBlock<MultiblockFluidizer, IFluidizerPartType>> FLUIDIZER_FLUIDINJECTOR =
                 registerFluidizerBlock("fluidizerfluidinjector", FluidizerPartType.FluidInjector);
 
-        public static final RegistryObject<GenericDeviceBlock<MultiblockFluidizer, FluidizerPartType>> FLUIDIZER_OUTPUTPORT =
+        public static final RegistryObject<GenericDeviceBlock<MultiblockFluidizer, IFluidizerPartType>> FLUIDIZER_OUTPUTPORT =
                 registerFluidizerBlock("fluidizeroutputport", FluidizerPartType.OutputPort);
 
-        public static final RegistryObject<GenericDeviceBlock<MultiblockFluidizer, FluidizerPartType>> FLUIDIZER_POWERPORT =
+        public static final RegistryObject<GenericDeviceBlock<MultiblockFluidizer, IFluidizerPartType>> FLUIDIZER_POWERPORT =
                 registerFluidizerBlock("fluidizerpowerport", FluidizerPartType.PowerPort);
 
         //endregion
@@ -455,21 +458,21 @@ public final class Content {
         }
 
         @SuppressWarnings("unchecked")
-        private static <T extends MultiblockPartBlock<MultiblockTurbine, TurbinePartType>>
+        private static <T extends MultiblockPartBlock<MultiblockTurbine, ITurbinePartType>>
         RegistryObject<T> registerTurbineBlock(final String name,
                                                final TurbineVariant variant,
-                                               final TurbinePartType partType) {
+                                               final ITurbinePartType partType) {
             return BLOCKS.register(name, () -> (T) (partType.createBlock(variant)));
         }
 
         @SuppressWarnings("unchecked")
-        private static <T extends MultiblockPartBlock<MultiblockReprocessor, ReprocessorPartType>>
+        private static <T extends MultiblockPartBlock<MultiblockReprocessor, IReprocessorPartType>>
         RegistryObject<T> registerReprocessorBlock(final String name, final ReprocessorPartType partType) {
             return BLOCKS.register(name, () -> (T) (partType.createBlock()));
         }
 
         @SuppressWarnings("unchecked")
-        private static <T extends MultiblockPartBlock<MultiblockFluidizer, FluidizerPartType>>
+        private static <T extends MultiblockPartBlock<MultiblockFluidizer, IFluidizerPartType>>
         RegistryObject<T> registerFluidizerBlock(final String name, final FluidizerPartType partType) {
             return BLOCKS.register(name, () -> (T) (partType.createBlock()));
         }
