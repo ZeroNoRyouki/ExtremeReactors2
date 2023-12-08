@@ -19,8 +19,8 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part;
 
 import it.zerono.mods.extremereactors.config.Config;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.ITurbinePartType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.MultiblockTurbine;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.TurbinePartType;
 import it.zerono.mods.zerocore.base.multiblock.part.GenericDeviceBlock;
 import it.zerono.mods.zerocore.lib.block.INeighborChangeListener;
 import it.zerono.mods.zerocore.lib.multiblock.cuboid.AbstractCuboidMultiblockPart;
@@ -36,10 +36,10 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class TurbineRedstonePortBlock
-        extends GenericDeviceBlock<MultiblockTurbine, TurbinePartType>
+        extends GenericDeviceBlock<MultiblockTurbine, ITurbinePartType>
         implements INeighborChangeListener.Notifier {
 
-    public TurbineRedstonePortBlock(final MultiblockPartProperties<TurbinePartType> properties) {
+    public TurbineRedstonePortBlock(final MultiblockPartProperties<ITurbinePartType> properties) {
         super(properties);
     }
 

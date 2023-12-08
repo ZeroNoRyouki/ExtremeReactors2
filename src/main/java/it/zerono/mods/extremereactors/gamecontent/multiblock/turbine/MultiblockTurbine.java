@@ -234,21 +234,9 @@ public class MultiblockTurbine
 
             return RotorComponentType.Ignore;
 
-        } else if (block instanceof TurbineRotorComponentBlock) {
+        } else if (block instanceof TurbineRotorComponentBlock rotorComponent) {
 
-            final TurbineRotorComponentBlock/*<?>*/ rotorBlock = (TurbineRotorComponentBlock/*<?>*/)block;
-
-            switch (rotorBlock.getPartType()) {
-
-                case RotorBlade:
-                    return RotorComponentType.Blade;
-
-                case RotorShaft:
-                    return RotorComponentType.Shaft;
-
-                default:
-                    return RotorComponentType.Ignore;
-            }
+            return rotorComponent.getComponentType();
 
         } else {
 

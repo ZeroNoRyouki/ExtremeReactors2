@@ -19,8 +19,8 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part;
 
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.ReactorVariant;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.ITurbinePartType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.MultiblockTurbine;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.TurbinePartType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.IMultiblockTurbineVariant;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.TurbineVariant;
 import it.zerono.mods.zerocore.base.multiblock.part.AbstractMultiblockEntity;
@@ -40,7 +40,7 @@ import net.minecraftforge.client.model.data.ModelData;
 
 public class AbstractTurbineEntity
         extends AbstractMultiblockEntity<MultiblockTurbine>
-        implements IMultiblockPartTypeProvider<MultiblockTurbine, TurbinePartType>,
+        implements IMultiblockPartTypeProvider<MultiblockTurbine, ITurbinePartType>,
                     IMultiblockVariantProvider<IMultiblockTurbineVariant> {
 
     public AbstractTurbineEntity(final BlockEntityType<?> type, final BlockPos position, final BlockState blockState) {
@@ -63,7 +63,7 @@ public class AbstractTurbineEntity
     public Component getPartDisplayName() {
         return Component.translatable("gui.bigreactors.multiblock_variant_part_format.title",
                 Component.translatable(this.getMultiblockVariant().map(IMultiblockVariant::getTranslationKey).orElse("unknown")),
-                Component.translatable(this.getPartType().map(TurbinePartType::getTranslationKey).orElse("unknown")));
+                Component.translatable(this.getPartType().map(ITurbinePartType::getTranslationKey).orElse("unknown")));
     }
 
     //region client render support
@@ -154,8 +154,8 @@ public class AbstractTurbineEntity
     //endregion
     //region client render support
 
-    protected ModelData getUpdatedModelData(final IMultiblockTurbineVariant variant, final TurbinePartType partType) {
-        return getVariantModelDataCache(variant).computeIfAbsent(partType.ordinal(), this.getUpdatedModelVariantIndex(),
+    protected ModelData getUpdatedModelData(final IMultiblockTurbineVariant variant, final ITurbinePartType partType) {
+        return getVariantModelDataCache(variant).computeIfAbsent(partType.getByteHashCode(), this.getUpdatedModelVariantIndex(),
                 this.getOutwardFacings());
     }
 

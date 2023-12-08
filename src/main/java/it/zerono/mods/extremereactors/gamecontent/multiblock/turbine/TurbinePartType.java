@@ -1,6 +1,6 @@
 /*
  *
- * TurbinePartType.java
+ * ITurbinePartType.java
  *
  * This file is part of Extreme Reactors 2 by ZeroNoRyouki, a Minecraft mod.
  *
@@ -27,7 +27,6 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part.Turbin
 import it.zerono.mods.zerocore.base.multiblock.part.GenericDeviceBlock;
 import it.zerono.mods.zerocore.base.multiblock.part.GlassBlock;
 import it.zerono.mods.zerocore.base.multiblock.part.io.IOPortBlock;
-import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockPartType2;
 import it.zerono.mods.zerocore.lib.block.multiblock.MultiblockPartBlock;
 import it.zerono.mods.zerocore.lib.block.multiblock.MultiblockPartTypeProperties;
 import net.minecraft.world.level.block.Block;
@@ -38,7 +37,7 @@ import net.minecraftforge.common.util.NonNullFunction;
 import net.minecraftforge.common.util.NonNullSupplier;
 
 public enum TurbinePartType
-        implements IMultiblockPartType2<MultiblockTurbine, TurbinePartType> {
+        implements ITurbinePartType {
 
     Casing(() -> Content.TileEntityTypes.TURBINE_CASING::get,
             MultiblockPartBlock::new,
@@ -95,15 +94,15 @@ public enum TurbinePartType
     ;
 
     TurbinePartType(final NonNullSupplier<NonNullSupplier<BlockEntityType<?>>> tileTypeSupplier,
-                    final NonNullFunction<MultiblockPartBlock.MultiblockPartProperties<TurbinePartType>,
-                                                MultiblockPartBlock<MultiblockTurbine, TurbinePartType>> blockFactory,
+                    final NonNullFunction<MultiblockPartBlock.MultiblockPartProperties<ITurbinePartType>,
+                                                MultiblockPartBlock<MultiblockTurbine, ITurbinePartType>> blockFactory,
                     final String translationKey) {
         this(tileTypeSupplier, blockFactory, translationKey, bp -> bp);
     }
 
     TurbinePartType(final NonNullSupplier<NonNullSupplier<BlockEntityType<?>>> tileTypeSupplier,
-                    final NonNullFunction<MultiblockPartBlock.MultiblockPartProperties<TurbinePartType>,
-                            MultiblockPartBlock<MultiblockTurbine, TurbinePartType>> blockFactory,
+                    final NonNullFunction<MultiblockPartBlock.MultiblockPartProperties<ITurbinePartType>,
+                            MultiblockPartBlock<MultiblockTurbine, ITurbinePartType>> blockFactory,
                     final String translationKey,
                     final NonNullFunction<Block.Properties, Block.Properties> blockPropertiesFixer) {
         this._properties = new MultiblockPartTypeProperties<>(tileTypeSupplier, blockFactory, translationKey, blockPropertiesFixer);
@@ -112,7 +111,7 @@ public enum TurbinePartType
     //region IMultiblockPartType2
 
     @Override
-    public MultiblockPartTypeProperties<MultiblockTurbine, TurbinePartType> getPartTypeProperties() {
+    public MultiblockPartTypeProperties<MultiblockTurbine, ITurbinePartType> getPartTypeProperties() {
         return this._properties;
     }
 
@@ -139,7 +138,7 @@ public enum TurbinePartType
 //                .lightLevel(state -> 15);
 //    }
 
-    private final MultiblockPartTypeProperties<MultiblockTurbine, TurbinePartType> _properties;
+    private final MultiblockPartTypeProperties<MultiblockTurbine, ITurbinePartType> _properties;
 
     //endregion
 }

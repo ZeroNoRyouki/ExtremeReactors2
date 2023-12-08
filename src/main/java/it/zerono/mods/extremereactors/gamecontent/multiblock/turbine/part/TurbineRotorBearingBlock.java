@@ -19,8 +19,8 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part;
 
 import it.zerono.mods.extremereactors.config.Config;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.ITurbinePartType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.MultiblockTurbine;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.TurbinePartType;
 import it.zerono.mods.zerocore.base.multiblock.part.GenericDeviceBlock;
 import it.zerono.mods.zerocore.lib.world.WorldHelper;
 import net.minecraft.core.BlockPos;
@@ -37,9 +37,9 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import java.util.Optional;
 
 public class TurbineRotorBearingBlock
-        extends GenericDeviceBlock<MultiblockTurbine, TurbinePartType> {
+        extends GenericDeviceBlock<MultiblockTurbine, ITurbinePartType> {
 
-    public TurbineRotorBearingBlock(final MultiblockPartProperties<TurbinePartType> properties) {
+    public TurbineRotorBearingBlock(final MultiblockPartProperties<ITurbinePartType> properties) {
         super(properties);
     }
 

@@ -18,9 +18,10 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part;
 
+import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.ITurbinePartType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.MultiblockTurbine;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.TurbinePartType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.rotor.RotorBladeState;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.rotor.RotorComponentType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.rotor.RotorShaftState;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.IMultiblockTurbineVariant;
 import it.zerono.mods.zerocore.base.multiblock.part.GenericDeviceBlock;
@@ -43,13 +44,13 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public abstract class TurbineRotorComponentBlock
-        extends GenericDeviceBlock<MultiblockTurbine, TurbinePartType>
+        extends GenericDeviceBlock<MultiblockTurbine, ITurbinePartType>
         implements INeighborChangeListener.Notifier, INeverCauseRenderingSkip {
 
     public static final EnumProperty<RotorShaftState> ROTOR_SHAFT_STATE = EnumProperty.create("state", RotorShaftState.class);
     public static final EnumProperty<RotorBladeState> ROTOR_BLADE_STATE = EnumProperty.create("state", RotorBladeState.class);
 
-    public static TurbineRotorComponentBlock shaft(final MultiblockPartProperties<TurbinePartType> properties) {
+    public static TurbineRotorComponentBlock shaft(final MultiblockPartProperties<ITurbinePartType> properties) {
         return new TurbineRotorComponentBlock(properties) {
 
             @Override
@@ -60,6 +61,11 @@ public abstract class TurbineRotorComponentBlock
             @Override
             public boolean isBlade() {
                 return false;
+            }
+
+            @Override
+            public RotorComponentType getComponentType() {
+                return RotorComponentType.Shaft;
             }
 
             @Override
@@ -76,7 +82,7 @@ public abstract class TurbineRotorComponentBlock
         };
     }
 
-    public static TurbineRotorComponentBlock blade(final MultiblockPartProperties<TurbinePartType> properties) {
+    public static TurbineRotorComponentBlock blade(final MultiblockPartProperties<ITurbinePartType> properties) {
         return new TurbineRotorComponentBlock(properties) {
 
             @Override
@@ -87,6 +93,11 @@ public abstract class TurbineRotorComponentBlock
             @Override
             public boolean isBlade() {
                 return true;
+            }
+
+            @Override
+            public RotorComponentType getComponentType() {
+                return RotorComponentType.Blade;
             }
 
             @Override
@@ -106,6 +117,8 @@ public abstract class TurbineRotorComponentBlock
     public abstract boolean isShaft();
 
     public abstract boolean isBlade();
+
+    public abstract RotorComponentType getComponentType();
 
     //region Block
 
@@ -142,7 +155,7 @@ public abstract class TurbineRotorComponentBlock
     //endregion
     //region internals
 
-    protected TurbineRotorComponentBlock(final MultiblockPartProperties<TurbinePartType> properties) {
+    protected TurbineRotorComponentBlock(final MultiblockPartProperties<ITurbinePartType> properties) {
         super(properties);
     }
 

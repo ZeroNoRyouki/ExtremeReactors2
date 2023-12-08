@@ -390,22 +390,26 @@ public final class PatchouliCompat {
 
         final Block block = state.getBlock();
 
+        if (block instanceof TurbineRotorComponentBlock rotorComponent) {
+
+            switch (rotorComponent.getComponentType()) {
+
+                case Shaft:
+                    return CuboidPartVariantsModelData.from(TurbinePartType.RotorShaft.ordinal(),
+                            state.getValue(TurbineRotorComponentBlock.ROTOR_SHAFT_STATE).ordinal(), BlockFacings.ALL);
+
+                case Blade:
+                    return CuboidPartVariantsModelData.from(TurbinePartType.RotorBlade.ordinal(),
+                            state.getValue(TurbineRotorComponentBlock.ROTOR_BLADE_STATE).ordinal(), BlockFacings.ALL);
+            }
+        }
+
         if (block instanceof MultiblockPartBlock) {
 
             @SuppressWarnings("unchecked")
             final MultiblockPartBlock<MultiblockTurbine, TurbinePartType> part = (MultiblockPartBlock<MultiblockTurbine, TurbinePartType>)block;
 
-            switch (part.getPartType()) {
-
-                case RotorShaft:
-                    return CuboidPartVariantsModelData.from(TurbinePartType.RotorShaft.ordinal(), state.getValue(TurbineRotorComponentBlock.ROTOR_SHAFT_STATE).ordinal(), BlockFacings.ALL);
-
-                case RotorBlade:
-                    return CuboidPartVariantsModelData.from(TurbinePartType.RotorBlade.ordinal(), state.getValue(TurbineRotorComponentBlock.ROTOR_BLADE_STATE).ordinal(), BlockFacings.ALL);
-
-                default:
-                    return CuboidPartVariantsModelData.from(part.getPartType().ordinal(), 0, BlockFacings.ALL);
-            }
+            return CuboidPartVariantsModelData.from(part.getPartType().getByteHashCode(), 0, BlockFacings.ALL);
         }
 
         return ModelData.EMPTY;

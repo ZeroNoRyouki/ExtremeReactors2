@@ -20,6 +20,7 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import it.zerono.mods.extremereactors.gamecontent.Content;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.ITurbinePartType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.MultiblockTurbine;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.TurbinePartType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.rotor.RotorBladeState;
@@ -137,20 +138,16 @@ public class TurbineRotorComponentEntity
             return 0; // HIDDEN
         }
 
-        return this.getPartType()
-                .map(type -> {
+        if (this.getBlockState().getBlock() instanceof TurbineRotorComponentBlock rotorComponent) {
+            return switch (rotorComponent.getComponentType()) {
 
-                    switch (type) {
-                        case RotorShaft:
-                            return computeShaftState(this, false).ordinal();
+                case Shaft -> computeShaftState(this, false).ordinal();
+                case Blade -> computeBladeState(this, false).ordinal();
+                default -> 0;
+            };
+        }
 
-                        case RotorBlade:
-                            return computeBladeState(this, false).ordinal();
-
-                        default:
-                            return 0;
-                    }
-                }).orElse(0);
+        return 0;
     }
 
     //endregion
@@ -340,7 +337,7 @@ public class TurbineRotorComponentEntity
         }
     }
 
-    private final TurbinePartType _componentType;
+    private final ITurbinePartType _componentType;
 
     private static final Map<Direction.Axis, Function<Set<Direction.Axis>, RotorShaftState>> SHAFT_STATE_MAP;
 
