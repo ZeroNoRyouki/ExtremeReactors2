@@ -8,7 +8,7 @@ import it.zerono.mods.zerocore.lib.datagen.provider.tag.ModIntrinsicTagAppender;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.common.util.NonNullFunction;
+import net.neoforged.neoforge.common.util.NonNullFunction;
 
 public class FluidTagsDataProvider
         implements IIntrinsicTagDataProvider<Fluid> {

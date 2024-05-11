@@ -24,14 +24,8 @@ import it.zerono.mods.zerocore.lib.block.INeighborChangeListener;
 import it.zerono.mods.zerocore.lib.data.IoMode;
 import it.zerono.mods.zerocore.lib.energy.EnergySystem;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.util.LazyOptional;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 public class ReactorPowerTapEntity
         extends AbstractReactorPowerTapEntity
@@ -57,7 +51,7 @@ public class ReactorPowerTapEntity
     public void onNeighborBlockChanged(BlockState state, BlockPos neighborPosition, boolean isMoving) {
 
         if (this.isConnected()) {
-            this.getPowerPortHandler().checkConnections(this.getLevel(), this.getWorldPosition());
+            this.getPowerPortHandler().onPortChanged();
         }
     }
 
@@ -71,7 +65,7 @@ public class ReactorPowerTapEntity
     public void onNeighborTileChanged(BlockState state, BlockPos neighborPosition) {
 
         if (this.isConnected()) {
-            this.getPowerPortHandler().checkConnections(this.getLevel(), this.getWorldPosition());
+            this.getPowerPortHandler().onPortChanged();
         }
     }
 
@@ -82,27 +76,21 @@ public class ReactorPowerTapEntity
     public void onAttached(MultiblockReactor newController) {
 
         super.onAttached(newController);
-        this.getPowerPortHandler().checkConnections(this.getLevel(), this.getWorldPosition());
+        this.getPowerPortHandler().onPortChanged();
     }
 
     @Override
     public void onPostMachineAssembled(MultiblockReactor controller) {
 
         super.onPostMachineAssembled(controller);
-        this.getPowerPortHandler().checkConnections(this.getLevel(), this.getWorldPosition());
-        this.notifyNeighborsOfTileChange();
+        this.getPowerPortHandler().onPortChanged();
     }
 
-    //endregion
-    //region TileEntity
-
-    @Nonnull
     @Override
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable Direction side) {
+    public void onPostMachineBroken() {
 
-        final LazyOptional<T> cap = this.getPowerPortHandler().getCapability(capability, side);
-
-        return null != cap ? cap : super.getCapability(capability, side);
+        super.onPostMachineBroken();
+        this.getPowerPortHandler().onPortChanged();
     }
 
     //endregion

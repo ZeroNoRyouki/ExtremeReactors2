@@ -32,9 +32,7 @@ import it.zerono.mods.zerocore.lib.item.ItemHelper;
 import it.zerono.mods.zerocore.lib.item.inventory.ItemStackHolder;
 import it.zerono.mods.zerocore.lib.recipe.ingredient.IRecipeIngredientSource;
 import it.zerono.mods.zerocore.lib.recipe.ingredient.RecipeIngredientSourceWrapper;
-import it.zerono.mods.zerocore.lib.world.WorldHelper;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -47,16 +45,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityManager;
-import net.minecraftforge.common.capabilities.CapabilityToken;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.common.util.NonNullConsumer;
-import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.IItemHandlerModifiable;
+import net.neoforged.fml.LogicalSide;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.common.util.NonNullConsumer;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.IItemHandlerModifiable;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class FluidizerSolidInjectorEntity
@@ -67,7 +61,6 @@ public class FluidizerSolidInjectorEntity
 
         super(Content.TileEntityTypes.FLUIDIZER_SOLIDINJECTOR.get(), position, blockState);
         this._solidItems = new ItemStackHolder(1, ($, stack) -> this.isValidIngredient(stack)).setOnLoadListener(this::onItemsChanged).setOnContentsChangedListener(this::onItemsChanged);
-        this._capability = LazyOptional.of(() -> this._solidItems);
     }
 
     public IRecipeIngredientSource<ItemStack> asRecipeSource() {
@@ -112,7 +105,7 @@ public class FluidizerSolidInjectorEntity
 
     @Override
     protected int getUpdatedModelVariantIndex() {
-        return this.isMachineAssembled() && this.getNeighborCapability().isPresent() ? 1 : 0;
+        return this.isMachineAssembled() && null != this.getNeighborCapability() ? 1 : 0;
     }
 
     //endregion
@@ -229,32 +222,14 @@ public class FluidizerSolidInjectorEntity
     }
 
     //endregion
-    //region TileEntity
-
-    @Nonnull
-    @Override
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-        return ITEM_HANDLER_CAPABILITY == cap ? this._capability.cast() : super.getCapability(cap, side);
-    }
-
-    /**
-     * invalidates a tile entity
-     */
-    @Override
-    public void setRemoved() {
-
-        super.setRemoved();
-        this._capability.invalidate();
-    }
-
-    //endregion
     //region internals
 
-    private LazyOptional<IItemHandler> getNeighborCapability() {
-        return CodeHelper.optionalFlatMap(this.getPartWorld(), this.getOutwardDirection(),
-                        (world, direction) -> WorldHelper.getTile(world, this.getWorldPosition().relative(direction))
-                                .map(te -> te.getCapability(ITEM_HANDLER_CAPABILITY, direction.getOpposite())))
-                .orElse(LazyOptional.empty());
+    @Nullable
+    private IItemHandler getNeighborCapability() {
+        return CodeHelper.optionalMap(this.getPartWorld(), this.getOutwardDirection(),
+                        (level, direction) -> level.getCapability(Capabilities.ItemHandler.BLOCK,
+                                this.getWorldPosition().relative(direction), direction.getOpposite()))
+                .orElse(null);
     }
 
     private void onItemsChanged(IStackHolder.ChangeType changeType, int slot) {
@@ -268,13 +243,9 @@ public class FluidizerSolidInjectorEntity
         this._shouldSync = true;
     }
 
-    @SuppressWarnings("FieldMayBeFinal")
-    private static Capability<IItemHandler> ITEM_HANDLER_CAPABILITY = CapabilityManager.get(new CapabilityToken<>(){});
-
     private static final ResourceLocation SYNC_DATA_ID = ExtremeReactors.ROOT_LOCATION.buildWithSuffix("solidinjector");
 
     private final ItemStackHolder _solidItems;
-    private final LazyOptional<IItemHandlerModifiable> _capability;
     private boolean _shouldSync;
 
     //endregion

@@ -30,7 +30,7 @@ import it.zerono.mods.zerocore.lib.compat.computer.ComputerMethod;
 import it.zerono.mods.zerocore.lib.compat.computer.LuaHelper;
 import it.zerono.mods.zerocore.lib.compat.computer.MultiblockComputerPeripheral;
 import it.zerono.mods.zerocore.lib.energy.EnergySystem;
-import net.minecraftforge.common.util.NonNullConsumer;
+import net.neoforged.neoforge.common.util.NonNullConsumer;
 
 import java.util.Map;
 import java.util.function.BiFunction;

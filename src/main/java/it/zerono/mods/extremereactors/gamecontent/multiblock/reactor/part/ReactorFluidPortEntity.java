@@ -32,7 +32,6 @@ import it.zerono.mods.zerocore.lib.data.IoDirection;
 import it.zerono.mods.zerocore.lib.data.IoMode;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.MenuProvider;
@@ -42,12 +41,9 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.fluids.capability.templates.EmptyFluidHandler;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.fluids.capability.templates.EmptyFluidHandler;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class ReactorFluidPortEntity
@@ -87,10 +83,7 @@ public class ReactorFluidPortEntity
     @Override
     public void onNeighborBlockChanged(final BlockState state, final BlockPos neighborPosition, final boolean isMoving) {
 
-        if (this.isConnected()) {
-            this.getFluidPortHandler().checkConnections(this.getLevel(), this.getWorldPosition());
-        }
-
+        this.getFluidPortHandler().onPortChanged();
         this.requestClientRenderUpdate();
     }
 
@@ -103,10 +96,7 @@ public class ReactorFluidPortEntity
     @Override
     public void onNeighborTileChanged(final BlockState state, final BlockPos neighborPosition) {
 
-        if (this.isConnected()) {
-            this.getFluidPortHandler().checkConnections(this.getLevel(), this.getWorldPosition());
-        }
-
+        this.getFluidPortHandler().onPortChanged();
         this.requestClientRenderUpdate();
     }
 
@@ -247,28 +237,6 @@ public class ReactorFluidPortEntity
 
         super.onDetached(oldController);
         this.getFluidPortHandler().update(this::getUpdatedHandler);
-    }
-
-    //endregion
-    //region TileEntity
-
-    @Nonnull
-    @Override
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable Direction side) {
-
-        final LazyOptional<T> cap = this.getFluidPortHandler().getCapability(capability, side);
-
-        return null != cap ? cap : super.getCapability(capability, side);
-    }
-
-    /**
-     * invalidates a tile entity
-     */
-    @Override
-    public void setRemoved() {
-
-        super.setRemoved();
-        this.getFluidPortHandler().invalidate();
     }
 
     //endregion

@@ -26,7 +26,6 @@ import it.zerono.mods.zerocore.lib.item.inventory.handler.ItemHandlerModifiableF
 import it.zerono.mods.zerocore.lib.multiblock.cuboid.PartPosition;
 import it.zerono.mods.zerocore.lib.multiblock.validation.IMultiblockValidator;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
@@ -35,14 +34,8 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityManager;
-import net.minecraftforge.common.capabilities.CapabilityToken;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.IItemHandlerModifiable;
+import net.neoforged.neoforge.items.IItemHandler;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class ReprocessorAccessPortEntity
@@ -55,7 +48,6 @@ public class ReprocessorAccessPortEntity
         super(type, position, blockState);
         this._direction = direction;
         this._forwarder = new ItemHandlerModifiableForwarder(ItemHelper.EMPTY_ITEM_HANDLER);
-        this._capability = LazyOptional.of(() -> this._forwarder);
     }
 
     public IItemHandler getHandler() {
@@ -122,23 +114,10 @@ public class ReprocessorAccessPortEntity
     }
 
     //endregion
-    //region TileEntity
-
-    @Nonnull
-    @Override
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-        return ITEM_HANDLER_CAPABILITY == cap ? this._capability.cast() : super.getCapability(cap, side);
-    }
-
-    //endregion
     //region internals
-
-    @SuppressWarnings("FieldMayBeFinal")
-    private static Capability<IItemHandler> ITEM_HANDLER_CAPABILITY = CapabilityManager.get(new CapabilityToken<>(){});
 
     private final IoDirection _direction;
     private final ItemHandlerModifiableForwarder _forwarder;
-    private final LazyOptional<IItemHandlerModifiable> _capability;
 
     //endregion
 }

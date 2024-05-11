@@ -42,19 +42,19 @@ import it.zerono.mods.zerocore.lib.compat.jei.drawable.ProgressBarDrawable;
 import it.zerono.mods.zerocore.lib.data.geometry.Rectangle;
 import it.zerono.mods.zerocore.lib.recipe.ModRecipe;
 import mezz.jei.api.constants.VanillaTypes;
-import mezz.jei.api.forge.ForgeTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawableAnimated;
 import mezz.jei.api.gui.drawable.IDrawableStatic;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
+import mezz.jei.api.neoforge.NeoForgeTypes;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidStack;
 
 import java.util.List;
 import java.util.Map;
@@ -112,11 +112,11 @@ public abstract class FluidizerRecipeCategory<T extends ModRecipe & IFluidizerRe
 
                 builder.addSlot(RecipeIngredientRole.INPUT, 26, 23)
                         .setFluidRenderer(FluidizerFluidMixingRecipe.getMaxResultAmount(), false, 16, 64)
-                        .addIngredients(ForgeTypes.FLUID_STACK, recipe.getIngredient1().getMatchingElements());
+                        .addIngredients(NeoForgeTypes.FLUID_STACK, recipe.getIngredient1().getMatchingElements());
 
                 builder.addSlot(RecipeIngredientRole.INPUT, 116, 23)
                         .setFluidRenderer(FluidizerFluidMixingRecipe.getMaxResultAmount(), false, 16, 64)
-                        .addIngredients(ForgeTypes.FLUID_STACK, recipe.getIngredient2().getMatchingElements());
+                        .addIngredients(NeoForgeTypes.FLUID_STACK, recipe.getIngredient2().getMatchingElements());
             }
         };
     }
@@ -148,7 +148,7 @@ public abstract class FluidizerRecipeCategory<T extends ModRecipe & IFluidizerRe
 
         builder.addSlot(RecipeIngredientRole.OUTPUT, 71, 23)
                 .setFluidRenderer(20_000, false, 16, 64)
-                .addIngredients(ForgeTypes.FLUID_STACK, ObjectLists.singleton(recipe.getResult().getResult()));
+                .addIngredients(NeoForgeTypes.FLUID_STACK, ObjectLists.singleton(recipe.getResult().getResult()));
     }
 
     @Override

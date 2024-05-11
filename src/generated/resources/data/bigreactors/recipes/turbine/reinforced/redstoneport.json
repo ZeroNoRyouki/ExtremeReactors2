@@ -1,46 +1,38 @@
 {
-  "type": "forge:conditional",
-  "recipes": [
+  "neoforge:conditions": [
     {
-      "conditions": [
-        {
-          "type": "forge:not",
-          "value": {
-            "type": "forge:tag_empty",
-            "tag": "forge:ingots/steel"
-          }
-        }
-      ],
-      "recipe": {
-        "type": "minecraft:crafting_shaped",
-        "category": "building",
-        "key": {
-          "C": {
-            "item": "bigreactors:reinforced_turbinecasing"
-          },
-          "G": {
-            "tag": "forge:ingots/gold"
-          },
-          "M": {
-            "tag": "forge:ingots/steel"
-          },
-          "X": {
-            "item": "minecraft:repeater"
-          },
-          "Z": {
-            "item": "minecraft:comparator"
-          }
-        },
-        "pattern": [
-          "CZC",
-          "MGM",
-          "CXC"
-        ],
-        "result": {
-          "item": "bigreactors:reinforced_turbineredstoneport"
-        },
-        "show_notification": true
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:tag_empty",
+        "tag": "forge:ingots/steel"
       }
     }
-  ]
+  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "C": {
+      "item": "bigreactors:reinforced_turbinecasing"
+    },
+    "G": {
+      "tag": "forge:ingots/gold"
+    },
+    "M": {
+      "tag": "forge:ingots/steel"
+    },
+    "X": {
+      "item": "minecraft:repeater"
+    },
+    "Z": {
+      "item": "minecraft:comparator"
+    }
+  },
+  "pattern": [
+    "CZC",
+    "MGM",
+    "CXC"
+  ],
+  "result": {
+    "item": "bigreactors:reinforced_turbineredstoneport"
+  }
 }

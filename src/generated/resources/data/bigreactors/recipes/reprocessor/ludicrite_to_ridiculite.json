@@ -1,13 +1,12 @@
 {
   "type": "bigreactors:reprocessor",
   "fluid": {
-    "fluid": {
-      "count": 1000,
-      "fluid": "bigreactors:magentite"
-    }
+    "Amount": 1000,
+    "FluidName": "bigreactors:magentite"
   },
   "result": {
-    "item": "bigreactors:ridiculite_ingot"
+    "Count": 1,
+    "id": "bigreactors:ridiculite_ingot"
   },
   "waste": {
     "count": 2,

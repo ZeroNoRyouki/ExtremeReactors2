@@ -18,15 +18,15 @@
 
 package it.zerono.mods.extremereactors.config;
 
-import net.minecraftforge.common.ForgeConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec;
 
 public class General {
 
-    public final ForgeConfigSpec.DoubleValue fuelUsageMultiplier;
-    public final ForgeConfigSpec.DoubleValue powerProductionMultiplier;
-    public final ForgeConfigSpec.IntValue ticksPerRedstoneUpdate;
+    public final ModConfigSpec.DoubleValue fuelUsageMultiplier;
+    public final ModConfigSpec.DoubleValue powerProductionMultiplier;
+    public final ModConfigSpec.IntValue ticksPerRedstoneUpdate;
 
-    General(final ForgeConfigSpec.Builder builder) {
+    General(final ModConfigSpec.Builder builder) {
 
         builder.comment("General options").push("general");
 

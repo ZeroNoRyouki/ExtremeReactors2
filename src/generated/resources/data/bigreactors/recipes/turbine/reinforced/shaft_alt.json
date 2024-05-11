@@ -1,34 +1,26 @@
 {
-  "type": "forge:conditional",
-  "recipes": [
+  "neoforge:conditions": [
     {
-      "conditions": [
-        {
-          "type": "forge:tag_empty",
-          "tag": "forge:ingots/steel"
-        }
-      ],
-      "recipe": {
-        "type": "minecraft:crafting_shaped",
-        "category": "building",
-        "key": {
-          "C": {
-            "tag": "forge:ingots/cyanite"
-          },
-          "I": {
-            "tag": "forge:storage_blocks/iron"
-          }
-        },
-        "pattern": [
-          " I ",
-          "ICI",
-          " I "
-        ],
-        "result": {
-          "item": "bigreactors:reinforced_turbinerotorshaft"
-        },
-        "show_notification": true
-      }
+      "type": "neoforge:tag_empty",
+      "tag": "forge:ingots/steel"
     }
-  ]
+  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "C": {
+      "tag": "forge:ingots/cyanite"
+    },
+    "I": {
+      "tag": "forge:storage_blocks/iron"
+    }
+  },
+  "pattern": [
+    " I ",
+    "ICI",
+    " I "
+  ],
+  "result": {
+    "item": "bigreactors:reinforced_turbinerotorshaft"
+  }
 }

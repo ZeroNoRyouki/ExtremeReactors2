@@ -35,11 +35,13 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
 import javax.annotation.Nullable;
 import java.util.List;
+
+import static net.neoforged.neoforge.client.extensions.IBlockEntityRendererExtension.INFINITE_EXTENT_AABB;
 
 public class TurbineRotorBearingEntity
         extends AbstractTurbineEntity {
@@ -89,6 +91,10 @@ public class TurbineRotorBearingEntity
         return this.evalOnController(AbstractMultiblockController::isInteriorInvisible, false);
     }
 
+    public AABB getRenderBoundingBox() {
+        return this._renderBoundingBox;
+    }
+
     //region AbstractReactorEntity
 
     @Override
@@ -128,14 +134,6 @@ public class TurbineRotorBearingEntity
     }
 
     //endregion
-    //region TileEntity
-
-    @Override
-    public AABB getRenderBoundingBox() {
-        return this._renderBoundingBox;
-    }
-
-    //endregion
     //region internals
     //region build rotor
 
@@ -156,7 +154,8 @@ public class TurbineRotorBearingEntity
 
         // build our new render bounding box
 
-        this._renderBoundingBox = new AABB(turbineMin, turbineMax);
+        this._renderBoundingBox = new AABB(turbineMin.getX(), turbineMin.getY(), turbineMin.getZ(),
+                turbineMax.getX(), turbineMax.getY(), turbineMax.getZ());
 
         // build the rotor
 

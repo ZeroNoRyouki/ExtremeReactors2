@@ -1,46 +1,38 @@
 {
-  "type": "forge:conditional",
-  "recipes": [
+  "neoforge:conditions": [
     {
-      "conditions": [
-        {
-          "type": "forge:not",
-          "value": {
-            "type": "forge:tag_empty",
-            "tag": "forge:ingots/steel"
-          }
-        }
-      ],
-      "recipe": {
-        "type": "minecraft:crafting_shaped",
-        "category": "building",
-        "key": {
-          "C": {
-            "item": "bigreactors:reinforced_reactorcasing"
-          },
-          "H": {
-            "item": "minecraft:hopper"
-          },
-          "M": {
-            "tag": "forge:ingots/steel"
-          },
-          "W": {
-            "item": "minecraft:bucket"
-          },
-          "X": {
-            "item": "minecraft:piston"
-          }
-        },
-        "pattern": [
-          "CHC",
-          "MWM",
-          "CXC"
-        ],
-        "result": {
-          "item": "bigreactors:reinforced_reactorfluidaccessport"
-        },
-        "show_notification": true
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:tag_empty",
+        "tag": "forge:ingots/steel"
       }
     }
-  ]
+  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "C": {
+      "item": "bigreactors:reinforced_reactorcasing"
+    },
+    "H": {
+      "item": "minecraft:hopper"
+    },
+    "M": {
+      "tag": "forge:ingots/steel"
+    },
+    "W": {
+      "item": "minecraft:bucket"
+    },
+    "X": {
+      "item": "minecraft:piston"
+    }
+  },
+  "pattern": [
+    "CHC",
+    "MWM",
+    "CXC"
+  ],
+  "result": {
+    "item": "bigreactors:reinforced_reactorfluidaccessport"
+  }
 }

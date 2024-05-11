@@ -18,12 +18,11 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.fluidport;
 
+import it.zerono.mods.extremereactors.gamecontent.mekanism.IMekanismService;
 import it.zerono.mods.zerocore.base.multiblock.part.AbstractMultiblockEntity;
-import it.zerono.mods.zerocore.base.multiblock.part.io.fluid.EmptyFluidPortHandler;
 import it.zerono.mods.zerocore.base.multiblock.part.io.fluid.FluidPortHandlerForge;
 import it.zerono.mods.zerocore.base.multiblock.part.io.fluid.IFluidPort;
 import it.zerono.mods.zerocore.base.multiblock.part.io.fluid.IFluidPortHandler;
-import it.zerono.mods.zerocore.lib.compat.Mods;
 import it.zerono.mods.zerocore.lib.data.IoMode;
 import it.zerono.mods.zerocore.lib.multiblock.cuboid.AbstractCuboidMultiblockController;
 
@@ -50,10 +49,7 @@ public enum FluidPortType {
                 return new FluidPortHandlerForge<>(part, mode);
 
             case Mekanism:
-                return Mods.MEKANISM
-                        .map(() -> (IFluidPortHandler) new FluidPortHandlerMekanism<>(part, mode))
-                        .orElseGet(EmptyFluidPortHandler::new);
-//                return new EmptyFluidPortHandler();
+                return IMekanismService.SERVICE.get().createHandler(mode, part);
         }
 
         throw new IllegalArgumentException("Unsupported Fluid Port: " + type);

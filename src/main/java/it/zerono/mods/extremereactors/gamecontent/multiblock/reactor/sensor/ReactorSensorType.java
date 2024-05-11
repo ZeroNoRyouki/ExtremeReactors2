@@ -25,8 +25,8 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.IReactorRea
 import it.zerono.mods.zerocore.lib.CodeHelper;
 import it.zerono.mods.zerocore.lib.IDebugMessages;
 import it.zerono.mods.zerocore.lib.IDebuggable;
-import net.minecraftforge.common.util.NonNullFunction;
-import net.minecraftforge.fml.LogicalSide;
+import net.neoforged.fml.LogicalSide;
+import net.neoforged.neoforge.common.util.NonNullFunction;
 
 import java.util.List;
 

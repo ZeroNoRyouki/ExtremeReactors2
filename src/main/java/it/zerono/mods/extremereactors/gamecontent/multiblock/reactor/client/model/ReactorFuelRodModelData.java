@@ -23,8 +23,8 @@ import it.unimi.dsi.fastutil.shorts.Short2ObjectMap;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.ClientFuelRodsLayout;
 import it.zerono.mods.zerocore.lib.client.model.data.NamedModelProperty;
 import net.minecraft.core.Direction;
-import net.minecraftforge.client.model.data.ModelData;
-import net.minecraftforge.client.model.data.ModelProperty;
+import net.neoforged.neoforge.client.model.data.ModelData;
+import net.neoforged.neoforge.client.model.data.ModelProperty;
 
 import java.util.Objects;
 

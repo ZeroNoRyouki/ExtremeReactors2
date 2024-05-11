@@ -32,8 +32,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.util.NonNullSupplier;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.neoforge.common.util.NonNullSupplier;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
 
@@ -43,7 +42,6 @@ import java.util.*;
  * Keep track of all the CoilMaterials that could be used inside a Turbine
  */
 @SuppressWarnings({"WeakerAccess"})
-@Mod.EventBusSubscriber(modid = ExtremeReactorsAPI.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class CoilMaterialRegistry {
 
     /**

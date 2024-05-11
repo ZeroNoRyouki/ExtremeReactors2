@@ -1,7 +1,7 @@
 # Extreme Reactors 2 TEST - mods.toml
 
 modLoader="javafml"
-loaderVersion="[47,49)"
+loaderVersion="${loader_versionrange}"
 
 # The license for you mod. This is mandatory metadata and allows for easier comprehension of your redistributive properties.
 # Review your options at https://choosealicense.com/. All rights reserved is the default copyright stance, and is thus the default here.
@@ -11,33 +11,29 @@ license="MIT"
 issueTrackerURL="https://github.com/ZeroNoRyouki/ExtremeReactors2"
 
 [[mods]]
-
 	modId="bigreactorstest"
-    version="${file.jarVersion}"
+    version="${mod_version}"
     displayName="Extreme Reactors TEST"
 	authors="ZeroNoRyouki"
 	description="Adds large, multiblock power generation machines to Minecraft. This is a continuation of the 1.7.10 mod Big Reactors from ErogenousBeef"
 
 [[dependencies.bigreactors]]
-
     modId="minecraft"
-    mandatory=true
-    versionRange="[1.20.1,1.21)"
+    type="required"
+    versionRange="${minecraft_versionrange}"
     ordering="NONE"
     side="BOTH"
 
 [[dependencies.bigreactors]]
-
-    modId="forge"
-    mandatory=true
-    versionRange="[47.1.1,49)"
+    modId="neoforge"
+    type="required"
+    versionRange="${forge_versionrange}"
     ordering="NONE"
     side="BOTH"
 
 [[dependencies.bigreactors]]
-
     modId="zerocore"
-    mandatory=true
-    versionRange="[1.20.1-2.1.41,1.21-2.2.0)"
+    type="required"
+    versionRange="${zerocore_versionrange}"
     ordering="AFTER"
     side="BOTH"

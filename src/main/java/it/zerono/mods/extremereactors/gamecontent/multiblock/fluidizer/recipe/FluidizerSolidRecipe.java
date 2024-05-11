@@ -28,21 +28,18 @@ import it.zerono.mods.zerocore.lib.recipe.ingredient.IRecipeIngredientSource;
 import it.zerono.mods.zerocore.lib.recipe.ingredient.ItemStackRecipeIngredient;
 import it.zerono.mods.zerocore.lib.recipe.result.FluidStackRecipeResult;
 import it.zerono.mods.zerocore.lib.recipe.result.IRecipeResultTarget;
-import it.zerono.mods.zerocore.lib.recipe.serializer.OneToOneRecipeSerializer;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraftforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidStack;
 
 public class FluidizerSolidRecipe
         extends AbstractOneToOneRecipe<ItemStack, FluidStack, ItemStackRecipeIngredient, FluidStackRecipeResult>
         implements IFluidizerRecipe {
 
-    protected FluidizerSolidRecipe(final ResourceLocation id, final ItemStackRecipeIngredient ingredient,
-                                   final FluidStackRecipeResult result) {
+    public FluidizerSolidRecipe(ItemStackRecipeIngredient ingredient, FluidStackRecipeResult result) {
 
-        super(id, ingredient, result);
+        super(ingredient, result);
         s_maxResultAmount = Math.max(s_maxResultAmount, result.getAmount());
     }
 
@@ -67,10 +64,11 @@ public class FluidizerSolidRecipe
         return this.getIngredient().testIgnoreAmount(stack);
     }
 
-    public static RecipeSerializer<FluidizerSolidRecipe> serializer() {
-        return new OneToOneRecipeSerializer<>(FluidizerSolidRecipe::new,
-                ItemStackRecipeIngredient::from, ItemStackRecipeIngredient::from,
-                FluidStackRecipeResult::from, FluidStackRecipeResult::from);
+    public static RecipeSerializer<FluidizerSolidRecipe> createSerializer() {
+        return AbstractOneToOneRecipe.createSerializer(
+                "ingredient", ItemStackRecipeIngredient.CODEC, ItemStackRecipeIngredient::from,
+                "result", FluidStackRecipeResult.CODEC, FluidStackRecipeResult::from,
+                FluidizerSolidRecipe::new);
     }
 
     //region IFluidizerRecipe
@@ -90,7 +88,7 @@ public class FluidizerSolidRecipe
 
     @Override
     public RecipeType<?> getType() {
-        return Content.Recipes.FLUIDIZER_RECIPE_TYPE;
+        return Content.Recipes.FLUIDIZER_RECIPE_TYPE.get();
     }
 
     //endregion

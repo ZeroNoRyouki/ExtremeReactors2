@@ -42,9 +42,7 @@ import it.zerono.mods.zerocore.lib.fluid.FluidHelper;
 import it.zerono.mods.zerocore.lib.fluid.FluidTank;
 import it.zerono.mods.zerocore.lib.fluid.handler.FluidHandlerForwarder;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
-import it.zerono.mods.zerocore.lib.world.WorldHelper;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -60,14 +58,11 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityManager;
-import net.minecraftforge.common.capabilities.CapabilityToken;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.common.util.NonNullConsumer;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.fml.LogicalSide;
+import net.neoforged.fml.LogicalSide;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.common.util.NonNullConsumer;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -84,8 +79,8 @@ public class ReactorFluidAccessPortEntity
         this.setIoDirection(IoDirection.Input);
         this._fuelTank = new FluidTank(TANK_CAPACITY).setOnLoadListener(this::onTankChanged).setOnContentsChangedListener(this::onTankChanged);
         this._wasteTank = new FluidTank(TANK_CAPACITY).setOnLoadListener(this::onTankChanged).setOnContentsChangedListener(this::onTankChanged);
-        this._fuelCapability = LazyOptional.of(this::createFuelCapability);
-        this._wasteCapability = LazyOptional.of(this::createWasteCapability);
+        this._fuelCapability = this.createFuelCapability();
+        this._wasteCapability = this.createWasteCapability();
         this._shouldSync = false;
 
         this.setCommandDispatcher(TileCommandDispatcher.<ReactorFluidAccessPortEntity>builder()
@@ -98,6 +93,16 @@ public class ReactorFluidAccessPortEntity
 
     public IFluidHandler getFluidStackHandler(ReactantType type) {
         return type.isFuel() ? this._fuelTank : this._wasteTank;
+    }
+
+    @Nullable
+    public IFluidHandler getFluidHandler() {
+
+        if (!this.isRemoved()) {
+            return this.getIoDirection().isInput() ? this._fuelCapability : this._wasteCapability;
+        }
+
+        return null;
     }
 
     /**
@@ -150,9 +155,9 @@ public class ReactorFluidAccessPortEntity
     @Override
     protected int getUpdatedModelVariantIndex() {
 
-        final int connectedOffset = this.isMachineAssembled() && this.getNeighborCapability().isPresent() ? 1 : 0;
+        final int connectedOffset = this.isMachineAssembled() && null != this.getNeighborCapability() ? 1 : 0;
 
-        return this.getIoDirection().isInput() ? 2 + connectedOffset : 0 + connectedOffset;
+        return this.getIoDirection().isInput() ? 2 + connectedOffset : connectedOffset;
     }
 
     //endregion
@@ -429,46 +434,18 @@ public class ReactorFluidAccessPortEntity
     }
 
     //endregion
-    //region TileEntity
-
-    @Override
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable Direction side) {
-
-        if (!this.isRemoved() && FLUID_HANDLER_CAPABILITY == capability) {
-
-            if (this.getIoDirection().isInput()) {
-                return this._fuelCapability.cast();
-            } else {
-                return this._wasteCapability.cast();
-            }
-        }
-
-        return super.getCapability(capability, side);
-    }
-
-    /**
-     * invalidates a tile entity
-     */
-    @Override
-    public void setRemoved() {
-
-        super.setRemoved();
-        this._fuelCapability.invalidate();
-        this._wasteCapability.invalidate();
-    }
-
-    //endregion
     //region internals
 
     private FluidStack getStack(ReactantType type) {
         return this.getFluidStackHandler(type).getFluidInTank(0);
     }
 
-    private LazyOptional<IFluidHandler> getNeighborCapability() {
-        return CodeHelper.optionalFlatMap(this.getPartWorld(), this.getOutwardDirection(),
-                        (world, direction) -> WorldHelper.getTile(world, this.getWorldPosition().relative(direction))
-                                .map(te -> te.getCapability(FLUID_HANDLER_CAPABILITY, direction.getOpposite())))
-                .orElse(LazyOptional.empty());
+    @Nullable
+    private IFluidHandler getNeighborCapability() {
+        return CodeHelper.optionalMap(this.getPartWorld(), this.getOutwardDirection(),
+                        (level, direction) -> level.getCapability(Capabilities.FluidHandler.BLOCK,
+                                this.getWorldPosition().relative(direction), direction.getOpposite()))
+                .orElse(null);
     }
 
     @Nonnull
@@ -521,16 +498,13 @@ public class ReactorFluidAccessPortEntity
         this.getMultiblockController().ifPresent(c -> c.ejectWaste(options.contains("void") && options.getBoolean("void")));
     }
 
-    @SuppressWarnings("FieldMayBeFinal")
-    private static Capability<IFluidHandler> FLUID_HANDLER_CAPABILITY = CapabilityManager.get(new CapabilityToken<>(){});
-
     private static final ResourceLocation SYNC_DATA_ID = ExtremeReactors.ROOT_LOCATION.buildWithSuffix("injector");
 
     private final FluidTank _fuelTank;
     private final FluidTank _wasteTank;
 
-    private final LazyOptional<IFluidHandler> _fuelCapability;
-    private final LazyOptional<IFluidHandler> _wasteCapability;
+    private final IFluidHandler _fuelCapability;
+    private final IFluidHandler _wasteCapability;
     private IoDirection _direction;
     private boolean _shouldSync;
 

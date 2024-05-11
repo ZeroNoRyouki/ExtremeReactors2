@@ -30,8 +30,8 @@ import it.zerono.mods.zerocore.lib.recipe.holder.IRecipeHolder;
 import it.zerono.mods.zerocore.lib.recipe.holder.RecipeHolder;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fml.LogicalSide;
+import net.neoforged.fml.LogicalSide;
+import net.neoforged.neoforge.fluids.FluidStack;
 
 import java.util.function.Function;
 
@@ -105,7 +105,7 @@ class FluidizerRecipeHolder<Recipe extends ModRecipe & IFluidizerRecipe>
 
     @Override
     public boolean isValidIngredient(final ItemStack stack) {
-        return Content.Recipes.FLUIDIZER_RECIPE_TYPE.findFirst(recipe -> {
+        return Content.Recipes.FLUIDIZER_RECIPE_TYPE.get().findFirst(recipe -> {
 
             if (recipe instanceof FluidizerSolidRecipe) {
                 return ((FluidizerSolidRecipe) recipe).matchIgnoreAmount(stack);
@@ -119,7 +119,7 @@ class FluidizerRecipeHolder<Recipe extends ModRecipe & IFluidizerRecipe>
 
     @Override
     public boolean isValidIngredient(final FluidStack stack) {
-        return Content.Recipes.FLUIDIZER_RECIPE_TYPE.findFirst(recipe -> {
+        return Content.Recipes.FLUIDIZER_RECIPE_TYPE.get().findFirst(recipe -> {
 
             if (recipe instanceof FluidizerFluidMixingRecipe) {
                 return ((FluidizerFluidMixingRecipe) recipe).matchIgnoreAmount(stack);

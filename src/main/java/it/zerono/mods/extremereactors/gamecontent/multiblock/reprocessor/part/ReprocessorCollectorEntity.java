@@ -86,6 +86,10 @@ public class ReprocessorCollectorEntity
         this.callOnLogicalClient(this._tersTicker::tick);
     }
 
+    public AABB getRenderBoundingBox() {
+        return this._renderBoundingBox;
+    }
+
     //endregion
     //region ISyncableEntity
 
@@ -130,31 +134,17 @@ public class ReprocessorCollectorEntity
     }
 
     //endregion
-    //region client render support
-
-    @Override
-    protected int getUpdatedModelVariantIndex() {
-        return 0;
-    }
-
-    //endregion
     //region AbstractMultiblockEntity
 
     @Override
     public void onPostMachineAssembled(final MultiblockReprocessor controller) {
 
         super.onPostMachineAssembled(controller);
-        this._renderBoundingBox = this.evalOnController(c -> c.mapBoundingBoxCoordinates(AABB::new,
-                CodeHelper.EMPTY_AABB), CodeHelper.EMPTY_AABB);
+        this._renderBoundingBox = this.evalOnController(c -> c.getBoundingBox().getAABB(), CodeHelper.EMPTY_AABB);
     }
 
     //endregion
     //region TileEntity
-
-    @Override
-    public AABB getRenderBoundingBox() {
-        return this._renderBoundingBox;
-    }
 
     @Override
     public void setLevel(Level world) {

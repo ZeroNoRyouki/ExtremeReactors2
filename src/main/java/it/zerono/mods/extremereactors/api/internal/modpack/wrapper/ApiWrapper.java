@@ -32,7 +32,7 @@ import it.zerono.mods.extremereactors.api.reactor.ReactantMappingsRegistry;
 import it.zerono.mods.extremereactors.api.reactor.ReactantsRegistry;
 import it.zerono.mods.extremereactors.api.reactor.ReactionsRegistry;
 import it.zerono.mods.extremereactors.api.turbine.CoilMaterialRegistry;
-import net.minecraftforge.fml.loading.FMLPaths;
+import net.neoforged.fml.loading.FMLPaths;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
 

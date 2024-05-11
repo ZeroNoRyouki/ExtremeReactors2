@@ -20,29 +20,22 @@ package it.zerono.mods.extremereactors.config;
 
 import it.zerono.mods.extremereactors.Log;
 import it.zerono.mods.zerocore.lib.CodeHelper;
-import net.minecraftforge.common.ForgeConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec;
 
 import java.util.Calendar;
 
 public class Client {
 
-//    public final ForgeConfigSpec.BooleanValue disableTurbineRotorRender;
-    public final ForgeConfigSpec.BooleanValue disableReactorParticles;
-    public final ForgeConfigSpec.BooleanValue disableTurbineParticles;
-    public final ForgeConfigSpec.BooleanValue disableApiTooltips;
-    public final ForgeConfigSpec.BooleanValue disablePatchouliTweaks;
+    public final ModConfigSpec.BooleanValue disableReactorParticles;
+    public final ModConfigSpec.BooleanValue disableTurbineParticles;
+    public final ModConfigSpec.BooleanValue disableApiTooltips;
+    public final ModConfigSpec.BooleanValue disablePatchouliTweaks;
     public final boolean isValentinesDay;
     public final boolean disableReprocessorMorphingAnimation;
 
-    Client(final ForgeConfigSpec.Builder builder) {
+    Client(final ModConfigSpec.Builder builder) {
 
         builder.comment("Client only settings").push("client");
-
-//        disableTurbineRotorRender = builder
-//                .comment("If true, disables the rendering of the rotor animation of an active Turbine. Restart needed.")
-//                .translation("config.bigreactors.client.disableturbinerotorrender")
-//                .worldRestart()
-//                .define("disableTurbineRotorRender", false);
 
         disableReactorParticles = builder
                 .comment("If true, disables all particle effects in the Reactor.")

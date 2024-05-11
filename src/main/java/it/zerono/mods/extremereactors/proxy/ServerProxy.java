@@ -20,10 +20,16 @@ package it.zerono.mods.extremereactors.proxy;
 
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.FuelRodsLayout;
 import net.minecraft.core.Direction;
+import net.neoforged.bus.api.IEventBus;
 
-public class ServerProxy implements IProxy {
+public class ServerProxy
+        implements IForgeProxy {
 
-    //region IProxy
+   //region IForgeProxy
+
+    @Override
+    public void initialize(IEventBus iEventBus) {
+    }
 
     @Override
     public FuelRodsLayout createFuelRodsLayout(Direction direction, int length) {

@@ -29,6 +29,7 @@ import it.zerono.mods.extremereactors.api.internal.modpack.wrapper.ApiWrapper;
 import it.zerono.mods.zerocore.lib.fluid.FluidHelper;
 import it.zerono.mods.zerocore.lib.tag.TagList;
 import it.zerono.mods.zerocore.lib.tag.TagsHelper;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
@@ -37,9 +38,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
-import net.minecraftforge.common.util.NonNullSupplier;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.common.util.NonNullSupplier;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
 
@@ -50,7 +49,6 @@ import java.util.function.Consumer;
  * Keep track of all the Moderators that could be used inside a Reactor
  */
 @SuppressWarnings({"WeakerAccess"})
-@Mod.EventBusSubscriber(modid = ExtremeReactorsAPI.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public final class ModeratorsRegistry {
 
     /**
@@ -226,8 +224,8 @@ public final class ModeratorsRegistry {
                 .forEach(item -> tooltipsMap.computeIfAbsent(item, k -> setSupplier.get()).add(TOOLTIP_MODERATOR));
 
         s_moderatorFluidsData.keySet().stream()
-                .filter(ForgeRegistries.FLUIDS::containsKey)
-                .map(ForgeRegistries.FLUIDS::getValue)
+                .filter(BuiltInRegistries.FLUID::containsKey)
+                .map(BuiltInRegistries.FLUID::get)
                 .filter(Objects::nonNull)
                 .map(Fluid::getBucket)
                 .forEach(item -> tooltipsMap.computeIfAbsent(item, k -> setSupplier.get()).add(TOOLTIP_MODERATOR));

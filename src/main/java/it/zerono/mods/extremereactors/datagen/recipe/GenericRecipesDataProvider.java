@@ -4,13 +4,12 @@ import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.ContentTags;
 import it.zerono.mods.extremereactors.gamecontent.compat.patchouli.PatchouliCompat;
-import it.zerono.mods.zerocore.lib.compat.Mods;
+import it.zerono.mods.zerocore.lib.compat.patchouli.IPatchouliService;
 import it.zerono.mods.zerocore.lib.data.ResourceLocationBuilder;
-import it.zerono.mods.zerocore.lib.datagen.provider.recipe.NbtResultFinishedRecipeAdapter;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeCategory;
+import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
@@ -18,14 +17,10 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.ItemLike;
-import net.minecraftforge.common.Tags;
-import net.minecraftforge.common.crafting.ConditionalRecipe;
-import vazkii.patchouli.api.PatchouliAPI;
+import net.neoforged.neoforge.common.Tags;
 
 import java.util.concurrent.CompletableFuture;
-import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class GenericRecipesDataProvider
@@ -37,39 +32,39 @@ public class GenericRecipesDataProvider
     }
 
     @Override
-    protected void buildRecipes(Consumer<FinishedRecipe> builder) {
+    protected void buildRecipes(RecipeOutput output) {
 
         // ingots / (storage) blocks
 
-        this.reactantsStorage(builder, "yellorium", Content.Items.YELLORIUM_BLOCK, Content.Items.YELLORIUM_INGOT);
-        this.reactantsStorage(builder, "cyanite", Content.Items.CYANITE_BLOCK, Content.Items.CYANITE_INGOT);
-        this.reactantsStorage(builder, "graphite", Content.Items.GRAPHITE_BLOCK, Content.Items.GRAPHITE_INGOT);
-        this.reactantsStorage(builder, "blutonium", Content.Items.BLUTONIUM_BLOCK, Content.Items.BLUTONIUM_INGOT);
-        this.reactantsStorage(builder, "magentite", Content.Items.MAGENTITE_BLOCK, Content.Items.MAGENTITE_INGOT);
+        this.reactantsStorage(output, "yellorium", Content.Items.YELLORIUM_BLOCK, Content.Items.YELLORIUM_INGOT);
+        this.reactantsStorage(output, "cyanite", Content.Items.CYANITE_BLOCK, Content.Items.CYANITE_INGOT);
+        this.reactantsStorage(output, "graphite", Content.Items.GRAPHITE_BLOCK, Content.Items.GRAPHITE_INGOT);
+        this.reactantsStorage(output, "blutonium", Content.Items.BLUTONIUM_BLOCK, Content.Items.BLUTONIUM_INGOT);
+        this.reactantsStorage(output, "magentite", Content.Items.MAGENTITE_BLOCK, Content.Items.MAGENTITE_INGOT);
 
         // nuggets
 
-        this.reactantsNugget(builder, "yellorium", Content.Items.YELLORIUM_INGOT, Content.Items.YELLORIUM_NUGGET);
-        this.reactantsNugget(builder, "blutonium", Content.Items.BLUTONIUM_INGOT, Content.Items.BLUTONIUM_NUGGET);
+        this.reactantsNugget(output, "yellorium", Content.Items.YELLORIUM_INGOT, Content.Items.YELLORIUM_NUGGET);
+        this.reactantsNugget(output, "blutonium", Content.Items.BLUTONIUM_INGOT, Content.Items.BLUTONIUM_NUGGET);
 
         // coils
 
-        this.coil(builder, "ludicrite_block", Content.Items.LUDICRITE_BLOCK, Content.Items.LUDICRITE_INGOT, Items.END_CRYSTAL);
-        this.coil(builder, "ridiculite_block", Content.Items.RIDICULITE_BLOCK, Content.Items.RIDICULITE_INGOT, Items.NETHER_STAR);
-        this.coil(builder, "inanite_block", Content.Items.INANITE_BLOCK, Content.Items.INANITE_INGOT, Items.NETHERITE_BLOCK);
-        this.coil(builder, "insanite_block", Content.Items.INSANITE_BLOCK, Content.Items.INSANITE_INGOT, Content.Items.INANITE_BLOCK.get());
+        this.coil(output, "ludicrite_block", Content.Items.LUDICRITE_BLOCK, Content.Items.LUDICRITE_INGOT, Items.END_CRYSTAL);
+        this.coil(output, "ridiculite_block", Content.Items.RIDICULITE_BLOCK, Content.Items.RIDICULITE_INGOT, Items.NETHER_STAR);
+        this.coil(output, "inanite_block", Content.Items.INANITE_BLOCK, Content.Items.INANITE_INGOT, Items.NETHERITE_BLOCK);
+        this.coil(output, "insanite_block", Content.Items.INSANITE_BLOCK, Content.Items.INSANITE_INGOT, Content.Items.INANITE_BLOCK.get());
 
         // smelting
 
-        this.blastingAndSmelting(builder, "yellorium_from_ore", "yellorium", Content.Items.YELLORIUM_INGOT, Content.Items.YELLORITE_ORE_BLOCK);
-        this.blastingAndSmelting(builder, "yellorium_from_dust", "yellorium", Content.Items.YELLORIUM_INGOT, Content.Items.YELLORIUM_DUST);
-        this.blastingAndSmelting(builder, "cyanite_from_dust", "cyanite", Content.Items.CYANITE_INGOT, Content.Items.CYANITE_DUST);
-        this.blastingAndSmelting(builder, "graphite_from_dust", "graphite", Content.Items.GRAPHITE_INGOT, Content.Items.GRAPHITE_DUST);
-        this.blastingAndSmelting(builder, "blutonium_from_dust", "blutonium", Content.Items.BLUTONIUM_INGOT, Content.Items.BLUTONIUM_DUST);
-        this.blastingAndSmelting(builder, "magentite_from_dust", "magentite", Content.Items.MAGENTITE_INGOT, Content.Items.MAGENTITE_DUST);
-        this.blastingAndSmelting(builder, "graphite_from_coal", "graphite", Content.Items.GRAPHITE_INGOT, () -> Items.COAL);
-        this.blastingAndSmelting(builder, "graphite_from_charcoal", "graphite", Content.Items.GRAPHITE_INGOT, () -> Items.CHARCOAL);
-        this.blastingAndSmelting(builder, "graphite_from_coalblock", "graphite", Content.Items.GRAPHITE_BLOCK, () -> Items.COAL_BLOCK, 0.9f, 1800);
+        this.blastingAndSmelting(output, "yellorium_from_ore", "yellorium", Content.Items.YELLORIUM_INGOT, Content.Items.YELLORITE_ORE_BLOCK);
+        this.blastingAndSmelting(output, "yellorium_from_dust", "yellorium", Content.Items.YELLORIUM_INGOT, Content.Items.YELLORIUM_DUST);
+        this.blastingAndSmelting(output, "cyanite_from_dust", "cyanite", Content.Items.CYANITE_INGOT, Content.Items.CYANITE_DUST);
+        this.blastingAndSmelting(output, "graphite_from_dust", "graphite", Content.Items.GRAPHITE_INGOT, Content.Items.GRAPHITE_DUST);
+        this.blastingAndSmelting(output, "blutonium_from_dust", "blutonium", Content.Items.BLUTONIUM_INGOT, Content.Items.BLUTONIUM_DUST);
+        this.blastingAndSmelting(output, "magentite_from_dust", "magentite", Content.Items.MAGENTITE_INGOT, Content.Items.MAGENTITE_DUST);
+        this.blastingAndSmelting(output, "graphite_from_coal", "graphite", Content.Items.GRAPHITE_INGOT, () -> Items.COAL);
+        this.blastingAndSmelting(output, "graphite_from_charcoal", "graphite", Content.Items.GRAPHITE_INGOT, () -> Items.CHARCOAL);
+        this.blastingAndSmelting(output, "graphite_from_coalblock", "graphite", Content.Items.GRAPHITE_BLOCK, () -> Items.COAL_BLOCK, 0.9f, 1800);
 
         // misc
 
@@ -82,27 +77,27 @@ public class GenericRecipesDataProvider
                 .pattern("IW ")
                 .group(this.group("wrench"))
                 .unlockedBy("has_item", has(Content.Items.WRENCH.get()))
-                .save(builder, this.miscRoot().buildWithSuffix("wrench"));
+                .save(output, this.miscRoot().buildWithSuffix("wrench"));
 
-        this.book(builder, "erguide", PatchouliCompat.HANDBOOK_ID, Items.BOOK, ContentTags.Items.INGOTS_YELLORIUM);
-        this.book(builder, "erguide_alt", PatchouliCompat.HANDBOOK_ID, Items.BOOK, TAG_INGOTS_URANIUM);
+        this.book(output, "erguide", PatchouliCompat.HANDBOOK_ID, Items.BOOK, ContentTags.Items.INGOTS_YELLORIUM);
+        this.book(output, "erguide_alt", PatchouliCompat.HANDBOOK_ID, Items.BOOK, TAG_INGOTS_URANIUM);
     }
 
     //region internals
 
-    private void reactantsStorage(Consumer<FinishedRecipe> builder, String name, Supplier<? extends ItemLike> storage,
+    private void reactantsStorage(RecipeOutput output, String name, Supplier<? extends ItemLike> storage,
                                   Supplier<? extends ItemLike> component) {
-        this.storageBlock3x3(builder, name, this.group("reactants"),
+        this.storageBlock3x3(output, name, this.group("reactants"),
                 RecipeCategory.MISC, storage, RecipeCategory.MISC, component);
     }
 
-    private void reactantsNugget(Consumer<FinishedRecipe> builder, String name, Supplier<? extends ItemLike> ingot,
+    private void reactantsNugget(RecipeOutput output, String name, Supplier<? extends ItemLike> ingot,
                                  Supplier<? extends ItemLike> nugget) {
-        this.nugget(builder, name, this.group("reactantNuggets"),
+        this.nugget(output, name, this.group("reactantNuggets"),
                 RecipeCategory.MISC, ingot, RecipeCategory.MISC, nugget);
     }
 
-    private void coil(Consumer<FinishedRecipe> builder, String name, Supplier<? extends ItemLike> coil,
+    private void coil(RecipeOutput output, String name, Supplier<? extends ItemLike> coil,
                       Supplier<? extends ItemLike> ingot, ItemLike special) {
         this.shaped(RecipeCategory.BUILDING_BLOCKS, coil)
                 .define('I', ingot.get())
@@ -112,45 +107,43 @@ public class GenericRecipesDataProvider
                 .pattern("III")
                 .group(this.group("coil"))
                 .unlockedBy("has_item", has(ingot.get()))
-                .save(builder, this.turbineRoot().buildWithSuffix(name));
+                .save(output, this.turbineRoot().buildWithSuffix(name));
     }
 
-    private void blastingAndSmelting(Consumer<FinishedRecipe> builder, String name, String group,
+    private void blastingAndSmelting(RecipeOutput output, String name, String group,
                                      Supplier<? extends ItemLike> result, Supplier<? extends ItemLike> ingredient,
                                      float experience, int cookingTime) {
 
         this.blasting(RecipeCategory.MISC, result, Ingredient.of(ingredient.get()), experience, cookingTime)
                 .group(this.group(group))
                 .unlockedBy("has_item", has(ingredient.get()))
-                .save(builder, this.blastingRoot().buildWithSuffix(name));
+                .save(output, this.blastingRoot().buildWithSuffix(name));
 
         this.smelting(RecipeCategory.MISC, result, Ingredient.of(ingredient.get()), experience, cookingTime)
                 .group(this.group(group))
                 .unlockedBy("has_item", has(ingredient.get()))
-                .save(builder, this.smeltingRoot().buildWithSuffix(name));
+                .save(output, this.smeltingRoot().buildWithSuffix(name));
     }
 
-    private void blastingAndSmelting(Consumer<FinishedRecipe> builder, String name, String group,
+    private void blastingAndSmelting(RecipeOutput output, String name, String group,
                                      Supplier<? extends ItemLike> result, Supplier<? extends ItemLike> ingredient) {
-        this.blastingAndSmelting(builder, name, group, result, ingredient, 1.0f, 100);
+        this.blastingAndSmelting(output, name, group, result, ingredient, 1.0f, 100);
     }
 
-    private void book(Consumer<FinishedRecipe> builder, String name, ResourceLocation patchouliBookId,
+    private void book(RecipeOutput output, String name, ResourceLocation patchouliBookId,
                       ItemLike book, TagKey<Item> item) {
 
-        Mods.PATCHOULI.map(() -> PatchouliAPI.get().getBookStack(patchouliBookId)).ifPresent(stack -> {
+        IPatchouliService.SERVICE.get().consumeBookStack(patchouliBookId, stack -> {
 
-            ConditionalRecipe.builder()
-                    .addCondition(modLoaded(Mods.PATCHOULI.id()))
-                    .addRecipe(fr -> ShapedRecipeBuilder.shaped(RecipeCategory.MISC, stack.getItem())
-                            .define('I', item)
-                            .define('B', book)
-                            .pattern("I")
-                            .pattern("B")
-                            .unlockedBy("has_item", has(item))
-                            .save(NbtResultFinishedRecipeAdapter.from(fr, RecipeSerializer.SHAPED_RECIPE,
-                                    nbt -> nbt.putString("patchouli:book", patchouliBookId.toString()))))
-                    .build(builder, ExtremeReactors.ROOT_LOCATION.appendPath("misc", "book").buildWithSuffix(name));
+            final var conditional = output.withConditions(modLoaded(IPatchouliService.SERVICE.getId()));
+
+            ShapedRecipeBuilder.shaped(RecipeCategory.MISC, stack)
+                    .define('I', item)
+                    .define('B', book)
+                    .pattern("I")
+                    .pattern("B")
+                    .unlockedBy("has_item", has(item))
+                    .save(conditional, ExtremeReactors.ROOT_LOCATION.appendPath("misc", "book").buildWithSuffix(name));
         });
     }
 

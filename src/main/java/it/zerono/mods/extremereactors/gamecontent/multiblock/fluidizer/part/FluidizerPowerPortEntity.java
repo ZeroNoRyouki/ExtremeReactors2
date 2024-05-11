@@ -20,47 +20,64 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.part;
 
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.MultiblockFluidizer;
-import it.zerono.mods.zerocore.lib.energy.NullEnergyHandlers;
-import it.zerono.mods.zerocore.lib.energy.adapter.ForgeEnergyAdapter;
-import it.zerono.mods.zerocore.lib.energy.handler.WideEnergyStorageForwarder2;
+import it.zerono.mods.zerocore.base.multiblock.part.io.power.IPowerPort;
+import it.zerono.mods.zerocore.base.multiblock.part.io.power.IPowerPortHandler;
+import it.zerono.mods.zerocore.lib.data.IoDirection;
+import it.zerono.mods.zerocore.lib.data.IoMode;
+import it.zerono.mods.zerocore.lib.energy.EnergySystem;
 import it.zerono.mods.zerocore.lib.multiblock.cuboid.PartPosition;
 import it.zerono.mods.zerocore.lib.multiblock.validation.IMultiblockValidator;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityManager;
-import net.minecraftforge.common.capabilities.CapabilityToken;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.energy.IEnergyStorage;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 public class FluidizerPowerPortEntity
-        extends AbstractFluidizerEntity {
+        extends AbstractFluidizerEntity
+        implements IPowerPort {
 
     public FluidizerPowerPortEntity(final BlockPos position, final BlockState blockState) {
 
         super(Content.TileEntityTypes.FLUIDIZER_POWERPORT.get(), position, blockState);
-        this._forwarder = new WideEnergyStorageForwarder2(NullEnergyHandlers.WIDE_STORAGE);
-        this._capability = LazyOptional.of(() -> ForgeEnergyAdapter.wrap(this._forwarder));
+        this._handler = IPowerPortHandler.create(EnergySystem.ForgeEnergy, IoMode.Passive, this);
     }
 
+    //region IPowerPort
+
+    @Override
+    public IPowerPortHandler getPowerPortHandler() {
+        return this._handler;
+    }
+
+    @Override
+    public IoDirection getIoDirection() {
+        return IoDirection.Input;
+    }
+
+    @Override
+    public void setIoDirection(IoDirection direction) {
+    }
+
+    //endregion
     //region AbstractCuboidMultiblockPart
+
+    @Override
+    public void onAttached(MultiblockFluidizer newController) {
+
+        super.onAttached(newController);
+        this.getPowerPortHandler().onPortChanged();
+    }
 
     @Override
     public void onPostMachineAssembled(final MultiblockFluidizer controller) {
 
         super.onPostMachineAssembled(controller);
-        this._forwarder.setHandler(this.getEnergyStorage());
+        this.getPowerPortHandler().onPortChanged();
     }
 
     @Override
     public void onPostMachineBroken() {
 
         super.onPostMachineBroken();
-        this._forwarder.setHandler(NullEnergyHandlers.WIDE_STORAGE);
+        this.getPowerPortHandler().onPortChanged();
     }
 
     @Override
@@ -69,22 +86,9 @@ public class FluidizerPowerPortEntity
     }
 
     //endregion
-    //region TileEntity
-
-    @Nonnull
-    @Override
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-        return CAPAP_FORGE_ENERGYSTORAGE == cap ? this._capability.cast() : super.getCapability(cap, side);
-    }
-
-    //endregion
     //region internals
 
-    @SuppressWarnings("FieldMayBeFinal")
-    private static Capability<IEnergyStorage> CAPAP_FORGE_ENERGYSTORAGE = CapabilityManager.get(new CapabilityToken<>(){});
-
-    private final WideEnergyStorageForwarder2 _forwarder;
-    private final LazyOptional<IEnergyStorage> _capability;
+    private final IPowerPortHandler _handler;
 
     //endregion
 }

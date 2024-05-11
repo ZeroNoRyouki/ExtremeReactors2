@@ -1,11 +1,11 @@
 {
-  "type": "thermal:pulverizer",
-  "conditions": [
+  "neoforge:conditions": [
     {
-      "modid": "thermal_expansion",
-      "type": "forge:mod_loaded"
+      "type": "neoforge:mod_loaded",
+      "modid": "thermal_expansion"
     }
   ],
+  "type": "thermal:pulverizer",
   "ingredient": {
     "item": "bigreactors:graphite_ingot"
   },

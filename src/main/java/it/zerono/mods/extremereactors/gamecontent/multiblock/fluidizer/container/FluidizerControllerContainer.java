@@ -34,7 +34,7 @@ import it.zerono.mods.zerocore.lib.item.inventory.container.data.*;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidStack;
 
 import java.util.Arrays;
 import java.util.List;
@@ -69,7 +69,7 @@ public class FluidizerControllerContainer
             this.addContainerData(new BooleanData(fluidizer::isMachineActive, v -> this._active = v));
             this.addContainerData(new EnumData<>(IFluidizerRecipe.Type.class, fluidizer::getRecipeType, v -> this._recipeType = v));
             this.addContainerData(new FluidStackData(() -> fluidizer.getFluidHandler().getFluidInTank(0), v -> this._output = v));
-            this.addContainerData(new WideAmountData(() -> fluidizer.getEnergyStorage().getEnergyStored(EnergySystem.ForgeEnergy), v -> this._energyStored = v.copy()));
+            this.addContainerData(new WideAmountData(() -> fluidizer.getEnergyStored(EnergySystem.ForgeEnergy), v -> this._energyStored = v.copy()));
             this.addContainerData(new DoubleData(fluidizer::getRecipeProgress, v -> this._recipeProgress = v));
 
             for (int i = 0; i < Math.min(2, this._solidInjectors.size()); ++i) {

@@ -1,19 +1,15 @@
 {
   "type": "bigreactors:fluidizerfluidmixing",
   "ingredient1": {
-    "fluid": {
-      "count": 1000,
-      "fluid": "bigreactors:tangerium"
-    }
+    "Amount": 1000,
+    "FluidName": "bigreactors:tangerium"
   },
   "ingredient2": {
-    "fluid": {
-      "count": 1000,
-      "fluid": "bigreactors:cryomisi"
-    }
+    "Amount": 1000,
+    "FluidName": "bigreactors:cryomisi"
   },
   "result": {
-    "count": 2000,
-    "fluid": "bigreactors:redfrigium"
+    "Amount": 2000,
+    "FluidName": "bigreactors:redfrigium"
   }
 }

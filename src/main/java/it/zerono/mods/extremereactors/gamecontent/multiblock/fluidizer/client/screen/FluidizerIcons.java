@@ -22,7 +22,7 @@ import it.zerono.mods.extremereactors.CommonLocations;
 import it.zerono.mods.zerocore.lib.client.gui.sprite.ISprite;
 import it.zerono.mods.zerocore.lib.client.gui.sprite.ISpriteBuilder;
 import it.zerono.mods.zerocore.lib.client.gui.sprite.SpriteTextureMap;
-import net.minecraftforge.common.util.NonNullSupplier;
+import net.neoforged.neoforge.common.util.NonNullSupplier;
 
 public enum FluidizerIcons
         implements NonNullSupplier<ISprite> {

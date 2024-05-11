@@ -21,7 +21,7 @@ package it.zerono.mods.extremereactors.api.internal;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import it.zerono.mods.zerocore.lib.CodeHelper;
-import net.minecraftforge.fml.InterModComms;
+import net.neoforged.fml.InterModComms;
 
 public final class InternalDispatcher {
 

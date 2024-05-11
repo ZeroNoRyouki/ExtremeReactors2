@@ -27,6 +27,7 @@ import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.world.phys.AABB;
 
 public class RotorBearingEntityRenderer
         implements BlockEntityRenderer<TurbineRotorBearingEntity> {
@@ -34,7 +35,12 @@ public class RotorBearingEntityRenderer
     public RotorBearingEntityRenderer(final BlockEntityRendererProvider.Context context) {
     }
 
-    //region TileEntityRenderer
+    //region BlockEntityRenderer
+
+    @Override
+    public AABB getRenderBoundingBox(TurbineRotorBearingEntity bearing) {
+        return bearing.getRenderBoundingBox();
+    }
 
     @Override
     public boolean shouldRenderOffScreen(TurbineRotorBearingEntity te) {

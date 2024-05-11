@@ -7,7 +7,7 @@
     }
   },
   "result": {
-    "count": 9000,
-    "fluid": "bigreactors:magentite"
+    "Amount": 9000,
+    "FluidName": "bigreactors:magentite"
   }
 }

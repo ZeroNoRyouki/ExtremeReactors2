@@ -34,7 +34,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraftforge.common.util.NonNullSupplier;
+import net.neoforged.neoforge.common.util.NonNullSupplier;
 
 import java.util.List;
 

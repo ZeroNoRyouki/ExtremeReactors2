@@ -19,28 +19,20 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen;
 
 import it.zerono.mods.extremereactors.ExtremeReactors;
-import it.zerono.mods.zerocore.lib.CodeHelper;
 import it.zerono.mods.zerocore.lib.client.gui.Theme;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraft.server.packs.resources.ResourceManager;
-import net.minecraft.util.profiling.ProfilerFiller;
-import net.minecraftforge.common.util.NonNullSupplier;
+import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
+import net.neoforged.neoforge.common.util.NonNullSupplier;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Executor;
 
 public enum GuiTheme
-        implements NonNullSupplier<Theme>, PreparableReloadListener {
+        implements NonNullSupplier<Theme>, ResourceManagerReloadListener {
 
     ER;
-
-    GuiTheme() {
-        CodeHelper.addResourceReloadListener(this);
-    }
 
     //region NonNullSupplier<Theme>
 
@@ -56,14 +48,11 @@ public enum GuiTheme
     }
 
     //endregion
-    //region PreparableReloadListener
+    //region ResourceManagerReloadListener
 
     @Override
-    public CompletableFuture<Void> reload(PreparationBarrier barrier, ResourceManager resourceManager,
-                                          ProfilerFiller profiler1, ProfilerFiller profiler2,
-                                          Executor executor1, Executor executor2) {
+    public void onResourceManagerReload(ResourceManager resourceManager) {
         this.reload(resourceManager);
-        return CompletableFuture.completedFuture(null);
     }
 
     //endregion

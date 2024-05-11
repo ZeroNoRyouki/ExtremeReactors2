@@ -1,9 +1,6 @@
 {
-  "pack": {
-    "description": {
-      "text": "Extreme Reactors 2 resources"
-    },
-    "forge:server_data_pack_format": 12,
-    "pack_format": 13
-  }
+    "pack": {
+        "pack_format": 23,
+        "description": "Extreme Reactors 2"
+    }
 }

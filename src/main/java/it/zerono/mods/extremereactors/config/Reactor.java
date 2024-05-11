@@ -18,15 +18,15 @@
 
 package it.zerono.mods.extremereactors.config;
 
-import net.minecraftforge.common.ForgeConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec;
 
 public class Reactor {
 
-    public final ForgeConfigSpec.IntValue maxReactorHeight;
-    public final ForgeConfigSpec.IntValue maxReactorSize;
-    public final ForgeConfigSpec.DoubleValue reactorPowerProductionMultiplier;
+    public final ModConfigSpec.IntValue maxReactorHeight;
+    public final ModConfigSpec.IntValue maxReactorSize;
+    public final ModConfigSpec.DoubleValue reactorPowerProductionMultiplier;
 
-    Reactor(final ForgeConfigSpec.Builder builder) {
+    Reactor(final ModConfigSpec.Builder builder) {
 
         builder.comment("Define how Reactors works").push("reactor");
 

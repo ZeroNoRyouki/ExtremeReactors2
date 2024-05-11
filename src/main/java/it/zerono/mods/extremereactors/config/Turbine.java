@@ -18,19 +18,19 @@
 
 package it.zerono.mods.extremereactors.config;
 
-import net.minecraftforge.common.ForgeConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec;
 
 public class Turbine {
 
-    public final ForgeConfigSpec.IntValue maxTurbineHeight;
-    public final ForgeConfigSpec.IntValue maxTurbineSize;
-    public final ForgeConfigSpec.DoubleValue turbineAeroDragMultiplier;
-    public final ForgeConfigSpec.DoubleValue turbineCoilDragMultiplier;
-    public final ForgeConfigSpec.DoubleValue turbineFluidPerBladeMultiplier;
-    public final ForgeConfigSpec.DoubleValue turbineMassDragMultiplier;
-    public final ForgeConfigSpec.DoubleValue turbinePowerProductionMultiplier;
+    public final ModConfigSpec.IntValue maxTurbineHeight;
+    public final ModConfigSpec.IntValue maxTurbineSize;
+    public final ModConfigSpec.DoubleValue turbineAeroDragMultiplier;
+    public final ModConfigSpec.DoubleValue turbineCoilDragMultiplier;
+    public final ModConfigSpec.DoubleValue turbineFluidPerBladeMultiplier;
+    public final ModConfigSpec.DoubleValue turbineMassDragMultiplier;
+    public final ModConfigSpec.DoubleValue turbinePowerProductionMultiplier;
 
-    Turbine(ForgeConfigSpec.Builder builder) {
+    Turbine(ModConfigSpec.Builder builder) {
 
         builder.comment("Define how Turbines works").push("turbine");
 

@@ -19,7 +19,7 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.common.sensor;
 
 import it.zerono.mods.extremereactors.gamecontent.multiblock.IMachineReader;
-import net.minecraftforge.common.util.NonNullFunction;
+import net.neoforged.neoforge.common.util.NonNullFunction;
 
 import java.util.List;
 

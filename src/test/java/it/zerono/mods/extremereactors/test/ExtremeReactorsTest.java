@@ -20,37 +20,27 @@ package it.zerono.mods.extremereactors.test;
 
 import it.zerono.mods.zerocore.internal.gamecontent.debugtool.DebugToolItem;
 import it.zerono.mods.zerocore.lib.debug.DebugHelper;
-import it.zerono.mods.zerocore.lib.init.IModInitializationHandler;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 
 @Mod(value = "bigreactorstest")
-public class ExtremeReactorsTest implements IModInitializationHandler {
+public class ExtremeReactorsTest {
 
-    public ExtremeReactorsTest() {
-        Mod.EventBusSubscriber.Bus.MOD.bus().get().register(this);
+    public ExtremeReactorsTest(IEventBus modBus, ModContainer container, Dist distribution) {
+
+        modBus.addListener(ExtremeReactorsTest::onCommonInit);
+        modBus.addListener(ExtremeReactorsTest::onClientInit);
     }
 
-    /**
-     * Called on both the physical client and the physical server to perform common initialization tasks
-     * @param event the event
-     */
-    @Override
-    @SubscribeEvent
-    public void onCommonInit(final FMLCommonSetupEvent event) {
+    private static void onCommonInit(FMLCommonSetupEvent event) {
         DebugToolItem.setTestCallback(DebugTests::runTest);
     }
 
-    /**
-     * Called on the physical client to perform client-specific initialization tasks
-     *
-     * @param event
-     */
-    @Override
-    @SubscribeEvent
-    public void onClientInit(final FMLClientSetupEvent event) {
+    private static void onClientInit(FMLClientSetupEvent event) {
         DebugHelper.initVoxelShapeHighlighter();
     }
 }

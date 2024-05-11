@@ -17,15 +17,15 @@
 
 package it.zerono.mods.extremereactors.config;
 
-import net.minecraftforge.common.ForgeConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec;
 
 public class Fluidizer {
 
-    public final ForgeConfigSpec.IntValue maxFluidizerHeight;
-    public final ForgeConfigSpec.IntValue maxFluidizerSize;
-    public final ForgeConfigSpec.IntValue energyPerRecipeTick;
+    public final ModConfigSpec.IntValue maxFluidizerHeight;
+    public final ModConfigSpec.IntValue maxFluidizerSize;
+    public final ModConfigSpec.IntValue energyPerRecipeTick;
 
-    Fluidizer(final ForgeConfigSpec.Builder builder) {
+    Fluidizer(final ModConfigSpec.Builder builder) {
 
         builder.comment("Define how Fluidizer works").push("fluidizer");
 

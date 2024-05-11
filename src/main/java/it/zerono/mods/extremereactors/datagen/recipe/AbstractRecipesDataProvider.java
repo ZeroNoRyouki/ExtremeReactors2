@@ -5,29 +5,22 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
 import it.zerono.mods.extremereactors.gamecontent.ContentTags;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.ReactorVariant;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.recipe.ReprocessorRecipe;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.TurbineVariant;
 import it.zerono.mods.zerocore.lib.data.ResourceLocationBuilder;
 import it.zerono.mods.zerocore.lib.datagen.provider.recipe.ModRecipeProvider;
-import it.zerono.mods.zerocore.lib.datagen.provider.recipe.TwoToOneRecipeBuilder;
-import it.zerono.mods.zerocore.lib.recipe.ingredient.IRecipeIngredient;
-import it.zerono.mods.zerocore.lib.recipe.result.IRecipeResult;
 import it.zerono.mods.zerocore.lib.tag.TagsHelper;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeCategory;
+import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
-import net.minecraftforge.common.Tags;
-import net.minecraftforge.fluids.FluidStack;
+import net.neoforged.neoforge.common.Tags;
 
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
-import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public abstract class AbstractRecipesDataProvider
@@ -36,7 +29,6 @@ public abstract class AbstractRecipesDataProvider
     protected static final TagKey<Item> TAG_INGOTS_STEEL = TagsHelper.ITEMS.createKey("forge:ingots/steel");
     protected static final TagKey<Item> TAG_INGOTS_URANIUM = TagsHelper.ITEMS.createKey("forge:ingots/uranium");
     protected static final Set<TagKey<Item>> TAGS_YELLORIUM_INGOTS = ImmutableSet.of(ContentTags.Items.INGOTS_YELLORIUM, TAG_INGOTS_URANIUM);
-
 
     protected AbstractRecipesDataProvider(String modId, String name, PackOutput output, CompletableFuture<HolderLookup.Provider> registryLookup,
                                           ResourceLocationBuilder modLocationRoot) {
@@ -88,14 +80,7 @@ public abstract class AbstractRecipesDataProvider
         return this.fluidizerRoot().appendPath("fluidmixing");
     }
 
-    protected TwoToOneRecipeBuilder<ItemStack, FluidStack, ItemStack> reprocessor(IRecipeIngredient<ItemStack> ingot,
-                                                                                  IRecipeIngredient<FluidStack> fluid,
-                                                                                  IRecipeResult<ItemStack> result) {
-        return new TwoToOneRecipeBuilder<>(ReprocessorRecipe.ID, ingot, fluid, result,
-                ReprocessorRecipe.JSON_LABELS_SUPPLIER);
-    }
-
-    protected void chargingPort(Consumer<FinishedRecipe> builder, ResourceLocation name,
+    protected void chargingPort(RecipeOutput output, ResourceLocation name,
                                 Supplier<? extends ItemLike> result, Supplier<? extends ItemLike> powerTap,
                                 ItemLike item1, ItemLike item2) {
 
@@ -108,7 +93,7 @@ public abstract class AbstractRecipesDataProvider
                 .pattern("GTG")
                 .pattern("212")
                 .unlockedBy("has_item", has(powerTap.get()))
-                .save(builder, name);
+                .save(output, name);
     }
 
     //region internals

@@ -24,7 +24,7 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.TurbinePart
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.rotor.RotorBladeState;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.rotor.RotorShaftState;
 import it.zerono.mods.zerocore.lib.client.model.data.GenericProperties;
-import net.minecraftforge.client.model.data.ModelData;
+import net.neoforged.neoforge.client.model.data.ModelData;
 
 public final class ComponentModelData {
 

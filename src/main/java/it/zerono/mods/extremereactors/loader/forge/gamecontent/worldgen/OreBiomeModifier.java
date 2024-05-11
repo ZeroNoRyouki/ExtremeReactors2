@@ -8,15 +8,14 @@ import net.minecraft.tags.BiomeTags;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
-import net.minecraftforge.common.Tags;
-import net.minecraftforge.common.util.NonNullPredicate;
-import net.minecraftforge.common.world.BiomeModifier;
-import net.minecraftforge.common.world.ModifiableBiomeInfo;
+import net.neoforged.neoforge.common.world.BiomeModifier;
+import net.neoforged.neoforge.common.world.ModifiableBiomeInfo;
 
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 public record OreBiomeModifier(HolderSet<Biome> validBiomes, Holder<PlacedFeature> feature,
-                               NonNullPredicate<Holder<Biome>> masterBiomePredicate,
+                               Predicate<Holder<Biome>> masterBiomePredicate,
                                Supplier<Codec<OreBiomeModifier>> codecSupplier)
         implements BiomeModifier {
 
@@ -25,12 +24,12 @@ public record OreBiomeModifier(HolderSet<Biome> validBiomes, Holder<PlacedFeatur
     }
 
     public static OreBiomeModifier anglesite(HolderSet<Biome> validBiomes, Holder<PlacedFeature> feature) {
-        return new OreBiomeModifier(validBiomes, feature, biomeHolder -> biomeHolder.containsTag(BiomeTags.IS_END),
+        return new OreBiomeModifier(validBiomes, feature, biomeHolder -> biomeHolder.is(BiomeTags.IS_END),
                 Content.Biomes.OREGEN_ANGLESITE);
     }
 
     public static OreBiomeModifier benitoite(HolderSet<Biome> validBiomes, Holder<PlacedFeature> feature) {
-        return new OreBiomeModifier(validBiomes, feature, biomeHolder -> biomeHolder.containsTag(BiomeTags.IS_NETHER),
+        return new OreBiomeModifier(validBiomes, feature, biomeHolder -> biomeHolder.is(BiomeTags.IS_NETHER),
                 Content.Biomes.OREGEN_BENITOITE);
     }
 

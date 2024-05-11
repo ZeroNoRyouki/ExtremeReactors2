@@ -1,13 +1,12 @@
 {
   "type": "bigreactors:reprocessor",
   "fluid": {
-    "fluid": {
-      "count": 1000,
-      "fluid": "minecraft:water"
-    }
+    "Amount": 1000,
+    "FluidName": "minecraft:water"
   },
   "result": {
-    "item": "bigreactors:blutonium_ingot"
+    "Count": 1,
+    "id": "bigreactors:blutonium_ingot"
   },
   "waste": {
     "count": 2,

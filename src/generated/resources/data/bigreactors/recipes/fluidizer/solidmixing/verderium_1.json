@@ -13,7 +13,7 @@
     }
   },
   "result": {
-    "count": 2000,
-    "fluid": "bigreactors:verderium"
+    "Amount": 2000,
+    "FluidName": "bigreactors:verderium"
   }
 }

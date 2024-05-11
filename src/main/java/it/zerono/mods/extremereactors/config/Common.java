@@ -18,7 +18,7 @@
 
 package it.zerono.mods.extremereactors.config;
 
-import net.minecraftforge.common.ForgeConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec;
 
 public class Common {
 
@@ -26,9 +26,8 @@ public class Common {
     public final Reactor reactor;
     public final Turbine turbine;
     public final Fluidizer fluidizer;
-    public final Worldgen worldgen;
 
-    Common(final ForgeConfigSpec.Builder builder) {
+    Common(final ModConfigSpec.Builder builder) {
 
         builder.comment("Common configuration settings").push("common");
 
@@ -36,7 +35,6 @@ public class Common {
         this.reactor = new Reactor(builder);
         this.turbine = new Turbine(builder);
         this.fluidizer = new Fluidizer(builder);
-        this.worldgen = new Worldgen(builder);
 
         builder.pop();
     }

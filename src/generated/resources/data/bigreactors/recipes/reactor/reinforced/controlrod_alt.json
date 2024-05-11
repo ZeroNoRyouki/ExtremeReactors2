@@ -1,43 +1,35 @@
 {
-  "type": "forge:conditional",
-  "recipes": [
+  "neoforge:conditions": [
     {
-      "conditions": [
-        {
-          "type": "forge:tag_empty",
-          "tag": "forge:ingots/steel"
-        }
-      ],
-      "recipe": {
-        "type": "minecraft:crafting_shaped",
-        "category": "building",
-        "key": {
-          "C": {
-            "item": "bigreactors:reinforced_reactorcasing"
-          },
-          "G": {
-            "tag": "forge:ingots/graphite"
-          },
-          "M": {
-            "tag": "forge:storage_blocks/iron"
-          },
-          "R": {
-            "tag": "forge:dusts/redstone"
-          },
-          "X": {
-            "item": "minecraft:piston"
-          }
-        },
-        "pattern": [
-          "CRC",
-          "MXM",
-          "CGC"
-        ],
-        "result": {
-          "item": "bigreactors:reinforced_reactorcontrolrod"
-        },
-        "show_notification": true
-      }
+      "type": "neoforge:tag_empty",
+      "tag": "forge:ingots/steel"
     }
-  ]
+  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "C": {
+      "item": "bigreactors:reinforced_reactorcasing"
+    },
+    "G": {
+      "tag": "forge:ingots/graphite"
+    },
+    "M": {
+      "tag": "forge:storage_blocks/iron"
+    },
+    "R": {
+      "tag": "forge:dusts/redstone"
+    },
+    "X": {
+      "item": "minecraft:piston"
+    }
+  },
+  "pattern": [
+    "CRC",
+    "MXM",
+    "CGC"
+  ],
+  "result": {
+    "item": "bigreactors:reinforced_reactorcontrolrod"
+  }
 }

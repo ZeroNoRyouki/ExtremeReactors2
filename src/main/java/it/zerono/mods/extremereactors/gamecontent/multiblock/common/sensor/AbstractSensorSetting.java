@@ -21,7 +21,7 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.common.sensor;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.IMachineReader;
 import it.zerono.mods.zerocore.lib.data.nbt.NBTHelper;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraftforge.common.util.NonNullPredicate;
+import net.neoforged.neoforge.common.util.NonNullPredicate;
 
 import java.util.function.Function;
 

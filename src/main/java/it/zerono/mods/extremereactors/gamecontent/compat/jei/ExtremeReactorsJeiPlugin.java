@@ -100,10 +100,10 @@ public class ExtremeReactorsJeiPlugin
     @Override
     public void registerRecipes(final IRecipeRegistration registration) {
 
-        registration.addRecipes(REPROCESSOR_JEI_RECIPE_TYPE, Content.Recipes.REPROCESSOR_RECIPE_TYPE.getRecipes());
-        registration.addRecipes(FLUIDIZER_SOLID_JEI_RECIPE_TYPE, Content.Recipes.FLUIDIZER_RECIPE_TYPE.getRecipes(r -> r instanceof FluidizerSolidRecipe, r -> (FluidizerSolidRecipe)r));
-        registration.addRecipes(FLUIDIZER_SOLIDMIXING_JEI_RECIPE_TYPE, Content.Recipes.FLUIDIZER_RECIPE_TYPE.getRecipes(r -> r instanceof FluidizerSolidMixingRecipe, r -> (FluidizerSolidMixingRecipe)r));
-        registration.addRecipes(FLUIDIZER_FLUIDMIXING_JEI_RECIPE_TYPE, Content.Recipes.FLUIDIZER_RECIPE_TYPE.getRecipes(r -> r instanceof FluidizerFluidMixingRecipe, r -> (FluidizerFluidMixingRecipe)r));
+        registration.addRecipes(REPROCESSOR_JEI_RECIPE_TYPE, Content.Recipes.REPROCESSOR_RECIPE_TYPE.get().getRecipes());
+        registration.addRecipes(FLUIDIZER_SOLID_JEI_RECIPE_TYPE, Content.Recipes.FLUIDIZER_RECIPE_TYPE.get().getRecipes(r -> r instanceof FluidizerSolidRecipe, r -> (FluidizerSolidRecipe)r));
+        registration.addRecipes(FLUIDIZER_SOLIDMIXING_JEI_RECIPE_TYPE, Content.Recipes.FLUIDIZER_RECIPE_TYPE.get().getRecipes(r -> r instanceof FluidizerSolidMixingRecipe, r -> (FluidizerSolidMixingRecipe)r));
+        registration.addRecipes(FLUIDIZER_FLUIDMIXING_JEI_RECIPE_TYPE, Content.Recipes.FLUIDIZER_RECIPE_TYPE.get().getRecipes(r -> r instanceof FluidizerFluidMixingRecipe, r -> (FluidizerFluidMixingRecipe)r));
         registration.addRecipes(REACTION_JEI_RECIPE_TYPE, ReactionsRegistry.getReactions());
         registration.addRecipes(this._reactantsSolidMappings.getRecipeType(), this._reactantsSolidMappings.getReactants());
         registration.addRecipes(this._reactantsFluidMappings.getRecipeType(), this._reactantsFluidMappings.getReactants());

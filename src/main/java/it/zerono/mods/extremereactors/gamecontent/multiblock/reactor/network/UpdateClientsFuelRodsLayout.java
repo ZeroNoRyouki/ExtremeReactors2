@@ -16,26 +16,30 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.network;
  *
  */
 
+import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part.AbstractReactorEntity;
 import it.zerono.mods.zerocore.lib.data.nbt.ISyncableEntity;
-import it.zerono.mods.zerocore.lib.network.AbstractModTileMessage;
+import it.zerono.mods.zerocore.lib.network.AbstractBlockEntityPlayPacket;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.protocol.PacketFlow;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.fml.LogicalSide;
 
 public class UpdateClientsFuelRodsLayout
-    extends AbstractModTileMessage {
+    extends AbstractBlockEntityPlayPacket {
+
+    public static final ResourceLocation ID = ExtremeReactors.ROOT_LOCATION.buildWithSuffix("update_client_fuelrods");
 
     public UpdateClientsFuelRodsLayout(final AbstractReactorEntity referencePart, final ISyncableEntity fuelContainer) {
 
-        super(referencePart.getWorldPosition());
+        super(ID, referencePart.getWorldPosition());
         this._fuelContainerData = fuelContainer.syncDataTo(new CompoundTag(), ISyncableEntity.SyncReason.NetworkUpdate);
     }
 
     public UpdateClientsFuelRodsLayout(final FriendlyByteBuf buffer) {
 
-        super(buffer);
+        super(ID, buffer);
         this._fuelContainerData = buffer.readNbt();
     }
 
@@ -46,17 +50,17 @@ public class UpdateClientsFuelRodsLayout
     //region AbstractModTileMessage
 
     @Override
-    public void encodeTo(final FriendlyByteBuf buffer) {
+    public void write(FriendlyByteBuf buffer) {
 
-        super.encodeTo(buffer);
+        super.write(buffer);
         buffer.writeNbt(this._fuelContainerData);
     }
 
     @Override
-    protected void processTileEntityMessage(final LogicalSide sourceSide, final BlockEntity tileEntity) {
+    protected void processBlockEntity(PacketFlow flow, BlockEntity blockEntity) {
 
-        if (LogicalSide.SERVER == sourceSide && tileEntity instanceof AbstractReactorEntity) {
-            ((AbstractReactorEntity)tileEntity).onUpdateClientsFuelRodsLayout(this);
+        if (PacketFlow.CLIENTBOUND == flow && blockEntity instanceof AbstractReactorEntity re) {
+            re.onUpdateClientsFuelRodsLayout(this);
         }
     }
 

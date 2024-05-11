@@ -57,13 +57,13 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.items.IItemHandlerModifiable;
-import net.minecraftforge.items.ItemHandlerHelper;
-import net.minecraftforge.items.ItemStackHandler;
+import net.neoforged.fml.LogicalSide;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidUtil;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.items.IItemHandlerModifiable;
+import net.neoforged.neoforge.items.ItemHandlerHelper;
+import net.neoforged.neoforge.items.ItemStackHandler;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -112,11 +112,11 @@ public class MultiblockReprocessor
     }
 
     public boolean isValidIngredient(final ItemStack stack) {
-        return Content.Recipes.REPROCESSOR_RECIPE_TYPE.findFirst(recipe -> recipe.matchIgnoreAmount(stack)).isPresent();
+        return Content.Recipes.REPROCESSOR_RECIPE_TYPE.get().findFirst(recipe -> recipe.matchIgnoreAmount(stack)).isPresent();
     }
 
     public boolean isValidIngredient(final FluidStack stack) {
-        return Content.Recipes.REPROCESSOR_RECIPE_TYPE.findFirst(recipe -> recipe.matchIgnoreAmount(stack)).isPresent();
+        return Content.Recipes.REPROCESSOR_RECIPE_TYPE.get().findFirst(recipe -> recipe.matchIgnoreAmount(stack)).isPresent();
     }
 
     public IItemHandlerModifiable getItemHandler(final IoDirection direction) {
@@ -600,7 +600,7 @@ public class MultiblockReprocessor
 
         this._ingredientsChanged = false;
 
-        return Content.Recipes.REPROCESSOR_RECIPE_TYPE
+        return Content.Recipes.REPROCESSOR_RECIPE_TYPE.get()
                 .findFirst(recipe -> recipe.test(this._wasteInventory.getStackInSlot(0), this._fluidTank.getFluidInTank(0)))
                 .map(recipe -> new ReprocessorHeldRecipe(recipe, holder, this._wasteIngredientSource,
                         this._fluidIngredientSource, this._outputTarget))

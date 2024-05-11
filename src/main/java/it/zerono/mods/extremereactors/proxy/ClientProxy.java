@@ -24,6 +24,7 @@ import com.google.common.collect.Sets;
 import com.google.common.collect.Streams;
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import it.zerono.mods.extremereactors.CommonLocations;
+import it.zerono.mods.extremereactors.Log;
 import it.zerono.mods.extremereactors.api.reactor.ModeratorsRegistry;
 import it.zerono.mods.extremereactors.api.reactor.ReactantMappingsRegistry;
 import it.zerono.mods.extremereactors.api.turbine.CoilMaterialRegistry;
@@ -33,6 +34,7 @@ import it.zerono.mods.extremereactors.gamecontent.compat.patchouli.PatchouliComp
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.CachedSprites;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.ChargingPortScreen;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.FluidPortScreen;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.GuiTheme;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.container.ChargingPortContainer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.client.model.FluidizerGlassModelBuilder;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.client.model.FluidizerModelBuilder;
@@ -63,10 +65,8 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.client.scre
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part.TurbineChargingPortEntity;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part.TurbineFluidPortEntity;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.TurbineVariant;
-import it.zerono.mods.zerocore.lib.CodeHelper;
 import it.zerono.mods.zerocore.lib.client.model.ICustomModelBuilder;
 import it.zerono.mods.zerocore.lib.client.model.ModBakedModelSupplier;
-import it.zerono.mods.zerocore.lib.compat.Mods;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.gui.screens.Screen;
@@ -85,89 +85,45 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.client.event.ModelEvent;
-import net.minecraftforge.client.event.RegisterColorHandlersEvent;
-import net.minecraftforge.event.TagsUpdatedEvent;
-import net.minecraftforge.event.entity.player.ItemTooltipEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.bus.api.EventPriority;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.neoforge.client.event.ModelEvent;
+import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.AddReloadListenerEvent;
+import net.neoforged.neoforge.event.TagsUpdatedEvent;
+import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 
 import java.util.*;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 public class ClientProxy
-        implements IProxy, ResourceManagerReloadListener {
+        implements IForgeProxy, ResourceManagerReloadListener {
 
     public ClientProxy() {
-
         this._modelBuilders = initModels();
-
-        IEventBus bus;
-
-        bus = Mod.EventBusSubscriber.Bus.MOD.bus().get();
-        bus.register(this);
-
-        bus = Mod.EventBusSubscriber.Bus.FORGE.bus().get();
-        bus.addListener(this::onItemTooltip);
-        bus.addListener(EventPriority.LOWEST, this::onVanillaTagsUpdated);
-
-        CodeHelper.addResourceReloadListener(this);
     }
 
     public static Supplier<BakedModel> getModelSupplier(final ResourceLocation modelId) {
         return s_bakedModelSupplier.getOrCreate(modelId);
     }
 
-    /**
-     * Called on the physical client to perform client-specific initialization tasks
-     *
-     * @param event the event
-     */
-    @SubscribeEvent
-    public void onClientInit(final FMLClientSetupEvent event) {
+    //region IForgeProxy
 
-        CachedSprites.initialize();
+    @Override
+    public void initialize(IEventBus modEventBus) {
 
-        event.enqueueWork(() -> {
+        modEventBus.addListener(ClientProxy::onClientInit);
+        modEventBus.addListener(this::onRegisterModels);
+        modEventBus.addListener(this::onModelBake);
+        modEventBus.addListener(ClientProxy::onColorHandlerEvent);
 
-            registerRenderTypes();
-            registerTileRenderers();
-            registerScreens();
-            
-            // Patchouli multiblock rendering do not support ModelData-based models
-            Mods.PATCHOULI.ifPresent(PatchouliCompat::initialize);
-        });
+        NeoForge.EVENT_BUS.addListener(this::onAddReloadListener);
+        NeoForge.EVENT_BUS.addListener(this::onItemTooltip);
+        NeoForge.EVENT_BUS.addListener(EventPriority.LOWEST, this::onVanillaTagsUpdated);
     }
-
-    @SubscribeEvent
-    public void onRegisterModels(final ModelEvent.RegisterAdditional event) {
-        this._modelBuilders.forEach(b -> b.onRegisterModels(event));
-    }
-
-    @SubscribeEvent
-    public void onModelBake(final ModelEvent.ModifyBakingResult event) {
-        this._modelBuilders.forEach(builder -> builder.onBakeModels(event));
-    }
-
-    public void onItemTooltip(final ItemTooltipEvent event) {
-
-        if (!Config.CLIENT.disableApiTooltips.get() && event.getFlags().isAdvanced()) {
-            event.getToolTip().addAll(this.getApiTooltipCache().getOrDefault(event.getItemStack().getItem(), Collections.emptySet()));
-        }
-    }
-
-    @SubscribeEvent
-    public void onColorHandlerEvent(final RegisterColorHandlersEvent.Block event) {
-        event.register(new ReactorFuelRodBlockColor(),
-                Content.Blocks.REACTOR_FUELROD_BASIC.get(),
-                Content.Blocks.REACTOR_FUELROD_REINFORCED.get());
-    }
-
-    //region IProxy
 
     @Override
     public FuelRodsLayout createFuelRodsLayout(Direction direction, int length) {
@@ -253,6 +209,7 @@ public class ClientProxy
     }
 
     private static void registerTileRenderers() {
+
         BlockEntityRenderers.register(Content.TileEntityTypes.TURBINE_ROTORBEARING.get(), RotorBearingEntityRenderer::new);
         BlockEntityRenderers.register(Content.TileEntityTypes.REPROCESSOR_COLLECTOR.get(), ReprocessorCollectorRender::new);
     }
@@ -308,6 +265,51 @@ public class ClientProxy
     }
 
     //endregion
+
+    private static void onClientInit(FMLClientSetupEvent event) {
+
+        //delete
+        Log.LOGGER.error("ER CLIENT PROXY onClientInit");
+
+        CachedSprites.initialize();
+
+        event.enqueueWork(() -> {
+
+            registerRenderTypes();
+            registerTileRenderers();
+            registerScreens();
+
+            // Patchouli multiblock rendering do not support ModelData-based models
+            PatchouliCompat.initialize();
+        });
+    }
+
+    private void onAddReloadListener(AddReloadListenerEvent event) {
+
+        event.addListener(this);
+        event.addListener(GuiTheme.ER);
+    }
+
+    private void onRegisterModels(final ModelEvent.RegisterAdditional event) {
+        this._modelBuilders.forEach(b -> b.onRegisterModels(event));
+    }
+
+    private void onModelBake(final ModelEvent.ModifyBakingResult event) {
+        this._modelBuilders.forEach(builder -> builder.onBakeModels(event));
+    }
+
+    private void onItemTooltip(final ItemTooltipEvent event) {
+
+        if (!Config.CLIENT.disableApiTooltips.get() && event.getFlags().isAdvanced()) {
+            event.getToolTip().addAll(this.getApiTooltipCache().getOrDefault(event.getItemStack().getItem(), Collections.emptySet()));
+        }
+    }
+
+    private static void onColorHandlerEvent(final RegisterColorHandlersEvent.Block event) {
+        event.register(new ReactorFuelRodBlockColor(),
+                Content.Blocks.REACTOR_FUELROD_BASIC.get(),
+                Content.Blocks.REACTOR_FUELROD_REINFORCED.get());
+    }
 
     private static final ModBakedModelSupplier s_bakedModelSupplier = new ModBakedModelSupplier();
 

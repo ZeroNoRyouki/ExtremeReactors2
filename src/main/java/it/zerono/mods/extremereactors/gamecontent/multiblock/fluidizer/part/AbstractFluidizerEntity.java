@@ -23,8 +23,6 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.Multibloc
 import it.zerono.mods.zerocore.base.multiblock.part.AbstractMultiblockEntity;
 import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockPartTypeProvider;
 import it.zerono.mods.zerocore.lib.client.model.data.multiblock.CuboidPartVariantsModelDataCache;
-import it.zerono.mods.zerocore.lib.energy.IWideEnergyStorage2;
-import it.zerono.mods.zerocore.lib.energy.NullEnergyHandlers;
 import it.zerono.mods.zerocore.lib.fluid.FluidHelper;
 import it.zerono.mods.zerocore.lib.multiblock.cuboid.PartPosition;
 import it.zerono.mods.zerocore.lib.multiblock.validation.IMultiblockValidator;
@@ -32,8 +30,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.client.model.data.ModelData;
-import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.client.model.data.ModelData;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 
 import java.util.Objects;
 
@@ -64,10 +62,6 @@ public class AbstractFluidizerEntity
 
     public IFluidHandler getFluidOutput() {
         return this.evalOnController(MultiblockFluidizer::getFluidHandler, FluidHelper.EMPTY_FLUID_HANDLER);
-    }
-
-    public IWideEnergyStorage2 getEnergyStorage() {
-        return this.evalOnController(MultiblockFluidizer::getEnergyStorage, NullEnergyHandlers.WIDE_STORAGE);
     }
 
     public Component getPartDisplayName() {

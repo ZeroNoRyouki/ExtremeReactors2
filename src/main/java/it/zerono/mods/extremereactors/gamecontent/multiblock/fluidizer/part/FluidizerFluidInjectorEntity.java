@@ -31,9 +31,7 @@ import it.zerono.mods.zerocore.lib.fluid.FluidHelper;
 import it.zerono.mods.zerocore.lib.fluid.FluidStackHolder;
 import it.zerono.mods.zerocore.lib.recipe.ingredient.IRecipeIngredientSource;
 import it.zerono.mods.zerocore.lib.recipe.ingredient.RecipeIngredientSourceWrapper;
-import it.zerono.mods.zerocore.lib.world.WorldHelper;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -46,16 +44,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityManager;
-import net.minecraftforge.common.capabilities.CapabilityToken;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.common.util.NonNullConsumer;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.fml.LogicalSide;
+import net.neoforged.fml.LogicalSide;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.common.util.NonNullConsumer;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class FluidizerFluidInjectorEntity
@@ -69,7 +63,6 @@ public class FluidizerFluidInjectorEntity
         super(Content.TileEntityTypes.FLUIDIZER_FLUIDINJECTOR.get(), position, blockState);
         this._fluids = new FluidStackHolder(1, ($, stack) -> this.isValidIngredient(stack)).setOnLoadListener(this::onFluidsChanged).setOnContentsChangedListener(this::onFluidsChanged);
         this._fluids.setMaxCapacity(MAX_CAPACITY);
-        this._capability = LazyOptional.of(() -> this._fluids);
     }
 
     public IRecipeIngredientSource<FluidStack> asRecipeSource() {
@@ -114,7 +107,7 @@ public class FluidizerFluidInjectorEntity
 
     @Override
     protected int getUpdatedModelVariantIndex() {
-        return this.isMachineAssembled() && this.getNeighborCapability().isPresent() ? 1 : 0;
+        return this.isMachineAssembled() && null != this.getNeighborCapability() ? 1 : 0;
     }
 
     //endregion
@@ -231,32 +224,14 @@ public class FluidizerFluidInjectorEntity
     }
 
     //endregion
-    //region TileEntity
-
-    @Nonnull
-    @Override
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-        return FLUID_HANDLER_CAPABILITY == cap ? this._capability.cast() : super.getCapability(cap, side);
-    }
-
-    /**
-     * invalidates a tile entity
-     */
-    @Override
-    public void setRemoved() {
-
-        super.setRemoved();
-        this._capability.invalidate();
-    }
-
-    //endregion
     //region internals
 
-    private LazyOptional<IFluidHandler> getNeighborCapability() {
-        return CodeHelper.optionalFlatMap(this.getPartWorld(), this.getOutwardDirection(),
-                        (world, direction) -> WorldHelper.getTile(world, this.getWorldPosition().relative(direction))
-                                .map(te -> te.getCapability(FLUID_HANDLER_CAPABILITY, direction.getOpposite())))
-                .orElse(LazyOptional.empty());
+    @Nullable
+    private IFluidHandler getNeighborCapability() {
+        return CodeHelper.optionalMap(this.getPartWorld(), this.getOutwardDirection(),
+                        (level, direction) -> level.getCapability(Capabilities.FluidHandler.BLOCK,
+                                this.getWorldPosition().relative(direction), direction.getOpposite()))
+                .orElse(null);
     }
 
     private void onFluidsChanged(IStackHolder.ChangeType changeType, int slot) {
@@ -270,13 +245,9 @@ public class FluidizerFluidInjectorEntity
         this._shouldSync = true;
     }
 
-    @SuppressWarnings("FieldMayBeFinal")
-    private static Capability<IFluidHandler> FLUID_HANDLER_CAPABILITY = CapabilityManager.get(new CapabilityToken<>(){});
-
     private static final ResourceLocation SYNC_DATA_ID = ExtremeReactors.ROOT_LOCATION.buildWithSuffix("fluidinjector");
 
     private final FluidStackHolder _fluids;
-    private final LazyOptional<IFluidHandler> _capability;
     private boolean _shouldSync;
 
     //endregion

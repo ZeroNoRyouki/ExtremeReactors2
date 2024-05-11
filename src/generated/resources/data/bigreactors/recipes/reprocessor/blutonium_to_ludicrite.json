@@ -1,13 +1,12 @@
 {
   "type": "bigreactors:reprocessor",
   "fluid": {
-    "fluid": {
-      "count": 1000,
-      "fluid": "bigreactors:cyanite"
-    }
+    "Amount": 1000,
+    "FluidName": "bigreactors:cyanite"
   },
   "result": {
-    "item": "bigreactors:ludicrite_ingot"
+    "Count": 1,
+    "id": "bigreactors:ludicrite_ingot"
   },
   "waste": {
     "count": 2,

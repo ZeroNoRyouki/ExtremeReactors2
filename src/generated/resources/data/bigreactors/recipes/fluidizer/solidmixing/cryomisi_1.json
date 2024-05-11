@@ -13,7 +13,7 @@
     }
   },
   "result": {
-    "count": 500,
-    "fluid": "bigreactors:cryomisi"
+    "Amount": 500,
+    "FluidName": "bigreactors:cryomisi"
   }
 }

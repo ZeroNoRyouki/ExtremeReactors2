@@ -3,23 +3,22 @@ package it.zerono.mods.extremereactors.datagen.recipe;
 import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.ContentTags;
+import it.zerono.mods.extremereactors.gamecontent.mekanism.IMekanismService;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.ReactorVariant;
-import it.zerono.mods.zerocore.lib.compat.Mods;
 import it.zerono.mods.zerocore.lib.data.ResourceLocationBuilder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeCategory;
+import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
-import net.minecraftforge.common.Tags;
+import net.neoforged.neoforge.common.Tags;
 
 import javax.annotation.Nullable;
 import java.util.concurrent.CompletableFuture;
-import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class ReactorRecipesDataProvider
@@ -31,7 +30,7 @@ public class ReactorRecipesDataProvider
     }
 
     @Override
-    protected void buildRecipes(Consumer<FinishedRecipe> builder) {
+    protected void buildRecipes(RecipeOutput output) {
 
         TagKey<Item> core, metal, fallbackMetal;
         ReactorVariant variant;
@@ -45,23 +44,22 @@ public class ReactorRecipesDataProvider
         metal = Tags.Items.INGOTS_IRON;
         fallbackMetal = null;
 
-        this.casing(builder, variant, Content.Items.REACTOR_CASING_BASIC, core, metal, fallbackMetal);
-        this.casingRecycle(builder, variant, Content.Items.REACTOR_CASING_BASIC,
+        this.casing(output, variant, Content.Items.REACTOR_CASING_BASIC, core, metal, fallbackMetal);
+        this.casingRecycle(output, variant, Content.Items.REACTOR_CASING_BASIC,
                 ContentTags.Items.USING_REACTOR_CASING_BASIC, Content.Items.REACTOR_GLASS_BASIC);
-        this.glass(builder, variant, Content.Items.REACTOR_GLASS_BASIC, casing, Tags.Items.GLASS);
-        this.controller(builder, variant, Content.Items.REACTOR_CONTROLLER_BASIC, casing, Tags.Items.GEMS_DIAMOND);
-        this.fuelRod(builder, variant, Content.Items.REACTOR_FUELROD_BASIC, metal, fallbackMetal, Tags.Items.GLASS);
-        this.controlRod(builder, variant, Content.Items.REACTOR_CONTROLROD_BASIC, casing, metal, fallbackMetal);
-        this.solidAccessPort(builder, variant, Content.Items.REACTOR_SOLID_ACCESSPORT_BASIC, casing, metal, fallbackMetal);
-        this.powerTap(builder, variant, "fe", Content.Items.REACTOR_POWERTAP_FE_PASSIVE_BASIC,
+        this.glass(output, variant, Content.Items.REACTOR_GLASS_BASIC, casing, Tags.Items.GLASS);
+        this.controller(output, variant, Content.Items.REACTOR_CONTROLLER_BASIC, casing, Tags.Items.GEMS_DIAMOND);
+        this.fuelRod(output, variant, Content.Items.REACTOR_FUELROD_BASIC, metal, fallbackMetal, Tags.Items.GLASS);
+        this.controlRod(output, variant, Content.Items.REACTOR_CONTROLROD_BASIC, casing, metal, fallbackMetal);
+        this.solidAccessPort(output, variant, Content.Items.REACTOR_SOLID_ACCESSPORT_BASIC, casing, metal, fallbackMetal);
+        this.powerTap(output, variant, "fe", Content.Items.REACTOR_POWERTAP_FE_PASSIVE_BASIC,
                 Content.Items.REACTOR_POWERTAP_FE_ACTIVE_BASIC, casing, () -> net.minecraft.world.item.Items.REDSTONE_BLOCK,
                 () -> net.minecraft.world.item.Items.REDSTONE);
-        this.redstonePort(builder, variant, Content.Items.REACTOR_REDSTONEPORT_BASIC, casing, metal, fallbackMetal,
+        this.redstonePort(output, variant, Content.Items.REACTOR_REDSTONEPORT_BASIC, casing, metal, fallbackMetal,
                 Tags.Items.INGOTS_GOLD);
-        this.chargingPort(builder, this.reactorRoot(variant).buildWithSuffix("chargingfe"),
+        this.chargingPort(output, this.reactorRoot(variant).buildWithSuffix("chargingfe"),
                 Content.Items.REACTOR_CHARGINGPORT_FE_BASIC, Content.Items.REACTOR_POWERTAP_FE_ACTIVE_BASIC,
                 Items.LAPIS_LAZULI, Items.REDSTONE);
-
 
         // Reinforced parts
 
@@ -71,40 +69,40 @@ public class ReactorRecipesDataProvider
         metal = TAG_INGOTS_STEEL;
         fallbackMetal = Tags.Items.STORAGE_BLOCKS_IRON;
 
-        this.casing(builder, variant, Content.Items.REACTOR_CASING_REINFORCED, core, metal, fallbackMetal);
-        this.casingUpgrade(builder, variant, Content.Items.REACTOR_CASING_REINFORCED, metal, fallbackMetal);
-        this.casingRecycle(builder, variant, Content.Items.REACTOR_CASING_REINFORCED,
+        this.casing(output, variant, Content.Items.REACTOR_CASING_REINFORCED, core, metal, fallbackMetal);
+        this.casingUpgrade(output, variant, Content.Items.REACTOR_CASING_REINFORCED, metal, fallbackMetal);
+        this.casingRecycle(output, variant, Content.Items.REACTOR_CASING_REINFORCED,
                 ContentTags.Items.USING_REACTOR_CASING_REINFORCED, Content.Items.REACTOR_GLASS_REINFORCED);
-        this.glass(builder, variant, Content.Items.REACTOR_GLASS_REINFORCED, casing, Tags.Items.GLASS);
-        this.controller(builder, variant, Content.Items.REACTOR_CONTROLLER_REINFORCED, casing, Tags.Items.STORAGE_BLOCKS_DIAMOND);
-        this.fuelRod(builder, variant, Content.Items.REACTOR_FUELROD_REINFORCED, metal, fallbackMetal, Tags.Items.GLASS);
-        this.controlRod(builder, variant, Content.Items.REACTOR_CONTROLROD_REINFORCED, casing, metal, fallbackMetal);
-        this.solidAccessPort(builder, variant, Content.Items.REACTOR_SOLID_ACCESSPORT_REINFORCED, casing, metal, fallbackMetal);
-        this.fluidAccessPort(builder, variant, Content.Items.REACTOR_FLUID_ACCESSPORT_REINFORCED, casing, metal, fallbackMetal);
-        this.powerTap(builder, variant, "fe", Content.Items.REACTOR_POWERTAP_FE_PASSIVE_REINFORCED,
+        this.glass(output, variant, Content.Items.REACTOR_GLASS_REINFORCED, casing, Tags.Items.GLASS);
+        this.controller(output, variant, Content.Items.REACTOR_CONTROLLER_REINFORCED, casing, Tags.Items.STORAGE_BLOCKS_DIAMOND);
+        this.fuelRod(output, variant, Content.Items.REACTOR_FUELROD_REINFORCED, metal, fallbackMetal, Tags.Items.GLASS);
+        this.controlRod(output, variant, Content.Items.REACTOR_CONTROLROD_REINFORCED, casing, metal, fallbackMetal);
+        this.solidAccessPort(output, variant, Content.Items.REACTOR_SOLID_ACCESSPORT_REINFORCED, casing, metal, fallbackMetal);
+        this.fluidAccessPort(output, variant, Content.Items.REACTOR_FLUID_ACCESSPORT_REINFORCED, casing, metal, fallbackMetal);
+        this.powerTap(output, variant, "fe", Content.Items.REACTOR_POWERTAP_FE_PASSIVE_REINFORCED,
                 Content.Items.REACTOR_POWERTAP_FE_ACTIVE_REINFORCED, casing, () -> net.minecraft.world.item.Items.REDSTONE_BLOCK,
                 () -> net.minecraft.world.item.Items.REDSTONE);
-        this.redstonePort(builder, variant, Content.Items.REACTOR_REDSTONEPORT_REINFORCED, casing, metal, fallbackMetal,
+        this.redstonePort(output, variant, Content.Items.REACTOR_REDSTONEPORT_REINFORCED, casing, metal, fallbackMetal,
                 Tags.Items.STORAGE_BLOCKS_GOLD);
-        this.computerPort(builder, variant, Content.Items.REACTOR_COMPUTERPORT_REINFORCED, casing, metal, fallbackMetal);
-        this.fluidPort(builder, variant, "forge", Content.Items.REACTOR_FLUIDPORT_FORGE_PASSIVE_REINFORCED,
+        this.computerPort(output, variant, Content.Items.REACTOR_COMPUTERPORT_REINFORCED, casing, metal, fallbackMetal);
+        this.fluidPort(output, variant, "forge", Content.Items.REACTOR_FLUIDPORT_FORGE_PASSIVE_REINFORCED,
                 Content.Items.REACTOR_FLUIDPORT_FORGE_ACTIVE_REINFORCED, casing, () -> Items.LAVA_BUCKET,
                 () -> Items.WATER_BUCKET);
-        this.mekFluidPort(builder, variant, Content.Items.REACTOR_FLUIDPORT_MEKANISM_PASSIVE_REINFORCED, casing,
+        this.mekFluidPort(output, variant, Content.Items.REACTOR_FLUIDPORT_MEKANISM_PASSIVE_REINFORCED, casing,
                 () -> Items.LAVA_BUCKET, () -> Items.WATER_BUCKET);
-        this.chargingPort(builder, this.reactorRoot(variant).buildWithSuffix("chargingfe"),
+        this.chargingPort(output, this.reactorRoot(variant).buildWithSuffix("chargingfe"),
                 Content.Items.REACTOR_CHARGINGPORT_FE_REINFORCED, Content.Items.REACTOR_POWERTAP_FE_ACTIVE_REINFORCED,
                 Items.LAPIS_BLOCK, Items.REDSTONE_BLOCK);
     }
 
     //region internals
 
-    private void casing(Consumer<FinishedRecipe> builder, ReactorVariant variant, Supplier<? extends ItemLike> result,
+    private void casing(RecipeOutput output, ReactorVariant variant, Supplier<? extends ItemLike> result,
                         TagKey<Item> core, TagKey<Item> metal, @Nullable TagKey<Item> fallbackMetal) {
 
         final var idBuilder = this.reactorRoot(variant);
 
-        this.withFallback(builder, idBuilder.buildWithSuffix("casing"), metal, idBuilder.buildWithSuffix("casing_alt"),
+        this.withFallback(output, idBuilder.buildWithSuffix("casing"), metal, idBuilder.buildWithSuffix("casing_alt"),
                 fallbackMetal, tag -> this.shaped(RecipeCategory.BUILDING_BLOCKS, result)
                         .define('I', tag)
                         .define('C', core)
@@ -115,12 +113,12 @@ public class ReactorRecipesDataProvider
                         .unlockedBy("has_item", has(ContentTags.Items.INGOTS_GRAPHITE)));
     }
 
-    private void casingUpgrade(Consumer<FinishedRecipe> builder, ReactorVariant variant, Supplier<? extends ItemLike> result,
+    private void casingUpgrade(RecipeOutput output, ReactorVariant variant, Supplier<? extends ItemLike> result,
                                TagKey<Item> metal, @Nullable final TagKey<Item> fallbackMetal) {
 
         final var idBuilder = this.reactorRoot(variant);
 
-        this.withFallback(builder, idBuilder.buildWithSuffix("casing_upgrade"), metal, idBuilder.buildWithSuffix("casing_upgrade_alt"),
+        this.withFallback(output, idBuilder.buildWithSuffix("casing_upgrade"), metal, idBuilder.buildWithSuffix("casing_upgrade_alt"),
                 fallbackMetal, tag -> this.shaped(RecipeCategory.BUILDING_BLOCKS, result)
                         .define('I', tag)
                         .define('C', Content.Blocks.REACTOR_CASING_BASIC.get())
@@ -131,7 +129,7 @@ public class ReactorRecipesDataProvider
                         .unlockedBy("has_item", has(Content.Blocks.REACTOR_CASING_BASIC.get())));
     }
 
-    private void casingRecycle(Consumer<FinishedRecipe> builder, ReactorVariant variant,
+    private void casingRecycle(RecipeOutput output, ReactorVariant variant,
                                Supplier<? extends ItemLike> casingResult, TagKey<Item> casingSourceTag,
                                Supplier<? extends ItemLike> glassSourceItem) {
 
@@ -140,25 +138,25 @@ public class ReactorRecipesDataProvider
         this.shapeless(RecipeCategory.BUILDING_BLOCKS, casingResult)
                 .requires(glassSourceItem.get())
                 .unlockedBy("has_item", has(glassSourceItem.get()))
-                .save(builder, idBuilder.buildWithSuffix("casing_recycle_glass"));
+                .save(output, idBuilder.buildWithSuffix("casing_recycle_glass"));
 
         this.shapeless(RecipeCategory.BUILDING_BLOCKS, casingResult, 4)
                 .requires(casingSourceTag)
                 .unlockedBy("has_item", has(casingSourceTag))
-                .save(builder, idBuilder.buildWithSuffix("casing_recycle"));
+                .save(output, idBuilder.buildWithSuffix("casing_recycle"));
     }
 
-    private void glass(Consumer<FinishedRecipe> builder, ReactorVariant variant, Supplier<? extends ItemLike> result,
+    private void glass(RecipeOutput output, ReactorVariant variant, Supplier<? extends ItemLike> result,
                        Supplier<? extends ItemLike> casing, TagKey<Item> glass) {
         this.shaped(RecipeCategory.BUILDING_BLOCKS, result)
                 .define('C', casing.get())
                 .define('G', glass)
                 .pattern("GCG")
                 .unlockedBy("has_item", has(casing.get()))
-                .save(builder, this.reactorRoot(variant).buildWithSuffix("glass"));
+                .save(output, this.reactorRoot(variant).buildWithSuffix("glass"));
     }
 
-    private void controller(Consumer<FinishedRecipe> builder, ReactorVariant variant, Supplier<? extends ItemLike> result,
+    private void controller(RecipeOutput output, ReactorVariant variant, Supplier<? extends ItemLike> result,
                             Supplier<? extends ItemLike> casing, TagKey<Item> diamond) {
         TAGS_YELLORIUM_INGOTS.forEach(tag -> this.shaped(RecipeCategory.BUILDING_BLOCKS, result)
                 .define('C', casing.get())
@@ -171,12 +169,12 @@ public class ReactorRecipesDataProvider
                 .pattern("CRC")
                 .unlockedBy("has_item", has(casing.get()))
                 .unlockedBy("has_item2", has(tag))
-                .save(builder, this.nameForTaggedSubtype("controller", variant, tag)));
+                .save(output, this.nameForTaggedSubtype("controller", variant, tag)));
     }
 
-    private void fuelRod(Consumer<FinishedRecipe> builder, ReactorVariant variant, Supplier<? extends ItemLike> result,
+    private void fuelRod(RecipeOutput output, ReactorVariant variant, Supplier<? extends ItemLike> result,
                          TagKey<Item> metal, @Nullable TagKey<Item> fallbackMetal, TagKey<Item> glass) {
-        TAGS_YELLORIUM_INGOTS.forEach(tag -> this.withFallback(builder,
+        TAGS_YELLORIUM_INGOTS.forEach(tag -> this.withFallback(output,
                 this.nameForTaggedSubtype("fuelrod", variant, tag), metal,
                 this.nameForTaggedSubtype("fuelrod_alt", variant, tag), fallbackMetal,
                 metalTag -> this.shaped(RecipeCategory.BUILDING_BLOCKS, result)
@@ -190,12 +188,12 @@ public class ReactorRecipesDataProvider
                         .unlockedBy("has_item", has(tag))));
     }
 
-    private void controlRod(Consumer<FinishedRecipe> builder, ReactorVariant variant, Supplier<? extends ItemLike> result,
+    private void controlRod(RecipeOutput output, ReactorVariant variant, Supplier<? extends ItemLike> result,
                             Supplier<? extends ItemLike> casing, TagKey<Item> metal, @Nullable TagKey<Item> fallbackMetal) {
 
         final var idBuilder = this.reactorRoot(variant);
 
-        this.withFallback(builder, idBuilder.buildWithSuffix("controlrod"), metal, idBuilder.buildWithSuffix("controlrod_alt"),
+        this.withFallback(output, idBuilder.buildWithSuffix("controlrod"), metal, idBuilder.buildWithSuffix("controlrod_alt"),
                 fallbackMetal, tag -> this.shaped(RecipeCategory.BUILDING_BLOCKS, result)
                         .define('C', casing.get())
                         .define('M', tag)
@@ -208,7 +206,7 @@ public class ReactorRecipesDataProvider
                         .unlockedBy("has_item", has(casing.get())));
     }
 
-    private void powerTap(Consumer<FinishedRecipe> builder, ReactorVariant variant, String name,
+    private void powerTap(RecipeOutput output, ReactorVariant variant, String name,
                           Supplier<? extends ItemLike> passiveResult, Supplier<? extends ItemLike> activeResult,
                           Supplier<? extends ItemLike> casing, Supplier<? extends ItemLike> energyBig,
                           Supplier<? extends ItemLike> energySmall) {
@@ -224,7 +222,7 @@ public class ReactorRecipesDataProvider
                 .pattern("CSC")
                 .unlockedBy("has_item", has(casing.get()))
                 .unlockedBy("has_item2", has(energySmall.get()))
-                .save(builder, idBuilder.buildWithPrefix("passivetap_"));
+                .save(output, idBuilder.buildWithPrefix("passivetap_"));
 
         this.shaped(RecipeCategory.BUILDING_BLOCKS, activeResult)
                 .define('C', casing.get())
@@ -235,10 +233,10 @@ public class ReactorRecipesDataProvider
                 .pattern("CBC")
                 .unlockedBy("has_item", has(casing.get()))
                 .unlockedBy("has_item2", has(energyBig.get()))
-                .save(builder, idBuilder.buildWithPrefix("activetap_"));
+                .save(output, idBuilder.buildWithPrefix("activetap_"));
     }
 
-    private void fluidPort(Consumer<FinishedRecipe> builder, final ReactorVariant variant, final String name,
+    private void fluidPort(RecipeOutput output, final ReactorVariant variant, final String name,
                            Supplier<? extends ItemLike> passiveResult, final Supplier<? extends ItemLike> activeResult,
                            Supplier<? extends ItemLike> casing, final Supplier<? extends ItemLike> lava,
                            Supplier<? extends ItemLike> water) {
@@ -254,7 +252,7 @@ public class ReactorRecipesDataProvider
                 .pattern("CSC")
                 .unlockedBy("has_item", has(casing.get()))
                 .unlockedBy("has_item2", has(water.get()))
-                .save(builder, idBuilder.buildWithPrefix("passivefluidport_"));
+                .save(output, idBuilder.buildWithPrefix("passivefluidport_"));
 
         this.shaped(RecipeCategory.BUILDING_BLOCKS, activeResult)
                 .define('C', casing.get())
@@ -265,34 +263,35 @@ public class ReactorRecipesDataProvider
                 .pattern("CBC")
                 .unlockedBy("has_item", has(casing.get()))
                 .unlockedBy("has_item2", has(lava.get()))
-                .save(builder, idBuilder.buildWithPrefix("activefluidport_"));
+                .save(output, idBuilder.buildWithPrefix("activefluidport_"));
     }
 
-    private void mekFluidPort(Consumer<FinishedRecipe> builder, ReactorVariant variant,
+    private void mekFluidPort(RecipeOutput output, ReactorVariant variant,
                               Supplier<? extends ItemLike> passiveResult, Supplier<? extends ItemLike> casing,
                               Supplier<? extends ItemLike> lava, Supplier<? extends ItemLike> water) {
-        this.conditional(modLoaded(Mods.MEKANISM.id()))
-                .addRecipe(this.shaped(RecipeCategory.BUILDING_BLOCKS, passiveResult)
-                        .define('C', casing.get())
-                        .define('B', lava.get())
-                        .define('S', water.get())
-                        .define('X', Items.EMERALD_BLOCK)
-                        .pattern("CSC")
-                        .pattern("BXB")
-                        .pattern("CSC")
-                        .unlockedBy("has_item", has(casing.get()))
-                        .unlockedBy("has_item2", has(water.get()))
-                        ::save)
-                .build(builder, this.reactorRoot(variant).buildWithSuffix("passivefluidport_mekanism"));
+
+        output = output.withConditions(modLoaded(IMekanismService.SERVICE.getId()));
+
+        this.shaped(RecipeCategory.BUILDING_BLOCKS, passiveResult)
+                .define('C', casing.get())
+                .define('B', lava.get())
+                .define('S', water.get())
+                .define('X', Items.EMERALD_BLOCK)
+                .pattern("CSC")
+                .pattern("BXB")
+                .pattern("CSC")
+                .unlockedBy("has_item", has(casing.get()))
+                .unlockedBy("has_item2", has(water.get()))
+                .save(output, this.reactorRoot(variant).buildWithSuffix("passivefluidport_mekanism"));
     }
 
-    private void solidAccessPort(Consumer<FinishedRecipe> builder, ReactorVariant variant,
+    private void solidAccessPort(RecipeOutput output, ReactorVariant variant,
                                  Supplier<? extends ItemLike> result, Supplier<? extends ItemLike> casing,
                                  TagKey<Item> metal, @Nullable TagKey<Item> fallbackMetal) {
 
         final var idBuilder = this.reactorRoot(variant);
 
-        this.withFallback(builder, idBuilder.buildWithSuffix("solidaccessport"), metal,
+        this.withFallback(output, idBuilder.buildWithSuffix("solidaccessport"), metal,
                 idBuilder.buildWithSuffix("solidaccessport_alt"), fallbackMetal,
                 tag -> this.shaped(RecipeCategory.BUILDING_BLOCKS, result)
                         .define('C', casing.get())
@@ -306,13 +305,13 @@ public class ReactorRecipesDataProvider
                         .unlockedBy("has_item", has(casing.get())));
     }
 
-    private void fluidAccessPort(Consumer<FinishedRecipe> builder, ReactorVariant variant,
+    private void fluidAccessPort(RecipeOutput output, ReactorVariant variant,
                                  Supplier<? extends ItemLike> result, Supplier<? extends ItemLike> casing,
                                  TagKey<Item> metal, @Nullable TagKey<Item> fallbackMetal) {
 
         final var idBuilder = this.reactorRoot(variant);
 
-        this.withFallback(builder, idBuilder.buildWithSuffix("fluidaccessport"), metal,
+        this.withFallback(output, idBuilder.buildWithSuffix("fluidaccessport"), metal,
                 idBuilder.buildWithSuffix("fluidaccessport_alt"), fallbackMetal,
                 tag -> this.shaped(RecipeCategory.BUILDING_BLOCKS, result)
                         .define('C', casing.get())
@@ -326,13 +325,13 @@ public class ReactorRecipesDataProvider
                         .unlockedBy("has_item", has(casing.get())));
     }
 
-    private void redstonePort(Consumer<FinishedRecipe> builder, ReactorVariant variant,
+    private void redstonePort(RecipeOutput output, ReactorVariant variant,
                               Supplier<? extends ItemLike> result, Supplier<? extends ItemLike> casing,
                               TagKey<Item> metal, @Nullable TagKey<Item> fallbackMetal, TagKey<Item> gold) {
 
         final var idBuilder = this.reactorRoot(variant);
 
-        this.withFallback(builder, idBuilder.buildWithSuffix("redstoneport"), metal,
+        this.withFallback(output, idBuilder.buildWithSuffix("redstoneport"), metal,
                 idBuilder.buildWithSuffix("redstoneport_alt"), fallbackMetal,
                 tag -> this.shaped(RecipeCategory.BUILDING_BLOCKS, result)
                         .define('C', casing.get())
@@ -346,13 +345,13 @@ public class ReactorRecipesDataProvider
                         .unlockedBy("has_item", has(casing.get())));
     }
 
-    private void computerPort(Consumer<FinishedRecipe> builder, ReactorVariant variant,
+    private void computerPort(RecipeOutput output, ReactorVariant variant,
                               Supplier<? extends ItemLike> result, Supplier<? extends ItemLike> casing,
                               TagKey<Item> metal, @Nullable TagKey<Item> fallbackMetal) {
 
         final var idBuilder = this.reactorRoot(variant);
 
-        this.withFallback(builder, idBuilder.buildWithSuffix("computerport"), metal,
+        this.withFallback(output, idBuilder.buildWithSuffix("computerport"), metal,
                 idBuilder.buildWithSuffix("computerport_alt"), fallbackMetal,
                 tag -> this.shaped(RecipeCategory.BUILDING_BLOCKS, result)
                         .define('C', casing.get())

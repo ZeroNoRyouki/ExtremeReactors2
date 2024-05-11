@@ -7,7 +7,7 @@
     }
   },
   "result": {
-    "count": 1000,
-    "fluid": "bigreactors:blutonium"
+    "Amount": 1000,
+    "FluidName": "bigreactors:blutonium"
   }
 }

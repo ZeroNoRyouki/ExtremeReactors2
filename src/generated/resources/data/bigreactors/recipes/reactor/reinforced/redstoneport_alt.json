@@ -1,43 +1,35 @@
 {
-  "type": "forge:conditional",
-  "recipes": [
+  "neoforge:conditions": [
     {
-      "conditions": [
-        {
-          "type": "forge:tag_empty",
-          "tag": "forge:ingots/steel"
-        }
-      ],
-      "recipe": {
-        "type": "minecraft:crafting_shaped",
-        "category": "building",
-        "key": {
-          "C": {
-            "item": "bigreactors:reinforced_reactorcasing"
-          },
-          "G": {
-            "tag": "forge:storage_blocks/gold"
-          },
-          "M": {
-            "tag": "forge:storage_blocks/iron"
-          },
-          "X": {
-            "item": "minecraft:repeater"
-          },
-          "Z": {
-            "item": "minecraft:comparator"
-          }
-        },
-        "pattern": [
-          "CZC",
-          "MGM",
-          "CXC"
-        ],
-        "result": {
-          "item": "bigreactors:reinforced_reactorredstoneport"
-        },
-        "show_notification": true
-      }
+      "type": "neoforge:tag_empty",
+      "tag": "forge:ingots/steel"
     }
-  ]
+  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "C": {
+      "item": "bigreactors:reinforced_reactorcasing"
+    },
+    "G": {
+      "tag": "forge:storage_blocks/gold"
+    },
+    "M": {
+      "tag": "forge:storage_blocks/iron"
+    },
+    "X": {
+      "item": "minecraft:repeater"
+    },
+    "Z": {
+      "item": "minecraft:comparator"
+    }
+  },
+  "pattern": [
+    "CZC",
+    "MGM",
+    "CXC"
+  ],
+  "result": {
+    "item": "bigreactors:reinforced_reactorredstoneport"
+  }
 }

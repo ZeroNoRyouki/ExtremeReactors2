@@ -1,6 +1,6 @@
 /*
  *
- * ServerProxy.java
+ * package-info.java
  *
  * This file is part of Extreme Reactors 2 by ZeroNoRyouki, a Minecraft mod.
  *
@@ -16,15 +16,10 @@
  *
  */
 
-package it.zerono.mods.extremereactors.proxy;
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
+package it.zerono.mods.extremereactors.gamecontent.mekanism;
 
-public final class ProxySafeReferent {
+import net.minecraft.MethodsReturnNonnullByDefault;
 
-    public static IProxy server() {
-        return new ServerProxy();
-    }
-
-    public static IProxy client() {
-        return new ClientProxy();
-    }
-}
+import javax.annotation.ParametersAreNonnullByDefault;

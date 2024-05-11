@@ -34,10 +34,10 @@ import it.zerono.mods.zerocore.lib.compat.jei.AbstractModRecipeCategory;
 import it.zerono.mods.zerocore.lib.compat.jei.drawable.ProgressBarDrawable;
 import it.zerono.mods.zerocore.lib.data.geometry.Rectangle;
 import mezz.jei.api.constants.VanillaTypes;
-import mezz.jei.api.forge.ForgeTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
+import mezz.jei.api.neoforge.NeoForgeTypes;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import net.minecraft.client.gui.GuiGraphics;
@@ -86,7 +86,7 @@ public class ReprocessorRecipeCategory
 
         builder.addSlot(RecipeIngredientRole.INPUT, 34, 23)
                 .setFluidRenderer(MultiblockReprocessor.FLUID_CAPACITY, false, 16, 64)
-                .addIngredients(ForgeTypes.FLUID_STACK, recipe.getIngredient2().getMatchingElements());
+                .addIngredients(NeoForgeTypes.FLUID_STACK, recipe.getIngredient2().getMatchingElements());
 
         // energy ingredient
 

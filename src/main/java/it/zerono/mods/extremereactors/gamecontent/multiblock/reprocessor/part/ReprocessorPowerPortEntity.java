@@ -26,16 +26,8 @@ import it.zerono.mods.zerocore.lib.energy.handler.WideEnergyStorageForwarder;
 import it.zerono.mods.zerocore.lib.multiblock.cuboid.PartPosition;
 import it.zerono.mods.zerocore.lib.multiblock.validation.IMultiblockValidator;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityManager;
-import net.minecraftforge.common.capabilities.CapabilityToken;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.energy.IEnergyStorage;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import net.neoforged.neoforge.energy.IEnergyStorage;
 
 public class ReprocessorPowerPortEntity
         extends AbstractReprocessorEntity {
@@ -44,7 +36,11 @@ public class ReprocessorPowerPortEntity
 
         super(Content.TileEntityTypes.REPROCESSOR_POWERPORT.get(), position, blockState);
         this._forwarder = new WideEnergyStorageForwarder(NullEnergyHandlers.STORAGE);
-        this._capability = LazyOptional.of(() -> ForgeEnergyAdapter.wrap(this._forwarder));
+        this._capability = ForgeEnergyAdapter.wrap(this._forwarder);
+    }
+
+    public IEnergyStorage getHandler() {
+        return this._capability;
     }
 
     //region AbstractCuboidMultiblockPart
@@ -69,22 +65,10 @@ public class ReprocessorPowerPortEntity
     }
 
     //endregion
-    //region TileEntity
-
-    @Nonnull
-    @Override
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-        return CAPAP_FORGE_ENERGYSTORAGE == cap ? this._capability.cast() : super.getCapability(cap, side);
-    }
-
-    //endregion
     //region internals
 
-    @SuppressWarnings("FieldMayBeFinal")
-    private static Capability<IEnergyStorage> CAPAP_FORGE_ENERGYSTORAGE = CapabilityManager.get(new CapabilityToken<>(){});
-
     private final WideEnergyStorageForwarder _forwarder;
-    private final LazyOptional<IEnergyStorage> _capability;
+    private final IEnergyStorage _capability;
 
     //endregion
 }

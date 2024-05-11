@@ -31,6 +31,7 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.AABB;
 
 public class ReprocessorCollectorRender
         implements BlockEntityRenderer<ReprocessorCollectorEntity> {
@@ -39,6 +40,11 @@ public class ReprocessorCollectorRender
     }
 
     //region TileEntityRenderer
+
+    @Override
+    public AABB getRenderBoundingBox(ReprocessorCollectorEntity collector) {
+        return collector.getRenderBoundingBox();
+    }
 
     @Override
     public void render(final ReprocessorCollectorEntity collector, float partialTicks, final PoseStack stack,

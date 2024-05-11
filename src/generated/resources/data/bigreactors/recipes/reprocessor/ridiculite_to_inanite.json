@@ -1,13 +1,12 @@
 {
   "type": "bigreactors:reprocessor",
   "fluid": {
-    "fluid": {
-      "count": 1000,
-      "fluid": "bigreactors:rossinite"
-    }
+    "Amount": 1000,
+    "FluidName": "bigreactors:rossinite"
   },
   "result": {
-    "item": "bigreactors:inanite_ingot"
+    "Count": 1,
+    "id": "bigreactors:inanite_ingot"
   },
   "waste": {
     "count": 2,

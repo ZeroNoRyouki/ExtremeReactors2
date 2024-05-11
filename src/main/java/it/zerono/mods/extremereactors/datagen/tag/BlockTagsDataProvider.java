@@ -12,8 +12,8 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.LiquidBlock;
-import net.minecraftforge.common.Tags;
-import net.minecraftforge.common.util.NonNullFunction;
+import net.neoforged.neoforge.common.Tags;
+import net.neoforged.neoforge.common.util.NonNullFunction;
 
 public class BlockTagsDataProvider
         implements IIntrinsicTagDataProvider<Block> {

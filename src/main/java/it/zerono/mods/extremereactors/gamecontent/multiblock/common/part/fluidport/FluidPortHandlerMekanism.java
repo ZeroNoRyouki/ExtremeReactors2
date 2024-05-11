@@ -21,12 +21,12 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.fluidp
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.zerono.mods.extremereactors.api.IMapping;
 import it.zerono.mods.extremereactors.api.coolant.FluidMappingsRegistry;
+import it.zerono.mods.extremereactors.gamecontent.mekanism.IMekanismService;
 import it.zerono.mods.zerocore.base.multiblock.part.AbstractMultiblockEntity;
+import it.zerono.mods.zerocore.base.multiblock.part.io.IOPortBlockCapabilitySource;
 import it.zerono.mods.zerocore.base.multiblock.part.io.fluid.AbstractFluidPortHandler;
 import it.zerono.mods.zerocore.base.multiblock.part.io.fluid.IFluidPort;
-import it.zerono.mods.zerocore.base.multiblock.part.io.fluid.IFluidPortHandler;
 import it.zerono.mods.zerocore.lib.CodeHelper;
-import it.zerono.mods.zerocore.lib.compat.Mods;
 import it.zerono.mods.zerocore.lib.data.IoDirection;
 import it.zerono.mods.zerocore.lib.data.IoMode;
 import it.zerono.mods.zerocore.lib.fluid.handler.FluidHandlerForwarder;
@@ -36,35 +36,30 @@ import mekanism.api.chemical.gas.Gas;
 import mekanism.api.chemical.gas.GasStack;
 import mekanism.api.chemical.gas.IGasHandler;
 import mekanism.api.recipes.RotaryRecipe;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
+import mekanism.common.capabilities.Capabilities;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityManager;
-import net.minecraftforge.common.capabilities.CapabilityToken;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.common.util.NonNullFunction;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.fluids.capability.templates.EmptyFluidHandler;
+import net.neoforged.neoforge.common.util.NonNullFunction;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.fluids.capability.templates.EmptyFluidHandler;
 
 import javax.annotation.Nullable;
 import java.util.Map;
+
 public class FluidPortHandlerMekanism<Controller extends AbstractCuboidMultiblockController<Controller>,
-        T extends AbstractMultiblockEntity<Controller> & IFluidPort>
-        extends AbstractFluidPortHandler<Controller, T>
-        implements IGasHandler {
+        Port extends AbstractMultiblockEntity<Controller> & IFluidPort>
+    extends AbstractFluidPortHandler<Controller, Port>
+    implements IGasHandler {
 
-    public FluidPortHandlerMekanism(final T part, final IoMode mode) {
+    public FluidPortHandlerMekanism(Port port) {
 
-        super(part, IoMode.Passive);
-        this._capability = LazyOptional.of(() -> this);
+        super(port, IoMode.Passive);
         this._capabilityForwarder = new FluidHandlerForwarder(EmptyFluidHandler.INSTANCE);
-        this._consumer = null;
+        this._remoteCapabilitySource = new IOPortBlockCapabilitySource<>(port, Capabilities.GAS.block());
     }
 
     //region IFluidPortHandler
@@ -78,18 +73,20 @@ public class FluidPortHandlerMekanism<Controller extends AbstractCuboidMultibloc
     @Override
     public int outputFluid(final FluidStack stack) {
 
-        if (null == this._consumer || this.isPassive()) {
+        final var consumer = this._remoteCapabilitySource.getCapability();
+
+        if (null == consumer || this.isPassive()) {
             return 0;
         }
 
-        return (int)(this._consumer.insertChemical(getGasStack(stack), Action.EXECUTE).getAmount());
+        return (int)(consumer.insertChemical(getGasStack(stack), Action.EXECUTE).getAmount());
     }
 
     /**
      * If this is a Active Fluid Port in input mode, try to get fluids from the connected consumer (if there is one)
      *
      * @param destination the destination IFluidHandler that will receive the fluid
-     * @param maxAmount   the maximum amount of fluid the acquire
+     * @param maxAmount   the maximum amount of fluid to acquire
      */
     @Override
     public int inputFluid(IFluidHandler destination, int maxAmount) {
@@ -99,52 +96,19 @@ public class FluidPortHandlerMekanism<Controller extends AbstractCuboidMultibloc
     //endregion
     //region IIOPortHandler
 
-    /**
-     * @return true if this handler is connected to one of it's allowed consumers, false otherwise
-     */
     @Override
     public boolean isConnected() {
-        return null != this._consumer;
-    }
-
-    /**
-     * Check for connections
-     *
-     * @param world    the handler world
-     * @param position the handler position
-     */
-    @Override
-    public void checkConnections(@Nullable Level world, BlockPos position) {
-        this._consumer = this.lookupConsumer(world, position, CAPAP_MEKANISM_GASHANDLER,
-                te -> te instanceof IFluidPortHandler, this._consumer);
+        return null != this._remoteCapabilitySource.getCapability();
     }
 
     @Override
-    public void invalidate() {
-        this._capability.invalidate();
+    public void onPortChanged() {
+        this._remoteCapabilitySource.onPortChanged();
     }
 
     @Override
     public void update(NonNullFunction<IoDirection, IFluidHandler> handlerProvider) {
         this._capabilityForwarder.setHandler(handlerProvider.apply(IoDirection.Output));
-    }
-
-    /**
-     * Get the requested capability, if supported
-     *
-     * @param capability the capability
-     * @param direction  the direction the request is coming from
-     * @return the capability (if supported) or null (if not)
-     */
-    @Nullable
-    @Override
-    public <C> LazyOptional<C> getCapability(Capability<C> capability, @Nullable Direction direction) {
-
-        if (CAPAP_MEKANISM_GASHANDLER == capability) {
-            return this._capability.cast();
-        }
-
-        return null;
     }
 
     //endregion
@@ -250,7 +214,7 @@ public class FluidPortHandlerMekanism<Controller extends AbstractCuboidMultibloc
 
         CodeHelper.getMinecraftServer().ifPresent(server -> {
 
-            final ResourceLocation typeId = new ResourceLocation(Mods.MEKANISM.id(), "rotary");
+            final ResourceLocation typeId = new ResourceLocation(IMekanismService.SERVICE.getId(), "rotary");
             @SuppressWarnings("unchecked")
             final RecipeType<RotaryRecipe> type = (RecipeType<RotaryRecipe>) BuiltInRegistries.RECIPE_TYPE.get(typeId);
 
@@ -258,6 +222,7 @@ public class FluidPortHandlerMekanism<Controller extends AbstractCuboidMultibloc
 
                 server.getRecipeManager()
                         .getAllRecipesFor(type).stream()
+                        .map(RecipeHolder::value)
                         .filter(RotaryRecipe::hasFluidToGas)
                         .forEach(rotaryRecipe -> {
 
@@ -268,7 +233,7 @@ public class FluidPortHandlerMekanism<Controller extends AbstractCuboidMultibloc
                                     .forEach(fluidStack -> {
 
                                         final IMapping<Fluid, Gas> mapping = IMapping.of(fluidStack.getFluid(), fluidStack.getAmount(),
-                                                gasStack.getRaw(), (int) gasStack.getAmount());
+                                                gasStack.getType(), (int) gasStack.getAmount());
 
                                         s_fluidToGas.put(fluidStack.getFluid(), mapping);
                                         s_gasToFluid.put(mapping.getProduct(), mapping.getReverse());
@@ -278,15 +243,11 @@ public class FluidPortHandlerMekanism<Controller extends AbstractCuboidMultibloc
         });
     }
 
-    @SuppressWarnings("FieldMayBeFinal")
-    private static Capability<IGasHandler> CAPAP_MEKANISM_GASHANDLER = CapabilityManager.get(new CapabilityToken<>(){});
-
     private static Map<Fluid, IMapping<Fluid, Gas>> s_fluidToGas;
     private static Map<Gas, IMapping<Gas, Fluid>> s_gasToFluid;
 
-    private IGasHandler _consumer;
     private final FluidHandlerForwarder _capabilityForwarder;
-    private final LazyOptional<IGasHandler> _capability;
+    private final IOPortBlockCapabilitySource<Controller, Port, IGasHandler> _remoteCapabilitySource;
 
     //endregion
 }
