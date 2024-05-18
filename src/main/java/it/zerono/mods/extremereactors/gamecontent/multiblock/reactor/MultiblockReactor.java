@@ -54,7 +54,9 @@ import it.zerono.mods.zerocore.lib.multiblock.validation.IMultiblockValidator;
 import it.zerono.mods.zerocore.lib.world.WorldHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.item.ItemStack;
@@ -157,7 +159,8 @@ public class MultiblockReactor
 
         if (this.calledByLogicalClient()) {
 
-            this._fuelContainer.syncDataFrom(message.getFuelContainerData(), SyncReason.NetworkUpdate);
+            this._fuelContainer.syncDataFrom(message.getFuelContainerData(), this.getWorld().registryAccess(),
+                    SyncReason.NetworkUpdate);
             this.updateClientFuelRodsLayout();
         }
     }
@@ -639,9 +642,9 @@ public class MultiblockReactor
      * @param syncReason the reason why the synchronization is necessary
      */
     @Override
-    public void syncDataFrom(CompoundTag data, SyncReason syncReason) {
+    public void syncDataFrom(CompoundTag data, HolderLookup.Provider registries, SyncReason syncReason) {
 
-        super.syncDataFrom(data, syncReason);
+        super.syncDataFrom(data, registries, syncReason);
 
         if (data.contains("active")) {
             this._active = data.getBoolean("active");
@@ -651,16 +654,16 @@ public class MultiblockReactor
             this._wasteEjectionSetting = WasteEjectionSetting.read(data, "wasteeject", WasteEjectionSetting.Automatic);
         }
 
-        this._logic.syncDataFrom(data, syncReason);
+        this._logic.syncDataFrom(data, registries, syncReason);
 
-        this.syncChildDataEntityFrom(this._fuelContainer, "fuelcontainer", data, syncReason);
-        this.syncChildDataEntityFrom(this._fluidContainer, "fluidcontainer", data, syncReason);
-        this.syncChildDataEntityFrom(this._fuelHeat, "fuelheat", data, syncReason);
-        this.syncChildDataEntityFrom(this._reactorHeat, "reactorheat", data, syncReason);
+        this.syncChildDataEntityFrom(this._fuelContainer, "fuelcontainer", data, registries, syncReason);
+        this.syncChildDataEntityFrom(this._fluidContainer, "fluidcontainer", data, registries, syncReason);
+        this.syncChildDataEntityFrom(this._fuelHeat, "fuelheat", data, registries, syncReason);
+        this.syncChildDataEntityFrom(this._reactorHeat, "reactorheat", data, registries, syncReason);
 
         if (syncReason.isNetworkUpdate()) {
 
-            this.syncChildDataEntityFrom(this._uiStats, "stats", data, syncReason);
+            this.syncChildDataEntityFrom(this._uiStats, "stats", data, registries, syncReason);
             this.updateClientFuelRodsLayout();
         }
     }
@@ -672,22 +675,22 @@ public class MultiblockReactor
      * @param syncReason the reason why the synchronization is necessary
      */
     @Override
-    public CompoundTag syncDataTo(CompoundTag data, SyncReason syncReason) {
+    public CompoundTag syncDataTo(CompoundTag data, HolderLookup.Provider registries, SyncReason syncReason) {
 
-        super.syncDataTo(data, syncReason);
+        super.syncDataTo(data, registries, syncReason);
 
         data.putBoolean("active", this.isMachineActive());
         WasteEjectionSetting.write(data, "wasteeject", this.getWasteEjectionMode());
 
-        this._logic.syncDataTo(data, syncReason);
+        this._logic.syncDataTo(data, registries, syncReason);
 
-        this.syncChildDataEntityTo(this._fuelContainer, "fuelcontainer", data, syncReason);
-        this.syncChildDataEntityTo(this._fluidContainer, "fluidcontainer", data, syncReason);
-        this.syncChildDataEntityTo(this._fuelHeat, "fuelheat", data, syncReason);
-        this.syncChildDataEntityTo(this._reactorHeat, "reactorheat", data, syncReason);
+        this.syncChildDataEntityTo(this._fuelContainer, "fuelcontainer", data, registries, syncReason);
+        this.syncChildDataEntityTo(this._fluidContainer, "fluidcontainer", data, registries, syncReason);
+        this.syncChildDataEntityTo(this._fuelHeat, "fuelheat", data, registries, syncReason);
+        this.syncChildDataEntityTo(this._reactorHeat, "reactorheat", data, registries, syncReason);
 
         if (syncReason.isNetworkUpdate()) {
-            this.syncChildDataEntityTo(this._uiStats, "stats", data, syncReason);
+            this.syncChildDataEntityTo(this._uiStats, "stats", data, registries, syncReason);
         }
 
         return data;
@@ -1217,14 +1220,14 @@ public class MultiblockReactor
 
     private void sendUpdateFuelRodsLayout() {
 
-        if (!this.getReferenceTracker().isInvalid()) {
+        if (!this.getReferenceTracker().isInvalid() && this.getWorld() instanceof ServerLevel serverLevel) {
 
             final CuboidBoundingBox bb = this.getBoundingBox();
             final int radius = Math.max(bb.getLengthX(), bb.getLengthZ()) + 32;
 
             //noinspection ConstantConditions
             ExtremeReactors.getInstance().sendPacket(new UpdateClientsFuelRodsLayout((AbstractReactorEntity)this.getReferenceTracker().get(), this._fuelContainer),
-                    this.getWorld(), bb.getCenter(), radius);
+                    serverLevel, bb.getCenter(), radius);
 
             this._sendUpdateFuelRodsLayout = false;
         }

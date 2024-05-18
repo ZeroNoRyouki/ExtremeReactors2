@@ -25,8 +25,10 @@ import it.zerono.mods.zerocore.lib.block.multiblock.MultiblockPartBlock;
 import it.zerono.mods.zerocore.lib.block.multiblock.MultiblockPartTypeProperties;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.neoforged.neoforge.common.util.NonNullFunction;
-import net.neoforged.neoforge.common.util.NonNullSupplier;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 public enum ReprocessorPartType
         implements IReprocessorPartType {
@@ -57,18 +59,18 @@ public enum ReprocessorPartType
             bp -> bp.lightLevel(bs -> 15)),
     ;
 
-    ReprocessorPartType(final NonNullSupplier<NonNullSupplier<BlockEntityType<?>>> tileTypeSupplier,
-                        final NonNullFunction<MultiblockPartBlock.MultiblockPartProperties<IReprocessorPartType>,
-                                MultiblockPartBlock<MultiblockReprocessor, IReprocessorPartType>> blockFactory,
+    ReprocessorPartType(final Supplier<@NotNull Supplier<@NotNull BlockEntityType<?>>> tileTypeSupplier,
+                        final Function<MultiblockPartBlock.@NotNull MultiblockPartProperties<IReprocessorPartType>,
+                                @NotNull MultiblockPartBlock<MultiblockReprocessor, IReprocessorPartType>> blockFactory,
                         final String translationKey) {
         this(tileTypeSupplier, blockFactory, translationKey, bp -> bp);
     }
 
-    ReprocessorPartType(final NonNullSupplier<NonNullSupplier<BlockEntityType<?>>> tileTypeSupplier,
-                        final NonNullFunction<MultiblockPartBlock.MultiblockPartProperties<IReprocessorPartType>,
-                                MultiblockPartBlock<MultiblockReprocessor, IReprocessorPartType>> blockFactory,
+    ReprocessorPartType(final Supplier<@NotNull Supplier<@NotNull BlockEntityType<?>>> tileTypeSupplier,
+                        final Function<MultiblockPartBlock.@NotNull MultiblockPartProperties<IReprocessorPartType>,
+                                @NotNull MultiblockPartBlock<MultiblockReprocessor, IReprocessorPartType>> blockFactory,
                         final String translationKey,
-                        final NonNullFunction<Block.Properties, Block.Properties> blockPropertiesFixer) {
+                        final Function<Block.@NotNull Properties, Block.@NotNull Properties> blockPropertiesFixer) {
         this._properties = new MultiblockPartTypeProperties<>(tileTypeSupplier, blockFactory, translationKey, blockPropertiesFixer);
     }
 

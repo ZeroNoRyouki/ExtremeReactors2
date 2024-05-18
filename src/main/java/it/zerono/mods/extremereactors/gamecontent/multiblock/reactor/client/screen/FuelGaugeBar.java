@@ -34,9 +34,10 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.neoforged.neoforge.common.util.NonNullSupplier;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 public class FuelGaugeBar
         extends MultiValueGaugeBar<ReactantType> {
@@ -62,22 +63,22 @@ public class FuelGaugeBar
 
         this._tooltipsObjects = ImmutableList.of(
                 // @0
-                (NonNullSupplier<Component>)() -> Component.literal(String.format("%.2f%%", this.getFillRatio() * 100f))
+                (Supplier<@NotNull Component>)() -> Component.literal(String.format("%.2f%%", this.getFillRatio() * 100f))
                         .setStyle(AbstractMultiblockScreen.STYLE_TOOLTIP_VALUE),
                 // @1
-                (NonNullSupplier<Component>)() -> Component.literal(String.format("%.2f%%", this._reactor.getFuelContainer().isEmpty() ?
+                (Supplier<@NotNull Component>)() -> Component.literal(String.format("%.2f%%", this._reactor.getFuelContainer().isEmpty() ?
                         0f : ((float)this._reactor.getFuelContainer().getWasteAmount() / (float)(this.getFuelAmount() + this.getWasteAmount())) * 100f))
                             .setStyle(CommonConstants.STYLE_TOOLTIP_VALUE),
                 // @2
-                (NonNullSupplier<Component>)() -> (this.getFuelAmount() > 0 ?
+                (Supplier<@NotNull Component>)() -> (this.getFuelAmount() > 0 ?
                         Component.literal(CodeHelper.formatAsMillibuckets(this.getFuelAmount())) : EMPTY)
                             .setStyle(AbstractMultiblockScreen.STYLE_TOOLTIP_VALUE),
                 // @3
-                (NonNullSupplier<Component>)() -> (this.getWasteAmount() > 0 ?
+                (Supplier<@NotNull Component>)() -> (this.getWasteAmount() > 0 ?
                         Component.literal(CodeHelper.formatAsMillibuckets(this.getWasteAmount())) : EMPTY)
                         .setStyle(AbstractMultiblockScreen.STYLE_TOOLTIP_VALUE),
                 // @4
-                (NonNullSupplier<Component>)() -> Component.literal(CodeHelper.formatAsMillibuckets(this.getFuelAmount() + this.getWasteAmount()))
+                (Supplier<@NotNull Component>)() -> Component.literal(CodeHelper.formatAsMillibuckets(this.getFuelAmount() + this.getWasteAmount()))
                         .setStyle(AbstractMultiblockScreen.STYLE_TOOLTIP_VALUE)
         );
     }

@@ -5,11 +5,12 @@ import it.zerono.mods.extremereactors.datagen.tag.BlockTagsDataProvider;
 import it.zerono.mods.extremereactors.datagen.tag.FluidTagsDataProvider;
 import it.zerono.mods.extremereactors.datagen.tag.ItemTagsDataProvider;
 import it.zerono.mods.zerocore.lib.datagen.IModDataGenerator;
-import net.neoforged.neoforge.common.util.NonNullConsumer;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.function.Consumer;
+
 public class DataGenerationHandler
-        implements NonNullConsumer<IModDataGenerator> {
+        implements Consumer<@NotNull IModDataGenerator> {
 
     @Override
     public void accept(@NotNull IModDataGenerator generator) {

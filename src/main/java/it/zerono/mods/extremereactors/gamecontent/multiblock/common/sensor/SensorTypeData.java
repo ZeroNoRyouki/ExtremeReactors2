@@ -21,9 +21,10 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.common.sensor;
 import com.google.common.collect.ImmutableList;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.IMachineReader;
 import it.zerono.mods.zerocore.lib.data.IoDirection;
-import net.neoforged.neoforge.common.util.NonNullFunction;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.function.Function;
 
 public final class SensorTypeData<Reader extends IMachineReader>
         implements ISensorType<Reader> {
@@ -32,7 +33,7 @@ public final class SensorTypeData<Reader extends IMachineReader>
         return new SensorTypeData<>(IoDirection.Input, SensorTypeData::inputSensorTest, behaviors);
     }
 
-    public static <Reader extends IMachineReader> SensorTypeData<Reader> output(final NonNullFunction<Reader, Integer> outputSupplier,
+    public static <Reader extends IMachineReader> SensorTypeData<Reader> output(final Function<@NotNull Reader, @NotNull Integer> outputSupplier,
                                                                                 final SensorBehavior... behaviors) {
         return new SensorTypeData<>(IoDirection.Output, outputSupplier, behaviors);
     }
@@ -72,7 +73,7 @@ public final class SensorTypeData<Reader extends IMachineReader>
     //endregion
     //region internals
 
-    private SensorTypeData(final IoDirection direction, final NonNullFunction<Reader, Integer> outputSupplier,
+    private SensorTypeData(final IoDirection direction, final Function<@NotNull Reader, Integer> outputSupplier,
                            final SensorBehavior... behaviors) {
 
         this._direction = direction;
@@ -86,7 +87,7 @@ public final class SensorTypeData<Reader extends IMachineReader>
 
     private final IoDirection _direction;
     private final List<SensorBehavior> _validBehaviors;
-    private final NonNullFunction<Reader, Integer> _outputTestSupplier;
+    private final Function<@NotNull Reader, @NotNull Integer> _outputTestSupplier;
 
     //endregion
 }

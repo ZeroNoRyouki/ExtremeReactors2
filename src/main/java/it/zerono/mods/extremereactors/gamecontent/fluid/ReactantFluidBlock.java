@@ -10,8 +10,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
-import net.neoforged.neoforge.common.util.NonNullConsumer;
+import org.jetbrains.annotations.NotNull;
 
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class ReactantFluidBlock
@@ -19,7 +20,7 @@ public class ReactantFluidBlock
 
     public ReactantFluidBlock(final Reactants reactant, final Supplier<? extends FlowingFluid> fluid) {
 
-        super(fluid, Properties.of()
+        super(fluid.get(), Properties.of()
                 .mapColor(MapColor.WATER)
                 .replaceable()
                 .pushReaction(PushReaction.DESTROY)
@@ -46,7 +47,7 @@ public class ReactantFluidBlock
     //endregion
     //region internals
 
-    final NonNullConsumer<LivingEntity> _effect;
+    final Consumer<@NotNull LivingEntity> _effect;
 
     //endregion
 }

@@ -33,8 +33,10 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.neoforged.neoforge.common.util.NonNullFunction;
-import net.neoforged.neoforge.common.util.NonNullSupplier;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 public enum TurbinePartType
         implements ITurbinePartType {
@@ -93,18 +95,18 @@ public enum TurbinePartType
             TurbineRedstonePortBlock::new, "part.bigreactors.turbine.redstoneport"),
     ;
 
-    TurbinePartType(final NonNullSupplier<NonNullSupplier<BlockEntityType<?>>> tileTypeSupplier,
-                    final NonNullFunction<MultiblockPartBlock.MultiblockPartProperties<ITurbinePartType>,
-                                                MultiblockPartBlock<MultiblockTurbine, ITurbinePartType>> blockFactory,
+    TurbinePartType(final Supplier<@NotNull Supplier<@NotNull BlockEntityType<?>>> tileTypeSupplier,
+                    final Function<MultiblockPartBlock.@NotNull MultiblockPartProperties<ITurbinePartType>,
+                            @NotNull MultiblockPartBlock<MultiblockTurbine, ITurbinePartType>> blockFactory,
                     final String translationKey) {
         this(tileTypeSupplier, blockFactory, translationKey, bp -> bp);
     }
 
-    TurbinePartType(final NonNullSupplier<NonNullSupplier<BlockEntityType<?>>> tileTypeSupplier,
-                    final NonNullFunction<MultiblockPartBlock.MultiblockPartProperties<ITurbinePartType>,
-                            MultiblockPartBlock<MultiblockTurbine, ITurbinePartType>> blockFactory,
+    TurbinePartType(final Supplier<@NotNull Supplier<@NotNull BlockEntityType<?>>> tileTypeSupplier,
+                    final Function<MultiblockPartBlock.@NotNull MultiblockPartProperties<ITurbinePartType>,
+                            @NotNull MultiblockPartBlock<MultiblockTurbine, ITurbinePartType>> blockFactory,
                     final String translationKey,
-                    final NonNullFunction<Block.Properties, Block.Properties> blockPropertiesFixer) {
+                    final Function<Block.@NotNull Properties, Block.@NotNull Properties> blockPropertiesFixer) {
         this._properties = new MultiblockPartTypeProperties<>(tileTypeSupplier, blockFactory, translationKey, blockPropertiesFixer);
     }
 

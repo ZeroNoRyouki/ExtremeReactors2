@@ -40,16 +40,16 @@ public class ReactorRecipesDataProvider
 
         variant = ReactorVariant.Basic;
         casing = Content.Items.REACTOR_CASING_BASIC;
-        core = Tags.Items.SAND;
+        core = Tags.Items.SANDS_COLORLESS;
         metal = Tags.Items.INGOTS_IRON;
         fallbackMetal = null;
 
         this.casing(output, variant, Content.Items.REACTOR_CASING_BASIC, core, metal, fallbackMetal);
         this.casingRecycle(output, variant, Content.Items.REACTOR_CASING_BASIC,
                 ContentTags.Items.USING_REACTOR_CASING_BASIC, Content.Items.REACTOR_GLASS_BASIC);
-        this.glass(output, variant, Content.Items.REACTOR_GLASS_BASIC, casing, Tags.Items.GLASS);
+        this.glass(output, variant, Content.Items.REACTOR_GLASS_BASIC, casing, Tags.Items.GLASS_BLOCKS);
         this.controller(output, variant, Content.Items.REACTOR_CONTROLLER_BASIC, casing, Tags.Items.GEMS_DIAMOND);
-        this.fuelRod(output, variant, Content.Items.REACTOR_FUELROD_BASIC, metal, fallbackMetal, Tags.Items.GLASS);
+        this.fuelRod(output, variant, Content.Items.REACTOR_FUELROD_BASIC, metal, fallbackMetal, Tags.Items.GLASS_BLOCKS);
         this.controlRod(output, variant, Content.Items.REACTOR_CONTROLROD_BASIC, casing, metal, fallbackMetal);
         this.solidAccessPort(output, variant, Content.Items.REACTOR_SOLID_ACCESSPORT_BASIC, casing, metal, fallbackMetal);
         this.powerTap(output, variant, "fe", Content.Items.REACTOR_POWERTAP_FE_PASSIVE_BASIC,
@@ -73,9 +73,9 @@ public class ReactorRecipesDataProvider
         this.casingUpgrade(output, variant, Content.Items.REACTOR_CASING_REINFORCED, metal, fallbackMetal);
         this.casingRecycle(output, variant, Content.Items.REACTOR_CASING_REINFORCED,
                 ContentTags.Items.USING_REACTOR_CASING_REINFORCED, Content.Items.REACTOR_GLASS_REINFORCED);
-        this.glass(output, variant, Content.Items.REACTOR_GLASS_REINFORCED, casing, Tags.Items.GLASS);
+        this.glass(output, variant, Content.Items.REACTOR_GLASS_REINFORCED, casing, Tags.Items.GLASS_BLOCKS);
         this.controller(output, variant, Content.Items.REACTOR_CONTROLLER_REINFORCED, casing, Tags.Items.STORAGE_BLOCKS_DIAMOND);
-        this.fuelRod(output, variant, Content.Items.REACTOR_FUELROD_REINFORCED, metal, fallbackMetal, Tags.Items.GLASS);
+        this.fuelRod(output, variant, Content.Items.REACTOR_FUELROD_REINFORCED, metal, fallbackMetal, Tags.Items.GLASS_BLOCKS);
         this.controlRod(output, variant, Content.Items.REACTOR_CONTROLROD_REINFORCED, casing, metal, fallbackMetal);
         this.solidAccessPort(output, variant, Content.Items.REACTOR_SOLID_ACCESSPORT_REINFORCED, casing, metal, fallbackMetal);
         this.fluidAccessPort(output, variant, Content.Items.REACTOR_FLUID_ACCESSPORT_REINFORCED, casing, metal, fallbackMetal);

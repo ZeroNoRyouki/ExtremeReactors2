@@ -46,11 +46,12 @@ import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import net.neoforged.neoforge.common.util.NonNullSupplier;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Supplier;
 
 @OnlyIn(Dist.CLIENT)
 public abstract class AbstractMultiblockScreen<Controller extends AbstractCuboidMultiblockController<Controller> & IMultiblockMachine,
@@ -65,23 +66,23 @@ public abstract class AbstractMultiblockScreen<Controller extends AbstractCuboid
 
     protected AbstractMultiblockScreen(final C container, final Inventory inventory,
                                        final PlayerInventoryUsage inventoryUsage, final Component title,
-                                       final NonNullSupplier<SpriteTextureMap> mainTextureSupplier) {
+                                       final Supplier<@NotNull SpriteTextureMap> mainTextureSupplier) {
         this(container, inventory, inventoryUsage, title, DEFAULT_GUI_WIDTH, DEFAULT_GUI_HEIGHT, mainTextureSupplier.get());
     }
 
     protected AbstractMultiblockScreen(final C container, final Inventory inventory,
                                        final PlayerInventoryUsage inventoryUsage, final Component title,
                                        final int guiWidth, final int guiHeight,
-                                       final NonNullSupplier<SpriteTextureMap> mainTextureSupplier) {
+                                       final Supplier<@NotNull SpriteTextureMap> mainTextureSupplier) {
         this(container, inventory, inventoryUsage, title, guiWidth, guiHeight, mainTextureSupplier.get());
     }
 
-    protected static NonNullSupplier<SpriteTextureMap> mainTextureFromVariant(final IMultiblockVariant variant) {
+    protected static Supplier<@NotNull SpriteTextureMap> mainTextureFromVariant(final IMultiblockVariant variant) {
         return () -> new SpriteTextureMap(CommonLocations.TEXTURES_GUI_MULTIBLOCK
                 .buildWithSuffix(variant.getName() + "_background.png"), 256, 256);
     }
 
-    protected static NonNullSupplier<SpriteTextureMap> halfTextureFromVariant(final IMultiblockVariant variant) {
+    protected static Supplier<@NotNull SpriteTextureMap> halfTextureFromVariant(final IMultiblockVariant variant) {
         return () -> new SpriteTextureMap(CommonLocations.TEXTURES_GUI_MULTIBLOCK
                 .buildWithPrefix(variant.getName() + "_background_half.png"), 256, 98);
     }
@@ -190,7 +191,7 @@ public abstract class AbstractMultiblockScreen<Controller extends AbstractCuboid
 
     protected void setButtonSpritesAndOverlayForState(final AbstractButtonControl button,
                                                       final ButtonState standardState,
-                                                      final NonNullSupplier<ISprite> standardSprite) {
+                                                      final Supplier<@NotNull ISprite> standardSprite) {
         this.setButtonSpritesAndOverlayForState(button, standardState,standardSprite.get());
     }
 

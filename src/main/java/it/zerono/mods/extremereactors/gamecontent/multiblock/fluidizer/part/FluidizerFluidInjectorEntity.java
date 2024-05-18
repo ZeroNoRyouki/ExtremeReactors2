@@ -21,10 +21,13 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.part;
 import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.gamecontent.CommonConstants;
 import it.zerono.mods.extremereactors.gamecontent.Content;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.component.ReactorFluidAccessPortComponent;
 import it.zerono.mods.zerocore.lib.CodeHelper;
 import it.zerono.mods.zerocore.lib.DebuggableHelper;
 import it.zerono.mods.zerocore.lib.IDebugMessages;
 import it.zerono.mods.zerocore.lib.block.INeighborChangeListener;
+import it.zerono.mods.zerocore.lib.data.component.FluidStackListComponent;
+import it.zerono.mods.zerocore.lib.data.component.IComponentProvider;
 import it.zerono.mods.zerocore.lib.data.nbt.IConditionallySyncableEntity;
 import it.zerono.mods.zerocore.lib.data.stack.IStackHolder;
 import it.zerono.mods.zerocore.lib.fluid.FluidHelper;
@@ -32,6 +35,8 @@ import it.zerono.mods.zerocore.lib.fluid.FluidStackHolder;
 import it.zerono.mods.zerocore.lib.recipe.ingredient.IRecipeIngredientSource;
 import it.zerono.mods.zerocore.lib.recipe.ingredient.RecipeIngredientSourceWrapper;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -40,21 +45,24 @@ import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.fml.LogicalSide;
 import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.common.util.NonNullConsumer;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
+import java.util.function.Consumer;
 
 public class FluidizerFluidInjectorEntity
         extends AbstractFluidizerEntity
-        implements MenuProvider, INeighborChangeListener, IConditionallySyncableEntity {
+        implements MenuProvider, INeighborChangeListener, IConditionallySyncableEntity,
+                    IComponentProvider<FluidStackListComponent> {
 
     public static int MAX_CAPACITY = 8 * 1000;
 
@@ -81,21 +89,20 @@ public class FluidizerFluidInjectorEntity
         return this.evalOnController(c -> c.isValidIngredient(stack), false);
     }
 
-    public static void itemTooltipBuilder(final ItemStack stack, final CompoundTag data, final @Nullable BlockGetter world,
-                                          final NonNullConsumer<Component> appender, final boolean isAdvancedTooltip) {
+    public static void itemTooltipBuilder(ItemStack stack, Item.TooltipContext context,
+                                          Consumer<@NotNull Component> appender, TooltipFlag flag) {
 
-        if (data.contains("inv")) {
+        final var component = stack.get(FluidStackListComponent.getComponentType());
 
-            final FluidStackHolder holder = new FluidStackHolder(1);
-            MutableComponent text;
+        if (null != component) {
 
-            holder.syncDataFrom(data.getCompound("inv"), SyncReason.FullSync);
+            final MutableComponent text;
 
-            if (holder.isEmpty(0)) {
+            if (component.isEmpty(0)) {
                 text = Component.translatable("gui.bigreactors.generic.empty");
             } else {
                 text = Component.translatable("gui.bigreactors.reactor.fluidaccessport.item.reactant",
-                        FluidHelper.getFluidName(holder.getFluidInTank(0)), holder.getAmount(0));
+                        FluidHelper.getFluidName(component.getStack(0)), component.getAmount(0));
             }
 
             appender.accept(Component.translatable("gui.bigreactors.generic.fuel.label")
@@ -139,10 +146,10 @@ public class FluidizerFluidInjectorEntity
     //region ISyncableEntity
 
     @Override
-    public void syncDataFrom(CompoundTag data, SyncReason syncReason) {
+    public void syncDataFrom(CompoundTag data, HolderLookup.Provider registries, SyncReason syncReason) {
 
-        super.syncDataFrom(data, syncReason);
-        this.syncChildDataEntityFrom(this._fluids, "inv", data, syncReason);
+        super.syncDataFrom(data, registries, syncReason);
+        this.syncChildDataEntityFrom(this._fluids, "inv", data, registries, syncReason);
 
         if (syncReason.isFullSync()) {
             this._shouldSync = true;
@@ -150,10 +157,10 @@ public class FluidizerFluidInjectorEntity
     }
 
     @Override
-    public CompoundTag syncDataTo(CompoundTag data, SyncReason syncReason) {
+    public CompoundTag syncDataTo(CompoundTag data, HolderLookup.Provider registries, SyncReason syncReason) {
 
-        super.syncDataTo(data, syncReason);
-        this.syncChildDataEntityTo(this._fluids, "inv", data, syncReason);
+        super.syncDataTo(data, registries, syncReason);
+        this.syncChildDataEntityTo(this._fluids, "inv", data, registries, syncReason);
         return data;
     }
 
@@ -178,6 +185,19 @@ public class FluidizerFluidInjectorEntity
 
         this._shouldSync = false;
         return result;
+    }
+
+    //endregion
+    //region IComponentProvider<FluidStackListComponent>
+
+    @Override
+    public FluidStackListComponent createDataComponent() {
+        return this._fluids.createDataComponent();
+    }
+
+    @Override
+    public void mergeComponent(FluidStackListComponent component) {
+        this._fluids.mergeComponent(component);
     }
 
     //endregion
@@ -221,6 +241,30 @@ public class FluidizerFluidInjectorEntity
     @Override
     public boolean canOpenGui(Level world, BlockPos position, BlockState state) {
         return false;
+    }
+
+    @Override
+    protected void applyImplicitComponents(DataComponentInput input) {
+
+        final var component = input.get(FluidStackListComponent.getComponentType());
+
+        if (null != component) {
+            this.mergeComponent(component);
+        }
+    }
+
+    @Override
+    protected void collectImplicitComponents(DataComponentMap.Builder collector) {
+        collector.set(FluidStackListComponent.getComponentType(), this.createDataComponent());
+    }
+
+    @Override
+    public ItemStack asStorableStack() {
+
+        final var stack = new ItemStack(this.getBlockType());
+
+        stack.set(FluidStackListComponent.getComponentType(), this.createDataComponent());
+        return stack;
     }
 
     //endregion

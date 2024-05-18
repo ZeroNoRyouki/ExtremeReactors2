@@ -53,6 +53,7 @@ import it.zerono.mods.zerocore.lib.recipe.result.IRecipeResultTarget;
 import it.zerono.mods.zerocore.lib.recipe.result.ItemStackRecipeResult;
 import it.zerono.mods.zerocore.lib.recipe.result.RecipeResultTargetWrapper;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.item.ItemStack;
@@ -216,17 +217,17 @@ public class MultiblockReprocessor
      * @param syncReason the reason why the synchronization is necessary
      */
     @Override
-    public void syncDataFrom(CompoundTag data, SyncReason syncReason) {
+    public void syncDataFrom(CompoundTag data, HolderLookup.Provider registries, SyncReason syncReason) {
 
-        super.syncDataFrom(data, syncReason);
+        super.syncDataFrom(data, registries, syncReason);
 
-        this.syncBooleanElementFrom("active", data, b -> this._active = b);
-        this.syncDataElementFrom("out", data, this._outputInventory);
-        this.syncDataElementFrom("waste", data, this._wasteInventory);
-        this.syncChildDataEntityFrom(this._fluidTank, "fluid", data, syncReason);
-        this.syncChildDataEntityFrom(this._energyBuffer, "energy", data, syncReason);
+        this.syncBooleanElementFrom("active", data, registries, b -> this._active = b);
+        this.syncDataElementFrom("out", data, registries, this._outputInventory);
+        this.syncDataElementFrom("waste", data, registries, this._wasteInventory);
+        this.syncChildDataEntityFrom(this._fluidTank, "fluid", data, registries, syncReason);
+        this.syncChildDataEntityFrom(this._energyBuffer, "energy", data, registries, syncReason);
         this._recipeHolder.refresh();
-        this.syncChildDataEntityFrom(this._recipeHolder, "recipe", data, syncReason);
+        this.syncChildDataEntityFrom(this._recipeHolder, "recipe", data, registries, syncReason);
     }
 
     /**
@@ -236,16 +237,16 @@ public class MultiblockReprocessor
      * @param syncReason the reason why the synchronization is necessary
      */
     @Override
-    public CompoundTag syncDataTo(CompoundTag data, SyncReason syncReason) {
+    public CompoundTag syncDataTo(CompoundTag data, HolderLookup.Provider registries, SyncReason syncReason) {
 
-        super.syncDataTo(data, syncReason);
+        super.syncDataTo(data, registries, syncReason);
 
-        this.syncBooleanElementTo("active", data, this.isMachineActive());
-        this.syncDataElementTo("out", data, this._outputInventory);
-        this.syncDataElementTo("waste", data, this._wasteInventory);
-        this.syncChildDataEntityTo(this._fluidTank, "fluid", data, syncReason);
-        this.syncChildDataEntityTo(this._energyBuffer, "energy", data, syncReason);
-        this.syncChildDataEntityTo(this._recipeHolder, "recipe", data, syncReason);
+        this.syncBooleanElementTo("active", data, registries, this.isMachineActive());
+        this.syncDataElementTo("out", data, registries, this._outputInventory);
+        this.syncDataElementTo("waste", data, registries, this._wasteInventory);
+        this.syncChildDataEntityTo(this._fluidTank, "fluid", data, registries, syncReason);
+        this.syncChildDataEntityTo(this._energyBuffer, "energy", data, registries, syncReason);
+        this.syncChildDataEntityTo(this._recipeHolder, "recipe", data, registries, syncReason);
 
         return data;
     }

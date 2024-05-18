@@ -85,9 +85,9 @@ public class FluidizerFluidMixingRecipe
 
     public static RecipeSerializer<FluidizerFluidMixingRecipe> createSerializer() {
         return AbstractTwoToOneRecipe.createSerializer(
-                "ingredient1", FluidStackRecipeIngredient.CODEC, FluidStackRecipeIngredient::from,
-                "ingredient2", FluidStackRecipeIngredient.CODEC, FluidStackRecipeIngredient::from,
-                "result", FluidStackRecipeResult.CODEC, FluidStackRecipeResult::from,
+                "ingredient1", FluidStackRecipeIngredient.CODECS,
+                "ingredient2", FluidStackRecipeIngredient.CODECS,
+                "result", FluidStackRecipeResult.CODECS,
                 FluidizerFluidMixingRecipe::new);
     }
 

@@ -18,7 +18,7 @@
 
 package it.zerono.mods.extremereactors.gamecontent;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.gamecontent.compat.patchouli.PatchouliCompat;
@@ -40,6 +40,7 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.IReactorPar
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.MultiblockReactor;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.Reactants;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.ReactorPartType;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.component.ReactorFluidAccessPortComponent;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.container.ReactorSolidAccessPortContainer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part.*;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.ReactorVariant;
@@ -64,6 +65,7 @@ import it.zerono.mods.zerocore.lib.block.multiblock.MultiblockPartBlock;
 import it.zerono.mods.zerocore.lib.compat.patchouli.IPatchouliService;
 import it.zerono.mods.zerocore.lib.data.IoDirection;
 import it.zerono.mods.zerocore.lib.data.IoMode;
+import it.zerono.mods.zerocore.lib.data.ModCodecs;
 import it.zerono.mods.zerocore.lib.energy.EnergySystem;
 import it.zerono.mods.zerocore.lib.fluid.SimpleFluidTypeRenderProperties;
 import it.zerono.mods.zerocore.lib.item.ModItem;
@@ -72,8 +74,10 @@ import it.zerono.mods.zerocore.lib.recipe.ModRecipe;
 import it.zerono.mods.zerocore.lib.recipe.ModRecipeType;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
+import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
@@ -96,13 +100,12 @@ import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
-import net.minecraft.world.level.pathfinder.BlockPathTypes;
+import net.minecraft.world.level.pathfinder.PathType;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.neoforged.neoforge.common.SoundActions;
 import net.neoforged.neoforge.common.extensions.IMenuTypeExtension;
-import net.neoforged.neoforge.common.util.NonNullFunction;
 import net.neoforged.neoforge.common.world.BiomeModifier;
 import net.neoforged.neoforge.fluids.BaseFlowingFluid;
 import net.neoforged.neoforge.fluids.FluidType;
@@ -110,10 +113,12 @@ import net.neoforged.neoforge.network.IContainerFactory;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 public final class Content {
@@ -125,6 +130,7 @@ public final class Content {
         Fluids.initialize(bus);
         TileEntityTypes.initialize(bus);
         ContainerTypes.initialize(bus);
+        DataComponents.initialize(bus);
         Recipes.initialize(bus);
         Biomes.initialize(bus);
         CreativeTabs.initialize(bus);
@@ -168,7 +174,7 @@ public final class Content {
         //region fluids
 
         public static final Supplier<LiquidBlock> STEAM = BLOCKS.register("steam",
-                () -> new LiquidBlock(Fluids.STEAM_SOURCE,
+                () -> new LiquidBlock(Fluids.STEAM_SOURCE.get(),
                         Block.Properties.of()
                                 .mapColor(MapColor.WATER)
                                 .replaceable()
@@ -477,8 +483,9 @@ public final class Content {
             return BLOCKS.register(name, () -> (T) (partType.createBlock()));
         }
 
-        private static Supplier<LiquidBlock> registerModeratorLiquidBlock(final String name, final Supplier<FlowingFluid> source) {
-            return BLOCKS.register(name, () -> new LiquidBlock(source, BlockBehaviour.Properties.of()
+        private static Supplier<LiquidBlock> registerModeratorLiquidBlock(String name,
+                                                                          Supplier<@NotNull FlowingFluid> source) {
+            return BLOCKS.register(name, () -> new LiquidBlock(source.get(), BlockBehaviour.Properties.of()
                     .mapColor(MapColor.WATER)
                     .replaceable()
                     .pushReaction(PushReaction.DESTROY)
@@ -692,10 +699,35 @@ public final class Content {
                     () -> blockSupplier.get().get().createBlockItem(new Item.Properties().stacksTo(64)));
         }
 
-        private static Supplier<BucketItem> registerBucket(final String name, final Supplier<? extends Fluid> sourceFluid) {
-            return ITEMS.register(name, () -> new BucketItem(sourceFluid, new Item.Properties()
+        private static Supplier<BucketItem> registerBucket(String name,
+                                                           Supplier<? extends Fluid> sourceFluid) {
+            return ITEMS.register(name, () -> new BucketItem(sourceFluid.get(), new Item.Properties()
                     .craftRemainder(net.minecraft.world.item.Items.BUCKET)
                     .stacksTo(1)));
+        }
+
+        //endregion
+    }
+
+    public static final class DataComponents {
+
+        private static final DeferredRegister<DataComponentType<?>> DATA_COMPONENTS = DeferredRegister.create(BuiltInRegistries.DATA_COMPONENT_TYPE, ExtremeReactors.MOD_ID);
+
+        static void initialize(final IEventBus bus) {
+            DATA_COMPONENTS.register(bus);
+        }
+
+        public static final Supplier<@NotNull DataComponentType<ReactorFluidAccessPortComponent>> REACTOR_FLUID_ACCESSPORT_COMPONENT_TYPE =
+                registerComponent("reactor_fluid_access_port", ReactorFluidAccessPortComponent.CODECS);
+
+        //region internals
+
+        private static <Type> Supplier<@NotNull DataComponentType<Type>>
+        registerComponent(String name, ModCodecs<Type, ? super RegistryFriendlyByteBuf> codecs) {
+            return DATA_COMPONENTS.register(name, () -> DataComponentType.<Type>builder()
+                    .persistent(codecs.codec())
+                    .networkSynchronized(codecs.streamCodec())
+                    .build());
         }
 
         //endregion
@@ -724,7 +756,7 @@ public final class Content {
                         .canExtinguish(false)
                         .canConvertToSource(false)
                         .supportsBoating(false)
-                        .pathType(BlockPathTypes.WALKABLE)
+                        .pathType(PathType.WALKABLE)
                         .sound(SoundActions.BUCKET_FILL, SoundEvents.BUCKET_FILL)
                         .sound(SoundActions.BUCKET_EMPTY, SoundEvents.BUCKET_EMPTY)
                         .canHydrate(false)
@@ -860,7 +892,8 @@ public final class Content {
         //endregion
         //region internals
 
-        private static Supplier<FlowingFluid> registerSteam(final String name, final NonNullFunction<BaseFlowingFluid.Properties, FlowingFluid> factory) {
+        private static Supplier<FlowingFluid> registerSteam(String name,
+                                                            Function<BaseFlowingFluid.@NotNull Properties, FlowingFluid> factory) {
             return FLUIDS.register(name, () -> factory.apply(new BaseFlowingFluid.Properties(STEAM_FLUID_TYPE, STEAM_SOURCE, STEAM_FLOWING)
                     .bucket(Items.STEAM_BUCKET)
                     .block(Blocks.STEAM)));
@@ -1256,25 +1289,25 @@ public final class Content {
 
     public static final class Biomes {
 
-        private static final DeferredRegister<Codec<? extends BiomeModifier>> BIOME_MODIFIER_SERIALIZERS =
+        private static final DeferredRegister<MapCodec<? extends BiomeModifier>> BIOME_MODIFIER_SERIALIZERS =
                 DeferredRegister.create(NeoForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS, ExtremeReactors.MOD_ID);
 
         static void initialize(final IEventBus bus) {
             BIOME_MODIFIER_SERIALIZERS.register(bus);
         }
 
-        public static final Supplier<Codec<OreBiomeModifier>> OREGEN_YELLORITE = register("oregen_yellorite", OreBiomeModifier::yellorite);
+        public static final Supplier<MapCodec<OreBiomeModifier>> OREGEN_YELLORITE = register("oregen_yellorite", OreBiomeModifier::yellorite);
 
-        public static final Supplier<Codec<OreBiomeModifier>> OREGEN_ANGLESITE = register("oregen_anglesite", OreBiomeModifier::anglesite);
+        public static final Supplier<MapCodec<OreBiomeModifier>> OREGEN_ANGLESITE = register("oregen_anglesite", OreBiomeModifier::anglesite);
 
-        public static final Supplier<Codec<OreBiomeModifier>> OREGEN_BENITOITE = register("oregen_benitoite", OreBiomeModifier::benitoite);
+        public static final Supplier<MapCodec<OreBiomeModifier>> OREGEN_BENITOITE = register("oregen_benitoite", OreBiomeModifier::benitoite);
 
         //region internals
 
-        private static Supplier<Codec<OreBiomeModifier>> register(final String name,
-                                                                        final BiFunction<HolderSet<Biome>, Holder<PlacedFeature>, OreBiomeModifier> factory) {
+        private static Supplier<@NotNull MapCodec<OreBiomeModifier>> register(String name,
+                                                                              BiFunction<@NotNull HolderSet<Biome>, @NotNull Holder<PlacedFeature>, @NotNull OreBiomeModifier> factory) {
             return BIOME_MODIFIER_SERIALIZERS.register(name, () ->
-                    RecordCodecBuilder.create(builder -> builder.group(
+                    RecordCodecBuilder.mapCodec(builder -> builder.group(
                             Biome.LIST_CODEC.fieldOf("biomes").forGetter(OreBiomeModifier::validBiomes),
                             PlacedFeature.CODEC.fieldOf("feature").forGetter(OreBiomeModifier::feature)
                     ).apply(builder, factory)));

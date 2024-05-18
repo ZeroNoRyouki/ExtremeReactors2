@@ -1,14 +1,11 @@
 package it.zerono.mods.extremereactors.datagen.loot;
 
 import it.zerono.mods.extremereactors.gamecontent.Content;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.component.ReactorFluidAccessPortComponent;
+import it.zerono.mods.zerocore.lib.data.component.FluidStackListComponent;
+import it.zerono.mods.zerocore.lib.data.component.ItemStackListComponent;
 import it.zerono.mods.zerocore.lib.datagen.provider.loot.ModBlockLootSubProvider;
 import net.minecraft.world.flag.FeatureFlags;
-import net.minecraft.world.level.storage.loot.LootPool;
-import net.minecraft.world.level.storage.loot.LootTable;
-import net.minecraft.world.level.storage.loot.entries.LootItem;
-import net.minecraft.world.level.storage.loot.functions.CopyNbtFunction;
-import net.minecraft.world.level.storage.loot.providers.nbt.ContextNbtProvider;
-import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 
 import java.util.Set;
 
@@ -45,15 +42,7 @@ public class BlockSubProvider
                 Content.Blocks.REACTOR_FLUIDPORT_FORGE_PASSIVE_REINFORCED, Content.Blocks.REACTOR_FLUIDTPORT_FORGE_ACTIVE_REINFORCED,
                 Content.Blocks.REACTOR_REDSTONEPORT_REINFORCED, Content.Blocks.REACTOR_COMPUTERPORT_REINFORCED);
 
-        this.add(Content.Blocks.REACTOR_FLUID_ACCESSPORT_REINFORCED.get(), LootTable.lootTable().withPool(LootPool.lootPool()
-//                .name("reactor_fluid_accessport_reinforced")
-                .setRolls(ConstantValue.exactly(1))
-                .add(LootItem.lootTableItem(Content.Blocks.REACTOR_FLUID_ACCESSPORT_REINFORCED.get())
-                        .apply(CopyNbtFunction.copyData(ContextNbtProvider.BLOCK_ENTITY)
-                                .copy("zcvase_payload.iodir", "BlockEntityTag.zcvase_payload.iodir", CopyNbtFunction.MergeStrategy.REPLACE)
-                                .copy("zcvase_payload.invin", "BlockEntityTag.zcvase_payload.invin", CopyNbtFunction.MergeStrategy.REPLACE)
-                                .copy("zcvase_payload.invout", "BlockEntityTag.zcvase_payload.invout", CopyNbtFunction.MergeStrategy.REPLACE))
-                )));
+        this.dropWithComponents(Content.Blocks.REACTOR_FLUID_ACCESSPORT_REINFORCED, ReactorFluidAccessPortComponent.getComponentType());
 
         this.dropSelf(Content.Blocks.TURBINE_CASING_BASIC, Content.Blocks.TURBINE_GLASS_BASIC,
                 Content.Blocks.TURBINE_CONTROLLER_BASIC, Content.Blocks.TURBINE_ROTORBEARING_BASIC,
@@ -77,7 +66,9 @@ public class BlockSubProvider
                 Content.Blocks.REPROCESSOR_POWERPORT, Content.Blocks.REPROCESSOR_COLLECTOR);
 
         this.dropSelf(Content.Blocks.FLUIDIZER_CASING, Content.Blocks.FLUIDIZER_GLASS, Content.Blocks.FLUIDIZER_CONTROLLER,
-                Content.Blocks.FLUIDIZER_SOLIDINJECTOR, Content.Blocks.FLUIDIZER_FLUIDINJECTOR, Content.Blocks.FLUIDIZER_OUTPUTPORT,
-                Content.Blocks.FLUIDIZER_POWERPORT);
+                Content.Blocks.FLUIDIZER_OUTPUTPORT, Content.Blocks.FLUIDIZER_POWERPORT);
+
+        this.dropWithComponents(Content.Blocks.FLUIDIZER_FLUIDINJECTOR, FluidStackListComponent.getComponentType());
+        this.dropWithComponents(Content.Blocks.FLUIDIZER_SOLIDINJECTOR, ItemStackListComponent.getComponentType());
     }
 }

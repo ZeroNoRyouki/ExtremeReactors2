@@ -1,4 +1,4 @@
-# Extreme Reactors 2 TEST - mods.toml
+# Extreme Reactors 2 - neoforge.mods.toml
 
 modLoader="javafml"
 loaderVersion="${loader_versionrange}"
@@ -9,11 +9,13 @@ license="MIT"
 
 # A URL to refer people to when problems occur with this mod
 issueTrackerURL="https://github.com/ZeroNoRyouki/ExtremeReactors2"
+logoFile="logo.png"
 
 [[mods]]
-	modId="bigreactorstest"
+	modId="bigreactors"
     version="${mod_version}"
-    displayName="Extreme Reactors TEST"
+    updateJSONURL="https://raw.githubusercontent.com/ZeroNoRyouki/ModUpdates/master/ExtremeReactors2.json"
+	displayName="Extreme Reactors"
 	authors="ZeroNoRyouki"
 	description="Adds large, multiblock power generation machines to Minecraft. This is a continuation of the 1.7.10 mod Big Reactors from ErogenousBeef"
 

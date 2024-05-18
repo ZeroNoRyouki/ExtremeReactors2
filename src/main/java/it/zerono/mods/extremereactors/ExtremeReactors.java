@@ -36,7 +36,7 @@ import it.zerono.mods.zerocore.lib.network.NetworkHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.world.level.Level;
+import net.minecraft.server.level.ServerLevel;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
@@ -48,8 +48,8 @@ import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.energy.IEnergyStorage;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
-import net.neoforged.neoforge.network.event.RegisterPayloadHandlerEvent;
-import net.neoforged.neoforge.network.registration.IPayloadRegistrar;
+import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
+import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 
 import javax.annotation.Nullable;
 
@@ -88,8 +88,8 @@ public class ExtremeReactors {
         NeoForge.EVENT_BUS.addListener(ExtremeReactors::onRegisterCommands);
     }
 
-    public void sendPacket(final CustomPacketPayload packet, final Level world, final BlockPos center, final int radius) {
-        this._network.sendToAllAround(center, radius, world.dimension(), packet);
+    public void sendPacket(CustomPacketPayload packet, ServerLevel level, BlockPos center, int radius) {
+        this._network.sendToAllAround(center, radius, level, null, packet);
     }
 
     //region internals
@@ -136,11 +136,12 @@ public class ExtremeReactors {
         ExtremeReactorsCommand.register(event.getDispatcher());
     }
 
-    private static void onRegisterPackets(RegisterPayloadHandlerEvent event) {
+    private static void onRegisterPackets(RegisterPayloadHandlersEvent event) {
 
-        final IPayloadRegistrar registrar = event.registrar(MOD_ID).versioned("2.0.0");
+        final PayloadRegistrar registrar = event.registrar(MOD_ID).versioned("2.0.0");
 
-        registrar.play(UpdateClientsFuelRodsLayout.ID, UpdateClientsFuelRodsLayout::new, UpdateClientsFuelRodsLayout::handlePacket);
+        registrar.playToClient(UpdateClientsFuelRodsLayout.TYPE, UpdateClientsFuelRodsLayout.STREAM_CODEC,
+                UpdateClientsFuelRodsLayout::handlePacket);
     }
 
     private static void onRegisterCapabilities(RegisterCapabilitiesEvent event) {

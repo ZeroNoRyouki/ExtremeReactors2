@@ -56,9 +56,9 @@ public class ReprocessorRecipe
 
     public static RecipeSerializer<ReprocessorRecipe> createSerializer() {
         return AbstractTwoToOneRecipe.createSerializer(
-                "waste", ItemStackRecipeIngredient.CODEC, ItemStackRecipeIngredient::from,
-                "fluid", FluidStackRecipeIngredient.CODEC, FluidStackRecipeIngredient::from,
-                "result", ItemStackRecipeResult.CODEC, ItemStackRecipeResult::from,
+                "waste", ItemStackRecipeIngredient.CODECS,
+                "fluid", FluidStackRecipeIngredient.CODECS,
+                "result", ItemStackRecipeResult.CODECS,
                 ReprocessorRecipe::new);
     }
 

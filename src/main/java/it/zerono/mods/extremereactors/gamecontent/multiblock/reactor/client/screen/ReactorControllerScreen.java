@@ -56,11 +56,12 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.level.material.Fluid;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import net.neoforged.neoforge.common.util.NonNullSupplier;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 import static it.zerono.mods.zerocore.lib.CodeHelper.TEXT_EMPTY_LINE;
 
@@ -782,11 +783,11 @@ public class ReactorControllerScreen
         return bar;
     }
 
-    private IControl addBarIcon(final NonNullSupplier<ISprite> icon, final Panel parent) {
+    private IControl addBarIcon(final Supplier<@NotNull ISprite> icon, final Panel parent) {
         return this.addBarIcon(icon, 16, 16, parent);
     }
 
-    private IControl addBarIcon(final NonNullSupplier<ISprite> icon, final int width, final int height, final Panel parent) {
+    private IControl addBarIcon(final Supplier<@NotNull ISprite> icon, final int width, final int height, final Panel parent) {
 
         final IControl c = new Picture(this, this.nextGenericName(), icon.get(), width, height);
 

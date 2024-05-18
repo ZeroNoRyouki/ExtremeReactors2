@@ -13,7 +13,9 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.neoforged.neoforge.common.Tags;
-import net.neoforged.neoforge.common.util.NonNullFunction;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.function.Function;
 
 public class BlockTagsDataProvider
         implements IIntrinsicTagDataProvider<Block> {
@@ -25,7 +27,7 @@ public class BlockTagsDataProvider
 
     @Override
     public void build(HolderLookup.Provider registryLookup,
-                      NonNullFunction<TagKey<Block>, ModIntrinsicTagAppender<Block>> builder) {
+                      Function<@NotNull TagKey<Block>, @NotNull ModIntrinsicTagAppender<Block>> builder) {
 
         builder.apply(ContentTags.Blocks.BLOCKS_YELLORIUM).add(Content.Blocks.YELLORIUM_BLOCK);
         builder.apply(ContentTags.Blocks.BLOCKS_CYANITE).add(Content.Blocks.CYANITE_BLOCK);
@@ -40,9 +42,10 @@ public class BlockTagsDataProvider
         builder.apply(ContentTags.Blocks.ORE_YELLORITE).add(Content.Blocks.YELLORITE_ORE_BLOCK);
         builder.apply(Tags.Blocks.ORES).add(Content.Blocks.YELLORITE_ORE_BLOCK,
                 Content.Blocks.ANGLESITE_ORE_BLOCK, Content.Blocks.BENITOITE_ORE_BLOCK);
-        builder.apply(TagsHelper.BLOCKS.createKey("forge:ores/uranium")).add(Content.Blocks.YELLORITE_ORE_BLOCK);
+        builder.apply(TagsHelper.BLOCKS.createCommonKey("ores/uranium")).add(Content.Blocks.YELLORITE_ORE_BLOCK);
 
-        builder.apply(TagsHelper.BLOCKS.createKey("forge:storage_blocks/enderium")).addOptional(new ResourceLocation("ftbic:enderium_block"));
+        builder.apply(TagsHelper.BLOCKS.createCommonKey("storage_blocks/enderium"))
+                .addOptional(new ResourceLocation("ftbic:enderium_block"));
 
         builder.apply(ContentTags.Blocks.BLOCKS_YELLORIUM).add(Content.Blocks.YELLORIUM_BLOCK);
 

@@ -26,9 +26,10 @@ import it.zerono.mods.zerocore.lib.CodeHelper;
 import it.zerono.mods.zerocore.lib.IDebugMessages;
 import it.zerono.mods.zerocore.lib.IDebuggable;
 import net.neoforged.fml.LogicalSide;
-import net.neoforged.neoforge.common.util.NonNullFunction;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.function.Function;
 
 public enum TurbineSensorType
         implements ISensorType<ITurbineReader>, IDebuggable {
@@ -66,7 +67,7 @@ public enum TurbineSensorType
         this(SensorTypeData.input(behaviors));
     }
 
-    TurbineSensorType(final NonNullFunction<ITurbineReader, Integer> outputSupplier, final SensorBehavior... behaviors) {
+    TurbineSensorType(final Function<@NotNull ITurbineReader, @NotNull Integer> outputSupplier, final SensorBehavior... behaviors) {
         this(SensorTypeData.output(outputSupplier, behaviors));
     }
 

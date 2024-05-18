@@ -45,10 +45,11 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
-import net.neoforged.neoforge.common.util.NonNullSupplier;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 import static it.zerono.mods.zerocore.lib.CodeHelper.TEXT_EMPTY_LINE;
 
@@ -237,7 +238,7 @@ public class ReactorSolidAccessPortScreen
     }
 
     private Panel slotPanel(final String groupName, final ReactantType reactant, final int x, final int y,
-                            final NonNullSupplier<ISprite> slotBackground) {
+                            final Supplier<@NotNull ISprite> slotBackground) {
 
         final SlotsGroup sg = this.createSingleSlotGroupControl(groupName, reactant.name());
         final Panel p = new Panel(this);

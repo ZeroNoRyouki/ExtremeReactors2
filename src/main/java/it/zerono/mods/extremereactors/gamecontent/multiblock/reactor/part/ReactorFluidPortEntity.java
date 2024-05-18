@@ -32,6 +32,7 @@ import it.zerono.mods.zerocore.lib.data.IoDirection;
 import it.zerono.mods.zerocore.lib.data.IoMode;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.MenuProvider;
@@ -133,16 +134,16 @@ public class ReactorFluidPortEntity
     //region ISyncableEntity
 
     @Override
-    public void syncDataFrom(final CompoundTag data, final SyncReason syncReason) {
+    public void syncDataFrom(CompoundTag data, HolderLookup.Provider registries, SyncReason syncReason) {
 
-        super.syncDataFrom(data, syncReason);
+        super.syncDataFrom(data, registries, syncReason);
         this.setIoDirection(IoDirection.read(data, "iodir", IoDirection.Input));
     }
 
     @Override
-    public CompoundTag syncDataTo(final CompoundTag data, final SyncReason syncReason) {
+    public CompoundTag syncDataTo(CompoundTag data, HolderLookup.Provider registries, SyncReason syncReason) {
 
-        super.syncDataTo(data, syncReason);
+        super.syncDataTo(data, registries, syncReason);
         IoDirection.write(data, "iodir", this.getIoDirection());
         return data;
     }

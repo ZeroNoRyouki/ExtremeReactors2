@@ -68,9 +68,6 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.Tur
 import it.zerono.mods.zerocore.lib.client.model.ICustomModelBuilder;
 import it.zerono.mods.zerocore.lib.client.model.ModBakedModelSupplier;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
-import net.minecraft.client.gui.screens.MenuScreens;
-import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.gui.screens.inventory.MenuAccess;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
@@ -81,8 +78,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.bus.api.EventPriority;
@@ -90,6 +85,7 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.ModelEvent;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
+import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.AddReloadListenerEvent;
 import net.neoforged.neoforge.event.TagsUpdatedEvent;
@@ -102,10 +98,6 @@ import java.util.stream.Stream;
 public class ClientProxy
         implements IForgeProxy, ResourceManagerReloadListener {
 
-    public ClientProxy() {
-        this._modelBuilders = initModels();
-    }
-
     public static Supplier<BakedModel> getModelSupplier(final ResourceLocation modelId) {
         return s_bakedModelSupplier.getOrCreate(modelId);
     }
@@ -115,10 +107,15 @@ public class ClientProxy
     @Override
     public void initialize(IEventBus modEventBus) {
 
+        s_bakedModelSupplier = new ModBakedModelSupplier(modEventBus);
+
+        this._modelBuilders = initModels();
+
         modEventBus.addListener(ClientProxy::onClientInit);
         modEventBus.addListener(this::onRegisterModels);
         modEventBus.addListener(this::onModelBake);
         modEventBus.addListener(ClientProxy::onColorHandlerEvent);
+        modEventBus.addListener(ClientProxy::onRegisterMenuScreensEvent);
 
         NeoForge.EVENT_BUS.addListener(this::onAddReloadListener);
         NeoForge.EVENT_BUS.addListener(this::onItemTooltip);
@@ -163,39 +160,6 @@ public class ClientProxy
         ).collect(ImmutableList.toImmutableList());
     }
 
-    private static void registerScreens() {
-
-        // Reactor GUIs
-        registerScreen(Content.ContainerTypes.REACTOR_CONTROLLER, ReactorControllerScreen::new);
-        registerScreen(Content.ContainerTypes.REACTOR_SOLID_ACCESSPORT, ReactorSolidAccessPortScreen::new);
-        registerScreen(Content.ContainerTypes.REACTOR_FLUID_ACCESSPORT, ReactorFluidAccessPortScreen::new);
-        registerScreen(Content.ContainerTypes.REACTOR_REDSTONEPORT, ReactorRedstonePortScreen::new);
-        registerScreen(Content.ContainerTypes.REACTOR_CONTROLROD, ReactorControlRodScreen::new);
-        registerScreen(Content.ContainerTypes.REACTOR_CHARGINGPORT,
-                (ChargingPortContainer<ReactorChargingPortEntity> container, Inventory inventory, Component title) ->
-                        new ChargingPortScreen<>(container, inventory, title, CommonLocations.REACTOR.buildWithSuffix("part-forgechargingport")));
-        registerScreen(Content.ContainerTypes.REACTOR_FLUIDPORT,
-                (ModTileContainer<ReactorFluidPortEntity> container, Inventory inventory, Component title) ->
-                        new FluidPortScreen<>(container, inventory, title, CommonLocations.REACTOR.buildWithSuffix("part-forgefluidport")));
-        // Turbine GUIs
-        registerScreen(Content.ContainerTypes.TURBINE_CONTROLLER, TurbineControllerScreen::new);
-        registerScreen(Content.ContainerTypes.TURBINE_CHARGINGPORT,
-                (ChargingPortContainer<TurbineChargingPortEntity> container, Inventory inventory, Component title) ->
-                        new ChargingPortScreen<>(container, inventory, title, CommonLocations.TURBINE.buildWithSuffix("part-forgechargingport")));
-        registerScreen(Content.ContainerTypes.TURBINE_FLUIDPORT,
-                (ModTileContainer<TurbineFluidPortEntity> container, Inventory inventory, Component title) ->
-                        new FluidPortScreen<>(container, inventory, title, CommonLocations.TURBINE.buildWithSuffix("part-forgefluidport")));
-        registerScreen(Content.ContainerTypes.TURBINE_REDSTONEPORT, TurbineRedstonePortScreen::new);
-
-        // Reprocessor GUIs
-        registerScreen(Content.ContainerTypes.REPROCESSOR_CONTROLLER, ReprocessorControllerScreen::new);
-        registerScreen(Content.ContainerTypes.REPROCESSOR_ACCESSPORT, ReprocessorAccessPortScreen::new);
-
-        // Fluidizer GUIS
-        registerScreen(Content.ContainerTypes.FLUIDIZER_SOLID_INJECTOR, FluidizerSolidInjectorScreen::new);
-        registerScreen(Content.ContainerTypes.FLUIDIZER_CONTROLLER, FluidizerControllerScreen::new);
-    }
-
     private static void registerRenderTypes() {
 
         registerRenderType(RenderType.translucent(),
@@ -215,12 +179,6 @@ public class ClientProxy
     }
 
     //region registration helpers
-
-    private static <M extends AbstractContainerMenu, U extends Screen & MenuAccess<M>>
-        void registerScreen(final Supplier<? extends MenuType<? extends M>> type,
-                        final MenuScreens.ScreenConstructor<M, U> factory) {
-        MenuScreens.register(type.get(), factory);
-    }
 
     @SafeVarargs
     private static void registerRenderType(RenderType type, Supplier<? extends Block>... blocks) {
@@ -277,11 +235,43 @@ public class ClientProxy
 
             registerRenderTypes();
             registerTileRenderers();
-            registerScreens();
 
             // Patchouli multiblock rendering do not support ModelData-based models
             PatchouliCompat.initialize();
         });
+    }
+
+    private static void onRegisterMenuScreensEvent(RegisterMenuScreensEvent event) {
+
+        // Reactor GUIs
+        event.register(Content.ContainerTypes.REACTOR_CONTROLLER.get(), ReactorControllerScreen::new);
+        event.register(Content.ContainerTypes.REACTOR_SOLID_ACCESSPORT.get(), ReactorSolidAccessPortScreen::new);
+        event.register(Content.ContainerTypes.REACTOR_FLUID_ACCESSPORT.get(), ReactorFluidAccessPortScreen::new);
+        event.register(Content.ContainerTypes.REACTOR_REDSTONEPORT.get(), ReactorRedstonePortScreen::new);
+        event.register(Content.ContainerTypes.REACTOR_CONTROLROD.get(), ReactorControlRodScreen::new);
+        event.register(Content.ContainerTypes.REACTOR_CHARGINGPORT.get(),
+                (ChargingPortContainer<ReactorChargingPortEntity> container, Inventory inventory, Component title) ->
+                        new ChargingPortScreen<>(container, inventory, title, CommonLocations.REACTOR.buildWithSuffix("part-forgechargingport")));
+        event.register(Content.ContainerTypes.REACTOR_FLUIDPORT.get(),
+                (ModTileContainer<ReactorFluidPortEntity> container, Inventory inventory, Component title) ->
+                        new FluidPortScreen<>(container, inventory, title, CommonLocations.REACTOR.buildWithSuffix("part-forgefluidport")));
+        // Turbine GUIs
+        event.register(Content.ContainerTypes.TURBINE_CONTROLLER.get(), TurbineControllerScreen::new);
+        event.register(Content.ContainerTypes.TURBINE_CHARGINGPORT.get(),
+                (ChargingPortContainer<TurbineChargingPortEntity> container, Inventory inventory, Component title) ->
+                        new ChargingPortScreen<>(container, inventory, title, CommonLocations.TURBINE.buildWithSuffix("part-forgechargingport")));
+        event.register(Content.ContainerTypes.TURBINE_FLUIDPORT.get(),
+                (ModTileContainer<TurbineFluidPortEntity> container, Inventory inventory, Component title) ->
+                        new FluidPortScreen<>(container, inventory, title, CommonLocations.TURBINE.buildWithSuffix("part-forgefluidport")));
+        event.register(Content.ContainerTypes.TURBINE_REDSTONEPORT.get(), TurbineRedstonePortScreen::new);
+
+        // Reprocessor GUIs
+        event.register(Content.ContainerTypes.REPROCESSOR_CONTROLLER.get(), ReprocessorControllerScreen::new);
+        event.register(Content.ContainerTypes.REPROCESSOR_ACCESSPORT.get(), ReprocessorAccessPortScreen::new);
+
+        // Fluidizer GUIS
+        event.register(Content.ContainerTypes.FLUIDIZER_SOLID_INJECTOR.get(), FluidizerSolidInjectorScreen::new);
+        event.register(Content.ContainerTypes.FLUIDIZER_CONTROLLER.get(), FluidizerControllerScreen::new);
     }
 
     private void onAddReloadListener(AddReloadListenerEvent event) {
@@ -311,9 +301,9 @@ public class ClientProxy
                 Content.Blocks.REACTOR_FUELROD_REINFORCED.get());
     }
 
-    private static final ModBakedModelSupplier s_bakedModelSupplier = new ModBakedModelSupplier();
+    private static ModBakedModelSupplier s_bakedModelSupplier;
 
-    private final List<ICustomModelBuilder> _modelBuilders;
+    private List<ICustomModelBuilder> _modelBuilders;
 
     private Map<Item, Set<Component>> _apiTooltipCache;
 

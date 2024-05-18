@@ -27,6 +27,7 @@ import it.zerono.mods.zerocore.lib.item.ItemHelper;
 import it.zerono.mods.zerocore.lib.multiblock.cuboid.PartPosition;
 import it.zerono.mods.zerocore.lib.multiblock.validation.IMultiblockValidator;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -94,9 +95,9 @@ public class ReprocessorCollectorEntity
     //region ISyncableEntity
 
     @Override
-    public void syncDataFrom(final CompoundTag data, final SyncReason syncReason) {
+    public void syncDataFrom(CompoundTag data, HolderLookup.Provider registries, SyncReason syncReason) {
 
-        super.syncDataFrom(data, syncReason);
+        super.syncDataFrom(data, registries, syncReason);
 
         if (syncReason.isNetworkUpdate()) {
 
@@ -106,9 +107,9 @@ public class ReprocessorCollectorEntity
     }
 
     @Override
-    public CompoundTag syncDataTo(final CompoundTag data, final SyncReason syncReason) {
+    public CompoundTag syncDataTo(CompoundTag data, HolderLookup.Provider registries, SyncReason syncReason) {
 
-        super.syncDataTo(data, syncReason);
+        super.syncDataTo(data, registries, syncReason);
 
         if (syncReason.isNetworkUpdate()) {
 
@@ -168,7 +169,7 @@ public class ReprocessorCollectorEntity
         Item item;
 
         if (data.contains(name) && null != (item = ItemHelper.getItemFrom(data.getString(name)))) {
-            return ItemHelper.stackFrom(item);
+            return item.getDefaultInstance();
         }
 
         return ItemStack.EMPTY;

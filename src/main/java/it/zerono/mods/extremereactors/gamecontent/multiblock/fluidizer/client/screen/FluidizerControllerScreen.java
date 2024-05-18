@@ -49,7 +49,7 @@ import it.zerono.mods.zerocore.lib.item.inventory.PlayerInventoryUsage;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.common.util.NonNullSupplier;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.Arrays;
@@ -237,8 +237,8 @@ public class FluidizerControllerScreen
 
         //region internals
 
-        private GaugeBar progressBar(final boolean left, final NonNullSupplier<ISprite> background,
-                                     final NonNullSupplier<ISprite> filler) {
+        private GaugeBar progressBar(final boolean left, final Supplier<@NotNull ISprite> background,
+                                     final Supplier<@NotNull ISprite> filler) {
 
             final GaugeBar bar = new GaugeBar(FluidizerControllerScreen.this, left ? "sxprogress" : "dxprogress",
                     1.0, filler.get());

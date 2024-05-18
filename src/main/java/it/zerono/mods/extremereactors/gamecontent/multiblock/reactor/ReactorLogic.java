@@ -31,6 +31,7 @@ import it.zerono.mods.zerocore.lib.data.nbt.ISyncableEntity;
 import it.zerono.mods.zerocore.lib.energy.WideEnergyBuffer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.profiling.ProfilerFiller;
 
@@ -136,7 +137,7 @@ public class ReactorLogic
      * @param syncReason the reason why the synchronization is necessary
      */
     @Override
-    public void syncDataFrom(CompoundTag data, ISyncableEntity.SyncReason syncReason) {
+    public void syncDataFrom(CompoundTag data, HolderLookup.Provider registries, SyncReason syncReason) {
         this.setFertility(data.getFloat("fertility"));
     }
 
@@ -147,7 +148,7 @@ public class ReactorLogic
      * @param syncReason the reason why the synchronization is necessary
      */
     @Override
-    public CompoundTag syncDataTo(CompoundTag data, ISyncableEntity.SyncReason syncReason) {
+    public CompoundTag syncDataTo(CompoundTag data, HolderLookup.Provider registries, SyncReason syncReason) {
 
         data.putFloat("fertility", this._fertility);
         return data;

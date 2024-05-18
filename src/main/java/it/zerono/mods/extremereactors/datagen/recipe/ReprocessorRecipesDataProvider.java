@@ -99,7 +99,7 @@ public class ReprocessorRecipesDataProvider
     private void glass(RecipeOutput output) {
         this.shaped(RecipeCategory.BUILDING_BLOCKS, Content.Items.REPROCESSOR_GLASS)
                 .define('C', Content.Items.REPROCESSOR_CASING.get())
-                .define('G', Tags.Items.GLASS)
+                .define('G', Tags.Items.GLASS_BLOCKS)
                 .pattern("GCG")
                 .unlockedBy("has_item", has(Content.Items.REPROCESSOR_CASING.get()))
                 .save(output, this.reprocessorRoot().buildWithSuffix("glass"));
@@ -109,14 +109,14 @@ public class ReprocessorRecipesDataProvider
         this.shaped(RecipeCategory.BUILDING_BLOCKS, Content.Items.REPROCESSOR_CONTROLLER)
                 .define('C', Content.Items.REPROCESSOR_CASING.get())
                 .define('Y', ContentTags.Items.INGOTS_CYANITE)
-                .define('P', Tags.Items.DUSTS_PRISMARINE)
+                .define('P', Tags.Items.GEMS_PRISMARINE)
                 .define('E', Tags.Items.GEMS_EMERALD)
                 .define('X', Items.COMPARATOR)
                 .pattern("CXC")
                 .pattern("YEY")
                 .pattern("CPC")
                 .unlockedBy("has_item", has(Content.Items.REPROCESSOR_CASING.get()))
-                .unlockedBy("has_item2", has(Tags.Items.DUSTS_PRISMARINE))
+                .unlockedBy("has_item2", has(Tags.Items.GEMS_PRISMARINE))
                 .save(output, this.reprocessorRoot().buildWithSuffix("controller"));
     }
 

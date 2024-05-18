@@ -46,7 +46,7 @@ public class TurbineRecipesDataProvider
         this.casing(output, variant, Content.Items.TURBINE_CASING_BASIC, core, metal, fallbackMetal);
         this.casingRecycle(output, variant, Content.Items.TURBINE_CASING_BASIC,
                 ContentTags.Items.USING_TURBINE_CASING_BASIC, Content.Items.TURBINE_GLASS_BASIC);
-        this.glass(output, variant, Content.Items.TURBINE_GLASS_BASIC, casing, Tags.Items.GLASS);
+        this.glass(output, variant, Content.Items.TURBINE_GLASS_BASIC, casing, Tags.Items.GLASS_BLOCKS);
         this.controller(output, variant, Content.Items.TURBINE_CONTROLLER_BASIC, casing, Tags.Items.GEMS_DIAMOND);
         this.powerTap(output, variant, "fe", Content.Items.TURBINE_POWERTAP_FE_PASSIVE_BASIC, Content.Items.TURBINE_POWERTAP_FE_ACTIVE_BASIC,
                 casing, () -> net.minecraft.world.item.Items.REDSTONE_BLOCK, () -> net.minecraft.world.item.Items.REDSTONE);
@@ -73,7 +73,7 @@ public class TurbineRecipesDataProvider
         this.casingUpgrade(output, variant, Content.Items.TURBINE_CASING_REINFORCED, metal, fallbackMetal);
         this.casingRecycle(output, variant, Content.Items.TURBINE_CASING_REINFORCED,
                 ContentTags.Items.USING_TURBINE_CASING_REINFORCED, Content.Items.TURBINE_GLASS_REINFORCED);
-        this.glass(output, variant, Content.Items.TURBINE_GLASS_REINFORCED, casing, Tags.Items.GLASS);
+        this.glass(output, variant, Content.Items.TURBINE_GLASS_REINFORCED, casing, Tags.Items.GLASS_BLOCKS);
         this.controller(output, variant, Content.Items.TURBINE_CONTROLLER_REINFORCED, casing, Tags.Items.STORAGE_BLOCKS_DIAMOND);
         this.powerTap(output, variant, "fe", Content.Items.TURBINE_POWERTAP_FE_PASSIVE_REINFORCED, Content.Items.TURBINE_POWERTAP_FE_ACTIVE_REINFORCED,
                 casing, () -> net.minecraft.world.item.Items.REDSTONE_BLOCK, () -> net.minecraft.world.item.Items.REDSTONE);

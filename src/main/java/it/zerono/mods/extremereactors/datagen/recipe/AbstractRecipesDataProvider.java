@@ -26,9 +26,9 @@ import java.util.function.Supplier;
 public abstract class AbstractRecipesDataProvider
         extends ModRecipeProvider {
 
-    protected static final TagKey<Item> TAG_INGOTS_STEEL = TagsHelper.ITEMS.createKey("forge:ingots/steel");
-    protected static final TagKey<Item> TAG_INGOTS_URANIUM = TagsHelper.ITEMS.createKey("forge:ingots/uranium");
-    protected static final Set<TagKey<Item>> TAGS_YELLORIUM_INGOTS = ImmutableSet.of(ContentTags.Items.INGOTS_YELLORIUM, TAG_INGOTS_URANIUM);
+    protected static final TagKey<Item> TAG_INGOTS_STEEL = TagsHelper.ITEMS.createKey("c:ingots/steel");
+    protected static final Set<TagKey<Item>> TAGS_YELLORIUM_INGOTS = ImmutableSet.of(ContentTags.Items.INGOTS_YELLORIUM,
+        ContentTags.Items.INGOTS_URANIUM);
 
     protected AbstractRecipesDataProvider(String modId, String name, PackOutput output, CompletableFuture<HolderLookup.Provider> registryLookup,
                                           ResourceLocationBuilder modLocationRoot) {
@@ -86,7 +86,7 @@ public abstract class AbstractRecipesDataProvider
 
         this.shaped(RecipeCategory.BUILDING_BLOCKS, result)
                 .define('T', powerTap.get())
-                .define('G', Tags.Items.GLASS)
+                .define('G', Tags.Items.GLASS_BLOCKS)
                 .define('1', item1)
                 .define('2', item2)
                 .pattern("212")

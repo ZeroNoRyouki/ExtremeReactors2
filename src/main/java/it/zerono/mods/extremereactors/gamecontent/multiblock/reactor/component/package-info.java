@@ -1,6 +1,6 @@
 /*
  *
- * ISensorType.java
+ * package-info.java
  *
  * This file is part of Extreme Reactors 2 by ZeroNoRyouki, a Minecraft mod.
  *
@@ -16,24 +16,10 @@
  *
  */
 
-package it.zerono.mods.extremereactors.gamecontent.multiblock.common.sensor;
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
+package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.component;
 
-import it.zerono.mods.extremereactors.gamecontent.multiblock.IMachineReader;
-import org.jetbrains.annotations.NotNull;
+import net.minecraft.MethodsReturnNonnullByDefault;
 
-import java.util.List;
-import java.util.function.Function;
-
-public interface ISensorType<Reader extends IMachineReader>
-    extends Function<@NotNull Reader, Integer> {
-
-    List<SensorBehavior> getBehaviors();
-
-    boolean isDisabled();
-
-    boolean isInput();
-
-    boolean isOutput();
-
-    String getTranslationBaseName();
-}
+import javax.annotation.ParametersAreNonnullByDefault;

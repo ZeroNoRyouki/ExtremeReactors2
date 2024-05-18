@@ -30,10 +30,11 @@ import it.zerono.mods.zerocore.lib.compat.computer.ComputerMethod;
 import it.zerono.mods.zerocore.lib.compat.computer.LuaHelper;
 import it.zerono.mods.zerocore.lib.compat.computer.MultiblockComputerPeripheral;
 import it.zerono.mods.zerocore.lib.energy.EnergySystem;
-import net.neoforged.neoforge.common.util.NonNullConsumer;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 import java.util.function.BiFunction;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class ReactorComputerPeripheral
@@ -61,7 +62,7 @@ public class ReactorComputerPeripheral
      * @param methodConsumer pass your methods to this Consumer
      */
     @Override
-    public void populateMethods(final NonNullConsumer<ComputerMethod<MultiblockComputerPeripheral<MultiblockReactor, ReactorComputerPortEntity>>> methodConsumer) {
+    public void populateMethods(final Consumer<@NotNull ComputerMethod<MultiblockComputerPeripheral<MultiblockReactor, ReactorComputerPortEntity>>> methodConsumer) {
 
         super.populateMethods(methodConsumer);
 

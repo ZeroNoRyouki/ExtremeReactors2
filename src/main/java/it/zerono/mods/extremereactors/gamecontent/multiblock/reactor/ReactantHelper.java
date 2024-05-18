@@ -25,7 +25,6 @@ import it.zerono.mods.extremereactors.api.reactor.*;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.IMultiblockReactorVariant;
 import it.zerono.mods.zerocore.lib.data.stack.OperationMode;
 import it.zerono.mods.zerocore.lib.fluid.FluidHelper;
-import it.zerono.mods.zerocore.lib.item.ItemHelper;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.Item;
@@ -203,7 +202,7 @@ public class ReactantHelper {
 
         // ask the port to consume as much source items as possible to fill the available space
 
-        final ItemStack maxSourceToConsume = ItemHelper.stackFrom(fuelSourceStack, fuelMapping.getSourceAmount(storableReactantAmount));
+        final ItemStack maxSourceToConsume = fuelSourceStack.copyWithCount(fuelMapping.getSourceAmount(storableReactantAmount));
 
         if (!maxSourceToConsume.isEmpty()) {
 

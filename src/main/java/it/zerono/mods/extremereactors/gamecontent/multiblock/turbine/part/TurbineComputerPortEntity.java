@@ -27,6 +27,7 @@ import it.zerono.mods.zerocore.lib.compat.computer.IComputerCraftService;
 import it.zerono.mods.zerocore.lib.compat.computer.IComputerPort;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -57,12 +58,12 @@ public class TurbineComputerPortEntity
      * @param data       the {@link CompoundTag} to read from
      * @param syncReason the reason why the synchronization is necessary
      */
-    public void syncDataFrom(final CompoundTag data, final SyncReason syncReason) {
+    public void syncDataFrom(CompoundTag data, HolderLookup.Provider registries, SyncReason syncReason) {
 
-        super.syncDataFrom(data, syncReason);
+        super.syncDataFrom(data, registries, syncReason);
 
         if (null != this._ccConnector) {
-            this._ccConnector.syncDataFrom(data, syncReason);
+            this._ccConnector.syncDataFrom(data, registries, syncReason);
         }
     }
 
@@ -73,12 +74,12 @@ public class TurbineComputerPortEntity
      * @param syncReason the reason why the synchronization is necessary
      * @return the {@link CompoundTag} the data was written to (usually {@code data})
      */
-    public CompoundTag syncDataTo(final CompoundTag data, final SyncReason syncReason) {
+    public CompoundTag syncDataTo(CompoundTag data, HolderLookup.Provider registries, SyncReason syncReason) {
 
-        super.syncDataTo(data, syncReason);
+        super.syncDataTo(data, registries, syncReason);
 
         if (null != this._ccConnector) {
-            this._ccConnector.syncDataTo(data, syncReason);
+            this._ccConnector.syncDataTo(data, registries, syncReason);
         }
 
         return data;

@@ -10,7 +10,9 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.neoforged.neoforge.common.Tags;
-import net.neoforged.neoforge.common.util.NonNullFunction;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.function.Function;
 
 public class ItemTagsDataProvider
         implements IIntrinsicTagDataProvider<Item> {
@@ -22,7 +24,7 @@ public class ItemTagsDataProvider
 
     @Override
     public void build(HolderLookup.Provider registryLookup,
-                      NonNullFunction<TagKey<Item>, ModIntrinsicTagAppender<Item>> builder) {
+                      Function<@NotNull TagKey<Item>, @NotNull ModIntrinsicTagAppender<Item>> builder) {
 
         builder.apply(ContentTags.Items.ORE_YELLORITE).add(Content.Items.YELLORITE_ORE_BLOCK);
 
@@ -68,11 +70,11 @@ public class ItemTagsDataProvider
         builder.apply(Tags.Items.DUSTS).add(Content.Items.YELLORIUM_DUST, Content.Items.CYANITE_DUST,
                 Content.Items.GRAPHITE_DUST, Content.Items.BLUTONIUM_DUST, Content.Items.MAGENTITE_DUST);
 
-        builder.apply(TagsHelper.ITEMS.createKey("forge:dusts/uranium")).add(Content.Items.YELLORIUM_DUST);
-        builder.apply(TagsHelper.ITEMS.createKey("forge:ingots/uranium")).add(Content.Items.YELLORIUM_INGOT);
-        builder.apply(TagsHelper.ITEMS.createKey("forge:dusts/plutonium")).add(Content.Items.BLUTONIUM_DUST);
-        builder.apply(TagsHelper.ITEMS.createKey("forge:ingots/plutonium")).add(Content.Items.BLUTONIUM_INGOT);
-        builder.apply(TagsHelper.ITEMS.createKey("forge:ores/uranium")).add(Content.Items.YELLORITE_ORE_BLOCK);
+        builder.apply(TagsHelper.ITEMS.createCommonKey("dusts/uranium")).add(Content.Items.YELLORIUM_DUST);
+        builder.apply(ContentTags.Items.INGOTS_URANIUM).add(Content.Items.YELLORIUM_INGOT);
+        builder.apply(TagsHelper.ITEMS.createCommonKey("dusts/plutonium")).add(Content.Items.BLUTONIUM_DUST);
+        builder.apply(ContentTags.Items.INGOTS_PLUTONIUM).add(Content.Items.BLUTONIUM_INGOT);
+        builder.apply(TagsHelper.ITEMS.createCommonKey("ores/uranium")).add(Content.Items.YELLORITE_ORE_BLOCK);
 
         builder.apply(ContentTags.Items.USING_REACTOR_CASING_BASIC).add(Content.Items.REACTOR_CONTROLLER_BASIC,
                 Content.Items.REACTOR_CONTROLROD_BASIC, Content.Items.REACTOR_SOLID_ACCESSPORT_BASIC,

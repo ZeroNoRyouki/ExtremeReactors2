@@ -1,6 +1,6 @@
 package it.zerono.mods.extremereactors.loader.forge.gamecontent.worldgen;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
@@ -10,13 +10,14 @@ import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.neoforged.neoforge.common.world.BiomeModifier;
 import net.neoforged.neoforge.common.world.ModifiableBiomeInfo;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 public record OreBiomeModifier(HolderSet<Biome> validBiomes, Holder<PlacedFeature> feature,
                                Predicate<Holder<Biome>> masterBiomePredicate,
-                               Supplier<Codec<OreBiomeModifier>> codecSupplier)
+                               Supplier<@NotNull MapCodec<OreBiomeModifier>> codecSupplier)
         implements BiomeModifier {
 
     public static OreBiomeModifier yellorite(HolderSet<Biome> validBiomes, Holder<PlacedFeature> feature) {
@@ -44,8 +45,10 @@ public record OreBiomeModifier(HolderSet<Biome> validBiomes, Holder<PlacedFeatur
         }
     }
 
+
+
     @Override
-    public Codec<? extends BiomeModifier> codec() {
+    public MapCodec<? extends BiomeModifier> codec() {
         return this.codecSupplier.get();
     }
 

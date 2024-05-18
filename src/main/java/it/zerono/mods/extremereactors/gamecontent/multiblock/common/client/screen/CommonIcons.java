@@ -23,9 +23,11 @@ import it.zerono.mods.zerocore.lib.client.gui.sprite.ISprite;
 import it.zerono.mods.zerocore.lib.client.gui.sprite.ISpriteBuilder;
 import it.zerono.mods.zerocore.lib.client.gui.sprite.ISpriteTextureMap;
 import it.zerono.mods.zerocore.lib.client.gui.sprite.SpriteTextureMap;
-import net.neoforged.neoforge.common.util.NonNullSupplier;
+import org.jetbrains.annotations.NotNull;
 
-public enum CommonIcons implements NonNullSupplier<ISprite> {
+import java.util.function.Supplier;
+
+public enum CommonIcons implements Supplier<@NotNull ISprite> {
 
     MachineStatusOff(builder().from(32, 176).ofSize(10, 10).build()),
     MachineStatusOn(builder().from(48, 176).ofSize(10, 10).build()),

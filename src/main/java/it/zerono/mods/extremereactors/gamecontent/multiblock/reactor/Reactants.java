@@ -20,18 +20,20 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor;
 
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.zerono.mods.extremereactors.api.reactor.ReactantType;
+import net.minecraft.core.Holder;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Rarity;
-import net.neoforged.neoforge.common.util.NonNullConsumer;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import java.util.List;
+import java.util.function.Consumer;
 
 public enum Reactants
-        implements NonNullConsumer<LivingEntity> {
+        implements Consumer<@NotNull LivingEntity> {
 
     Yellorium(ReactantType.Fuel, "yellorium", 0xc6ba54, 2000, 5, Rarity.RARE, MobEffects.WEAKNESS, MobEffects.MOVEMENT_SLOWDOWN),
     Cyanite(ReactantType.Waste, "cyanite", 0x5387b7, 2000, 6, Rarity.RARE, MobEffects.WEAKNESS, MobEffects.MOVEMENT_SLOWDOWN, MobEffects.HUNGER),
@@ -115,8 +117,9 @@ public enum Reactants
     //endregion
     //region internal
 
+    @SafeVarargs
     Reactants(final ReactantType type, final String name, final int colour, final int density, final int lightLevel,
-              final Rarity rarity, final MobEffect... effects) {
+              final Rarity rarity, final Holder<MobEffect>... effects) {
 
         this._type = type;
         this._name = name;
@@ -130,7 +133,7 @@ public enum Reactants
     private final ReactantType _type;
     private final String _name;
     private final int _colour;
-    private final List<MobEffect> _effects;
+    private final List<Holder<MobEffect>> _effects;
 
     private final int _fluidDensity;
     private final int _fluidLightLevel;

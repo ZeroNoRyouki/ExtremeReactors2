@@ -36,7 +36,9 @@ import it.zerono.mods.zerocore.lib.client.gui.sprite.SpriteTextureMap;
 import it.zerono.mods.zerocore.lib.item.inventory.PlayerInventoryUsage;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
-import net.neoforged.neoforge.common.util.NonNullSupplier;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.function.Supplier;
 
 public class FluidizerSolidInjectorScreen
         extends AbstractMultiblockScreen<MultiblockFluidizer, FluidizerSolidInjectorEntity, FluidizerSolidInjectorContainer> {
@@ -88,7 +90,7 @@ public class FluidizerSolidInjectorScreen
     //region  internals
 
     private Panel slotPanel(final String groupName, final String invName, final int x, final int y,
-                            final NonNullSupplier<ISprite> slotBackground) {
+                            final Supplier<@NotNull ISprite> slotBackground) {
 
         final SlotsGroup sg = this.createSingleSlotGroupControl(groupName, invName);
         final Panel p = new Panel(this);

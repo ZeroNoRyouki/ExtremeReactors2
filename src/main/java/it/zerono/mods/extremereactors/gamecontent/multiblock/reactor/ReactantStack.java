@@ -29,7 +29,9 @@ import it.zerono.mods.extremereactors.api.reactor.ReactantsRegistry;
 import it.zerono.mods.zerocore.lib.CodeHelper;
 import it.zerono.mods.zerocore.lib.data.nbt.ISyncableEntity;
 import it.zerono.mods.zerocore.lib.data.stack.IStackAdapter;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 
@@ -66,21 +68,12 @@ public class ReactantStack
         this(mapping.getProduct(), mapping.getProductAmount(itemCount));
     }
 
-    public static ReactantStack createFrom(final CompoundTag data) {
-
-        final ReactantStack stack = new ReactantStack();
-
-        stack.syncDataFrom(data, SyncReason.FullSync);
-
-        return stack.isEmpty() ? ReactantStack.EMPTY : stack;
-    }
-
     public static boolean areIdentical(final ReactantStack stack1, final ReactantStack stack2) {
         return stack1.isReactantEqual(stack2) && stack1.getAmount() == stack2.getAmount();
     }
 
     /**
-     * @return true if this stack does not contains any units of Reactant
+     * @return true if this stack does not contain any units of Reactant
      */
     public boolean isEmpty() {
 
@@ -142,7 +135,7 @@ public class ReactantStack
      * @param syncReason the reason why the synchronization is necessary
      */
     @Override
-    public void syncDataFrom(final CompoundTag data, final SyncReason syncReason) {
+    public void syncDataFrom(CompoundTag data, HolderLookup.Provider registries, SyncReason syncReason) {
 
         if (data.contains("rstack_name")) {
 
@@ -185,7 +178,7 @@ public class ReactantStack
      * @return the {@link CompoundTag} the data was written to (usually {@code data})
      */
     @Override
-    public CompoundTag syncDataTo(final CompoundTag data, final SyncReason syncReason) {
+    public CompoundTag syncDataTo(CompoundTag data, HolderLookup.Provider registries, SyncReason syncReason) {
 
         if (!this.isEmpty()) {
 
@@ -310,17 +303,27 @@ public class ReactantStack
             }
 
             @Override
-            public ReactantStack readFrom(final CompoundTag data) {
+            public ReactantStack deserialize(HolderLookup.Provider registries, Tag input) {
 
-                final ReactantStack stack = new ReactantStack();
+                if (input instanceof CompoundTag compound) {
 
-                stack.syncDataFrom(data, SyncReason.FullSync);
-                return stack;
+                    final ReactantStack stack = new ReactantStack();
+
+                    stack.syncDataFrom(compound, registries, SyncReason.FullSync);
+                    return stack;
+                }
+
+                throw new IllegalArgumentException("Input must be a CompoundTag instance");
             }
 
             @Override
-            public CompoundTag writeTo(final ReactantStack stack, final CompoundTag data) {
-                return stack.syncDataTo(data, SyncReason.FullSync);
+            public Tag serialize(HolderLookup.Provider registries, ReactantStack stack, Tag output) {
+
+                if (output instanceof CompoundTag tag) {
+                    return stack.syncDataTo(tag, registries, SyncReason.FullSync);
+                }
+
+                throw new IllegalArgumentException("Output must be a CompoundTag instance");
             }
 
             @Override

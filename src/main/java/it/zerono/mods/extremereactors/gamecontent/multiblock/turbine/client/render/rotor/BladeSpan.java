@@ -26,12 +26,14 @@ import net.minecraft.core.Direction;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.client.model.data.ModelData;
-import net.neoforged.neoforge.common.util.NonNullConsumer;
+import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3fc;
+
+import java.util.function.Consumer;
 
 @OnlyIn(Dist.CLIENT)
 public class BladeSpan
-        implements NonNullConsumer<PoseStack> {
+        implements Consumer<@NotNull PoseStack> {
 
     public final RotorBladeState State;
     public final short Length;

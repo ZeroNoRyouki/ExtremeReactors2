@@ -16,31 +16,38 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.network;
  *
  */
 
+import io.netty.buffer.ByteBuf;
 import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part.AbstractReactorEntity;
 import it.zerono.mods.zerocore.lib.data.nbt.ISyncableEntity;
 import it.zerono.mods.zerocore.lib.network.AbstractBlockEntityPlayPacket;
+import net.minecraft.core.GlobalPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.PacketFlow;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
 public class UpdateClientsFuelRodsLayout
-    extends AbstractBlockEntityPlayPacket {
+    extends AbstractBlockEntityPlayPacket<UpdateClientsFuelRodsLayout> {
 
-    public static final ResourceLocation ID = ExtremeReactors.ROOT_LOCATION.buildWithSuffix("update_client_fuelrods");
+    public static final Type<UpdateClientsFuelRodsLayout> TYPE = createType(ExtremeReactors.ROOT_LOCATION, "update_client_fuelrods");
+
+    public static final StreamCodec<ByteBuf, UpdateClientsFuelRodsLayout> STREAM_CODEC = createStreamCodec(
+            ByteBufCodecs.COMPOUND_TAG, packet -> packet._fuelContainerData,
+            UpdateClientsFuelRodsLayout::new);
 
     public UpdateClientsFuelRodsLayout(final AbstractReactorEntity referencePart, final ISyncableEntity fuelContainer) {
 
-        super(ID, referencePart.getWorldPosition());
-        this._fuelContainerData = fuelContainer.syncDataTo(new CompoundTag(), ISyncableEntity.SyncReason.NetworkUpdate);
+        super(TYPE, referencePart);
+        this._fuelContainerData = fuelContainer.syncDataTo(new CompoundTag(),
+                referencePart.getPartWorldOrFail().registryAccess(), ISyncableEntity.SyncReason.NetworkUpdate);
     }
 
-    public UpdateClientsFuelRodsLayout(final FriendlyByteBuf buffer) {
+    public UpdateClientsFuelRodsLayout(GlobalPos position, CompoundTag data) {
 
-        super(ID, buffer);
-        this._fuelContainerData = buffer.readNbt();
+        super(TYPE, position);
+        this._fuelContainerData = data;
     }
 
     public CompoundTag getFuelContainerData() {
@@ -48,13 +55,6 @@ public class UpdateClientsFuelRodsLayout
     }
 
     //region AbstractModTileMessage
-
-    @Override
-    public void write(FriendlyByteBuf buffer) {
-
-        super.write(buffer);
-        buffer.writeNbt(this._fuelContainerData);
-    }
 
     @Override
     protected void processBlockEntity(PacketFlow flow, BlockEntity blockEntity) {

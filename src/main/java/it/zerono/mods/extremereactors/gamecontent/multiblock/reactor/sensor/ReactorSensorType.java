@@ -26,9 +26,10 @@ import it.zerono.mods.zerocore.lib.CodeHelper;
 import it.zerono.mods.zerocore.lib.IDebugMessages;
 import it.zerono.mods.zerocore.lib.IDebuggable;
 import net.neoforged.fml.LogicalSide;
-import net.neoforged.neoforge.common.util.NonNullFunction;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.function.Function;
 
 public enum ReactorSensorType
         implements ISensorType<IReactorReader>, IDebuggable {
@@ -78,7 +79,7 @@ public enum ReactorSensorType
         this(SensorTypeData.input(behaviors));
     }
 
-    ReactorSensorType(final NonNullFunction<IReactorReader, Integer> outputSupplier, final SensorBehavior... behaviors) {
+    ReactorSensorType(final Function<@NotNull IReactorReader, @NotNull Integer> outputSupplier, final SensorBehavior... behaviors) {
         this(SensorTypeData.output(outputSupplier, behaviors));
     }
 

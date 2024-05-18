@@ -46,6 +46,7 @@ import it.zerono.mods.zerocore.lib.multiblock.validation.IMultiblockValidator;
 import it.zerono.mods.zerocore.lib.world.WorldHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Mth;
 import net.minecraft.util.profiling.ProfilerFiller;
@@ -393,16 +394,16 @@ public class MultiblockTurbine
      * @param syncReason the reason why the synchronization is necessary
      */
     @Override
-    public void syncDataFrom(CompoundTag data, SyncReason syncReason) {
+    public void syncDataFrom(CompoundTag data, HolderLookup.Provider registries, SyncReason syncReason) {
 
-        super.syncDataFrom(data, syncReason);
+        super.syncDataFrom(data, registries, syncReason);
 
         if (data.contains("active")) {
             this._active = data.getBoolean("active");
         }
 
-        this.syncChildDataEntityFrom(this._fluidContainer, "fluidcontainer", data, syncReason);
-        this.syncChildDataEntityFrom(this._data, "internaldata", data, syncReason);
+        this.syncChildDataEntityFrom(this._fluidContainer, "fluidcontainer", data, registries, syncReason);
+        this.syncChildDataEntityFrom(this._data, "internaldata", data, registries, syncReason);
 
         if (syncReason.isFullSync()) {
             this._rpmUpdateTracker.setValue(this.getRotorSpeed());
@@ -416,13 +417,13 @@ public class MultiblockTurbine
      * @param syncReason the reason why the synchronization is necessary
      */
     @Override
-    public CompoundTag syncDataTo(CompoundTag data, SyncReason syncReason) {
+    public CompoundTag syncDataTo(CompoundTag data, HolderLookup.Provider registries, SyncReason syncReason) {
 
-        super.syncDataTo(data, syncReason);
+        super.syncDataTo(data, registries, syncReason);
 
         data.putBoolean("active", this.isMachineActive());
-        this.syncChildDataEntityTo(this._fluidContainer, "fluidcontainer", data, syncReason);
-        this.syncChildDataEntityTo(this._data, "internaldata", data, syncReason);
+        this.syncChildDataEntityTo(this._fluidContainer, "fluidcontainer", data, registries, syncReason);
+        this.syncChildDataEntityTo(this._data, "internaldata", data, registries, syncReason);
 
         return data;
     }

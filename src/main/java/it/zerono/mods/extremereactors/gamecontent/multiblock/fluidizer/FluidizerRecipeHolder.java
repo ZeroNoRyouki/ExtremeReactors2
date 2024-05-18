@@ -28,6 +28,7 @@ import it.zerono.mods.zerocore.lib.recipe.ModRecipe;
 import it.zerono.mods.zerocore.lib.recipe.holder.IHeldRecipe;
 import it.zerono.mods.zerocore.lib.recipe.holder.IRecipeHolder;
 import it.zerono.mods.zerocore.lib.recipe.holder.RecipeHolder;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.fml.LogicalSide;
@@ -139,10 +140,10 @@ class FluidizerRecipeHolder<Recipe extends ModRecipe & IFluidizerRecipe>
      * @param syncReason the reason why the synchronization is necessary
      */
     @Override
-    public void syncDataFrom(final CompoundTag data, final SyncReason syncReason) {
+    public void syncDataFrom(CompoundTag data, HolderLookup.Provider registries, SyncReason syncReason) {
 
         this._recipeHolder.refresh();
-        this.syncChildDataEntityFrom(this._recipeHolder, "recipe", data, syncReason);
+        this.syncChildDataEntityFrom(this._recipeHolder, "recipe", data, registries, syncReason);
     }
 
     /**
@@ -153,9 +154,9 @@ class FluidizerRecipeHolder<Recipe extends ModRecipe & IFluidizerRecipe>
      * @return the {@link CompoundTag} the data was written to (usually {@code data})
      */
     @Override
-    public CompoundTag syncDataTo(final CompoundTag data, final SyncReason syncReason) {
+    public CompoundTag syncDataTo(CompoundTag data, HolderLookup.Provider registries, SyncReason syncReason) {
 
-        this.syncChildDataEntityTo(this._recipeHolder, "recipe", data, syncReason);
+        this.syncChildDataEntityTo(this._recipeHolder, "recipe", data, registries, syncReason);
         return data;
     }
 

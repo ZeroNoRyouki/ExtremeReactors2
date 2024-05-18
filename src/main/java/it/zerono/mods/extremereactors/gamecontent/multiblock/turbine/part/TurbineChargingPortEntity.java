@@ -26,6 +26,7 @@ import it.zerono.mods.zerocore.base.multiblock.part.io.power.charging.IChargingP
 import it.zerono.mods.zerocore.lib.block.TileCommandDispatcher;
 import it.zerono.mods.zerocore.lib.energy.EnergySystem;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.MenuProvider;
@@ -64,17 +65,17 @@ public class TurbineChargingPortEntity
     //region ISyncableEntity
 
     @Override
-    public void syncDataFrom(CompoundTag data, SyncReason syncReason) {
+    public void syncDataFrom(CompoundTag data, HolderLookup.Provider registries, SyncReason syncReason) {
 
-        super.syncDataFrom(data, syncReason);
-        this.getChargingPortHandler().syncDataFrom(data, syncReason);
+        super.syncDataFrom(data, registries, syncReason);
+        this.getChargingPortHandler().syncDataFrom(data, registries, syncReason);
     }
 
     @Override
-    public CompoundTag syncDataTo(CompoundTag data, SyncReason syncReason) {
+    public CompoundTag syncDataTo(CompoundTag data, HolderLookup.Provider registries, SyncReason syncReason) {
 
-        super.syncDataTo(data, syncReason);
-        this.getChargingPortHandler().syncDataTo(data, syncReason);
+        super.syncDataTo(data, registries, syncReason);
+        this.getChargingPortHandler().syncDataTo(data, registries, syncReason);
         return data;
     }
 

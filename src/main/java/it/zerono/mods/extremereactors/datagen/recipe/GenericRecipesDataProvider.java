@@ -80,7 +80,7 @@ public class GenericRecipesDataProvider
                 .save(output, this.miscRoot().buildWithSuffix("wrench"));
 
         this.book(output, "erguide", PatchouliCompat.HANDBOOK_ID, Items.BOOK, ContentTags.Items.INGOTS_YELLORIUM);
-        this.book(output, "erguide_alt", PatchouliCompat.HANDBOOK_ID, Items.BOOK, TAG_INGOTS_URANIUM);
+        this.book(output, "erguide_alt", PatchouliCompat.HANDBOOK_ID, Items.BOOK, ContentTags.Items.INGOTS_URANIUM);
     }
 
     //region internals

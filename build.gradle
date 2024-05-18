@@ -7,8 +7,8 @@ plugins {
     id 'eclipse'
     id 'idea'
     id 'maven-publish'
-    id 'net.neoforged.gradle.userdev' version '7.0.120'
-    id 'net.neoforged.gradle.mixin' version '7.0.120'
+    id 'net.neoforged.gradle.userdev' version '7.0.132'
+    id 'net.neoforged.gradle.mixin' version '7.0.132'
 }
 
 version = "${project.minecraft_version}-${project.mod_version_major}.${project.mod_version_minor}.${project.mod_version_patch}"
@@ -25,7 +25,7 @@ base {
 java {
 
     toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
+        languageVersion = JavaLanguageVersion.of(21)
     }
 
     withSourcesJar()
@@ -105,11 +105,10 @@ tasks.withType(ProcessResources).configureEach {
 
     inputs.properties replaceProperties
 
-    filesMatching(['META-INF/mods.toml']) {
+    filesMatching(['META-INF/neoforge.mods.toml']) {
         expand replaceProperties
     }
 }
-
 
 repositories {
 
@@ -126,6 +125,7 @@ repositories {
         url = "https://dvs1.progwml6.com/files/maven/"
     }
 
+    // JEI
     maven {
         name = "ModMaven"
         url = "https://modmaven.dev"
@@ -154,26 +154,26 @@ dependencies {
     implementation "it.zerono.mods.zerocore:ZeroCore2:${zerocore_version}"
 
     // JEI
-    compileOnly("mezz.jei:jei-${project.minecraft_version}-common-api:${project.jei_version}")
-    compileOnly("mezz.jei:jei-${project.minecraft_version}-neoforge-api:${project.jei_version}")
-    runtimeOnly("mezz.jei:jei-${project.minecraft_version}-neoforge:${project.jei_version}")
+//    compileOnly("mezz.jei:jei-${project.minecraft_version}-common-api:${project.jei_version}")
+//    compileOnly("mezz.jei:jei-${project.minecraft_version}-neoforge-api:${project.jei_version}")
+//    runtimeOnly("mezz.jei:jei-${project.minecraft_version}-neoforge:${project.jei_version}")
 
     // cc-tweaked
-    compileOnly("cc.tweaked:cc-tweaked-${project.minecraft_version}-core-api:${project.cctweaked_version}")
-    compileOnly("cc.tweaked:cc-tweaked-${project.minecraft_version}-forge-api:${project.cctweaked_version}")
-    runtimeOnly("cc.tweaked:cc-tweaked-${project.minecraft_version}-forge:${project.cctweaked_version}")
+//    compileOnly("cc.tweaked:cc-tweaked-1.20.5-core-api:${project.cctweaked_version}")
+//    compileOnly("cc.tweaked:cc-tweaked-1.20.5-forge-api:${project.cctweaked_version}")
+//    runtimeOnly("cc.tweaked:cc-tweaked-1.20.5-forge:${project.cctweaked_version}")
 
     // patchouli
-    compileOnly "vazkii.patchouli:Patchouli:${project.patchouli_version}-NEOFORGE"
-    runtimeOnly "vazkii.patchouli:Patchouli:${project.patchouli_version}-NEOFORGE"
+//    compileOnly "vazkii.patchouli:Patchouli:${project.patchouli_version}-NEOFORGE"
+//    runtimeOnly "vazkii.patchouli:Patchouli:${project.patchouli_version}-NEOFORGE"
 
     // mekanism
-    compileOnly "mekanism:Mekanism:${project.mekanism_version}"
+//    compileOnly "mekanism:Mekanism:${project.mekanism_version}"
 
-    runtimeOnly "mekanism:Mekanism:${project.mekanism_version}"
-    runtimeOnly "mekanism:Mekanism:${project.mekanism_version}:additions"
-    runtimeOnly "mekanism:Mekanism:${project.mekanism_version}:generators"
-    runtimeOnly "mekanism:Mekanism:${project.mekanism_version}:tools"
+//    runtimeOnly "mekanism:Mekanism:${project.mekanism_version}"
+//    runtimeOnly "mekanism:Mekanism:${project.mekanism_version}:additions"
+//    runtimeOnly "mekanism:Mekanism:${project.mekanism_version}:generators"
+//    runtimeOnly "mekanism:Mekanism:${project.mekanism_version}:tools"
 
     // thermal
 //    runtimeOnly fg.deobf("curse.maven:thermalexp-69163:4112130")

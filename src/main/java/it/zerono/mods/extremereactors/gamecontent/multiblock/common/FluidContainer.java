@@ -34,12 +34,13 @@ import it.zerono.mods.zerocore.lib.data.stack.OperationMode;
 import it.zerono.mods.zerocore.lib.data.stack.StackAdapters;
 import it.zerono.mods.zerocore.lib.fluid.handler.IndexedFluidHandlerForwarder;
 import it.zerono.mods.zerocore.lib.tag.TagsHelper;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.material.Fluid;
-import net.neoforged.neoforge.common.util.NonNullFunction;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Map;
@@ -283,9 +284,9 @@ public class FluidContainer
      * @param syncReason the reason why the synchronization is necessary
      */
     @Override
-    public void syncDataFrom(CompoundTag data, SyncReason syncReason) {
+    public void syncDataFrom(CompoundTag data, HolderLookup.Provider registries, SyncReason syncReason) {
 
-        super.syncDataFrom(data, syncReason);
+        super.syncDataFrom(data, registries, syncReason);
 
         if (syncReason.isFullSync()) {
 
@@ -525,7 +526,7 @@ public class FluidContainer
     }
 
     private static <T> Optional<Fluid> getTransitionResult(final T transition, final Cache<T, Fluid> cache,
-                                                           final NonNullFunction<T, Optional<List<IMapping<T, TagKey<Fluid>>>>> mappingGetter) {
+                                                           final Function<@NotNull T, @NotNull Optional<List<IMapping<T, TagKey<Fluid>>>>> mappingGetter) {
 
         final Fluid result = cache.getIfPresent(transition);
 

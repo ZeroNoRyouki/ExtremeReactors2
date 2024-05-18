@@ -41,8 +41,6 @@ import net.neoforged.api.distmarker.OnlyIn;
 import javax.annotation.Nullable;
 import java.util.List;
 
-import static net.neoforged.neoforge.client.extensions.IBlockEntityRendererExtension.INFINITE_EXTENT_AABB;
-
 public class TurbineRotorBearingEntity
         extends AbstractTurbineEntity {
 
@@ -51,7 +49,7 @@ public class TurbineRotorBearingEntity
         super(Content.TileEntityTypes.TURBINE_ROTORBEARING.get(), position, blockState);
         this._rotorAngle = 0.0f;
         this._rotorDescriptor = null;
-        this._renderBoundingBox = INFINITE_EXTENT_AABB;
+        this._renderBoundingBox = AABB.INFINITE;
     }
 
     public Direction getRotorDirection() {

@@ -46,7 +46,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
-import net.neoforged.neoforge.common.util.NonNullSupplier;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.Collections;
@@ -54,6 +54,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 import static it.zerono.mods.zerocore.lib.CodeHelper.TEXT_EMPTY_LINE;
 
@@ -80,7 +81,7 @@ public abstract class AbstractRedstonePortScreen<Controller extends AbstractCubo
     @SafeVarargs
     protected AbstractRedstonePortScreen(final C container, final Inventory inventory,
                                          final PlayerInventoryUsage inventoryUsage, final Component title,
-                                         final NonNullSupplier<SpriteTextureMap> mainTextureSupplier,
+                                         final Supplier<@NotNull SpriteTextureMap> mainTextureSupplier,
                                          final ISensorSettingFactory<Reader, Writer, SensorType, SensorSetting> sensorSettingFactory,
                                          final SensorType... validSensors) {
 
@@ -266,8 +267,8 @@ public abstract class AbstractRedstonePortScreen<Controller extends AbstractCubo
     }
 
     private SwitchPictureButton createSensorButton(final int x, final int y, final SensorType sensor,
-                                                   final NonNullSupplier<ISprite> defaultSprite,
-                                                   final NonNullSupplier<ISprite> activeSprite) {
+                                                   final Supplier<@NotNull ISprite> defaultSprite,
+                                                   final Supplier<@NotNull ISprite> activeSprite) {
 
         final SwitchPictureButton button = new SwitchPictureButton(this, sensor.name(), false, "sensortype");
         final String tooltipBaseName = sensor.getTranslationBaseName();
@@ -319,8 +320,8 @@ public abstract class AbstractRedstonePortScreen<Controller extends AbstractCubo
 
     protected SensorPanelBuilder<Controller, T, C, Reader, Writer, SensorType, SensorSetting> sensorPanelBuilder(
                                     final SensorType sensorType, final int buttonX, final int buttonY,
-                                    final NonNullSupplier<ISprite> buttonDefaultIcon,
-                                    final NonNullSupplier<ISprite> buttonActiveIcon) {
+                                    final Supplier<@NotNull ISprite> buttonDefaultIcon,
+                                    final Supplier<@NotNull ISprite> buttonActiveIcon) {
         return new SensorPanelBuilder<>(this, sensorType, buttonX, buttonY, buttonDefaultIcon, buttonActiveIcon);
     }
 
@@ -411,8 +412,8 @@ public abstract class AbstractRedstonePortScreen<Controller extends AbstractCubo
 
         protected SensorPanelBuilder(final AbstractRedstonePortScreen<Controller, T, C, Reader, Writer, SensorType, SensorSetting> gui,
                                      final SensorType sensorType, final int buttonX, final int buttonY,
-                                     final NonNullSupplier<ISprite> buttonDefaultIcon,
-                                     final NonNullSupplier<ISprite> buttonActiveIcon) {
+                                     final Supplier<@NotNull ISprite> buttonDefaultIcon,
+                                     final Supplier<@NotNull ISprite> buttonActiveIcon) {
 
             this._gui = gui;
             this._behaviorPanelWidth = gui.getBehaviorPanelWidth();

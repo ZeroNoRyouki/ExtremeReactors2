@@ -173,7 +173,7 @@ public class FluidizerRecipesDataProvider
     private void glass(RecipeOutput output) {
         this.shaped(RecipeCategory.BUILDING_BLOCKS, Content.Items.FLUIDIZER_GLASS)
                 .define('C', Content.Items.FLUIDIZER_CASING.get())
-                .define('G', Tags.Items.GLASS)
+                .define('G', Tags.Items.GLASS_BLOCKS)
                 .pattern("GCG")
                 .unlockedBy("has_item", has(Content.Items.FLUIDIZER_CASING.get()))
                 .save(output, this.fluidizerRoot().buildWithSuffix("glass"));

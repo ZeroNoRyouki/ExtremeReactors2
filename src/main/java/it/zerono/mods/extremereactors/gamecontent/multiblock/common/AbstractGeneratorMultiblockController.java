@@ -30,6 +30,7 @@ import it.zerono.mods.zerocore.lib.data.stack.OperationMode;
 import it.zerono.mods.zerocore.lib.energy.EnergySystem;
 import it.zerono.mods.zerocore.lib.energy.IWideEnergyStorage2;
 import it.zerono.mods.zerocore.lib.energy.WideEnergyBuffer;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.fluids.FluidStack;
@@ -131,7 +132,7 @@ public abstract class AbstractGeneratorMultiblockController<Controller extends A
                 .map(IFluidPort::getFluidPortHandler)
                 .filter(IIOPortHandler::isActive)
                 .filter(IIOPortHandler::isConnected)
-                .mapToInt(handler -> handler.outputFluid(new FluidStack(availableFluid, fluidPerPort)))
+                .mapToInt(handler -> handler.outputFluid(availableFluid.copyWithAmount(fluidPerPort)))
                 .sum();
     }
 
@@ -194,15 +195,15 @@ public abstract class AbstractGeneratorMultiblockController<Controller extends A
      * @param syncReason the reason why the synchronization is necessary
      */
     @Override
-    public void syncDataFrom(final CompoundTag data, final SyncReason syncReason) {
+    public void syncDataFrom(CompoundTag data, HolderLookup.Provider registries, SyncReason syncReason) {
 
-        this.syncChildDataEntityFrom(this.getEnergyBuffer(), "buffer", data, syncReason);
+        this.syncChildDataEntityFrom(this.getEnergyBuffer(), "buffer", data, registries, syncReason);
 
         if (syncReason.isNetworkUpdate()) {
             this.setOutputEnergySystem(EnergySystem.read(data, "energySystem", EnergySystem.REFERENCE));
         }
 
-        super.syncDataFrom(data, syncReason);
+        super.syncDataFrom(data, registries, syncReason);
     }
 
     /**
@@ -212,9 +213,9 @@ public abstract class AbstractGeneratorMultiblockController<Controller extends A
      * @param syncReason the reason why the synchronization is necessary
      */
     @Override
-    public CompoundTag syncDataTo(final CompoundTag data, final SyncReason syncReason) {
+    public CompoundTag syncDataTo(CompoundTag data, HolderLookup.Provider registries, SyncReason syncReason) {
 
-        this.syncChildDataEntityTo(this.getEnergyBuffer(), "buffer", data, syncReason);
+        this.syncChildDataEntityTo(this.getEnergyBuffer(), "buffer", data, registries, syncReason);
 
         if (syncReason.isNetworkUpdate()) {
             EnergySystem.write(data, "energySystem", this.getOutputEnergySystem());

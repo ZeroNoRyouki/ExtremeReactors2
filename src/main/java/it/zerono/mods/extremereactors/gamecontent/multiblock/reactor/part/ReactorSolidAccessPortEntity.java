@@ -40,6 +40,7 @@ import it.zerono.mods.zerocore.lib.item.ItemHelper;
 import it.zerono.mods.zerocore.lib.item.inventory.handler.ItemHandlerModifiableForwarder;
 import it.zerono.mods.zerocore.lib.item.inventory.handler.TileEntityItemStackHandler;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.tags.TagKey;
@@ -257,7 +258,7 @@ public class ReactorSolidAccessPortEntity
             return 0;
         }
 
-        ItemHelper.stackSetSize(newItem, itemsToProduce);
+        newItem.setCount(itemsToProduce);
         this._wasteInventory.setStackInSlot(0, newItem);
         this.onItemsReceived();
 
@@ -353,33 +354,33 @@ public class ReactorSolidAccessPortEntity
     //region ISyncableEntity
 
     @Override
-    public void syncDataFrom(CompoundTag data, SyncReason syncReason) {
+    public void syncDataFrom(CompoundTag data, HolderLookup.Provider registries, SyncReason syncReason) {
 
-        super.syncDataFrom(data, syncReason);
+        super.syncDataFrom(data, registries, syncReason);
         this.setIoDirection(IoDirection.read(data, "iodir", IoDirection.Input));
 
         if (syncReason.isFullSync()) {
 
             if (data.contains("invin")) {
-                this._fuelInventory.deserializeNBT(data.getCompound("invin"));
+                this._fuelInventory.deserializeNBT(registries, data.getCompound("invin"));
             }
 
             if (data.contains("invout")) {
-                this._wasteInventory.deserializeNBT(data.getCompound("invout"));
+                this._wasteInventory.deserializeNBT(registries, data.getCompound("invout"));
             }
         }
     }
 
     @Override
-    public CompoundTag syncDataTo(CompoundTag data, SyncReason syncReason) {
+    public CompoundTag syncDataTo(CompoundTag data, HolderLookup.Provider registries, SyncReason syncReason) {
 
-        super.syncDataTo(data, syncReason);
+        super.syncDataTo(data, registries, syncReason);
         IoDirection.write(data, "iodir", this.getIoDirection());
 
         if (syncReason.isFullSync()) {
 
-            data.put("invin", this._fuelInventory.serializeNBT());
-            data.put("invout", this._wasteInventory.serializeNBT());
+            data.put("invin", this._fuelInventory.serializeNBT(registries));
+            data.put("invout", this._wasteInventory.serializeNBT(registries));
         }
 
         return data;
