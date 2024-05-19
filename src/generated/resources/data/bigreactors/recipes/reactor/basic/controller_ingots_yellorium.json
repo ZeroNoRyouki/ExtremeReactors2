@@ -6,16 +6,16 @@
       "item": "bigreactors:basic_reactorcasing"
     },
     "D": {
-      "tag": "forge:gems/diamond"
+      "tag": "c:gems/diamond"
     },
     "R": {
-      "tag": "forge:dusts/redstone"
+      "tag": "c:dusts/redstone"
     },
     "X": {
       "item": "minecraft:comparator"
     },
     "Y": {
-      "tag": "forge:ingots/yellorium"
+      "tag": "c:ingots/yellorium"
     }
   },
   "pattern": [
@@ -24,6 +24,7 @@
     "CRC"
   ],
   "result": {
-    "item": "bigreactors:basic_reactorcontroller"
+    "count": 1,
+    "id": "bigreactors:basic_reactorcontroller"
   }
 }

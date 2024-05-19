@@ -4,7 +4,7 @@
       "type": "neoforge:not",
       "value": {
         "type": "neoforge:tag_empty",
-        "tag": "forge:ingots/steel"
+        "tag": "c:ingots/steel"
       }
     }
   ],
@@ -12,10 +12,10 @@
   "category": "building",
   "key": {
     "B": {
-      "tag": "forge:storage_blocks/iron"
+      "tag": "c:storage_blocks/iron"
     },
     "I": {
-      "tag": "forge:ingots/steel"
+      "tag": "c:ingots/steel"
     },
     "R": {
       "item": "minecraft:redstone_block"
@@ -27,6 +27,7 @@
     "IRI"
   ],
   "result": {
-    "item": "bigreactors:reinforced_turbinerotorbearing"
+    "count": 1,
+    "id": "bigreactors:reinforced_turbinerotorbearing"
   }
 }

@@ -6,16 +6,16 @@
       "item": "bigreactors:reprocessorcasing"
     },
     "E": {
-      "tag": "forge:gems/emerald"
+      "tag": "c:gems/emerald"
     },
     "P": {
-      "tag": "forge:dusts/prismarine"
+      "tag": "c:gems/prismarine"
     },
     "X": {
       "item": "minecraft:comparator"
     },
     "Y": {
-      "tag": "forge:ingots/cyanite"
+      "tag": "c:ingots/cyanite"
     }
   },
   "pattern": [
@@ -24,6 +24,7 @@
     "CPC"
   ],
   "result": {
-    "item": "bigreactors:reprocessorcontroller"
+    "count": 1,
+    "id": "bigreactors:reprocessorcontroller"
   }
 }

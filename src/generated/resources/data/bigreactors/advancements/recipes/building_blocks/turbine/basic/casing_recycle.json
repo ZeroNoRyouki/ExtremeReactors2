@@ -5,7 +5,7 @@
       "conditions": {
         "items": [
           {
-            "tag": "bigreactors:turbine/casing_user/basic"
+            "items": "#bigreactors:turbine/casing_user/basic"
           }
         ]
       },

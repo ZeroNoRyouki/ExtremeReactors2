@@ -6,10 +6,10 @@
       "item": "minecraft:repeater"
     },
     "2": {
-      "tag": "forge:storage_blocks/redstone"
+      "tag": "c:storage_blocks/redstone"
     },
     "3": {
-      "tag": "forge:gems/diamond"
+      "tag": "c:gems/diamond"
     },
     "C": {
       "item": "bigreactors:reprocessorcasing"
@@ -21,6 +21,7 @@
     "C2C"
   ],
   "result": {
-    "item": "bigreactors:reprocessorpowerport"
+    "count": 1,
+    "id": "bigreactors:reprocessorpowerport"
   }
 }

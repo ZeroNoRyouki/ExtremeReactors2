@@ -6,13 +6,14 @@
       "item": "bigreactors:fluidizercasing"
     },
     "G": {
-      "tag": "forge:glass"
+      "tag": "c:glass_blocks"
     }
   },
   "pattern": [
     "GCG"
   ],
   "result": {
-    "item": "bigreactors:fluidizerglass"
+    "count": 1,
+    "id": "bigreactors:fluidizerglass"
   }
 }

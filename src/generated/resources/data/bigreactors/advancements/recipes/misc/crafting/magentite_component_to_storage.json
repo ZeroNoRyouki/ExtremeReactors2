@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "bigreactors:magentite_ingot"
-            ]
+            "items": "bigreactors:magentite_ingot"
           }
         ]
       },

@@ -4,7 +4,7 @@
       "type": "neoforge:not",
       "value": {
         "type": "neoforge:tag_empty",
-        "tag": "forge:ingots/steel"
+        "tag": "c:ingots/steel"
       }
     }
   ],
@@ -15,10 +15,10 @@
       "item": "bigreactors:reinforced_turbinecasing"
     },
     "G": {
-      "tag": "forge:ingots/gold"
+      "tag": "c:ingots/gold"
     },
     "M": {
-      "tag": "forge:ingots/steel"
+      "tag": "c:ingots/steel"
     },
     "X": {
       "item": "minecraft:repeater"
@@ -33,6 +33,7 @@
     "CXC"
   ],
   "result": {
-    "item": "bigreactors:reinforced_turbineredstoneport"
+    "count": 1,
+    "id": "bigreactors:reinforced_turbineredstoneport"
   }
 }

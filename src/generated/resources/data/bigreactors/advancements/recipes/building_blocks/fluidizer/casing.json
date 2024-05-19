@@ -5,7 +5,7 @@
       "conditions": {
         "items": [
           {
-            "tag": "forge:ingots/yellorium"
+            "items": "#c:ingots/yellorium"
           }
         ]
       },

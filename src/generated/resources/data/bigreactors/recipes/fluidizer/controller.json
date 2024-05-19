@@ -6,16 +6,16 @@
       "item": "bigreactors:fluidizercasing"
     },
     "E": {
-      "tag": "forge:gems/emerald"
+      "tag": "c:gems/emerald"
     },
     "P": {
-      "tag": "forge:dusts/glowstone"
+      "tag": "c:dusts/glowstone"
     },
     "X": {
       "item": "minecraft:comparator"
     },
     "Y": {
-      "tag": "forge:ingots/yellorium"
+      "tag": "c:ingots/yellorium"
     }
   },
   "pattern": [
@@ -24,6 +24,7 @@
     "CPC"
   ],
   "result": {
-    "item": "bigreactors:fluidizercontroller"
+    "count": 1,
+    "id": "bigreactors:fluidizercontroller"
   }
 }

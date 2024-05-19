@@ -6,13 +6,13 @@
       "item": "bigreactors:basic_reactorcasing"
     },
     "G": {
-      "tag": "forge:ingots/graphite"
+      "tag": "c:ingots/graphite"
     },
     "M": {
-      "tag": "forge:ingots/iron"
+      "tag": "c:ingots/iron"
     },
     "R": {
-      "tag": "forge:dusts/redstone"
+      "tag": "c:dusts/redstone"
     },
     "X": {
       "item": "minecraft:piston"
@@ -24,6 +24,7 @@
     "CGC"
   ],
   "result": {
-    "item": "bigreactors:basic_reactorcontrolrod"
+    "count": 1,
+    "id": "bigreactors:basic_reactorcontrolrod"
   }
 }

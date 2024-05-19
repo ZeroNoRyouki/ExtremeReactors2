@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "bigreactors:fluidizercasing"
-            ]
+            "items": "bigreactors:fluidizercasing"
           }
         ]
       },
@@ -17,7 +15,7 @@
       "conditions": {
         "items": [
           {
-            "tag": "forge:dusts/glowstone"
+            "items": "#c:dusts/glowstone"
           }
         ]
       },

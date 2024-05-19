@@ -3,18 +3,23 @@
   "pools": [
     {
       "bonus_rolls": 0.0,
-      "conditions": [
-        {
-          "condition": "minecraft:survives_explosion"
-        }
-      ],
       "entries": [
         {
           "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:copy_components",
+              "include": [
+                "zerocore:fluidstacks"
+              ],
+              "source": "block_entity"
+            }
+          ],
           "name": "bigreactors:fluidizerfluidinjector"
         }
       ],
       "rolls": 1.0
     }
-  ]
+  ],
+  "random_sequence": "bigreactors:blocks/fluidizerfluidinjector"
 }

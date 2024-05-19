@@ -6,13 +6,14 @@
       "item": "bigreactors:reprocessorcasing"
     },
     "G": {
-      "tag": "forge:glass"
+      "tag": "c:glass_blocks"
     }
   },
   "pattern": [
     "GCG"
   ],
   "result": {
-    "item": "bigreactors:reprocessorglass"
+    "count": 1,
+    "id": "bigreactors:reprocessorglass"
   }
 }

@@ -4,7 +4,7 @@
       "type": "neoforge:not",
       "value": {
         "type": "neoforge:tag_empty",
-        "tag": "forge:ingots/steel"
+        "tag": "c:ingots/steel"
       }
     }
   ],
@@ -12,13 +12,13 @@
   "category": "building",
   "key": {
     "C": {
-      "tag": "forge:storage_blocks/iron"
+      "tag": "c:storage_blocks/iron"
     },
     "G": {
-      "tag": "forge:ingots/cyanite"
+      "tag": "c:ingots/cyanite"
     },
     "I": {
-      "tag": "forge:ingots/steel"
+      "tag": "c:ingots/steel"
     }
   },
   "pattern": [
@@ -27,6 +27,7 @@
     "IGI"
   ],
   "result": {
-    "item": "bigreactors:reinforced_turbinecasing"
+    "count": 1,
+    "id": "bigreactors:reinforced_turbinecasing"
   }
 }

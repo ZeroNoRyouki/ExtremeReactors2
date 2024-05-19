@@ -7,7 +7,7 @@
       {
         "target":{
           "predicate_type":"minecraft:tag_match",
-          "tag":"forge:end_stones"
+          "tag":"c:end_stones"
         },
         "state":{
           "Name":"bigreactors:anglesite_ore"

@@ -4,7 +4,7 @@
       "type": "neoforge:not",
       "value": {
         "type": "neoforge:tag_empty",
-        "tag": "forge:ingots/steel"
+        "tag": "c:ingots/steel"
       }
     }
   ],
@@ -12,16 +12,16 @@
   "category": "building",
   "key": {
     "G": {
-      "tag": "forge:ingots/graphite"
+      "tag": "c:ingots/graphite"
     },
     "L": {
-      "tag": "forge:glass"
+      "tag": "c:glass_blocks"
     },
     "M": {
-      "tag": "forge:ingots/steel"
+      "tag": "c:ingots/steel"
     },
     "Y": {
-      "tag": "forge:ingots/yellorium"
+      "tag": "c:ingots/yellorium"
     }
   },
   "pattern": [
@@ -30,6 +30,7 @@
     "MGM"
   ],
   "result": {
-    "item": "bigreactors:reinforced_reactorfuelrod"
+    "count": 1,
+    "id": "bigreactors:reinforced_reactorfuelrod"
   }
 }

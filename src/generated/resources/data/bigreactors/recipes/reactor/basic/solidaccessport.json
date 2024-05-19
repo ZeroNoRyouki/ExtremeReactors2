@@ -9,10 +9,10 @@
       "item": "minecraft:hopper"
     },
     "M": {
-      "tag": "forge:ingots/iron"
+      "tag": "c:ingots/iron"
     },
     "W": {
-      "tag": "forge:chests/wooden"
+      "tag": "c:chests/wooden"
     },
     "X": {
       "item": "minecraft:piston"
@@ -24,6 +24,7 @@
     "CXC"
   ],
   "result": {
-    "item": "bigreactors:basic_reactorsolidaccessport"
+    "count": 1,
+    "id": "bigreactors:basic_reactorsolidaccessport"
   }
 }

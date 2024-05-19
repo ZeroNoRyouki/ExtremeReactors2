@@ -4,7 +4,7 @@
       "type": "neoforge:not",
       "value": {
         "type": "neoforge:tag_empty",
-        "tag": "forge:ingots/steel"
+        "tag": "c:ingots/steel"
       }
     }
   ],
@@ -14,9 +14,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "bigreactors:basic_reactorcasing"
-            ]
+            "items": "bigreactors:basic_reactorcasing"
           }
         ]
       },

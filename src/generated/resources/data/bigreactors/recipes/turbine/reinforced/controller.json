@@ -6,16 +6,16 @@
       "item": "bigreactors:reinforced_turbinecasing"
     },
     "D": {
-      "tag": "forge:storage_blocks/diamond"
+      "tag": "c:storage_blocks/diamond"
     },
     "R": {
-      "tag": "forge:dusts/redstone"
+      "tag": "c:dusts/redstone"
     },
     "X": {
       "item": "minecraft:comparator"
     },
     "Y": {
-      "tag": "forge:storage_blocks/cyanite"
+      "tag": "c:storage_blocks/cyanite"
     }
   },
   "pattern": [
@@ -24,6 +24,7 @@
     "CRC"
   ],
   "result": {
-    "item": "bigreactors:reinforced_turbinecontroller"
+    "count": 1,
+    "id": "bigreactors:reinforced_turbinecontroller"
   }
 }

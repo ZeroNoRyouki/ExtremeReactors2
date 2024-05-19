@@ -2,23 +2,23 @@
   "neoforge:conditions": [
     {
       "type": "neoforge:tag_empty",
-      "tag": "forge:ingots/steel"
+      "tag": "c:ingots/steel"
     }
   ],
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
     "G": {
-      "tag": "forge:ingots/graphite"
+      "tag": "c:ingots/graphite"
     },
     "L": {
-      "tag": "forge:glass"
+      "tag": "c:glass_blocks"
     },
     "M": {
-      "tag": "forge:storage_blocks/iron"
+      "tag": "c:storage_blocks/iron"
     },
     "Y": {
-      "tag": "forge:ingots/uranium"
+      "tag": "c:ingots/uranium"
     }
   },
   "pattern": [
@@ -27,6 +27,7 @@
     "MGM"
   ],
   "result": {
-    "item": "bigreactors:reinforced_reactorfuelrod"
+    "count": 1,
+    "id": "bigreactors:reinforced_reactorfuelrod"
   }
 }

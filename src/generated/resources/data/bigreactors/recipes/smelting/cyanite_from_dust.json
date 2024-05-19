@@ -7,5 +7,8 @@
   "ingredient": {
     "item": "bigreactors:cyanite_dust"
   },
-  "result": "bigreactors:cyanite_ingot"
+  "result": {
+    "count": 1,
+    "id": "bigreactors:cyanite_ingot"
+  }
 }

@@ -4,7 +4,7 @@
       "type": "neoforge:not",
       "value": {
         "type": "neoforge:tag_empty",
-        "tag": "forge:ingots/steel"
+        "tag": "c:ingots/steel"
       }
     }
   ],
@@ -15,16 +15,16 @@
       "item": "bigreactors:reinforced_reactorcasing"
     },
     "G": {
-      "tag": "forge:storage_blocks/gold"
+      "tag": "c:storage_blocks/gold"
     },
     "M": {
-      "tag": "forge:ingots/steel"
+      "tag": "c:ingots/steel"
     },
     "X": {
-      "tag": "forge:dusts/glowstone"
+      "tag": "c:dusts/glowstone"
     },
     "Z": {
-      "tag": "forge:gems/lapis"
+      "tag": "c:gems/lapis"
     }
   },
   "pattern": [
@@ -33,6 +33,7 @@
     "CXC"
   ],
   "result": {
-    "item": "bigreactors:reinforced_reactorcomputerport"
+    "count": 1,
+    "id": "bigreactors:reinforced_reactorcomputerport"
   }
 }

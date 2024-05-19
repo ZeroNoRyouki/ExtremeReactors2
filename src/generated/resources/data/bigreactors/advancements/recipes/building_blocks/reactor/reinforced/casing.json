@@ -4,7 +4,7 @@
       "type": "neoforge:not",
       "value": {
         "type": "neoforge:tag_empty",
-        "tag": "forge:ingots/steel"
+        "tag": "c:ingots/steel"
       }
     }
   ],
@@ -14,7 +14,7 @@
       "conditions": {
         "items": [
           {
-            "tag": "forge:ingots/graphite"
+            "items": "#c:ingots/graphite"
           }
         ]
       },

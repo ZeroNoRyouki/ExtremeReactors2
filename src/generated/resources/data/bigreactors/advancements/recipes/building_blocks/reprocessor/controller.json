@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "bigreactors:reprocessorcasing"
-            ]
+            "items": "bigreactors:reprocessorcasing"
           }
         ]
       },
@@ -17,7 +15,7 @@
       "conditions": {
         "items": [
           {
-            "tag": "forge:dusts/prismarine"
+            "items": "#c:gems/prismarine"
           }
         ]
       },

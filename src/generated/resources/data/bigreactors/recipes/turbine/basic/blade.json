@@ -3,16 +3,17 @@
   "category": "building",
   "key": {
     "C": {
-      "tag": "forge:ingots/cyanite"
+      "tag": "c:ingots/cyanite"
     },
     "I": {
-      "tag": "forge:ingots/iron"
+      "tag": "c:ingots/iron"
     }
   },
   "pattern": [
     "ICI"
   ],
   "result": {
-    "item": "bigreactors:basic_turbinerotorblade"
+    "count": 1,
+    "id": "bigreactors:basic_turbinerotorblade"
   }
 }

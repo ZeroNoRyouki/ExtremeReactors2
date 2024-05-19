@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "bigreactors:blutonium_nugget"
-            ]
+            "items": "bigreactors:blutonium_nugget"
           }
         ]
       },

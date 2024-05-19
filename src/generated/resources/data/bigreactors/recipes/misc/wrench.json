@@ -4,10 +4,10 @@
   "group": "bigreactors:wrench",
   "key": {
     "D": {
-      "tag": "forge:dyes/green"
+      "tag": "c:dyes/green"
     },
     "I": {
-      "tag": "forge:ingots/iron"
+      "tag": "c:ingots/iron"
     },
     "W": {
       "tag": "minecraft:wool"
@@ -19,6 +19,7 @@
     "IW "
   ],
   "result": {
-    "item": "bigreactors:wrench"
+    "count": 1,
+    "id": "bigreactors:wrench"
   }
 }

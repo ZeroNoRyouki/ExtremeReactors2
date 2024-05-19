@@ -1,15 +1,15 @@
 {
   "type": "bigreactors:fluidizerfluidmixing",
   "ingredient1": {
-    "Amount": 1000,
-    "FluidName": "bigreactors:blutonium"
+    "amount": 1000,
+    "id": "bigreactors:blutonium"
   },
   "ingredient2": {
-    "Amount": 2000,
-    "FluidName": "bigreactors:yellorium"
+    "amount": 2000,
+    "id": "bigreactors:yellorium"
   },
   "result": {
-    "Amount": 2000,
-    "FluidName": "bigreactors:verderium"
+    "amount": 2000,
+    "id": "bigreactors:verderium"
   }
 }

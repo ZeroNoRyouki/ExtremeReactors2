@@ -6,10 +6,10 @@
       "item": "minecraft:dispenser"
     },
     "2": {
-      "tag": "forge:storage_blocks/lapis"
+      "tag": "c:storage_blocks/lapis"
     },
     "3": {
-      "tag": "forge:chests"
+      "tag": "c:chests"
     },
     "C": {
       "item": "bigreactors:fluidizercasing"
@@ -21,6 +21,7 @@
     "C2C"
   ],
   "result": {
-    "item": "bigreactors:fluidizeroutputport"
+    "count": 1,
+    "id": "bigreactors:fluidizeroutputport"
   }
 }

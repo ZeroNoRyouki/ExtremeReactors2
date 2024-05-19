@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "bigreactors:reinforced_turbinecasing"
-            ]
+            "items": "bigreactors:reinforced_turbinecasing"
           }
         ]
       },
@@ -17,7 +15,7 @@
       "conditions": {
         "items": [
           {
-            "tag": "forge:storage_blocks/cyanite"
+            "items": "#c:storage_blocks/cyanite"
           }
         ]
       },

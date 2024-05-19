@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "bigreactors:fluidizercasing"
-            ]
+            "items": "bigreactors:fluidizercasing"
           }
         ]
       },
@@ -17,9 +15,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "minecraft:sticky_piston"
-            ]
+            "items": "minecraft:sticky_piston"
           }
         ]
       },

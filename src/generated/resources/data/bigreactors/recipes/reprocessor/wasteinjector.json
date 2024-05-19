@@ -6,10 +6,10 @@
       "item": "minecraft:sticky_piston"
     },
     "2": {
-      "tag": "forge:ingots/cyanite"
+      "tag": "c:ingots/cyanite"
     },
     "3": {
-      "tag": "forge:dusts/redstone"
+      "tag": "c:dusts/redstone"
     },
     "C": {
       "item": "bigreactors:reprocessorcasing"
@@ -21,6 +21,7 @@
     "C2C"
   ],
   "result": {
-    "item": "bigreactors:reprocessorwasteinjector"
+    "count": 1,
+    "id": "bigreactors:reprocessorwasteinjector"
   }
 }

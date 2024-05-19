@@ -2,7 +2,7 @@
   "neoforge:conditions": [
     {
       "type": "neoforge:tag_empty",
-      "tag": "forge:ingots/steel"
+      "tag": "c:ingots/steel"
     }
   ],
   "parent": "minecraft:recipes/root",
@@ -11,9 +11,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "bigreactors:reinforced_reactorcasing"
-            ]
+            "items": "bigreactors:reinforced_reactorcasing"
           }
         ]
       },

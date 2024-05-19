@@ -8,23 +8,9 @@
           "type": "minecraft:item",
           "functions": [
             {
-              "function": "minecraft:copy_nbt",
-              "ops": [
-                {
-                  "op": "replace",
-                  "source": "zcvase_payload.iodir",
-                  "target": "BlockEntityTag.zcvase_payload.iodir"
-                },
-                {
-                  "op": "replace",
-                  "source": "zcvase_payload.invin",
-                  "target": "BlockEntityTag.zcvase_payload.invin"
-                },
-                {
-                  "op": "replace",
-                  "source": "zcvase_payload.invout",
-                  "target": "BlockEntityTag.zcvase_payload.invout"
-                }
+              "function": "minecraft:copy_components",
+              "include": [
+                "bigreactors:reactor_fluid_access_port"
               ],
               "source": "block_entity"
             }
@@ -32,8 +18,8 @@
           "name": "bigreactors:reinforced_reactorfluidaccessport"
         }
       ],
-      "name": "reactor_fluid_accessport_reinforced",
       "rolls": 1.0
     }
-  ]
+  ],
+  "random_sequence": "bigreactors:blocks/reinforced_reactorfluidaccessport"
 }

@@ -6,16 +6,16 @@
       "item": "bigreactors:reinforced_reactorcasing"
     },
     "D": {
-      "tag": "forge:storage_blocks/diamond"
+      "tag": "c:storage_blocks/diamond"
     },
     "R": {
-      "tag": "forge:dusts/redstone"
+      "tag": "c:dusts/redstone"
     },
     "X": {
       "item": "minecraft:comparator"
     },
     "Y": {
-      "tag": "forge:ingots/uranium"
+      "tag": "c:ingots/uranium"
     }
   },
   "pattern": [
@@ -24,6 +24,7 @@
     "CRC"
   ],
   "result": {
-    "item": "bigreactors:reinforced_reactorcontroller"
+    "count": 1,
+    "id": "bigreactors:reinforced_reactorcontroller"
   }
 }

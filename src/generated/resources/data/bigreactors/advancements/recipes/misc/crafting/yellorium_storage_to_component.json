@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "bigreactors:yellorium_block"
-            ]
+            "items": "bigreactors:yellorium_block"
           }
         ]
       },

@@ -11,9 +11,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "bigreactors:reinforced_reactorcasing"
-            ]
+            "items": "bigreactors:reinforced_reactorcasing"
           }
         ]
       },
@@ -23,9 +21,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "minecraft:water_bucket"
-            ]
+            "items": "minecraft:water_bucket"
           }
         ]
       },

@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "bigreactors:basic_reactorpowertapfe_active"
-            ]
+            "items": "bigreactors:basic_reactorpowertapfe_active"
           }
         ]
       },

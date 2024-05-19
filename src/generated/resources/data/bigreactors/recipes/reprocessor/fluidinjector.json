@@ -6,10 +6,10 @@
       "item": "minecraft:piston"
     },
     "2": {
-      "tag": "forge:gems/prismarine"
+      "tag": "c:gems/prismarine"
     },
     "3": {
-      "tag": "forge:gems/lapis"
+      "tag": "c:gems/lapis"
     },
     "C": {
       "item": "bigreactors:reprocessorcasing"
@@ -21,6 +21,7 @@
     "C2C"
   ],
   "result": {
-    "item": "bigreactors:reprocessorfluidinjector"
+    "count": 1,
+    "id": "bigreactors:reprocessorfluidinjector"
   }
 }

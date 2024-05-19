@@ -9,7 +9,7 @@
       "item": "minecraft:redstone"
     },
     "G": {
-      "tag": "forge:glass"
+      "tag": "c:glass_blocks"
     },
     "T": {
       "item": "bigreactors:basic_turbinepowertapfe_active"
@@ -21,6 +21,7 @@
     "212"
   ],
   "result": {
-    "item": "bigreactors:basic_turbinechargingportfe"
+    "count": 1,
+    "id": "bigreactors:basic_turbinechargingportfe"
   }
 }

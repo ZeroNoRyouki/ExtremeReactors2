@@ -1,17 +1,31 @@
 {
   "type": "bigreactors:reprocessor",
   "fluid": {
-    "Amount": 2000,
-    "FluidName": "bigreactors:rossinite"
+    "amount": 2000,
+    "id": "bigreactors:rossinite"
   },
   "result": {
-    "Count": 1,
+    "count": 1,
     "id": "bigreactors:insanite_ingot"
   },
   "waste": {
     "count": 16,
     "ingredient": {
-      "item": "bigreactors:benitoite_crystal"
+      "type": "neoforge:components",
+      "components": {
+        "minecraft:attribute_modifiers": {
+          "modifiers": []
+        },
+        "minecraft:enchantments": {
+          "levels": {}
+        },
+        "minecraft:lore": [],
+        "minecraft:max_stack_size": 64,
+        "minecraft:rarity": "common",
+        "minecraft:repair_cost": 0
+      },
+      "items": "bigreactors:benitoite_crystal",
+      "strict": true
     }
   }
 }

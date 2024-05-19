@@ -7,5 +7,8 @@
   "ingredient": {
     "item": "minecraft:coal_block"
   },
-  "result": "bigreactors:graphite_block"
+  "result": {
+    "count": 1,
+    "id": "bigreactors:graphite_block"
+  }
 }

@@ -6,13 +6,14 @@
       "item": "bigreactors:basic_turbinecasing"
     },
     "G": {
-      "tag": "forge:glass"
+      "tag": "c:glass_blocks"
     }
   },
   "pattern": [
     "GCG"
   ],
   "result": {
-    "item": "bigreactors:basic_turbineglass"
+    "count": 1,
+    "id": "bigreactors:basic_turbineglass"
   }
 }

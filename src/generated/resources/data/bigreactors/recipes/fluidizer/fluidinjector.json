@@ -6,10 +6,10 @@
       "item": "minecraft:piston"
     },
     "2": {
-      "tag": "forge:ingots/netherite"
+      "tag": "c:ingots/netherite"
     },
     "3": {
-      "tag": "forge:gems/lapis"
+      "tag": "c:gems/lapis"
     },
     "C": {
       "item": "bigreactors:fluidizercasing"
@@ -21,6 +21,7 @@
     "C2C"
   ],
   "result": {
-    "item": "bigreactors:fluidizerfluidinjector"
+    "count": 1,
+    "id": "bigreactors:fluidizerfluidinjector"
   }
 }

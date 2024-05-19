@@ -2,7 +2,7 @@
   "neoforge:conditions": [
     {
       "type": "neoforge:tag_empty",
-      "tag": "forge:ingots/steel"
+      "tag": "c:ingots/steel"
     }
   ],
   "type": "minecraft:crafting_shaped",
@@ -12,16 +12,16 @@
       "item": "bigreactors:reinforced_turbinecasing"
     },
     "G": {
-      "tag": "forge:storage_blocks/gold"
+      "tag": "c:storage_blocks/gold"
     },
     "M": {
-      "tag": "forge:storage_blocks/iron"
+      "tag": "c:storage_blocks/iron"
     },
     "X": {
-      "tag": "forge:dusts/glowstone"
+      "tag": "c:dusts/glowstone"
     },
     "Z": {
-      "tag": "forge:gems/lapis"
+      "tag": "c:gems/lapis"
     }
   },
   "pattern": [
@@ -30,6 +30,7 @@
     "CXC"
   ],
   "result": {
-    "item": "bigreactors:reinforced_turbinecomputerport"
+    "count": 1,
+    "id": "bigreactors:reinforced_turbinecomputerport"
   }
 }

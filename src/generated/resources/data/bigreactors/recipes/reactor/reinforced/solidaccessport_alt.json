@@ -2,7 +2,7 @@
   "neoforge:conditions": [
     {
       "type": "neoforge:tag_empty",
-      "tag": "forge:ingots/steel"
+      "tag": "c:ingots/steel"
     }
   ],
   "type": "minecraft:crafting_shaped",
@@ -15,10 +15,10 @@
       "item": "minecraft:hopper"
     },
     "M": {
-      "tag": "forge:storage_blocks/iron"
+      "tag": "c:storage_blocks/iron"
     },
     "W": {
-      "tag": "forge:chests/wooden"
+      "tag": "c:chests/wooden"
     },
     "X": {
       "item": "minecraft:piston"
@@ -30,6 +30,7 @@
     "CXC"
   ],
   "result": {
-    "item": "bigreactors:reinforced_reactorsolidaccessport"
+    "count": 1,
+    "id": "bigreactors:reinforced_reactorsolidaccessport"
   }
 }

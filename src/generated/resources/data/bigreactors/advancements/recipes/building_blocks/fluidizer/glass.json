@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "bigreactors:fluidizercasing"
-            ]
+            "items": "bigreactors:fluidizercasing"
           }
         ]
       },

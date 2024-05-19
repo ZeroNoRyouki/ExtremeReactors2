@@ -3,11 +3,25 @@
   "ingredient": {
     "count": 1,
     "ingredient": {
-      "item": "bigreactors:cyanite_block"
+      "type": "neoforge:components",
+      "components": {
+        "minecraft:attribute_modifiers": {
+          "modifiers": []
+        },
+        "minecraft:enchantments": {
+          "levels": {}
+        },
+        "minecraft:lore": [],
+        "minecraft:max_stack_size": 64,
+        "minecraft:rarity": "common",
+        "minecraft:repair_cost": 0
+      },
+      "items": "bigreactors:cyanite_block",
+      "strict": true
     }
   },
   "result": {
-    "Amount": 9000,
-    "FluidName": "bigreactors:cyanite"
+    "amount": 9000,
+    "id": "bigreactors:cyanite"
   }
 }

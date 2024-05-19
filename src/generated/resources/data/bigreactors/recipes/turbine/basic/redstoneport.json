@@ -6,10 +6,10 @@
       "item": "bigreactors:basic_turbinecasing"
     },
     "G": {
-      "tag": "forge:ingots/gold"
+      "tag": "c:ingots/gold"
     },
     "M": {
-      "tag": "forge:ingots/iron"
+      "tag": "c:ingots/iron"
     },
     "X": {
       "item": "minecraft:repeater"
@@ -24,6 +24,7 @@
     "CXC"
   ],
   "result": {
-    "item": "bigreactors:basic_turbineredstoneport"
+    "count": 1,
+    "id": "bigreactors:basic_turbineredstoneport"
   }
 }

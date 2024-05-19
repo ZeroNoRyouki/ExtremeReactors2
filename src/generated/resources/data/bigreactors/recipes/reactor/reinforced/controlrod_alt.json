@@ -2,7 +2,7 @@
   "neoforge:conditions": [
     {
       "type": "neoforge:tag_empty",
-      "tag": "forge:ingots/steel"
+      "tag": "c:ingots/steel"
     }
   ],
   "type": "minecraft:crafting_shaped",
@@ -12,13 +12,13 @@
       "item": "bigreactors:reinforced_reactorcasing"
     },
     "G": {
-      "tag": "forge:ingots/graphite"
+      "tag": "c:ingots/graphite"
     },
     "M": {
-      "tag": "forge:storage_blocks/iron"
+      "tag": "c:storage_blocks/iron"
     },
     "R": {
-      "tag": "forge:dusts/redstone"
+      "tag": "c:dusts/redstone"
     },
     "X": {
       "item": "minecraft:piston"
@@ -30,6 +30,7 @@
     "CGC"
   ],
   "result": {
-    "item": "bigreactors:reinforced_reactorcontrolrod"
+    "count": 1,
+    "id": "bigreactors:reinforced_reactorcontrolrod"
   }
 }

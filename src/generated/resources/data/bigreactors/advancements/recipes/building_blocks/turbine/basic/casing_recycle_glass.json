@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "bigreactors:basic_turbineglass"
-            ]
+            "items": "bigreactors:basic_turbineglass"
           }
         ]
       },

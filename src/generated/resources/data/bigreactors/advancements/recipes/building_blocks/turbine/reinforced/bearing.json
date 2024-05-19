@@ -4,7 +4,7 @@
       "type": "neoforge:not",
       "value": {
         "type": "neoforge:tag_empty",
-        "tag": "forge:ingots/steel"
+        "tag": "c:ingots/steel"
       }
     }
   ],
@@ -14,7 +14,7 @@
       "conditions": {
         "items": [
           {
-            "tag": "forge:storage_blocks/iron"
+            "items": "#c:storage_blocks/iron"
           }
         ]
       },
