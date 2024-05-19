@@ -12,7 +12,7 @@ plugins {
 }
 
 version = "${project.minecraft_version}-${project.mod_version_major}.${project.mod_version_minor}.${project.mod_version_patch}"
-if (project.mod_version_snapshot) {
+if ('true' == project.mod_version_snapshot) {
     version += '-SNAPSHOT'
 }
 
