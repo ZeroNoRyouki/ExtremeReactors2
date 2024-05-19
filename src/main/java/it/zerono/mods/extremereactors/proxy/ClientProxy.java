@@ -24,7 +24,6 @@ import com.google.common.collect.Sets;
 import com.google.common.collect.Streams;
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import it.zerono.mods.extremereactors.CommonLocations;
-import it.zerono.mods.extremereactors.Log;
 import it.zerono.mods.extremereactors.api.reactor.ModeratorsRegistry;
 import it.zerono.mods.extremereactors.api.reactor.ReactantMappingsRegistry;
 import it.zerono.mods.extremereactors.api.turbine.CoilMaterialRegistry;
@@ -225,9 +224,6 @@ public class ClientProxy
     //endregion
 
     private static void onClientInit(FMLClientSetupEvent event) {
-
-        //delete
-        Log.LOGGER.error("ER CLIENT PROXY onClientInit");
 
         CachedSprites.initialize();
 

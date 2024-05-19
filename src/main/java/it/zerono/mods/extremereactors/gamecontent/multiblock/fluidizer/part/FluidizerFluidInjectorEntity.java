@@ -234,15 +234,6 @@ public class FluidizerFluidInjectorEntity
     //endregion
     //region AbstractModBlockEntity
 
-    /**
-     * Check if the tile entity has a GUI or not
-     * Override in derived classes to return true if your tile entity got a GUI
-     */
-    @Override
-    public boolean canOpenGui(Level world, BlockPos position, BlockState state) {
-        return false;
-    }
-
     @Override
     protected void applyImplicitComponents(DataComponentInput input) {
 
