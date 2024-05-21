@@ -66,6 +66,7 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part.Turbin
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.TurbineVariant;
 import it.zerono.mods.zerocore.lib.client.model.ICustomModelBuilder;
 import it.zerono.mods.zerocore.lib.client.model.ModBakedModelSupplier;
+import it.zerono.mods.zerocore.lib.item.TintedBucketItem;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
@@ -113,7 +114,8 @@ public class ClientProxy
         modEventBus.addListener(ClientProxy::onClientInit);
         modEventBus.addListener(this::onRegisterModels);
         modEventBus.addListener(this::onModelBake);
-        modEventBus.addListener(ClientProxy::onColorHandlerEvent);
+        modEventBus.addListener(ClientProxy::onRegisterBlockColorHandlers);
+        modEventBus.addListener(ClientProxy::onRegisterItemColorHandlers);
         modEventBus.addListener(ClientProxy::onRegisterMenuScreensEvent);
 
         NeoForge.EVENT_BUS.addListener(this::onAddReloadListener);
@@ -291,10 +293,20 @@ public class ClientProxy
         }
     }
 
-    private static void onColorHandlerEvent(final RegisterColorHandlersEvent.Block event) {
+    private static void onRegisterBlockColorHandlers(final RegisterColorHandlersEvent.Block event) {
         event.register(new ReactorFuelRodBlockColor(),
                 Content.Blocks.REACTOR_FUELROD_BASIC.get(),
                 Content.Blocks.REACTOR_FUELROD_REINFORCED.get());
+    }
+
+    private static void onRegisterItemColorHandlers(RegisterColorHandlersEvent.Item event) {
+        event.register(TintedBucketItem::getTintColour,
+                Content.Items.YELLORIUM_BUCKET.get(), Content.Items.CYANITE_BUCKET.get(),
+                Content.Items.BLUTONIUM_BUCKET.get(), Content.Items.MAGENTITE_BUCKET.get(),
+                Content.Items.VERDERIUM_BUCKET.get(), Content.Items.ROSSINITE_BUCKET.get(),
+                Content.Items.STEAM_BUCKET.get(),
+                Content.Items.CRYOMISI_BUCKET.get(), Content.Items.TANGERIUM_BUCKET.get(),
+                Content.Items.REDFRIGIUM_BUCKET.get());
     }
 
     private static ModBakedModelSupplier s_bakedModelSupplier;

@@ -69,6 +69,7 @@ import it.zerono.mods.zerocore.lib.data.ModCodecs;
 import it.zerono.mods.zerocore.lib.energy.EnergySystem;
 import it.zerono.mods.zerocore.lib.fluid.SimpleFluidTypeRenderProperties;
 import it.zerono.mods.zerocore.lib.item.ModItem;
+import it.zerono.mods.zerocore.lib.item.TintedBucketItem;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
 import it.zerono.mods.zerocore.lib.recipe.ModRecipe;
 import it.zerono.mods.zerocore.lib.recipe.ModRecipeType;
@@ -445,7 +446,7 @@ public final class Content {
         }
 
         private static Supplier<ModBlock> registerOreBlock(final String name, final DyeColor color,
-                                                                 final int minDroppedXP, final int maxDroppedXP) {
+                                                           final int minDroppedXP, final int maxDroppedXP) {
             return BLOCKS.register(name,
                     () -> new ModOreBlock(Block.Properties.of()
                             .mapColor(color)
@@ -458,16 +459,16 @@ public final class Content {
         @SuppressWarnings("unchecked")
         private static <T extends MultiblockPartBlock<MultiblockReactor, IReactorPartType>>
         Supplier<T> registerReactorBlock(final String name,
-                                               final ReactorVariant variant,
-                                               final IReactorPartType partType) {
+                                         final ReactorVariant variant,
+                                         final IReactorPartType partType) {
             return BLOCKS.register(name, () -> (T) (partType.createBlock(variant)));
         }
 
         @SuppressWarnings("unchecked")
         private static <T extends MultiblockPartBlock<MultiblockTurbine, ITurbinePartType>>
         Supplier<T> registerTurbineBlock(final String name,
-                                               final TurbineVariant variant,
-                                               final ITurbinePartType partType) {
+                                         final TurbineVariant variant,
+                                         final ITurbinePartType partType) {
             return BLOCKS.register(name, () -> (T) (partType.createBlock(variant)));
         }
 
@@ -496,7 +497,7 @@ public final class Content {
         }
 
         private static Supplier<ReactantFluidBlock> registerReactantFluidBlock(final Reactants reactant,
-                                                                                     final Supplier<? extends FlowingFluid> fluid) {
+                                                                               final Supplier<? extends FlowingFluid> fluid) {
             return BLOCKS.register(reactant.getFluidName(), () -> new ReactantFluidBlock(reactant, fluid));
         }
 
@@ -563,25 +564,25 @@ public final class Content {
         //endregion
         //region fluids
 
-        public static final Supplier<BucketItem> STEAM_BUCKET = registerBucket("steam_bucket", Fluids.STEAM_SOURCE);
+        public static final Supplier<TintedBucketItem> STEAM_BUCKET = registerTintedBucket("steam_bucket", Fluids.STEAM_SOURCE);
 
         //region reactants
 
-        public static final Supplier<BucketItem> YELLORIUM_BUCKET = registerBucket(Reactants.Yellorium.getBucketName(), Fluids.YELLORIUM_SOURCE);
-        public static final Supplier<BucketItem> CYANITE_BUCKET = registerBucket(Reactants.Cyanite.getBucketName(), Fluids.CYANITE_SOURCE);
-        public static final Supplier<BucketItem> BLUTONIUM_BUCKET = registerBucket(Reactants.Blutonium.getBucketName(), Fluids.BLUTONIUM_SOURCE);
-        public static final Supplier<BucketItem> MAGENTITE_BUCKET = registerBucket(Reactants.Magentite.getBucketName(), Fluids.MAGENTITE_SOURCE);
-        public static final Supplier<BucketItem> VERDERIUM_BUCKET = registerBucket(Reactants.Verderium.getBucketName(), Fluids.VERDERIUM_SOURCE);
-        public static final Supplier<BucketItem> ROSSINITE_BUCKET = registerBucket(Reactants.Rossinite.getBucketName(), Fluids.ROSSINITE_SOURCE);
+        public static final Supplier<TintedBucketItem> YELLORIUM_BUCKET = registerReactantBucket(Reactants.Yellorium, Fluids.YELLORIUM_SOURCE);
+        public static final Supplier<TintedBucketItem> CYANITE_BUCKET = registerReactantBucket(Reactants.Cyanite, Fluids.CYANITE_SOURCE);
+        public static final Supplier<TintedBucketItem> BLUTONIUM_BUCKET = registerReactantBucket(Reactants.Blutonium, Fluids.BLUTONIUM_SOURCE);
+        public static final Supplier<TintedBucketItem> MAGENTITE_BUCKET = registerReactantBucket(Reactants.Magentite, Fluids.MAGENTITE_SOURCE);
+        public static final Supplier<TintedBucketItem> VERDERIUM_BUCKET = registerReactantBucket(Reactants.Verderium, Fluids.VERDERIUM_SOURCE);
+        public static final Supplier<TintedBucketItem> ROSSINITE_BUCKET = registerReactantBucket(Reactants.Rossinite, Fluids.ROSSINITE_SOURCE);
 
         //endregion
         //region moderators
 
-        public static final Supplier<BucketItem> CRYOMISI_BUCKET = registerBucket("cryomisi_bucket", Fluids.CRYOMISI_SOURCE);
+        public static final Supplier<TintedBucketItem> CRYOMISI_BUCKET = registerTintedBucket("cryomisi_bucket", Fluids.CRYOMISI_SOURCE);
 
-        public static final Supplier<BucketItem> TANGERIUM_BUCKET = registerBucket("tangerium_bucket", Fluids.TANGERIUM_SOURCE);
+        public static final Supplier<TintedBucketItem> TANGERIUM_BUCKET = registerTintedBucket("tangerium_bucket", Fluids.TANGERIUM_SOURCE);
 
-        public static final Supplier<BucketItem> REDFRIGIUM_BUCKET = registerBucket("redfrigium_bucket", Fluids.REDFRIGIUM_SOURCE);
+        public static final Supplier<TintedBucketItem> REDFRIGIUM_BUCKET = registerTintedBucket("redfrigium_bucket", Fluids.REDFRIGIUM_SOURCE);
 
         //endregion
         //endregion
@@ -694,16 +695,27 @@ public final class Content {
         }
 
         private static Supplier<BlockItem> registerItemBlock(final String name,
-                                                                   final Supplier<Supplier<ModBlock>> blockSupplier) {
+                                                             final Supplier<Supplier<ModBlock>> blockSupplier) {
             return ITEMS.register(name,
                     () -> blockSupplier.get().get().createBlockItem(new Item.Properties().stacksTo(64)));
         }
 
-        private static Supplier<BucketItem> registerBucket(String name,
-                                                           Supplier<? extends Fluid> sourceFluid) {
-            return ITEMS.register(name, () -> new BucketItem(sourceFluid.get(), new Item.Properties()
+        private static Supplier<TintedBucketItem> registerTintedBucket(String name,
+                                                                       Supplier<? extends Fluid> sourceFluid) {
+            return ITEMS.register(name, () -> new TintedBucketItem(sourceFluid.get(), bucketProperties()));
+        }
+
+        private static Supplier<TintedBucketItem> registerReactantBucket(Reactants reactant,
+                                                                         Supplier<? extends Fluid> sourceFluid) {
+            return ITEMS.register(reactant.getBucketName(),
+                    () -> new TintedBucketItem(sourceFluid.get(), bucketProperties(),
+                            (stack, tintIndex) -> 1 == tintIndex ? 0xFF000000 | reactant.getColour() : 0xFFFFFFFF));
+        }
+
+        private static Item.Properties bucketProperties() {
+            return new Item.Properties()
                     .craftRemainder(net.minecraft.world.item.Items.BUCKET)
-                    .stacksTo(1)));
+                    .stacksTo(1);
         }
 
         //endregion
@@ -1136,8 +1148,8 @@ public final class Content {
         @SuppressWarnings("ConstantConditions")
         @SafeVarargs
         private static <T extends BlockEntity> Supplier<BlockEntityType<T>> registerBlockEntity(final String name,
-                                                                                                      final BlockEntityType.BlockEntitySupplier<T> factory,
-                                                                                                      final Supplier<Supplier<Block>>... validBlockSuppliers) {
+                                                                                                final BlockEntityType.BlockEntitySupplier<T> factory,
+                                                                                                final Supplier<Supplier<Block>>... validBlockSuppliers) {
             return TILE_ENTITIES.register(name, () -> {
 
                 final Block[] validBlocks = new Block[validBlockSuppliers.length];
