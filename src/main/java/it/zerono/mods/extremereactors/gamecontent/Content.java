@@ -67,6 +67,7 @@ import it.zerono.mods.zerocore.lib.data.IoMode;
 import it.zerono.mods.zerocore.lib.energy.EnergySystem;
 import it.zerono.mods.zerocore.lib.fluid.SimpleFluidTypeRenderProperties;
 import it.zerono.mods.zerocore.lib.item.ModItem;
+import it.zerono.mods.zerocore.lib.item.TintedBucketItem;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
 import it.zerono.mods.zerocore.lib.recipe.ModRecipe;
 import it.zerono.mods.zerocore.lib.recipe.ModRecipeType;
@@ -556,25 +557,25 @@ public final class Content {
         //endregion
         //region fluids
 
-        public static final RegistryObject<BucketItem> STEAM_BUCKET = registerBucket("steam_bucket", Fluids.STEAM_SOURCE);
+        public static final RegistryObject<TintedBucketItem> STEAM_BUCKET = registerTintedBucket("steam_bucket", Fluids.STEAM_SOURCE);
 
         //region reactants
 
-        public static final RegistryObject<BucketItem> YELLORIUM_BUCKET = registerBucket(Reactants.Yellorium.getBucketName(), Fluids.YELLORIUM_SOURCE);
-        public static final RegistryObject<BucketItem> CYANITE_BUCKET = registerBucket(Reactants.Cyanite.getBucketName(), Fluids.CYANITE_SOURCE);
-        public static final RegistryObject<BucketItem> BLUTONIUM_BUCKET = registerBucket(Reactants.Blutonium.getBucketName(), Fluids.BLUTONIUM_SOURCE);
-        public static final RegistryObject<BucketItem> MAGENTITE_BUCKET = registerBucket(Reactants.Magentite.getBucketName(), Fluids.MAGENTITE_SOURCE);
-        public static final RegistryObject<BucketItem> VERDERIUM_BUCKET = registerBucket(Reactants.Verderium.getBucketName(), Fluids.VERDERIUM_SOURCE);
-        public static final RegistryObject<BucketItem> ROSSINITE_BUCKET = registerBucket(Reactants.Rossinite.getBucketName(), Fluids.ROSSINITE_SOURCE);
+        public static final RegistryObject<TintedBucketItem> YELLORIUM_BUCKET = registerReactantBucket(Reactants.Yellorium, Fluids.YELLORIUM_SOURCE);
+        public static final RegistryObject<TintedBucketItem> CYANITE_BUCKET = registerReactantBucket(Reactants.Cyanite, Fluids.CYANITE_SOURCE);
+        public static final RegistryObject<TintedBucketItem> BLUTONIUM_BUCKET = registerReactantBucket(Reactants.Blutonium, Fluids.BLUTONIUM_SOURCE);
+        public static final RegistryObject<TintedBucketItem> MAGENTITE_BUCKET = registerReactantBucket(Reactants.Magentite, Fluids.MAGENTITE_SOURCE);
+        public static final RegistryObject<TintedBucketItem> VERDERIUM_BUCKET = registerReactantBucket(Reactants.Verderium, Fluids.VERDERIUM_SOURCE);
+        public static final RegistryObject<TintedBucketItem> ROSSINITE_BUCKET = registerReactantBucket(Reactants.Rossinite, Fluids.ROSSINITE_SOURCE);
 
         //endregion
         //region moderators
 
-        public static final RegistryObject<BucketItem> CRYOMISI_BUCKET = registerBucket("cryomisi_bucket", Fluids.CRYOMISI_SOURCE);
+        public static final RegistryObject<TintedBucketItem> CRYOMISI_BUCKET = registerTintedBucket("cryomisi_bucket", Fluids.CRYOMISI_SOURCE);
 
-        public static final RegistryObject<BucketItem> TANGERIUM_BUCKET = registerBucket("tangerium_bucket", Fluids.TANGERIUM_SOURCE);
+        public static final RegistryObject<TintedBucketItem> TANGERIUM_BUCKET = registerTintedBucket("tangerium_bucket", Fluids.TANGERIUM_SOURCE);
 
-        public static final RegistryObject<BucketItem> REDFRIGIUM_BUCKET = registerBucket("redfrigium_bucket", Fluids.REDFRIGIUM_SOURCE);
+        public static final RegistryObject<TintedBucketItem> REDFRIGIUM_BUCKET = registerTintedBucket("redfrigium_bucket", Fluids.REDFRIGIUM_SOURCE);
 
         //endregion
         //endregion
@@ -692,10 +693,22 @@ public final class Content {
                     () -> blockSupplier.get().get().createBlockItem(new Item.Properties().stacksTo(64)));
         }
 
-        private static RegistryObject<BucketItem> registerBucket(final String name, final Supplier<? extends Fluid> sourceFluid) {
-            return ITEMS.register(name, () -> new BucketItem(sourceFluid, new Item.Properties()
+        private static RegistryObject<TintedBucketItem> registerTintedBucket(String name,
+                                                                       Supplier<? extends Fluid> sourceFluid) {
+            return ITEMS.register(name, () -> new TintedBucketItem(sourceFluid.get(), bucketProperties()));
+        }
+
+        private static RegistryObject<TintedBucketItem> registerReactantBucket(Reactants reactant,
+                                                                         Supplier<? extends Fluid> sourceFluid) {
+            return ITEMS.register(reactant.getBucketName(),
+                    () -> new TintedBucketItem(sourceFluid.get(), bucketProperties(),
+                            (stack, tintIndex) -> 1 == tintIndex ? 0xFF000000 | reactant.getColour() : 0xFFFFFFFF));
+        }
+
+        private static Item.Properties bucketProperties() {
+            return new Item.Properties()
                     .craftRemainder(net.minecraft.world.item.Items.BUCKET)
-                    .stacksTo(1)));
+                    .stacksTo(1);
         }
 
         //endregion

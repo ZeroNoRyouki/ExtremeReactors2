@@ -67,6 +67,7 @@ import it.zerono.mods.zerocore.lib.CodeHelper;
 import it.zerono.mods.zerocore.lib.client.model.ICustomModelBuilder;
 import it.zerono.mods.zerocore.lib.client.model.ModBakedModelSupplier;
 import it.zerono.mods.zerocore.lib.compat.Mods;
+import it.zerono.mods.zerocore.lib.item.TintedBucketItem;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.gui.screens.Screen;
@@ -161,10 +162,21 @@ public class ClientProxy
     }
 
     @SubscribeEvent
-    public void onColorHandlerEvent(final RegisterColorHandlersEvent.Block event) {
+    public void onRegisterBlockColorHandlers(RegisterColorHandlersEvent.Block event) {
         event.register(new ReactorFuelRodBlockColor(),
                 Content.Blocks.REACTOR_FUELROD_BASIC.get(),
                 Content.Blocks.REACTOR_FUELROD_REINFORCED.get());
+    }
+
+    @SubscribeEvent
+    public void onRegisterItemColorHandlers(RegisterColorHandlersEvent.Item event) {
+        event.register(TintedBucketItem::getTintColour,
+                Content.Items.YELLORIUM_BUCKET.get(), Content.Items.CYANITE_BUCKET.get(),
+                Content.Items.BLUTONIUM_BUCKET.get(), Content.Items.MAGENTITE_BUCKET.get(),
+                Content.Items.VERDERIUM_BUCKET.get(), Content.Items.ROSSINITE_BUCKET.get(),
+                Content.Items.STEAM_BUCKET.get(),
+                Content.Items.CRYOMISI_BUCKET.get(), Content.Items.TANGERIUM_BUCKET.get(),
+                Content.Items.REDFRIGIUM_BUCKET.get());
     }
 
     //region IProxy
