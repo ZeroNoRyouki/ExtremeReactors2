@@ -81,46 +81,46 @@ public class TurbineRedstonePortScreen
                     .build()
                 .addSensor(TurbineSensorType.inputFlowRegulator, CommonIcons.ButtonSensorInputFlowRegulator, CommonIcons.ButtonSensorInputFlowRegulatorActive)
                     .addBehavior(SensorBehavior.SetFromSignal)
-                        .addNumberField("gui.bigreactors.turbine.redstoneport.sensortype.inputflowregulator.whileon",
+                        .addNumberField("gui.bigreactors.turbine.redstoneport.sensortype.inputflowregulator.whileon.label",
                         "inputFlowRegulatorWhileOn", " mB/t", this::configureFlowRegulatorInput)
-                        .addNumberField("gui.bigreactors.turbine.redstoneport.sensortype.inputflowregulator.whileoff",
+                        .addNumberField("gui.bigreactors.turbine.redstoneport.sensortype.inputflowregulator.whileoff.label",
                         "inputFlowRegulatorWhileOff", " mB/t", this::configureFlowRegulatorInput)
                         .build()
                     .addInputLessBehavior(SensorBehavior.SetFromSignalLevel)
                     .addBehavior(SensorBehavior.SetOnPulse)
-                        .addNumberField("gui.bigreactors.turbine.redstoneport.sensortype.inputflowregulator.setto",
+                        .addNumberField("gui.bigreactors.turbine.redstoneport.sensortype.inputflowregulator.setto.label",
                         "inputFlowRegulatorSetTo", " mB/t", this::configureFlowRegulatorInput)
                         .build()
                     .addBehavior(SensorBehavior.AugmentOnPulse)
-                        .addNumberField("gui.bigreactors.turbine.redstoneport.sensortype.inputflowregulator.insertby",
+                        .addNumberField("gui.bigreactors.turbine.redstoneport.sensortype.inputflowregulator.insertby.label",
                                 "inputFlowRegulatorInsertBy", " mB/t", this::configureFlowRegulatorInput)
                         .build()
                     .addBehavior(SensorBehavior.ReduceOnPulse)
-                        .addNumberField("gui.bigreactors.turbine.redstoneport.sensortype.inputflowregulator.retractby",
+                        .addNumberField("gui.bigreactors.turbine.redstoneport.sensortype.inputflowregulator.retractby.label",
                                 "inputFlowRegulatorRetractBy", " mB/t", this::configureFlowRegulatorInput)
                         .build()
                 .build()
                 .addSeparator()
                 .addSensor(TurbineSensorType.outputRotorSpeed, CommonIcons.ButtonSensorOutputRotorSpeed, CommonIcons.ButtonSensorOutputRotorSpeedActive)
-                    .addStandardOutputBehaviorsNumbers(" RPM", "gui.bigreactors.turbine.redstoneport.sensortype.outputrotorspeed.speed",
-                            "gui.bigreactors.turbine.redstoneport.sensortype.outputrotorspeed.speed",
-                            "gui.bigreactors.turbine.redstoneport.sensortype.outputrotorspeed.speed.min",
-                            "gui.bigreactors.turbine.redstoneport.sensortype.outputrotorspeed.speed.max")
+                    .addStandardOutputBehaviorsNumbers(" RPM", "gui.bigreactors.turbine.redstoneport.sensortype.outputrotorspeed.speed.label",
+                            "gui.bigreactors.turbine.redstoneport.sensortype.outputrotorspeed.speed.label",
+                            "gui.bigreactors.turbine.redstoneport.sensortype.outputrotorspeed.speed.min.label",
+                            "gui.bigreactors.turbine.redstoneport.sensortype.outputrotorspeed.speed.max.label")
                 .addSensor(TurbineSensorType.outputCoolantAmount, CommonIcons.ButtonSensorOutputCoolantAmount, CommonIcons.ButtonSensorOutputCoolantAmountActive)
-                    .addStandardOutputBehaviorsNumbers(" mB", "gui.bigreactors.generator.redstoneport.sensortype.datalabel.amount",
-                            "gui.bigreactors.generator.redstoneport.sensortype.datalabel.amount",
-                            "gui.bigreactors.generator.redstoneport.sensortype.datalabel.amount.min",
-                            "gui.bigreactors.generator.redstoneport.sensortype.datalabel.amount.max")
+                    .addStandardOutputBehaviorsNumbers(" mB", "gui.bigreactors.generator.redstoneport.sensortype.amount.label",
+                            "gui.bigreactors.generator.redstoneport.sensortype.amount.label",
+                            "gui.bigreactors.generator.redstoneport.sensortype.amount.min.label",
+                            "gui.bigreactors.generator.redstoneport.sensortype.amount.max.label")
                 .addSensor(TurbineSensorType.outputVaporAmount, CommonIcons.ButtonSensorOutputVaporAmount, CommonIcons.ButtonSensorOutputVaporAmountActive)
-                    .addStandardOutputBehaviorsNumbers(" mB", "gui.bigreactors.generator.redstoneport.sensortype.datalabel.amount",
-                            "gui.bigreactors.generator.redstoneport.sensortype.datalabel.amount",
-                            "gui.bigreactors.generator.redstoneport.sensortype.datalabel.amount.min",
-                            "gui.bigreactors.generator.redstoneport.sensortype.datalabel.amount.max")
+                    .addStandardOutputBehaviorsNumbers(" mB", "gui.bigreactors.generator.redstoneport.sensortype.amount.label",
+                            "gui.bigreactors.generator.redstoneport.sensortype.amount.label",
+                            "gui.bigreactors.generator.redstoneport.sensortype.amount.min.label",
+                            "gui.bigreactors.generator.redstoneport.sensortype.amount.max.label")
                 .addSensor(TurbineSensorType.outputEnergyAmount, CommonIcons.ButtonSensorOutputEnergyAmount, CommonIcons.ButtonSensorOutputEnergyAmountActive)
-                    .addStandardOutputBehaviorsPercentages("gui.bigreactors.generator.redstoneport.sensortype.datalabel.bufferfilling",
-                            "gui.bigreactors.generator.redstoneport.sensortype.datalabel.bufferfilling",
-                            "gui.bigreactors.generator.redstoneport.sensortype.datalabel.bufferfilling.min",
-                            "gui.bigreactors.generator.redstoneport.sensortype.datalabel.bufferfilling.max")
+                    .addStandardOutputBehaviorsPercentages("gui.bigreactors.generator.redstoneport.sensortype.bufferfilling.label",
+                            "gui.bigreactors.generator.redstoneport.sensortype.bufferfilling.label",
+                            "gui.bigreactors.generator.redstoneport.sensortype.bufferfilling.min.label",
+                            "gui.bigreactors.generator.redstoneport.sensortype.bufferfilling.max.label")
                 .build();
     }
 

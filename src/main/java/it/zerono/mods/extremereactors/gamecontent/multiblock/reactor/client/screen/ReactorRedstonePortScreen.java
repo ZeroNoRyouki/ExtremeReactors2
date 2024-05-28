@@ -93,38 +93,38 @@ public class ReactorRedstonePortScreen
                     .build()
                 .addSeparator()
                 .addSensor(ReactorSensorType.outputCasingTemperature, CommonIcons.ButtonSensorOutputCasingTemperature, CommonIcons.ButtonSensorOutputCasingTemperatureActive)
-                    .addStandardOutputBehaviorsNumbers(" C", "gui.bigreactors.generator.redstoneport.sensortype.datalabel.temperature",
-                            "gui.bigreactors.generator.redstoneport.sensortype.datalabel.temperature",
-                            "gui.bigreactors.generator.redstoneport.sensortype.datalabel.temperature.min",
-                            "gui.bigreactors.generator.redstoneport.sensortype.datalabel.temperature.max")
+                    .addStandardOutputBehaviorsNumbers(" C", "gui.bigreactors.reactor.redstoneport.sensortype.temperature.label",
+                            "gui.bigreactors.reactor.redstoneport.sensortype.temperature.label",
+                            "gui.bigreactors.reactor.redstoneport.sensortype.temperature.min.label",
+                            "gui.bigreactors.reactor.redstoneport.sensortype.temperature.max.label")
                 .addSensor(ReactorSensorType.outputFuelTemperature, CommonIcons.ButtonSensorOutputFuelTemperature, CommonIcons.ButtonSensorOutputFuelTemperatureActive)
-                    .addStandardOutputBehaviorsNumbers(" C", "gui.bigreactors.generator.redstoneport.sensortype.datalabel.temperature",
-                            "gui.bigreactors.generator.redstoneport.sensortype.datalabel.temperature",
-                            "gui.bigreactors.generator.redstoneport.sensortype.datalabel.temperature.min",
-                            "gui.bigreactors.generator.redstoneport.sensortype.datalabel.temperature.max")
+                    .addStandardOutputBehaviorsNumbers(" C", "gui.bigreactors.reactor.redstoneport.sensortype.temperature.label",
+                            "gui.bigreactors.reactor.redstoneport.sensortype.temperature.label",
+                            "gui.bigreactors.reactor.redstoneport.sensortype.temperature.min.label",
+                            "gui.bigreactors.reactor.redstoneport.sensortype.temperature.max.label")
                 .addSensor(ReactorSensorType.outputFuelRichness, CommonIcons.ButtonSensorOutputFuelMix, CommonIcons.ButtonSensorOutputFuelMixActive)
-                    .addStandardOutputBehaviorsPercentages("gui.bigreactors.generator.redstoneport.sensortype.datalabel.richness",
-                            "gui.bigreactors.generator.redstoneport.sensortype.datalabel.richness",
-                            "gui.bigreactors.generator.redstoneport.sensortype.datalabel.richness.min",
-                            "gui.bigreactors.generator.redstoneport.sensortype.datalabel.richness.max")
+                    .addStandardOutputBehaviorsPercentages("gui.bigreactors.reactor.redstoneport.sensortype.richness.label",
+                            "gui.bigreactors.reactor.redstoneport.sensortype.richness.label",
+                            "gui.bigreactors.reactor.redstoneport.sensortype.richness.min.label",
+                            "gui.bigreactors.reactor.redstoneport.sensortype.richness.max.label")
                 .addSensor(ReactorSensorType.outputFuelAmount, CommonIcons.ButtonSensorOutputFuelAmount, CommonIcons.ButtonSensorOutputFuelAmountActive)
-                    .addStandardOutputBehaviorsNumbers(" mB", "gui.bigreactors.generator.redstoneport.sensortype.datalabel.amount",
-                            "gui.bigreactors.generator.redstoneport.sensortype.datalabel.amount",
-                            "gui.bigreactors.generator.redstoneport.sensortype.datalabel.amount.min",
-                            "gui.bigreactors.generator.redstoneport.sensortype.datalabel.amount.max")
+                    .addStandardOutputBehaviorsNumbers(" mB", "gui.bigreactors.generator.redstoneport.sensortype.amount.label",
+                            "gui.bigreactors.generator.redstoneport.sensortype.amount.label",
+                            "gui.bigreactors.generator.redstoneport.sensortype.amount.min.label",
+                            "gui.bigreactors.generator.redstoneport.sensortype.amount.max.label")
                 .addSensor(ReactorSensorType.outputWasteAmount, CommonIcons.ButtonSensorOutputWasteAmount, CommonIcons.ButtonSensorOutputWasteAmountActive)
-                    .addStandardOutputBehaviorsNumbers(" mB", "gui.bigreactors.generator.redstoneport.sensortype.datalabel.amount",
-                        "gui.bigreactors.generator.redstoneport.sensortype.datalabel.amount",
-                        "gui.bigreactors.generator.redstoneport.sensortype.datalabel.amount.min",
-                        "gui.bigreactors.generator.redstoneport.sensortype.datalabel.amount.max");
+                    .addStandardOutputBehaviorsNumbers(" mB", "gui.bigreactors.generator.redstoneport.sensortype.amount.label",
+                        "gui.bigreactors.generator.redstoneport.sensortype.amount.label",
+                        "gui.bigreactors.generator.redstoneport.sensortype.amount.min.label",
+                        "gui.bigreactors.generator.redstoneport.sensortype.amount.max.label");
 
         if (this.getMenu().isReactorInPassiveMode()) {
 
             builder.addSensor(ReactorSensorType.outputEnergyAmount, CommonIcons.ButtonSensorOutputEnergyAmount, CommonIcons.ButtonSensorOutputEnergyAmountActive)
-                    .addStandardOutputBehaviorsPercentages("gui.bigreactors.generator.redstoneport.sensortype.datalabel.bufferfilling",
-                            "gui.bigreactors.generator.redstoneport.sensortype.datalabel.bufferfilling",
-                            "gui.bigreactors.generator.redstoneport.sensortype.datalabel.bufferfilling.min",
-                            "gui.bigreactors.generator.redstoneport.sensortype.datalabel.bufferfilling.max");
+                    .addStandardOutputBehaviorsPercentages("gui.bigreactors.generator.redstoneport.sensortype.bufferfilling.label",
+                            "gui.bigreactors.generator.redstoneport.sensortype.bufferfilling.label",
+                            "gui.bigreactors.generator.redstoneport.sensortype.bufferfilling.min.label",
+                            "gui.bigreactors.generator.redstoneport.sensortype.bufferfilling.max.label");
 
         } else {
 
