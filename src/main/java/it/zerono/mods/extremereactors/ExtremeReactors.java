@@ -136,7 +136,7 @@ public class ExtremeReactors implements IModInitializationHandler {
     }
 
     private void onRegisterCommands(final RegisterCommandsEvent event) {
-        ExtremeReactorsCommand.register(event.getDispatcher());
+        ExtremeReactorsCommand.register(event.getDispatcher(), event.getBuildContext());
     }
 
     private static ExtremeReactors s_instance;
