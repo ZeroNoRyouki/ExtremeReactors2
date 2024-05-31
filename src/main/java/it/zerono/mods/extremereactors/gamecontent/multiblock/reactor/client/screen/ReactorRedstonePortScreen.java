@@ -129,15 +129,15 @@ public class ReactorRedstonePortScreen
         } else {
 
             builder.addSensor(ReactorSensorType.outputCoolantAmount, CommonIcons.ButtonSensorOutputCoolantAmount, CommonIcons.ButtonSensorOutputCoolantAmountActive)
-                        .addStandardOutputBehaviorsNumbers(" mB", "gui.bigreactors.generator.redstoneport.sensortype.datalabel.amount",
-                            "gui.bigreactors.generator.redstoneport.sensortype.datalabel.amount",
-                            "gui.bigreactors.generator.redstoneport.sensortype.datalabel.amount.min",
-                            "gui.bigreactors.generator.redstoneport.sensortype.datalabel.amount.max")
+                        .addStandardOutputBehaviorsNumbers(" mB", "gui.bigreactors.generator.redstoneport.sensortype.amount.label",
+                            "gui.bigreactors.generator.redstoneport.sensortype.amount.label",
+                            "gui.bigreactors.generator.redstoneport.sensortype.amount.min.label",
+                            "gui.bigreactors.generator.redstoneport.sensortype.amount.max.label")
                     .addSensor(ReactorSensorType.outputVaporAmount, CommonIcons.ButtonSensorOutputVaporAmount, CommonIcons.ButtonSensorOutputVaporAmountActive)
-                        .addStandardOutputBehaviorsNumbers(" mB", "gui.bigreactors.generator.redstoneport.sensortype.datalabel.amount",
-                            "gui.bigreactors.generator.redstoneport.sensortype.datalabel.amount",
-                            "gui.bigreactors.generator.redstoneport.sensortype.datalabel.amount.min",
-                            "gui.bigreactors.generator.redstoneport.sensortype.datalabel.amount.max");
+                        .addStandardOutputBehaviorsNumbers(" mB", "gui.bigreactors.generator.redstoneport.sensortype.amount.label",
+                            "gui.bigreactors.generator.redstoneport.sensortype.amount.label",
+                            "gui.bigreactors.generator.redstoneport.sensortype.amount.min.label",
+                            "gui.bigreactors.generator.redstoneport.sensortype.amount.max.label");
         }
 
         builder.build();
