@@ -29,11 +29,13 @@ import it.zerono.mods.zerocore.base.multiblock.part.io.power.charging.IChargingP
 import it.zerono.mods.zerocore.lib.IActivableMachine;
 import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockVariantProvider;
 import it.zerono.mods.zerocore.lib.client.gui.ButtonState;
+import it.zerono.mods.zerocore.lib.client.gui.DesiredDimension;
 import it.zerono.mods.zerocore.lib.client.gui.IControl;
 import it.zerono.mods.zerocore.lib.client.gui.control.Button;
 import it.zerono.mods.zerocore.lib.client.gui.control.Panel;
 import it.zerono.mods.zerocore.lib.client.gui.control.Picture;
 import it.zerono.mods.zerocore.lib.client.gui.layout.FixedLayoutEngine;
+import it.zerono.mods.zerocore.lib.client.gui.layout.VerticalLayoutEngine;
 import it.zerono.mods.zerocore.lib.data.IoDirection;
 import it.zerono.mods.zerocore.lib.item.inventory.PlayerInventoryUsage;
 import it.zerono.mods.zerocore.lib.multiblock.IMultiblockMachine;
@@ -84,9 +86,13 @@ public abstract class AbstractChargingPortScreen<Controller extends AbstractGene
 
         super.onScreenCreate();
 
+        this.setContentLayoutEngine(new VerticalLayoutEngine()
+                .setZeroMargins()
+                .setControlsSpacing(4));
+
         final Panel panel = new Panel(this);
 
-        panel.setLayoutEngineHint(FixedLayoutEngine.hint(31, 0, 162, 64));
+        panel.setDesiredDimension(DesiredDimension.Width, 162);
         this.addControl(panel);
 
         // I/O slots & commands
@@ -107,10 +113,7 @@ public abstract class AbstractChargingPortScreen<Controller extends AbstractGene
 
         // player inventory
 
-        this._playerInventoryGroup.setLayoutEngineHint(FixedLayoutEngine.hint(31, 63));
         this.addControl(this._playerInventoryGroup);
-
-        this._playerHotBarGroup.setLayoutEngineHint(FixedLayoutEngine.hint(31, 121));
         this.addControl(this._playerHotBarGroup);
     }
 

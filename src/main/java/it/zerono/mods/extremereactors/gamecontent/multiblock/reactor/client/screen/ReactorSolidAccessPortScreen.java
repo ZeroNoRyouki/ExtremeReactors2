@@ -32,6 +32,7 @@ import it.zerono.mods.zerocore.base.client.screen.BaseScreenToolTipsBuilder;
 import it.zerono.mods.zerocore.base.client.screen.ClientBaseHelper;
 import it.zerono.mods.zerocore.base.client.screen.control.MachineStatusIndicator;
 import it.zerono.mods.zerocore.lib.client.gui.ButtonState;
+import it.zerono.mods.zerocore.lib.client.gui.DesiredDimension;
 import it.zerono.mods.zerocore.lib.client.gui.IControl;
 import it.zerono.mods.zerocore.lib.client.gui.control.Button;
 import it.zerono.mods.zerocore.lib.client.gui.control.Panel;
@@ -39,6 +40,7 @@ import it.zerono.mods.zerocore.lib.client.gui.control.SlotsGroup;
 import it.zerono.mods.zerocore.lib.client.gui.control.SwitchPictureButton;
 import it.zerono.mods.zerocore.lib.client.gui.layout.FixedLayoutEngine;
 import it.zerono.mods.zerocore.lib.client.gui.layout.FlowLayoutEngine;
+import it.zerono.mods.zerocore.lib.client.gui.layout.VerticalLayoutEngine;
 import it.zerono.mods.zerocore.lib.client.gui.sprite.ISprite;
 import it.zerono.mods.zerocore.lib.client.render.ModRenderHelper;
 import it.zerono.mods.zerocore.lib.data.geometry.Point;
@@ -119,8 +121,8 @@ public class ReactorSolidAccessPortScreen
 
         this._buttonsPanel = this.buttonsPanel(inputDirection, outputDirection, dumpFuel, dumpWaste);
 
-        this._fuelInputGroup = this.slotPanel("fuelinput", ReactantType.Fuel, 79, 0, CommonIcons.PortInputSlot);
-        this._wasteOutputGroup = this.slotPanel("wasteoutput", ReactantType.Waste, 129, 0, CommonIcons.PortOutputSlot);
+        this._fuelInputGroup = this.slotPanel("fuelinput", ReactantType.Fuel, SQUARE_BUTTON_DIMENSION * 4, 20, CommonIcons.PortInputSlot);
+        this._wasteOutputGroup = this.slotPanel("wasteoutput", ReactantType.Waste, SQUARE_BUTTON_DIMENSION * 7, 20, CommonIcons.PortOutputSlot);
         this._playerInventoryGroup = this.createPlayerInventorySlotsGroupControl();
         this._playerHotBarGroup = this.createPlayerHotBarSlotsGroupControl();
     }
@@ -141,9 +143,13 @@ public class ReactorSolidAccessPortScreen
 
         super.onScreenCreate();
 
+        this.setContentLayoutEngine(new VerticalLayoutEngine()
+                .setZeroMargins()
+                .setControlsSpacing(4));
+
         final Panel panel = new Panel(this, "solidaccessport");
 
-        panel.setLayoutEngineHint(FixedLayoutEngine.hint(21, 13, 168, 38));
+        panel.setDesiredDimension(DesiredDimension.Width, 162);
         panel.addControl(this._fuelInputGroup);
         panel.addControl(this._wasteOutputGroup);
         panel.addControl(this._buttonsPanel);
@@ -191,7 +197,7 @@ public class ReactorSolidAccessPortScreen
         p.setDesiredDimension(SQUARE_BUTTON_DIMENSION * 2 + 2,
                 SQUARE_BUTTON_DIMENSION * 2 + 2 + SQUARE_BUTTON_DIMENSION * 2);
 
-        p.setLayoutEngineHint(FixedLayoutEngine.hint(15, 0, SQUARE_BUTTON_DIMENSION * 2 + 2, SQUARE_BUTTON_DIMENSION * 2 + 2));
+        p.setLayoutEngineHint(FixedLayoutEngine.hint(0, 10, SQUARE_BUTTON_DIMENSION * 2 + 2, SQUARE_BUTTON_DIMENSION * 2 + 2));
         p.setCustomBackgroundPainter((panel, matrix) -> {
 
             final Point xy = panel.controlToScreen(0, 0);
@@ -214,7 +220,7 @@ public class ReactorSolidAccessPortScreen
         return p;
     }
 
-    private Panel slotPanel(final String groupName, final ReactantType reactant, final int x, final int y,
+    private Panel slotPanel(final String groupName, final ReactantType reactant, final int slotX, final int slotY,
                             final NonNullSupplier<ISprite> slotBackground) {
 
         final SlotsGroup sg = this.createSingleSlotGroupControl(groupName, reactant.name());
@@ -223,7 +229,7 @@ public class ReactorSolidAccessPortScreen
         sg.setLayoutEngineHint(FixedLayoutEngine.hint(10, 10, SQUARE_BUTTON_DIMENSION, SQUARE_BUTTON_DIMENSION));
 
         p.setBackground(slotBackground.get());
-        p.setLayoutEngineHint(FixedLayoutEngine.hint(x, y, 38, 38));
+        p.setLayoutEngineHint(FixedLayoutEngine.hint(slotX - 10, slotY - 10, 38, 38));
         p.addControl(sg);
 
         return p;
