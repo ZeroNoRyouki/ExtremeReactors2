@@ -23,9 +23,9 @@ import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.model.data.ModelTransformers;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.MultiblockReactor;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.WasteEjectionSetting;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.container.ReactorControllerContainer;
 import it.zerono.mods.zerocore.lib.IDebugMessages;
 import it.zerono.mods.zerocore.lib.block.TileCommandDispatcher;
-import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
 import it.zerono.mods.zerocore.lib.network.INetworkTileEntitySyncProvider;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -177,7 +177,7 @@ public class ReactorControllerEntity
     @Nullable
     @Override
     public Container createMenu(final int windowId, final PlayerInventory inventory, final PlayerEntity player) {
-        return ModTileContainer.empty(Content.ContainerTypes.REACTOR_CONTROLLER.get(), windowId, this, (ServerPlayerEntity)player);
+        return new ReactorControllerContainer(windowId, inventory, this);
     }
 
     @Override

@@ -18,40 +18,46 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.common.container;
 
+import it.zerono.mods.extremereactors.gamecontent.multiblock.common.AbstractGeneratorMultiblockController;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.common.variant.IMultiblockGeneratorVariant;
+import it.zerono.mods.zerocore.base.multiblock.part.AbstractMultiblockEntity;
 import it.zerono.mods.zerocore.base.multiblock.part.io.power.charging.IChargingPort;
+import it.zerono.mods.zerocore.lib.IActivableMachine;
 import it.zerono.mods.zerocore.lib.block.AbstractModBlockEntity;
+import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockVariantProvider;
 import it.zerono.mods.zerocore.lib.data.IoDirection;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ContainerFactory;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModContainer;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
+import it.zerono.mods.zerocore.lib.item.inventory.container.data.BooleanData;
 import it.zerono.mods.zerocore.lib.item.inventory.container.slot.SlotTemplate;
 import it.zerono.mods.zerocore.lib.item.inventory.container.slot.type.SlotType;
+import it.zerono.mods.zerocore.lib.multiblock.IMultiblockMachine;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.ContainerType;
+import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.network.PacketBuffer;
 
-public class ChargingPortContainer<T extends AbstractModBlockEntity & IChargingPort>
+public class ChargingPortContainer<Controller extends AbstractGeneratorMultiblockController<Controller, V> & IMultiblockMachine & IActivableMachine,
+        V extends IMultiblockGeneratorVariant,
+        T extends AbstractMultiblockEntity<Controller> & IChargingPort & IMultiblockVariantProvider<V> & INamedContainerProvider>
         extends ModTileContainer<T> {
 
-    public static final ContainerFactory FACTORY = new ContainerFactory() {
-        /**
-         * Override in your derived class to add your slots to the factory
-         * <p>
-         * Keep in mind that this is called during object construction
-         */
-        @Override
-        protected void onAddSlots() {
+    public final BooleanData ACTIVE;
 
-            this.addStandardPlayerInventorySlots(0, 0);
-            this.addSlot(0, IoDirection.Input.name(), new SlotTemplate(SlotType.Input, (index, stack) -> true), 0, 0);
-            this.addSlot(0, IoDirection.Output.name(), new SlotTemplate(SlotType.Output), 0, 0);
-        }
-    };
-
-    public ChargingPortContainer(final int windowId, final ContainerType<? extends ModTileContainer<T>> type,
+    public ChargingPortContainer(final int windowId, final ContainerType<? extends ChargingPortContainer<Controller, V, T>> type,
                                  final PlayerInventory playerInventory, final T port) {
 
-        super(FACTORY, type, windowId, port);
+        super(5, new ContainerFactory()
+                .addStandardPlayerInventorySlots(0, 0)
+                .addSlot(0, IoDirection.Input.name(), new SlotTemplate(SlotType.Input, (index, stack) -> true), 0, 0)
+                .addSlot(0, IoDirection.Output.name(), new SlotTemplate(SlotType.Output), 0, 0), type, windowId, port);
+
+        final Controller controller = port.getMultiblockController().orElseThrow(IllegalStateException::new);
+
+        // don't use method refs here to avoid LambdaConversionExceptions
+        //noinspection Convert2MethodRef
+        this.ACTIVE = BooleanData.of(this, controller.getWorld().isClientSide(), () -> () -> controller.isMachineActive());
 
         this.addInventory(IoDirection.Input.name(), port.getChargingPortHandler().getItemStackHandler(IoDirection.Input));
         this.addInventory(IoDirection.Output.name(), port.getChargingPortHandler().getItemStackHandler(IoDirection.Output));
@@ -59,7 +65,7 @@ public class ChargingPortContainer<T extends AbstractModBlockEntity & IChargingP
         this.createSlots();
     }
 
-    public ChargingPortContainer(final int windowId, final ContainerType<? extends ModTileContainer<T>> type,
+    public ChargingPortContainer(final int windowId, final ContainerType<? extends ChargingPortContainer<Controller, V, T>> type,
                                  final PlayerInventory playerInventory, final PacketBuffer networkData) {
         this(windowId, type, playerInventory, AbstractModBlockEntity.getGuiClientBlockEntity(networkData));
     }

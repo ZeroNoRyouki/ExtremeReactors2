@@ -1,6 +1,6 @@
 /*
  *
- * IMachineReader.java
+ * package-info.java
  *
  * This file is part of Extreme Reactors 2 by ZeroNoRyouki, a Minecraft mod.
  *
@@ -16,13 +16,4 @@
  *
  */
 
-package it.zerono.mods.extremereactors.gamecontent.multiblock;
-
-import net.minecraft.world.World;
-
-public interface IMachineReader {
-
-    World getWorld();
-
-    boolean isMachineActive();
-}
+package it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.container.data;

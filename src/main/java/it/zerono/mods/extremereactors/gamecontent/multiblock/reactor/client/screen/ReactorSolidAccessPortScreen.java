@@ -22,21 +22,25 @@ import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.api.reactor.ReactantType;
 import it.zerono.mods.extremereactors.gamecontent.CommonConstants;
 import it.zerono.mods.extremereactors.gamecontent.compat.patchouli.PatchouliCompat;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.AbstractMultiblockScreen;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.CommonIcons;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.CommonMultiblockScreen;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.MultiblockReactor;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.container.ReactorSolidAccessPortContainer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part.ReactorSolidAccessPortEntity;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.ReactorVariant;
+import it.zerono.mods.zerocore.base.client.screen.BaseScreenToolTipsBuilder;
+import it.zerono.mods.zerocore.base.client.screen.ClientBaseHelper;
+import it.zerono.mods.zerocore.base.client.screen.control.MachineStatusIndicator;
 import it.zerono.mods.zerocore.lib.client.gui.ButtonState;
+import it.zerono.mods.zerocore.lib.client.gui.DesiredDimension;
 import it.zerono.mods.zerocore.lib.client.gui.IControl;
 import it.zerono.mods.zerocore.lib.client.gui.control.Button;
 import it.zerono.mods.zerocore.lib.client.gui.control.Panel;
 import it.zerono.mods.zerocore.lib.client.gui.control.SlotsGroup;
 import it.zerono.mods.zerocore.lib.client.gui.control.SwitchPictureButton;
-import it.zerono.mods.zerocore.lib.client.gui.databind.BindingGroup;
-import it.zerono.mods.zerocore.lib.client.gui.databind.MonoConsumerBinding;
 import it.zerono.mods.zerocore.lib.client.gui.layout.FixedLayoutEngine;
+import it.zerono.mods.zerocore.lib.client.gui.layout.FlowLayoutEngine;
+import it.zerono.mods.zerocore.lib.client.gui.layout.VerticalLayoutEngine;
 import it.zerono.mods.zerocore.lib.client.gui.sprite.ISprite;
 import it.zerono.mods.zerocore.lib.client.render.ModRenderHelper;
 import it.zerono.mods.zerocore.lib.data.geometry.Point;
@@ -45,31 +49,90 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.util.NonNullSupplier;
 
-import java.util.function.Consumer;
-import java.util.function.Function;
-
-import static it.zerono.mods.zerocore.lib.CodeHelper.TEXT_EMPTY_LINE;
+import static it.zerono.mods.zerocore.base.client.screen.ClientBaseHelper.SQUARE_BUTTON_DIMENSION;
 
 public class ReactorSolidAccessPortScreen
-        extends AbstractMultiblockScreen<MultiblockReactor, ReactorSolidAccessPortEntity, ReactorSolidAccessPortContainer> {
+        extends CommonMultiblockScreen<MultiblockReactor, ReactorSolidAccessPortEntity, ReactorSolidAccessPortContainer> {
 
     public ReactorSolidAccessPortScreen(final ReactorSolidAccessPortContainer container,
                                         final PlayerInventory inventory, final ITextComponent title) {
 
         super(container, inventory, PlayerInventoryUsage.Both, title,
                 mainTextureFromVariant(container.getTileEntity().getMultiblockVariant().orElse(ReactorVariant.Basic)));
-        this._bindings = new BindingGroup();
 
-        this._btnInputDirection = new SwitchPictureButton(this, "directionInput", false, "direction");
-        this._btnOutputDirection = new SwitchPictureButton(this, "directionOutput", false, "direction");
-        this._btnDumpFuel = new Button(this, "dumpFuel", "");
-        this._btnDumpWaste = new Button(this, "dumpWaste", "");
+        this.addPatchouliHelpButton(PatchouliCompat.HANDBOOK_ID, ExtremeReactors.newID("reactor/part-solidaccessport"), 1);
+
+        final SwitchPictureButton inputDirection, outputDirection;
+        final Button dumpFuel, dumpWaste;
+
+        inputDirection = new SwitchPictureButton(this, "directionInput", false, "direction");
+        inputDirection.setDesiredDimension(16, 16);
+        ClientBaseHelper.setButtonSpritesAndOverlayForState(inputDirection, ButtonState.Default, CommonIcons.ButtonInputDirection);
+        ClientBaseHelper.setButtonSpritesAndOverlayForState(inputDirection, ButtonState.Active, CommonIcons.ButtonInputDirectionActive);
+        inputDirection.Activated.subscribe(this::onInputActivated);
+        inputDirection.setTooltips(new BaseScreenToolTipsBuilder()
+                .addTranslatableAsTitle("gui.bigreactors.reactor.solidaccessport.directioninput.tooltip.title")
+                .addEmptyLine()
+                .addTranslatable("gui.bigreactors.reactor.solidaccessport.directioninput.tooltip.body")
+        );
+
+        outputDirection = new SwitchPictureButton(this, "directionOutput", false, "direction");
+        outputDirection.setDesiredDimension(16, 16);
+        ClientBaseHelper.setButtonSpritesAndOverlayForState(outputDirection, ButtonState.Default, CommonIcons.ButtonOutputDirection);
+        ClientBaseHelper.setButtonSpritesAndOverlayForState(outputDirection, ButtonState.Active, CommonIcons.ButtonOutputDirectionActive);
+        outputDirection.Activated.subscribe(this::onOutputActivated);
+        outputDirection.setTooltips(new BaseScreenToolTipsBuilder()
+                .addTranslatableAsTitle("gui.bigreactors.reactor.solidaccessport.directionoutput.tooltip.title")
+                .addEmptyLine()
+                .addTranslatable("gui.bigreactors.reactor.solidaccessport.directionoutput.tooltip.body")
+        );
+
+        container.DIRECTION.bind(direction -> {
+
+            inputDirection.setActive(direction.isInput());
+            outputDirection.setActive(direction.isOutput());
+        });
+
+        dumpFuel = new Button(this, "dumpFuel", "");
+        dumpFuel.setDesiredDimension(16, 16);
+        dumpFuel.setPadding(0);
+        dumpFuel.setIconForState(CommonIcons.ButtonDumpFuel.get(), ButtonState.Default);
+        dumpFuel.setIconForState(CommonIcons.ButtonDumpFuelActive.get(), ButtonState.Active, ButtonState.ActiveHighlighted, ButtonState.DefaultHighlighted);
+        dumpFuel.Clicked.subscribe(this::onDumpFuel);
+        dumpFuel.setTooltips(new BaseScreenToolTipsBuilder()
+                .addTranslatableAsTitle("gui.bigreactors.reactor.solidaccessport.dumpfuel.tooltip.title")
+                .addEmptyLine()
+                .addTranslatable("gui.bigreactors.reactor.solidaccessport.dumpfuel.tooltip.body")
+        );
+
+        dumpWaste = new Button(this, "dumpWaste", "");
+        dumpWaste.setDesiredDimension(16, 16);
+        dumpWaste.setPadding(0);
+        dumpWaste.setIconForState(CommonIcons.ButtonDumpWaste.get(), ButtonState.Default);
+        dumpWaste.setIconForState(CommonIcons.ButtonDumpWasteActive.get(), ButtonState.Active, ButtonState.ActiveHighlighted, ButtonState.DefaultHighlighted);
+        dumpWaste.Clicked.subscribe(this::onDumpWaste);
+        dumpWaste.setTooltips(new BaseScreenToolTipsBuilder()
+                .addTranslatableAsTitle("gui.bigreactors.reactor.solidaccessport.dumpwaste.tooltip.title")
+                .addEmptyLine()
+                .addTranslatable("gui.bigreactors.reactor.solidaccessport.dumpwaste.tooltip.body")
+        );
+
+        this._buttonsPanel = this.buttonsPanel(inputDirection, outputDirection, dumpFuel, dumpWaste);
+
+        this._fuelInputGroup = this.slotPanel("fuelinput", ReactantType.Fuel, SQUARE_BUTTON_DIMENSION * 4, 20, CommonIcons.PortInputSlot);
+        this._wasteOutputGroup = this.slotPanel("wasteoutput", ReactantType.Waste, SQUARE_BUTTON_DIMENSION * 7, 20, CommonIcons.PortOutputSlot);
+        this._playerInventoryGroup = this.createPlayerInventorySlotsGroupControl();
+        this._playerHotBarGroup = this.createPlayerHotBarSlotsGroupControl();
     }
 
     //region AbstractMultiblockScreen
+
+    @Override
+    protected MachineStatusIndicator createStatusIndicator(ReactorSolidAccessPortContainer container) {
+        return this.createReactorStatusIndicator(container.ACTIVE);
+    }
 
     /**
      * Called when this screen is being created for the first time.
@@ -78,99 +141,25 @@ public class ReactorSolidAccessPortScreen
     @Override
     protected void onScreenCreate() {
 
-        this.addPatchouliHelpButton(PatchouliCompat.HANDBOOK_ID, ExtremeReactors.newID("reactor/part-solidaccessport"), 1);
-
         super.onScreenCreate();
 
-        final Panel panel = new Panel(this, "solidaccessport");
-        SlotsGroup slotsGroup;
+        this.setContentLayoutEngine(new VerticalLayoutEngine()
+                .setZeroMargins()
+                .setControlsSpacing(4));
 
-        panel.setLayoutEngineHint(FixedLayoutEngine.hint(21, 13, 168, 38));
+        final Panel panel = new Panel(this, "solidaccessport");
+
+        panel.setDesiredDimension(DesiredDimension.Width, 162);
+        panel.addControl(this._fuelInputGroup);
+        panel.addControl(this._wasteOutputGroup);
+        panel.addControl(this._buttonsPanel);
         this.addControl(panel);
 
-        // - fuel input slot
-        panel.addControl(this.slotPanel("fuelinput", ReactantType.Fuel, 79, 0, CommonIcons.PortInputSlot));
+        this._playerInventoryGroup.setLayoutEngineHint(FixedLayoutEngine.hint(31, 63));
+        this.addControl(this._playerInventoryGroup);
 
-        // - waste output slot
-        panel.addControl(this.slotPanel("wasteoutput", ReactantType.Waste, 129, 0, CommonIcons.PortOutputSlot));
-
-        // - player main inventory slots
-        slotsGroup = this.createPlayerInventorySlotsGroupControl();
-        slotsGroup.setLayoutEngineHint(FixedLayoutEngine.hint(31, 63));
-        this.addControl(slotsGroup);
-
-        // - player hotbar slots
-        slotsGroup = this.createPlayerHotBarSlotsGroupControl();
-        slotsGroup.setLayoutEngineHint(FixedLayoutEngine.hint(31, 121));
-        this.addControl(slotsGroup);
-
-        // - input direction button
-
-        this.setButtonSpritesAndOverlayForState(this._btnInputDirection, ButtonState.Default, CommonIcons.ButtonInputDirection);
-        this.setButtonSpritesAndOverlayForState(this._btnInputDirection, ButtonState.Active, CommonIcons.ButtonInputDirectionActive);
-        this._btnInputDirection.Activated.subscribe(this::onInputActivated);
-        this._btnInputDirection.setTooltips(
-                new TranslationTextComponent("gui.bigreactors.reactor.solidaccessport.directioninput.line1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
-                TEXT_EMPTY_LINE,
-                new TranslationTextComponent("gui.bigreactors.reactor.solidaccessport.directioninput.line2")
-        );
-
-        // - output direction button
-        this.setButtonSpritesAndOverlayForState(this._btnOutputDirection, ButtonState.Default, CommonIcons.ButtonOutputDirection);
-        this.setButtonSpritesAndOverlayForState(this._btnOutputDirection, ButtonState.Active, CommonIcons.ButtonOutputDirectionActive);
-        this._btnOutputDirection.Activated.subscribe(this::onOutputActivated);
-        this._btnOutputDirection.setTooltips(
-                new TranslationTextComponent("gui.bigreactors.reactor.solidaccessport.directionoutput.line1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
-                TEXT_EMPTY_LINE,
-                new TranslationTextComponent("gui.bigreactors.reactor.solidaccessport.directionoutput.line2")
-        );
-
-        this.addBinding(ReactorSolidAccessPortContainer::getIoDirection, value -> {
-
-            this._btnInputDirection.setActive(value.isInput());
-            this._btnOutputDirection.setActive(value.isOutput());
-        });
-
-        // - dump fuel command button
-
-        this._btnDumpFuel.setPadding(0);
-        this._btnDumpFuel.setIconForState(CommonIcons.ButtonDumpFuel.get(), ButtonState.Default);
-        this._btnDumpFuel.setIconForState(CommonIcons.ButtonDumpFuelActive.get(), ButtonState.Active, ButtonState.ActiveHighlighted, ButtonState.DefaultHighlighted);
-        this._btnDumpFuel.Clicked.subscribe(this::onDumpFuel);
-        this._btnDumpFuel.setTooltips(
-                new TranslationTextComponent("gui.bigreactors.reactor.solidaccessport.dumpfuel.line1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
-                TEXT_EMPTY_LINE,
-                new TranslationTextComponent("gui.bigreactors.reactor.solidaccessport.dumpfuel.line2"),
-                new TranslationTextComponent("gui.bigreactors.reactor.solidaccessport.dumpfuel.line3"),
-                new TranslationTextComponent("gui.bigreactors.reactor.solidaccessport.dumpfuel.line4")
-        );
-
-        // - dump waste command button
-
-        this._btnDumpWaste.setPadding(0);
-        this._btnDumpWaste.setIconForState(CommonIcons.ButtonDumpWaste.get(), ButtonState.Default);
-        this._btnDumpWaste.setIconForState(CommonIcons.ButtonDumpWasteActive.get(), ButtonState.Active, ButtonState.ActiveHighlighted, ButtonState.DefaultHighlighted);
-        this._btnDumpWaste.Clicked.subscribe(this::onDumpWaste);
-        this._btnDumpWaste.setTooltips(
-                new TranslationTextComponent("gui.bigreactors.reactor.solidaccessport.dumpwaste.line1").setStyle(CommonConstants.STYLE_TOOLTIP_TITLE),
-                TEXT_EMPTY_LINE,
-                new TranslationTextComponent("gui.bigreactors.reactor.solidaccessport.dumpwaste.line2"),
-                new TranslationTextComponent("gui.bigreactors.reactor.solidaccessport.dumpwaste.line3"),
-                new TranslationTextComponent("gui.bigreactors.reactor.solidaccessport.dumpwaste.line4")
-        );
-
-        panel.addControl(this.buttonsPanel(this._btnInputDirection, this._btnOutputDirection, this._btnDumpFuel, this._btnDumpWaste));
-    }
-
-    /**
-     * Called when this screen need to be updated after the TileEntity data changed.
-     * Override to handle this event
-     */
-    @Override
-    protected void onDataUpdated() {
-
-        super.onDataUpdated();
-        this._bindings.update();;
+        this._playerHotBarGroup.setLayoutEngineHint(FixedLayoutEngine.hint(31, 121));
+        this.addControl(this._playerHotBarGroup);
     }
 
     //endregion
@@ -200,64 +189,57 @@ public class ReactorSolidAccessPortScreen
         this.sendCommandToServer(CommonConstants.COMMAND_DUMP_WASTE, options);
     }
 
-    private <Value> void addBinding(final Function<ReactorSolidAccessPortContainer, Value> supplier, final Consumer<Value> consumer) {
-        this._bindings.addBinding(new MonoConsumerBinding<>(this.getMenu(), supplier, consumer));
-    }
-
     private Panel buttonsPanel(final IControl setInput, final IControl setOutput,
                                final IControl dumpFuel, final IControl dumpWaste) {
 
         final Panel p = new Panel(this);
 
-        p.setLayoutEngineHint(FixedLayoutEngine.hint(15, 0, 18 * 2 + 2, 18 * 2 + 2));
+        p.setDesiredDimension(SQUARE_BUTTON_DIMENSION * 2 + 2,
+                SQUARE_BUTTON_DIMENSION * 2 + 2 + SQUARE_BUTTON_DIMENSION * 2);
+
+        p.setLayoutEngineHint(FixedLayoutEngine.hint(0, 10, SQUARE_BUTTON_DIMENSION * 2 + 2, SQUARE_BUTTON_DIMENSION * 2 + 2));
         p.setCustomBackgroundPainter((panel, matrix) -> {
 
             final Point xy = panel.controlToScreen(0, 0);
             final ISprite border = CommonIcons.ImageButtonBorder.get();
             final int z = (int)panel.getGui().getZLevel();
 
-            ModRenderHelper.paintSprite(matrix, border, xy.X, xy.Y, z, 18, 18);
-            ModRenderHelper.paintSprite(matrix, border, xy.X + 20, xy.Y, z, 18, 18);
-            ModRenderHelper.paintSprite(matrix, border, xy.X, xy.Y + 20, z, 18, 18);
-            ModRenderHelper.paintSprite(matrix, border, xy.X + 20, xy.Y + 20, z, 18, 18);
+            ModRenderHelper.paintSprite(matrix, border, xy.X, xy.Y, z, SQUARE_BUTTON_DIMENSION, SQUARE_BUTTON_DIMENSION);
+            ModRenderHelper.paintSprite(matrix, border, xy.X + 2 + SQUARE_BUTTON_DIMENSION, xy.Y, z, SQUARE_BUTTON_DIMENSION, SQUARE_BUTTON_DIMENSION);
+            ModRenderHelper.paintSprite(matrix, border, xy.X, xy.Y + 2 + SQUARE_BUTTON_DIMENSION, z, SQUARE_BUTTON_DIMENSION, SQUARE_BUTTON_DIMENSION);
+            ModRenderHelper.paintSprite(matrix, border, xy.X + 2 + SQUARE_BUTTON_DIMENSION, xy.Y + 2 + SQUARE_BUTTON_DIMENSION, z, SQUARE_BUTTON_DIMENSION, SQUARE_BUTTON_DIMENSION);
         });
 
-        setInput.setLayoutEngineHint(FixedLayoutEngine.hint(1, 1, 16, 16));
-        p.addControl(setInput);
+        p.setLayoutEngine(new FlowLayoutEngine()
+                .setZeroMargins()
+                .setVerticalMargin(1)
+                .setHorizontalMargin(1)
+                .setControlsSpacing(4));
 
-        setOutput.setLayoutEngineHint(FixedLayoutEngine.hint(21, 1, 16, 16));
-        p.addControl(setOutput);
-
-        dumpFuel.setLayoutEngineHint(FixedLayoutEngine.hint(1, 21, 16, 16));
-        p.addControl(dumpFuel);
-
-        dumpWaste.setLayoutEngineHint(FixedLayoutEngine.hint(21, 21, 16, 16));
-        p.addControl(dumpWaste);
-
+        p.addControl(setInput, setOutput, dumpFuel, dumpWaste);
         return p;
     }
 
-    private Panel slotPanel(final String groupName, final ReactantType reactant, final int x, final int y,
+    private Panel slotPanel(final String groupName, final ReactantType reactant, final int slotX, final int slotY,
                             final NonNullSupplier<ISprite> slotBackground) {
 
         final SlotsGroup sg = this.createSingleSlotGroupControl(groupName, reactant.name());
         final Panel p = new Panel(this);
 
-        sg.setLayoutEngineHint(FixedLayoutEngine.hint(10, 10, 18, 18));
+        sg.setLayoutEngineHint(FixedLayoutEngine.hint(10, 10, SQUARE_BUTTON_DIMENSION, SQUARE_BUTTON_DIMENSION));
 
         p.setBackground(slotBackground.get());
-        p.setLayoutEngineHint(FixedLayoutEngine.hint(x, y, 38, 38));
+        p.setLayoutEngineHint(FixedLayoutEngine.hint(slotX - 10, slotY - 10, 38, 38));
         p.addControl(sg);
 
         return p;
     }
 
-    private final BindingGroup _bindings;
-
-    private final SwitchPictureButton _btnInputDirection;
-    private final SwitchPictureButton _btnOutputDirection;
-    private final Button _btnDumpFuel;
-    private final Button _btnDumpWaste;
+    private final IControl _buttonsPanel;
+    private final IControl _fuelInputGroup;
+    private final IControl _wasteOutputGroup;
+    private final IControl _playerInventoryGroup;
+    private final IControl _playerHotBarGroup;
 
     //endregion
 }

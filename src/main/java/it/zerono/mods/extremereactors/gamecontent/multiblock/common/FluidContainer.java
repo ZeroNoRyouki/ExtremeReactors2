@@ -31,6 +31,8 @@ import it.zerono.mods.zerocore.lib.data.stack.IndexedStackContainer;
 import it.zerono.mods.zerocore.lib.data.stack.OperationMode;
 import it.zerono.mods.zerocore.lib.data.stack.StackAdapters;
 import it.zerono.mods.zerocore.lib.fluid.handler.IndexedFluidHandlerForwarder;
+import it.zerono.mods.zerocore.lib.item.inventory.container.ModContainer;
+import it.zerono.mods.zerocore.lib.item.inventory.container.data.FluidStackData;
 import it.zerono.mods.zerocore.lib.tag.TagsHelper;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.nbt.CompoundNBT;
@@ -184,7 +186,7 @@ public class FluidContainer
     @Override
     public boolean isContentValidForIndex(final FluidType index, final Fluid content) {
 
-        // check if the the current content mach the provided one
+        // check if the current content mach the provided one
 
         final TestResult result = TestResult.from(this.getContent(index)
                 .map(fluid -> fluid.isSame(content)));
@@ -218,6 +220,16 @@ public class FluidContainer
     @Override
     public <T> T mapVapor(Function<Vapor, T> mapper, T defaultValue) {
         return (null == this._cachedVapor || Vapor.EMPTY == this._cachedVapor) ? defaultValue : mapper.apply(this._cachedVapor);
+    }
+
+    @Override
+    public FluidStackData getCoolantStackData(int sampleFrequency, ModContainer container, boolean isClientSide) {
+        return FluidStackData.sampled(sampleFrequency, container, isClientSide, () -> () -> this.getStack(FluidType.Liquid));
+    }
+
+    @Override
+    public FluidStackData getVaporStackData(int sampleFrequency, ModContainer container, boolean isClientSide) {
+        return FluidStackData.sampled(sampleFrequency, container, isClientSide, () -> () -> this.getStack(FluidType.Gas));
     }
 
     //region Reactor UPDATE logic

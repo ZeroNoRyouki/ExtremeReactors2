@@ -111,17 +111,25 @@ public class Reactant
     //region Object
 
     @Override
-    public boolean equals(final Object obj) {
+    public boolean equals(final Object other) {
 
-        if ((obj instanceof Reactant) && super.equals(obj)) {
-
-            final Reactant other = (Reactant)obj;
-
-            return this.test(other.getType()) &&
-                    this.getColour() == other.getColour();
+        if (this == other) {
+            return true;
         }
 
-        return false;
+        if (!(other instanceof Reactant) || !super.equals(other)) {
+            return false;
+        }
+
+        final Reactant reactant = (Reactant) other;
+
+        return this._type == reactant._type && Objects.equals(this._colour, reactant._colour) &&
+                Objects.equals(this._fuelData, reactant._fuelData);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), this._type, this._colour, this._fuelData);
     }
 
     //endregion

@@ -21,16 +21,19 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part;
 import it.zerono.mods.extremereactors.config.Config;
 import it.zerono.mods.extremereactors.gamecontent.CommonConstants;
 import it.zerono.mods.extremereactors.gamecontent.Content;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.IReactorReader;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.IReactorWriter;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.MultiblockReactor;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.container.ReactorRedstonePortContainer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.sensor.ReactorSensorSetting;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.sensor.ReactorSensorType;
+import it.zerono.mods.zerocore.base.redstone.sensor.ISensorSettingHolder;
 import it.zerono.mods.zerocore.lib.block.INeighborChangeListener;
 import it.zerono.mods.zerocore.lib.block.TileCommandDispatcher;
-import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
 import it.zerono.mods.zerocore.lib.multiblock.ITickableMultiblockPart;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.nbt.CompoundNBT;
@@ -44,7 +47,8 @@ import javax.annotation.Nullable;
 
 public class ReactorRedstonePortEntity
         extends AbstractReactorEntity
-        implements INeighborChangeListener, ITickableMultiblockPart, INamedContainerProvider {
+        implements INeighborChangeListener, ITickableMultiblockPart, INamedContainerProvider,
+                    ISensorSettingHolder<IReactorReader, IReactorWriter, ReactorSensorType, ReactorSensorSetting> {
 
     public ReactorRedstonePortEntity() {
 
@@ -61,15 +65,11 @@ public class ReactorRedstonePortEntity
                 .build(this));
     }
 
-    public ReactorSensorSetting getSettings() {
-        return this._setting;
-    }
-
     /**
      * @return the level of power emitted by this port
      */
     public int getOutputSignalPower() {
-        return this.getSettings().Sensor.isOutput() && this.isRedstoneActive() ? 15 : 0;
+        return this.getSensorSetting().Sensor.isOutput() && this.isRedstoneActive() ? 15 : 0;
     }
 
     /**
@@ -79,6 +79,14 @@ public class ReactorRedstonePortEntity
         return this._isLit;
     }
 
+    //region ISensorSettingHolder<IReactorReader, IReactorWriter, ReactorSensorType, ReactorSensorSetting>
+
+    @Override
+    public ReactorSensorSetting getSensorSetting() {
+        return this._setting;
+    }
+
+    //endregion
     //region INeighborChangeListener
 
     /**
@@ -94,7 +102,7 @@ public class ReactorRedstonePortEntity
             return;
         }
 
-        if (this.getSettings().Sensor.isInput()) {
+        if (this.getSensorSetting().Sensor.isInput()) {
 
             this.getOutwardDirection()
                     .map(direction -> this.getRedstonePowerLevelFrom(this.getWorldPosition().relative(direction), direction))
@@ -149,7 +157,7 @@ public class ReactorRedstonePortEntity
     @Nullable
     @Override
     public Container createMenu(final int windowId, final PlayerInventory inventory, final PlayerEntity player) {
-        return ModTileContainer.empty(Content.ContainerTypes.REACTOR_REDSTONEPORT.get(), windowId, this, (ServerPlayerEntity)player);
+        return new ReactorRedstonePortContainer(windowId, inventory, this);
     }
 
     @Override
@@ -185,7 +193,7 @@ public class ReactorRedstonePortEntity
 
         super.syncDataTo(data, syncReason);
 
-        data.put("setting", this.getSettings().syncDataTo(new CompoundNBT()));
+        data.put("setting", this.getSensorSetting().syncDataTo(new CompoundNBT()));
         data.putBoolean("lit", this._isLit);
 
         return data;
@@ -248,7 +256,7 @@ public class ReactorRedstonePortEntity
 
     protected boolean isRedstoneActive() {
 
-        final ReactorSensorSetting settings = this.getSettings();
+        final ReactorSensorSetting settings = this.getSensorSetting();
 
         return settings.Sensor.isOutput() ?
                 this.getMultiblockController().map(settings::test).orElse(false) :
@@ -259,7 +267,7 @@ public class ReactorRedstonePortEntity
      * Called to do business logic when the redstone value has changed
       */
     private void onRedstoneInputUpdated() {
-        this.getMultiblockController().ifPresent(c -> this.getSettings().inputAction(c, this._isExternallyPowered, this._externalPowerLevel));
+        this.getMultiblockController().ifPresent(c -> this.getSensorSetting().inputAction(c, this._isExternallyPowered, this._externalPowerLevel));
     }
 
     private void updateRedstoneStateAndNotify() {
@@ -340,7 +348,7 @@ public class ReactorRedstonePortEntity
      * @return the lit state
      */
     protected boolean updateLitState() {
-        return this._isLit = (this.getSettings().Sensor.isOutput() && this.isRedstoneActive()) || this._isExternallyPowered;
+        return this._isLit = (this.getSensorSetting().Sensor.isOutput() && this.isRedstoneActive()) || this._isExternallyPowered;
     }
 
     //endregion

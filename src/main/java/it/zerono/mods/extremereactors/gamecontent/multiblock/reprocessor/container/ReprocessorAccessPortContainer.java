@@ -19,11 +19,14 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.container;
 
 import it.zerono.mods.extremereactors.gamecontent.Content;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.MultiblockReprocessor;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.part.ReprocessorAccessPortEntity;
 import it.zerono.mods.zerocore.lib.block.AbstractModBlockEntity;
+import it.zerono.mods.zerocore.lib.data.IoDirection;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ContainerFactory;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModContainer;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
+import it.zerono.mods.zerocore.lib.item.inventory.container.data.BooleanData;
 import it.zerono.mods.zerocore.lib.item.inventory.container.slot.SlotTemplate;
 import it.zerono.mods.zerocore.lib.item.inventory.container.slot.type.SlotType;
 import net.minecraft.entity.player.PlayerInventory;
@@ -32,12 +35,19 @@ import net.minecraft.network.PacketBuffer;
 public class ReprocessorAccessPortContainer
         extends ModTileContainer<ReprocessorAccessPortEntity> {
 
+    public final BooleanData ACTIVE;
+
     public ReprocessorAccessPortContainer(final int windowId, final PlayerInventory playerInventory,
                                           final ReprocessorAccessPortEntity port) {
 
-        super(factoryFor(port), Content.ContainerTypes.REPROCESSOR_ACCESSPORT.get(), windowId, port);
+        super(5, factoryFor(port), Content.ContainerTypes.REPROCESSOR_ACCESSPORT.get(), windowId, port);
 
-        this.addInventory("inv", port.getItemInventory(port.getDirection()));
+        final MultiblockReprocessor reprocessor = port.getMultiblockController().orElseThrow(IllegalStateException::new);
+
+        this.ACTIVE = BooleanData.of(this, reprocessor.getWorld().isClientSide(), () -> reprocessor::isMachineActive);
+        this._direction = port.getDirection();
+
+        this.addInventory("inv", port.getItemInventory(this._direction));
         this.addInventory(ModContainer.INVENTORYNAME_PLAYER_INVENTORY, playerInventory);
         this.createSlots();
     }
@@ -45,6 +55,10 @@ public class ReprocessorAccessPortContainer
     public ReprocessorAccessPortContainer(final int windowId, final PlayerInventory playerInventory,
                                           final PacketBuffer networkData) {
         this(windowId, playerInventory, AbstractModBlockEntity.getGuiClientBlockEntity(networkData));
+    }
+
+    public IoDirection getDirection() {
+        return this._direction;
     }
 
     //region internals
@@ -63,6 +77,11 @@ public class ReprocessorAccessPortContainer
 
         return factory;
     }
+
+    //endregion
+    //region internals
+
+    private final IoDirection _direction;
 
     //endregion
 }

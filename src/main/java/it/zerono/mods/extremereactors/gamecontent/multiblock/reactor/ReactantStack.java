@@ -29,7 +29,9 @@ import it.zerono.mods.extremereactors.api.reactor.ReactantsRegistry;
 import it.zerono.mods.zerocore.lib.CodeHelper;
 import it.zerono.mods.zerocore.lib.data.nbt.ISyncableEntity;
 import it.zerono.mods.zerocore.lib.data.stack.IStackAdapter;
+import net.minecraft.item.Item;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
 
 import java.util.List;
@@ -72,6 +74,34 @@ public class ReactantStack
         stack.syncDataFrom(data, SyncReason.FullSync);
 
         return stack.isEmpty() ? ReactantStack.EMPTY : stack;
+    }
+
+    public static ReactantStack createFrom(final PacketBuffer data) {
+
+        if (!data.readBoolean()) {
+            return ReactantStack.EMPTY;
+        }
+
+        final int amount = data.readInt();
+        final String name = data.readUtf(1024);
+
+        return ReactantsRegistry.get(name)
+                .map(reactant -> new ReactantStack(reactant, amount))
+                .orElse(ReactantStack.EMPTY);
+    }
+
+    public void writeTo(final PacketBuffer data) {
+
+        if (this.isEmpty()) {
+
+            data.writeBoolean(false);
+
+        } else {
+
+            data.writeBoolean(true);
+            data.writeInt(this._amount);
+            data.writeUtf(this._reactant.getName());
+        }
     }
 
     public static boolean areIdentical(final ReactantStack stack1, final ReactantStack stack2) {
