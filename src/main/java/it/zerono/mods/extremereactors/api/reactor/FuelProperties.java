@@ -18,6 +18,8 @@ package it.zerono.mods.extremereactors.api.reactor;
 
 import net.minecraft.util.Mth;
 
+import java.util.Objects;
+
 /**
  * Describe the properties of a Fuel {@link Reactant}
  */
@@ -87,13 +89,42 @@ public class FuelProperties {
         this._fuelUnitsPerFissionEvent = Math.max(0.0f, value);
     }
 
+    //region Object
+
+    @Override
+    public boolean equals(Object other) {
+
+        if (this == other) {
+            return true;
+        }
+
+        if (!(other instanceof FuelProperties)) {
+            return false;
+        }
+
+        final FuelProperties properties = (FuelProperties) other;
+
+        return 0 == Float.compare(this._fuelModerationFactor, properties._fuelModerationFactor) &&
+                0 == Float.compare(this._fuelAbsorptionCoefficient, properties._fuelAbsorptionCoefficient) &&
+                0 == Float.compare(this._fuelHardnessDivisor, properties._fuelHardnessDivisor) &&
+                0 == Float.compare(this._fissionEventsPerFuelUnit, properties._fissionEventsPerFuelUnit) &&
+                0 == Float.compare(this._fuelUnitsPerFissionEvent, properties._fuelUnitsPerFissionEvent);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this._fuelModerationFactor, this._fuelAbsorptionCoefficient, this._fuelHardnessDivisor,
+                this._fissionEventsPerFuelUnit, this._fuelUnitsPerFissionEvent);
+    }
+
+    //endregion
     //region internals
 
     private float _fuelModerationFactor;
     private float _fuelAbsorptionCoefficient;
     private float _fuelHardnessDivisor;
-    private float _fissionEventsPerFuelUnit; //FISSION_EVENTS_PER_FUEL_UNIT 0.01f
-    private float _fuelUnitsPerFissionEvent; //FUEL_PER_RADIATION_UNIT 0.0007f
+    private float _fissionEventsPerFuelUnit;
+    private float _fuelUnitsPerFissionEvent;
 
     //endregion
 }

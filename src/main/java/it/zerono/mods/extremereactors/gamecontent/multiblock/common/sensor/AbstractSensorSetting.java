@@ -18,7 +18,10 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.common.sensor;
 
-import it.zerono.mods.extremereactors.gamecontent.multiblock.IMachineReader;
+import it.zerono.mods.zerocore.base.redstone.sensor.ISensorType;
+import it.zerono.mods.zerocore.base.redstone.sensor.InputSensorAction;
+import it.zerono.mods.zerocore.base.redstone.sensor.SensorBehavior;
+import it.zerono.mods.zerocore.lib.IMachineReader;
 import it.zerono.mods.zerocore.lib.data.nbt.NBTHelper;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraftforge.common.util.NonNullPredicate;
@@ -72,7 +75,7 @@ public abstract class AbstractSensorSetting<Reader extends IMachineReader, Write
      */
     @Override
     public boolean test(final Reader reader) {
-        return this.Sensor.isOutput() && this.Behavior.outputTest(this.Sensor.apply(reader), this.Value1, this.Value2);
+        return this.Sensor.isOutput() && this.Behavior.outputTest(this.Sensor.applyAsInt(reader), this.Value1, this.Value2);
     }
 
     //endregion

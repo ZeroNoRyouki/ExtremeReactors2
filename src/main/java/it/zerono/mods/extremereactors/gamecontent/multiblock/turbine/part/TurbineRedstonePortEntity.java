@@ -21,17 +21,20 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part;
 import it.zerono.mods.extremereactors.config.Config;
 import it.zerono.mods.extremereactors.gamecontent.CommonConstants;
 import it.zerono.mods.extremereactors.gamecontent.Content;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.ITurbineReader;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.ITurbineWriter;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.MultiblockTurbine;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.container.TurbineRedstonePortContainer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.sensor.TurbineSensorSetting;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.sensor.TurbineSensorType;
+import it.zerono.mods.zerocore.base.redstone.sensor.ISensorSettingHolder;
 import it.zerono.mods.zerocore.lib.block.INeighborChangeListener;
 import it.zerono.mods.zerocore.lib.block.TileCommandDispatcher;
-import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
 import it.zerono.mods.zerocore.lib.multiblock.ITickableMultiblockPart;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
@@ -44,7 +47,8 @@ import javax.annotation.Nullable;
 
 public class TurbineRedstonePortEntity
         extends AbstractTurbineEntity
-        implements INeighborChangeListener, ITickableMultiblockPart, MenuProvider {
+        implements INeighborChangeListener, ITickableMultiblockPart, MenuProvider,
+                    ISensorSettingHolder<ITurbineReader, ITurbineWriter, TurbineSensorType, TurbineSensorSetting> {
 
     public TurbineRedstonePortEntity(final BlockPos position, final BlockState blockState) {
 
@@ -61,15 +65,11 @@ public class TurbineRedstonePortEntity
                 .build(this));
     }
 
-    public TurbineSensorSetting getSettings() {
-        return this._setting;
-    }
-
     /**
      * @return the level of power emitted by this port
      */
     public int getOutputSignalPower() {
-        return this.getSettings().Sensor.isOutput() && this.isRedstoneActive() ? 15 : 0;
+        return this.getSensorSetting().Sensor.isOutput() && this.isRedstoneActive() ? 15 : 0;
     }
 
     /**
@@ -79,6 +79,14 @@ public class TurbineRedstonePortEntity
         return this._isLit;
     }
 
+    //region ISensorSettingHolder<ITurbineReader, ITurbineWriter, TurbineSensorType, TurbineSensorSetting>
+
+    @Override
+    public TurbineSensorSetting getSensorSetting() {
+        return this._setting;
+    }
+
+    //endregion
     //region INeighborChangeListener
 
     /**
@@ -94,7 +102,7 @@ public class TurbineRedstonePortEntity
             return;
         }
 
-        if (this.getSettings().Sensor.isInput()) {
+        if (this.getSensorSetting().Sensor.isInput()) {
 
             this.getOutwardDirection()
                     .map(direction -> this.getRedstonePowerLevelFrom(this.getWorldPosition().relative(direction), direction))
@@ -149,7 +157,7 @@ public class TurbineRedstonePortEntity
     @Nullable
     @Override
     public AbstractContainerMenu createMenu(final int windowId, final Inventory inventory, final Player player) {
-        return ModTileContainer.empty(Content.ContainerTypes.TURBINE_REDSTONEPORT.get(), windowId, this, (ServerPlayer)player);
+        return new TurbineRedstonePortContainer(windowId, inventory, this);
     }
 
     @Override
@@ -185,7 +193,7 @@ public class TurbineRedstonePortEntity
 
         super.syncDataTo(data, syncReason);
 
-        data.put("setting", this.getSettings().syncDataTo(new CompoundTag()));
+        data.put("setting", this.getSensorSetting().syncDataTo(new CompoundTag()));
         data.putBoolean("lit", this._isLit);
 
         return data;
@@ -248,7 +256,7 @@ public class TurbineRedstonePortEntity
 
     protected boolean isRedstoneActive() {
 
-        final TurbineSensorSetting settings = this.getSettings();
+        final TurbineSensorSetting settings = this.getSensorSetting();
 
         return settings.Sensor.isOutput() ?
                 this.getMultiblockController().map(settings::test).orElse(false) :
@@ -259,7 +267,7 @@ public class TurbineRedstonePortEntity
      * Called to do business logic when the redstone value has changed
      */
     private void onRedstoneInputUpdated() {
-        this.getMultiblockController().ifPresent(c -> this.getSettings().inputAction(c, this._isExternallyPowered, this._externalPowerLevel));
+        this.getMultiblockController().ifPresent(c -> this.getSensorSetting().inputAction(c, this._isExternallyPowered, this._externalPowerLevel));
     }
 
     private void updateRedstoneStateAndNotify() {
@@ -340,7 +348,7 @@ public class TurbineRedstonePortEntity
      * @return the lit state
      */
     protected boolean updateLitState() {
-        return this._isLit = (this.getSettings().Sensor.isOutput() && this.isRedstoneActive()) || this._isExternallyPowered;
+        return this._isLit = (this.getSensorSetting().Sensor.isOutput() && this.isRedstoneActive()) || this._isExternallyPowered;
     }
 
     //endregion

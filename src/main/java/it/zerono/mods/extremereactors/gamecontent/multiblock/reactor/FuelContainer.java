@@ -20,10 +20,12 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor;
 
 import it.zerono.mods.extremereactors.Log;
 import it.zerono.mods.extremereactors.api.reactor.*;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.container.data.ReactantStackData;
 import it.zerono.mods.zerocore.lib.IDebugMessages;
 import it.zerono.mods.zerocore.lib.data.nbt.IMergeableEntity;
 import it.zerono.mods.zerocore.lib.data.stack.IndexedStackContainer;
 import it.zerono.mods.zerocore.lib.data.stack.OperationMode;
+import it.zerono.mods.zerocore.lib.item.inventory.container.ModContainer;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraftforge.fml.LogicalSide;
 
@@ -68,6 +70,16 @@ public class FuelContainer
 
     public int getWasteAmount() {
         return this.getContentAmount(ReactantType.Waste);
+    }
+
+    @Override
+    public ReactantStackData getFuelStackData(int sampleFrequency, ModContainer container, boolean isClientSide) {
+        return ReactantStackData.sampled(sampleFrequency, container, isClientSide, () -> () -> this.getStack(ReactantType.Fuel));
+    }
+
+    @Override
+    public ReactantStackData getWasteStackData(int sampleFrequency, ModContainer container, boolean isClientSide) {
+        return ReactantStackData.sampled(sampleFrequency, container, isClientSide, () -> () -> this.getStack(ReactantType.Waste));
     }
 
     /**

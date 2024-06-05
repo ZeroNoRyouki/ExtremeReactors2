@@ -1,5 +1,4 @@
- 
- /*
+/*
  *
  * package-info.java
  *
@@ -17,10 +16,4 @@
  *
  */
 
- @ParametersAreNonnullByDefault
- @MethodsReturnNonnullByDefault
- package it.zerono.mods.extremereactors.gamecontent.multiblock.common.sensor;
-
- import net.minecraft.MethodsReturnNonnullByDefault;
-
- import javax.annotation.ParametersAreNonnullByDefault;
+package it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.container;

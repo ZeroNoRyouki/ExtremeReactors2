@@ -21,6 +21,7 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.part;
 import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.gamecontent.CommonConstants;
 import it.zerono.mods.extremereactors.gamecontent.Content;
+import it.zerono.mods.zerocore.base.BaseHelper;
 import it.zerono.mods.zerocore.lib.CodeHelper;
 import it.zerono.mods.zerocore.lib.DebuggableHelper;
 import it.zerono.mods.zerocore.lib.IDebugMessages;
@@ -99,7 +100,7 @@ public class FluidizerFluidInjectorEntity
             holder.syncDataFrom(data.getCompound("inv"), SyncReason.FullSync);
 
             if (holder.isEmpty(0)) {
-                text = Component.translatable("gui.bigreactors.generic.empty");
+                text = BaseHelper.emptyValue();
             } else {
                 text = Component.translatable("gui.bigreactors.reactor.fluidaccessport.item.reactant",
                         FluidHelper.getFluidName(holder.getFluidInTank(0)), holder.getAmount(0));

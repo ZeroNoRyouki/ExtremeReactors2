@@ -19,7 +19,7 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.common;
 
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.variant.IMultiblockGeneratorVariant;
-import it.zerono.mods.zerocore.base.multiblock.AbstractMultiblockController;
+import it.zerono.mods.zerocore.base.multiblock.AbstractMultiblockMachineController;
 import it.zerono.mods.zerocore.base.multiblock.part.io.IIOPortHandler;
 import it.zerono.mods.zerocore.base.multiblock.part.io.fluid.IFluidPort;
 import it.zerono.mods.zerocore.base.multiblock.part.io.power.IPowerPort;
@@ -30,8 +30,6 @@ import it.zerono.mods.zerocore.lib.data.stack.OperationMode;
 import it.zerono.mods.zerocore.lib.energy.EnergySystem;
 import it.zerono.mods.zerocore.lib.energy.IWideEnergyStorage2;
 import it.zerono.mods.zerocore.lib.energy.WideEnergyBuffer;
-
-import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.fluids.FluidStack;
@@ -43,7 +41,7 @@ import java.util.Optional;
 @SuppressWarnings({"WeakerAccess"})
 public abstract class AbstractGeneratorMultiblockController<Controller extends AbstractGeneratorMultiblockController<Controller, V>,
             V extends IMultiblockGeneratorVariant>
-        extends AbstractMultiblockController<Controller, V>
+        extends AbstractMultiblockMachineController<Controller, V>
         implements IWideEnergyStorage2 {
 
     public AbstractGeneratorMultiblockController(Level world) {

@@ -1,6 +1,6 @@
 /*
  *
- * InputSensorAction.java
+ * package-info.java
  *
  * This file is part of Extreme Reactors 2 by ZeroNoRyouki, a Minecraft mod.
  *
@@ -16,17 +16,10 @@
  *
  */
 
-package it.zerono.mods.extremereactors.gamecontent.multiblock.common.sensor;
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
+package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.screen.control;
 
-@FunctionalInterface
-public interface InputSensorAction<T> {
+import net.minecraft.MethodsReturnNonnullByDefault;
 
-    /**
-     * Performs the current (input) sensor action on the machine
-     *
-     * @param machine the machine
-     * @param isExternallyPowered true if the Redstone Port is receiving a signal, false otherwise
-     * @param externalPowerLevel the signal level (0 - 15)
-     */
-    void inputAction(T machine, Boolean isExternallyPowered, int externalPowerLevel);
-}
+import javax.annotation.ParametersAreNonnullByDefault;

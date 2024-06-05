@@ -20,16 +20,19 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.client
 
 import it.zerono.mods.extremereactors.CommonLocations;
 import it.zerono.mods.extremereactors.gamecontent.compat.patchouli.PatchouliCompat;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.AbstractMultiblockScreen;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.CommonIcons;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.CommonMultiblockScreen;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.GuiTheme;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.MultiblockReprocessor;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.container.ReprocessorAccessPortContainer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.part.ReprocessorAccessPortEntity;
+import it.zerono.mods.zerocore.base.client.screen.control.MachineStatusIndicator;
+import it.zerono.mods.zerocore.lib.client.gui.IControl;
 import it.zerono.mods.zerocore.lib.client.gui.control.Panel;
 import it.zerono.mods.zerocore.lib.client.gui.control.SlotsGroup;
 import it.zerono.mods.zerocore.lib.client.gui.layout.FixedLayoutEngine;
 import it.zerono.mods.zerocore.lib.client.gui.layout.HorizontalAlignment;
+import it.zerono.mods.zerocore.lib.client.gui.layout.VerticalAlignment;
 import it.zerono.mods.zerocore.lib.client.gui.layout.VerticalLayoutEngine;
 import it.zerono.mods.zerocore.lib.client.gui.sprite.ISprite;
 import it.zerono.mods.zerocore.lib.client.gui.sprite.SpriteTextureMap;
@@ -39,16 +42,31 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraftforge.common.util.NonNullSupplier;
 
 public class ReprocessorAccessPortScreen
-        extends AbstractMultiblockScreen<MultiblockReprocessor, ReprocessorAccessPortEntity, ReprocessorAccessPortContainer> {
+        extends CommonMultiblockScreen<MultiblockReprocessor, ReprocessorAccessPortEntity, ReprocessorAccessPortContainer> {
 
     public ReprocessorAccessPortScreen(final ReprocessorAccessPortContainer container,
                                        final Inventory inventory, final Component title) {
+
         super(container, inventory, PlayerInventoryUsage.Both, title,
                 () -> new SpriteTextureMap(CommonLocations.TEXTURES_GUI_MULTIBLOCK.buildWithSuffix("basic_background.png"), 256, 256));
+
         this.setTheme(GuiTheme.ER.get());
+
+        final boolean inletMode = container.getDirection().isInput();
+
+        this.addPatchouliHelpButton(PatchouliCompat.HANDBOOK_ID, CommonLocations.REPROCESSOR.buildWithSuffix(inletMode ? "part-wasteinjector" : "part-outputport"), 1);
+
+        this._slotGroup = this.slotPanel("slot", "inv", 0, 0, inletMode ? CommonIcons.PortInputSlot : CommonIcons.PortOutputSlot);
+        this._playerInventoryGroup = this.createPlayerInventorySlotsGroupControl();
+        this._playerHotBarGroup = this.createPlayerHotBarSlotsGroupControl();
     }
 
     //region AbstractMultiblockScreen
+
+    @Override
+    protected MachineStatusIndicator createStatusIndicator(ReprocessorAccessPortContainer container) {
+        return this.createReprocessorStatusIndicator(container.ACTIVE);
+    }
 
     /**
      * Called when this screen is being created for the first time.
@@ -57,32 +75,28 @@ public class ReprocessorAccessPortScreen
     @Override
     protected void onScreenCreate() {
 
-        final boolean inletMode = this.getTileEntity().getDirection().isInput();
-
-        this.addPatchouliHelpButton(PatchouliCompat.HANDBOOK_ID, CommonLocations.REPROCESSOR.buildWithSuffix(inletMode ? "part-wasteinjector" : "part-outputport"), 1);
-
         super.onScreenCreate();
 
-        final Panel panel = new Panel(this, "accessport");
-        SlotsGroup slotsGroup;
+        this.setContentLayoutEngine(new VerticalLayoutEngine()
+                .setZeroMargins()
+                .setVerticalAlignment(VerticalAlignment.Bottom)
+                .setControlsSpacing(4));
 
-        panel.setLayoutEngineHint(FixedLayoutEngine.hint(0, 13));
-        panel.setDesiredDimension(this.getGuiWidth(), 38);
+        final Panel panel = new Panel(this, "accessport");
+
+        panel.setDesiredDimension(162, /*61*/38);
         panel.setLayoutEngine(new VerticalLayoutEngine()
                 .setHorizontalAlignment(HorizontalAlignment.Center)
+                .setVerticalMargin(30)
                 .setZeroMargins());
-        panel.addControl(this.slotPanel("slot", "inv", 79*0, 0, inletMode ? CommonIcons.PortInputSlot : CommonIcons.PortOutputSlot));
+        panel.addControl(this._slotGroup);
         this.addControl(panel);
 
-        // - player main inventory slots
-        slotsGroup = this.createPlayerInventorySlotsGroupControl();
-        slotsGroup.setLayoutEngineHint(FixedLayoutEngine.hint(31, 63));
-        this.addControl(slotsGroup);
+        this._playerInventoryGroup.setLayoutEngineHint(FixedLayoutEngine.hint(31, 63));
+        this.addControl(this._playerInventoryGroup);
 
-        // - player hotbar slots
-        slotsGroup = this.createPlayerHotBarSlotsGroupControl();
-        slotsGroup.setLayoutEngineHint(FixedLayoutEngine.hint(31, 121));
-        this.addControl(slotsGroup);
+        this._playerHotBarGroup.setLayoutEngineHint(FixedLayoutEngine.hint(31, 121));
+        this.addControl(this._playerHotBarGroup);
     }
 
     //endregion
@@ -103,6 +117,13 @@ public class ReprocessorAccessPortScreen
 
         return p;
     }
+
+    //endregion
+    //region internals
+
+    private final IControl _slotGroup;
+    private final IControl _playerInventoryGroup;
+    private final IControl _playerHotBarGroup;
 
     //endregion
 }

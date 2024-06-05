@@ -19,11 +19,11 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.computer;
 
 import com.google.common.collect.Maps;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.IMachineReader;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.MultiblockTurbine;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.VentSetting;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part.TurbineComputerPortEntity;
 import it.zerono.mods.zerocore.lib.CodeHelper;
+import it.zerono.mods.zerocore.lib.IMachineReader;
 import it.zerono.mods.zerocore.lib.compat.computer.ComputerMethod;
 import it.zerono.mods.zerocore.lib.compat.computer.LuaHelper;
 import it.zerono.mods.zerocore.lib.compat.computer.MultiblockComputerPeripheral;

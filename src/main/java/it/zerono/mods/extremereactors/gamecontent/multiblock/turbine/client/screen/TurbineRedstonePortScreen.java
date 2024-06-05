@@ -22,39 +22,46 @@ import it.zerono.mods.extremereactors.CommonLocations;
 import it.zerono.mods.extremereactors.gamecontent.compat.patchouli.PatchouliCompat;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.AbstractRedstonePortScreen;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.CommonIcons;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.sensor.SensorBehavior;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.ITurbineReader;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.ITurbineWriter;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.MultiblockTurbine;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.container.TurbineRedstonePortContainer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part.TurbineRedstonePortEntity;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.sensor.TurbineSensorSetting;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.sensor.TurbineSensorType;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.IMultiblockTurbineVariant;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.TurbineVariant;
+import it.zerono.mods.zerocore.base.client.screen.control.MachineStatusIndicator;
+import it.zerono.mods.zerocore.base.client.screen.control.redstone.sensor.ISensorBuilder;
+import it.zerono.mods.zerocore.base.redstone.sensor.SensorBehavior;
 import it.zerono.mods.zerocore.lib.CodeHelper;
 import it.zerono.mods.zerocore.lib.client.gui.control.TextInput;
 import it.zerono.mods.zerocore.lib.item.inventory.PlayerInventoryUsage;
-import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
 import java.util.Optional;
 
 public class TurbineRedstonePortScreen
-        extends AbstractRedstonePortScreen<MultiblockTurbine, TurbineRedstonePortEntity, ModTileContainer<TurbineRedstonePortEntity>,
-        ITurbineReader, ITurbineWriter, TurbineSensorType, TurbineSensorSetting> {
+        extends AbstractRedstonePortScreen<MultiblockTurbine, IMultiblockTurbineVariant, TurbineRedstonePortEntity,
+                                            TurbineRedstonePortContainer, ITurbineReader, ITurbineWriter,
+                                            TurbineSensorType, TurbineSensorSetting> {
 
-    public TurbineRedstonePortScreen(final ModTileContainer<TurbineRedstonePortEntity> container,
+    public TurbineRedstonePortScreen(final TurbineRedstonePortContainer container,
                                      final Inventory inventory, final Component title) {
+
         super(container, inventory, PlayerInventoryUsage.None, title,
                 mainTextureFromVariant(container.getTileEntity().getMultiblockVariant().orElse(TurbineVariant.Basic)),
                 TurbineSensorSetting::new, TurbineSensorType.values());
+
+        this.addPatchouliHelpButton(PatchouliCompat.HANDBOOK_ID, CommonLocations.TURBINE.buildWithSuffix("part-redstoneport"), 1);
     }
 
     //region AbstractRedstonePortScreen
 
     @Override
     protected TurbineSensorSetting getDefaultSettings() {
-        return this.getTileEntity().getSettings();
+        return this.getTileEntity().getSensorSetting();
     }
 
     @Override
@@ -63,84 +70,72 @@ public class TurbineRedstonePortScreen
     }
 
     @Override
-    protected void onScreenCreate() {
+    protected void buildSettings(ISensorBuilder<ITurbineReader, TurbineSensorType> builder) {
 
-        this.addPatchouliHelpButton(PatchouliCompat.HANDBOOK_ID, CommonLocations.TURBINE.buildWithSuffix("part-redstoneport"), 1);
-
-        super.onScreenCreate();
-
-        // - sensors sub-behaviors controls
-
-        int sensorButtonRowY = 0;
-
-        // -- inputActive
-        this.sensorPanelBuilder(TurbineSensorType.inputActive, 0, sensorButtonRowY, CommonIcons.ButtonSensorInputActivate, CommonIcons.ButtonSensorInputActivateActive).build();
-
-        // -- inputEngageCoils
-        this.sensorPanelBuilder(TurbineSensorType.inputEngageCoils, 22, sensorButtonRowY, CommonIcons.ButtonInductor, CommonIcons.ButtonInductorActive).build();
-
-        // -- inputFlowRegulator
-        this.sensorPanelBuilder(TurbineSensorType.inputFlowRegulator, 44, sensorButtonRowY, CommonIcons.ButtonSensorInputFlowRegulator, CommonIcons.ButtonSensorInputFlowRegulatorActive)
-                .addBehaviorDataInput(SensorBehavior.SetFromSignal,
-                        this.flowRegulatorInput("inputFlowRegulatorWhileOn"), "gui.bigreactors.turbine.redstoneport.sensortype.inputflowregulator.whileon",
-                        this.flowRegulatorInput("inputFlowRegulatorWhileOff"), "gui.bigreactors.turbine.redstoneport.sensortype.inputflowregulator.whileoff")
-                .addBehaviorDataInput(SensorBehavior.SetFromSignalLevel)
-                .addBehaviorDataInput(SensorBehavior.SetOnPulse, this.flowRegulatorInput("inputFlowRegulatorSetTo"), "gui.bigreactors.turbine.redstoneport.sensortype.inputflowregulator.setto")
-                .addBehaviorDataInput(SensorBehavior.InsertOnPulse, this.flowRegulatorInput("inputFlowRegulatorInsertBy"), "gui.bigreactors.turbine.redstoneport.sensortype.inputflowregulator.insertby")
-                .addBehaviorDataInput(SensorBehavior.RetractOnPulse, this.flowRegulatorInput("inputFlowRegulatorRetractBy"), "gui.bigreactors.turbine.redstoneport.sensortype.inputflowregulator.retractby")
+        builder.addSensor(TurbineSensorType.inputActive, CommonIcons.ButtonSensorInputActivate, CommonIcons.ButtonSensorInputActivateActive)
+                    .addInputLessBehavior(SensorBehavior.SetFromSignal)
+                    .addInputLessBehavior(SensorBehavior.ToggleOnPulse)
+                    .build()
+                .addSensor(TurbineSensorType.inputEngageCoils, CommonIcons.ButtonInductor, CommonIcons.ButtonInductorActive)
+                    .addInputLessBehavior(SensorBehavior.SetFromSignal)
+                    .addInputLessBehavior(SensorBehavior.ToggleOnPulse)
+                    .build()
+                .addSensor(TurbineSensorType.inputFlowRegulator, CommonIcons.ButtonSensorInputFlowRegulator, CommonIcons.ButtonSensorInputFlowRegulatorActive)
+                    .addBehavior(SensorBehavior.SetFromSignal)
+                        .addNumberField("gui.bigreactors.turbine.redstoneport.sensortype.inputflowregulator.whileon.label",
+                        "inputFlowRegulatorWhileOn", " mB/t", this::configureFlowRegulatorInput)
+                        .addNumberField("gui.bigreactors.turbine.redstoneport.sensortype.inputflowregulator.whileoff.label",
+                        "inputFlowRegulatorWhileOff", " mB/t", this::configureFlowRegulatorInput)
+                        .build()
+                    .addInputLessBehavior(SensorBehavior.SetFromSignalLevel)
+                    .addBehavior(SensorBehavior.SetOnPulse)
+                        .addNumberField("gui.bigreactors.turbine.redstoneport.sensortype.inputflowregulator.setto.label",
+                        "inputFlowRegulatorSetTo", " mB/t", this::configureFlowRegulatorInput)
+                        .build()
+                    .addBehavior(SensorBehavior.AugmentOnPulse)
+                        .addNumberField("gui.bigreactors.turbine.redstoneport.sensortype.inputflowregulator.insertby.label",
+                                "inputFlowRegulatorInsertBy", " mB/t", this::configureFlowRegulatorInput)
+                        .build()
+                    .addBehavior(SensorBehavior.ReduceOnPulse)
+                        .addNumberField("gui.bigreactors.turbine.redstoneport.sensortype.inputflowregulator.retractby.label",
+                                "inputFlowRegulatorRetractBy", " mB/t", this::configureFlowRegulatorInput)
+                        .build()
+                .build()
+                .addSeparator()
+                .addSensor(TurbineSensorType.outputRotorSpeed, CommonIcons.ButtonSensorOutputRotorSpeed, CommonIcons.ButtonSensorOutputRotorSpeedActive)
+                    .addStandardOutputBehaviorsNumbers(" RPM", "gui.bigreactors.turbine.redstoneport.sensortype.outputrotorspeed.speed.label",
+                            "gui.bigreactors.turbine.redstoneport.sensortype.outputrotorspeed.speed.label",
+                            "gui.bigreactors.turbine.redstoneport.sensortype.outputrotorspeed.speed.min.label",
+                            "gui.bigreactors.turbine.redstoneport.sensortype.outputrotorspeed.speed.max.label")
+                .addSensor(TurbineSensorType.outputCoolantAmount, CommonIcons.ButtonSensorOutputCoolantAmount, CommonIcons.ButtonSensorOutputCoolantAmountActive)
+                    .addStandardOutputBehaviorsNumbers(" mB", "gui.bigreactors.generator.redstoneport.sensortype.amount.label",
+                            "gui.bigreactors.generator.redstoneport.sensortype.amount.label",
+                            "gui.bigreactors.generator.redstoneport.sensortype.amount.min.label",
+                            "gui.bigreactors.generator.redstoneport.sensortype.amount.max.label")
+                .addSensor(TurbineSensorType.outputVaporAmount, CommonIcons.ButtonSensorOutputVaporAmount, CommonIcons.ButtonSensorOutputVaporAmountActive)
+                    .addStandardOutputBehaviorsNumbers(" mB", "gui.bigreactors.generator.redstoneport.sensortype.amount.label",
+                            "gui.bigreactors.generator.redstoneport.sensortype.amount.label",
+                            "gui.bigreactors.generator.redstoneport.sensortype.amount.min.label",
+                            "gui.bigreactors.generator.redstoneport.sensortype.amount.max.label")
+                .addSensor(TurbineSensorType.outputEnergyAmount, CommonIcons.ButtonSensorOutputEnergyAmount, CommonIcons.ButtonSensorOutputEnergyAmountActive)
+                    .addStandardOutputBehaviorsPercentages("gui.bigreactors.generator.redstoneport.sensortype.bufferfilling.label",
+                            "gui.bigreactors.generator.redstoneport.sensortype.bufferfilling.label",
+                            "gui.bigreactors.generator.redstoneport.sensortype.bufferfilling.min.label",
+                            "gui.bigreactors.generator.redstoneport.sensortype.bufferfilling.max.label")
                 .build();
+    }
 
-        sensorButtonRowY += 34;
-
-        // -- separator
-        this.addSensorButtonsSeparator(sensorButtonRowY);
-
-        // -- outputRotorSpeed
-        this.sensorPanelBuilder(TurbineSensorType.outputRotorSpeed, 0, sensorButtonRowY, CommonIcons.ButtonSensorOutputRotorSpeed, CommonIcons.ButtonSensorOutputRotorSpeedActive)
-                .addStandardOutputBehaviorPanel(
-                        this.inputTextNumber("outputRotorSpeedAbove", " RPM"), "gui.bigreactors.turbine.redstoneport.sensortype.outputrotorspeed.speed",
-                        this.inputTextNumber("outputRotorSpeedBelow", " RPM"), "gui.bigreactors.turbine.redstoneport.sensortype.outputrotorspeed.speed",
-                        this.inputTextNumber("outputRotorSpeedBetweenMin", " RPM"), "gui.bigreactors.turbine.redstoneport.sensortype.outputrotorspeed.speed.min",
-                        this.inputTextNumber("outputRotorSpeedBetweenMax", " RPM"), "gui.bigreactors.turbine.redstoneport.sensortype.outputrotorspeed.speed.max")
-                .build();
-
-        // -- outputCoolantAmount
-        this.sensorPanelBuilder(TurbineSensorType.outputCoolantAmount, 22, sensorButtonRowY, CommonIcons.ButtonSensorOutputCoolantAmount, CommonIcons.ButtonSensorOutputCoolantAmountActive)
-                .addStandardOutputBehaviorPanel(
-                        this.inputTextNumber("outputCoolantAmountAbove", " mB"), "gui.bigreactors.generator.redstoneport.sensortype.datalabel.amount",
-                        this.inputTextNumber("outputCoolantAmountBelow", " mB"), "gui.bigreactors.generator.redstoneport.sensortype.datalabel.amount",
-                        this.inputTextNumber("outputCoolantAmountBetweenMin", " mB"), "gui.bigreactors.generator.redstoneport.sensortype.datalabel.amount.min",
-                        this.inputTextNumber("outputCoolantAmountBetweenMax", " mB"), "gui.bigreactors.generator.redstoneport.sensortype.datalabel.amount.max")
-                .build();
-
-        // -- outputVaporAmount
-        this.sensorPanelBuilder(TurbineSensorType.outputVaporAmount, 44, sensorButtonRowY, CommonIcons.ButtonSensorOutputVaporAmount, CommonIcons.ButtonSensorOutputVaporAmountActive)
-                .addStandardOutputBehaviorPanel(
-                        this.inputTextNumber("outputVaporAmountAbove", " mB"), "gui.bigreactors.generator.redstoneport.sensortype.datalabel.amount",
-                        this.inputTextNumber("outputVaporAmountBelow", " mB"), "gui.bigreactors.generator.redstoneport.sensortype.datalabel.amount",
-                        this.inputTextNumber("outputVaporAmountBetweenMin", " mB"), "gui.bigreactors.generator.redstoneport.sensortype.datalabel.amount.min",
-                        this.inputTextNumber("outputVaporAmountBetweenMax", " mB"), "gui.bigreactors.generator.redstoneport.sensortype.datalabel.amount.max")
-                .build();
-
-        sensorButtonRowY += 22;
-
-        // -- outputEnergyAmount
-        this.sensorPanelBuilder(TurbineSensorType.outputEnergyAmount, 0, sensorButtonRowY, CommonIcons.ButtonSensorOutputEnergyAmount, CommonIcons.ButtonSensorOutputEnergyAmountActive)
-                .addStandardOutputBehaviorPanel(
-                        this.inputTextPercentage("outputEnergyAmountAbove"), "gui.bigreactors.generator.redstoneport.sensortype.datalabel.bufferfilling",
-                        this.inputTextPercentage("outputEnergyAmountBelow"), "gui.bigreactors.generator.redstoneport.sensortype.datalabel.bufferfilling",
-                        this.inputTextPercentage("outputEnergyAmountBetweenMin"), "gui.bigreactors.generator.redstoneport.sensortype.datalabel.bufferfilling.min",
-                        this.inputTextPercentage("outputEnergyAmountBetweenMax"), "gui.bigreactors.generator.redstoneport.sensortype.datalabel.bufferfilling.max")
-                .build();
-
-        this.addBinding(TurbineRedstonePortEntity::getSettings, this::applySettings);
+    @Override
+    protected MachineStatusIndicator createStatusIndicator(TurbineRedstonePortContainer container) {
+        return this.createTurbineStatusIndicator(container.ACTIVE);
     }
 
     //endregion
     //region internals
 
-    protected TextInput flowRegulatorInput(final String name) {
-        return this.inputTextNumber(name, " mB/t", text -> {
+    private void configureFlowRegulatorInput(SensorBehavior behavior, TextInput input) {
+
+        input.addConstraint(text -> {
 
             if (text.isEmpty()) {
 
