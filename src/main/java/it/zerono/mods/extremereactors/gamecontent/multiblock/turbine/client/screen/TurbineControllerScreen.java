@@ -27,6 +27,7 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.MultiblockT
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.VentSetting;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.client.screen.control.FlowRate;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.client.screen.control.RpmBar;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.client.screen.control.VentSettings;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.container.TurbineControllerContainer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part.TurbineControllerEntity;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.TurbineVariant;
@@ -35,10 +36,11 @@ import it.zerono.mods.zerocore.base.client.screen.ClientBaseHelper;
 import it.zerono.mods.zerocore.base.client.screen.control.*;
 import it.zerono.mods.zerocore.lib.CodeHelper;
 import it.zerono.mods.zerocore.lib.client.gui.ButtonState;
+import it.zerono.mods.zerocore.lib.client.gui.DesiredDimension;
 import it.zerono.mods.zerocore.lib.client.gui.control.Panel;
 import it.zerono.mods.zerocore.lib.client.gui.control.SwitchButton;
 import it.zerono.mods.zerocore.lib.client.gui.control.SwitchPictureButton;
-import it.zerono.mods.zerocore.lib.client.gui.layout.FixedLayoutEngine;
+import it.zerono.mods.zerocore.lib.client.gui.layout.AnchoredLayoutEngine;
 import it.zerono.mods.zerocore.lib.client.gui.layout.HorizontalAlignment;
 import it.zerono.mods.zerocore.lib.client.gui.layout.VerticalAlignment;
 import it.zerono.mods.zerocore.lib.client.gui.layout.VerticalLayoutEngine;
@@ -79,8 +81,13 @@ public class TurbineControllerScreen
         final FlowRate flowRate = new FlowRate(this, "maxIntakeRate", container.getMaxIntakeRateHardLimit(),
                 container.getMaxIntakeRate(), this::onMaxIntakeRateChanged);
 
-        this._infoDisplay = new InformationDisplay(this, "info", layout -> layout.columns(2, 88, 112).rows(3));
-        this._infoDisplay.addCellContent(flowRate, builder -> builder.setRowsSpan(3));
+        this._infoDisplay = new InformationDisplay(this, "info",
+                layout -> layout.columns(2, 79, 112).rows(3));
+
+        this._infoDisplay.addCellContent(flowRate, builder -> builder
+                .setRowsSpan(3)
+                .setHorizontalAlignment(HorizontalAlignment.Left)
+                .setVerticalAlignment(VerticalAlignment.Top));
 
         this._infoDisplay.addInformationCell(builder -> builder
                 .name("rpm")
@@ -125,14 +132,9 @@ public class TurbineControllerScreen
 
         // commands...
 
-        this._on = new SwitchButton(this, "on", "ON", false, "onoff");
-        this._on.Activated.subscribe(this::onActiveStateChanged);
-        this._on.Deactivated.subscribe(this::onActiveStateChanged);
-        container.ACTIVE.bind(this._on::setActive);
-        this._on.setTooltips(TextHelper.translatable("gui.bigreactors.turbine.controller.on.title"));
-
-        this._off = new SwitchButton(this, "off", "OFF", true, "onoff");
-        this._off.setTooltips(TextHelper.translatable("gui.bigreactors.turbine.controller.off.title"));
+        this._onOff = new OnOff(this, 30, 16, container.ACTIVE, this::onActiveStateChanged,
+                TextHelper.translatable("gui.bigreactors.turbine.controller.on.title"),
+                TextHelper.translatable("gui.bigreactors.turbine.controller.off.title"));
 
         this._inductorEngaged = new SwitchPictureButton(this, "inductorEngaged", false);
         this._inductorEngaged.bindActive(container.INDUCTOR_ENGAGED);
@@ -143,6 +145,7 @@ public class TurbineControllerScreen
         this._inductorEngaged.setBackground(CommonIcons.ImageButtonBackground.get());
         this._inductorEngaged.enablePaintBlending(true);
         this._inductorEngaged.setPadding(1);
+        this._inductorEngaged.setDesiredDimension(ClientBaseHelper.SQUARE_BUTTON_DIMENSION, ClientBaseHelper.SQUARE_BUTTON_DIMENSION);
         this._inductorEngaged.setTooltips(new BaseScreenToolTipsBuilder()
                 .addTranslatableAsTitle("gui.bigreactors.turbine.controller.inductor.tooltip.title")
                 .addTranslatableAsValue("gui.bigreactors.turbine.controller.inductor.tooltip.value")
@@ -151,33 +154,7 @@ public class TurbineControllerScreen
                 .addBindableObjectAsValue(container.INDUCTOR_ENGAGED, engaged -> engaged ? TEXT_INDUCTOR_ENGAGED : TEXT_INDUCTOR_DISENGAGED)
         );
 
-        this._ventAll = this.ventButton(VentSetting.VentAll);
-        this._ventAll.setTooltips(new BaseScreenToolTipsBuilder()
-                .addTranslatableAsTitle("gui.bigreactors.turbine.controller.vent.all.tooltip.title")
-                .addEmptyLine()
-                .addTranslatable("gui.bigreactors.turbine.controller.vent.all.tooltip.body")
-        );
-
-        this._ventOverflow = this.ventButton(VentSetting.VentOverflow);
-        this._ventOverflow.setTooltips(new BaseScreenToolTipsBuilder()
-                .addTranslatableAsTitle("gui.bigreactors.turbine.controller.vent.overflow.tooltip.title")
-                .addEmptyLine()
-                .addTranslatable("gui.bigreactors.turbine.controller.vent.overflow.tooltip.body")
-        );
-
-        this._ventDoNotVent = this.ventButton(VentSetting.DoNotVent);
-        this._ventDoNotVent.setTooltips(new BaseScreenToolTipsBuilder()
-                .addTranslatableAsTitle("gui.bigreactors.turbine.controller.vent.donotvent.tooltip.title")
-                .addEmptyLine()
-                .addTranslatable("gui.bigreactors.turbine.controller.vent.donotvent.tooltip.body")
-        );
-
-        container.VENT_SETTINGS.bind(setting -> {
-
-            this._ventAll.setActive(VentSetting.VentAll.test(setting));
-            this._ventOverflow.setActive(VentSetting.VentOverflow.test(setting));
-            this._ventDoNotVent.setActive(VentSetting.DoNotVent.test(setting));
-        });
+        this._ventSettings = new VentSettings(this, container.VENT_SETTINGS, this::onVentSettingChanged);
 
         this.setContentBounds(14, 0);
     }
@@ -204,14 +181,15 @@ public class TurbineControllerScreen
 
         final BarsPanel barsPanel = new BarsPanel(this, "bars")
                 .add(this._vaporBar)
+                .addEmptyPanel(5)
                 .addTemperatureScale()
+                .addEmptyPanel(5)
                 .add(this._coolantBar)
-                .addVerticalSeparator()
+                .addEmptyPanel(21)
                 .add(this._rpmBar)
-                .addEmptyPanel(11)
-                .add(this._energyBar)
                 .addVerticalSeparator()
-                .addEmptyPanel(4);
+                .add(this._energyBar)
+                .addVerticalSeparator();
 
         this.addControl(barsPanel);
         this.addControl(CommonPanels.horizontalSeparator(this, this.getContentWidth()));
@@ -219,75 +197,26 @@ public class TurbineControllerScreen
 
         // COMMANDS
 
-        final Panel commandPanel = CommonPanels.verticalCommandPanel(this, 50);
+        final Panel commandPanel = CommonPanels.verticalCommandPanel(this,
+                this._ventSettings.getDesiredDimension(DesiredDimension.Width));
 
+        commandPanel.setLayoutEngine(new AnchoredLayoutEngine().setZeroMargins());
         barsPanel.add(commandPanel);
 
         // - machine on/off
+        this._onOff.setLayoutEngineHint(AnchoredLayoutEngine.Anchor.Top);
+        commandPanel.addControl(this._onOff);
 
-        int x = 0;
-        int y = 0;
-        int w = 38;
-
-        this._on.setLayoutEngineHint(FixedLayoutEngine.hint(x, y, w, 16));
-        this._off.setLayoutEngineHint(FixedLayoutEngine.hint(x + w, y, w, 16));
-        commandPanel.addControl(this._on, this._off);
-        y += 28;
-
-        // inductor
-
-        int xButton = x;
-
-        this._inductorEngaged.setLayoutEngineHint(FixedLayoutEngine.hint(xButton, y, 18, 18));
+        // - inductor
+        this._inductorEngaged.setLayoutEngineHint(AnchoredLayoutEngine.Anchor.Center);
         commandPanel.addControl(this._inductorEngaged);
-        xButton += 20;
 
         // - vent settings
-
-        this._ventAll.setLayoutEngineHint(FixedLayoutEngine.hint(xButton, y, 18, 18));
-        commandPanel.addControl(this._ventAll);
-        xButton += 19;
-
-        this._ventOverflow.setLayoutEngineHint(FixedLayoutEngine.hint(xButton, y, 18, 18));
-        commandPanel.addControl(this._ventOverflow);
-        xButton += 19;
-
-        this._ventDoNotVent.setLayoutEngineHint(FixedLayoutEngine.hint(xButton, y, 18, 18));
-        commandPanel.addControl(this._ventDoNotVent);
+        this._ventSettings.setLayoutEngineHint(AnchoredLayoutEngine.Anchor.Bottom);
+        commandPanel.addControl(this._ventSettings);
     }
 
     //region internals
-
-    private SwitchPictureButton ventButton(final VentSetting setting) {
-
-        final SwitchPictureButton swp = new SwitchPictureButton(this, setting.name(), false, "ventSetting");
-
-        swp.setTag(setting);
-        swp.Activated.subscribe(this::onVentSettingChanged);
-        swp.enablePaintBlending(true);
-        swp.setPadding(1);
-        swp.setBackground(CommonIcons.ImageButtonBackground.get());
-
-        switch (setting) {
-
-            case VentAll:
-                ClientBaseHelper.setButtonSpritesAndOverlayForState(swp, ButtonState.Default, CommonIcons.ButtonVentAll);
-                ClientBaseHelper.setButtonSpritesAndOverlayForState(swp, ButtonState.Active, CommonIcons.ButtonVentAllActive);
-                break;
-
-            case VentOverflow:
-                ClientBaseHelper.setButtonSpritesAndOverlayForState(swp, ButtonState.Default, CommonIcons.ButtonVentOverflow);
-                ClientBaseHelper.setButtonSpritesAndOverlayForState(swp, ButtonState.Active, CommonIcons.ButtonVentOverflowActive);
-                break;
-
-            case DoNotVent:
-                ClientBaseHelper.setButtonSpritesAndOverlayForState(swp, ButtonState.Default, CommonIcons.ButtonVentDoNot);
-                ClientBaseHelper.setButtonSpritesAndOverlayForState(swp, ButtonState.Active, CommonIcons.ButtonVentDoNotActive);
-                break;
-        }
-
-        return swp;
-    }
 
     private String formatEnergyRatio(final WideAmount generated) {
         return CodeHelper.formatAsHumanReadableNumber(generated.doubleValue(), this.getMenu().getOutputEnergySystem().getUnit());
@@ -329,11 +258,9 @@ public class TurbineControllerScreen
     private final FluidBar _vaporBar;
     private final RpmBar _rpmBar;
     private final EnergyBar _energyBar;
-    private final SwitchButton _on, _off;
+    private final OnOff _onOff;
     private final SwitchPictureButton _inductorEngaged;
-    private final SwitchPictureButton _ventAll;
-    private final SwitchPictureButton _ventOverflow;
-    private final SwitchPictureButton _ventDoNotVent;
+    private final VentSettings _ventSettings;
     private final InformationDisplay _infoDisplay;
 
     //endregion

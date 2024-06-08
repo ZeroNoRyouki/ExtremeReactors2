@@ -38,7 +38,7 @@ public class FlowRate
                     final int maxRate, final int rate, final IntConsumer valueChangedHandler) {
 
         super(gui, name);
-        this.setPadding(1, 12, 1, 1);
+        this.setDesiredDimension(70, 14 + 14 + 2 + 2);
 
         this._label = new Label(gui, "label", TextHelper.translatable("gui.bigreactors.turbine.controller.flowrate.label"));
 
@@ -67,7 +67,7 @@ public class FlowRate
         final int width = bounds.Width - padding.getLeft() - padding.getRight();
 
         this._label.setBounds(new Rectangle(padding.getLeft(), padding.getTop(), width, 14));
-        this._rate.setBounds(new Rectangle(padding.getLeft(), padding.getTop() + 14 + 1, width, 14));
+        this._rate.setBounds(new Rectangle(padding.getLeft(), padding.getTop() + 14 + 2, width, 14));
     }
 
     //endregion
