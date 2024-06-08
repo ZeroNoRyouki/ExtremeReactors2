@@ -24,6 +24,7 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.common.container.Ch
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.variant.IMultiblockGeneratorVariant;
 import it.zerono.mods.zerocore.base.CommonConstants;
 import it.zerono.mods.zerocore.base.client.screen.BaseScreenToolTipsBuilder;
+import it.zerono.mods.zerocore.base.client.screen.ClientBaseHelper;
 import it.zerono.mods.zerocore.base.multiblock.part.AbstractMultiblockEntity;
 import it.zerono.mods.zerocore.base.multiblock.part.io.power.charging.IChargingPort;
 import it.zerono.mods.zerocore.lib.IActivableMachine;
@@ -92,7 +93,7 @@ public abstract class AbstractChargingPortScreen<Controller extends AbstractGene
 
         final Panel panel = new Panel(this);
 
-        panel.setDesiredDimension(DesiredDimension.Width, 162);
+        panel.setDesiredDimension(DesiredDimension.Width, ClientBaseHelper.INVENTORY_SLOTS_ROW_WIDTH);
         this.addControl(panel);
 
         // I/O slots & commands

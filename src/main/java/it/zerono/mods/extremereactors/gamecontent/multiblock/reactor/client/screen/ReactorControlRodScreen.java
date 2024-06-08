@@ -115,7 +115,7 @@ public class ReactorControlRodScreen
                 .setHorizontalAlignment(HorizontalAlignment.Left)
                 .setControlsSpacing(7)
                 .setHorizontalMargin(3)
-                .setVerticalMargin(7));
+                .setVerticalAlignment(VerticalAlignment.Center));
 
         this.addControl(this._nameSection);
         this.addControl(CommonPanels.horizontalSeparator(this, this.getContentWidth()));

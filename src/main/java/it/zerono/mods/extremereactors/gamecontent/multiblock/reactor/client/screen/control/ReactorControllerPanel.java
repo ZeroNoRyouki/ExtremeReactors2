@@ -27,8 +27,10 @@ import it.zerono.mods.zerocore.base.client.screen.control.*;
 import it.zerono.mods.zerocore.lib.CodeHelper;
 import it.zerono.mods.zerocore.lib.client.gui.ButtonState;
 import it.zerono.mods.zerocore.lib.client.gui.ModContainerScreen;
-import it.zerono.mods.zerocore.lib.client.gui.control.*;
-import it.zerono.mods.zerocore.lib.client.gui.layout.FixedLayoutEngine;
+import it.zerono.mods.zerocore.lib.client.gui.control.AbstractButtonControl;
+import it.zerono.mods.zerocore.lib.client.gui.control.Button;
+import it.zerono.mods.zerocore.lib.client.gui.control.Panel;
+import it.zerono.mods.zerocore.lib.client.gui.control.SwitchPictureButton;
 import it.zerono.mods.zerocore.lib.client.gui.layout.HorizontalAlignment;
 import it.zerono.mods.zerocore.lib.client.gui.layout.VerticalAlignment;
 import it.zerono.mods.zerocore.lib.client.gui.layout.VerticalLayoutEngine;
@@ -188,29 +190,22 @@ public class ReactorControllerPanel
 
         final Panel commandPanel = CommonPanels.verticalCommandPanel(gui, 50);
         Button button;
-        int x = 0;
-        int y = 0;
+
+        commandPanel.setLayoutEngine(new VerticalLayoutEngine()
+                .setZeroMargins()
+                .setControlsSpacing(3)
+                .setVerticalAlignment(VerticalAlignment.Top)
+                .setHorizontalAlignment(HorizontalAlignment.Center));
 
         // - machine on/off
 
-        SwitchButton switchButton;
+        final OnOff onOff = new OnOff(gui, container.active(), btn -> onActiveStateChanged.accept(btn.getActive()),
+                TextHelper.translatable("gui.bigreactors.reactor.controller.on.title"),
+                TextHelper.translatable("gui.bigreactors.reactor.controller.off.title"));
 
-        switchButton = new SwitchButton(gui, "on", "ON", false, "onoff");
-        switchButton.Activated.subscribe(btn -> onActiveStateChanged.accept(btn.getActive()));
-        switchButton.Deactivated.subscribe(btn -> onActiveStateChanged.accept(btn.getActive()));
-        switchButton.setTooltips(TextHelper.translatable("gui.bigreactors.reactor.controller.on.title"));
-        switchButton.setLayoutEngineHint(FixedLayoutEngine.hint(x, y, 25, 16));
-        container.active().bind(switchButton::setActive);
-        commandPanel.addControl(switchButton);
-
-        switchButton = new SwitchButton(gui, "off", "OFF", true, "onoff");
-        switchButton.setTooltips(TextHelper.translatable("gui.bigreactors.reactor.controller.off.title"));
-        switchButton.setLayoutEngineHint(FixedLayoutEngine.hint(x + 25, y, 25, 16));
-        commandPanel.addControl(switchButton);
+        commandPanel.addControl(onOff);
 
         // - void reactants
-
-        y += 18;
 
         if (null != onVoidReactants) {
 
@@ -219,18 +214,16 @@ public class ReactorControllerPanel
             button.setIconForState(CommonIcons.TrashCan.get(), ButtonState.Default);
             button.enablePaintBlending(true);
             button.setPadding(1);
+            button.setDesiredDimension(ClientBaseHelper.SQUARE_BUTTON_DIMENSION, ClientBaseHelper.SQUARE_BUTTON_DIMENSION);
             button.setTooltips(new BaseScreenToolTipsBuilder()
                     .addTranslatableAsTitle("gui.bigreactors.reactor.controller.voidreactants.tooltip.title")
                     .addEmptyLine()
                     .addTranslatable("gui.bigreactors.reactor.controller.voidreactants.tooltip.body")
             );
-            button.setLayoutEngineHint(FixedLayoutEngine.hint(x + 17, y, 18, 18));
             commandPanel.addControl(button);
         }
 
         // - waste ejection settings
-
-        y += 21;
 
         final SwitchPictureButton wasteEjectionSettings = new SwitchPictureButton(gui, "wasteeject", false);
 
@@ -241,6 +234,7 @@ public class ReactorControllerPanel
         wasteEjectionSettings.setBackground(CommonIcons.ImageButtonBackground.get());
         wasteEjectionSettings.enablePaintBlending(true);
         wasteEjectionSettings.setPadding(1);
+        wasteEjectionSettings.setDesiredDimension(ClientBaseHelper.SQUARE_BUTTON_DIMENSION, ClientBaseHelper.SQUARE_BUTTON_DIMENSION);
         wasteEjectionSettings.setTooltips(new BaseScreenToolTipsBuilder()
                 .addTranslatableAsTitle("gui.bigreactors.reactor.controller.wasteeject.tooltip.title")
                 .addTranslatableAsValue("gui.bigreactors.reactor.controller.wasteeject.tooltip.value")
@@ -249,13 +243,10 @@ public class ReactorControllerPanel
                 .addBindableObjectAsValue(container.wasteEjectionSetting(), settings ->
                         settings.isAutomatic() ? TEXT_AUTOMATIC_WASTE_EJECT : TEXT_MANUAL_WASTE_EJECT)
         );
-        wasteEjectionSettings.setLayoutEngineHint(FixedLayoutEngine.hint(x + 17, y, 18, 18));
         container.wasteEjectionSetting().bind(settings -> wasteEjectionSettings.setActive(settings.isAutomatic()));
         commandPanel.addControl(wasteEjectionSettings);
 
         // - scram
-
-        y += 21;
 
         if (null != onScram) {
 
@@ -266,7 +257,7 @@ public class ReactorControllerPanel
                     .addEmptyLine()
                     .addTranslatable("gui.bigreactors.reactor.controller.scram.tooltip.body")
             );
-            button.setLayoutEngineHint(FixedLayoutEngine.hint(x, y, 50, 25));
+            button.setDesiredDimension(50, 25);
             commandPanel.addControl(button);
         }
 
@@ -276,7 +267,9 @@ public class ReactorControllerPanel
     private static InformationDisplay infoDisplay(ModContainerScreen<? extends ModContainer> gui,
                                                   IReactorControllerContainer container, HeatBar coreHeatBar) {
 
-        final InformationDisplay infoDisplay = new InformationDisplay(gui, "info", layout -> layout.columns(2).rows(3));
+        final InformationDisplay infoDisplay = new InformationDisplay(gui, "info", layout -> layout
+                .columns(2, 88, 107)
+                .rows(3));
 
         infoDisplay.addInformationCell(builder -> builder
                 .name("coreHeat")
