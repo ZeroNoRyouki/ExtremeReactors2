@@ -19,10 +19,18 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen;
 
 import it.zerono.mods.extremereactors.CommonLocations;
+import it.zerono.mods.zerocore.base.client.screen.ClientBaseHelper;
 import it.zerono.mods.zerocore.base.client.screen.control.MachineStatusIndicator;
 import it.zerono.mods.zerocore.base.multiblock.client.screen.AbstractMultiblockScreen;
 import it.zerono.mods.zerocore.base.multiblock.part.AbstractMultiblockEntity;
 import it.zerono.mods.zerocore.lib.client.gui.IControl;
+import it.zerono.mods.zerocore.lib.client.gui.control.Panel;
+import it.zerono.mods.zerocore.lib.client.gui.control.SlotsGroup;
+import it.zerono.mods.zerocore.lib.client.gui.layout.FixedLayoutEngine;
+import it.zerono.mods.zerocore.lib.client.gui.layout.HorizontalAlignment;
+import it.zerono.mods.zerocore.lib.client.gui.layout.VerticalAlignment;
+import it.zerono.mods.zerocore.lib.client.gui.layout.VerticalLayoutEngine;
+import it.zerono.mods.zerocore.lib.client.gui.sprite.ISprite;
 import it.zerono.mods.zerocore.lib.client.gui.sprite.SpriteTextureMap;
 import it.zerono.mods.zerocore.lib.item.inventory.PlayerInventoryUsage;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
@@ -112,6 +120,34 @@ public abstract class CommonMultiblockScreen<Controller extends AbstractCuboidMu
         return () -> new SpriteTextureMap(CommonLocations.TEXTURES_GUI_MULTIBLOCK
                 .buildWithSuffix(variant.getName() + "_background_half.png"), 256, 98);
     }
+
+    protected Panel createSingleIoSlotPanel(String groupName, String invName, int x, int y,
+                                            NonNullSupplier<ISprite> slotBackground) {
+
+        final SlotsGroup sg = this.createSingleSlotGroupControl(groupName, invName);
+
+        sg.setLayoutEngineHint(FixedLayoutEngine.hint(10, 10, ClientBaseHelper.SQUARE_BUTTON_DIMENSION,
+                ClientBaseHelper.SQUARE_BUTTON_DIMENSION));
+
+        final Panel background = new Panel(this, "background");
+
+        background.setBackground(slotBackground.get());
+        background.setDesiredDimension(ClientBaseHelper.SQUARE_BUTTON_DIMENSION + 20, ClientBaseHelper.SQUARE_BUTTON_DIMENSION + 20);
+        background.setLayoutEngine(new FixedLayoutEngine().setZeroMargins());
+        background.addControl(sg);
+
+        final Panel outer = new Panel(this, "ioSlot");
+
+        outer.setDesiredDimension(ClientBaseHelper.INVENTORY_SLOTS_ROW_WIDTH, ClientBaseHelper.SQUARE_BUTTON_DIMENSION + 30);
+        outer.setLayoutEngine(new VerticalLayoutEngine()
+                .setZeroMargins()
+                .setHorizontalAlignment(HorizontalAlignment.Center)
+                .setVerticalAlignment(VerticalAlignment.Center));
+        outer.addControl(background);
+
+        return outer;
+    }
+
 
     //region AbstractMultiblockScreen
 

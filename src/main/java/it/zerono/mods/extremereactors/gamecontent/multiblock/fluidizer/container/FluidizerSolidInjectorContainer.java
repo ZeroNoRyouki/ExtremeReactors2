@@ -19,11 +19,13 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.container;
 
 import it.zerono.mods.extremereactors.gamecontent.Content;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.MultiblockFluidizer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.part.FluidizerSolidInjectorEntity;
 import it.zerono.mods.zerocore.lib.block.AbstractModBlockEntity;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ContainerFactory;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModContainer;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
+import it.zerono.mods.zerocore.lib.item.inventory.container.data.BooleanData;
 import it.zerono.mods.zerocore.lib.item.inventory.container.slot.SlotTemplate;
 import it.zerono.mods.zerocore.lib.item.inventory.container.slot.type.SlotType;
 import net.minecraft.network.FriendlyByteBuf;
@@ -32,12 +34,18 @@ import net.minecraft.world.entity.player.Inventory;
 public class FluidizerSolidInjectorContainer
         extends ModTileContainer<FluidizerSolidInjectorEntity> {
 
+    public final BooleanData ACTIVE;
+
     public FluidizerSolidInjectorContainer(final int windowId, final Inventory playerInventory,
                                            final FluidizerSolidInjectorEntity injector) {
         super(5, new ContainerFactory()
                         .addStandardPlayerInventorySlots(0, 0)
                         .addSlot(0, "inv", new SlotTemplate(SlotType.Input, ($, stack) -> injector.isValidIngredient(stack)), 0, 0),
                 Content.ContainerTypes.FLUIDIZER_SOLID_INJECTOR.get(), windowId, playerInventory, injector);
+
+        final MultiblockFluidizer fluidizer = injector.getMultiblockController().orElseThrow(IllegalStateException::new);
+
+        this.ACTIVE = BooleanData.of(this, fluidizer.getWorld().isClientSide(), () -> fluidizer::isMachineActive);
 
         this.addInventory("inv", injector.getItemHandler());
         this.addInventory(ModContainer.INVENTORYNAME_PLAYER_INVENTORY, playerInventory);

@@ -34,9 +34,7 @@ import it.zerono.mods.zerocore.lib.client.gui.IControl;
 import it.zerono.mods.zerocore.lib.client.gui.Orientation;
 import it.zerono.mods.zerocore.lib.client.gui.Padding;
 import it.zerono.mods.zerocore.lib.client.gui.control.*;
-import it.zerono.mods.zerocore.lib.client.gui.layout.FixedLayoutEngine;
-import it.zerono.mods.zerocore.lib.client.gui.layout.TabularLayoutEngine;
-import it.zerono.mods.zerocore.lib.client.gui.layout.VerticalLayoutEngine;
+import it.zerono.mods.zerocore.lib.client.gui.layout.*;
 import it.zerono.mods.zerocore.lib.client.gui.sprite.ISprite;
 import it.zerono.mods.zerocore.lib.client.gui.sprite.Sprite;
 import it.zerono.mods.zerocore.lib.energy.EnergySystem;
@@ -78,41 +76,53 @@ public class FluidizerControllerScreen
 
         super.onScreenCreate();
 
-        this.setContentLayoutEngine(new VerticalLayoutEngine()
-                .setVerticalMargin(1)
-                .setHorizontalMargin(3)
-                .setControlsSpacing(0));
+        this.setContentLayoutEngine(new VerticalLayoutEngine().setZeroMargins());
 
-        final Panel mainPanel = new Panel(this);
+        IControl verticalSeparator;
+        final Panel table = new Panel(this, "table");
+        final ILayoutEngine.ILayoutEngineHint hint = TabularLayoutEngine.hintBuilder()
+                .setVerticalAlignment(VerticalAlignment.Top)
+                .setPadding(Padding.get(0, 0, 1, 0))
+                .build();
 
-        mainPanel.setDesiredDimension(DesiredDimension.Height, CommonPanels.STANDARD_PANEL_HEIGHT);
-        mainPanel.setLayoutEngine(TabularLayoutEngine.builder()
+        table.setDesiredDimension(DesiredDimension.Width, 18 + 11 + 108 + 11 + 50);
+        table.setLayoutEngine(TabularLayoutEngine.builder()
                 .columns(5, 18, 11, 108, 11, 50)
                 .rows(1)
                 .build());
-        this.addControl(mainPanel);
 
         // BARS
 
-        // - energy bar
-        mainPanel.addControl(this._energyBar);
+        this._energyBar.setLayoutEngineHint(hint);
+        table.addControl(this._energyBar);
+
         // - separator
-        mainPanel.addControl(CommonPanels.verticalSeparator(this));
+        verticalSeparator = CommonPanels.verticalSeparator(this);
+        verticalSeparator.setLayoutEngineHint(hint);
+        table.addControl(verticalSeparator);
+
         // - recipe panel
-        mainPanel.addControl(this._recipePanel);
+        this._recipePanel.setLayoutEngineHint(hint);
+        table.addControl(this._recipePanel);
+
         // - separator
-        mainPanel.addControl(CommonPanels.verticalSeparator(this));
+        verticalSeparator = CommonPanels.verticalSeparator(this);
+        verticalSeparator.setLayoutEngineHint(hint);
+        table.addControl(verticalSeparator);
 
         // COMMANDS
 
         final Panel commandPanel = CommonPanels.verticalCommandPanel(this);
 
-        mainPanel.addControl(commandPanel);
+        commandPanel.setLayoutEngineHint(hint);
+        table.addControl(commandPanel);
 
         // - machine on/off
 
         this._onOff.setLayoutEngineHint(FixedLayoutEngine.hint(0, 0, 50, 16));
         commandPanel.addControl(this._onOff);
+
+        this.addControl(table);
     }
 
     //endregion

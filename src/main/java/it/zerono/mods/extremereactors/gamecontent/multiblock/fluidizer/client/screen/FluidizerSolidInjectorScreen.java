@@ -21,35 +21,43 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.client.s
 import it.zerono.mods.extremereactors.CommonLocations;
 import it.zerono.mods.extremereactors.gamecontent.compat.patchouli.PatchouliCompat;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.CommonIcons;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.CommonMultiblockScreen;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.GuiTheme;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.MultiblockFluidizer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.container.FluidizerSolidInjectorContainer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.part.FluidizerSolidInjectorEntity;
-import it.zerono.mods.zerocore.base.multiblock.client.screen.AbstractMultiblockScreen;
-import it.zerono.mods.zerocore.lib.client.gui.control.Panel;
-import it.zerono.mods.zerocore.lib.client.gui.control.SlotsGroup;
-import it.zerono.mods.zerocore.lib.client.gui.layout.FixedLayoutEngine;
-import it.zerono.mods.zerocore.lib.client.gui.layout.HorizontalAlignment;
+import it.zerono.mods.zerocore.base.client.screen.control.MachineStatusIndicator;
+import it.zerono.mods.zerocore.lib.client.gui.IControl;
+import it.zerono.mods.zerocore.lib.client.gui.layout.VerticalAlignment;
 import it.zerono.mods.zerocore.lib.client.gui.layout.VerticalLayoutEngine;
-import it.zerono.mods.zerocore.lib.client.gui.sprite.ISprite;
 import it.zerono.mods.zerocore.lib.client.gui.sprite.SpriteTextureMap;
 import it.zerono.mods.zerocore.lib.item.inventory.PlayerInventoryUsage;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraftforge.common.util.NonNullSupplier;
 
 public class FluidizerSolidInjectorScreen
-        extends AbstractMultiblockScreen<MultiblockFluidizer, FluidizerSolidInjectorEntity, FluidizerSolidInjectorContainer> {
+        extends CommonMultiblockScreen<MultiblockFluidizer, FluidizerSolidInjectorEntity, FluidizerSolidInjectorContainer> {
 
     public FluidizerSolidInjectorScreen(final FluidizerSolidInjectorContainer container,
                                         final Inventory inventory, final Component title) {
+
         super(container, inventory, PlayerInventoryUsage.Both, title,
                 () -> new SpriteTextureMap(CommonLocations.TEXTURES_GUI_MULTIBLOCK
                         .buildWithSuffix("basic_background.png"), 256, 256));
+
         this.setTheme(GuiTheme.ER.get());
+
+        this._slotGroup = this.createSingleIoSlotPanel("slot", "inv", 0, 0, CommonIcons.PortInputSlot);
+        this._playerInventoryGroup = this.createPlayerInventorySlotsGroupControl();
+        this._playerHotBarGroup = this.createPlayerHotBarSlotsGroupControl();
     }
 
     //region AbstractMultiblockScreen
+
+    @Override
+    protected MachineStatusIndicator createStatusIndicator(FluidizerSolidInjectorContainer container) {
+        return this.createFluidizerStatusIndicator(container.ACTIVE);
+    }
 
     /**
      * Called when this screen is being created for the first time.
@@ -62,46 +70,22 @@ public class FluidizerSolidInjectorScreen
 
         super.onScreenCreate();
 
-        final Panel panel = new Panel(this, "injector");
-        SlotsGroup slotsGroup;
+        this.setContentLayoutEngine(new VerticalLayoutEngine()
+                .setZeroMargins()
+                .setVerticalAlignment(VerticalAlignment.Bottom)
+                .setControlsSpacing(4));
 
-        panel.setLayoutEngineHint(FixedLayoutEngine.hint(0, 13));
-        panel.setDesiredDimension(this.getGuiWidth(), 38);
-        panel.setLayoutEngine(new VerticalLayoutEngine()
-                .setHorizontalAlignment(HorizontalAlignment.Center)
-                .setZeroMargins());
-        panel.addControl(this.slotPanel("slot", "inv", 0, 0, CommonIcons.PortInputSlot));
-        this.addControl(panel);
-
-        // - player main inventory slots
-        slotsGroup = this.createPlayerInventorySlotsGroupControl();
-        slotsGroup.setLayoutEngineHint(FixedLayoutEngine.hint(31, 63));
-        this.addControl(slotsGroup);
-
-        // - player hotbar slots
-        slotsGroup = this.createPlayerHotBarSlotsGroupControl();
-        slotsGroup.setLayoutEngineHint(FixedLayoutEngine.hint(31, 121));
-        this.addControl(slotsGroup);
+        this.addControl(this._slotGroup);
+        this.addControl(this._playerInventoryGroup);
+        this.addControl(this._playerHotBarGroup);
     }
 
     //endregion
     //region  internals
 
-    private Panel slotPanel(final String groupName, final String invName, final int x, final int y,
-                            final NonNullSupplier<ISprite> slotBackground) {
-
-        final SlotsGroup sg = this.createSingleSlotGroupControl(groupName, invName);
-        final Panel p = new Panel(this);
-
-        sg.setLayoutEngineHint(FixedLayoutEngine.hint(10, 10, 18, 18));
-
-        p.setBackground(slotBackground.get());
-        p.setDesiredDimension(38, 38);
-        p.setLayoutEngine(new FixedLayoutEngine().setZeroMargins());
-        p.addControl(sg);
-
-        return p;
-    }
+    private final IControl _slotGroup;
+    private final IControl _playerInventoryGroup;
+    private final IControl _playerHotBarGroup;
 
     //endregion
 }
