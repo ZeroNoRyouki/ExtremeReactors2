@@ -29,6 +29,7 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.contain
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.part.ReprocessorControllerEntity;
 import it.zerono.mods.zerocore.base.client.screen.BaseIcons;
 import it.zerono.mods.zerocore.base.client.screen.BaseScreenToolTipsBuilder;
+import it.zerono.mods.zerocore.base.client.screen.ClientBaseHelper;
 import it.zerono.mods.zerocore.base.client.screen.control.*;
 import it.zerono.mods.zerocore.lib.client.gui.ButtonState;
 import it.zerono.mods.zerocore.lib.client.gui.DesiredDimension;
@@ -80,7 +81,8 @@ public class ReprocessorControllerScreen
         this._voidFluid.Clicked.subscribe(this::onVoidFluid);
         this._voidFluid.setIconForState(CommonIcons.TrashCan.get(), ButtonState.Default);
         this._voidFluid.enablePaintBlending(true);
-
+        this._voidFluid.setPadding(1);
+        this._voidFluid.setDesiredDimension(ClientBaseHelper.SQUARE_BUTTON_DIMENSION, ClientBaseHelper.SQUARE_BUTTON_DIMENSION);
         this._voidFluid.setTooltips(new BaseScreenToolTipsBuilder()
                 .addTranslatableAsTitle("gui.bigreactors.reprocessor.controller.voidfluid.title")
                 .addEmptyLine()
@@ -101,66 +103,55 @@ public class ReprocessorControllerScreen
 
         super.onScreenCreate();
 
-        this.setContentLayoutEngine(new VerticalLayoutEngine()
-                .setVerticalMargin(1)
-                .setHorizontalMargin(13)
-                .setControlsSpacing(0));
-
-        final Panel mainPanel = new Panel(this);
-
-        mainPanel.setDesiredDimension(DesiredDimension.Height, CommonPanels.STANDARD_PANEL_HEIGHT);
-        mainPanel.setLayoutEngine(new HorizontalLayoutEngine()
+        this.setContentLayoutEngine(new HorizontalLayoutEngine()
                 .setZeroMargins()
                 .setVerticalAlignment(VerticalAlignment.Top)
-                .setHorizontalAlignment(HorizontalAlignment.Left));
-        this.addControl(mainPanel);
+                .setHorizontalAlignment(HorizontalAlignment.Center));
 
         // BARS
 
         // - energy bar
-        mainPanel.addControl(this._energyBar);
+        this.addControl(this._energyBar);
         // - separator
-        mainPanel.addControl(CommonPanels.verticalSeparator(this));
+        this.addControl(CommonPanels.verticalSeparator(this));
         // - fluid bar
-        mainPanel.addControl(this._fluidBar);
+        this.addControl(this._fluidBar);
         // - separator
-        mainPanel.addControl(CommonPanels.verticalSeparator(this));
+        this.addControl(CommonPanels.verticalSeparator(this));
 
         // RECIPE PANEL
 
         final Panel recipePanel = new Panel(this);
 
-        mainPanel.addControl(recipePanel);
-
         recipePanel.setLayoutEngine(new VerticalLayoutEngine());
-        recipePanel.setDesiredDimension(DesiredDimension.Width, 64);
+        recipePanel.setDesiredDimension(64, CommonPanels.STANDARD_PANEL_HEIGHT);
         // - recipe input
         recipePanel.addControl(this._inputStack);
         // - recipe progress
         recipePanel.addControl(this._progressBar);
         // - recipe output
         recipePanel.addControl(this._outputStack);
+        this.addControl(recipePanel);
 
         // - separator
-        mainPanel.addControl(CommonPanels.verticalSeparator(this));
+        this.addControl(CommonPanels.verticalSeparator(this));
 
         // COMMANDS
 
-        final Panel commandPanel = CommonPanels.verticalCommandPanel(this);
+        final Panel commandPanel = CommonPanels.verticalCommandPanel(this,
+                this._onOff.getDesiredDimension(DesiredDimension.Width));
 
-        mainPanel.addControl(commandPanel);
+        commandPanel.setLayoutEngine(new AnchoredLayoutEngine().setZeroMargins());
 
         // - machine on/off
-
-        this._onOff.setLayoutEngineHint(FixedLayoutEngine.hint(0, 0, 50, 16));
+        this._onOff.setLayoutEngineHint(AnchoredLayoutEngine.Anchor.Top);
         commandPanel.addControl(this._onOff);
 
         // - void fluid
-
-        this._voidFluid.setLayoutEngineHint(FixedLayoutEngine.hint(17, 28, 18, 18));
-        this._voidFluid.setPadding(1);
-
+        this._voidFluid.setLayoutEngineHint(AnchoredLayoutEngine.Anchor.Center);
         commandPanel.addControl(this._voidFluid);
+
+        this.addControl(commandPanel);
     }
 
     //endregion
