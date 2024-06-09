@@ -211,6 +211,7 @@
     "gui.bigreactors.reprocessor.inactive": "Il Reprocessor è disattivo",
     "gui.bigreactors.fluidizer.active": "Il Fluidizer è ATTIVO",
     "gui.bigreactors.fluidizer.inactive": "Il Fluidizer è disattivo",
+    "gui.bigreactors.show_recipes.tooltip.title": "Mostra ricette",
 
     "gui.bigreactors.reactor.controller.fuelusage.tooltip.title": "Tasso di consumo del combustibile",
     "gui.bigreactors.reactor.controller.fuelusage.tooltip.body": "La velocità con cui il combustibile viene fissionato e convertito in scorie nel nucleo.",

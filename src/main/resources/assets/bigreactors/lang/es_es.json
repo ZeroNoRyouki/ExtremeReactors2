@@ -214,6 +214,7 @@
     "gui.bigreactors.reprocessor.inactive": "El Reprocesador está inactivo",
     "gui.bigreactors.fluidizer.active": "El Fluidizador está ACTIVO",
     "gui.bigreactors.fluidizer.inactive": "El Fluidizador está inactivo",
+    "gui.bigreactors.show_recipes.tooltip.title": "Mostrar recetas",
 
     "gui.bigreactors.reactor.controller.fuelusage.tooltip.title": "Tasa de Consumo de Combustible",
     "gui.bigreactors.reactor.controller.fuelusage.tooltip.body": "La tasa a la que el combustible es fisionado en residuos dentro del núcleo.",

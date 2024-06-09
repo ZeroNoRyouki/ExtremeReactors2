@@ -211,6 +211,7 @@
     "gui.bigreactors.reprocessor.inactive": "Репроцессор неактивен",
     "gui.bigreactors.fluidizer.active": "Флюидайзер АКТИВЕН",
     "gui.bigreactors.fluidizer.inactive": "Флюидайзер неактивен",
+    "gui.bigreactors.show_recipes.tooltip.title": "Показать рецепты",
 
     "gui.bigreactors.reactor.controller.fuelusage.tooltip.title": "Скорость сжигания топлива",
     "gui.bigreactors.reactor.controller.fuelusage.tooltip.body": "Скорость превращения топлива в отходы в ядре.",

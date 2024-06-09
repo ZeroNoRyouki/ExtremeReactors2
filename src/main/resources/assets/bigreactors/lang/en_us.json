@@ -214,6 +214,7 @@
     "gui.bigreactors.reprocessor.inactive": "The Reprocessor is inactive",
     "gui.bigreactors.fluidizer.active": "The Fluidizer is ACTIVE",
     "gui.bigreactors.fluidizer.inactive": "The Fluidizer is inactive",
+    "gui.bigreactors.show_recipes.tooltip.title": "Show recipes",
 
     "gui.bigreactors.reactor.controller.fuelusage.tooltip.title": "Fuel Burnup Rate",
     "gui.bigreactors.reactor.controller.fuelusage.tooltip.body": "The rate at which fuel is fissioned into waste in the core.",

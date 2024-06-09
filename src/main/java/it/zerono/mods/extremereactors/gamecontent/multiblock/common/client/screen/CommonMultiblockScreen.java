@@ -19,6 +19,7 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen;
 
 import it.zerono.mods.extremereactors.CommonLocations;
+import it.zerono.mods.extremereactors.gamecontent.compat.jei.IExtremeReactorsJeiService;
 import it.zerono.mods.zerocore.base.client.screen.ClientBaseHelper;
 import it.zerono.mods.zerocore.base.client.screen.control.MachineStatusIndicator;
 import it.zerono.mods.zerocore.base.multiblock.client.screen.AbstractMultiblockScreen;
@@ -109,6 +110,18 @@ public abstract class CommonMultiblockScreen<Controller extends AbstractCuboidMu
     protected MachineStatusIndicator createFluidizerStatusIndicator(BooleanData bindableStatus) {
         return this.createDefaultStatusIndicator(bindableStatus, "gui.bigreactors.fluidizer.active",
                 "gui.bigreactors.fluidizer.inactive");
+    }
+
+    protected void displayFluidizerRecipes() {
+        IExtremeReactorsJeiService.SERVICE.get().displayFluidizerRecipes();
+    }
+
+    protected void displayReprocessorRecipes() {
+        IExtremeReactorsJeiService.SERVICE.get().displayReprocessorRecipes();
+    }
+
+    protected void displayReactorRecipes() {
+        IExtremeReactorsJeiService.SERVICE.get().displayReactorRecipes();
     }
 
     protected static NonNullSupplier<SpriteTextureMap> mainTextureFromVariant(IMultiblockVariant variant) {

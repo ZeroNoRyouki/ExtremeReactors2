@@ -54,6 +54,7 @@ public class FluidizerControllerScreen
         super(container, inventory, PlayerInventoryUsage.None, title, FluidizerIcons::getMap);
 
         this.addPatchouliHelpButton(PatchouliCompat.HANDBOOK_ID, CommonLocations.FLUIDIZER.buildWithSuffix("part-controller"), 1);
+        this.addRecipesButton(this::displayFluidizerRecipes, "gui.bigreactors.show_recipes.tooltip.title");
 
         this._energyBar = new EnergyBar(this, "energyBar", EnergySystem.ForgeEnergy, container.getEnergyCapacity(),
                 container.ENERGY_STORED, null);

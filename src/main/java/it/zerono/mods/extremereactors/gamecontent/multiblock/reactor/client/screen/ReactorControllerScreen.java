@@ -43,6 +43,7 @@ public class ReactorControllerScreen
                 mainTextureFromVariant(container.getTileEntity().getMultiblockVariant().orElse(ReactorVariant.Basic)));
 
         this.addPatchouliHelpButton(PatchouliCompat.HANDBOOK_ID, CommonLocations.REACTOR.buildWithSuffix("part-controller"), 1);
+        this.addRecipesButton(this::displayReactorRecipes, "gui.bigreactors.show_recipes.tooltip.title");
 
         this.setContentBounds(14, 0);
 

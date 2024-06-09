@@ -53,6 +53,7 @@ public class ReprocessorControllerScreen
                 () -> new SpriteTextureMap(CommonLocations.TEXTURES_GUI_MULTIBLOCK.buildWithSuffix("basic_background.png"), 256, 256));
 
         this.addPatchouliHelpButton(PatchouliCompat.HANDBOOK_ID, CommonLocations.REPROCESSOR.buildWithSuffix("part-controller"), 1);
+        this.addRecipesButton(this::displayReprocessorRecipes, "gui.bigreactors.show_recipes.tooltip.title");
 
         this._inputStack = new ItemStackDisplay(this, "input");
         this._inputStack.bindStack(container.ITEM_INPUT_STACK);
