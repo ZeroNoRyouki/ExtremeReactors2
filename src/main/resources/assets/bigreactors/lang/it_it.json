@@ -56,6 +56,7 @@
     "item.bigreactors.cryomisi_bucket": "Secchio di Cryomisi",
     "item.bigreactors.tangerium_bucket": "Secchio di Tangerium",
     "item.bigreactors.redfrigium_bucket": "Secchio di Redfrigium",
+    "item.bigreactors.raw_yellorium": "Yellorium grezzo",
 
     "_comment": "Fluids",
     "fluid.bigreactors.water": "Acqua",
@@ -82,6 +83,7 @@
 
     "_comment": "Blocks - metal blocks / ores",
     "block.bigreactors.yellorium_block": "Blocco di Yellorium",
+    "block.bigreactors.raw_yellorium_block": "Blocco di Yellorium grezzo",
     "block.bigreactors.cyanite_block": "Blocco di Cyanite",
     "block.bigreactors.blutonium_block": "Blocco di Blutonium",
     "block.bigreactors.magentite_block": "Blocco di Magentite",
@@ -91,9 +93,10 @@
     "block.bigreactors.inanite_block": "Blocco di Inanite",
 
     "_comment": "Blocks - ores",
-    "block.bigreactors.yellorite_ore": "Yellorite grezza",
-    "block.bigreactors.anglesite_ore": "Anglesite grezza",
-    "block.bigreactors.benitoite_ore": "Benitoite grezza",
+    "block.bigreactors.yellorite_ore": "Minerale di Yellorite",
+    "block.bigreactors.deepslate_yellorite_ore": "Minerale di Yellorite in ardesia profonda",
+    "block.bigreactors.anglesite_ore": "Minerale di Anglesite",
+    "block.bigreactors.benitoite_ore": "Minerale di Benitoite",
 
     "_comment": "Blocks - reactor parts (basic)",
     "block.bigreactors.basic_reactorglass": "Vetro del Reattore (Base)",

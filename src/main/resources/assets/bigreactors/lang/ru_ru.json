@@ -56,6 +56,7 @@
     "item.bigreactors.cryomisi_bucket": "Ведро с криомиси",
     "item.bigreactors.tangerium_bucket": "Ведро с тангериумом",
     "item.bigreactors.redfrigium_bucket": "Ведро с редфригиумом",
+    "item.bigreactors.raw_yellorium": "Сырой Йеллория",
 
     "_comment": "Fluids",
     "fluid.bigreactors.water": "Вода",
@@ -82,6 +83,7 @@
 
     "_comment": "Blocks - metal blocks / ores",
     "block.bigreactors.yellorium_block": "Блок Йеллория",
+    "block.bigreactors.raw_yellorium_block": "Необработанный блок Йеллориума",
     "block.bigreactors.cyanite_block": "Блок цианита",
     "block.bigreactors.blutonium_block": "Блок блутония",
     "block.bigreactors.magentite_block": "Блок магентита",
@@ -92,6 +94,7 @@
 
     "_comment": "Blocks - ores",
     "block.bigreactors.yellorite_ore": "Руда Йеллория",
+    "block.bigreactors.deepslate_yellorite_ore": "Глубокий сланец руда Йеллория",
     "block.bigreactors.anglesite_ore": "Руда англезита",
     "block.bigreactors.benitoite_ore": "Руда бенитоита",
 

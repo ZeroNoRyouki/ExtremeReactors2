@@ -153,6 +153,7 @@ public final class Content {
         //region metals
 
         public static final RegistryObject<ModBlock> YELLORIUM_BLOCK = registerMetalBlock(Reactants.Yellorium.getBlockName(), DyeColor.YELLOW);
+        public static final RegistryObject<ModBlock> RAW_YELLORIUM_BLOCK = registerMetalBlock("raw_yellorium_block", DyeColor.YELLOW);
         public static final RegistryObject<ModBlock> CYANITE_BLOCK = registerMetalBlock(Reactants.Cyanite.getBlockName(), DyeColor.LIGHT_BLUE);
         public static final RegistryObject<ModBlock> GRAPHITE_BLOCK = registerMetalBlock("graphite_block", DyeColor.GRAY);
         public static final RegistryObject<ModBlock> BLUTONIUM_BLOCK = registerMetalBlock(Reactants.Blutonium.getBlockName(), DyeColor.PURPLE);
@@ -167,6 +168,7 @@ public final class Content {
         //region ores
 
         public static final RegistryObject<ModBlock> YELLORITE_ORE_BLOCK = registerOreBlock("yellorite_ore", DyeColor.YELLOW, 0, 0);
+        public static final RegistryObject<ModBlock> DEEPSLATE_YELLORITE_ORE_BLOCK = registerOreBlock("deepslate_yellorite_ore", DyeColor.YELLOW, 0, 0);
         public static final RegistryObject<ModBlock> ANGLESITE_ORE_BLOCK = registerOreBlock("anglesite_ore", DyeColor.ORANGE);
         public static final RegistryObject<ModBlock> BENITOITE_ORE_BLOCK = registerOreBlock("benitoite_ore", DyeColor.LIGHT_BLUE);
 
@@ -514,6 +516,7 @@ public final class Content {
         //region metals
 
         public static final RegistryObject<ModItem> YELLORIUM_INGOT = registerItemGeneric(Reactants.Yellorium.getIngotName());
+        public static final RegistryObject<ModItem> RAW_YELLORIUM = registerItemGeneric("raw_yellorium");
         public static final RegistryObject<ModItem> CYANITE_INGOT = registerItemGeneric(Reactants.Cyanite.getIngotName());
         public static final RegistryObject<ModItem> GRAPHITE_INGOT = registerItemGeneric("graphite_ingot");
         public static final RegistryObject<ModItem> BLUTONIUM_INGOT = registerItemGeneric(Reactants.Blutonium.getIngotName());
@@ -537,6 +540,7 @@ public final class Content {
         public static final RegistryObject<ModItem> INSANITE_DUST = registerItemGeneric("insanite_dust");
 
         public static final RegistryObject<BlockItem> YELLORIUM_BLOCK = registerItemBlock(Reactants.Yellorium.getBlockName(), () -> Blocks.YELLORIUM_BLOCK);
+        public static final RegistryObject<BlockItem> RAW_YELLORIUM_BLOCK = registerItemBlock("raw_yellorium_block", () -> Blocks.RAW_YELLORIUM_BLOCK);
         public static final RegistryObject<BlockItem> CYANITE_BLOCK = registerItemBlock(Reactants.Cyanite.getBlockName(), () -> Blocks.CYANITE_BLOCK);
         public static final RegistryObject<BlockItem> GRAPHITE_BLOCK = registerItemBlock("graphite_block", () -> Blocks.GRAPHITE_BLOCK);
         public static final RegistryObject<BlockItem> BLUTONIUM_BLOCK = registerItemBlock(Reactants.Blutonium.getBlockName(), () -> Blocks.BLUTONIUM_BLOCK);
@@ -556,6 +560,7 @@ public final class Content {
         //region ores
 
         public static final RegistryObject<BlockItem> YELLORITE_ORE_BLOCK = registerItemBlock("yellorite_ore", () -> Blocks.YELLORITE_ORE_BLOCK);
+        public static final RegistryObject<BlockItem> DEEPSLATE_YELLORITE_ORE_BLOCK = registerItemBlock("deepslate_yellorite_ore", () -> Blocks.DEEPSLATE_YELLORITE_ORE_BLOCK);
         public static final RegistryObject<BlockItem> ANGLESITE_ORE_BLOCK = registerItemBlock("anglesite_ore", () -> Blocks.ANGLESITE_ORE_BLOCK);
         public static final RegistryObject<BlockItem> BENITOITE_ORE_BLOCK = registerItemBlock("benitoite_ore", () -> Blocks.BENITOITE_ORE_BLOCK);
 
@@ -1300,8 +1305,10 @@ public final class Content {
                     .withTabsAfter(tabReactor)
                     .displayItems((parameters, output) -> {
 
-                        acceptAll(output, Blocks.YELLORITE_ORE_BLOCK, Blocks.ANGLESITE_ORE_BLOCK, Blocks.BENITOITE_ORE_BLOCK,
-                                Items.YELLORIUM_INGOT, Items.YELLORIUM_DUST, Blocks.YELLORIUM_BLOCK,
+                        acceptAll(output, Blocks.YELLORITE_ORE_BLOCK, Blocks.DEEPSLATE_YELLORITE_ORE_BLOCK,
+                                Blocks.ANGLESITE_ORE_BLOCK, Blocks.BENITOITE_ORE_BLOCK,
+                                Items.YELLORIUM_INGOT, Items.RAW_YELLORIUM, Items.RAW_YELLORIUM_BLOCK,
+                                Items.YELLORIUM_DUST, Blocks.YELLORIUM_BLOCK,
                                 Items.BLUTONIUM_INGOT, Items.BLUTONIUM_DUST, Blocks.BLUTONIUM_BLOCK,
                                 Items.CYANITE_INGOT, Items.CYANITE_DUST, Blocks.CYANITE_BLOCK,
                                 Items.MAGENTITE_INGOT, Items.MAGENTITE_DUST, Blocks.MAGENTITE_BLOCK,

@@ -46,6 +46,8 @@ public class GenericRecipesDataProvider
         this.reactantsStorage(builder, "graphite", Content.Items.GRAPHITE_BLOCK, Content.Items.GRAPHITE_INGOT);
         this.reactantsStorage(builder, "blutonium", Content.Items.BLUTONIUM_BLOCK, Content.Items.BLUTONIUM_INGOT);
         this.reactantsStorage(builder, "magentite", Content.Items.MAGENTITE_BLOCK, Content.Items.MAGENTITE_INGOT);
+        this.storageBlock3x3(builder, "raw_yellorium", this.group("raw_yellorium"),
+                RecipeCategory.MISC, Content.Blocks.RAW_YELLORIUM_BLOCK, RecipeCategory.MISC, Content.Items.RAW_YELLORIUM);
 
         // nuggets
 
@@ -62,6 +64,7 @@ public class GenericRecipesDataProvider
         // smelting
 
         this.blastingAndSmelting(builder, "yellorium_from_ore", "yellorium", Content.Items.YELLORIUM_INGOT, Content.Items.YELLORITE_ORE_BLOCK);
+        this.blastingAndSmelting(builder, "yellorium_from_raw", "yellorium", Content.Items.YELLORIUM_INGOT, Content.Items.RAW_YELLORIUM);
         this.blastingAndSmelting(builder, "yellorium_from_dust", "yellorium", Content.Items.YELLORIUM_INGOT, Content.Items.YELLORIUM_DUST);
         this.blastingAndSmelting(builder, "cyanite_from_dust", "cyanite", Content.Items.CYANITE_INGOT, Content.Items.CYANITE_DUST);
         this.blastingAndSmelting(builder, "graphite_from_dust", "graphite", Content.Items.GRAPHITE_INGOT, Content.Items.GRAPHITE_DUST);

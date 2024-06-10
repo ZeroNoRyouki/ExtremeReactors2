@@ -58,6 +58,7 @@
     "item.bigreactors.cryomisi_bucket": "Cryomisi Bucket",
     "item.bigreactors.tangerium_bucket": "Tangerium Bucket",
     "item.bigreactors.redfrigium_bucket": "Redfrigium Bucket",
+    "item.bigreactors.raw_yellorium": "Raw Yellorium",
 
     "_comment": "Fluids",
     "fluid.bigreactors.water": "Water",
@@ -84,6 +85,7 @@
 
     "_comment": "Blocks - metal blocks / ores",
     "block.bigreactors.yellorium_block": "Yellorium Block",
+    "block.bigreactors.raw_yellorium_block": "Raw Yellorium Block",
     "block.bigreactors.cyanite_block": "Cyanite Block",
     "block.bigreactors.blutonium_block": "Blutonium Block",
     "block.bigreactors.magentite_block": "Magentite Block",
@@ -95,6 +97,7 @@
 
     "_comment": "Blocks - ores",
     "block.bigreactors.yellorite_ore": "Yellorite Ore",
+    "block.bigreactors.deepslate_yellorite_ore": "Deepslate Yellorite Ore",
     "block.bigreactors.anglesite_ore": "Anglesite Ore",
     "block.bigreactors.benitoite_ore": "Benitoite Ore",
 

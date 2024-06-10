@@ -26,6 +26,12 @@ public class ItemTagsDataProvider
 
         builder.apply(ContentTags.Items.ORE_YELLORITE).add(Content.Items.YELLORITE_ORE_BLOCK);
 
+        builder.apply(Tags.Items.ORES_IN_GROUND_STONE).add(Content.Items.YELLORITE_ORE_BLOCK);
+        builder.apply(Tags.Items.ORES_IN_GROUND_DEEPSLATE).add(Content.Items.DEEPSLATE_YELLORITE_ORE_BLOCK);
+        builder.apply(Tags.Items.ORES_IN_GROUND_NETHERRACK).add(Content.Items.BENITOITE_ORE_BLOCK);
+        builder.apply(Tags.Items.RAW_MATERIALS).add(Content.Items.RAW_YELLORIUM);
+        builder.apply(ContentTags.Items.RAW_MATERIALS_YELLORIUM).add(Content.Items.RAW_YELLORIUM);
+
         builder.apply(ContentTags.Items.INGOTS_YELLORIUM).add(Content.Items.YELLORIUM_INGOT);
         builder.apply(ContentTags.Items.INGOTS_CYANITE).add(Content.Items.CYANITE_INGOT);
         builder.apply(ContentTags.Items.INGOTS_GRAPHITE).add(Content.Items.GRAPHITE_INGOT);

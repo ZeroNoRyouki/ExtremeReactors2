@@ -1,6 +1,7 @@
 {
   "values": [
     "bigreactors:yellorium_block",
+    "bigreactors:raw_yellorium_block",
     "bigreactors:cyanite_block",
     "bigreactors:graphite_block",
     "bigreactors:blutonium_block",
@@ -10,6 +11,7 @@
     "bigreactors:inanite_block",
     "bigreactors:insanite_block",
     "bigreactors:yellorite_ore",
+    "bigreactors:deepslate_yellorite_ore",
     "bigreactors:anglesite_ore",
     "bigreactors:benitoite_ore",
     "bigreactors:basic_reactorcasing",

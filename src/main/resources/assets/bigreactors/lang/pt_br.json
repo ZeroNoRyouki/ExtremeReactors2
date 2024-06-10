@@ -58,6 +58,7 @@
     "item.bigreactors.cryomisi_bucket": "Balde de Cryomisi",
     "item.bigreactors.tangerium_bucket": "Balde de Tangerium",
     "item.bigreactors.redfrigium_bucket": "Balde de Redfrigium",
+    "item.bigreactors.raw_yellorium": "Yellório cru",
 
     "_comment": "Fluids",
     "fluid.bigreactors.water": "Água",
@@ -84,6 +85,7 @@
 
     "_comment": "Blocks - metal blocks / ores",
     "block.bigreactors.yellorium_block": "Bloco de Yellório",
+    "block.bigreactors.raw_yellorium_block": "Bloco de Yellório cru",
     "block.bigreactors.cyanite_block": "Bloco de Cianite",
     "block.bigreactors.blutonium_block": "Bloco de Blutônio",
     "block.bigreactors.magentite_block": "Bloco de Magentite",
@@ -95,6 +97,7 @@
 
     "_comment": "Blocks - ores",
     "block.bigreactors.yellorite_ore": "Minério de Yellorite",
+    "block.bigreactors.deepslate_yellorite_ore": "Minério de Yellorite de Ardósia Profunda",
     "block.bigreactors.anglesite_ore": "Minério de Anglesita",
     "block.bigreactors.benitoite_ore": "Minério de Benitoíte",
 

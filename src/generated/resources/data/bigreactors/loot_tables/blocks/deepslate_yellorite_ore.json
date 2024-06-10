@@ -24,7 +24,7 @@
                   }
                 }
               ],
-              "name": "bigreactors:yellorite_ore"
+              "name": "bigreactors:deepslate_yellorite_ore"
             },
             {
               "type": "minecraft:item",
@@ -46,5 +46,5 @@
       "rolls": 1.0
     }
   ],
-  "random_sequence": "bigreactors:blocks/yellorite_ore"
+  "random_sequence": "bigreactors:blocks/deepslate_yellorite_ore"
 }

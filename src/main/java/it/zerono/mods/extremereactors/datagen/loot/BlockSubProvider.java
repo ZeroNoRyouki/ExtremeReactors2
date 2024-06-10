@@ -22,12 +22,14 @@ public class BlockSubProvider
     @Override
     protected void generate() {
 
-        this.dropSelf(Content.Blocks.YELLORIUM_BLOCK, Content.Blocks.CYANITE_BLOCK, Content.Blocks.GRAPHITE_BLOCK,
+        this.dropSelf(Content.Blocks.YELLORIUM_BLOCK, Content.Blocks.RAW_YELLORIUM_BLOCK,
+                Content.Blocks.CYANITE_BLOCK, Content.Blocks.GRAPHITE_BLOCK,
                 Content.Blocks.BLUTONIUM_BLOCK, Content.Blocks.MAGENTITE_BLOCK,
                 Content.Blocks.LUDICRITE_BLOCK, Content.Blocks.RIDICULITE_BLOCK, Content.Blocks.INANITE_BLOCK,
-                Content.Blocks.INSANITE_BLOCK,
-                Content.Blocks.YELLORITE_ORE_BLOCK);
+                Content.Blocks.INSANITE_BLOCK);
 
+        this.dropOre(Content.Blocks.YELLORITE_ORE_BLOCK, Content.Items.RAW_YELLORIUM);
+        this.dropOre(Content.Blocks.DEEPSLATE_YELLORITE_ORE_BLOCK, Content.Items.RAW_YELLORIUM);
         this.dropOre(Content.Blocks.ANGLESITE_ORE_BLOCK, Content.Items.ANGLESITE_CRYSTAL);
         this.dropOre(Content.Blocks.BENITOITE_ORE_BLOCK, Content.Items.BENITOITE_CRYSTAL);
 

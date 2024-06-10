@@ -28,6 +28,7 @@ public class BlockTagsDataProvider
                       NonNullFunction<TagKey<Block>, ModIntrinsicTagAppender<Block>> builder) {
 
         builder.apply(ContentTags.Blocks.BLOCKS_YELLORIUM).add(Content.Blocks.YELLORIUM_BLOCK);
+        builder.apply(ContentTags.Blocks.BLOCKS_RAW_YELLORIUM).add(Content.Blocks.RAW_YELLORIUM_BLOCK);
         builder.apply(ContentTags.Blocks.BLOCKS_CYANITE).add(Content.Blocks.CYANITE_BLOCK);
         builder.apply(ContentTags.Blocks.BLOCKS_BLUTONIUM).add(Content.Blocks.BLUTONIUM_BLOCK);
         builder.apply(ContentTags.Blocks.BLOCKS_MAGENTITE).add(Content.Blocks.MAGENTITE_BLOCK);
