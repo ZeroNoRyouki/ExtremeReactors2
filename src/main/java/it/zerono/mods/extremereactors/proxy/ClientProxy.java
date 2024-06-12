@@ -30,10 +30,14 @@ import it.zerono.mods.extremereactors.config.Config;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.compat.patchouli.PatchouliCompat;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.CachedSprites;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.FluidizerTankData;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.client.model.FluidizerClientTankData;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.client.model.FluidizerGlassModelBuilder;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.client.model.FluidizerModelBuilder;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.client.render.FluidizerControllerEntityRenderer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.client.screen.FluidizerControllerScreen;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.client.screen.FluidizerSolidInjectorScreen;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.part.FluidizerControllerEntity;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.FuelRodsLayout;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.ClientFuelRodsLayout;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.model.ReactorFuelRodBlockColor;
@@ -178,6 +182,11 @@ public class ClientProxy
         return new ClientFuelRodsLayout(direction, length);
     }
 
+    @Override
+    public FluidizerTankData createFluidizerTankData(FluidizerControllerEntity controllerEntity) {
+        return new FluidizerClientTankData(controllerEntity);
+    }
+
     //endregion
     //region ResourceManagerReloadListener
 
@@ -250,8 +259,10 @@ public class ClientProxy
     }
 
     private static void registerTileRenderers() {
+
         BlockEntityRenderers.register(Content.TileEntityTypes.TURBINE_ROTORBEARING.get(), RotorBearingEntityRenderer::new);
         BlockEntityRenderers.register(Content.TileEntityTypes.REPROCESSOR_COLLECTOR.get(), ReprocessorCollectorRender::new);
+        BlockEntityRenderers.register(Content.TileEntityTypes.FLUIDIZER_CONTROLLER.get(), FluidizerControllerEntityRenderer::new);
     }
 
     //region registration helpers

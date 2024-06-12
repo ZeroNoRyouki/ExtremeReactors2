@@ -22,6 +22,7 @@ import it.zerono.mods.extremereactors.api.internal.modpack.wrapper.ApiWrapper;
 import it.zerono.mods.extremereactors.config.Config;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.command.ExtremeReactorsCommand;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.network.UpdateFluidizerFluidStatus;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.network.UpdateClientsFuelRodsLayout;
 import it.zerono.mods.extremereactors.proxy.IProxy;
 import it.zerono.mods.extremereactors.proxy.ProxySafeReferent;
@@ -80,7 +81,9 @@ public class ExtremeReactors implements IModInitializationHandler {
      */
     @Override
     public void onCommonInit(FMLCommonSetupEvent event) {
+
         this._network.registerMessage(UpdateClientsFuelRodsLayout.class, UpdateClientsFuelRodsLayout::new);
+        this._network.registerMessage(UpdateFluidizerFluidStatus.class, UpdateFluidizerFluidStatus::new);
     }
 
     /**

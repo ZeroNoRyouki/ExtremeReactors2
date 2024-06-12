@@ -1,8 +1,7 @@
 /*
+ * package-info
  *
- * package-info.java
- *
- * This file is part of Extreme Reactors 2 by ZeroNoRyouki, a Minecraft mod.
+ * This file is part of Zero CORE 2 by ZeroNoRyouki, a Minecraft mod.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -12,13 +11,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  *
- * DO NOT REMOVE OR EDIT THIS HEADER
+ * Do not remove or edit this header
  *
  */
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-package it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.client.render;
+package it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.network;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 

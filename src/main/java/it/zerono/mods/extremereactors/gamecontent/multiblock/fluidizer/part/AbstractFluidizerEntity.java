@@ -20,6 +20,7 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.part;
 
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.FluidizerPartType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.MultiblockFluidizer;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.network.UpdateFluidizerFluidStatus;
 import it.zerono.mods.zerocore.base.multiblock.part.AbstractMultiblockEntity;
 import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockPartTypeProvider;
 import it.zerono.mods.zerocore.lib.client.model.data.multiblock.CuboidPartVariantsModelDataCache;
@@ -83,6 +84,10 @@ public class AbstractFluidizerEntity
 
     protected int getUpdatedModelVariantIndex() {
         return 0;
+    }
+
+    public void onUpdateFluidStatus(UpdateFluidizerFluidStatus message) {
+        this.executeOnController(c -> c.onUpdateFluidStatus(message));
     }
 
     //endregion

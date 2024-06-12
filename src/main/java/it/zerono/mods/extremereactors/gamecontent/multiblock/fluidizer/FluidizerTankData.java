@@ -1,6 +1,6 @@
 /*
  *
- * IProxy.java
+ * FluidizerTankData.java
  *
  * This file is part of Extreme Reactors 2 by ZeroNoRyouki, a Minecraft mod.
  *
@@ -16,16 +16,7 @@
  *
  */
 
-package it.zerono.mods.extremereactors.proxy;
+package it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer;
 
-import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.FluidizerTankData;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.part.FluidizerControllerEntity;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.FuelRodsLayout;
-import net.minecraft.core.Direction;
-
-public interface IProxy {
-
-    FuelRodsLayout createFuelRodsLayout(Direction direction, int length);
-
-    FluidizerTankData createFluidizerTankData(FluidizerControllerEntity controllerEntity);
+public class FluidizerTankData {
 }

@@ -20,9 +20,11 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer;
 
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectList;
+import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.Log;
 import it.zerono.mods.extremereactors.config.Config;
 import it.zerono.mods.extremereactors.gamecontent.Content;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.network.UpdateFluidizerFluidStatus;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.part.*;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.recipe.FluidizerFluidMixingRecipe;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.recipe.FluidizerSolidMixingRecipe;
@@ -31,7 +33,9 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.recipe.IF
 import it.zerono.mods.zerocore.lib.*;
 import it.zerono.mods.zerocore.lib.block.ModBlock;
 import it.zerono.mods.zerocore.lib.data.WideAmount;
+import it.zerono.mods.zerocore.lib.data.geometry.CuboidBoundingBox;
 import it.zerono.mods.zerocore.lib.data.nbt.ISyncableEntity;
+import it.zerono.mods.zerocore.lib.data.stack.IStackHolder;
 import it.zerono.mods.zerocore.lib.data.stack.OperationMode;
 import it.zerono.mods.zerocore.lib.energy.EnergyHelper;
 import it.zerono.mods.zerocore.lib.energy.EnergySystem;
@@ -76,7 +80,7 @@ public class MultiblockFluidizer
 
         super(world);
 
-        this._outputTank = new FluidTank(0);
+        this._outputTank = new FluidTank(0).setOnContentsChangedListener(this::onFluidTankChanged);
         this._outputFluidHandler = FluidHandlerPolicyWrapper.outputOnly(this._outputTank);
         this._energyBuffer = new WideEnergyBuffer(EnergySystem.ForgeEnergy, ENERGY_CAPACITY, WideAmount.asImmutable(1000));
         this._energyInputHandler = WideEnergyStoragePolicyWrapper.inputOnly(this._energyBuffer);
@@ -90,6 +94,9 @@ public class MultiblockFluidizer
 
         this._ticker = TickerListener.singleListener(10, this::sendUpdates);
         this._interiorInvisible = this._ingredientsChanged = this._active = false;
+
+        this._sendUpdateFluidStatus = false;
+        this._sendUpdateFluidStatusDelayedRunnable = CodeHelper.delayedRunnable(this::sendUpdateFluidStatus, 5 * 10);
     }
 
     public boolean isValidIngredient(final ItemStack stack) {
@@ -143,6 +150,13 @@ public class MultiblockFluidizer
 
     protected void setInteriorInvisible(final boolean visible) {
         this._interiorInvisible = visible;
+    }
+
+    public void onUpdateFluidStatus(UpdateFluidizerFluidStatus message) {
+
+        if (this.calledByLogicalClient()) {
+            this._outputTank.setContent(message.getStack());
+        }
     }
 
     //endregion
@@ -306,6 +320,10 @@ public class MultiblockFluidizer
 
         profiler.popPush("Updates");
         this._ticker.tick();
+
+        if (this._sendUpdateFluidStatus) {
+            this._sendUpdateFluidStatusDelayedRunnable.run();
+        }
 
         profiler.pop();
         profiler.pop(); // main section
@@ -663,6 +681,26 @@ public class MultiblockFluidizer
                 .orElse(null);
     }
 
+    private void onFluidTankChanged(IStackHolder.ChangeType type, int index) {
+        this._sendUpdateFluidStatus = true;
+    }
+
+    private void sendUpdateFluidStatus() {
+
+        if (!this.getReferenceTracker().isInvalid()) {
+
+            final CuboidBoundingBox bb = this.getBoundingBox();
+            final int radius = Math.max(bb.getLengthX(), bb.getLengthZ()) + 32;
+
+            //noinspection ConstantConditions
+            ExtremeReactors.getInstance()
+                    .sendPacket(new UpdateFluidizerFluidStatus((AbstractFluidizerEntity) this.getReferenceTracker().get(),
+                            this._outputTank.getFluid()), this.getWorld(), bb.getCenter(), radius);
+
+            this._sendUpdateFluidStatus = false;
+        }
+    }
+
     private final FluidTank _outputTank;
     private final WideEnergyBuffer _energyBuffer;
     private final IFluidHandler _outputFluidHandler;
@@ -678,6 +716,8 @@ public class MultiblockFluidizer
     private boolean _ingredientsChanged;
 
     private final TickerListener _ticker;
+    private final Runnable _sendUpdateFluidStatusDelayedRunnable;
+    private boolean _sendUpdateFluidStatus;
     private boolean _active;
     private boolean _interiorInvisible;
 

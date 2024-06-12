@@ -18,9 +18,11 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.part;
 
+import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.gamecontent.CommonConstants;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.model.data.ModelTransformers;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.FluidizerTankData;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.MultiblockFluidizer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.container.FluidizerControllerContainer;
 import it.zerono.mods.zerocore.lib.IDebugMessages;
@@ -37,6 +39,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import net.minecraftforge.fml.LogicalSide;
 
 import javax.annotation.Nullable;
@@ -53,6 +56,13 @@ public class FluidizerControllerEntity
                 .addServerHandler(CommonConstants.COMMAND_DEACTIVATE, rce -> rce.setFluidizerActive(false))
                 .build(this)
         );
+
+        this._renderBoundingBox = INFINITE_EXTENT_AABB;
+    }
+
+    @Nullable
+    public FluidizerTankData getTankData() {
+        return this._tankRenderData;
     }
 
     //region client render support
@@ -72,6 +82,12 @@ public class FluidizerControllerEntity
 
         super.onPostMachineAssembled(controller);
         this.listenForControllerDataUpdates();
+
+        if (this.getCurrentWorld().isClientSide()) {
+
+            this._tankRenderData = ExtremeReactors.getProxy().createFluidizerTankData(this);
+            this._renderBoundingBox = controller.getBoundingBox().getAABB();
+        }
     }
 
     /**
@@ -113,6 +129,11 @@ public class FluidizerControllerEntity
 
     //endregion
     //region AbstractModBlockEntity
+
+    @Override
+    public AABB getRenderBoundingBox() {
+        return this._renderBoundingBox;
+    }
 
     /**
      * Check if the tile entity has a GUI or not
@@ -174,6 +195,14 @@ public class FluidizerControllerEntity
     public Component getDisplayName() {
         return super.getPartDisplayName();
     }
+
+    //endregion
+    //region internals
+
+    @Nullable
+    private FluidizerTankData _tankRenderData;
+    private AABB _renderBoundingBox;
+
 
     //endregion
 }
