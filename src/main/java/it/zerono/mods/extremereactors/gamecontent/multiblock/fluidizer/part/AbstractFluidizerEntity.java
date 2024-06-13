@@ -24,6 +24,7 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.network.U
 import it.zerono.mods.zerocore.base.multiblock.part.AbstractMultiblockEntity;
 import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockPartTypeProvider;
 import it.zerono.mods.zerocore.lib.client.model.data.multiblock.CuboidPartVariantsModelDataCache;
+import it.zerono.mods.zerocore.lib.data.stack.IStackHolder;
 import it.zerono.mods.zerocore.lib.energy.IWideEnergyStorage2;
 import it.zerono.mods.zerocore.lib.energy.NullEnergyHandlers;
 import it.zerono.mods.zerocore.lib.fluid.FluidHelper;
@@ -59,8 +60,8 @@ public class AbstractFluidizerEntity
                 .ifPresent(c -> c.setMachineActive(active));
     }
 
-    protected void onIngredientsChanged() {
-        this.executeOnController(MultiblockFluidizer::onIngredientsChanged);
+    protected void onIngredientsChanged(IStackHolder.ChangeType changeType) {
+        this.executeOnController(controller -> controller.onIngredientsChanged(changeType));
     }
 
     public IFluidHandler getFluidOutput() {

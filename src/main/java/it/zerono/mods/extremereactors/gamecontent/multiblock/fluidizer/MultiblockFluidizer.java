@@ -69,6 +69,7 @@ import net.minecraftforge.fml.LogicalSide;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.function.BooleanSupplier;
 
 public class MultiblockFluidizer
         extends AbstractCuboidMultiblockController<MultiblockFluidizer>
@@ -96,7 +97,9 @@ public class MultiblockFluidizer
         this._interiorInvisible = this._ingredientsChanged = this._active = false;
 
         this._sendUpdateFluidStatus = false;
-        this._sendUpdateFluidStatusDelayedRunnable = CodeHelper.delayedRunnable(this::sendUpdateFluidStatus, 5 * 10);
+        this._sendUpdateFluidStatusDelayedRunnable = CodeHelper.delayedRunnable(this::sendUpdateFluidStatus, 20 * 3);
+
+        this._ingredientsAvailable = CodeHelper.FALSE_SUPPLIER;
     }
 
     public boolean isValidIngredient(final ItemStack stack) {
@@ -131,9 +134,8 @@ public class MultiblockFluidizer
         return null != this._recipeHolder ? this._recipeHolder.getProgress() : 0.0;
     }
 
-    public void onIngredientsChanged() {
-
-        if (this.calledByLogicalServer()) {
+    public void onIngredientsChanged(IStackHolder.ChangeType changeType) {
+        if (changeType.fullChange() && this.calledByLogicalServer()) {
             this._ingredientsChanged = true;
         }
     }
@@ -165,6 +167,7 @@ public class MultiblockFluidizer
     @Override
     public boolean canProcessRecipe(final IFluidizerRecipe recipe) {
         return this.isMachineActive() &&
+                this._ingredientsAvailable.getAsBoolean() &&
                 this._energyBuffer.getEnergyStored().intValue() >= Config.COMMON.fluidizer.energyPerRecipeTick.get() &&
                 this._fluidTarget.countStorableResults(recipe.getResult()) > 0;
     }
@@ -427,11 +430,20 @@ public class MultiblockFluidizer
         final int fluidInjectors = this.getPartsCount(p -> p instanceof FluidizerFluidInjectorEntity);
 
         if (1 == solidInjectors) {
+
             this._recipeHolder = FluidizerRecipeHolder.solid(this, this::solidRecipeFactory);
+            this._ingredientsAvailable = this::areSolidRecipeIngredientsAvailable;
+
         } else if (2 == solidInjectors) {
+
             this._recipeHolder = FluidizerRecipeHolder.solidMixing(this, this::solidMixingRecipeFactory);
+            this._ingredientsAvailable = this::areSolidRecipeIngredientsAvailable;
+
         } else if (2 == fluidInjectors) {
+
             this._recipeHolder = FluidizerRecipeHolder.fluidMixing(this, this::solidFluidMixingFactory);
+            this._ingredientsAvailable = this::areFluidRecipeIngredientsAvailable;
+
         } else {
             throw new IllegalStateException("Invalid number of injectors");
         }
@@ -701,6 +713,28 @@ public class MultiblockFluidizer
         }
     }
 
+    private boolean areSolidRecipeIngredientsAvailable() {
+
+        for (final var source : this._solidSources) {
+            if (source.isEmpty()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private boolean areFluidRecipeIngredientsAvailable() {
+
+        for (final var source : this._fluidSources) {
+            if (source.isEmpty()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     private final FluidTank _outputTank;
     private final WideEnergyBuffer _energyBuffer;
     private final IFluidHandler _outputFluidHandler;
@@ -714,6 +748,7 @@ public class MultiblockFluidizer
     private final IRecipeResultTarget<FluidStackRecipeResult> _fluidTarget;
     private IFluidizerRecipeHolder _recipeHolder;
     private boolean _ingredientsChanged;
+    private BooleanSupplier _ingredientsAvailable;
 
     private final TickerListener _ticker;
     private final Runnable _sendUpdateFluidStatusDelayedRunnable;

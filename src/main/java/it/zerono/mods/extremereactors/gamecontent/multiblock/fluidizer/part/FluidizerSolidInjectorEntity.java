@@ -67,7 +67,9 @@ public class FluidizerSolidInjectorEntity
     public FluidizerSolidInjectorEntity(final BlockPos position, final BlockState blockState) {
 
         super(Content.TileEntityTypes.FLUIDIZER_SOLIDINJECTOR.get(), position, blockState);
-        this._solidItems = new ItemStackHolder(1, ($, stack) -> this.isValidIngredient(stack)).setOnLoadListener(this::onItemsChanged).setOnContentsChangedListener(this::onItemsChanged);
+        this._solidItems = new ItemStackHolder(1, ($, stack) -> this.isValidIngredient(stack))
+                .setOnLoadListener(this::onItemsChanged)
+                .setOnContentsChangedListener(this::onItemsChanged);
         this._capability = LazyOptional.of(() -> this._solidItems);
     }
 
@@ -258,14 +260,14 @@ public class FluidizerSolidInjectorEntity
                 .orElse(LazyOptional.empty());
     }
 
-    private void onItemsChanged(IStackHolder.ChangeType changeType, int slot) {
-        this.onItemsChanged();
+    private void onItemsChanged() {
+        this.onItemsChanged(IStackHolder.ChangeType.Replaced, 0);
     }
 
-    private void onItemsChanged() {
+    private void onItemsChanged(IStackHolder.ChangeType changeType, int slot) {
 
         this.setChanged();
-        this.onIngredientsChanged();
+        this.onIngredientsChanged(changeType);
         this._shouldSync = true;
     }
 
