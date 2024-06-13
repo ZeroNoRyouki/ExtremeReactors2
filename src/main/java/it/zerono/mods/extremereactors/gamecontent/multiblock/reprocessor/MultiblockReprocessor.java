@@ -609,6 +609,7 @@ public class MultiblockReprocessor
 
     private boolean canProcess(final ReprocessorRecipe recipe) {
         return this.isMachineActive() &&
+                this.areRecipeIngredientsAvailable() &&
                 this._energyBuffer.getEnergyStored() >= TICK_ENERGY_COST &&
                 this._outputTarget.countStorableResults(recipe.getResult()) > 0;
     }
@@ -653,6 +654,19 @@ public class MultiblockReprocessor
 //            this._collector.onRecipeChanged(this._recipeHolder.getHeldRecipe().map(IHeldRecipe::getRecipe).orElse(null));
             this._collector.onRecipeChanged(heldRecipe);
         }
+    }
+
+    private boolean areRecipeIngredientsAvailable() {
+
+        return this._recipeHolder.getHeldRecipe()
+                .map(IHeldRecipe::getRecipe)
+                .map(this::areRecipeIngredientsAvailable)
+                .orElse(false);
+    }
+
+    private boolean areRecipeIngredientsAvailable(ReprocessorRecipe recipe) {
+        return recipe.getIngredient1().test(this._wasteInventory.getStackInSlot(0)) &&
+                recipe.getIngredient2().test(this._fluidTank.getFluid());
     }
 
     private final ItemStackHandler _outputInventory;
