@@ -19,9 +19,9 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen;
 
 import it.zerono.mods.extremereactors.gamecontent.compat.patchouli.PatchouliCompat;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.AbstractGeneratorMultiblockController;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.common.AbstractFluidGeneratorMultiblockController;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.container.ChargingPortContainer;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.variant.IMultiblockGeneratorVariant;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.common.variant.IMultiblockFluidGeneratorVariant;
 import it.zerono.mods.zerocore.base.CommonConstants;
 import it.zerono.mods.zerocore.base.client.screen.BaseScreenToolTipsBuilder;
 import it.zerono.mods.zerocore.base.client.screen.ClientBaseHelper;
@@ -45,8 +45,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 
-public abstract class AbstractChargingPortScreen<Controller extends AbstractGeneratorMultiblockController<Controller, V> & IMultiblockMachine & IActivableMachine,
-            V extends IMultiblockGeneratorVariant,
+public abstract class AbstractChargingPortScreen<Controller extends AbstractFluidGeneratorMultiblockController<Controller, V> & IMultiblockMachine & IActivableMachine,
+            V extends IMultiblockFluidGeneratorVariant,
             T extends AbstractMultiblockEntity<Controller> & IChargingPort & IMultiblockVariantProvider<V> & MenuProvider>
         extends CommonMultiblockScreen<Controller, T, ChargingPortContainer<Controller, V, T>> {
 

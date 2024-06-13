@@ -18,10 +18,10 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant;
 
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.variant.IMultiblockGeneratorVariant;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.common.variant.IMultiblockFluidGeneratorVariant;
 
 public interface IMultiblockTurbineVariant
-        extends IMultiblockGeneratorVariant {
+        extends IMultiblockFluidGeneratorVariant {
 
     float getRadiationAttenuation();
 

@@ -61,7 +61,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class MultiblockTurbine
-        extends AbstractGeneratorMultiblockController<MultiblockTurbine, IMultiblockTurbineVariant>
+        extends AbstractFluidGeneratorMultiblockController<MultiblockTurbine, IMultiblockTurbineVariant>
         implements ITurbineMachine, ITurbineEnvironment, ITurbineWriter, IDebuggable {
 
     public MultiblockTurbine(final Level world, final IMultiblockTurbineVariant variant) {
@@ -436,7 +436,7 @@ public class MultiblockTurbine
     }
 
     //endregion
-    //region AbstractGeneratorMultiblockController
+    //region AbstractFluidGeneratorMultiblockController
 
 
     /**

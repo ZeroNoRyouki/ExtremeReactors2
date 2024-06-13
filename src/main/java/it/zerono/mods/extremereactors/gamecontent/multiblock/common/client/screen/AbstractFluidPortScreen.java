@@ -20,9 +20,9 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.scre
 
 import it.zerono.mods.extremereactors.gamecontent.CommonConstants;
 import it.zerono.mods.extremereactors.gamecontent.compat.patchouli.PatchouliCompat;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.AbstractGeneratorMultiblockController;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.common.AbstractFluidGeneratorMultiblockController;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.container.FluidPortContainer;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.variant.IMultiblockGeneratorVariant;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.common.variant.IMultiblockFluidGeneratorVariant;
 import it.zerono.mods.zerocore.base.client.screen.BaseScreenToolTipsBuilder;
 import it.zerono.mods.zerocore.base.client.screen.ClientBaseHelper;
 import it.zerono.mods.zerocore.base.multiblock.part.AbstractMultiblockEntity;
@@ -43,8 +43,8 @@ import net.minecraft.world.entity.player.Inventory;
 
 import static it.zerono.mods.zerocore.base.client.screen.ClientBaseHelper.SQUARE_BUTTON_DIMENSION;
 
-public abstract class AbstractFluidPortScreen<Controller extends AbstractGeneratorMultiblockController<Controller, V> & IMultiblockMachine & IActivableMachine,
-            V extends IMultiblockGeneratorVariant,
+public abstract class AbstractFluidPortScreen<Controller extends AbstractFluidGeneratorMultiblockController<Controller, V> & IMultiblockMachine & IActivableMachine,
+            V extends IMultiblockFluidGeneratorVariant,
             T extends AbstractMultiblockEntity<Controller> & IFluidPort & IMultiblockVariantProvider<V> & MenuProvider>
         extends CommonMultiblockScreen<Controller, T, FluidPortContainer<Controller, V, T>> {
 

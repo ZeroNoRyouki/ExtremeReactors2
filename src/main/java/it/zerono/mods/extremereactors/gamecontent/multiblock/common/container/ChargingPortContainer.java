@@ -18,8 +18,8 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.common.container;
 
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.AbstractGeneratorMultiblockController;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.variant.IMultiblockGeneratorVariant;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.common.AbstractFluidGeneratorMultiblockController;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.common.variant.IMultiblockFluidGeneratorVariant;
 import it.zerono.mods.zerocore.base.multiblock.part.AbstractMultiblockEntity;
 import it.zerono.mods.zerocore.base.multiblock.part.io.power.charging.IChargingPort;
 import it.zerono.mods.zerocore.lib.IActivableMachine;
@@ -38,8 +38,8 @@ import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.MenuType;
 
-public class ChargingPortContainer<Controller extends AbstractGeneratorMultiblockController<Controller, V> & IMultiblockMachine & IActivableMachine,
-            V extends IMultiblockGeneratorVariant,
+public class ChargingPortContainer<Controller extends AbstractFluidGeneratorMultiblockController<Controller, V> & IMultiblockMachine & IActivableMachine,
+            V extends IMultiblockFluidGeneratorVariant,
             T extends AbstractMultiblockEntity<Controller> & IChargingPort & IMultiblockVariantProvider<V> & MenuProvider>
         extends ModTileContainer<T> {
 

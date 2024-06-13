@@ -20,7 +20,7 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.common;
 
 import it.zerono.mods.extremereactors.api.coolant.Coolant;
 import it.zerono.mods.extremereactors.api.coolant.Vapor;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.variant.IMultiblockGeneratorVariant;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.common.variant.IMultiblockFluidGeneratorVariant;
 import it.zerono.mods.zerocore.lib.data.IoDirection;
 import it.zerono.mods.zerocore.lib.data.stack.OperationMode;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModContainer;
@@ -58,9 +58,9 @@ public interface IFluidContainer {
 
     double getLiquidTemperature(double reactorTemperature);
 
-    double onAbsorbHeat(double energyAbsorbed, IMultiblockGeneratorVariant variant);
+    double onAbsorbHeat(double energyAbsorbed, IMultiblockFluidGeneratorVariant variant);
 
-    int onCondensation(int vaporUsed, boolean ventAllCoolant, IMultiblockGeneratorVariant variant);
+    int onCondensation(int vaporUsed, boolean ventAllCoolant, IMultiblockFluidGeneratorVariant variant);
 
     int getLiquidVaporizedLastTick();
 

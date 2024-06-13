@@ -72,7 +72,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class MultiblockReactor
-        extends AbstractGeneratorMultiblockController<MultiblockReactor, IMultiblockReactorVariant>
+        extends AbstractFluidGeneratorMultiblockController<MultiblockReactor, IMultiblockReactorVariant>
         implements IReactorMachine, IReactorEnvironment, IReactorWriter, IDebuggable {
 
     public MultiblockReactor(final Level world, final IMultiblockReactorVariant variant) {
@@ -680,7 +680,7 @@ public class MultiblockReactor
     }
 
     //endregion
-    //region AbstractGeneratorMultiblockController
+    //region AbstractFluidGeneratorMultiblockController
 
     @Override
     public IMultiblockReactorVariant getVariant() {

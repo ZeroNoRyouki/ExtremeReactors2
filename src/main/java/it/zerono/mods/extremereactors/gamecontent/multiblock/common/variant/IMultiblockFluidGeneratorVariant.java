@@ -1,6 +1,6 @@
 /*
  *
- * IMultiblockGeneratorVariant.java
+ * IMultiblockFluidGeneratorVariant.java
  *
  * This file is part of Extreme Reactors 2 by ZeroNoRyouki, a Minecraft mod.
  *
@@ -18,19 +18,8 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.common.variant;
 
-import it.zerono.mods.zerocore.lib.data.WideAmount;
-import it.zerono.mods.zerocore.lib.multiblock.variant.IMultiblockDimensionVariant;
-
-public interface IMultiblockGeneratorVariant
-        extends IMultiblockDimensionVariant {
-
-    int getPartEnergyCapacity();
-
-    float getEnergyGenerationEfficiency();
-
-    WideAmount getMaxEnergyExtractionRate();
-
-    double getChargerMaxRate();
+public interface IMultiblockFluidGeneratorVariant
+        extends IMultiblockEnergyGeneratorVariant {
 
     int getPartFluidCapacity();
 

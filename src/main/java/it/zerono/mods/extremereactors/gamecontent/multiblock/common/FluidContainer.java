@@ -26,7 +26,7 @@ import it.zerono.mods.extremereactors.api.coolant.Coolant;
 import it.zerono.mods.extremereactors.api.coolant.FluidMappingsRegistry;
 import it.zerono.mods.extremereactors.api.coolant.TransitionsRegistry;
 import it.zerono.mods.extremereactors.api.coolant.Vapor;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.variant.IMultiblockGeneratorVariant;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.common.variant.IMultiblockFluidGeneratorVariant;
 import it.zerono.mods.zerocore.lib.TestResult;
 import it.zerono.mods.zerocore.lib.data.IoDirection;
 import it.zerono.mods.zerocore.lib.data.stack.IndexedStackContainer;
@@ -259,7 +259,7 @@ public class FluidContainer
      * @return amount of energy remaining after absorption
      */
     @Override
-    public double onAbsorbHeat(final double energyAbsorbed, final IMultiblockGeneratorVariant variant) {
+    public double onAbsorbHeat(final double energyAbsorbed, final IMultiblockFluidGeneratorVariant variant) {
 
         if (energyAbsorbed <= 0 || this.getLiquidAmount() <= 0) {
             return energyAbsorbed;
@@ -270,7 +270,7 @@ public class FluidContainer
     }
 
     @Override
-    public int onCondensation(final int vaporUsed, final boolean ventAllCoolant, final IMultiblockGeneratorVariant variant) {
+    public int onCondensation(final int vaporUsed, final boolean ventAllCoolant, final IMultiblockFluidGeneratorVariant variant) {
 
         if (vaporUsed <= 0 || this.getGasAmount() <= 0) {
             return vaporUsed;
@@ -319,7 +319,7 @@ public class FluidContainer
      * @param vaporization the vaporization mapping for the Coolant
      * @return FE remaining after absorption.
      */
-    private double absorbHeat(final double energyAbsorbed, final IMultiblockGeneratorVariant variant,
+    private double absorbHeat(final double energyAbsorbed, final IMultiblockFluidGeneratorVariant variant,
                               final int liquidAmount, final IMapping<Coolant, Vapor> vaporization) {
 
         // do we have some gas around already?
@@ -346,7 +346,7 @@ public class FluidContainer
         }
     }
 
-    private double vaporize(final double energyAbsorbed, final IMultiblockGeneratorVariant variant,
+    private double vaporize(final double energyAbsorbed, final IMultiblockFluidGeneratorVariant variant,
                             final IMapping<Coolant, Vapor> vaporization, final int availableLiquidAmount,
                             final Fluid targetGas) {
 
