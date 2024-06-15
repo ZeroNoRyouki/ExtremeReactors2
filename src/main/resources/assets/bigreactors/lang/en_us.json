@@ -59,6 +59,7 @@
     "item.bigreactors.tangerium_bucket": "Tangerium Bucket",
     "item.bigreactors.redfrigium_bucket": "Redfrigium Bucket",
     "item.bigreactors.raw_yellorium": "Raw Yellorium",
+    "item.bigreactors.energycore": "Energy Core",
 
     "_comment": "Fluids",
     "fluid.bigreactors.water": "Water",
@@ -181,6 +182,14 @@
     "block.bigreactors.fluidizeroutputport": "Fluidizer Output Port",
     "block.bigreactors.fluidizerpowerport": "Fluidizer Power Port",
 
+    "_comment": "Blocks - energizer parts",
+    "block.bigreactors.energizercasing": "Energizer Casing",
+    "block.bigreactors.energizercontroller": "Energizer Controller",
+    "block.bigreactors.energizerstatus": "Energizer Status Display",
+    "block.bigreactors.energizerchargingportfe": "Energizer FE Charging Port",
+    "block.bigreactors.energizerpowerportfe": "Energizer FE Power Port",
+    "block.bigreactors.energizercell": "Energy Cell",
+
     "_comment": "Reactor parts names (for GUIs)",
     "part.bigreactors.reactor.controller": "Controller",
     "part.bigreactors.reactor.controlrod": "Control Rod",
@@ -217,6 +226,8 @@
     "gui.bigreactors.reprocessor.inactive": "The Reprocessor is inactive",
     "gui.bigreactors.fluidizer.active": "The Fluidizer is ACTIVE",
     "gui.bigreactors.fluidizer.inactive": "The Fluidizer is inactive",
+    "gui.bigreactors.energizer.active": "The Energizer is ACTIVE",
+    "gui.bigreactors.energizer.inactive": "The Energizer is inactive",
     "gui.bigreactors.show_recipes.tooltip.title": "Show recipes",
 
     "gui.bigreactors.reactor.controller.fuelusage.tooltip.title": "Fuel Burnup Rate",
@@ -468,6 +479,33 @@
     "gui.bigreactors.fluidizer.controller.on.title": "Turn the Fluidizer on",
     "gui.bigreactors.fluidizer.controller.off.title": "Turn the Fluidizer off",
 
+    "gui.bigreactors.energizer.controller.on.title": "Turn the Energizer on",
+    "gui.bigreactors.energizer.controller.off.title": "Turn the Energizer off",
+
+    "gui.bigreactors.energizer.controller.energybar.tooltip.body": "Might take a while...",
+
+    "gui.bigreactors.energizer.controller.io.tooltip.title": "Energy I/O",
+    "gui.bigreactors.energizer.controller.io.tooltip.value": "  @0",
+    "gui.bigreactors.energizer.controller.io.tooltip.body": "The amount of energy inserted or extracted from the Energizer",
+
+    "gui.bigreactors.energizer.controller.capacity.tooltip.title": "Storage capacity",
+    "gui.bigreactors.energizer.controller.capacity.tooltip.value": "  %1$s",
+    "gui.bigreactors.energizer.controller.capacity.tooltip.body": "The maximum amount of energy that can be stored in this Energizer",
+
+    "gui.bigreactors.energizer.controller.input.tooltip.title": "Energy inserted",
+    "gui.bigreactors.energizer.controller.input.tooltip.value": "  @0",
+    "gui.bigreactors.energizer.controller.input.tooltip.body": "The amount of energy inserted into the Energizer",
+
+    "gui.bigreactors.energizer.controller.output.tooltip.title": "Energy extracted",
+    "gui.bigreactors.energizer.controller.output.tooltip.value": "  @0",
+    "gui.bigreactors.energizer.controller.output.tooltip.body": "The amount of energy extracted from the Energizer",
+
+    "gui.bigreactors.energizer.powerport.directioninput.tooltip.title": "Input Mode",
+    "gui.bigreactors.energizer.powerport.directioninput.tooltip.body": "Sets this Power Port to input mode.",
+
+    "gui.bigreactors.energizer.powerport.directionoutput.tooltip.title": "Output Mode",
+    "gui.bigreactors.energizer.powerport.directionoutput.tooltip.body": "Sets this Power Port to output mode.",
+
     "gui.bigreactors.generator.chargingport.eject.tooltip.title": "Manual Ejection",
     "gui.bigreactors.generator.chargingport.eject.tooltip.body": "Manually ejects the item from the input slot and put it in the output slot.",
 
@@ -541,6 +579,13 @@
     "multiblock.validation.fluidizer.invalid_part_for_interior": "This part may not be placed in the Fluidizer's interior",
     "multiblock.validation.fluidizer.invalid_block": "%1$s is not valid block for the Fluidizer",
 
+    "_comment": "Multiblock validation errors (energizers)",
+    "multiblock.validation.energizer.invalid_part_for_interior": "This Energizer part may not be placed in the Energizer's interior",
+    "multiblock.validation.energizer.invalid_block_for_interior": "%1$s is not valid for the Energizer's interior",
+    "multiblock.validation.energizer.invalid_block_for_exterior": "%1$s is not valid for the Energizer's exterior",
+    "multiblock.validation.energizer.too_few_controllers": "Not enough Controllers. Energizers require at least one",
+    "multiblock.validation.energizer.invalid_frame_block": "Only casing may be used as part of a Energizer's frame",
+
     "_comment": "Configs",
     "config.bigreactors.compatibility": "Compatibility",
     "config.bigreactors.general": "General",
@@ -569,6 +614,9 @@
     "config.bigreactors.fluidizer.maxfluidizerheight": "Max height (Y)",
     "config.bigreactors.fluidizer.maxfluidizersize": "Max size (X/Z)",
     "config.bigreactors.fluidizer.energyperrecipetick": "Energy per recipe tick",
+
+    "config.bigreactors.energizer.maxenergizerheight": "Max height (Y)",
+    "config.bigreactors.energizer.maxenergizersize": "Max size (X/Z)",
 
     "config.bigreactors.recipes.registercharcoalforsmelting": "Smelt charcoal into graphite",
     "config.bigreactors.recipes.registerCoalForSmelting": "Smelt coal into graphite",

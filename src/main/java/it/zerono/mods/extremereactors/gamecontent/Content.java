@@ -26,7 +26,16 @@ import it.zerono.mods.extremereactors.gamecontent.fluid.ReactantFluidBlock;
 import it.zerono.mods.extremereactors.gamecontent.fluid.ReactorFluidType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.container.ChargingPortContainer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.container.FluidPortContainer;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.PowerTapBlock;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.fluidport.FluidPortType;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.energizer.EnergizerPartType;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.energizer.IEnergizerPartType;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.energizer.MultiBlockEnergizer;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.energizer.container.EnergizerChargingPortContainer;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.energizer.container.EnergizerControllerContainer;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.energizer.container.EnergizerPowerPortContainer;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.energizer.part.*;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.energizer.variant.EnergizerVariant;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.FluidizerPartType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.IFluidizerPartType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.MultiblockFluidizer;
@@ -435,6 +444,26 @@ public final class Content {
                 registerFluidizerBlock("fluidizerpowerport", FluidizerPartType.PowerPort);
 
         //endregion
+        //region energizer
+
+        public static final RegistryObject<ModBlock> ENERGIZER_CELL = registerMetalBlock("energizercell", DyeColor.GRAY);
+
+        public static final RegistryObject<MultiblockPartBlock<MultiBlockEnergizer, IEnergizerPartType>> ENERGIZER_CASING =
+                registerEnergizerBlock("energizercasing", EnergizerPartType.Casing);
+
+        public static final RegistryObject<GenericDeviceBlock<MultiBlockEnergizer, IEnergizerPartType>> ENERGIZER_CONTROLLER =
+                registerEnergizerBlock("energizercontroller", EnergizerPartType.Controller);
+
+        public static final RegistryObject<PowerTapBlock<MultiBlockEnergizer, IEnergizerPartType>> ENERGIZER_POWERPORT_FE =
+                registerEnergizerBlock("energizerpowerportfe", EnergizerPartType.PowerPortFE);
+
+        public static final RegistryObject<PowerTapBlock<MultiBlockEnergizer, IEnergizerPartType>> ENERGIZER_CHARGINGPORT_FE =
+                registerEnergizerBlock("energizerchargingportfe", EnergizerPartType.ChargingPortFE);
+
+        public static final RegistryObject<GenericDeviceBlock<MultiBlockEnergizer, IEnergizerPartType>> ENERGIZER_STATUS_DISPLAY =
+                registerEnergizerBlock("energizerstatus", EnergizerPartType.StatusDisplay);
+
+        //endregion
         //region internals
 
         private static RegistryObject<ModBlock> registerMetalBlock(final String name, final DyeColor color) {
@@ -483,6 +512,12 @@ public final class Content {
         private static <T extends MultiblockPartBlock<MultiblockFluidizer, IFluidizerPartType>>
         RegistryObject<T> registerFluidizerBlock(final String name, final FluidizerPartType partType) {
             return BLOCKS.register(name, () -> (T) (partType.createBlock()));
+        }
+
+        @SuppressWarnings("unchecked")
+        private static <T extends MultiblockPartBlock<MultiBlockEnergizer, IEnergizerPartType>>
+        RegistryObject<T> registerEnergizerBlock(String name, EnergizerPartType partType) {
+            return BLOCKS.register(name, () -> (T) (partType.createBlock(EnergizerVariant.INSTANCE)));
         }
 
         private static RegistryObject<LiquidBlock> registerModeratorLiquidBlock(final String name, final Supplier<FlowingFluid> source) {
@@ -679,6 +714,17 @@ public final class Content {
         public static final RegistryObject<BlockItem> FLUIDIZER_FLUIDINJECTOR = registerItemBlock("fluidizerfluidinjector", () -> Blocks.FLUIDIZER_FLUIDINJECTOR::get);
         public static final RegistryObject<BlockItem> FLUIDIZER_OUTPUTPORT = registerItemBlock("fluidizeroutputport", () -> Blocks.FLUIDIZER_OUTPUTPORT::get);
         public static final RegistryObject<BlockItem> FLUIDIZER_POWERPORT = registerItemBlock("fluidizerpowerport", () -> Blocks.FLUIDIZER_POWERPORT::get);
+
+        //endregion
+        //region Energizer
+
+        public static final RegistryObject<ModItem> ENERGY_CORE = registerItemGeneric("energycore");
+        public static final RegistryObject<BlockItem> ENERGY_CELL = registerItemBlock("energizercell", () -> Blocks.ENERGIZER_CELL);
+        public static final RegistryObject<BlockItem> ENERGIZER_CASING = registerItemBlock("energizercasing", () -> Blocks.ENERGIZER_CASING::get);
+        public static final RegistryObject<BlockItem> ENERGIZER_CONTROLLER = registerItemBlock("energizercontroller", () -> Blocks.ENERGIZER_CONTROLLER::get);
+        public static final RegistryObject<BlockItem> ENERGIZER_POWERPORT_FE = registerItemBlock("energizerpowerport_fe", () -> Blocks.ENERGIZER_POWERPORT_FE::get);
+        public static final RegistryObject<BlockItem> ENERGIZER_CHARGINGPORT_FE = registerItemBlock("energizerchargingport_fe", () -> Blocks.ENERGIZER_CHARGINGPORT_FE::get);
+        public static final RegistryObject<BlockItem> ENERGIZER_STATUS_DISPLAY = registerItemBlock("energizerstatus", () -> Blocks.ENERGIZER_STATUS_DISPLAY::get);
 
         //endregion
         //region misc
@@ -1121,6 +1167,30 @@ public final class Content {
                 registerBlockEntity("fluidizerpowerport", FluidizerPowerPortEntity::new, () -> Blocks.FLUIDIZER_POWERPORT::get);
 
         //endregion
+        //region Energizer
+
+        public static final RegistryObject<BlockEntityType<EnergizerCasingEntity>> ENERGIZER_CASING =
+                registerBlockEntity("energizercasing", EnergizerCasingEntity::new, () -> Blocks.ENERGIZER_CASING::get);
+
+        public static final RegistryObject<BlockEntityType<EnergizerControllerEntity>> ENERGIZER_CONTROLLER =
+                registerBlockEntity("energizercontroller", EnergizerControllerEntity::new, () -> Blocks.ENERGIZER_CONTROLLER::get);
+
+        public static final RegistryObject<BlockEntityType<EnergizerPowerPortEntity>> ENERGIZER_POWERPORT_FE =
+                registerBlockEntity("energizerpowerport_fe",
+                        (position, state) -> new EnergizerPowerPortEntity(EnergySystem.ForgeEnergy,
+                                TileEntityTypes.ENERGIZER_POWERPORT_FE.get(), position, state),
+                        () -> Blocks.ENERGIZER_POWERPORT_FE::get);
+
+        public static final RegistryObject<BlockEntityType<EnergizerChargingPortEntity>> ENERGIZER_CHARGINGPORT_FE =
+                registerBlockEntity("energizerchargingport_fe",
+                        (position, state) -> new EnergizerChargingPortEntity(EnergySystem.ForgeEnergy,
+                                TileEntityTypes.ENERGIZER_CHARGINGPORT_FE.get(), position, state),
+                        () -> Blocks.ENERGIZER_CHARGINGPORT_FE::get);
+
+        public static final RegistryObject<BlockEntityType<EnergizerStatusDisplayEntity>> ENERGIZER_STATUS_DISPLAY =
+                registerBlockEntity("energizerstatus", EnergizerStatusDisplayEntity::new, () -> Blocks.ENERGIZER_STATUS_DISPLAY::get);
+
+        //endregion
         //region internals
 
         @SuppressWarnings("ConstantConditions")
@@ -1213,6 +1283,18 @@ public final class Content {
 
         public static final RegistryObject<MenuType<FluidizerSolidInjectorContainer>> FLUIDIZER_SOLID_INJECTOR =
                 registerContainer("fluidizersolidinjector", FluidizerSolidInjectorContainer::new);
+
+        //endregion
+        //region Energizer
+
+        public static final RegistryObject<MenuType<EnergizerControllerContainer>> ENERGIZER_CONTROLLER =
+                registerContainer("energizercontroller", EnergizerControllerContainer::new);
+
+        public static final RegistryObject<MenuType<EnergizerPowerPortContainer>> ENERGIZER_POWERPORT =
+                registerContainer("energizerpowerport", EnergizerPowerPortContainer::new);
+
+        public static final RegistryObject<MenuType<EnergizerChargingPortContainer>> ENERGIZER_CHARGINGPORT =
+                registerContainer("energizerchargingport", EnergizerChargingPortContainer::new);
 
         //endregion
         //region internals
@@ -1337,6 +1419,11 @@ public final class Content {
                                 Blocks.FLUIDIZER_CONTROLLER, Blocks.FLUIDIZER_SOLIDINJECTOR,
                                 Blocks.FLUIDIZER_FLUIDINJECTOR, Blocks.FLUIDIZER_OUTPUTPORT,
                                 Blocks.FLUIDIZER_POWERPORT);
+
+                        acceptAll(output, Items.ENERGY_CORE, Blocks.ENERGIZER_CELL,
+                                Blocks.ENERGIZER_CASING, Blocks.ENERGIZER_CONTROLLER,
+                                Blocks.ENERGIZER_POWERPORT_FE, Blocks.ENERGIZER_CHARGINGPORT_FE,
+                                Blocks.ENERGIZER_STATUS_DISPLAY);
                     })
                     .build()
             );

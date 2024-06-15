@@ -19,9 +19,9 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen;
 
 import it.zerono.mods.extremereactors.gamecontent.compat.patchouli.PatchouliCompat;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.AbstractFluidGeneratorMultiblockController;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.common.AbstractEnergyGeneratorMultiblockController;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.container.ChargingPortContainer;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.variant.IMultiblockFluidGeneratorVariant;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.common.variant.IMultiblockEnergyGeneratorVariant;
 import it.zerono.mods.zerocore.base.CommonConstants;
 import it.zerono.mods.zerocore.base.client.screen.BaseScreenToolTipsBuilder;
 import it.zerono.mods.zerocore.base.client.screen.ClientBaseHelper;
@@ -37,6 +37,7 @@ import it.zerono.mods.zerocore.lib.client.gui.control.Panel;
 import it.zerono.mods.zerocore.lib.client.gui.control.Picture;
 import it.zerono.mods.zerocore.lib.client.gui.layout.FixedLayoutEngine;
 import it.zerono.mods.zerocore.lib.client.gui.layout.VerticalLayoutEngine;
+import it.zerono.mods.zerocore.lib.client.gui.sprite.SpriteTextureMap;
 import it.zerono.mods.zerocore.lib.data.IoDirection;
 import it.zerono.mods.zerocore.lib.item.inventory.PlayerInventoryUsage;
 import it.zerono.mods.zerocore.lib.multiblock.IMultiblockMachine;
@@ -44,17 +45,27 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraftforge.common.util.NonNullSupplier;
 
-public abstract class AbstractChargingPortScreen<Controller extends AbstractFluidGeneratorMultiblockController<Controller, V> & IMultiblockMachine & IActivableMachine,
-            V extends IMultiblockFluidGeneratorVariant,
-            T extends AbstractMultiblockEntity<Controller> & IChargingPort & IMultiblockVariantProvider<V> & MenuProvider>
-        extends CommonMultiblockScreen<Controller, T, ChargingPortContainer<Controller, V, T>> {
+public abstract class AbstractChargingPortScreen<Controller extends AbstractEnergyGeneratorMultiblockController<Controller, V> & IMultiblockMachine & IActivableMachine,
+            V extends IMultiblockEnergyGeneratorVariant,
+            T extends AbstractMultiblockEntity<Controller> & IChargingPort & IMultiblockVariantProvider<V> & MenuProvider,
+            C extends ChargingPortContainer<Controller, V, T>>
+        extends CommonMultiblockScreen<Controller, T, C> {
 
-    protected AbstractChargingPortScreen(final ChargingPortContainer<Controller, V, T> container, final Inventory inventory,
+    protected AbstractChargingPortScreen(final C container, final Inventory inventory,
                                          final Component title, final ResourceLocation bookEntryId) {
+        this(container, inventory, title, bookEntryId, mainTextureFromVariant(container
+                .getTileEntity()
+                .getMultiblockVariant()
+                .orElseThrow(IllegalStateException::new)));
+    }
 
-        super(container, inventory, PlayerInventoryUsage.Both, title,
-                mainTextureFromVariant(container.getTileEntity().getMultiblockVariant().orElseThrow(IllegalStateException::new)));
+    protected AbstractChargingPortScreen(final C container, final Inventory inventory,
+                                         final Component title, final ResourceLocation bookEntryId,
+                                         final NonNullSupplier<SpriteTextureMap> mainTextureSupplier) {
+
+        super(container, inventory, PlayerInventoryUsage.Both, title, mainTextureSupplier);
 
         this.addPatchouliHelpButton(PatchouliCompat.HANDBOOK_ID, bookEntryId, 1);
 

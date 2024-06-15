@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "item": "bigreactors:benitoite_crystal"
+    },
+    "C": {
+      "item": "bigreactors:energycore"
+    },
+    "G": {
+      "tag": "forge:storage_blocks/gold"
+    },
+    "I": {
+      "tag": "forge:storage_blocks/iron"
+    }
+  },
+  "pattern": [
+    "BGB",
+    "ICI",
+    "BGB"
+  ],
+  "result": {
+    "item": "bigreactors:energizercell"
+  },
+  "show_notification": true
+}

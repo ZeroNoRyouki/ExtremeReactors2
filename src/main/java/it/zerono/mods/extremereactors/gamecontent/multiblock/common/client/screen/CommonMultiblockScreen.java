@@ -112,6 +112,11 @@ public abstract class CommonMultiblockScreen<Controller extends AbstractCuboidMu
                 "gui.bigreactors.fluidizer.inactive");
     }
 
+    protected MachineStatusIndicator createEnergizerStatusIndicator(BooleanData bindableStatus) {
+        return this.createDefaultStatusIndicator(bindableStatus, "gui.bigreactors.energizer.active",
+                "gui.bigreactors.energizer.inactive");
+    }
+
     protected void displayFluidizerRecipes() {
         IExtremeReactorsJeiService.SERVICE.get().displayFluidizerRecipes();
     }

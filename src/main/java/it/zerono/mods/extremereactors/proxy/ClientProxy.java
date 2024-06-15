@@ -30,6 +30,10 @@ import it.zerono.mods.extremereactors.config.Config;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.compat.patchouli.PatchouliCompat;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.CachedSprites;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.energizer.client.model.EnergizerModelBuilder;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.energizer.client.screen.EnergizerChargingPortScreen;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.energizer.client.screen.EnergizerControllerScreen;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.energizer.client.screen.EnergizerPowerPortScreen;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.FluidizerTankData;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.client.model.FluidizerClientTankData;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.client.model.FluidizerGlassModelBuilder;
@@ -216,7 +220,8 @@ public class ClientProxy
                         new ReprocessorIOModelBuilder(),
                         new ReprocessorGlassModelBuilder(),
                         new FluidizerModelBuilder(),
-                        new FluidizerGlassModelBuilder())
+                        new FluidizerGlassModelBuilder(),
+                        new EnergizerModelBuilder())
         ).collect(ImmutableList.toImmutableList());
     }
 
@@ -244,6 +249,11 @@ public class ClientProxy
         // Fluidizer GUIS
         registerScreen(Content.ContainerTypes.FLUIDIZER_SOLID_INJECTOR, FluidizerSolidInjectorScreen::new);
         registerScreen(Content.ContainerTypes.FLUIDIZER_CONTROLLER, FluidizerControllerScreen::new);
+
+        // Energizer GUIS
+        registerScreen(Content.ContainerTypes.ENERGIZER_CONTROLLER, EnergizerControllerScreen::new);
+        registerScreen(Content.ContainerTypes.ENERGIZER_POWERPORT, EnergizerPowerPortScreen::new);
+        registerScreen(Content.ContainerTypes.ENERGIZER_CHARGINGPORT, EnergizerChargingPortScreen::new);
     }
 
     private static void registerRenderTypes() {

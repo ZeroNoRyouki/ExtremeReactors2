@@ -29,7 +29,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
 public class ReactorChargingPortScreen
-        extends AbstractChargingPortScreen<MultiblockReactor, IMultiblockReactorVariant, ReactorChargingPortEntity> {
+        extends AbstractChargingPortScreen<MultiblockReactor, IMultiblockReactorVariant, ReactorChargingPortEntity,
+                    ChargingPortContainer<MultiblockReactor, IMultiblockReactorVariant, ReactorChargingPortEntity>> {
 
     public ReactorChargingPortScreen(ChargingPortContainer<MultiblockReactor, IMultiblockReactorVariant, ReactorChargingPortEntity> container,
                                      Inventory inventory, Component title) {

@@ -81,6 +81,12 @@
     "bigreactors:fluidizersolidinjector",
     "bigreactors:fluidizerfluidinjector",
     "bigreactors:fluidizeroutputport",
-    "bigreactors:fluidizerpowerport"
+    "bigreactors:fluidizerpowerport",
+    "bigreactors:energizercell",
+    "bigreactors:energizercasing",
+    "bigreactors:energizercontroller",
+    "bigreactors:energizerpowerportfe",
+    "bigreactors:energizerchargingportfe",
+    "bigreactors:energizerstatus"
   ]
 }

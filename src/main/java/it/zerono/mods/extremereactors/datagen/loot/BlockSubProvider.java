@@ -1,3 +1,21 @@
+/*
+ *
+ * BlockSubProvider.java
+ *
+ * This file is part of Extreme Reactors 2 by ZeroNoRyouki, a Minecraft mod.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON INFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+ * DEALINGS IN THE SOFTWARE.
+ *
+ * DO NOT REMOVE OR EDIT THIS HEADER
+ *
+ */
+
 package it.zerono.mods.extremereactors.datagen.loot;
 
 import it.zerono.mods.extremereactors.gamecontent.Content;
@@ -48,7 +66,6 @@ public class BlockSubProvider
                 Content.Blocks.REACTOR_REDSTONEPORT_REINFORCED, Content.Blocks.REACTOR_COMPUTERPORT_REINFORCED);
 
         this.add(Content.Blocks.REACTOR_FLUID_ACCESSPORT_REINFORCED.get(), LootTable.lootTable().withPool(LootPool.lootPool()
-//                .name("reactor_fluid_accessport_reinforced")
                 .setRolls(ConstantValue.exactly(1))
                 .add(LootItem.lootTableItem(Content.Blocks.REACTOR_FLUID_ACCESSPORT_REINFORCED.get())
                         .apply(CopyNbtFunction.copyData(ContextNbtProvider.BLOCK_ENTITY)
@@ -81,5 +98,8 @@ public class BlockSubProvider
         this.dropSelf(Content.Blocks.FLUIDIZER_CASING, Content.Blocks.FLUIDIZER_GLASS, Content.Blocks.FLUIDIZER_CONTROLLER,
                 Content.Blocks.FLUIDIZER_SOLIDINJECTOR, Content.Blocks.FLUIDIZER_FLUIDINJECTOR, Content.Blocks.FLUIDIZER_OUTPUTPORT,
                 Content.Blocks.FLUIDIZER_POWERPORT);
+
+        this.dropSelf(Content.Blocks.ENERGIZER_CELL, Content.Blocks.ENERGIZER_CASING, Content.Blocks.ENERGIZER_CONTROLLER,
+                Content.Blocks.ENERGIZER_POWERPORT_FE, Content.Blocks.ENERGIZER_CHARGINGPORT_FE, Content.Blocks.ENERGIZER_STATUS_DISPLAY);
     }
 }

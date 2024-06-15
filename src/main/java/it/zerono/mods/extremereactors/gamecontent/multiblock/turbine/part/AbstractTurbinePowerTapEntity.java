@@ -49,7 +49,7 @@ public class AbstractTurbinePowerTapEntity
 
     @Override
     public void setIoDirection(IoDirection direction) {
-        throw new IllegalStateException("This port can only works in output mode");
+        // ignore
     }
 
     //endregion

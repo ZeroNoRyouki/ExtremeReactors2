@@ -50,6 +50,8 @@ public enum CommonIcons implements NonNullSupplier<ISprite> {
     RotorRPM(builder().from(176, 96).build()),
     LabelEdit(builder().from(64, 176).build()),
     TrashCan(builder().from(80, 48).build()),
+    DirectionInput(builder().from(96, 48).build()),
+    DirectionOutput(builder().from(112, 48).build()),
 
     ButtonInputDirection(builder().from(0, 96).build()),
     ButtonInputDirectionActive(builder().from(16, 96).build()),
