@@ -28,8 +28,8 @@ import it.zerono.mods.zerocore.lib.item.inventory.container.data.Sampler;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.common.util.NonNullConsumer;
 import net.minecraftforge.common.util.NonNullSupplier;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
 import java.util.function.Supplier;
 
 public class ReactantStackData

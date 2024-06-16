@@ -23,9 +23,6 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.part.Flui
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
-import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.phys.AABB;
-import net.minecraftforge.fluids.FluidStack;
 
 public class FluidizerControllerEntityRenderer
         implements BlockEntityRenderer<FluidizerControllerEntity> {

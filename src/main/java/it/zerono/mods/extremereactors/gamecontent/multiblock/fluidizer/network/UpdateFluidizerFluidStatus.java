@@ -18,10 +18,7 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.network;
 
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.part.AbstractFluidizerEntity;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part.AbstractReactorEntity;
-import it.zerono.mods.zerocore.lib.data.nbt.ISyncableEntity;
 import it.zerono.mods.zerocore.lib.network.AbstractModTileMessage;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.fluids.FluidStack;

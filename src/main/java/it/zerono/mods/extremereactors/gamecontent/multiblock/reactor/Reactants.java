@@ -26,8 +26,8 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Rarity;
 import net.minecraftforge.common.util.NonNullConsumer;
+import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import java.util.List;
 
 public enum Reactants
@@ -108,7 +108,7 @@ public enum Reactants
     //region NonNullConsumer<LivingEntity>
 
     @Override
-    public void accept(@Nonnull LivingEntity entity) {
+    public void accept(@NotNull LivingEntity entity) {
         this._effects.forEach(effect -> entity.addEffect(new MobEffectInstance(effect, 400, 0, true, true, true)));
     }
 

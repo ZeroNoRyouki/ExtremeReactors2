@@ -42,8 +42,9 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraftforge.common.util.NonNullSupplier;
 import org.apache.logging.log4j.util.TriConsumer;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
+;
 
 public class ReactorControllerPanel
         extends Panel {

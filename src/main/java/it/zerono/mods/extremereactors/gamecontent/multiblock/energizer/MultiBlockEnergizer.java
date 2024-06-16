@@ -25,7 +25,6 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.common.AbstractEner
 import it.zerono.mods.extremereactors.gamecontent.multiblock.energizer.part.AbstractEnergizerEntity;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.energizer.part.EnergizerChargingPortEntity;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.energizer.part.EnergizerControllerEntity;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.energizer.part.EnergizerPowerPortEntity;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.energizer.variant.EnergizerVariant;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.energizer.variant.IMultiblockEnergizerVariant;
 import it.zerono.mods.zerocore.base.multiblock.part.io.power.IPowerPort;

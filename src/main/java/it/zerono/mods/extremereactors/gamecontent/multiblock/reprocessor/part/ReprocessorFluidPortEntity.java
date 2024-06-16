@@ -32,9 +32,8 @@ import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.CapabilityToken;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.capability.IFluidHandler;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class ReprocessorFluidPortEntity
         extends AbstractReprocessorEntity {
@@ -74,9 +73,9 @@ public class ReprocessorFluidPortEntity
     //endregion
     //region TileEntity
 
-    @Nonnull
+    @NotNull
     @Override
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
+    public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
         return CAPAP_FORGE_FLUIDHANDLER == cap ? this._capability.cast() : super.getCapability(cap, side);
     }
 

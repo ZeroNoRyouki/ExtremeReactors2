@@ -61,9 +61,9 @@ import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemHandlerHelper;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.List;
 
 public class ReactorSolidAccessPortEntity
@@ -474,7 +474,7 @@ public class ReactorSolidAccessPortEntity
     //region TileEntity
 
     @Override
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable Direction side) {
+    public <T> LazyOptional<T> getCapability(@NotNull Capability<T> capability, @Nullable Direction side) {
 
         if (!this.isRemoved() && ITEM_HANDLER_CAPABILITY == capability) {
 
@@ -556,7 +556,7 @@ public class ReactorSolidAccessPortEntity
                 .orElse(LazyOptional.empty());
     }
 
-    @Nonnull
+    @NotNull
     private IItemHandlerModifiable createFuelCapability() {
         return new ItemHandlerModifiableForwarder(this.getItemStackHandler(ReactantType.Fuel)) {
 
@@ -572,17 +572,17 @@ public class ReactorSolidAccessPortEntity
         };
     }
 
-    @Nonnull
+    @NotNull
     private IItemHandlerModifiable createWasteCapability() {
         return new ItemHandlerModifiableForwarder(this.getItemStackHandler(ReactantType.Waste)) {
 
             @Override
-            public ItemStack insertItem(int slot, @Nonnull ItemStack stack, boolean simulate) {
+            public ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
                 return stack;
             }
 
             @Override
-            public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
+            public boolean isItemValid(int slot, @NotNull ItemStack stack) {
                 return false;
             }
         };

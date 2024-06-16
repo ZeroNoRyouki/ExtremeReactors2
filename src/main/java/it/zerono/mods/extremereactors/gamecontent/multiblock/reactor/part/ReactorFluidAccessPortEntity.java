@@ -67,9 +67,8 @@ import net.minecraftforge.common.util.NonNullConsumer;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fml.LogicalSide;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class ReactorFluidAccessPortEntity
         extends AbstractReactorEntity
@@ -431,7 +430,7 @@ public class ReactorFluidAccessPortEntity
     //region TileEntity
 
     @Override
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable Direction side) {
+    public <T> LazyOptional<T> getCapability(@NotNull Capability<T> capability, @Nullable Direction side) {
 
         if (!this.isRemoved() && FLUID_HANDLER_CAPABILITY == capability) {
 
@@ -470,7 +469,7 @@ public class ReactorFluidAccessPortEntity
                 .orElse(LazyOptional.empty());
     }
 
-    @Nonnull
+    @NotNull
     private IFluidHandler createFuelCapability() {
         return new FluidHandlerForwarder(this.getFluidStackHandler(ReactantType.Fuel)) {
 
@@ -486,7 +485,7 @@ public class ReactorFluidAccessPortEntity
         };
     }
 
-    @Nonnull
+    @NotNull
     private IFluidHandler createWasteCapability() {
         return new FluidHandlerForwarder(this.getFluidStackHandler(ReactantType.Waste)) {
 

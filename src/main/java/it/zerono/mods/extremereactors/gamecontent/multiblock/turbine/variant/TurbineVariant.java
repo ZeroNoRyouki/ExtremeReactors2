@@ -23,8 +23,8 @@ import com.google.common.collect.Sets;
 import it.zerono.mods.extremereactors.config.Config;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.TurbinePartType;
 import it.zerono.mods.zerocore.lib.CodeHelper;
-import net.minecraft.world.level.block.Block;
 import it.zerono.mods.zerocore.lib.data.WideAmount;
+import net.minecraft.world.level.block.Block;
 
 import java.util.Objects;
 import java.util.Set;
