@@ -27,17 +27,18 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.Tur
 import it.zerono.mods.zerocore.lib.client.render.ModRenderHelper;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.Direction;
-import net.neoforged.neoforge.common.util.NonNullConsumer;
+import org.jetbrains.annotations.NotNull;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 import org.joml.Vector3fc;
 
 import java.util.List;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class RotorDescriptor
-    implements NonNullConsumer<PoseStack> {
+    implements Consumer<@NotNull PoseStack> {
 
     final Direction RotorDirection;
     final int Length;
@@ -59,7 +60,7 @@ public class RotorDescriptor
             return new RotorDescriptor(this._variant, this._rotorDirection, this._length, this._shaft);
         }
 
-        public Builder section(final RotorShaftState state, final NonNullConsumer<ShaftSection.Builder> consumer) {
+        public Builder section(final RotorShaftState state, final Consumer<ShaftSection.@NotNull Builder> consumer) {
 
             final ShaftSection.Builder builder = ShaftSection.builder(state);
 

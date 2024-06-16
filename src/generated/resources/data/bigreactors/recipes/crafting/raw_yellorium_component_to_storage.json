@@ -1,0 +1,37 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "group": "bigreactors:raw_yellorium",
+  "ingredients": [
+    {
+      "item": "bigreactors:raw_yellorium"
+    },
+    {
+      "item": "bigreactors:raw_yellorium"
+    },
+    {
+      "item": "bigreactors:raw_yellorium"
+    },
+    {
+      "item": "bigreactors:raw_yellorium"
+    },
+    {
+      "item": "bigreactors:raw_yellorium"
+    },
+    {
+      "item": "bigreactors:raw_yellorium"
+    },
+    {
+      "item": "bigreactors:raw_yellorium"
+    },
+    {
+      "item": "bigreactors:raw_yellorium"
+    },
+    {
+      "item": "bigreactors:raw_yellorium"
+    }
+  ],
+  "result": {
+    "item": "bigreactors:raw_yellorium_block"
+  }
+}

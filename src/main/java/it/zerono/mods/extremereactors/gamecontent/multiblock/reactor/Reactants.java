@@ -25,13 +25,14 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Rarity;
-import net.neoforged.neoforge.common.util.NonNullConsumer;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import java.util.List;
+import java.util.function.Consumer;
 
 public enum Reactants
-        implements NonNullConsumer<LivingEntity> {
+        implements Consumer<@NotNull LivingEntity> {
 
     Yellorium(ReactantType.Fuel, "yellorium", 0xc6ba54, 2000, 5, Rarity.RARE, MobEffects.WEAKNESS, MobEffects.MOVEMENT_SLOWDOWN),
     Cyanite(ReactantType.Waste, "cyanite", 0x5387b7, 2000, 6, Rarity.RARE, MobEffects.WEAKNESS, MobEffects.MOVEMENT_SLOWDOWN, MobEffects.HUNGER),

@@ -23,9 +23,12 @@ import it.zerono.mods.zerocore.lib.client.gui.sprite.ISprite;
 import it.zerono.mods.zerocore.lib.client.gui.sprite.ISpriteBuilder;
 import it.zerono.mods.zerocore.lib.client.gui.sprite.ISpriteTextureMap;
 import it.zerono.mods.zerocore.lib.client.gui.sprite.SpriteTextureMap;
-import net.neoforged.neoforge.common.util.NonNullSupplier;
+import org.jetbrains.annotations.NotNull;
 
-public enum CommonIcons implements NonNullSupplier<ISprite> {
+import java.util.function.Supplier;
+
+public enum CommonIcons
+        implements Supplier<@NotNull ISprite> {
 
     MachineStatusOff(builder().from(32, 176).ofSize(10, 10).build()),
     MachineStatusOn(builder().from(48, 176).ofSize(10, 10).build()),
@@ -50,6 +53,8 @@ public enum CommonIcons implements NonNullSupplier<ISprite> {
     RotorRPM(builder().from(176, 96).build()),
     LabelEdit(builder().from(64, 176).build()),
     TrashCan(builder().from(80, 48).build()),
+    DirectionInput(builder().from(96, 48).build()),
+    DirectionOutput(builder().from(112, 48).build()),
 
     ButtonInputDirection(builder().from(0, 96).build()),
     ButtonInputDirectionActive(builder().from(16, 96).build()),

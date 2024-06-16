@@ -19,21 +19,22 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.computer;
 
 import com.google.common.collect.Maps;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.IMachineReader;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.IFluidContainer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.IReactorReader;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.MultiblockReactor;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part.ReactorComputerPortEntity;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part.ReactorControlRodEntity;
 import it.zerono.mods.zerocore.lib.CodeHelper;
+import it.zerono.mods.zerocore.lib.IMachineReader;
 import it.zerono.mods.zerocore.lib.compat.computer.ComputerMethod;
 import it.zerono.mods.zerocore.lib.compat.computer.LuaHelper;
 import it.zerono.mods.zerocore.lib.compat.computer.MultiblockComputerPeripheral;
 import it.zerono.mods.zerocore.lib.energy.EnergySystem;
-import net.neoforged.neoforge.common.util.NonNullConsumer;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 import java.util.function.BiFunction;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class ReactorComputerPeripheral
@@ -61,7 +62,7 @@ public class ReactorComputerPeripheral
      * @param methodConsumer pass your methods to this Consumer
      */
     @Override
-    public void populateMethods(final NonNullConsumer<ComputerMethod<MultiblockComputerPeripheral<MultiblockReactor, ReactorComputerPortEntity>>> methodConsumer) {
+    public void populateMethods(final Consumer<@NotNull ComputerMethod<MultiblockComputerPeripheral<MultiblockReactor, ReactorComputerPortEntity>>> methodConsumer) {
 
         super.populateMethods(methodConsumer);
 

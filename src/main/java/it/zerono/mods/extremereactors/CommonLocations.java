@@ -26,6 +26,7 @@ public final class CommonLocations {
     public static final ResourceLocationBuilder TURBINE = ROOT.appendPath("turbine");
     public static final ResourceLocationBuilder REPROCESSOR = ROOT.appendPath("reprocessor");
     public static final ResourceLocationBuilder FLUIDIZER = ROOT.appendPath("fluidizer");
+    public static final ResourceLocationBuilder ENERGIZER = ROOT.appendPath("energizer");
 
     public static final ResourceLocationBuilder TEXTURES_GUI_MULTIBLOCK = ROOT
             .appendPath("textures", "gui", "multiblock");

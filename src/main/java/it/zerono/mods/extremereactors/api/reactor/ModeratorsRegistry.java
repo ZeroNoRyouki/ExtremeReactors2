@@ -38,12 +38,13 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
-import net.neoforged.neoforge.common.util.NonNullSupplier;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 /**
  * Keep track of all the Moderators that could be used inside a Reactor
@@ -215,7 +216,7 @@ public final class ModeratorsRegistry {
     }
 
     public static void fillModeratorsTooltips(final Map<Item, Set<Component>> tooltipsMap,
-                                              final NonNullSupplier<Set<Component>> setSupplier) {
+                                              final Supplier<@NotNull Set<Component>> setSupplier) {
 
         s_moderatorBlocksTags.stream()
                 .map(TagsHelper.BLOCKS::getObjects)

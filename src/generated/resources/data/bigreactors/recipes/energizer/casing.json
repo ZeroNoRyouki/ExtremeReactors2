@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "G": {
+      "tag": "forge:storage_blocks/gold"
+    },
+    "I": {
+      "tag": "forge:ingots/iron"
+    },
+    "R": {
+      "item": "minecraft:redstone_block"
+    }
+  },
+  "pattern": [
+    "IRI",
+    "IGI",
+    "IRI"
+  ],
+  "result": {
+    "item": "bigreactors:energizercasing"
+  },
+  "show_notification": true
+}

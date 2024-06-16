@@ -22,10 +22,12 @@ import it.zerono.mods.extremereactors.CommonLocations;
 import it.zerono.mods.zerocore.lib.client.gui.sprite.ISprite;
 import it.zerono.mods.zerocore.lib.client.gui.sprite.ISpriteBuilder;
 import it.zerono.mods.zerocore.lib.client.gui.sprite.SpriteTextureMap;
-import net.neoforged.neoforge.common.util.NonNullSupplier;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.function.Supplier;
 
 public enum FluidizerIcons
-        implements NonNullSupplier<ISprite> {
+        implements Supplier<@NotNull ISprite> {
 
     GuiBackground(builder().from(0, 0).ofSize(224, 166).build()),
     GuiInventory9x3(builder().from(0, 202).ofSize(162, 54).build()),

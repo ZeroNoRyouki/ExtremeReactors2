@@ -25,7 +25,17 @@ import it.zerono.mods.extremereactors.gamecontent.compat.patchouli.PatchouliComp
 import it.zerono.mods.extremereactors.gamecontent.fluid.ReactantFluidBlock;
 import it.zerono.mods.extremereactors.gamecontent.fluid.ReactorFluidType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.container.ChargingPortContainer;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.common.container.FluidPortContainer;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.PowerTapBlock;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.fluidport.FluidPortType;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.energizer.EnergizerPartType;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.energizer.IEnergizerPartType;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.energizer.MultiBlockEnergizer;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.energizer.container.EnergizerChargingPortContainer;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.energizer.container.EnergizerControllerContainer;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.energizer.container.EnergizerPowerPortContainer;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.energizer.part.*;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.energizer.variant.EnergizerVariant;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.FluidizerPartType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.IFluidizerPartType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.MultiblockFluidizer;
@@ -40,19 +50,24 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.IReactorPar
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.MultiblockReactor;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.Reactants;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.ReactorPartType;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.container.ReactorSolidAccessPortContainer;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.container.*;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part.*;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.IMultiblockReactorVariant;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.ReactorVariant;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.IReprocessorPartType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.MultiblockReprocessor;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.ReprocessorPartType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.container.ReprocessorAccessPortContainer;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.container.ReprocessorControllerContainer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.part.*;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.recipe.ReprocessorRecipe;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.ITurbinePartType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.MultiblockTurbine;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.TurbinePartType;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.container.TurbineControllerContainer;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.container.TurbineRedstonePortContainer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part.*;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.IMultiblockTurbineVariant;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.TurbineVariant;
 import it.zerono.mods.extremereactors.loader.forge.gamecontent.worldgen.OreBiomeModifier;
 import it.zerono.mods.zerocore.base.multiblock.part.GenericDeviceBlock;
@@ -67,7 +82,7 @@ import it.zerono.mods.zerocore.lib.data.IoMode;
 import it.zerono.mods.zerocore.lib.energy.EnergySystem;
 import it.zerono.mods.zerocore.lib.fluid.SimpleFluidTypeRenderProperties;
 import it.zerono.mods.zerocore.lib.item.ModItem;
-import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
+import it.zerono.mods.zerocore.lib.item.TintedBucketItem;
 import it.zerono.mods.zerocore.lib.recipe.ModRecipe;
 import it.zerono.mods.zerocore.lib.recipe.ModRecipeType;
 import net.minecraft.core.Holder;
@@ -102,7 +117,6 @@ import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.neoforged.neoforge.common.SoundActions;
 import net.neoforged.neoforge.common.extensions.IMenuTypeExtension;
-import net.neoforged.neoforge.common.util.NonNullFunction;
 import net.neoforged.neoforge.common.world.BiomeModifier;
 import net.neoforged.neoforge.fluids.BaseFlowingFluid;
 import net.neoforged.neoforge.fluids.FluidType;
@@ -110,10 +124,12 @@ import net.neoforged.neoforge.network.IContainerFactory;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 public final class Content {
@@ -147,6 +163,7 @@ public final class Content {
         //region metals
 
         public static final Supplier<ModBlock> YELLORIUM_BLOCK = registerMetalBlock(Reactants.Yellorium.getBlockName(), DyeColor.YELLOW);
+        public static final Supplier<ModBlock> RAW_YELLORIUM_BLOCK = registerMetalBlock("raw_yellorium_block", DyeColor.YELLOW);
         public static final Supplier<ModBlock> CYANITE_BLOCK = registerMetalBlock(Reactants.Cyanite.getBlockName(), DyeColor.LIGHT_BLUE);
         public static final Supplier<ModBlock> GRAPHITE_BLOCK = registerMetalBlock("graphite_block", DyeColor.GRAY);
         public static final Supplier<ModBlock> BLUTONIUM_BLOCK = registerMetalBlock(Reactants.Blutonium.getBlockName(), DyeColor.PURPLE);
@@ -161,6 +178,7 @@ public final class Content {
         //region ores
 
         public static final Supplier<ModBlock> YELLORITE_ORE_BLOCK = registerOreBlock("yellorite_ore", DyeColor.YELLOW, 0, 0);
+        public static final Supplier<ModBlock> DEEPSLATE_YELLORITE_ORE_BLOCK = registerOreBlock("deepslate_yellorite_ore", DyeColor.YELLOW, 0, 0);
         public static final Supplier<ModBlock> ANGLESITE_ORE_BLOCK = registerOreBlock("anglesite_ore", DyeColor.ORANGE);
         public static final Supplier<ModBlock> BENITOITE_ORE_BLOCK = registerOreBlock("benitoite_ore", DyeColor.LIGHT_BLUE);
 
@@ -427,6 +445,26 @@ public final class Content {
                 registerFluidizerBlock("fluidizerpowerport", FluidizerPartType.PowerPort);
 
         //endregion
+        //region energizer
+
+        public static final Supplier<ModBlock> ENERGIZER_CELL = registerMetalBlock("energizercell", DyeColor.GRAY);
+
+        public static final Supplier<MultiblockPartBlock<MultiBlockEnergizer, IEnergizerPartType>> ENERGIZER_CASING =
+                registerEnergizerBlock("energizercasing", EnergizerPartType.Casing);
+
+        public static final Supplier<GenericDeviceBlock<MultiBlockEnergizer, IEnergizerPartType>> ENERGIZER_CONTROLLER =
+                registerEnergizerBlock("energizercontroller", EnergizerPartType.Controller);
+
+        public static final Supplier<PowerTapBlock<MultiBlockEnergizer, IEnergizerPartType>> ENERGIZER_POWERPORT_FE =
+                registerEnergizerBlock("energizerpowerportfe", EnergizerPartType.PowerPortFE);
+
+        public static final Supplier<PowerTapBlock<MultiBlockEnergizer, IEnergizerPartType>> ENERGIZER_CHARGINGPORT_FE =
+                registerEnergizerBlock("energizerchargingportfe", EnergizerPartType.ChargingPortFE);
+
+        public static final Supplier<GenericDeviceBlock<MultiBlockEnergizer, IEnergizerPartType>> ENERGIZER_STATUS_DISPLAY =
+                registerEnergizerBlock("energizerstatus", EnergizerPartType.StatusDisplay);
+
+        //endregion
         //region internals
 
         private static Supplier<ModBlock> registerMetalBlock(final String name, final DyeColor color) {
@@ -477,6 +515,12 @@ public final class Content {
             return BLOCKS.register(name, () -> (T) (partType.createBlock()));
         }
 
+        @SuppressWarnings("unchecked")
+        private static <T extends MultiblockPartBlock<MultiBlockEnergizer, IEnergizerPartType>>
+        Supplier<T> registerEnergizerBlock(String name, EnergizerPartType partType) {
+            return BLOCKS.register(name, () -> (T) (partType.createBlock(EnergizerVariant.INSTANCE)));
+        }
+
         private static Supplier<LiquidBlock> registerModeratorLiquidBlock(final String name, final Supplier<FlowingFluid> source) {
             return BLOCKS.register(name, () -> new LiquidBlock(source, BlockBehaviour.Properties.of()
                     .mapColor(MapColor.WATER)
@@ -508,6 +552,7 @@ public final class Content {
         //region metals
 
         public static final Supplier<ModItem> YELLORIUM_INGOT = registerItemGeneric(Reactants.Yellorium.getIngotName());
+        public static final Supplier<ModItem> RAW_YELLORIUM = registerItemGeneric("raw_yellorium");
         public static final Supplier<ModItem> CYANITE_INGOT = registerItemGeneric(Reactants.Cyanite.getIngotName());
         public static final Supplier<ModItem> GRAPHITE_INGOT = registerItemGeneric("graphite_ingot");
         public static final Supplier<ModItem> BLUTONIUM_INGOT = registerItemGeneric(Reactants.Blutonium.getIngotName());
@@ -531,6 +576,7 @@ public final class Content {
         public static final Supplier<ModItem> INSANITE_DUST = registerItemGeneric("insanite_dust");
 
         public static final Supplier<BlockItem> YELLORIUM_BLOCK = registerItemBlock(Reactants.Yellorium.getBlockName(), () -> Blocks.YELLORIUM_BLOCK);
+        public static final Supplier<BlockItem> RAW_YELLORIUM_BLOCK = registerItemBlock("raw_yellorium_block", () -> Blocks.RAW_YELLORIUM_BLOCK);
         public static final Supplier<BlockItem> CYANITE_BLOCK = registerItemBlock(Reactants.Cyanite.getBlockName(), () -> Blocks.CYANITE_BLOCK);
         public static final Supplier<BlockItem> GRAPHITE_BLOCK = registerItemBlock("graphite_block", () -> Blocks.GRAPHITE_BLOCK);
         public static final Supplier<BlockItem> BLUTONIUM_BLOCK = registerItemBlock(Reactants.Blutonium.getBlockName(), () -> Blocks.BLUTONIUM_BLOCK);
@@ -550,31 +596,32 @@ public final class Content {
         //region ores
 
         public static final Supplier<BlockItem> YELLORITE_ORE_BLOCK = registerItemBlock("yellorite_ore", () -> Blocks.YELLORITE_ORE_BLOCK);
+        public static final Supplier<BlockItem> DEEPSLATE_YELLORITE_ORE_BLOCK = registerItemBlock("deepslate_yellorite_ore", () -> Blocks.DEEPSLATE_YELLORITE_ORE_BLOCK);
         public static final Supplier<BlockItem> ANGLESITE_ORE_BLOCK = registerItemBlock("anglesite_ore", () -> Blocks.ANGLESITE_ORE_BLOCK);
         public static final Supplier<BlockItem> BENITOITE_ORE_BLOCK = registerItemBlock("benitoite_ore", () -> Blocks.BENITOITE_ORE_BLOCK);
 
         //endregion
         //region fluids
 
-        public static final Supplier<BucketItem> STEAM_BUCKET = registerBucket("steam_bucket", Fluids.STEAM_SOURCE);
+        public static final Supplier<TintedBucketItem> STEAM_BUCKET = registerTintedBucket("steam_bucket", Fluids.STEAM_SOURCE);
 
         //region reactants
 
-        public static final Supplier<BucketItem> YELLORIUM_BUCKET = registerBucket(Reactants.Yellorium.getBucketName(), Fluids.YELLORIUM_SOURCE);
-        public static final Supplier<BucketItem> CYANITE_BUCKET = registerBucket(Reactants.Cyanite.getBucketName(), Fluids.CYANITE_SOURCE);
-        public static final Supplier<BucketItem> BLUTONIUM_BUCKET = registerBucket(Reactants.Blutonium.getBucketName(), Fluids.BLUTONIUM_SOURCE);
-        public static final Supplier<BucketItem> MAGENTITE_BUCKET = registerBucket(Reactants.Magentite.getBucketName(), Fluids.MAGENTITE_SOURCE);
-        public static final Supplier<BucketItem> VERDERIUM_BUCKET = registerBucket(Reactants.Verderium.getBucketName(), Fluids.VERDERIUM_SOURCE);
-        public static final Supplier<BucketItem> ROSSINITE_BUCKET = registerBucket(Reactants.Rossinite.getBucketName(), Fluids.ROSSINITE_SOURCE);
+        public static final Supplier<TintedBucketItem> YELLORIUM_BUCKET = registerReactantBucket(Reactants.Yellorium, Fluids.YELLORIUM_SOURCE);
+        public static final Supplier<TintedBucketItem> CYANITE_BUCKET = registerReactantBucket(Reactants.Cyanite, Fluids.CYANITE_SOURCE);
+        public static final Supplier<TintedBucketItem> BLUTONIUM_BUCKET = registerReactantBucket(Reactants.Blutonium, Fluids.BLUTONIUM_SOURCE);
+        public static final Supplier<TintedBucketItem> MAGENTITE_BUCKET = registerReactantBucket(Reactants.Magentite, Fluids.MAGENTITE_SOURCE);
+        public static final Supplier<TintedBucketItem> VERDERIUM_BUCKET = registerReactantBucket(Reactants.Verderium, Fluids.VERDERIUM_SOURCE);
+        public static final Supplier<TintedBucketItem> ROSSINITE_BUCKET = registerReactantBucket(Reactants.Rossinite, Fluids.ROSSINITE_SOURCE);
 
         //endregion
         //region moderators
 
-        public static final Supplier<BucketItem> CRYOMISI_BUCKET = registerBucket("cryomisi_bucket", Fluids.CRYOMISI_SOURCE);
+        public static final Supplier<TintedBucketItem> CRYOMISI_BUCKET = registerTintedBucket("cryomisi_bucket", Fluids.CRYOMISI_SOURCE);
 
-        public static final Supplier<BucketItem> TANGERIUM_BUCKET = registerBucket("tangerium_bucket", Fluids.TANGERIUM_SOURCE);
+        public static final Supplier<TintedBucketItem> TANGERIUM_BUCKET = registerTintedBucket("tangerium_bucket", Fluids.TANGERIUM_SOURCE);
 
-        public static final Supplier<BucketItem> REDFRIGIUM_BUCKET = registerBucket("redfrigium_bucket", Fluids.REDFRIGIUM_SOURCE);
+        public static final Supplier<TintedBucketItem> REDFRIGIUM_BUCKET = registerTintedBucket("redfrigium_bucket", Fluids.REDFRIGIUM_SOURCE);
 
         //endregion
         //endregion
@@ -670,6 +717,17 @@ public final class Content {
         public static final Supplier<BlockItem> FLUIDIZER_POWERPORT = registerItemBlock("fluidizerpowerport", () -> Blocks.FLUIDIZER_POWERPORT::get);
 
         //endregion
+        //region Energizer
+
+        public static final Supplier<ModItem> ENERGY_CORE = registerItemGeneric("energycore");
+        public static final Supplier<BlockItem> ENERGY_CELL = registerItemBlock("energizercell", () -> Blocks.ENERGIZER_CELL);
+        public static final Supplier<BlockItem> ENERGIZER_CASING = registerItemBlock("energizercasing", () -> Blocks.ENERGIZER_CASING::get);
+        public static final Supplier<BlockItem> ENERGIZER_CONTROLLER = registerItemBlock("energizercontroller", () -> Blocks.ENERGIZER_CONTROLLER::get);
+        public static final Supplier<BlockItem> ENERGIZER_POWERPORT_FE = registerItemBlock("energizerpowerport_fe", () -> Blocks.ENERGIZER_POWERPORT_FE::get);
+        public static final Supplier<BlockItem> ENERGIZER_CHARGINGPORT_FE = registerItemBlock("energizerchargingport_fe", () -> Blocks.ENERGIZER_CHARGINGPORT_FE::get);
+        public static final Supplier<BlockItem> ENERGIZER_STATUS_DISPLAY = registerItemBlock("energizerstatus", () -> Blocks.ENERGIZER_STATUS_DISPLAY::get);
+
+        //endregion
         //region misc
 
         public static final Supplier<ModItem> WRENCH = registerItemGeneric("wrench", 1);
@@ -692,10 +750,22 @@ public final class Content {
                     () -> blockSupplier.get().get().createBlockItem(new Item.Properties().stacksTo(64)));
         }
 
-        private static Supplier<BucketItem> registerBucket(final String name, final Supplier<? extends Fluid> sourceFluid) {
-            return ITEMS.register(name, () -> new BucketItem(sourceFluid, new Item.Properties()
+        private static Supplier<TintedBucketItem> registerTintedBucket(String name,
+                                                                       Supplier<? extends Fluid> sourceFluid) {
+            return ITEMS.register(name, () -> new TintedBucketItem(sourceFluid.get(), bucketProperties()));
+        }
+
+        private static Supplier<TintedBucketItem> registerReactantBucket(Reactants reactant,
+                                                                         Supplier<? extends Fluid> sourceFluid) {
+            return ITEMS.register(reactant.getBucketName(),
+                    () -> new TintedBucketItem(sourceFluid.get(), bucketProperties(),
+                            (stack, tintIndex) -> 1 == tintIndex ? 0xFF000000 | reactant.getColour() : 0xFFFFFFFF));
+        }
+
+        private static Item.Properties bucketProperties() {
+            return new Item.Properties()
                     .craftRemainder(net.minecraft.world.item.Items.BUCKET)
-                    .stacksTo(1)));
+                    .stacksTo(1);
         }
 
         //endregion
@@ -860,7 +930,7 @@ public final class Content {
         //endregion
         //region internals
 
-        private static Supplier<FlowingFluid> registerSteam(final String name, final NonNullFunction<BaseFlowingFluid.Properties, FlowingFluid> factory) {
+        private static Supplier<FlowingFluid> registerSteam(final String name, final Function<BaseFlowingFluid.@NotNull Properties, FlowingFluid> factory) {
             return FLUIDS.register(name, () -> factory.apply(new BaseFlowingFluid.Properties(STEAM_FLUID_TYPE, STEAM_SOURCE, STEAM_FLOWING)
                     .bucket(Items.STEAM_BUCKET)
                     .block(Blocks.STEAM)));
@@ -1098,6 +1168,30 @@ public final class Content {
                 registerBlockEntity("fluidizerpowerport", FluidizerPowerPortEntity::new, () -> Blocks.FLUIDIZER_POWERPORT::get);
 
         //endregion
+        //region Energizer
+
+        public static final Supplier<BlockEntityType<EnergizerCasingEntity>> ENERGIZER_CASING =
+                registerBlockEntity("energizercasing", EnergizerCasingEntity::new, () -> Blocks.ENERGIZER_CASING::get);
+
+        public static final Supplier<BlockEntityType<EnergizerControllerEntity>> ENERGIZER_CONTROLLER =
+                registerBlockEntity("energizercontroller", EnergizerControllerEntity::new, () -> Blocks.ENERGIZER_CONTROLLER::get);
+
+        public static final Supplier<BlockEntityType<EnergizerPowerPortEntity>> ENERGIZER_POWERPORT_FE =
+                registerBlockEntity("energizerpowerport_fe",
+                        (position, state) -> new EnergizerPowerPortEntity(EnergySystem.ForgeEnergy,
+                                TileEntityTypes.ENERGIZER_POWERPORT_FE.get(), position, state),
+                        () -> Blocks.ENERGIZER_POWERPORT_FE::get);
+
+        public static final Supplier<BlockEntityType<EnergizerChargingPortEntity>> ENERGIZER_CHARGINGPORT_FE =
+                registerBlockEntity("energizerchargingport_fe",
+                        (position, state) -> new EnergizerChargingPortEntity(EnergySystem.ForgeEnergy,
+                                TileEntityTypes.ENERGIZER_CHARGINGPORT_FE.get(), position, state),
+                        () -> Blocks.ENERGIZER_CHARGINGPORT_FE::get);
+
+        public static final Supplier<BlockEntityType<EnergizerStatusDisplayEntity>> ENERGIZER_STATUS_DISPLAY =
+                registerBlockEntity("energizerstatus", EnergizerStatusDisplayEntity::new, () -> Blocks.ENERGIZER_STATUS_DISPLAY::get);
+
+        //endregion
         //region internals
 
         @SuppressWarnings("ConstantConditions")
@@ -1133,58 +1227,51 @@ public final class Content {
 
         //region Reactor
 
-        public static final Supplier<MenuType<ModTileContainer<ReactorControllerEntity>>> REACTOR_CONTROLLER =
-                registerContainer("reactorcontroller", (windowId, inv, data) ->
-                        ModTileContainer.empty(Content.ContainerTypes.REACTOR_CONTROLLER.get(), windowId, inv, data));
+        public static final Supplier<MenuType<ReactorControllerContainer>> REACTOR_CONTROLLER =
+                registerContainer("reactorcontroller", ReactorControllerContainer::new);
 
         public static final Supplier<MenuType<ReactorSolidAccessPortContainer>> REACTOR_SOLID_ACCESSPORT =
                 registerContainer("reactoraccessport", ReactorSolidAccessPortContainer::new);
 
-        public static final Supplier<MenuType<ModTileContainer<ReactorFluidAccessPortEntity>>> REACTOR_FLUID_ACCESSPORT =
-                registerContainer("reactoraccessportfluid", (windowId, inv, data) ->
-                        ModTileContainer.empty(Content.ContainerTypes.REACTOR_FLUID_ACCESSPORT.get(), windowId, inv, data));
+        public static final Supplier<MenuType<ReactorFluidAccessPortContainer>> REACTOR_FLUID_ACCESSPORT =
+                registerContainer("reactoraccessportfluid", ReactorFluidAccessPortContainer::new);
 
-        public static final Supplier<MenuType<ModTileContainer<ReactorRedstonePortEntity>>> REACTOR_REDSTONEPORT =
-                registerContainer("reactorredstoneport", (windowId, inv, data) ->
-                        ModTileContainer.empty(Content.ContainerTypes.REACTOR_REDSTONEPORT.get(), windowId, inv, data));
+        public static final Supplier<MenuType<ReactorRedstonePortContainer>> REACTOR_REDSTONEPORT =
+                registerContainer("reactorredstoneport", ReactorRedstonePortContainer::new);
 
-        public static final Supplier<MenuType<ModTileContainer<ReactorControlRodEntity>>> REACTOR_CONTROLROD =
-                registerContainer("reactorcontrolrod", (windowId, inv, data) ->
-                        ModTileContainer.empty(Content.ContainerTypes.REACTOR_CONTROLROD.get(), windowId, inv, data));
+        public static final Supplier<MenuType<ReactorControlRodContainer>> REACTOR_CONTROLROD =
+                registerContainer("reactorcontrolrod", ReactorControlRodContainer::new);
 
-        public static final Supplier<MenuType<ChargingPortContainer<ReactorChargingPortEntity>>> REACTOR_CHARGINGPORT =
+        public static final Supplier<MenuType<ChargingPortContainer<MultiblockReactor, IMultiblockReactorVariant, ReactorChargingPortEntity>>> REACTOR_CHARGINGPORT =
                 registerContainer("reactorchargingport",
                         (windowId, inv, data) -> new ChargingPortContainer<>(windowId, Content.ContainerTypes.REACTOR_CHARGINGPORT.get(), inv, data));
 
-        public static final Supplier<MenuType<ModTileContainer<ReactorFluidPortEntity>>> REACTOR_FLUIDPORT =
+        public static final Supplier<MenuType<FluidPortContainer<MultiblockReactor, IMultiblockReactorVariant, ReactorFluidPortEntity>>> REACTOR_FLUIDPORT =
                 registerContainer("reactorfluidport", (windowId, inv, data) ->
-                        ModTileContainer.empty(Content.ContainerTypes.REACTOR_FLUIDPORT.get(), windowId, inv, data));
+                        new FluidPortContainer<>(windowId, ContainerTypes.REACTOR_FLUIDPORT.get(), inv, data));
 
         //endregion
         //region Turbine
 
-        public static final Supplier<MenuType<ModTileContainer<TurbineControllerEntity>>> TURBINE_CONTROLLER =
-                registerContainer("turbinecontroller", (windowId, inv, data) ->
-                        ModTileContainer.empty(Content.ContainerTypes.TURBINE_CONTROLLER.get(), windowId, inv, data));
+        public static final Supplier<MenuType<TurbineControllerContainer>> TURBINE_CONTROLLER =
+                registerContainer("turbinecontroller", TurbineControllerContainer::new);
 
-        public static final Supplier<MenuType<ModTileContainer<TurbineRedstonePortEntity>>> TURBINE_REDSTONEPORT =
-                registerContainer("turbineredstoneport", (windowId, inv, data) ->
-                        ModTileContainer.empty(Content.ContainerTypes.TURBINE_REDSTONEPORT.get(), windowId, inv, data));
+        public static final Supplier<MenuType<TurbineRedstonePortContainer>> TURBINE_REDSTONEPORT =
+                registerContainer("turbineredstoneport", TurbineRedstonePortContainer::new);
 
-        public static final Supplier<MenuType<ChargingPortContainer<TurbineChargingPortEntity>>> TURBINE_CHARGINGPORT =
+        public static final Supplier<MenuType<ChargingPortContainer<MultiblockTurbine, IMultiblockTurbineVariant, TurbineChargingPortEntity>>> TURBINE_CHARGINGPORT =
                 registerContainer("turbinechargingport",
                         (windowId, inv, data) -> new ChargingPortContainer<>(windowId, Content.ContainerTypes.TURBINE_CHARGINGPORT.get(), inv, data));
 
-        public static final Supplier<MenuType<ModTileContainer<TurbineFluidPortEntity>>> TURBINE_FLUIDPORT =
+        public static final Supplier<MenuType<FluidPortContainer<MultiblockTurbine, IMultiblockTurbineVariant, TurbineFluidPortEntity>>> TURBINE_FLUIDPORT =
                 registerContainer("turbinefluidport", (windowId, inv, data) ->
-                        ModTileContainer.empty(Content.ContainerTypes.TURBINE_FLUIDPORT.get(), windowId, inv, data));
+                        new FluidPortContainer<>(windowId, ContainerTypes.TURBINE_FLUIDPORT.get(), inv, data));
 
         //endregion
         //region Reprocessor
 
-        public static final Supplier<MenuType<ModTileContainer<ReprocessorControllerEntity>>> REPROCESSOR_CONTROLLER =
-                registerContainer("reprocessorcontroller", (windowId, inv, data) ->
-                        ModTileContainer.empty(Content.ContainerTypes.REPROCESSOR_CONTROLLER.get(), windowId, inv, data));
+        public static final Supplier<MenuType<ReprocessorControllerContainer>> REPROCESSOR_CONTROLLER =
+                registerContainer("reprocessorcontroller", ReprocessorControllerContainer::new);
 
         public static final Supplier<MenuType<ReprocessorAccessPortContainer>> REPROCESSOR_ACCESSPORT =
                 registerContainer("reprocessoraccessport", ReprocessorAccessPortContainer::new);
@@ -1197,6 +1284,18 @@ public final class Content {
 
         public static final Supplier<MenuType<FluidizerSolidInjectorContainer>> FLUIDIZER_SOLID_INJECTOR =
                 registerContainer("fluidizersolidinjector", FluidizerSolidInjectorContainer::new);
+
+        //endregion
+        //region Energizer
+
+        public static final Supplier<MenuType<EnergizerControllerContainer>> ENERGIZER_CONTROLLER =
+                registerContainer("energizercontroller", EnergizerControllerContainer::new);
+
+        public static final Supplier<MenuType<EnergizerPowerPortContainer>> ENERGIZER_POWERPORT =
+                registerContainer("energizerpowerport", EnergizerPowerPortContainer::new);
+
+        public static final Supplier<MenuType<EnergizerChargingPortContainer>> ENERGIZER_CHARGINGPORT =
+                registerContainer("energizerchargingport", EnergizerChargingPortContainer::new);
 
         //endregion
         //region internals
@@ -1302,8 +1401,10 @@ public final class Content {
                     .withTabsAfter(tabReactor)
                     .displayItems((parameters, output) -> {
 
-                        acceptAll(output, Blocks.YELLORITE_ORE_BLOCK, Blocks.ANGLESITE_ORE_BLOCK, Blocks.BENITOITE_ORE_BLOCK,
-                                Items.YELLORIUM_INGOT, Items.YELLORIUM_DUST, Blocks.YELLORIUM_BLOCK,
+                        acceptAll(output, Blocks.YELLORITE_ORE_BLOCK, Blocks.DEEPSLATE_YELLORITE_ORE_BLOCK,
+                                Blocks.ANGLESITE_ORE_BLOCK, Blocks.BENITOITE_ORE_BLOCK,
+                                Items.YELLORIUM_INGOT, Items.RAW_YELLORIUM, Items.RAW_YELLORIUM_BLOCK,
+                                Items.YELLORIUM_DUST, Blocks.YELLORIUM_BLOCK,
                                 Items.BLUTONIUM_INGOT, Items.BLUTONIUM_DUST, Blocks.BLUTONIUM_BLOCK,
                                 Items.CYANITE_INGOT, Items.CYANITE_DUST, Blocks.CYANITE_BLOCK,
                                 Items.MAGENTITE_INGOT, Items.MAGENTITE_DUST, Blocks.MAGENTITE_BLOCK,
@@ -1332,6 +1433,11 @@ public final class Content {
                                 Blocks.FLUIDIZER_CONTROLLER, Blocks.FLUIDIZER_SOLIDINJECTOR,
                                 Blocks.FLUIDIZER_FLUIDINJECTOR, Blocks.FLUIDIZER_OUTPUTPORT,
                                 Blocks.FLUIDIZER_POWERPORT);
+
+                        acceptAll(output, Items.ENERGY_CORE, Blocks.ENERGIZER_CELL,
+                                Blocks.ENERGIZER_CASING, Blocks.ENERGIZER_CONTROLLER,
+                                Blocks.ENERGIZER_POWERPORT_FE, Blocks.ENERGIZER_CHARGINGPORT_FE,
+                                Blocks.ENERGIZER_STATUS_DISPLAY);
                     })
                     .build()
             );

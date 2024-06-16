@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "1": {
+      "item": "minecraft:redstone_block"
+    },
+    "2": {
+      "tag": "forge:ingots/iron"
+    },
+    "3": {
+      "tag": "forge:dusts/glowstone"
+    },
+    "C": {
+      "item": "bigreactors:energizercasing"
+    }
+  },
+  "pattern": [
+    "C2C",
+    "313",
+    "C2C"
+  ],
+  "result": {
+    "item": "bigreactors:energizerpowerport_fe"
+  },
+  "show_notification": true
+}

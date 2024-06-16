@@ -20,6 +20,7 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part;
 
 import it.zerono.mods.extremereactors.gamecontent.CommonConstants;
 import it.zerono.mods.extremereactors.gamecontent.Content;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.common.container.FluidPortContainer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.fluidport.FluidPortType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.MultiblockTurbine;
 import it.zerono.mods.zerocore.base.multiblock.part.io.fluid.IFluidPort;
@@ -28,7 +29,6 @@ import it.zerono.mods.zerocore.lib.block.INeighborChangeListener;
 import it.zerono.mods.zerocore.lib.block.TileCommandDispatcher;
 import it.zerono.mods.zerocore.lib.data.IoDirection;
 import it.zerono.mods.zerocore.lib.data.IoMode;
-import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -158,7 +158,7 @@ public class TurbineFluidPortEntity
     @Nullable
     @Override
     public AbstractContainerMenu createMenu(final int windowId, final Inventory inventory, final Player player) {
-        return ModTileContainer.empty(Content.ContainerTypes.TURBINE_FLUIDPORT.get(), windowId, inventory, this);
+        return new FluidPortContainer<>(windowId, Content.ContainerTypes.TURBINE_FLUIDPORT.get(), inventory, this);
     }
 
     @Override

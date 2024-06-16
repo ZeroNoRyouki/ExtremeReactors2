@@ -19,11 +19,11 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.computer;
 
 import com.google.common.collect.Maps;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.IMachineReader;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.MultiblockTurbine;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.VentSetting;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part.TurbineComputerPortEntity;
 import it.zerono.mods.zerocore.lib.CodeHelper;
+import it.zerono.mods.zerocore.lib.IMachineReader;
 import it.zerono.mods.zerocore.lib.compat.computer.ComputerMethod;
 import it.zerono.mods.zerocore.lib.compat.computer.LuaHelper;
 import it.zerono.mods.zerocore.lib.compat.computer.MultiblockComputerPeripheral;
@@ -31,10 +31,11 @@ import it.zerono.mods.zerocore.lib.energy.EnergySystem;
 import it.zerono.mods.zerocore.lib.fluid.FluidHelper;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.material.Fluid;
-import net.neoforged.neoforge.common.util.NonNullConsumer;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 public class TurbineComputerPeripheral
         extends MultiblockComputerPeripheral<MultiblockTurbine, TurbineComputerPortEntity> {
@@ -61,7 +62,7 @@ public class TurbineComputerPeripheral
      * @param methodConsumer pass your methods to this Consumer
      */
     @Override
-    public void populateMethods(final NonNullConsumer<ComputerMethod<MultiblockComputerPeripheral<MultiblockTurbine, TurbineComputerPortEntity>>> methodConsumer) {
+    public void populateMethods(final Consumer<@NotNull ComputerMethod<MultiblockComputerPeripheral<MultiblockTurbine, TurbineComputerPortEntity>>> methodConsumer) {
 
         super.populateMethods(methodConsumer);
 

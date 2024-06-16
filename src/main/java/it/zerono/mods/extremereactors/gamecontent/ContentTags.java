@@ -35,6 +35,7 @@ public class ContentTags {
         public static final TagKey<Block> ORE_YELLORITE = forgeTag("ores/yellorite");
 
         public static final TagKey<Block> BLOCKS_YELLORIUM = forgeTag("storage_blocks/yellorium");
+        public static final TagKey<Block> BLOCKS_RAW_YELLORIUM = forgeTag("storage_blocks/raw_yellorium");
         public static final TagKey<Block> BLOCKS_CYANITE = forgeTag("storage_blocks/cyanite");
         public static final TagKey<Block> BLOCKS_GRAPHITE = forgeTag("storage_blocks/graphite");
         public static final TagKey<Block> BLOCKS_BLUTONIUM = forgeTag("storage_blocks/blutonium");
@@ -56,6 +57,7 @@ public class ContentTags {
     public static final class Items {
 
 		public static final TagKey<Item> ORE_YELLORITE = forgeTag("ores/yellorite");
+        public static final TagKey<Item> RAW_MATERIALS_YELLORIUM = forgeTag("raw_materials/yellorium");
 
         public static final TagKey<Item> INGOTS_YELLORIUM = forgeTag("ingots/yellorium");
         public static final TagKey<Item> INGOTS_CYANITE = forgeTag("ingots/cyanite");

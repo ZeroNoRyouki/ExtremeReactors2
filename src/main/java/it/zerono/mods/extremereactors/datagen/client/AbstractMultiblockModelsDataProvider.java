@@ -1,3 +1,21 @@
+/*
+ *
+ * AbstractMultiblockModelsDataProvider.java
+ *
+ * This file is part of Extreme Reactors 2 by ZeroNoRyouki, a Minecraft mod.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON INFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+ * DEALINGS IN THE SOFTWARE.
+ *
+ * DO NOT REMOVE OR EDIT THIS HEADER
+ *
+ */
+
 package it.zerono.mods.extremereactors.datagen.client;
 
 import com.google.common.base.Preconditions;
@@ -79,6 +97,24 @@ public abstract class AbstractMultiblockModelsDataProvider
 
     protected <B extends Block> void redstonePort(Supplier<B> block, String subFolder) {
         this.genericPart(block, "redstoneport", subFolder, "_on");
+    }
+
+    protected <B extends Block> void ioPort(Supplier<B> block, String name, String subFolder,
+                                            String inputSuffix, String outputSuffix) {
+
+        this.genericPart(block, name + "_" + inputSuffix, subFolder);
+        this.genericPartModel(name + "_assembled_" + inputSuffix, subFolder);
+        this.genericPartModel(name + "_assembled_" + inputSuffix + "_connected", subFolder);
+        this.genericPartModel(name + "_assembled_" + outputSuffix, subFolder);
+        this.genericPartModel(name + "_assembled_" + outputSuffix + "_connected", subFolder);
+    }
+
+    protected <B extends Block> void ioPort(Supplier<B> block, String name, String subFolder) {
+        this.ioPort(block, name, subFolder, "input", "output");
+    }
+
+    protected <B extends Block> void powerPort(Supplier<B> block, String name, String subFolder) {
+        this.ioPort(block, name, subFolder);
     }
 
     protected <B extends Block> void fluidPort(Supplier<B> block, String name, String subFolder) {

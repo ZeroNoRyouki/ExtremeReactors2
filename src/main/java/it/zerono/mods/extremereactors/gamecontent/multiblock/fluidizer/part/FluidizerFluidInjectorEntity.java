@@ -21,6 +21,7 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.part;
 import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.gamecontent.CommonConstants;
 import it.zerono.mods.extremereactors.gamecontent.Content;
+import it.zerono.mods.zerocore.base.BaseHelper;
 import it.zerono.mods.zerocore.lib.CodeHelper;
 import it.zerono.mods.zerocore.lib.DebuggableHelper;
 import it.zerono.mods.zerocore.lib.IDebugMessages;
@@ -46,11 +47,12 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.fml.LogicalSide;
 import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.common.util.NonNullConsumer;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
+import java.util.function.Consumer;
 
 public class FluidizerFluidInjectorEntity
         extends AbstractFluidizerEntity
@@ -61,7 +63,9 @@ public class FluidizerFluidInjectorEntity
     public FluidizerFluidInjectorEntity(final BlockPos position, final BlockState blockState) {
 
         super(Content.TileEntityTypes.FLUIDIZER_FLUIDINJECTOR.get(), position, blockState);
-        this._fluids = new FluidStackHolder(1, ($, stack) -> this.isValidIngredient(stack)).setOnLoadListener(this::onFluidsChanged).setOnContentsChangedListener(this::onFluidsChanged);
+        this._fluids = new FluidStackHolder(1, ($, stack) -> this.isValidIngredient(stack))
+                .setOnLoadListener(this::onFluidsChanged)
+                .setOnContentsChangedListener(this::onFluidsChanged);
         this._fluids.setMaxCapacity(MAX_CAPACITY);
     }
 
@@ -82,7 +86,7 @@ public class FluidizerFluidInjectorEntity
     }
 
     public static void itemTooltipBuilder(final ItemStack stack, final CompoundTag data, final @Nullable BlockGetter world,
-                                          final NonNullConsumer<Component> appender, final boolean isAdvancedTooltip) {
+                                          final Consumer<@NotNull Component> appender, final boolean isAdvancedTooltip) {
 
         if (data.contains("inv")) {
 
@@ -92,7 +96,7 @@ public class FluidizerFluidInjectorEntity
             holder.syncDataFrom(data.getCompound("inv"), SyncReason.FullSync);
 
             if (holder.isEmpty(0)) {
-                text = Component.translatable("gui.bigreactors.generic.empty");
+                text = BaseHelper.emptyValue();
             } else {
                 text = Component.translatable("gui.bigreactors.reactor.fluidaccessport.item.reactant",
                         FluidHelper.getFluidName(holder.getFluidInTank(0)), holder.getAmount(0));
@@ -234,14 +238,14 @@ public class FluidizerFluidInjectorEntity
                 .orElse(null);
     }
 
-    private void onFluidsChanged(IStackHolder.ChangeType changeType, int slot) {
-        this.onFluidsChanged();
+    private void onFluidsChanged() {
+        this.onFluidsChanged(IStackHolder.ChangeType.Replaced, 0);
     }
 
-    private void onFluidsChanged() {
+    private void onFluidsChanged(IStackHolder.ChangeType changeType, int slot) {
 
         this.setChanged();
-        this.onIngredientsChanged();
+        this.onIngredientsChanged(changeType);
         this._shouldSync = true;
     }
 

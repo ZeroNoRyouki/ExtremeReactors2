@@ -61,7 +61,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class MultiblockTurbine
-        extends AbstractGeneratorMultiblockController<MultiblockTurbine, IMultiblockTurbineVariant>
+        extends AbstractFluidGeneratorMultiblockController<MultiblockTurbine, IMultiblockTurbineVariant>
         implements ITurbineMachine, ITurbineEnvironment, ITurbineWriter, IDebuggable {
 
     public MultiblockTurbine(final Level world, final IMultiblockTurbineVariant variant) {
@@ -73,7 +73,6 @@ public class MultiblockTurbine
 
         // Minimum 10 RPM difference for slow updates, if change > 100 RPM, update every 5 ticks
         this._rpmUpdateTracker = new RpmUpdateTracker(100, 5, 10.0f, 100.0f);
-        this._active = false;
 
         this._attachedTickables = Sets.newHashSet();
         this._attachedRotorBearings = Lists.newLinkedList();
@@ -125,14 +124,6 @@ public class MultiblockTurbine
 
     //endregion
     //region IActivableMachine
-
-    /**
-     * @return true if the machine is active, false otherwise
-     */
-    @Override
-    public boolean isMachineActive() {
-        return this._active;
-    }
 
     /**
      * Change the state of the machine
@@ -397,10 +388,6 @@ public class MultiblockTurbine
 
         super.syncDataFrom(data, syncReason);
 
-        if (data.contains("active")) {
-            this._active = data.getBoolean("active");
-        }
-
         this.syncChildDataEntityFrom(this._fluidContainer, "fluidcontainer", data, syncReason);
         this.syncChildDataEntityFrom(this._data, "internaldata", data, syncReason);
 
@@ -420,7 +407,6 @@ public class MultiblockTurbine
 
         super.syncDataTo(data, syncReason);
 
-        data.putBoolean("active", this.isMachineActive());
         this.syncChildDataEntityTo(this._fluidContainer, "fluidcontainer", data, syncReason);
         this.syncChildDataEntityTo(this._data, "internaldata", data, syncReason);
 
@@ -450,7 +436,7 @@ public class MultiblockTurbine
     }
 
     //endregion
-    //region AbstractGeneratorMultiblockController
+    //region AbstractFluidGeneratorMultiblockController
 
 
     /**
@@ -679,7 +665,7 @@ public class MultiblockTurbine
             return false;
         }
 
-        // Check if the the rotor is valid and cache coils positions
+        // Check if the rotor is valid and cache coils positions
 
         if (!this.validateRotor(this._attachedRotorBearings.get(0), validatorCallback)) {
             return false;
@@ -778,7 +764,7 @@ public class MultiblockTurbine
 
         if (CoilMaterialRegistry.get(state).isPresent()) {
 
-            // yes, cache it's position
+            // yes, cache its position
 
             this._validationFoundCoils.add(position);
             return true;
@@ -1173,7 +1159,6 @@ public class MultiblockTurbine
     private final List<TurbineFluidPortEntity> _attachedOutputFluidPorts;
     private final List<TurbineFluidPortEntity> _attachedInputFluidPorts;
 
-    private boolean _active;
     private int _rotorBladesCount;
 
     // Coils positions cached during validation

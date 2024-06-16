@@ -8,7 +8,9 @@ import it.zerono.mods.zerocore.lib.datagen.provider.tag.ModIntrinsicTagAppender;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.material.Fluid;
-import net.neoforged.neoforge.common.util.NonNullFunction;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.function.Function;
 
 public class FluidTagsDataProvider
         implements IIntrinsicTagDataProvider<Fluid> {
@@ -20,7 +22,7 @@ public class FluidTagsDataProvider
 
     @Override
     public void build(HolderLookup.Provider registryLookup,
-                      NonNullFunction<TagKey<Fluid>, ModIntrinsicTagAppender<Fluid>> builder) {
+                      Function<@NotNull TagKey<Fluid>, @NotNull ModIntrinsicTagAppender<Fluid>> builder) {
 
         builder.apply(ContentTags.Fluids.STEAM).add(Content.Fluids.STEAM_SOURCE, Content.Fluids.STEAM_FLOWING);
         builder.apply(ContentTags.Fluids.YELLORIUM).add(Content.Fluids.YELLORIUM_SOURCE, Content.Fluids.YELLORIUM_FLOWING);

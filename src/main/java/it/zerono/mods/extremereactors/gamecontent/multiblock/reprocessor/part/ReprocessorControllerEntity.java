@@ -22,9 +22,9 @@ import it.zerono.mods.extremereactors.gamecontent.CommonConstants;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.model.data.ModelTransformers;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.MultiblockReprocessor;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.container.ReprocessorControllerContainer;
 import it.zerono.mods.zerocore.lib.IDebugMessages;
 import it.zerono.mods.zerocore.lib.block.TileCommandDispatcher;
-import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
 import it.zerono.mods.zerocore.lib.multiblock.cuboid.PartPosition;
 import it.zerono.mods.zerocore.lib.multiblock.validation.IMultiblockValidator;
 import it.zerono.mods.zerocore.lib.network.INetworkTileEntitySyncProvider;
@@ -168,7 +168,7 @@ public class ReprocessorControllerEntity
     @Nullable
     @Override
     public AbstractContainerMenu createMenu(final int windowId, final Inventory inventory, final Player player) {
-        return ModTileContainer.empty(Content.ContainerTypes.REPROCESSOR_CONTROLLER.get(), windowId, this, (ServerPlayer)player);
+        return new ReprocessorControllerContainer(windowId, inventory, this);
     }
 
     @Override

@@ -23,6 +23,7 @@ import it.zerono.mods.extremereactors.config.Config;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.command.ExtremeReactorsCommand;
 import it.zerono.mods.extremereactors.gamecontent.mekanism.IMekanismService;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.network.UpdateFluidizerFluidStatus;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.network.UpdateClientsFuelRodsLayout;
 import it.zerono.mods.extremereactors.proxy.IForgeProxy;
 import it.zerono.mods.extremereactors.proxy.IProxy;
@@ -133,7 +134,7 @@ public class ExtremeReactors {
     }
 
     private static void onRegisterCommands(RegisterCommandsEvent event) {
-        ExtremeReactorsCommand.register(event.getDispatcher());
+        ExtremeReactorsCommand.register(event.getDispatcher(), event.getBuildContext());
     }
 
     private static void onRegisterPackets(RegisterPayloadHandlerEvent event) {
@@ -141,6 +142,7 @@ public class ExtremeReactors {
         final IPayloadRegistrar registrar = event.registrar(MOD_ID).versioned("2.0.0");
 
         registrar.play(UpdateClientsFuelRodsLayout.ID, UpdateClientsFuelRodsLayout::new, UpdateClientsFuelRodsLayout::handlePacket);
+        registrar.play(UpdateFluidizerFluidStatus.ID, UpdateFluidizerFluidStatus::new, UpdateFluidizerFluidStatus::handlePacket);
     }
 
     private static void onRegisterCapabilities(RegisterCapabilitiesEvent event) {
@@ -194,6 +196,11 @@ public class ExtremeReactors {
         event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, Content.TileEntityTypes.FLUIDIZER_OUTPUTPORT.get(),
                 (be, context) -> be.getHandler());
         event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, Content.TileEntityTypes.FLUIDIZER_POWERPORT.get(),
+                ExtremeReactors::getEnergyStorageCapability);
+
+        // Energizer
+
+        event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, Content.TileEntityTypes.ENERGIZER_POWERPORT_FE.get(),
                 ExtremeReactors::getEnergyStorageCapability);
     }
 

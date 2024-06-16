@@ -18,14 +18,14 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.common.part;
 
-import it.zerono.mods.zerocore.base.multiblock.part.GenericDeviceBlock;
+import it.zerono.mods.zerocore.base.multiblock.part.io.IOPortBlock;
 import it.zerono.mods.zerocore.lib.block.INeighborChangeListener;
 import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockPartType;
 import it.zerono.mods.zerocore.lib.multiblock.IMultiblockController;
 
 public class PowerTapBlock<Controller extends IMultiblockController<Controller>,
             PartType extends IMultiblockPartType>
-        extends GenericDeviceBlock<Controller, PartType>
+        extends IOPortBlock<Controller, PartType>
         implements INeighborChangeListener.Notifier {
 
     public PowerTapBlock(final MultiblockPartProperties<PartType> properties) {

@@ -23,7 +23,6 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.common.collect.Streams;
 import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
-import it.zerono.mods.extremereactors.CommonLocations;
 import it.zerono.mods.extremereactors.Log;
 import it.zerono.mods.extremereactors.api.reactor.ModeratorsRegistry;
 import it.zerono.mods.extremereactors.api.reactor.ReactantMappingsRegistry;
@@ -32,14 +31,19 @@ import it.zerono.mods.extremereactors.config.Config;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.compat.patchouli.PatchouliCompat;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.CachedSprites;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.ChargingPortScreen;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.FluidPortScreen;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.GuiTheme;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.container.ChargingPortContainer;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.energizer.client.model.EnergizerModelBuilder;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.energizer.client.screen.EnergizerChargingPortScreen;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.energizer.client.screen.EnergizerControllerScreen;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.energizer.client.screen.EnergizerPowerPortScreen;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.FluidizerTankData;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.client.model.FluidizerClientTankData;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.client.model.FluidizerGlassModelBuilder;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.client.model.FluidizerModelBuilder;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.client.render.FluidizerControllerEntityRenderer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.client.screen.FluidizerControllerScreen;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.client.screen.FluidizerSolidInjectorScreen;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.part.FluidizerControllerEntity;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.FuelRodsLayout;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.ClientFuelRodsLayout;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.model.ReactorFuelRodBlockColor;
@@ -47,8 +51,6 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.mode
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.model.ReactorGlassModelBuilder;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.model.ReactorModelBuilder;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.screen.*;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part.ReactorChargingPortEntity;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part.ReactorFluidPortEntity;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.ReactorVariant;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.client.model.ReprocessorGlassModelBuilder;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.client.model.ReprocessorIOModelBuilder;
@@ -60,14 +62,14 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.client.mode
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.client.model.TurbineModelBuilder;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.client.model.TurbineRotorModelBuilder;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.client.render.rotor.RotorBearingEntityRenderer;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.client.screen.TurbineChargingPortScreen;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.client.screen.TurbineControllerScreen;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.client.screen.TurbineFluidPortScreen;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.client.screen.TurbineRedstonePortScreen;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part.TurbineChargingPortEntity;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part.TurbineFluidPortEntity;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.TurbineVariant;
 import it.zerono.mods.zerocore.lib.client.model.ICustomModelBuilder;
 import it.zerono.mods.zerocore.lib.client.model.ModBakedModelSupplier;
-import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
+import it.zerono.mods.zerocore.lib.item.TintedBucketItem;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.MenuAccess;
@@ -80,7 +82,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
-import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.Item;
@@ -118,16 +119,24 @@ public class ClientProxy
         modEventBus.addListener(ClientProxy::onClientInit);
         modEventBus.addListener(this::onRegisterModels);
         modEventBus.addListener(this::onModelBake);
-        modEventBus.addListener(ClientProxy::onColorHandlerEvent);
+        modEventBus.addListener(ClientProxy::onRegisterBlockColorHandlers);
+        modEventBus.addListener(ClientProxy::onRegisterItemColorHandlers);
 
         NeoForge.EVENT_BUS.addListener(this::onAddReloadListener);
         NeoForge.EVENT_BUS.addListener(this::onItemTooltip);
         NeoForge.EVENT_BUS.addListener(EventPriority.LOWEST, this::onVanillaTagsUpdated);
     }
 
+    //region IProxy
+
     @Override
     public FuelRodsLayout createFuelRodsLayout(Direction direction, int length) {
         return new ClientFuelRodsLayout(direction, length);
+    }
+
+    @Override
+    public FluidizerTankData createFluidizerTankData(FluidizerControllerEntity controllerEntity) {
+        return new FluidizerClientTankData(controllerEntity);
     }
 
     //endregion
@@ -159,7 +168,8 @@ public class ClientProxy
                         new ReprocessorIOModelBuilder(),
                         new ReprocessorGlassModelBuilder(),
                         new FluidizerModelBuilder(),
-                        new FluidizerGlassModelBuilder())
+                        new FluidizerGlassModelBuilder(),
+                        new EnergizerModelBuilder())
         ).collect(ImmutableList.toImmutableList());
     }
 
@@ -171,20 +181,13 @@ public class ClientProxy
         registerScreen(Content.ContainerTypes.REACTOR_FLUID_ACCESSPORT, ReactorFluidAccessPortScreen::new);
         registerScreen(Content.ContainerTypes.REACTOR_REDSTONEPORT, ReactorRedstonePortScreen::new);
         registerScreen(Content.ContainerTypes.REACTOR_CONTROLROD, ReactorControlRodScreen::new);
-        registerScreen(Content.ContainerTypes.REACTOR_CHARGINGPORT,
-                (ChargingPortContainer<ReactorChargingPortEntity> container, Inventory inventory, Component title) ->
-                        new ChargingPortScreen<>(container, inventory, title, CommonLocations.REACTOR.buildWithSuffix("part-forgechargingport")));
-        registerScreen(Content.ContainerTypes.REACTOR_FLUIDPORT,
-                (ModTileContainer<ReactorFluidPortEntity> container, Inventory inventory, Component title) ->
-                        new FluidPortScreen<>(container, inventory, title, CommonLocations.REACTOR.buildWithSuffix("part-forgefluidport")));
+        registerScreen(Content.ContainerTypes.REACTOR_CHARGINGPORT, ReactorChargingPortScreen::new);
+        registerScreen(Content.ContainerTypes.REACTOR_FLUIDPORT, ReactorFluidPortScreen::new);
+
         // Turbine GUIs
         registerScreen(Content.ContainerTypes.TURBINE_CONTROLLER, TurbineControllerScreen::new);
-        registerScreen(Content.ContainerTypes.TURBINE_CHARGINGPORT,
-                (ChargingPortContainer<TurbineChargingPortEntity> container, Inventory inventory, Component title) ->
-                        new ChargingPortScreen<>(container, inventory, title, CommonLocations.TURBINE.buildWithSuffix("part-forgechargingport")));
-        registerScreen(Content.ContainerTypes.TURBINE_FLUIDPORT,
-                (ModTileContainer<TurbineFluidPortEntity> container, Inventory inventory, Component title) ->
-                        new FluidPortScreen<>(container, inventory, title, CommonLocations.TURBINE.buildWithSuffix("part-forgefluidport")));
+        registerScreen(Content.ContainerTypes.TURBINE_CHARGINGPORT, TurbineChargingPortScreen::new);
+        registerScreen(Content.ContainerTypes.TURBINE_FLUIDPORT, TurbineFluidPortScreen::new);
         registerScreen(Content.ContainerTypes.TURBINE_REDSTONEPORT, TurbineRedstonePortScreen::new);
 
         // Reprocessor GUIs
@@ -194,6 +197,11 @@ public class ClientProxy
         // Fluidizer GUIS
         registerScreen(Content.ContainerTypes.FLUIDIZER_SOLID_INJECTOR, FluidizerSolidInjectorScreen::new);
         registerScreen(Content.ContainerTypes.FLUIDIZER_CONTROLLER, FluidizerControllerScreen::new);
+
+        // Energizer GUIS
+        registerScreen(Content.ContainerTypes.ENERGIZER_CONTROLLER, EnergizerControllerScreen::new);
+        registerScreen(Content.ContainerTypes.ENERGIZER_POWERPORT, EnergizerPowerPortScreen::new);
+        registerScreen(Content.ContainerTypes.ENERGIZER_CHARGINGPORT, EnergizerChargingPortScreen::new);
     }
 
     private static void registerRenderTypes() {
@@ -212,6 +220,7 @@ public class ClientProxy
 
         BlockEntityRenderers.register(Content.TileEntityTypes.TURBINE_ROTORBEARING.get(), RotorBearingEntityRenderer::new);
         BlockEntityRenderers.register(Content.TileEntityTypes.REPROCESSOR_COLLECTOR.get(), ReprocessorCollectorRender::new);
+        BlockEntityRenderers.register(Content.TileEntityTypes.FLUIDIZER_CONTROLLER.get(), FluidizerControllerEntityRenderer::new);
     }
 
     //region registration helpers
@@ -305,10 +314,20 @@ public class ClientProxy
         }
     }
 
-    private static void onColorHandlerEvent(final RegisterColorHandlersEvent.Block event) {
+    private static void onRegisterBlockColorHandlers(final RegisterColorHandlersEvent.Block event) {
         event.register(new ReactorFuelRodBlockColor(),
                 Content.Blocks.REACTOR_FUELROD_BASIC.get(),
                 Content.Blocks.REACTOR_FUELROD_REINFORCED.get());
+    }
+
+    private static void onRegisterItemColorHandlers(RegisterColorHandlersEvent.Item event) {
+        event.register(TintedBucketItem::getTintColour,
+                Content.Items.YELLORIUM_BUCKET.get(), Content.Items.CYANITE_BUCKET.get(),
+                Content.Items.BLUTONIUM_BUCKET.get(), Content.Items.MAGENTITE_BUCKET.get(),
+                Content.Items.VERDERIUM_BUCKET.get(), Content.Items.ROSSINITE_BUCKET.get(),
+                Content.Items.STEAM_BUCKET.get(),
+                Content.Items.CRYOMISI_BUCKET.get(), Content.Items.TANGERIUM_BUCKET.get(),
+                Content.Items.REDFRIGIUM_BUCKET.get());
     }
 
     private static final ModBakedModelSupplier s_bakedModelSupplier = new ModBakedModelSupplier();

@@ -57,7 +57,7 @@ public enum ReactorVariant
             .setFluidFuelConversionEfficiency(0.95f)),
     ;
 
-    //region IMultiblockGeneratorVariant
+    //region IMultiblockFluidGeneratorVariant
 
     @Override
     public int getId() {

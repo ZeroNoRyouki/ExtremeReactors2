@@ -18,15 +18,20 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.common.sensor;
 
-import it.zerono.mods.extremereactors.gamecontent.multiblock.IMachineReader;
+import it.zerono.mods.zerocore.base.redstone.sensor.ISensorType;
+import it.zerono.mods.zerocore.base.redstone.sensor.InputSensorAction;
+import it.zerono.mods.zerocore.base.redstone.sensor.SensorBehavior;
+import it.zerono.mods.zerocore.lib.IMachineReader;
 import it.zerono.mods.zerocore.lib.data.nbt.NBTHelper;
 import net.minecraft.nbt.CompoundTag;
 import net.neoforged.neoforge.common.util.NonNullPredicate;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 public abstract class AbstractSensorSetting<Reader extends IMachineReader, Writer, SensorType extends ISensorType<Reader>>
-        implements NonNullPredicate<Reader>, InputSensorAction<Writer> {
+        implements Predicate<@NotNull Reader>, InputSensorAction<Writer> {
 
     public final SensorType Sensor;
     public final SensorBehavior Behavior;
@@ -72,7 +77,7 @@ public abstract class AbstractSensorSetting<Reader extends IMachineReader, Write
      */
     @Override
     public boolean test(final Reader reader) {
-        return this.Sensor.isOutput() && this.Behavior.outputTest(this.Sensor.apply(reader), this.Value1, this.Value2);
+        return this.Sensor.isOutput() && this.Behavior.outputTest(this.Sensor.applyAsInt(reader), this.Value1, this.Value2);
     }
 
     //endregion

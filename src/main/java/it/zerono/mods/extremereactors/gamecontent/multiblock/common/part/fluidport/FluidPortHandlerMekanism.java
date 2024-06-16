@@ -42,13 +42,14 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.material.Fluid;
-import net.neoforged.neoforge.common.util.NonNullFunction;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.fluids.capability.templates.EmptyFluidHandler;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.Map;
+import java.util.function.Function;
 
 public class FluidPortHandlerMekanism<Controller extends AbstractCuboidMultiblockController<Controller>,
         Port extends AbstractMultiblockEntity<Controller> & IFluidPort>
@@ -107,7 +108,7 @@ public class FluidPortHandlerMekanism<Controller extends AbstractCuboidMultibloc
     }
 
     @Override
-    public void update(NonNullFunction<IoDirection, IFluidHandler> handlerProvider) {
+    public void update(Function<@NotNull IoDirection, @NotNull IFluidHandler> handlerProvider) {
         this._capabilityForwarder.setHandler(handlerProvider.apply(IoDirection.Output));
     }
 

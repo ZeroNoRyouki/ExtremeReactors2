@@ -24,13 +24,14 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
-import net.neoforged.neoforge.common.util.NonNullSupplier;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.function.Supplier;
 
 public enum GuiTheme
-        implements NonNullSupplier<Theme>, ResourceManagerReloadListener {
+        implements Supplier<@NotNull Theme>, ResourceManagerReloadListener {
 
     ER;
 

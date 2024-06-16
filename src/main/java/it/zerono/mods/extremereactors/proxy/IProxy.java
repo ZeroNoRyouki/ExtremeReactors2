@@ -18,10 +18,14 @@
 
 package it.zerono.mods.extremereactors.proxy;
 
+import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.FluidizerTankData;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.part.FluidizerControllerEntity;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.FuelRodsLayout;
 import net.minecraft.core.Direction;
 
 public interface IProxy {
 
     FuelRodsLayout createFuelRodsLayout(Direction direction, int length);
+
+    FluidizerTankData createFluidizerTankData(FluidizerControllerEntity controllerEntity);
 }

@@ -72,7 +72,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class MultiblockReactor
-        extends AbstractGeneratorMultiblockController<MultiblockReactor, IMultiblockReactorVariant>
+        extends AbstractFluidGeneratorMultiblockController<MultiblockReactor, IMultiblockReactorVariant>
         implements IReactorMachine, IReactorEnvironment, IReactorWriter, IDebuggable {
 
     public MultiblockReactor(final Level world, final IMultiblockReactorVariant variant) {
@@ -87,7 +87,6 @@ public class MultiblockReactor
         this._fuelRodsLayout = FuelRodsLayout.EMPTY;
         this._uiStats = new Stats(this._fuelContainer);
 
-        this._active = false;
         this._mode = OperationalMode.Passive;
         this._wasteEjectionSetting = WasteEjectionSetting.Automatic;
         this._reactorVolume = 0;
@@ -187,14 +186,6 @@ public class MultiblockReactor
 
     //endregion
     //region IActivableMachine
-
-    /**
-     * @return true if the machine is active, false otherwise
-     */
-    @Override
-    public boolean isMachineActive() {
-        return this._active;
-    }
 
     /**
      * Change the state of the machine
@@ -643,10 +634,6 @@ public class MultiblockReactor
 
         super.syncDataFrom(data, syncReason);
 
-        if (data.contains("active")) {
-            this._active = data.getBoolean("active");
-        }
-
         if (data.contains("wasteeject")) {
             this._wasteEjectionSetting = WasteEjectionSetting.read(data, "wasteeject", WasteEjectionSetting.Automatic);
         }
@@ -676,7 +663,6 @@ public class MultiblockReactor
 
         super.syncDataTo(data, syncReason);
 
-        data.putBoolean("active", this.isMachineActive());
         WasteEjectionSetting.write(data, "wasteeject", this.getWasteEjectionMode());
 
         this._logic.syncDataTo(data, syncReason);
@@ -694,7 +680,7 @@ public class MultiblockReactor
     }
 
     //endregion
-    //region AbstractGeneratorMultiblockController
+    //region AbstractFluidGeneratorMultiblockController
 
     @Override
     public IMultiblockReactorVariant getVariant() {
@@ -1596,7 +1582,6 @@ public class MultiblockReactor
     private FuelRodsLayout _fuelRodsLayout;
     private WasteEjectionSetting _wasteEjectionSetting;
     private OperationalMode _mode;
-    private boolean _active;
     private int _reactorVolume;
     private float _fuelToReactorHeatTransferCoefficient;
     private float _reactorToCoolantSystemHeatTransferCoefficient;

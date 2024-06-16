@@ -41,13 +41,14 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.Fluid;
-import net.neoforged.neoforge.common.util.NonNullSupplier;
 import net.neoforged.neoforge.fluids.FluidStack;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public final class ReactantMappingsRegistry {
@@ -304,7 +305,7 @@ public final class ReactantMappingsRegistry {
     }
 
     public static void fillReactantsTooltips(final Map<Item, Set<Component>> tooltipsMap,
-                                             final NonNullSupplier<Set<Component>> setSupplier) {
+                                             final Supplier<@NotNull Set<Component>> setSupplier) {
 
         s_solidToReactant.values().stream()
                 .filter(mapping -> mapping.getProduct().getType().isFuel())
