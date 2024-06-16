@@ -69,7 +69,9 @@ public class ReactorControllerScreen
     //region internals
 
     private void onActiveStateChanged(boolean active) {
-        this.sendCommandToServer(active ? CommonConstants.COMMAND_ACTIVATE : CommonConstants.COMMAND_DEACTIVATE);
+        if (!this.isDataUpdateInProgress()) {
+            this.sendCommandToServer(active ? CommonConstants.COMMAND_ACTIVATE : CommonConstants.COMMAND_DEACTIVATE);
+        }
     }
 
     private void onWasteEjectionChanged(boolean active) {

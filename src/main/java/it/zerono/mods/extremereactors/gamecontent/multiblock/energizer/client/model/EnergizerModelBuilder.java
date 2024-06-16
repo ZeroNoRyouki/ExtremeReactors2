@@ -17,16 +17,13 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.energizer.client.model;
 
-import com.google.common.collect.Lists;
 import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.energizer.EnergizerPartType;
 import it.zerono.mods.zerocore.lib.client.model.multiblock.CuboidPartVariantsModelBuilder;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.resources.ResourceLocation;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.function.Function;
 
 public class EnergizerModelBuilder
         extends CuboidPartVariantsModelBuilder {
@@ -43,7 +40,12 @@ public class EnergizerModelBuilder
 
     protected void build() {
 
-        this.addBlockWithVariants(EnergizerPartType.Casing, "casing",
+        final Function<String, ResourceLocation> modelToReplaceIdGetter = blockName ->
+                new ModelResourceLocation(ExtremeReactors.ROOT_LOCATION.buildWithSuffix("energizer" + blockName), "");
+
+        final Function<String, ResourceLocation> variantModelIdGetter = EnergizerModelBuilder::getModelRL;
+
+        this.addBlockWithVariants(modelToReplaceIdGetter, variantModelIdGetter, EnergizerPartType.Casing, "casing",
                 "casing_01_face",
                 "casing_02_frame_ds",
                 "casing_03_frame_de",
@@ -66,45 +68,20 @@ public class EnergizerModelBuilder
                 "casing_20_corner_une",
                 "casing_21_corner_unw");
 
-        this.addBlockWithVariants(EnergizerPartType.Controller, "controller",
+        this.addBlockWithVariants(modelToReplaceIdGetter, variantModelIdGetter, EnergizerPartType.Controller,
+                "controller",
                 "controller_on", "controller_off");
 
-        this.addBlockWithVariants(EnergizerPartType.PowerPortFE, "powerportfe", "powerportfe_input",
+        this.addBlockWithVariants(modelToReplaceIdGetter, variantModelIdGetter, EnergizerPartType.PowerPortFE,
+                "powerportfe", "powerportfe_input",
                 "powerportfe_assembled_input", "powerportfe_assembled_input_connected",
                 "powerportfe_assembled_output", "powerportfe_assembled_output_connected");
 
-        this.addBlockWithVariants(EnergizerPartType.ChargingPortFE, "chargingportfe", "charging_assembled");
+        this.addBlockWithVariants(modelToReplaceIdGetter, variantModelIdGetter, EnergizerPartType.ChargingPortFE,
+                "chargingportfe", "charging_assembled");
     }
 
     //region internals
-
-    protected void addBlockWithVariants(EnergizerPartType partType, String blockCommonName,
-                                        String... additionalVariantsModelNames) {
-
-        this.addBlock(partType.ordinal(), getBlockStateRL(blockCommonName), 0, false);
-        this.addBlockVariants(partType, blockCommonName, additionalVariantsModelNames);
-    }
-
-    protected void addBlockVariants(EnergizerPartType partType, String blockCommonName,
-                                    String... additionalVariantsModelNames) {
-
-        final List<ResourceLocation> variants = Lists.newArrayListWithCapacity(1 + additionalVariantsModelNames.length);
-
-        variants.add(getBlockStateRL(blockCommonName));
-        Arrays.stream(additionalVariantsModelNames)
-                .map(EnergizerModelBuilder::getModelRL)
-                .collect(Collectors.toCollection(() -> variants));
-
-        this.addModels(partType.ordinal(), variants);
-    }
-
-    protected ResourceLocation getBlockStateRL(String blockCommonName) {
-        return getBlockStateRL(blockCommonName, "");
-    }
-
-    protected ResourceLocation getBlockStateRL(String blockCommonName, String blockStateVariant) {
-        return new ModelResourceLocation(ExtremeReactors.ROOT_LOCATION.buildWithSuffix("energizer" + blockCommonName), blockStateVariant);
-    }
 
     protected static ResourceLocation getModelRL(String modelName) {
         return ExtremeReactors.ROOT_LOCATION.appendPath("block", "energizer").buildWithSuffix(modelName);

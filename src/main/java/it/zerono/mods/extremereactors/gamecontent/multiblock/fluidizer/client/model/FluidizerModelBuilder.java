@@ -18,16 +18,13 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.client.model;
 
-import com.google.common.collect.Lists;
 import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.FluidizerPartType;
 import it.zerono.mods.zerocore.lib.client.model.multiblock.CuboidPartVariantsModelBuilder;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.resources.ResourceLocation;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.function.Function;
 
 public class FluidizerModelBuilder
         extends CuboidPartVariantsModelBuilder {
@@ -44,7 +41,12 @@ public class FluidizerModelBuilder
 
     protected void build() {
 
-        this.addBlockWithVariants(FluidizerPartType.Casing, "casing",
+        final Function<String, ResourceLocation> modelToReplaceIdGetter = blockName ->
+                new ModelResourceLocation(ExtremeReactors.ROOT_LOCATION.buildWithSuffix("fluidizer" + blockName), "");
+
+        final Function<String, ResourceLocation> variantModelIdGetter = FluidizerModelBuilder::getModelRL;
+
+        this.addBlockWithVariants(modelToReplaceIdGetter, variantModelIdGetter, FluidizerPartType.Casing, "casing",
                 "casing_01_face",
                 "casing_02_frame_ds",
                 "casing_03_frame_de",
@@ -67,42 +69,19 @@ public class FluidizerModelBuilder
                 "casing_20_corner_une",
                 "casing_21_corner_unw");
 
-        this.addBlockWithVariants(FluidizerPartType.Controller, "controller", "controller_on", "controller_off");
-        this.addBlockWithVariants(FluidizerPartType.PowerPort, "powerport");
-        this.addBlockWithVariants(FluidizerPartType.SolidInjector, "solidinjector", "solidinjector_connected");
-        this.addBlockWithVariants(FluidizerPartType.FluidInjector, "fluidinjector", "fluidinjector_connected");
-        this.addBlockWithVariants(FluidizerPartType.OutputPort, "outputport", "outputport_connected");
+        this.addBlockWithVariants(modelToReplaceIdGetter, variantModelIdGetter, FluidizerPartType.Controller,
+                "controller", "controller_on", "controller_off");
+        this.addBlockWithVariants(modelToReplaceIdGetter, variantModelIdGetter, FluidizerPartType.PowerPort,
+                "powerport");
+        this.addBlockWithVariants(modelToReplaceIdGetter, variantModelIdGetter, FluidizerPartType.SolidInjector,
+                "solidinjector", "solidinjector_connected");
+        this.addBlockWithVariants(modelToReplaceIdGetter, variantModelIdGetter, FluidizerPartType.FluidInjector,
+                "fluidinjector", "fluidinjector_connected");
+        this.addBlockWithVariants(modelToReplaceIdGetter, variantModelIdGetter, FluidizerPartType.OutputPort,
+                "outputport", "outputport_connected");
     }
 
     //region internals
-
-    protected void addBlockWithVariants(final FluidizerPartType partType, final String blockCommonName,
-                                        final String... additionalVariantsModelNames) {
-
-        this.addBlock(partType.ordinal(), getBlockStateRL(blockCommonName), 0, false);
-        this.addBlockVariants(partType, blockCommonName, additionalVariantsModelNames);
-    }
-
-    protected void addBlockVariants(final FluidizerPartType partType, final String blockCommonName,
-                                    final String... additionalVariantsModelNames) {
-
-        final List<ResourceLocation> variants = Lists.newArrayListWithCapacity(1 + additionalVariantsModelNames.length);
-
-        variants.add(getBlockStateRL(blockCommonName));
-        Arrays.stream(additionalVariantsModelNames)
-                .map(FluidizerModelBuilder::getModelRL)
-                .collect(Collectors.toCollection(() -> variants));
-
-        this.addModels(partType.ordinal(), variants);
-    }
-
-    protected ResourceLocation getBlockStateRL(final String blockCommonName) {
-        return getBlockStateRL(blockCommonName, "");
-    }
-
-    protected ResourceLocation getBlockStateRL(final String blockCommonName, final String blockStateVariant) {
-        return new ModelResourceLocation(ExtremeReactors.ROOT_LOCATION.buildWithSuffix("fluidizer" + blockCommonName), blockStateVariant);
-    }
 
     protected static ResourceLocation getModelRL(final String modelName) {
         return ExtremeReactors.ROOT_LOCATION.appendPath("block", "fluidizer").buildWithSuffix(modelName);
