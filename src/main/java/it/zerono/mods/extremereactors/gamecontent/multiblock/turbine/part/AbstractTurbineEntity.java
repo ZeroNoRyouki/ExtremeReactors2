@@ -21,7 +21,6 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.ReactorVariant;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.ITurbinePartType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.MultiblockTurbine;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.TurbinePartType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.IMultiblockTurbineVariant;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.TurbineVariant;
 import it.zerono.mods.zerocore.base.multiblock.part.AbstractMultiblockMachineEntity;
@@ -40,7 +39,7 @@ import net.minecraftforge.client.model.data.ModelData;
 
 public class AbstractTurbineEntity
         extends AbstractMultiblockMachineEntity<MultiblockTurbine, IMultiblockTurbineVariant>
-        implements IMultiblockPartTypeProvider<MultiblockTurbine, TurbinePartType> {
+        implements IMultiblockPartTypeProvider<MultiblockTurbine, ITurbinePartType> {
 
     public AbstractTurbineEntity(final BlockEntityType<?> type, final BlockPos position, final BlockState blockState) {
         super(type, position, blockState);

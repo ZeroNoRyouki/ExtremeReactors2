@@ -17,11 +17,9 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.energizer.part;
 
-import it.zerono.mods.extremereactors.gamecontent.multiblock.energizer.EnergizerPartType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.energizer.IEnergizerPartType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.energizer.MultiBlockEnergizer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.energizer.variant.IMultiblockEnergizerVariant;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.FluidizerPartType;
 import it.zerono.mods.zerocore.base.multiblock.part.AbstractMultiblockMachineEntity;
 import it.zerono.mods.zerocore.lib.CodeHelper;
 import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockPartType;
@@ -29,7 +27,6 @@ import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockPartTypeProvider;
 import it.zerono.mods.zerocore.lib.client.model.data.multiblock.CuboidPartVariantsModelDataCache;
 import it.zerono.mods.zerocore.lib.multiblock.cuboid.PartPosition;
 import it.zerono.mods.zerocore.lib.multiblock.validation.IMultiblockValidator;
-import it.zerono.mods.zerocore.lib.multiblock.variant.IMultiblockVariant;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.Level;
@@ -39,7 +36,7 @@ import net.minecraftforge.client.model.data.ModelData;
 
 public class AbstractEnergizerEntity
         extends AbstractMultiblockMachineEntity<MultiBlockEnergizer, IMultiblockEnergizerVariant>
-        implements IMultiblockPartTypeProvider<MultiBlockEnergizer, EnergizerPartType> {
+        implements IMultiblockPartTypeProvider<MultiBlockEnergizer, IEnergizerPartType> {
 
     public AbstractEnergizerEntity(BlockEntityType<?> type, BlockPos position, BlockState blockState) {
         super(type, position, blockState);
@@ -59,7 +56,7 @@ public class AbstractEnergizerEntity
     }
 
     public Component getPartDisplayName() {
-        return Component.translatable(this.getPartType().map(EnergizerPartType::getTranslationKey).orElse("unknown"));
+        return Component.translatable(this.getPartType().map(IEnergizerPartType::getTranslationKey).orElse("unknown"));
     }
 
     //region client render support

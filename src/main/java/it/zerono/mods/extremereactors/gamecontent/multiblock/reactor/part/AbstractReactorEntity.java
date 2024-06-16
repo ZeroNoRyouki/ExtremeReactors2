@@ -24,7 +24,6 @@ import it.zerono.mods.extremereactors.api.reactor.radiation.IRadiationModerator;
 import it.zerono.mods.extremereactors.api.reactor.radiation.IrradiationData;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.IReactorPartType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.MultiblockReactor;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.ReactorPartType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.network.UpdateClientsFuelRodsLayout;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.IMultiblockReactorVariant;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.ReactorVariant;
@@ -45,7 +44,7 @@ import net.minecraftforge.client.model.data.ModelData;
 
 public abstract class AbstractReactorEntity
         extends AbstractMultiblockMachineEntity<MultiblockReactor, IMultiblockReactorVariant>
-        implements IHeatEntity, IRadiationModerator, IMultiblockPartTypeProvider<MultiblockReactor, ReactorPartType> {
+        implements IHeatEntity, IRadiationModerator, IMultiblockPartTypeProvider<MultiblockReactor, IReactorPartType> {
 
     public AbstractReactorEntity(final BlockEntityType<?> type, final BlockPos position, final BlockState blockState) {
         super(type, position, blockState);
