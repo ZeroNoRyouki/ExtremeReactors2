@@ -27,7 +27,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Supplier;
 
-public enum CommonIcons implements Supplier<@NotNull ISprite> {
+public enum CommonIcons
+        implements Supplier<@NotNull ISprite> {
 
     MachineStatusOff(builder().from(32, 176).ofSize(10, 10).build()),
     MachineStatusOn(builder().from(48, 176).ofSize(10, 10).build()),
@@ -52,6 +53,8 @@ public enum CommonIcons implements Supplier<@NotNull ISprite> {
     RotorRPM(builder().from(176, 96).build()),
     LabelEdit(builder().from(64, 176).build()),
     TrashCan(builder().from(80, 48).build()),
+    DirectionInput(builder().from(96, 48).build()),
+    DirectionOutput(builder().from(112, 48).build()),
 
     ButtonInputDirection(builder().from(0, 96).build()),
     ButtonInputDirectionActive(builder().from(16, 96).build()),

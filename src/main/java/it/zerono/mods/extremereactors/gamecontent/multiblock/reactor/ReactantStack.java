@@ -32,6 +32,7 @@ import it.zerono.mods.zerocore.lib.data.stack.IStackAdapter;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 
@@ -66,6 +67,34 @@ public class ReactantStack
 
     public ReactantStack(final IMapping<TagKey<Item>, Reactant> mapping, final int itemCount) {
         this(mapping.getProduct(), mapping.getProductAmount(itemCount));
+    }
+
+    public static ReactantStack createFrom(final FriendlyByteBuf data) {
+
+        if (!data.readBoolean()) {
+            return ReactantStack.EMPTY;
+        }
+
+        final int amount = data.readInt();
+        final String name = data.readUtf(1024);
+
+        return ReactantsRegistry.get(name)
+                .map(reactant -> new ReactantStack(reactant, amount))
+                .orElse(ReactantStack.EMPTY);
+    }
+
+    public void writeTo(final FriendlyByteBuf data) {
+
+        if (this.isEmpty()) {
+
+            data.writeBoolean(false);
+
+        } else {
+
+            data.writeBoolean(true);
+            data.writeInt(this._amount);
+            data.writeUtf(this._reactant.getName());
+        }
     }
 
     public static boolean areIdentical(final ReactantStack stack1, final ReactantStack stack2) {
@@ -124,6 +153,10 @@ public class ReactantStack
 
     public boolean containsWaste() {
         return this.contains(ReactantType.Waste);
+    }
+
+    public ReactantStack copyWithAmount(int amount) {
+        return new ReactantStack(this._reactant, amount);
     }
 
     //region ISyncableEntity

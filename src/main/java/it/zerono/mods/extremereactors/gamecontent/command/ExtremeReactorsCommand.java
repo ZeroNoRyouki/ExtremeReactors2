@@ -33,12 +33,16 @@ import it.zerono.mods.extremereactors.api.turbine.CoilMaterialRegistry;
 import it.zerono.mods.zerocore.lib.data.gfx.Colour;
 import it.zerono.mods.zerocore.lib.tag.TagsHelper;
 import net.minecraft.ChatFormatting;
+import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.ResourceLocationArgument;
+import net.minecraft.commands.arguments.blocks.BlockInput;
+import net.minecraft.commands.arguments.blocks.BlockStateArgument;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.state.BlockState;
 
 import java.lang.reflect.Field;
 import java.util.Optional;
@@ -47,7 +51,7 @@ import java.util.function.Function;
 
 public final class ExtremeReactorsCommand {
 
-    public static void register(final CommandDispatcher<CommandSourceStack> dispatcher) {
+    public static void register(final CommandDispatcher<CommandSourceStack> dispatcher, CommandBuildContext buildContext) {
 
         dispatcher.register(Commands.literal("er")
                 .requires(cs -> cs.hasPermission(2))
@@ -73,6 +77,23 @@ public final class ExtremeReactorsCommand {
                                         .then(floatCommand("fuelunits", 0.0f, context -> setReactantFuelValue(context,
                                                 (Reactant r) -> r.getFuelData().getFuelUnitsPerFissionEvent(),
                                                 (Reactant r, Float v) -> r.getFuelData().setFuelUnitsPerFissionEvent(v))))
+                                )
+                        )
+                )
+                .then(Commands.literal("moderators")
+                        .then(Commands.literal("get")
+                                .then(blockParam(buildContext).executes(ExtremeReactorsCommand::getModerator))
+                        )
+                        .then(Commands.literal("set")
+                                .then(blockParam(buildContext)
+                                        .then(floatCommand("absorption", 0.0f, 1.0f,
+                                                context -> setModeratorValue(context, Moderator::getAbsorption, Moderator::setAbsorption)))
+                                        .then(floatCommand("heatEfficiency", 0.0f, 1.0f,
+                                                context -> setModeratorValue(context, Moderator::getHeatEfficiency, Moderator::setHeatEfficiency)))
+                                        .then(floatCommand("moderation", 1.0f,
+                                                context -> setModeratorValue(context, Moderator::getModeration, Moderator::setModeration)))
+                                        .then(floatCommand("heatConductivity", 0.0f,
+                                                context -> setModeratorValue(context, Moderator::getHeatConductivity, Moderator::setHeatConductivity)))
                                 )
                         )
                 )
@@ -133,12 +154,20 @@ public final class ExtremeReactorsCommand {
         return Commands.argument(PARAM_NAME, StringArgumentType.string());
     }
 
+    private static RequiredArgumentBuilder<CommandSourceStack, BlockInput> blockParam(CommandBuildContext context) {
+        return Commands.argument(PARAM_BLOCK, BlockStateArgument.block(context));
+    }
+
     private static RequiredArgumentBuilder<CommandSourceStack, ResourceLocation> tagIdParam() {
         return Commands.argument(PARAM_TAG, ResourceLocationArgument.id());
     }
 
     private static String getName(final CommandContext<CommandSourceStack> context) {
         return StringArgumentType.getString(context, PARAM_NAME);
+    }
+
+    private static BlockInput getBlock(final CommandContext<CommandSourceStack> context) {
+        return BlockStateArgument.getBlock(context, PARAM_BLOCK);
     }
 
     private static ResourceLocation getTagId(final CommandContext<CommandSourceStack> context) {
@@ -224,6 +253,44 @@ public final class ExtremeReactorsCommand {
     }
 
     //endregion
+    //region moderators
+
+    private static int getModerator(final CommandContext<CommandSourceStack> context) {
+
+        final BlockState state = getBlock(context).getState();
+
+        context.getSource().sendSuccess(() -> ModeratorsRegistry.getFrom(state)
+                .map(moderator -> getTextFrom(state, moderator))
+                .orElse(Component.literal("Moderator not found")), true);
+        return 0;
+    }
+
+    private static int setModeratorValue(CommandContext<CommandSourceStack> context, final Function<Moderator, Float> getter,
+                                         BiConsumer<Moderator, Float> setter) {
+
+        final BlockState state = getBlock(context).getState();
+
+        context.getSource().sendSuccess(() -> ModeratorsRegistry.getFrom(state)
+                .map(r -> setValue(r, getFloat(context), getter, setter))
+                .orElse(Component.literal("Moderator not found")), true);
+
+        return 0;
+    }
+    private static Component getTextFrom(BlockState state, Moderator moderator) {
+        return Component.literal("[")
+                .append(Component.empty().withStyle(ChatFormatting.BOLD).append(state.getBlock().getName()))
+                .append("] ")
+                .append(Component.literal("absorption: ").withStyle(ChatFormatting.ITALIC))
+                .append(String.format("%f; ", moderator.getAbsorption()))
+                .append(Component.literal("heatEfficiency: ").withStyle(ChatFormatting.ITALIC))
+                .append(String.format("%f; ", moderator.getHeatEfficiency()))
+                .append(Component.literal("moderation: ").withStyle(ChatFormatting.ITALIC))
+                .append(String.format("%f; ", moderator.getModeration()))
+                .append(Component.literal("heatConductivity: ").withStyle(ChatFormatting.ITALIC))
+                .append(String.format("%f; ", moderator.getHeatConductivity()));
+    }
+
+    //endregion
     //region reactions
 
     private static int getReaction(final CommandContext<CommandSourceStack> context) {
@@ -301,15 +368,16 @@ public final class ExtremeReactorsCommand {
 
     //endregion
 
-    private static <T> Component setValue(final T coil, final float value, final Function<T, Float> getter,
-                                               final BiConsumer<T, Float> setter) {
+    private static <T> Component setValue(final T data, final float value, final Function<T, Float> getter,
+                                          final BiConsumer<T, Float> setter) {
 
-        setter.accept(coil, value);
-        return Component.literal(String.format("Value set to %f", getter.apply(coil)));
+        setter.accept(data, value);
+        return Component.literal(String.format("Value set to %f", getter.apply(data)));
     }
 
     private static final String PARAM_NAME = "name";
     private static final String PARAM_TAG = "tag";
+    private static final String PARAM_BLOCK = "block";
     private static final String PARAM_VALUE = "value";
 
     //endregion

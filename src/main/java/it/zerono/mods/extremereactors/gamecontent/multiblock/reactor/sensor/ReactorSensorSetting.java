@@ -19,15 +19,15 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.sensor;
 
 import it.zerono.mods.extremereactors.Log;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.sensor.AbstractSensorSetting;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.sensor.SensorBehavior;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.IReactorReader;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.IReactorWriter;
+import it.zerono.mods.zerocore.base.redstone.sensor.AbstractSensorSetting;
+import it.zerono.mods.zerocore.base.redstone.sensor.SensorBehavior;
 import it.zerono.mods.zerocore.lib.data.nbt.NBTHelper;
 import net.minecraft.nbt.CompoundTag;
 
 public class ReactorSensorSetting
-    extends AbstractSensorSetting<IReactorReader, IReactorWriter, ReactorSensorType> {
+    extends AbstractSensorSetting<IReactorReader, IReactorWriter, ReactorSensorType, ReactorSensorSetting> {
 
     public static final ReactorSensorSetting DISABLED = new ReactorSensorSetting();
 
@@ -62,7 +62,7 @@ public class ReactorSensorSetting
      * @param externalPowerLevel  the signal level (0 - 15)
      */
     @Override
-    public void inputAction(final IReactorWriter reactor, final Boolean isExternallyPowered, final int externalPowerLevel) {
+    public void inputAction(final IReactorWriter reactor, final boolean isExternallyPowered, final int externalPowerLevel) {
 
         switch (this.Sensor) {
 
@@ -78,6 +78,14 @@ public class ReactorSensorSetting
                 this.acceptInputEjectWaste(reactor, isExternallyPowered);
                 break;
         }
+    }
+
+    //endregion
+    //region AbstractSensorSetting
+
+    @Override
+    public ReactorSensorSetting copy() {
+        return new ReactorSensorSetting(this.Sensor, this.Behavior, this.Value1, this.Value2);
     }
 
     //endregion
@@ -152,11 +160,11 @@ public class ReactorSensorSetting
                 reactor.setControlRodsInsertionRatio(this.Value1);
                 break;
 
-            case InsertOnPulse:
+            case AugmentOnPulse:
                 reactor.changeControlRodsInsertionRatio(this.Value1);
                 break;
 
-            case RetractOnPulse:
+            case ReduceOnPulse:
                 reactor.changeControlRodsInsertionRatio(-this.Value1);
                 break;
         }
@@ -164,7 +172,7 @@ public class ReactorSensorSetting
 
     private void acceptInputEjectWaste(final IReactorWriter reactor, final Boolean isExternallyPowered) {
 
-        if (SensorBehavior.EjectOnPulse == this.Behavior && isExternallyPowered) {
+        if (SensorBehavior.PerformOnPulse == this.Behavior && isExternallyPowered) {
             reactor.ejectWaste(false);
         }
     }

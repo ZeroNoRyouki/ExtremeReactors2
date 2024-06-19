@@ -19,10 +19,10 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.part;
 
 import it.zerono.mods.extremereactors.ExtremeReactors;
-import it.zerono.mods.extremereactors.gamecontent.CommonConstants;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.container.FluidizerSolidInjectorContainer;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.component.ReactorFluidAccessPortComponent;
+import it.zerono.mods.zerocore.base.BaseHelper;
+import it.zerono.mods.zerocore.base.CommonConstants;
 import it.zerono.mods.zerocore.lib.CodeHelper;
 import it.zerono.mods.zerocore.lib.DebuggableHelper;
 import it.zerono.mods.zerocore.lib.IDebugMessages;
@@ -56,8 +56,8 @@ import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
 import java.util.function.Consumer;
 
 public class FluidizerSolidInjectorEntity
@@ -68,7 +68,10 @@ public class FluidizerSolidInjectorEntity
     public FluidizerSolidInjectorEntity(final BlockPos position, final BlockState blockState) {
 
         super(Content.TileEntityTypes.FLUIDIZER_SOLIDINJECTOR.get(), position, blockState);
-        this._solidItems = new ItemStackHolder(1, ($, stack) -> this.isValidIngredient(stack)).setOnLoadListener(this::onItemsChanged).setOnContentsChangedListener(this::onItemsChanged);
+
+        this._solidItems = new ItemStackHolder(1, ($, stack) -> this.isValidIngredient(stack))
+                .setOnLoadListener(this::onItemsChanged)
+                .setOnContentsChangedListener(this::onItemsChanged);
     }
 
     public IRecipeIngredientSource<ItemStack> asRecipeSource() {
@@ -97,7 +100,7 @@ public class FluidizerSolidInjectorEntity
             final MutableComponent text;
 
             if (component.isEmpty(0)) {
-                text = Component.translatable("gui.bigreactors.generic.empty");
+                text = BaseHelper.emptyValue();
             } else {
                 text = Component.translatable("gui.bigreactors.reactor.fluidaccessport.item.reactant",
                         ItemHelper.getItemName(component.getStack(0)), component.getAmount(0));
@@ -276,14 +279,14 @@ public class FluidizerSolidInjectorEntity
                 .orElse(null);
     }
 
-    private void onItemsChanged(IStackHolder.ChangeType changeType, int slot) {
-        this.onItemsChanged();
+    private void onItemsChanged() {
+        this.onItemsChanged(IStackHolder.ChangeType.Replaced, 0);
     }
 
-    private void onItemsChanged() {
+    private void onItemsChanged(IStackHolder.ChangeType changeType, int slot) {
 
         this.setChanged();
-        this.onIngredientsChanged();
+        this.onIngredientsChanged(changeType);
         this._shouldSync = true;
     }
 

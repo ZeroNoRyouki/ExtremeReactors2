@@ -18,6 +18,8 @@
 
 package it.zerono.mods.extremereactors.proxy;
 
+import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.FluidizerTankData;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.part.FluidizerControllerEntity;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.FuelRodsLayout;
 import net.minecraft.core.Direction;
 import net.neoforged.bus.api.IEventBus;
@@ -34,6 +36,11 @@ public class ServerProxy
     @Override
     public FuelRodsLayout createFuelRodsLayout(Direction direction, int length) {
         return new FuelRodsLayout(direction, length);
+    }
+
+    @Override
+    public FluidizerTankData createFluidizerTankData(FluidizerControllerEntity controllerEntity) {
+        return new FluidizerTankData();
     }
 
     //endregion

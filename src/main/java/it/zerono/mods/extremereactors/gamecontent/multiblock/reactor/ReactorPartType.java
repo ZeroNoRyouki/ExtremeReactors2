@@ -24,6 +24,7 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.PowerTa
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part.ReactorFluidAccessPortEntity;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part.ReactorFuelRodBlock;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part.ReactorRedstonePortBlock;
+import it.zerono.mods.zerocore.base.BaseHelper;
 import it.zerono.mods.zerocore.base.multiblock.part.GenericDeviceBlock;
 import it.zerono.mods.zerocore.base.multiblock.part.GlassBlock;
 import it.zerono.mods.zerocore.base.multiblock.part.io.IOPortBlock;
@@ -40,18 +41,16 @@ public enum ReactorPartType
         implements IReactorPartType {
 
     Casing(() -> Content.TileEntityTypes.REACTOR_CASING::get,
-            MultiblockPartBlock::new,
-            "part.bigreactors.reactor.casing"),
+            MultiblockPartBlock::new),
 
     Glass(() -> Content.TileEntityTypes.REACTOR_GLASS::get,
-            GlassBlock::new, "part.bigreactors.reactor.glass",
-            GlassBlock::addGlassProperties),
+            GlassBlock::new, GlassBlock::addGlassProperties),
 
     Controller(() -> Content.TileEntityTypes.REACTOR_CONTROLLER::get,
             GenericDeviceBlock::new, "part.bigreactors.reactor.controller"),
 
     FuelRod(() -> Content.TileEntityTypes.REACTOR_FUELROD::get,
-            ReactorFuelRodBlock::new, "part.bigreactors.reactor.fuelrod",
+            ReactorFuelRodBlock::new,
             bp -> GlassBlock.addGlassProperties(bp).lightLevel(state -> 15)),
 
     ControlRod(() -> Content.TileEntityTypes.REACTOR_CONTROLROD::get,
@@ -74,19 +73,19 @@ public enum ReactorPartType
 //            IOPortBlock::new, "part.bigreactors.reactor.fluidport_mekanism_active"),
 
     PassiveFluidPortMekanism(() -> Content.TileEntityTypes.REACTOR_FLUIDPORT_MEKANISM_PASSIVE::get,
-            PassiveFluidPortBlock::new, "part.bigreactors.reactor.fluidport_mekanism_passive"),
+            PassiveFluidPortBlock::new),
 
     CreativeWaterGenerator(() -> Content.TileEntityTypes.REACTOR_CREATIVE_WATER_GENERATOR::get,
-            GenericDeviceBlock::new, "part.bigreactors.reactor.creativewatergenerator"),
+            GenericDeviceBlock::new),
 
     ActivePowerTapFE(() -> Content.TileEntityTypes.REACTOR_POWERTAP_FE_ACTIVE::get,
-            PowerTapBlock::new, "part.bigreactors.reactor.powertap_fe_active"),
+            PowerTapBlock::new),
 
     PassivePowerTapFE(() -> Content.TileEntityTypes.REACTOR_POWERTAP_FE_PASSIVE::get,
-            PowerTapBlock::new, "part.bigreactors.reactor.powertap_fe_passive"),
+            PowerTapBlock::new),
 
     ComputerPort(() -> Content.TileEntityTypes.REACTOR_COMPUTERPORT::get,
-            GenericDeviceBlock::new, "part.bigreactors.reactor.computerport"),
+            GenericDeviceBlock::new),
 
     RedstonePort(() -> Content.TileEntityTypes.REACTOR_REDSTONEPORT::get,
             ReactorRedstonePortBlock::new, "part.bigreactors.reactor.redstoneport"),
@@ -97,9 +96,22 @@ public enum ReactorPartType
 
     ReactorPartType(final Supplier<@NotNull Supplier<@NotNull BlockEntityType<?>>> tileTypeSupplier,
                     final Function<MultiblockPartBlock.@NotNull MultiblockPartProperties<IReactorPartType>,
+                            @NotNull MultiblockPartBlock<MultiblockReactor, IReactorPartType>> blockFactory) {
+        this(tileTypeSupplier, blockFactory, BaseHelper.EMPTY_TRANSLATION_KEY, bp -> bp);
+    }
+
+    ReactorPartType(final Supplier<@NotNull Supplier<@NotNull BlockEntityType<?>>> tileTypeSupplier,
+                    final Function<MultiblockPartBlock.@NotNull MultiblockPartProperties<IReactorPartType>,
                             @NotNull MultiblockPartBlock<MultiblockReactor, IReactorPartType>> blockFactory,
                     final String translationKey) {
         this(tileTypeSupplier, blockFactory, translationKey, bp -> bp);
+    }
+
+    ReactorPartType(final Supplier<@NotNull Supplier<@NotNull BlockEntityType<?>>> tileTypeSupplier,
+                    final Function<MultiblockPartBlock.@NotNull MultiblockPartProperties<IReactorPartType>,
+                            @NotNull MultiblockPartBlock<MultiblockReactor, IReactorPartType>> blockFactory,
+                    final Function<Block.@NotNull Properties, Block.@NotNull Properties> blockPropertiesFixer) {
+        this(tileTypeSupplier, blockFactory, BaseHelper.EMPTY_TRANSLATION_KEY, blockPropertiesFixer, ep -> ep);
     }
 
     ReactorPartType(final Supplier<@NotNull Supplier<@NotNull BlockEntityType<?>>> tileTypeSupplier,
@@ -117,7 +129,8 @@ public enum ReactorPartType
                     final Function<Block.@NotNull Properties, Block.@NotNull Properties> blockPropertiesFixer,
                     final Function<MultiblockPartBlock.@NotNull MultiblockPartProperties<IReactorPartType>,
                             MultiblockPartBlock.@NotNull MultiblockPartProperties<IReactorPartType>> partPropertiesFixer) {
-        this._properties = new MultiblockPartTypeProperties<>(tileTypeSupplier, blockFactory, translationKey, blockPropertiesFixer, partPropertiesFixer);
+        this._properties = new MultiblockPartTypeProperties<>(tileTypeSupplier, blockFactory, translationKey,
+                blockPropertiesFixer, partPropertiesFixer);
     }
 
     //region IMultiblockPartType2

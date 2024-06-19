@@ -19,15 +19,15 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.sensor;
 
 import it.zerono.mods.extremereactors.Log;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.sensor.AbstractSensorSetting;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.sensor.SensorBehavior;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.ITurbineReader;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.ITurbineWriter;
+import it.zerono.mods.zerocore.base.redstone.sensor.AbstractSensorSetting;
+import it.zerono.mods.zerocore.base.redstone.sensor.SensorBehavior;
 import it.zerono.mods.zerocore.lib.data.nbt.NBTHelper;
 import net.minecraft.nbt.CompoundTag;
 
 public class TurbineSensorSetting
-        extends AbstractSensorSetting<ITurbineReader, ITurbineWriter, TurbineSensorType> {
+        extends AbstractSensorSetting<ITurbineReader, ITurbineWriter, TurbineSensorType, TurbineSensorSetting> {
 
     public static final TurbineSensorSetting DISABLED = new TurbineSensorSetting();
 
@@ -62,7 +62,7 @@ public class TurbineSensorSetting
      * @param externalPowerLevel  the signal level (0 - 15)
      */
     @Override
-    public void inputAction(final ITurbineWriter turbine, final Boolean isExternallyPowered, final int externalPowerLevel) {
+    public void inputAction(final ITurbineWriter turbine, final boolean isExternallyPowered, final int externalPowerLevel) {
 
         switch (this.Sensor) {
 
@@ -78,6 +78,14 @@ public class TurbineSensorSetting
                 this.acceptInputFlowRegulator(turbine, isExternallyPowered, externalPowerLevel);
                 break;
         }
+    }
+
+    //endregion
+    //region AbstractSensorSetting
+
+    @Override
+    public TurbineSensorSetting copy() {
+        return new TurbineSensorSetting(this.Sensor, this.Behavior, this.Value1, this.Value2);
     }
 
     //endregion
@@ -170,11 +178,11 @@ public class TurbineSensorSetting
                 turbine.setMaxIntakeRate(this.Value1);
                 break;
 
-            case InsertOnPulse:
+            case AugmentOnPulse:
                 turbine.changeMaxIntakeRate(this.Value1);
                 break;
 
-            case RetractOnPulse:
+            case ReduceOnPulse:
                 turbine.changeMaxIntakeRate(-this.Value1);
                 break;
         }

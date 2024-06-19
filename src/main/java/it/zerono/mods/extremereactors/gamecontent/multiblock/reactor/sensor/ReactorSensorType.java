@@ -18,10 +18,10 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.sensor;
 
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.sensor.ISensorType;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.sensor.SensorBehavior;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.sensor.SensorTypeData;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.IReactorReader;
+import it.zerono.mods.zerocore.base.redstone.sensor.ISensorType;
+import it.zerono.mods.zerocore.base.redstone.sensor.SensorBehavior;
+import it.zerono.mods.zerocore.base.redstone.sensor.SensorTypeData;
 import it.zerono.mods.zerocore.lib.CodeHelper;
 import it.zerono.mods.zerocore.lib.IDebugMessages;
 import it.zerono.mods.zerocore.lib.IDebuggable;
@@ -29,7 +29,7 @@ import net.neoforged.fml.LogicalSide;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-import java.util.function.Function;
+import java.util.function.ToIntFunction;
 
 public enum ReactorSensorType
         implements ISensorType<IReactorReader>, IDebuggable {
@@ -46,10 +46,10 @@ public enum ReactorSensorType
     inputActive(SensorBehavior.SetFromSignal, SensorBehavior.ToggleOnPulse),
 
     // Input: control rod insertion (0-100)
-    inputSetControlRod(SensorBehavior.SetFromSignal, SensorBehavior.SetFromSignalLevel, SensorBehavior.SetOnPulse, SensorBehavior.InsertOnPulse, SensorBehavior.RetractOnPulse),
+    inputSetControlRod(SensorBehavior.SetFromSignal, SensorBehavior.SetFromSignalLevel, SensorBehavior.SetOnPulse, SensorBehavior.AugmentOnPulse, SensorBehavior.ReduceOnPulse),
 
     // Input: eject waste from the reactor
-    inputEjectWaste(SensorBehavior.EjectOnPulse),
+    inputEjectWaste(SensorBehavior.PerformOnPulse),
 
     // Output: Temperature of the reactor fuel
     outputFuelTemperature(r -> (int)r.getFuelHeatValue().getAsDouble(), SensorBehavior.ActiveWhileAbove, SensorBehavior.ActiveWhileBelow, SensorBehavior.ActiveWhileBetween),
@@ -79,7 +79,7 @@ public enum ReactorSensorType
         this(SensorTypeData.input(behaviors));
     }
 
-    ReactorSensorType(final Function<@NotNull IReactorReader, @NotNull Integer> outputSupplier, final SensorBehavior... behaviors) {
+    ReactorSensorType(final ToIntFunction<@NotNull IReactorReader> outputSupplier, final SensorBehavior... behaviors) {
         this(SensorTypeData.output(outputSupplier, behaviors));
     }
 
@@ -106,8 +106,8 @@ public enum ReactorSensorType
     }
 
     @Override
-    public Integer apply(final IReactorReader reader) {
-        return this._data.apply(reader);
+    public int applyAsInt(final IReactorReader reader) {
+        return this._data.applyAsInt(reader);
     }
 
     @Override
@@ -129,7 +129,7 @@ public enum ReactorSensorType
     ReactorSensorType(final SensorTypeData<IReactorReader> _data) {
 
         this._data = _data;
-        this._translationBaseName = "gui.bigreactors.reactor.redstoneport.sensortype." + CodeHelper.neutralLowercase(this.name())  + ".line";
+        this._translationBaseName = "gui.bigreactors.reactor.redstoneport.sensortype." + CodeHelper.neutralLowercase(this.name());
     }
 
     private final SensorTypeData<IReactorReader> _data;

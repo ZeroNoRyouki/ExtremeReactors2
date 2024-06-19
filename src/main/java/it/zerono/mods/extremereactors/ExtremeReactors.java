@@ -23,6 +23,7 @@ import it.zerono.mods.extremereactors.config.Config;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.command.ExtremeReactorsCommand;
 import it.zerono.mods.extremereactors.gamecontent.mekanism.IMekanismService;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.network.UpdateFluidizerFluidStatus;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.network.UpdateClientsFuelRodsLayout;
 import it.zerono.mods.extremereactors.proxy.IForgeProxy;
 import it.zerono.mods.extremereactors.proxy.IProxy;
@@ -50,8 +51,7 @@ import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
-
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 @Mod(value = ExtremeReactors.MOD_ID)
 public class ExtremeReactors {
@@ -133,7 +133,7 @@ public class ExtremeReactors {
     }
 
     private static void onRegisterCommands(RegisterCommandsEvent event) {
-        ExtremeReactorsCommand.register(event.getDispatcher());
+        ExtremeReactorsCommand.register(event.getDispatcher(), event.getBuildContext());
     }
 
     private static void onRegisterPackets(RegisterPayloadHandlersEvent event) {
@@ -142,6 +142,8 @@ public class ExtremeReactors {
 
         registrar.playToClient(UpdateClientsFuelRodsLayout.TYPE, UpdateClientsFuelRodsLayout.STREAM_CODEC,
                 UpdateClientsFuelRodsLayout::handlePacket);
+        registrar.playToClient(UpdateFluidizerFluidStatus.TYPE, UpdateFluidizerFluidStatus.STREAM_CODEC,
+                UpdateFluidizerFluidStatus::handlePacket);
     }
 
     private static void onRegisterCapabilities(RegisterCapabilitiesEvent event) {
@@ -195,6 +197,11 @@ public class ExtremeReactors {
         event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, Content.TileEntityTypes.FLUIDIZER_OUTPUTPORT.get(),
                 (be, context) -> be.getHandler());
         event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, Content.TileEntityTypes.FLUIDIZER_POWERPORT.get(),
+                ExtremeReactors::getEnergyStorageCapability);
+
+        // Energizer
+
+        event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, Content.TileEntityTypes.ENERGIZER_POWERPORT_FE.get(),
                 ExtremeReactors::getEnergyStorageCapability);
     }
 

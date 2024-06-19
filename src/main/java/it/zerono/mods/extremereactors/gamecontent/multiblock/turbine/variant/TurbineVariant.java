@@ -80,7 +80,7 @@ public enum TurbineVariant
         return (TurbineVariant)variant;
     }
 
-    //region IMultiblockGeneratorVariant
+    //region IMultiblockFluidGeneratorVariant
 
     @Override
     public int getId() {

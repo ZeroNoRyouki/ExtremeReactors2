@@ -20,9 +20,11 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.part;
 
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.FluidizerPartType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.MultiblockFluidizer;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.network.UpdateFluidizerFluidStatus;
 import it.zerono.mods.zerocore.base.multiblock.part.AbstractMultiblockEntity;
 import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockPartTypeProvider;
 import it.zerono.mods.zerocore.lib.client.model.data.multiblock.CuboidPartVariantsModelDataCache;
+import it.zerono.mods.zerocore.lib.data.stack.IStackHolder;
 import it.zerono.mods.zerocore.lib.fluid.FluidHelper;
 import it.zerono.mods.zerocore.lib.multiblock.cuboid.PartPosition;
 import it.zerono.mods.zerocore.lib.multiblock.validation.IMultiblockValidator;
@@ -56,8 +58,8 @@ public class AbstractFluidizerEntity
                 .ifPresent(c -> c.setMachineActive(active));
     }
 
-    protected void onIngredientsChanged() {
-        this.executeOnController(MultiblockFluidizer::onIngredientsChanged);
+    protected void onIngredientsChanged(IStackHolder.ChangeType changeType) {
+        this.executeOnController(controller -> controller.onIngredientsChanged(changeType));
     }
 
     public IFluidHandler getFluidOutput() {
@@ -77,6 +79,10 @@ public class AbstractFluidizerEntity
 
     protected int getUpdatedModelVariantIndex() {
         return 0;
+    }
+
+    public void onUpdateFluidStatus(UpdateFluidizerFluidStatus message) {
+        this.executeOnController(c -> c.onUpdateFluidStatus(message));
     }
 
     //endregion

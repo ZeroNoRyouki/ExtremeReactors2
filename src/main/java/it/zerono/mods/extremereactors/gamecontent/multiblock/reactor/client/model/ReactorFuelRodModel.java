@@ -38,10 +38,10 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.client.model.SimpleModelState;
 import net.neoforged.neoforge.client.model.data.ModelData;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.locks.StampedLock;
@@ -68,10 +68,10 @@ public class ReactorFuelRodModel
 
     //region AbstractDynamicBakedModel
 
-    @Nonnull
+    @NotNull
     @Override
-    public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction side, @Nonnull RandomSource rand,
-                                    @Nonnull ModelData modelData, @Nullable RenderType renderType) {
+    public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction side, @NotNull RandomSource rand,
+                                    @NotNull ModelData modelData, @Nullable RenderType renderType) {
 
         if (side != null || ReactorFuelRodModelData.isOccluded(modelData)) {
             return EMPTY_QUADS;
@@ -125,7 +125,7 @@ public class ReactorFuelRodModel
     }
 
     @Override
-    public TextureAtlasSprite getParticleIcon(@Nonnull ModelData modelData) {
+    public TextureAtlasSprite getParticleIcon(@NotNull ModelData modelData) {
         return this._subTypes[ReactorFuelRodModelData.getOrientation(modelData).ordinal()]._baseModel.getParticleIcon(modelData);
     }
 

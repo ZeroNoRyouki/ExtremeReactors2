@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "bigreactors:anglesite_crystal"
+    },
+    "E": {
+      "item": "minecraft:ender_eye"
+    },
+    "M": {
+      "tag": "c:storage_blocks/magentite"
+    },
+    "R": {
+      "tag": "c:storage_blocks/redstone"
+    }
+  },
+  "pattern": [
+    "ARA",
+    "EME",
+    "ARA"
+  ],
+  "result": {
+    "count": 1,
+    "id": "bigreactors:energycore"
+  }
+}

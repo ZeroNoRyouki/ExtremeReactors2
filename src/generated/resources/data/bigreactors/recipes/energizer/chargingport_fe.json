@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "1": {
+      "item": "minecraft:lapis_block"
+    },
+    "2": {
+      "tag": "c:ingots/iron"
+    },
+    "3": {
+      "tag": "c:storage_blocks/redstone"
+    },
+    "C": {
+      "item": "bigreactors:energizercasing"
+    }
+  },
+  "pattern": [
+    "C2C",
+    "313",
+    "C2C"
+  ],
+  "result": {
+    "count": 1,
+    "id": "bigreactors:energizerchargingport_fe"
+  }
+}

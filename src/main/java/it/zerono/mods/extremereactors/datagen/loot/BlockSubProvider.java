@@ -1,3 +1,21 @@
+/*
+ *
+ * BlockSubProvider.java
+ *
+ * This file is part of Extreme Reactors 2 by ZeroNoRyouki, a Minecraft mod.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON INFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+ * DEALINGS IN THE SOFTWARE.
+ *
+ * DO NOT REMOVE OR EDIT THIS HEADER
+ *
+ */
+
 package it.zerono.mods.extremereactors.datagen.loot;
 
 import it.zerono.mods.extremereactors.gamecontent.Content;
@@ -19,12 +37,14 @@ public class BlockSubProvider
     @Override
     protected void generate() {
 
-        this.dropSelf(Content.Blocks.YELLORIUM_BLOCK, Content.Blocks.CYANITE_BLOCK, Content.Blocks.GRAPHITE_BLOCK,
+        this.dropSelf(Content.Blocks.YELLORIUM_BLOCK, Content.Blocks.RAW_YELLORIUM_BLOCK,
+                Content.Blocks.CYANITE_BLOCK, Content.Blocks.GRAPHITE_BLOCK,
                 Content.Blocks.BLUTONIUM_BLOCK, Content.Blocks.MAGENTITE_BLOCK,
                 Content.Blocks.LUDICRITE_BLOCK, Content.Blocks.RIDICULITE_BLOCK, Content.Blocks.INANITE_BLOCK,
-                Content.Blocks.INSANITE_BLOCK,
-                Content.Blocks.YELLORITE_ORE_BLOCK);
+                Content.Blocks.INSANITE_BLOCK);
 
+        this.dropOre(Content.Blocks.YELLORITE_ORE_BLOCK, Content.Items.RAW_YELLORIUM);
+        this.dropOre(Content.Blocks.DEEPSLATE_YELLORITE_ORE_BLOCK, Content.Items.RAW_YELLORIUM);
         this.dropOre(Content.Blocks.ANGLESITE_ORE_BLOCK, Content.Items.ANGLESITE_CRYSTAL);
         this.dropOre(Content.Blocks.BENITOITE_ORE_BLOCK, Content.Items.BENITOITE_CRYSTAL);
 
@@ -70,5 +90,9 @@ public class BlockSubProvider
 
         this.dropWithComponents(Content.Blocks.FLUIDIZER_FLUIDINJECTOR, FluidStackListComponent.getComponentType());
         this.dropWithComponents(Content.Blocks.FLUIDIZER_SOLIDINJECTOR, ItemStackListComponent.getComponentType());
+
+        this.dropSelf(Content.Blocks.ENERGIZER_CELL, Content.Blocks.ENERGIZER_CASING, Content.Blocks.ENERGIZER_CONTROLLER,
+                Content.Blocks.ENERGIZER_POWERPORT_FE, Content.Blocks.ENERGIZER_CHARGINGPORT_FE, Content.Blocks.ENERGIZER_STATUS_DISPLAY);
+
     }
 }

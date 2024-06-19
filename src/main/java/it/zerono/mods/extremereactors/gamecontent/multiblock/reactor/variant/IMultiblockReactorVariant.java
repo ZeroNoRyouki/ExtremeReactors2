@@ -18,11 +18,11 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant;
 
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.variant.IMultiblockGeneratorVariant;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.common.variant.IMultiblockFluidGeneratorVariant;
 import net.minecraft.util.Mth;
 
 public interface IMultiblockReactorVariant
-        extends IMultiblockGeneratorVariant {
+        extends IMultiblockFluidGeneratorVariant {
 
     float getRadiationAttenuation();
 

@@ -154,9 +154,9 @@ dependencies {
     implementation "it.zerono.mods.zerocore:ZeroCore2:${zerocore_version}"
 
     // JEI
-//    compileOnly("mezz.jei:jei-${project.minecraft_version}-common-api:${project.jei_version}")
-//    compileOnly("mezz.jei:jei-${project.minecraft_version}-neoforge-api:${project.jei_version}")
-//    runtimeOnly("mezz.jei:jei-${project.minecraft_version}-neoforge:${project.jei_version}")
+    compileOnly("mezz.jei:jei-${project.minecraft_version}-common-api:${project.jei_version}")
+    compileOnly("mezz.jei:jei-${project.minecraft_version}-neoforge-api:${project.jei_version}")
+    runtimeOnly("mezz.jei:jei-${project.minecraft_version}-neoforge:${project.jei_version}")
 
     // cc-tweaked
 //    compileOnly("cc.tweaked:cc-tweaked-1.20.5-core-api:${project.cctweaked_version}")

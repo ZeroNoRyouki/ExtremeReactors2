@@ -19,11 +19,14 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.container;
 
 import it.zerono.mods.extremereactors.gamecontent.Content;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.MultiblockReprocessor;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.part.ReprocessorAccessPortEntity;
 import it.zerono.mods.zerocore.lib.block.AbstractModBlockEntity;
+import it.zerono.mods.zerocore.lib.data.IoDirection;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ContainerFactory;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModContainer;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
+import it.zerono.mods.zerocore.lib.item.inventory.container.data.BooleanData;
 import it.zerono.mods.zerocore.lib.item.inventory.container.slot.SlotTemplate;
 import it.zerono.mods.zerocore.lib.item.inventory.container.slot.type.SlotType;
 import net.minecraft.network.FriendlyByteBuf;
@@ -32,19 +35,36 @@ import net.minecraft.world.entity.player.Inventory;
 public class ReprocessorAccessPortContainer
         extends ModTileContainer<ReprocessorAccessPortEntity> {
 
-    public ReprocessorAccessPortContainer(final int windowId, final Inventory playerInventory,
-                                          final ReprocessorAccessPortEntity port) {
+    public final BooleanData ACTIVE;
 
-        super(factoryFor(port), Content.ContainerTypes.REPROCESSOR_ACCESSPORT.get(), windowId, playerInventory, port);
+    private ReprocessorAccessPortContainer(boolean isClientSide, final int windowId, final Inventory playerInventory,
+                                           final ReprocessorAccessPortEntity port) {
 
-        this.addInventory("inv", port.getItemInventory(port.getDirection()));
+        super(isClientSide, 5, factoryFor(port), Content.ContainerTypes.REPROCESSOR_ACCESSPORT.get(),
+                windowId, playerInventory, port);
+
+        final MultiblockReprocessor reprocessor = port.getMultiblockController().orElseThrow(IllegalStateException::new);
+
+        this.ACTIVE = BooleanData.of(this, reprocessor::isMachineActive, reprocessor::setMachineActive);
+        this._direction = port.getDirection();
+
+        this.addInventory("inv", port.getItemInventory(this._direction));
         this.addInventory(ModContainer.INVENTORYNAME_PLAYER_INVENTORY, playerInventory);
         this.createSlots();
     }
 
     public ReprocessorAccessPortContainer(final int windowId, final Inventory playerInventory,
+                                          final ReprocessorAccessPortEntity port) {
+        this(false, windowId, playerInventory, port);
+    }
+
+    public ReprocessorAccessPortContainer(final int windowId, final Inventory playerInventory,
                                           final FriendlyByteBuf networkData) {
-        this(windowId, playerInventory, AbstractModBlockEntity.getGuiClientBlockEntity(networkData));
+        this(true, windowId, playerInventory, AbstractModBlockEntity.getGuiClientBlockEntity(networkData));
+    }
+
+    public IoDirection getDirection() {
+        return this._direction;
     }
 
     //region internals
@@ -56,13 +76,19 @@ public class ReprocessorAccessPortContainer
         factory.addStandardPlayerInventorySlots(0, 0);
 
         if (port.getDirection().isInput()) {
-            factory.addSlot(0, "inv", new SlotTemplate(SlotType.Input, (slotIndex, stack) -> port.isValidIngredient(stack)), 0, 0);
+            factory.addSlot(0, "inv", new SlotTemplate(SlotType.Input,
+                    (slotIndex, stack) -> port.isValidIngredient(stack)), 0, 0);
         } else {
             factory.addSlot(0, "inv", new SlotTemplate(SlotType.Output), 0, 0);
         }
 
         return factory;
     }
+
+    //endregion
+    //region internals
+
+    private final IoDirection _direction;
 
     //endregion
 }

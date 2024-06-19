@@ -25,6 +25,7 @@ public class GenericModelsDataProvider
         // blocks
 
         this.simpleBlock(Content.Blocks.YELLORIUM_BLOCK);
+        this.simpleBlock(Content.Blocks.RAW_YELLORIUM_BLOCK);
         this.simpleBlock(Content.Blocks.CYANITE_BLOCK);
         this.simpleBlock(Content.Blocks.GRAPHITE_BLOCK);
         this.simpleBlock(Content.Blocks.BLUTONIUM_BLOCK);
@@ -34,6 +35,7 @@ public class GenericModelsDataProvider
         this.simpleBlock(Content.Blocks.INANITE_BLOCK);
         this.simpleBlock(Content.Blocks.INSANITE_BLOCK);
         this.simpleBlock(Content.Blocks.YELLORITE_ORE_BLOCK);
+        this.simpleBlock(Content.Blocks.DEEPSLATE_YELLORITE_ORE_BLOCK);
         this.simpleBlock(Content.Blocks.ANGLESITE_ORE_BLOCK);
         this.simpleBlock(Content.Blocks.BENITOITE_ORE_BLOCK);
 
@@ -49,6 +51,7 @@ public class GenericModelsDataProvider
         this.simpleItem(Content.Items.INANITE_DUST);
         this.simpleItem(Content.Items.INSANITE_DUST);
         this.simpleItem(Content.Items.YELLORIUM_INGOT);
+        this.simpleItem(Content.Items.RAW_YELLORIUM);
         this.simpleItem(Content.Items.CYANITE_INGOT);
         this.simpleItem(Content.Items.GRAPHITE_INGOT);
         this.simpleItem(Content.Items.BLUTONIUM_INGOT);

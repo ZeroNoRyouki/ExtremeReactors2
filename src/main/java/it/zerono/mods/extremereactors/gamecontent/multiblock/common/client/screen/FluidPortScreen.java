@@ -20,8 +20,8 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.scre
 
 import it.zerono.mods.extremereactors.gamecontent.CommonConstants;
 import it.zerono.mods.extremereactors.gamecontent.compat.patchouli.PatchouliCompat;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.AbstractGeneratorMultiblockController;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.common.variant.IMultiblockGeneratorVariant;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.common.AbstractFluidGeneratorMultiblockController;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.common.variant.IMultiblockFluidGeneratorVariant;
 import it.zerono.mods.zerocore.base.multiblock.part.AbstractMultiblockEntity;
 import it.zerono.mods.zerocore.base.multiblock.part.io.fluid.IFluidPort;
 import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockVariantProvider;
@@ -43,8 +43,8 @@ import java.util.function.Function;
 
 import static it.zerono.mods.zerocore.lib.CodeHelper.TEXT_EMPTY_LINE;
 
-public class FluidPortScreen<Controller extends AbstractGeneratorMultiblockController<Controller, V> & IMultiblockMachine,
-        V extends IMultiblockGeneratorVariant,
+public class FluidPortScreen<Controller extends AbstractFluidGeneratorMultiblockController<Controller, V> & IMultiblockMachine,
+        V extends IMultiblockFluidGeneratorVariant,
         T extends AbstractMultiblockEntity<Controller> & IFluidPort & IMultiblockVariantProvider<V> & MenuProvider>
         extends AbstractMultiblockScreen<Controller, T, ModTileContainer<T>> {
 

@@ -25,9 +25,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.function.Supplier;
 
 public enum GuiTheme
@@ -37,7 +36,7 @@ public enum GuiTheme
 
     //region NonNullSupplier<Theme>
 
-    @Nonnull
+    @NotNull
     @Override
     public Theme get() {
 

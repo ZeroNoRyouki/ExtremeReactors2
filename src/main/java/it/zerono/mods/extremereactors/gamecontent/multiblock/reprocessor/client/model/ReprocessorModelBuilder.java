@@ -18,16 +18,13 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.client.model;
 
-import com.google.common.collect.Lists;
 import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.ReprocessorPartType;
 import it.zerono.mods.zerocore.lib.client.model.multiblock.CuboidPartVariantsModelBuilder;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.resources.ResourceLocation;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.function.Function;
 
 public class ReprocessorModelBuilder
     extends CuboidPartVariantsModelBuilder {
@@ -44,7 +41,13 @@ public class ReprocessorModelBuilder
 
     protected void build() {
 
-        this.addBlockWithVariants(ReprocessorPartType.Casing, "casing",
+        final Function<String, ResourceLocation> modelToReplaceIdGetter = blockName ->
+                new ModelResourceLocation(ExtremeReactors.ROOT_LOCATION.buildWithSuffix("reprocessor" + blockName), "");
+
+        final Function<String, ResourceLocation> variantModelIdGetter = ReprocessorModelBuilder::getModelRL;
+
+        this.addBlockWithVariants(modelToReplaceIdGetter, variantModelIdGetter, ReprocessorPartType.Casing,
+                "casing",
                 "casing_01_face",
                 "casing_02_frame_ds",
                 "casing_03_frame_de",
@@ -67,42 +70,46 @@ public class ReprocessorModelBuilder
                 "casing_20_corner_une",
                 "casing_21_corner_unw");
 
-        this.addBlockWithVariants(ReprocessorPartType.Controller, "controller", "controller_on", "controller_off");
-        this.addBlockWithVariants(ReprocessorPartType.PowerPort, "powerport");
+        this.addBlockWithVariants(modelToReplaceIdGetter, variantModelIdGetter, ReprocessorPartType.Controller,
+                "controller", "controller_on", "controller_off");
+        this.addBlockWithVariants(modelToReplaceIdGetter, variantModelIdGetter, ReprocessorPartType.PowerPort,
+                "powerport");
         //this.addBlockWithVariants(ReprocessorPartType.WasteInjector, "wasteinjector", "wasteinjector_connected");
-        this.addBlockWithVariants(ReprocessorPartType.FluidInjector, "fluidinjector", "fluidinjector_connected");
-        this.addBlockWithVariants(ReprocessorPartType.OutputPort, "outputport", "outputport_connected");
+        this.addBlockWithVariants(modelToReplaceIdGetter, variantModelIdGetter, ReprocessorPartType.FluidInjector,
+                "fluidinjector", "fluidinjector_connected");
+        this.addBlockWithVariants(modelToReplaceIdGetter, variantModelIdGetter, ReprocessorPartType.OutputPort,
+                "outputport", "outputport_connected");
     }
 
     //region internals
 
-    protected void addBlockWithVariants(final ReprocessorPartType partType, final String blockCommonName,
-                                        final String... additionalVariantsModelNames) {
-
-        this.addBlock(partType.ordinal(), getBlockStateRL(blockCommonName), 0, false);
-        this.addBlockVariants(partType, blockCommonName, additionalVariantsModelNames);
-    }
-
-    protected void addBlockVariants(final ReprocessorPartType partType, final String blockCommonName,
-                                    final String... additionalVariantsModelNames) {
-
-        final List<ResourceLocation> variants = Lists.newArrayListWithCapacity(1 + additionalVariantsModelNames.length);
-
-        variants.add(getBlockStateRL(blockCommonName));
-        Arrays.stream(additionalVariantsModelNames)
-                .map(ReprocessorModelBuilder::getModelRL)
-                .collect(Collectors.toCollection(() -> variants));
-
-        this.addModels(partType.ordinal(), variants);
-    }
-
-    protected ResourceLocation getBlockStateRL(final String blockCommonName) {
-        return getBlockStateRL(blockCommonName, "");
-    }
-
-    protected ResourceLocation getBlockStateRL(final String blockCommonName, final String blockStateVariant) {
-        return new ModelResourceLocation(ExtremeReactors.ROOT_LOCATION.buildWithSuffix("reprocessor" + blockCommonName), blockStateVariant);
-    }
+//    protected void addBlockWithVariants(final ReprocessorPartType partType, final String blockCommonName,
+//                                        final String... additionalVariantsModelNames) {
+//
+//        this.addBlock(partType.ordinal(), getBlockStateRL(blockCommonName), 0, false);
+//        this.addBlockVariants(partType, blockCommonName, additionalVariantsModelNames);
+//    }
+//
+//    protected void addBlockVariants(final ReprocessorPartType partType, final String blockCommonName,
+//                                    final String... additionalVariantsModelNames) {
+//
+//        final List<ResourceLocation> variants = Lists.newArrayListWithCapacity(1 + additionalVariantsModelNames.length);
+//
+//        variants.add(getBlockStateRL(blockCommonName));
+//        Arrays.stream(additionalVariantsModelNames)
+//                .map(ReprocessorModelBuilder::getModelRL)
+//                .collect(Collectors.toCollection(() -> variants));
+//
+//        this.addModels(partType.ordinal(), variants);
+//    }
+//
+//    protected ResourceLocation getBlockStateRL(final String blockCommonName) {
+//        return getBlockStateRL(blockCommonName, "");
+//    }
+//
+//    protected ResourceLocation getBlockStateRL(final String blockCommonName, final String blockStateVariant) {
+//        return new ModelResourceLocation(ExtremeReactors.ROOT_LOCATION.buildWithSuffix("reprocessor" + blockCommonName), blockStateVariant);
+//    }
 
     protected static ResourceLocation getModelRL(final String modelName) {
         return ExtremeReactors.ROOT_LOCATION.appendPath("block", "reprocessor").buildWithSuffix(modelName);

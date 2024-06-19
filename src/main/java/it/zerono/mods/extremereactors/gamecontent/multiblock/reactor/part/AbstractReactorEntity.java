@@ -27,11 +27,10 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.MultiblockR
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.network.UpdateClientsFuelRodsLayout;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.IMultiblockReactorVariant;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.ReactorVariant;
-import it.zerono.mods.zerocore.base.multiblock.part.AbstractMultiblockEntity;
+import it.zerono.mods.zerocore.base.multiblock.part.AbstractMultiblockMachineEntity;
 import it.zerono.mods.zerocore.lib.CodeHelper;
 import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockPartType;
 import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockPartTypeProvider;
-import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockVariantProvider;
 import it.zerono.mods.zerocore.lib.client.model.data.multiblock.CuboidPartVariantsModelDataCache;
 import it.zerono.mods.zerocore.lib.multiblock.cuboid.PartPosition;
 import it.zerono.mods.zerocore.lib.multiblock.validation.IMultiblockValidator;
@@ -44,9 +43,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.client.model.data.ModelData;
 
 public abstract class AbstractReactorEntity
-        extends AbstractMultiblockEntity<MultiblockReactor>
-        implements IHeatEntity, IRadiationModerator, IMultiblockPartTypeProvider<MultiblockReactor, IReactorPartType>,
-                    IMultiblockVariantProvider<IMultiblockReactorVariant> {
+        extends AbstractMultiblockMachineEntity<MultiblockReactor, IMultiblockReactorVariant>
+        implements IHeatEntity, IRadiationModerator, IMultiblockPartTypeProvider<MultiblockReactor, IReactorPartType> {
 
     public AbstractReactorEntity(final BlockEntityType<?> type, final BlockPos position, final BlockState blockState) {
         super(type, position, blockState);

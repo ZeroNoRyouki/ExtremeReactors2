@@ -57,9 +57,9 @@ import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
 import net.neoforged.neoforge.items.ItemHandlerHelper;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.List;
 
 public class ReactorSolidAccessPortEntity
@@ -461,7 +461,7 @@ public class ReactorSolidAccessPortEntity
                         .orElse(null);
     }
 
-    @Nonnull
+    @NotNull
     private IItemHandlerModifiable createFuelCapability() {
         return new ItemHandlerModifiableForwarder(this.getItemStackHandler(ReactantType.Fuel)) {
 
@@ -477,17 +477,17 @@ public class ReactorSolidAccessPortEntity
         };
     }
 
-    @Nonnull
+    @NotNull
     private IItemHandlerModifiable createWasteCapability() {
         return new ItemHandlerModifiableForwarder(this.getItemStackHandler(ReactantType.Waste)) {
 
             @Override
-            public ItemStack insertItem(int slot, @Nonnull ItemStack stack, boolean simulate) {
+            public ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
                 return stack;
             }
 
             @Override
-            public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
+            public boolean isItemValid(int slot, @NotNull ItemStack stack) {
                 return false;
             }
         };

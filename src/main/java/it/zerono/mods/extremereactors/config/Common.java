@@ -26,6 +26,7 @@ public class Common {
     public final Reactor reactor;
     public final Turbine turbine;
     public final Fluidizer fluidizer;
+    public final Energizer energizer;
 
     Common(final ModConfigSpec.Builder builder) {
 
@@ -35,6 +36,7 @@ public class Common {
         this.reactor = new Reactor(builder);
         this.turbine = new Turbine(builder);
         this.fluidizer = new Fluidizer(builder);
+        this.energizer = new Energizer(builder);
 
         builder.pop();
     }
