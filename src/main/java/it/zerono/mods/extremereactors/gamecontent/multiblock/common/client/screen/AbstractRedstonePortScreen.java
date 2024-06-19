@@ -24,9 +24,11 @@ import it.zerono.mods.zerocore.base.client.screen.control.redstone.sensor.ISenso
 import it.zerono.mods.zerocore.base.client.screen.control.redstone.sensor.SensorPanel;
 import it.zerono.mods.zerocore.base.multiblock.AbstractMultiblockMachineController;
 import it.zerono.mods.zerocore.base.multiblock.part.AbstractMultiblockMachineEntity;
-import it.zerono.mods.zerocore.base.redstone.sensor.*;
+import it.zerono.mods.zerocore.base.redstone.sensor.AbstractSensorSetting;
+import it.zerono.mods.zerocore.base.redstone.sensor.ISensorSettingFactory;
+import it.zerono.mods.zerocore.base.redstone.sensor.ISensorSettingHolder;
+import it.zerono.mods.zerocore.base.redstone.sensor.ISensorType;
 import it.zerono.mods.zerocore.lib.IMachineReader;
-import it.zerono.mods.zerocore.lib.client.gui.control.ChoiceText;
 import it.zerono.mods.zerocore.lib.client.gui.layout.FixedLayoutEngine;
 import it.zerono.mods.zerocore.lib.client.gui.sprite.SpriteTextureMap;
 import it.zerono.mods.zerocore.lib.item.inventory.PlayerInventoryUsage;
@@ -38,11 +40,6 @@ import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.function.Consumer;
-import java.util.function.Function;
 import java.util.function.Supplier;
 
 public abstract class AbstractRedstonePortScreen<Controller extends AbstractMultiblockMachineController<Controller, V> & IMultiblockMachine,

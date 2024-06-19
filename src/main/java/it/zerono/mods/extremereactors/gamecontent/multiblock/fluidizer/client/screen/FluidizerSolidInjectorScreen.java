@@ -34,9 +34,6 @@ import it.zerono.mods.zerocore.lib.client.gui.sprite.SpriteTextureMap;
 import it.zerono.mods.zerocore.lib.item.inventory.PlayerInventoryUsage;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.function.Supplier;
 
 public class FluidizerSolidInjectorScreen
         extends CommonMultiblockScreen<MultiblockFluidizer, FluidizerSolidInjectorEntity, FluidizerSolidInjectorContainer> {

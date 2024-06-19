@@ -20,11 +20,8 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.common;
 
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.variant.IMultiblockEnergyGeneratorVariant;
 import it.zerono.mods.zerocore.base.multiblock.AbstractMultiblockMachineController;
-import it.zerono.mods.zerocore.base.multiblock.part.io.IIOPortHandler;
-import it.zerono.mods.zerocore.base.multiblock.part.io.fluid.IFluidPort;
 import it.zerono.mods.zerocore.base.multiblock.part.io.power.IPowerPort;
 import it.zerono.mods.zerocore.base.multiblock.part.io.power.IPowerPortHandler;
-import it.zerono.mods.zerocore.lib.data.IoDirection;
 import it.zerono.mods.zerocore.lib.data.WideAmount;
 import it.zerono.mods.zerocore.lib.data.stack.OperationMode;
 import it.zerono.mods.zerocore.lib.energy.EnergySystem;
@@ -33,11 +30,8 @@ import it.zerono.mods.zerocore.lib.energy.WideEnergyBuffer;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 
 import java.util.Collection;
-import java.util.Optional;
 
 public abstract class AbstractEnergyGeneratorMultiblockController<Controller extends AbstractEnergyGeneratorMultiblockController<Controller, V>,
         V extends IMultiblockEnergyGeneratorVariant>
@@ -106,61 +100,6 @@ public abstract class AbstractEnergyGeneratorMultiblockController<Controller ext
     }
 
     //endregion
-//    //region active-coolant system
-//
-//    public abstract Optional<IFluidHandler> getLiquidHandler();
-//
-//    public abstract Optional<IFluidHandler> getGasHandler();
-//
-//    public abstract Optional<IFluidHandler> getFluidHandler(IoDirection portDirection);
-//
-//    /**
-//     * Distribute the given fluid equally between the specified Active Coolant Ports
-//     *
-//     * @param availableFluid the gas to distribute
-//     * @param coolantPorts the Coolant Ports
-//     * @return the amount of gas distributed
-//     */
-//    protected static int distributeFluidEqually(final FluidStack availableFluid,
-//                                                final Collection<? extends IFluidPort> coolantPorts) {
-//
-//        if (availableFluid.isEmpty() || coolantPorts.isEmpty()) {
-//            return 0;
-//        }
-//
-//        final int fluidPerPort = availableFluid.getAmount() / coolantPorts.size();
-//
-//        return coolantPorts.stream()
-//                .filter(p -> p.getIoDirection().isOutput())
-//                .map(IFluidPort::getFluidPortHandler)
-//                .filter(IIOPortHandler::isActive)
-//                .filter(IIOPortHandler::isConnected)
-//                .mapToInt(handler -> handler.outputFluid(availableFluid.copyWithAmount(fluidPerPort)))
-//                .sum();
-//    }
-//
-//    /**
-//     * Distribute the given fluid equally between the specified Active Coolant Ports
-//     */
-//    protected static int acquireFluidEqually(final IFluidHandler destination, final int maxAmount,
-//                                             final Collection<? extends IFluidPort> coolantPorts) {
-//
-//        if (maxAmount <= 0 || coolantPorts.isEmpty()) {
-//            return 0;
-//        }
-//
-//        final int fluidPerPort = maxAmount / coolantPorts.size();
-//
-//        return coolantPorts.stream()
-//                .filter(p -> p.getIoDirection().isInput())
-//                .map(IFluidPort::getFluidPortHandler)
-//                .filter(IIOPortHandler::isActive)
-//                .filter(IIOPortHandler::isConnected)
-//                .mapToInt(handler -> handler.inputFluid(destination, fluidPerPort))
-//                .sum();
-//    }
-//
-//    //endregion
     //region IWideEnergyStorage2
 
     @Override

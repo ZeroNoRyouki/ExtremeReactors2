@@ -67,8 +67,8 @@ import net.neoforged.fml.LogicalSide;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidUtil;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
-
 import org.jetbrains.annotations.Nullable;
+
 import java.util.List;
 import java.util.function.BooleanSupplier;
 

@@ -65,8 +65,8 @@ import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
 import net.neoforged.neoforge.items.ItemHandlerHelper;
 import net.neoforged.neoforge.items.ItemStackHandler;
-
 import org.jetbrains.annotations.Nullable;
+
 import java.util.List;
 import java.util.stream.Collectors;
 

@@ -16,8 +16,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 import net.neoforged.neoforge.common.Tags;
-
 import org.jetbrains.annotations.Nullable;
+
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
 
