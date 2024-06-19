@@ -157,6 +157,8 @@ public abstract class AbstractEnergyGeneratorMultiblockController<Controller ext
     @Override
     public CompoundTag syncDataTo(CompoundTag data, HolderLookup.Provider registries, SyncReason syncReason) {
 
+        super.syncDataTo(data, registries, syncReason);
+
         this.syncChildDataEntityTo(this.getEnergyBuffer(), "buffer", data, registries, syncReason);
 
         if (syncReason.isNetworkUpdate()) {
