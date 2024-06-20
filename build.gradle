@@ -168,12 +168,12 @@ dependencies {
 //    runtimeOnly "vazkii.patchouli:Patchouli:${project.patchouli_version}-NEOFORGE"
 
     // mekanism
-//    compileOnly "mekanism:Mekanism:${project.mekanism_version}"
+    compileOnly "mekanism:Mekanism:${project.mekanism_version}"
 
-//    runtimeOnly "mekanism:Mekanism:${project.mekanism_version}"
-//    runtimeOnly "mekanism:Mekanism:${project.mekanism_version}:additions"
-//    runtimeOnly "mekanism:Mekanism:${project.mekanism_version}:generators"
-//    runtimeOnly "mekanism:Mekanism:${project.mekanism_version}:tools"
+    runtimeOnly "mekanism:Mekanism:${project.mekanism_version}"
+    runtimeOnly "mekanism:Mekanism:${project.mekanism_version}:additions"
+    runtimeOnly "mekanism:Mekanism:${project.mekanism_version}:generators"
+    runtimeOnly "mekanism:Mekanism:${project.mekanism_version}:tools"
 
     // thermal
 //    runtimeOnly fg.deobf("curse.maven:thermalexp-69163:4112130")
