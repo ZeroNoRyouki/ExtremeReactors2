@@ -163,7 +163,7 @@ public final class ModeratorsRegistry {
         Preconditions.checkArgument(!Strings.isNullOrEmpty(fluidId));
         InternalDispatcher.dispatch("moderator-f-register", () -> {
 
-            final ResourceLocation id = new ResourceLocation(fluidId);
+            final ResourceLocation id = ResourceLocation.parse(fluidId);
 
             if (s_moderatorFluidsData.containsKey(id)) {
                 ExtremeReactorsAPI.LOGGER.warn(MARKER, "Overriding existing radiation moderator for {}", id);
@@ -212,7 +212,7 @@ public final class ModeratorsRegistry {
     public static void removeFluid(final String fluidId) {
 
         Preconditions.checkArgument(!Strings.isNullOrEmpty(fluidId));
-        InternalDispatcher.dispatch("moderator-f-remove", () -> s_moderatorFluidsData.remove(new ResourceLocation(fluidId)));
+        InternalDispatcher.dispatch("moderator-f-remove", () -> s_moderatorFluidsData.remove(ResourceLocation.parse(fluidId)));
     }
 
     public static void fillModeratorsTooltips(final Map<Item, Set<Component>> tooltipsMap,

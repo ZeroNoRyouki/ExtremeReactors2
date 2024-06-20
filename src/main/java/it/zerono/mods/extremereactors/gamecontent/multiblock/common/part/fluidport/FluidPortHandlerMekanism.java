@@ -214,7 +214,7 @@
 //
 //        CodeHelper.getMinecraftServer().ifPresent(server -> {
 //
-//            final ResourceLocation typeId = new ResourceLocation(IMekanismService.SERVICE.getId(), "rotary");
+//            final ResourceLocation typeId = ResourceLocation.fromNamespaceAndPath(IMekanismService.SERVICE.getId(), "rotary");
 //            @SuppressWarnings("unchecked")
 //            final RecipeType<RotaryRecipe> type = (RecipeType<RotaryRecipe>) BuiltInRegistries.RECIPE_TYPE.get(typeId);
 //

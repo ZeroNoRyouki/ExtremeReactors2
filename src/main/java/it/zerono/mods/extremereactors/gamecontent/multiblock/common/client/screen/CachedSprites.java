@@ -57,7 +57,7 @@ public final class CachedSprites {
         GUI_CHARGINGPORT_SLOT_ID = ExtremeReactors.ROOT_LOCATION.appendPath("gui", "multiblock").buildWithSuffix("charging");
         GUI_CHARGINGPORT_SLOT = AtlasSpriteSupplier.create(GUI_CHARGINGPORT_SLOT_ID, AtlasSpriteTextureMap.BLOCKS);
 
-        VANILLA_BUCKET  = AtlasSpriteSupplier.create(new ResourceLocation("minecraft:item/bucket"), AtlasSpriteTextureMap.BLOCKS);
+        VANILLA_BUCKET  = AtlasSpriteSupplier.create(ResourceLocation.parse("minecraft:item/bucket"), AtlasSpriteTextureMap.BLOCKS);
     }
 
     //region internals

@@ -276,7 +276,7 @@ public class ReactorFuelRodModel
     }
 
     private static final List<BakedQuad> EMPTY_QUADS = ObjectLists.emptyList();
-    private static final ResourceLocation FAKE_RESOURCELOCATION = new ResourceLocation("fake");
+    private static final ResourceLocation FAKE_RESOURCELOCATION = ResourceLocation.parse("fake");
     private static final ModelState IDENTITY_MODEL_STATE = new SimpleModelState(Transformation.identity(), false);
 
     private final StampedLock _lock;

@@ -41,9 +41,9 @@ public final class CommonConstants {
     //endregion
     //region ids
 
-    public static final ResourceLocation FLUID_TEXTURE_SOURCE_WATER = new ResourceLocation("block/water_still");
-    public static final ResourceLocation FLUID_TEXTURE_FLOWING_WATER = new ResourceLocation("block/water_flow");
-    public static final ResourceLocation FLUID_TEXTURE_OVERLAY_WATER = new ResourceLocation("block/water_overlay");
+    public static final ResourceLocation FLUID_TEXTURE_SOURCE_WATER = ResourceLocation.parse("block/water_still");
+    public static final ResourceLocation FLUID_TEXTURE_FLOWING_WATER = ResourceLocation.parse("block/water_flow");
+    public static final ResourceLocation FLUID_TEXTURE_OVERLAY_WATER = ResourceLocation.parse("block/water_overlay");
 
     //endregion
     //region UI styles

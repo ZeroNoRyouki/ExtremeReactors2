@@ -46,7 +46,7 @@ public class BlockTagsDataProvider
         builder.apply(TagsHelper.BLOCKS.createCommonKey("ores/uranium")).add(Content.Blocks.YELLORITE_ORE_BLOCK);
 
         builder.apply(TagsHelper.BLOCKS.createCommonKey("storage_blocks/enderium"))
-                .addOptional(new ResourceLocation("ftbic:enderium_block"));
+                .addOptional(ResourceLocation.parse("ftbic:enderium_block"));
 
         builder.apply(ContentTags.Blocks.BLOCKS_YELLORIUM).add(Content.Blocks.YELLORIUM_BLOCK);
 
