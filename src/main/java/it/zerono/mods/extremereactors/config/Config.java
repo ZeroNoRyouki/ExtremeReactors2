@@ -19,6 +19,7 @@
 package it.zerono.mods.extremereactors.config;
 
 import it.zerono.mods.zerocore.lib.CodeHelper;
+import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.neoforge.common.ModConfigSpec;
@@ -29,10 +30,10 @@ public final class Config {
     public static final Client CLIENT;
     public static final Common COMMON;
 
-    public static void initialize() {
+    public static void initialize(ModContainer container) {
 
-        register(ModConfig.Type.CLIENT, Config.s_clientSpec);
-        register(ModConfig.Type.COMMON, Config.s_commonSpec);
+        register(container, ModConfig.Type.CLIENT, Config.s_clientSpec);
+        register(container, ModConfig.Type.COMMON, Config.s_commonSpec);
     }
 
     //region internals
@@ -56,8 +57,8 @@ public final class Config {
         s_commonSpec = pair2.getRight();
     }
 
-    private static void register(final ModConfig.Type type, final ModConfigSpec spec) {
-        ModLoadingContext.get().registerConfig(type, spec, String.format("extremereactors/%s.toml", type.extension()));
+    private static void register(ModContainer container, ModConfig.Type type, ModConfigSpec spec) {
+        container.registerConfig(type, spec, String.format("extremereactors/%s.toml", type.extension()));
     }
 
     //endregion

@@ -78,7 +78,7 @@ public class ExtremeReactors {
             forgeProxy.initialize(modBus);
         }
 
-        Config.initialize();
+        Config.initialize(container);
         Content.initialize(modBus);
 
         modBus.addListener(ExtremeReactors::onInterModProcess);
