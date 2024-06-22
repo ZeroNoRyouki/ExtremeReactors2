@@ -23,6 +23,7 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.component.R
 import it.zerono.mods.zerocore.lib.data.component.FluidStackListComponent;
 import it.zerono.mods.zerocore.lib.data.component.ItemStackListComponent;
 import it.zerono.mods.zerocore.lib.datagen.provider.loot.ModBlockLootSubProvider;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.world.flag.FeatureFlags;
 
 import java.util.Set;
@@ -30,8 +31,8 @@ import java.util.Set;
 public class BlockSubProvider
         extends ModBlockLootSubProvider {
 
-    public BlockSubProvider() {
-        super(Set.of(), FeatureFlags.REGISTRY.allFlags());
+    public BlockSubProvider(HolderLookup.Provider provider) {
+        super(Set.of(), FeatureFlags.REGISTRY.allFlags(), provider);
     }
 
     @Override
