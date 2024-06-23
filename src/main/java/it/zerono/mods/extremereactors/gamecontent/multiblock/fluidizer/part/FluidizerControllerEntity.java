@@ -89,7 +89,7 @@ public class FluidizerControllerEntity
         if (this.getCurrentWorld().isClientSide()) {
 
             this._tankRenderData = ExtremeReactors.getProxy().createFluidizerTankData(this);
-            this._renderBoundingBox = controller.getBoundingBox().getAABB();
+            this._renderBoundingBox = controller.getBoundingBox().getAABB().inflate(16);
         }
     }
 
