@@ -29,6 +29,7 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.IMu
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.ReactorVariant;
 import it.zerono.mods.zerocore.base.multiblock.part.AbstractMultiblockMachineEntity;
 import it.zerono.mods.zerocore.lib.CodeHelper;
+import it.zerono.mods.zerocore.lib.IDebugMessages;
 import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockPartType;
 import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockPartTypeProvider;
 import it.zerono.mods.zerocore.lib.client.model.data.multiblock.CuboidPartVariantsModelDataCache;
@@ -40,6 +41,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.fml.LogicalSide;
 import net.neoforged.neoforge.client.model.data.ModelData;
 
 public abstract class AbstractReactorEntity
@@ -83,6 +85,16 @@ public abstract class AbstractReactorEntity
 
     public void onUpdateClientsFuelRodsLayout(final UpdateClientsFuelRodsLayout message) {
         this.executeOnController(c -> c.onUpdateClientsFuelRodsLayout(message));
+    }
+
+    //endregion
+    //region IDebuggable
+
+    @Override
+    public void getDebugMessages(LogicalSide side, IDebugMessages messages) {
+
+        super.getDebugMessages(side, messages);
+        messages.addUnlocalized("Model Variant Index: %d", this.getUpdatedModelVariantIndex());
     }
 
     //endregion

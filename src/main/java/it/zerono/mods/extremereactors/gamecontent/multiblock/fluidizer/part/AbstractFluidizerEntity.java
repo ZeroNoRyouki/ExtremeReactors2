@@ -22,6 +22,7 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.Fluidizer
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.MultiblockFluidizer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.network.UpdateFluidizerFluidStatus;
 import it.zerono.mods.zerocore.base.multiblock.part.AbstractMultiblockEntity;
+import it.zerono.mods.zerocore.lib.IDebugMessages;
 import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockPartTypeProvider;
 import it.zerono.mods.zerocore.lib.client.model.data.multiblock.CuboidPartVariantsModelDataCache;
 import it.zerono.mods.zerocore.lib.data.stack.IStackHolder;
@@ -32,6 +33,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.fml.LogicalSide;
 import net.neoforged.neoforge.client.model.data.ModelData;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 
@@ -83,6 +85,16 @@ public class AbstractFluidizerEntity
 
     public void onUpdateFluidStatus(UpdateFluidizerFluidStatus message) {
         this.executeOnController(c -> c.onUpdateFluidStatus(message));
+    }
+
+    //endregion
+    //region IDebuggable
+
+    @Override
+    public void getDebugMessages(LogicalSide side, IDebugMessages messages) {
+
+        super.getDebugMessages(side, messages);
+        messages.addUnlocalized("Model Variant Index: %d", this.getUpdatedModelVariantIndex());
     }
 
     //endregion

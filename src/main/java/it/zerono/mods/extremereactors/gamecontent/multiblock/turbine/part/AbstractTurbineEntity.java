@@ -25,6 +25,7 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.IMu
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.TurbineVariant;
 import it.zerono.mods.zerocore.base.multiblock.part.AbstractMultiblockMachineEntity;
 import it.zerono.mods.zerocore.lib.CodeHelper;
+import it.zerono.mods.zerocore.lib.IDebugMessages;
 import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockPartTypeProvider;
 import it.zerono.mods.zerocore.lib.client.model.data.multiblock.CuboidPartVariantsModelDataCache;
 import it.zerono.mods.zerocore.lib.multiblock.cuboid.PartPosition;
@@ -35,6 +36,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.fml.LogicalSide;
 import net.neoforged.neoforge.client.model.data.ModelData;
 
 public class AbstractTurbineEntity
@@ -74,6 +76,16 @@ public class AbstractTurbineEntity
 
     protected int getUpdatedModelVariantIndex() {
         return 0;
+    }
+
+    //endregion
+    //region IDebuggable
+
+    @Override
+    public void getDebugMessages(LogicalSide side, IDebugMessages messages) {
+
+        super.getDebugMessages(side, messages);
+        messages.addUnlocalized("Model Variant Index: %d", this.getUpdatedModelVariantIndex());
     }
 
     //endregion
