@@ -44,11 +44,6 @@ public class GenericRecipesDataProvider
         this.storageBlock3x3(output, "raw_yellorium", this.group("raw_yellorium"),
                 RecipeCategory.MISC, Content.Blocks.RAW_YELLORIUM_BLOCK, RecipeCategory.MISC, Content.Items.RAW_YELLORIUM);
 
-        // nuggets
-
-        this.reactantsNugget(output, "yellorium", Content.Items.YELLORIUM_INGOT, Content.Items.YELLORIUM_NUGGET);
-        this.reactantsNugget(output, "blutonium", Content.Items.BLUTONIUM_INGOT, Content.Items.BLUTONIUM_NUGGET);
-
         // coils
 
         this.coil(output, "ludicrite_block", Content.Items.LUDICRITE_BLOCK, Content.Items.LUDICRITE_INGOT, Items.END_CRYSTAL);
@@ -60,11 +55,6 @@ public class GenericRecipesDataProvider
 
         this.blastingAndSmelting(output, "yellorium_from_ore", "yellorium", Content.Items.YELLORIUM_INGOT, Content.Items.YELLORITE_ORE_BLOCK);
         this.blastingAndSmelting(output, "yellorium_from_raw", "yellorium", Content.Items.YELLORIUM_INGOT, Content.Items.RAW_YELLORIUM);
-        this.blastingAndSmelting(output, "yellorium_from_dust", "yellorium", Content.Items.YELLORIUM_INGOT, Content.Items.YELLORIUM_DUST);
-        this.blastingAndSmelting(output, "cyanite_from_dust", "cyanite", Content.Items.CYANITE_INGOT, Content.Items.CYANITE_DUST);
-        this.blastingAndSmelting(output, "graphite_from_dust", "graphite", Content.Items.GRAPHITE_INGOT, Content.Items.GRAPHITE_DUST);
-        this.blastingAndSmelting(output, "blutonium_from_dust", "blutonium", Content.Items.BLUTONIUM_INGOT, Content.Items.BLUTONIUM_DUST);
-        this.blastingAndSmelting(output, "magentite_from_dust", "magentite", Content.Items.MAGENTITE_INGOT, Content.Items.MAGENTITE_DUST);
         this.blastingAndSmelting(output, "graphite_from_coal", "graphite", Content.Items.GRAPHITE_INGOT, () -> Items.COAL);
         this.blastingAndSmelting(output, "graphite_from_charcoal", "graphite", Content.Items.GRAPHITE_INGOT, () -> Items.CHARCOAL);
         this.blastingAndSmelting(output, "graphite_from_coalblock", "graphite", Content.Items.GRAPHITE_BLOCK, () -> Items.COAL_BLOCK, 0.9f, 1800);
@@ -92,12 +82,6 @@ public class GenericRecipesDataProvider
                                   Supplier<? extends ItemLike> component) {
         this.storageBlock3x3(output, name, this.group("reactants"),
                 RecipeCategory.MISC, storage, RecipeCategory.MISC, component);
-    }
-
-    private void reactantsNugget(RecipeOutput output, String name, Supplier<? extends ItemLike> ingot,
-                                 Supplier<? extends ItemLike> nugget) {
-        this.nugget(output, name, this.group("reactantNuggets"),
-                RecipeCategory.MISC, ingot, RecipeCategory.MISC, nugget);
     }
 
     private void coil(RecipeOutput output, String name, Supplier<? extends ItemLike> coil,

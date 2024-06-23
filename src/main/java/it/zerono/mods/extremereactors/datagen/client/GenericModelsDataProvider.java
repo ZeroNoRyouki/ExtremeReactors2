@@ -41,15 +41,6 @@ public class GenericModelsDataProvider
 
         // items
 
-        this.simpleItem(Content.Items.YELLORIUM_DUST);
-        this.simpleItem(Content.Items.CYANITE_DUST);
-        this.simpleItem(Content.Items.GRAPHITE_DUST);
-        this.simpleItem(Content.Items.BLUTONIUM_DUST);
-        this.simpleItem(Content.Items.MAGENTITE_DUST);
-        this.simpleItem(Content.Items.LUDICRITE_DUST);
-        this.simpleItem(Content.Items.RIDICULITE_DUST);
-        this.simpleItem(Content.Items.INANITE_DUST);
-        this.simpleItem(Content.Items.INSANITE_DUST);
         this.simpleItem(Content.Items.YELLORIUM_INGOT);
         this.simpleItem(Content.Items.RAW_YELLORIUM);
         this.simpleItem(Content.Items.CYANITE_INGOT);
@@ -60,8 +51,6 @@ public class GenericModelsDataProvider
         this.simpleItem(Content.Items.RIDICULITE_INGOT);
         this.simpleItem(Content.Items.INANITE_INGOT);
         this.simpleItem(Content.Items.INSANITE_INGOT);
-        this.simpleItem(Content.Items.YELLORIUM_NUGGET);
-        this.simpleItem(Content.Items.BLUTONIUM_NUGGET);
         this.simpleItem(Content.Items.ANGLESITE_CRYSTAL);
         this.simpleItem(Content.Items.BENITOITE_CRYSTAL);
     }

@@ -44,20 +44,6 @@ public class ItemTagsDataProvider
         builder.apply(ContentTags.Items.INGOTS_INANITE).add(Content.Items.INANITE_INGOT);
         builder.apply(ContentTags.Items.INGOTS_INSANITE).add(Content.Items.INSANITE_INGOT);
 
-        builder.apply(Tags.Items.NUGGETS).add(Content.Items.YELLORIUM_NUGGET, Content.Items.BLUTONIUM_NUGGET);
-        builder.apply(ContentTags.Items.NUGGETS_YELLORIUM).add(Content.Items.YELLORIUM_NUGGET);
-        builder.apply(ContentTags.Items.NUGGETS_BLUTONIUM).add(Content.Items.BLUTONIUM_NUGGET);
-
-        builder.apply(ContentTags.Items.DUSTS_YELLORIUM).add(Content.Items.YELLORIUM_DUST);
-        builder.apply(ContentTags.Items.DUSTS_CYANITE).add(Content.Items.CYANITE_DUST);
-        builder.apply(ContentTags.Items.DUSTS_GRAPHITE).add(Content.Items.GRAPHITE_DUST);
-        builder.apply(ContentTags.Items.DUSTS_BLUTONIUM).add(Content.Items.BLUTONIUM_DUST);
-        builder.apply(ContentTags.Items.DUSTS_MAGENTITE).add(Content.Items.MAGENTITE_DUST);
-        builder.apply(ContentTags.Items.DUSTS_LUDICRITE).add(Content.Items.LUDICRITE_DUST);
-        builder.apply(ContentTags.Items.DUSTS_RIDICULITE).add(Content.Items.RIDICULITE_DUST);
-        builder.apply(ContentTags.Items.DUSTS_INANITE).add(Content.Items.INANITE_DUST);
-        builder.apply(ContentTags.Items.DUSTS_INSANITE).add(Content.Items.INSANITE_DUST);
-
         builder.apply(ContentTags.Items.BLOCKS_YELLORIUM).add(Content.Items.YELLORIUM_BLOCK);
         builder.apply(ContentTags.Items.BLOCKS_CYANITE).add(Content.Items.CYANITE_BLOCK);
         builder.apply(ContentTags.Items.BLOCKS_GRAPHITE).add(Content.Items.GRAPHITE_BLOCK);
@@ -73,12 +59,7 @@ public class ItemTagsDataProvider
         builder.apply(Tags.Items.INGOTS).add(Content.Items.YELLORIUM_INGOT, Content.Items.CYANITE_INGOT,
                 Content.Items.GRAPHITE_INGOT, Content.Items.BLUTONIUM_INGOT, Content.Items.MAGENTITE_INGOT);
 
-        builder.apply(Tags.Items.DUSTS).add(Content.Items.YELLORIUM_DUST, Content.Items.CYANITE_DUST,
-                Content.Items.GRAPHITE_DUST, Content.Items.BLUTONIUM_DUST, Content.Items.MAGENTITE_DUST);
-
-        builder.apply(TagsHelper.ITEMS.createCommonKey("dusts/uranium")).add(Content.Items.YELLORIUM_DUST);
         builder.apply(ContentTags.Items.INGOTS_URANIUM).add(Content.Items.YELLORIUM_INGOT);
-        builder.apply(TagsHelper.ITEMS.createCommonKey("dusts/plutonium")).add(Content.Items.BLUTONIUM_DUST);
         builder.apply(ContentTags.Items.INGOTS_PLUTONIUM).add(Content.Items.BLUTONIUM_INGOT);
         builder.apply(TagsHelper.ITEMS.createCommonKey("ores/uranium")).add(Content.Items.YELLORITE_ORE_BLOCK);
 

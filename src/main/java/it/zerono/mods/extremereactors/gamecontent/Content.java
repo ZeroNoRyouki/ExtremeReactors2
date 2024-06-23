@@ -568,19 +568,6 @@ public final class Content {
         public static final Supplier<ModItem> INANITE_INGOT = registerItemGeneric("inanite_ingot");
         public static final Supplier<ModItem> INSANITE_INGOT = registerItemGeneric("insanite_ingot");
 
-        public static final Supplier<ModItem> YELLORIUM_NUGGET = registerItemGeneric(Reactants.Yellorium.getNuggetName());
-        public static final Supplier<ModItem> BLUTONIUM_NUGGET = registerItemGeneric(Reactants.Blutonium.getNuggetName());
-
-        public static final Supplier<ModItem> YELLORIUM_DUST = registerItemGeneric(Reactants.Yellorium.getDustName());
-        public static final Supplier<ModItem> CYANITE_DUST = registerItemGeneric(Reactants.Cyanite.getDustName());
-        public static final Supplier<ModItem> GRAPHITE_DUST = registerItemGeneric("graphite_dust");
-        public static final Supplier<ModItem> BLUTONIUM_DUST = registerItemGeneric(Reactants.Blutonium.getDustName());
-        public static final Supplier<ModItem> MAGENTITE_DUST = registerItemGeneric(Reactants.Magentite.getDustName());
-        public static final Supplier<ModItem> LUDICRITE_DUST = registerItemGeneric("ludicrite_dust");
-        public static final Supplier<ModItem> RIDICULITE_DUST = registerItemGeneric("ridiculite_dust");
-        public static final Supplier<ModItem> INANITE_DUST = registerItemGeneric("inanite_dust");
-        public static final Supplier<ModItem> INSANITE_DUST = registerItemGeneric("insanite_dust");
-
         public static final Supplier<BlockItem> YELLORIUM_BLOCK = registerItemBlock(Reactants.Yellorium.getBlockName(), () -> Blocks.YELLORIUM_BLOCK);
         public static final Supplier<BlockItem> RAW_YELLORIUM_BLOCK = registerItemBlock("raw_yellorium_block", () -> Blocks.RAW_YELLORIUM_BLOCK);
         public static final Supplier<BlockItem> CYANITE_BLOCK = registerItemBlock(Reactants.Cyanite.getBlockName(), () -> Blocks.CYANITE_BLOCK);
@@ -1434,17 +1421,15 @@ public final class Content {
 
                         acceptAll(output, Blocks.YELLORITE_ORE_BLOCK, Blocks.DEEPSLATE_YELLORITE_ORE_BLOCK,
                                 Blocks.ANGLESITE_ORE_BLOCK, Blocks.BENITOITE_ORE_BLOCK,
-                                Items.YELLORIUM_INGOT, Items.RAW_YELLORIUM, Items.RAW_YELLORIUM_BLOCK,
-                                Items.YELLORIUM_DUST, Blocks.YELLORIUM_BLOCK,
-                                Items.BLUTONIUM_INGOT, Items.BLUTONIUM_DUST, Blocks.BLUTONIUM_BLOCK,
-                                Items.CYANITE_INGOT, Items.CYANITE_DUST, Blocks.CYANITE_BLOCK,
-                                Items.MAGENTITE_INGOT, Items.MAGENTITE_DUST, Blocks.MAGENTITE_BLOCK,
-                                Items.GRAPHITE_INGOT, Items.GRAPHITE_DUST, Blocks.GRAPHITE_BLOCK,
-                                Items.LUDICRITE_INGOT, Items.LUDICRITE_DUST, Blocks.LUDICRITE_BLOCK,
-                                Items.RIDICULITE_INGOT, Items.RIDICULITE_DUST, Blocks.RIDICULITE_BLOCK,
-                                Items.INANITE_INGOT, Items.INANITE_DUST, Blocks.INANITE_BLOCK,
-                                Items.INSANITE_INGOT, Items.INSANITE_DUST, Blocks.INSANITE_BLOCK,
-                                Items.YELLORIUM_NUGGET, Items.BLUTONIUM_NUGGET,
+                                Items.YELLORIUM_INGOT, Items.RAW_YELLORIUM, Items.RAW_YELLORIUM_BLOCK, Blocks.YELLORIUM_BLOCK,
+                                Items.BLUTONIUM_INGOT, Blocks.BLUTONIUM_BLOCK,
+                                Items.CYANITE_INGOT, Blocks.CYANITE_BLOCK,
+                                Items.MAGENTITE_INGOT, Blocks.MAGENTITE_BLOCK,
+                                Items.GRAPHITE_INGOT, Blocks.GRAPHITE_BLOCK,
+                                Items.LUDICRITE_INGOT, Blocks.LUDICRITE_BLOCK,
+                                Items.RIDICULITE_INGOT, Blocks.RIDICULITE_BLOCK,
+                                Items.INANITE_INGOT, Blocks.INANITE_BLOCK,
+                                Items.INSANITE_INGOT, Blocks.INSANITE_BLOCK,
                                 Items.ANGLESITE_CRYSTAL, Items.BENITOITE_CRYSTAL,
                                 Items.WRENCH);
 
