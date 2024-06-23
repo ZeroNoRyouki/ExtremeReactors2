@@ -33,7 +33,7 @@ public class UpdateFluidizerFluidStatus
     public static final Type<UpdateFluidizerFluidStatus> TYPE = createType(ExtremeReactors.ROOT_LOCATION, "update_fluidizer_fluid");
 
     public static final StreamCodec<RegistryFriendlyByteBuf, UpdateFluidizerFluidStatus> STREAM_CODEC = createStreamCodec(
-            FluidStack.STREAM_CODEC, packet -> packet._stack,
+            FluidStack.OPTIONAL_STREAM_CODEC, packet -> packet._stack,
             UpdateFluidizerFluidStatus::new);
 
     public UpdateFluidizerFluidStatus(AbstractFluidizerEntity referencePart, FluidStack stack) {
