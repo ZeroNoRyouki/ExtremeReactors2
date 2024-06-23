@@ -24,7 +24,7 @@ public class FluidizerModelsDataProvider
         final String folder = "fluidizer";
 
         this.assembledPlatingModel(folder);
-        this.assembledPlatingModel("assembledplatingio", "plating", folder);
+        this.assembledPlatingModel("assembledplatingio", "platingio", folder);
         this.multiblockFrame(Content.Blocks.FLUIDIZER_CASING, "casing", folder);
         this.multiblockGlass(Content.Blocks.FLUIDIZER_GLASS, "glass", folder);
         this.controller(Content.Blocks.FLUIDIZER_CONTROLLER, folder);
