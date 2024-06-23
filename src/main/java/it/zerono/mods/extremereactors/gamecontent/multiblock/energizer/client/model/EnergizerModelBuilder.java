@@ -18,74 +18,24 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.energizer.client.model;
 
 import it.zerono.mods.extremereactors.ExtremeReactors;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.energizer.EnergizerPartType;
-import it.zerono.mods.zerocore.lib.client.model.multiblock.CuboidPartVariantsModelBuilder;
-import net.minecraft.client.resources.model.ModelResourceLocation;
-import net.minecraft.resources.ResourceLocation;
-
-import java.util.function.Function;
+import it.zerono.mods.extremereactors.gamecontent.Content;
+import it.zerono.mods.zerocore.base.multiblock.client.model.AbstractCuboidMultiblockModelBuilder;
 
 public class EnergizerModelBuilder
-        extends CuboidPartVariantsModelBuilder {
+        extends AbstractCuboidMultiblockModelBuilder {
 
     public EnergizerModelBuilder() {
-        this("assembledplating");
+        super("energizer", "assembledplating", true, ExtremeReactors.ROOT_LOCATION);
     }
 
-    protected EnergizerModelBuilder(final String templateName) {
+    @Override
+    public void build() {
 
-        super(getModelRL(templateName), true);
-        this.build();
-    }
-
-    protected void build() {
-
-        final Function<String, ResourceLocation> modelToReplaceIdGetter = blockName ->
-                new ModelResourceLocation(ExtremeReactors.ROOT_LOCATION.buildWithSuffix("energizer" + blockName), "");
-
-        final Function<String, ResourceLocation> variantModelIdGetter = EnergizerModelBuilder::getModelRL;
-
-        this.addBlockWithVariants(modelToReplaceIdGetter, variantModelIdGetter, EnergizerPartType.Casing, "casing",
-                "casing_01_face",
-                "casing_02_frame_ds",
-                "casing_03_frame_de",
-                "casing_04_frame_dn",
-                "casing_05_frame_dw",
-                "casing_06_frame_us",
-                "casing_07_frame_ue",
-                "casing_08_frame_un",
-                "casing_09_frame_uw",
-                "casing_10_frame_se",
-                "casing_11_frame_ne",
-                "casing_12_frame_nw",
-                "casing_13_frame_sw",
-                "casing_14_corner_dsw",
-                "casing_15_corner_dse",
-                "casing_16_corner_dne",
-                "casing_17_corner_dnw",
-                "casing_18_corner_usw",
-                "casing_19_corner_use",
-                "casing_20_corner_une",
-                "casing_21_corner_unw");
-
-        this.addBlockWithVariants(modelToReplaceIdGetter, variantModelIdGetter, EnergizerPartType.Controller,
-                "controller",
-                "controller_on", "controller_off");
-
-        this.addBlockWithVariants(modelToReplaceIdGetter, variantModelIdGetter, EnergizerPartType.PowerPortFE,
-                "powerportfe", "powerportfe_input",
+        this.addCasing(Content.Blocks.ENERGIZER_CASING.get());
+        this.addController(Content.Blocks.ENERGIZER_CONTROLLER.get());
+        this.addIoPort(Content.Blocks.ENERGIZER_CHARGINGPORT_FE.get(), "charging_assembled");
+        this.addIoPort(Content.Blocks.ENERGIZER_POWERPORT_FE.get(),
                 "powerportfe_assembled_input", "powerportfe_assembled_input_connected",
                 "powerportfe_assembled_output", "powerportfe_assembled_output_connected");
-
-        this.addBlockWithVariants(modelToReplaceIdGetter, variantModelIdGetter, EnergizerPartType.ChargingPortFE,
-                "chargingportfe", "charging_assembled");
     }
-
-    //region internals
-
-    protected static ResourceLocation getModelRL(String modelName) {
-        return ExtremeReactors.ROOT_LOCATION.appendPath("block", "energizer").buildWithSuffix(modelName);
-    }
-
-    //endregion
 }

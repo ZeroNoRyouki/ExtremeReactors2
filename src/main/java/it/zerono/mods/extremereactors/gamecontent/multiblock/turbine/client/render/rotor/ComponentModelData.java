@@ -29,11 +29,13 @@ import net.neoforged.neoforge.client.model.data.ModelData;
 public final class ComponentModelData {
 
     public static ModelData from(final RotorBladeState state) {
-        return from(s_bladeCache, state.ordinal(), TurbinePartType.RotorBlade.ordinal(), state.ordinal());
+        // add 1 to the variant index because now the default model sit at index 0, so skip it
+        return from(s_bladeCache, state.ordinal(), TurbinePartType.RotorBlade.ordinal(), state.ordinal() + 1);
     }
 
     public static ModelData from(final RotorShaftState state) {
-        return from(s_shaftCache, state.ordinal(), TurbinePartType.RotorShaft.ordinal(), state.ordinal());
+        // add 1 to the variant index because now the default model sit at index 0, so skip it
+        return from(s_shaftCache, state.ordinal(), TurbinePartType.RotorShaft.ordinal(), state.ordinal() + 1);
     }
 
     //region internals

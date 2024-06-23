@@ -19,31 +19,41 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.client.model;
 
 import it.zerono.mods.extremereactors.ExtremeReactors;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.TurbinePartType;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.IMultiblockTurbineVariant;
-import it.zerono.mods.zerocore.lib.block.property.BlockFacingsProperty;
-import it.zerono.mods.zerocore.lib.client.model.BlockVariantsModelBuilder;
-import net.minecraft.client.resources.model.ModelResourceLocation;
-import net.minecraft.resources.ResourceLocation;
+import it.zerono.mods.extremereactors.gamecontent.Content;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.TurbineVariant;
+import it.zerono.mods.zerocore.base.multiblock.client.model.AbstractMultiblockModelBuilder;
 
-public class TurbineGlassModelBuilder
-        extends BlockVariantsModelBuilder {
+public abstract class TurbineGlassModelBuilder
+        extends AbstractMultiblockModelBuilder {
 
-    public TurbineGlassModelBuilder(final IMultiblockTurbineVariant variant) {
+    public static class Basic
+            extends TurbineGlassModelBuilder {
 
-        super(true, true, false);
+        public Basic() {
+            super(TurbineVariant.Basic);
+        }
 
-        this.addBlock(TurbinePartType.Glass.ordinal(), getBlockStateRL(variant, BlockFacingsProperty.None), 0, false);
-
-        for (final BlockFacingsProperty facing : BlockFacingsProperty.values()) {
-            this.addVariant(TurbinePartType.Glass.ordinal(), getBlockStateRL(variant, facing));
+        @Override
+        public void build() {
+            this.addGlass(Content.Blocks.TURBINE_GLASS_BASIC.get());
         }
     }
 
-    //region internals
+    public static class Reinforced
+            extends TurbineGlassModelBuilder {
 
-    private static ResourceLocation getBlockStateRL(final IMultiblockTurbineVariant variant, final BlockFacingsProperty blockStateVariant) {
-        return new ModelResourceLocation(ExtremeReactors.ROOT_LOCATION.buildWithSuffix(variant.getName() + "_turbineglass"), blockStateVariant.asVariantString());
+        public Reinforced() {
+            super(TurbineVariant.Reinforced);
+        }
+
+        @Override
+        public void build() {
+            this.addGlass(Content.Blocks.TURBINE_GLASS_REINFORCED.get());
+        }
+    }
+
+    protected TurbineGlassModelBuilder(final TurbineVariant variant) {
+        super(ExtremeReactors.ROOT_LOCATION.appendPath("block", "turbine", variant.getName()));
     }
 
     //endregion

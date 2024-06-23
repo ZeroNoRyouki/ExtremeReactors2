@@ -326,10 +326,10 @@ public final class Content {
         public static final Supplier<TurbineRotorBearingBlock> TURBINE_ROTORBEARING_BASIC =
                 registerTurbineBlock("basic_turbinerotorbearing", TurbineVariant.Basic, TurbinePartType.RotorBearing);
 
-        public static final Supplier<GenericDeviceBlock<MultiblockTurbine, ITurbinePartType>> TURBINE_ROTORSHAFT_BASIC =
+        public static final Supplier<TurbineRotorComponentBlock> TURBINE_ROTORSHAFT_BASIC =
                 registerTurbineBlock("basic_turbinerotorshaft", TurbineVariant.Basic, TurbinePartType.RotorShaft);
 
-        public static final Supplier<GenericDeviceBlock<MultiblockTurbine, ITurbinePartType>> TURBINE_ROTORBLADE_BASIC =
+        public static final Supplier<TurbineRotorComponentBlock> TURBINE_ROTORBLADE_BASIC =
                 registerTurbineBlock("basic_turbinerotorblade", TurbineVariant.Basic, TurbinePartType.RotorBlade);
 
         public static final Supplier<GenericDeviceBlock<MultiblockTurbine, ITurbinePartType>> TURBINE_POWERTAP_FE_ACTIVE_BASIC =
@@ -368,10 +368,10 @@ public final class Content {
         public static final Supplier<TurbineRotorBearingBlock> TURBINE_ROTORBEARING_REINFORCED =
                 registerTurbineBlock("reinforced_turbinerotorbearing", TurbineVariant.Reinforced, TurbinePartType.RotorBearing);
 
-        public static final Supplier<GenericDeviceBlock<MultiblockTurbine, ITurbinePartType>> TURBINE_ROTORSHAFT_REINFORCED =
+        public static final Supplier<TurbineRotorComponentBlock> TURBINE_ROTORSHAFT_REINFORCED =
                 registerTurbineBlock("reinforced_turbinerotorshaft", TurbineVariant.Reinforced, TurbinePartType.RotorShaft);
 
-        public static final Supplier<GenericDeviceBlock<MultiblockTurbine, ITurbinePartType>> TURBINE_ROTORBLADE_REINFORCED =
+        public static final Supplier<TurbineRotorComponentBlock> TURBINE_ROTORBLADE_REINFORCED =
                 registerTurbineBlock("reinforced_turbinerotorblade", TurbineVariant.Reinforced, TurbinePartType.RotorBlade);
 
         public static final Supplier<GenericDeviceBlock<MultiblockTurbine, ITurbinePartType>> TURBINE_POWERTAP_FE_ACTIVE_REINFORCED =

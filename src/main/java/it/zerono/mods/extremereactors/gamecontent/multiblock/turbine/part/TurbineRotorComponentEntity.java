@@ -132,14 +132,16 @@ public class TurbineRotorComponentEntity
     @Override
     protected int getUpdatedModelVariantIndex() {
 
+        // add 1 to the variant index because now the default model sit at index 0, so skip it
+
         final boolean assembled = this.isMachineAssembled();
 
         if (assembled) {
-            return 0; // HIDDEN
+            return 1; // HIDDEN
         }
 
         if (this.getBlockState().getBlock() instanceof TurbineRotorComponentBlock rotorComponent) {
-            return switch (rotorComponent.getComponentType()) {
+            return 1 + switch (rotorComponent.getComponentType()) {
 
                 case Shaft -> computeShaftState(this, false).ordinal();
                 case Blade -> computeBladeState(this, false).ordinal();
@@ -147,7 +149,7 @@ public class TurbineRotorComponentEntity
             };
         }
 
-        return 0;
+        return 1;
     }
 
     //endregion

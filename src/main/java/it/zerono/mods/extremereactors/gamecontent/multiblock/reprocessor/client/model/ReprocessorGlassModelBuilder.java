@@ -19,31 +19,18 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.client.model;
 
 import it.zerono.mods.extremereactors.ExtremeReactors;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.ReprocessorPartType;
-import it.zerono.mods.zerocore.lib.block.property.BlockFacingsProperty;
-import it.zerono.mods.zerocore.lib.client.model.BlockVariantsModelBuilder;
-import net.minecraft.client.resources.model.ModelResourceLocation;
-import net.minecraft.resources.ResourceLocation;
+import it.zerono.mods.extremereactors.gamecontent.Content;
+import it.zerono.mods.zerocore.base.multiblock.client.model.AbstractMultiblockModelBuilder;
 
 public class ReprocessorGlassModelBuilder
-        extends BlockVariantsModelBuilder {
+        extends AbstractMultiblockModelBuilder {
 
     public ReprocessorGlassModelBuilder() {
-
-        super(true, true, false);
-
-        this.addBlock(ReprocessorPartType.Glass.ordinal(), getBlockStateRL(BlockFacingsProperty.None), 0, false);
-
-        for (final BlockFacingsProperty facing : BlockFacingsProperty.values()) {
-            this.addVariant(ReprocessorPartType.Glass.ordinal(), getBlockStateRL(facing));
-        }
+        super("reprocessor", ExtremeReactors.ROOT_LOCATION);
     }
 
-    //region internals
-
-    private static ResourceLocation getBlockStateRL(BlockFacingsProperty blockStateVariant) {
-        return new ModelResourceLocation(ExtremeReactors.ROOT_LOCATION.buildWithSuffix("reprocessorglass"), blockStateVariant.asVariantString());
+    @Override
+    public void build() {
+        this.addGlass(Content.Blocks.REPROCESSOR_GLASS.get());
     }
-
-    //endregion
 }

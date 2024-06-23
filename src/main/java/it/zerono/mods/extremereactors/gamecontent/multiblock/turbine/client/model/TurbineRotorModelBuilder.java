@@ -19,52 +19,103 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.client.model;
 
 import it.zerono.mods.extremereactors.ExtremeReactors;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.TurbinePartType;
+import it.zerono.mods.extremereactors.gamecontent.Content;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part.TurbineRotorComponentBlock;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.rotor.RotorBladeState;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.rotor.RotorShaftState;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.IMultiblockTurbineVariant;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.TurbineVariant;
 import it.zerono.mods.extremereactors.proxy.ClientProxy;
-import it.zerono.mods.zerocore.lib.client.model.BlockVariantsModelBuilder;
+import it.zerono.mods.zerocore.base.multiblock.client.model.AbstractMultiblockModelBuilder;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.StringRepresentable;
 
+import java.util.Arrays;
 import java.util.function.Supplier;
 
-public class TurbineRotorModelBuilder
-        extends BlockVariantsModelBuilder {
+public abstract class TurbineRotorModelBuilder
+        extends AbstractMultiblockModelBuilder {
 
-    public static final Supplier<BakedModel> BASIC_SHAFT = ClientProxy.getModelSupplier(getBlockStateRL(TurbineVariant.Basic, RotorShaftState.getDefault()));
-    public static final Supplier<BakedModel> REINFORCED_SHAFT = ClientProxy.getModelSupplier(getBlockStateRL(TurbineVariant.Reinforced, RotorShaftState.getDefault()));
+    public static final Supplier<BakedModel> BASIC_SHAFT;
+    public static final Supplier<BakedModel> REINFORCED_SHAFT;
 
-    public static final Supplier<BakedModel> BASIC_BLADE = ClientProxy.getModelSupplier(getBlockStateRL(TurbineVariant.Basic, RotorBladeState.getDefault()));
-    public static final Supplier<BakedModel> REINFORCED_BLADE = ClientProxy.getModelSupplier(getBlockStateRL(TurbineVariant.Reinforced, RotorBladeState.getDefault()));
+    public static final Supplier<BakedModel> BASIC_BLADE;
+    public static final Supplier<BakedModel> REINFORCED_BLADE;
 
-    public TurbineRotorModelBuilder(final IMultiblockTurbineVariant variant) {
+    public static class Basic
+            extends TurbineRotorModelBuilder {
 
-        super(true, true, false);
-
-        this.addBlock(TurbinePartType.RotorBlade.ordinal(), getBlockStateRL(variant, RotorBladeState.getDefault()), 0, true);
-
-        for (final RotorBladeState state : RotorBladeState.VALUES) {
-            this.addVariant(TurbinePartType.RotorBlade.ordinal(), getBlockStateRL(variant, state));
+        public Basic() {
+            super(TurbineVariant.Basic);
         }
 
-        this.addBlock(TurbinePartType.RotorShaft.ordinal(), getBlockStateRL(variant, RotorShaftState.getDefault()), 0, true);
+        @Override
+        public void build() {
 
-        for (final RotorShaftState state : RotorShaftState.VALUES) {
-            this.addVariant(TurbinePartType.RotorShaft.ordinal(), getBlockStateRL(variant, state));
+            this.addBlade(Content.Blocks.TURBINE_ROTORBLADE_BASIC.get());
+            this.addShaft(Content.Blocks.TURBINE_ROTORSHAFT_BASIC.get());
         }
     }
 
-    public static ResourceLocation getBlockStateRL(final IMultiblockTurbineVariant variant, final RotorBladeState blockStateVariant) {
-        return new ModelResourceLocation(ExtremeReactors.ROOT_LOCATION.buildWithSuffix(variant.getName() + "_turbinerotorblade"),
-                String.format("state=%s", blockStateVariant.getSerializedName()));
+    public static class Reinforced
+            extends TurbineRotorModelBuilder {
+
+        public Reinforced() {
+            super(TurbineVariant.Reinforced);
+        }
+
+        @Override
+        public void build() {
+
+            this.addBlade(Content.Blocks.TURBINE_ROTORBLADE_REINFORCED.get());
+            this.addShaft(Content.Blocks.TURBINE_ROTORSHAFT_REINFORCED.get());
+        }
     }
 
-    public static ResourceLocation getBlockStateRL(final IMultiblockTurbineVariant variant, final RotorShaftState blockStateVariant) {
-        return new ModelResourceLocation(ExtremeReactors.ROOT_LOCATION.buildWithSuffix(variant.getName() + "_turbinerotorshaft"),
-                String.format("state=%s", blockStateVariant.getSerializedName()));
+    protected TurbineRotorModelBuilder(TurbineVariant variant) {
+        super(ExtremeReactors.ROOT_LOCATION.appendPath("block", "turbine", variant.getName()));
     }
+
+    protected void addBlade(TurbineRotorComponentBlock block) {
+        this.addRotorComponent(block, RotorBladeState.values(), RotorBladeState.getDefault());
+    }
+
+    protected void addShaft(TurbineRotorComponentBlock block) {
+        this.addRotorComponent(block, RotorShaftState.values(), RotorShaftState.getDefault());
+    }
+
+    //region internals
+
+    static {
+
+        BASIC_BLADE = ClientProxy.getModelSupplier(new ModelResourceLocation(ExtremeReactors.ROOT_LOCATION
+                .buildWithSuffix("basic_turbinerotorblade"), "state=z_x_pos"));
+        REINFORCED_BLADE = ClientProxy.getModelSupplier(new ModelResourceLocation(ExtremeReactors.ROOT_LOCATION
+                .buildWithSuffix("reinforced_turbinerotorblade"), "state=z_x_pos"));
+
+        BASIC_SHAFT = ClientProxy.getModelSupplier(new ModelResourceLocation(ExtremeReactors.ROOT_LOCATION
+                .buildWithSuffix("basic_turbinerotorshaft"), "state=y_noblades"));
+        REINFORCED_SHAFT = ClientProxy.getModelSupplier(new ModelResourceLocation(ExtremeReactors.ROOT_LOCATION
+                .buildWithSuffix("reinforced_turbinerotorshaft"), "state=y_noblades"));
+    }
+
+    private <E extends Enum<E> & StringRepresentable> void addRotorComponent(TurbineRotorComponentBlock component,
+                                                                             E[] properties, E defaultProperty) {
+
+        final var blockId = BuiltInRegistries.BLOCK.getKey(component);
+        final var originalModel = componentModelResourceLocation(blockId, defaultProperty);
+        final ModelResourceLocation[] additionalModels = new ModelResourceLocation[properties.length - 1+1];
+
+        Arrays.setAll(additionalModels, idx -> componentModelResourceLocation(blockId, properties[idx]));
+        this.addBlock(component.getPartType().getByteHashCode(), originalModel, true, additionalModels);
+    }
+
+    private static ModelResourceLocation componentModelResourceLocation(ResourceLocation blockId,
+                                                                        StringRepresentable property) {
+        return new ModelResourceLocation(blockId, "state=" + property.getSerializedName());
+    }
+
+    //endregion
 }

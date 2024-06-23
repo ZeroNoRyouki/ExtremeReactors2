@@ -18,12 +18,7 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.client.model;
 
-import it.zerono.mods.extremereactors.ExtremeReactors;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.ReprocessorPartType;
-import net.minecraft.client.resources.model.ModelResourceLocation;
-import net.minecraft.resources.ResourceLocation;
-
-import java.util.function.Function;
+import it.zerono.mods.extremereactors.gamecontent.Content;
 
 public class ReprocessorIOModelBuilder
         extends ReprocessorModelBuilder {
@@ -33,16 +28,9 @@ public class ReprocessorIOModelBuilder
     }
 
     @Override
-    protected void build() {
+    public void build() {
 
-        final Function<String, ResourceLocation> modelToReplaceIdGetter = blockName ->
-                new ModelResourceLocation(ExtremeReactors.ROOT_LOCATION.buildWithSuffix("reprocessor" + blockName), "");
-
-        final Function<String, ResourceLocation> variantModelIdGetter = ReprocessorModelBuilder::getModelRL;
-
-        this.addBlockWithVariants(modelToReplaceIdGetter, variantModelIdGetter, ReprocessorPartType.WasteInjector,
-                "wasteinjector", "wasteinjector_connected");
-        this.addBlockWithVariants(modelToReplaceIdGetter, variantModelIdGetter, ReprocessorPartType.Collector,
-                "collector");
+        this.addIoPort(Content.Blocks.REPROCESSOR_COLLECTOR.get());
+        this.addIoPort(Content.Blocks.REPROCESSOR_WASTEINJECTOR.get(), "wasteinjector_connected");
     }
 }

@@ -19,32 +19,18 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.client.model;
 
 import it.zerono.mods.extremereactors.ExtremeReactors;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.FluidizerPartType;
-import it.zerono.mods.zerocore.lib.block.property.BlockFacingsProperty;
-import it.zerono.mods.zerocore.lib.client.model.BlockVariantsModelBuilder;
-import net.minecraft.client.resources.model.ModelResourceLocation;
-import net.minecraft.resources.ResourceLocation;
-
+import it.zerono.mods.extremereactors.gamecontent.Content;
+import it.zerono.mods.zerocore.base.multiblock.client.model.AbstractMultiblockModelBuilder;
 
 public class FluidizerGlassModelBuilder
-        extends BlockVariantsModelBuilder {
+        extends AbstractMultiblockModelBuilder {
 
     public FluidizerGlassModelBuilder() {
-
-        super(true, true, false);
-
-        this.addBlock(FluidizerPartType.Glass.ordinal(), getBlockStateRL(BlockFacingsProperty.None), 0, false);
-
-        for (final BlockFacingsProperty facing : BlockFacingsProperty.values()) {
-            this.addVariant(FluidizerPartType.Glass.ordinal(), getBlockStateRL(facing));
-        }
+        super("fluidizer", ExtremeReactors.ROOT_LOCATION);
     }
 
-    //region internals
-
-    private static ResourceLocation getBlockStateRL(BlockFacingsProperty blockStateVariant) {
-        return new ModelResourceLocation(ExtremeReactors.ROOT_LOCATION.buildWithSuffix("fluidizerglass"), blockStateVariant.asVariantString());
+    @Override
+    public void build() {
+        this.addGlass(Content.Blocks.FLUIDIZER_GLASS.get());
     }
-
-    //endregion
 }

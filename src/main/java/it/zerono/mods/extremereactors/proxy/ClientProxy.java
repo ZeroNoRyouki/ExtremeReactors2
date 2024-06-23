@@ -18,6 +18,7 @@
 
 package it.zerono.mods.extremereactors.proxy;
 
+import com.google.common.base.Suppliers;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -40,6 +41,7 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.energizer.client.sc
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.FluidizerTankData;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.client.model.FluidizerClientTankData;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.client.model.FluidizerGlassModelBuilder;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.client.model.FluidizerIOModelBuilder;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.client.model.FluidizerModelBuilder;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.client.render.FluidizerControllerEntityRenderer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.client.screen.FluidizerControllerScreen;
@@ -53,7 +55,6 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.mode
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.model.ReactorModelBuilder;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.screen.*;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part.ReactorFluidPortEntity;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.ReactorVariant;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.client.model.ReprocessorGlassModelBuilder;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.client.model.ReprocessorIOModelBuilder;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.client.model.ReprocessorModelBuilder;
@@ -68,7 +69,6 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.client.scre
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.client.screen.TurbineControllerScreen;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.client.screen.TurbineRedstonePortScreen;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part.TurbineFluidPortEntity;
-import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.TurbineVariant;
 import it.zerono.mods.zerocore.lib.client.model.ICustomModelBuilder;
 import it.zerono.mods.zerocore.lib.client.model.ModBakedModelSupplier;
 import it.zerono.mods.zerocore.lib.item.TintedBucketItem;
@@ -77,9 +77,9 @@ import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.minecraft.world.entity.player.Inventory;
@@ -96,14 +96,17 @@ import net.neoforged.neoforge.event.AddReloadListenerEvent;
 import net.neoforged.neoforge.event.TagsUpdatedEvent;
 import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 public class ClientProxy
         implements IForgeProxy, ResourceManagerReloadListener {
 
-    public static Supplier<BakedModel> getModelSupplier(final ResourceLocation modelId) {
+    public static Supplier<BakedModel> getModelSupplier(final ModelResourceLocation modelId) {
         return s_bakedModelSupplier.getOrCreate(modelId);
     }
 
@@ -114,7 +117,7 @@ public class ClientProxy
 
         s_bakedModelSupplier = new ModBakedModelSupplier(modEventBus);
 
-        this._modelBuilders = initModels();
+        this._modelBuilders = Suppliers.memoize(ClientProxy::initModels);
 
         modEventBus.addListener(ClientProxy::onClientInit);
         modEventBus.addListener(this::onRegisterModels);
@@ -153,24 +156,28 @@ public class ClientProxy
 
     private static List<ICustomModelBuilder> initModels() {
         return Streams.concat(
-                Arrays.stream(ReactorVariant.values())
-                        .flatMap(v -> Stream.of(
-                                new ReactorModelBuilder(v),
-                                new ReactorGlassModelBuilder(v),
-                                new ReactorFuelRodModelBuilder(v)
-                        )),
-                Arrays.stream(TurbineVariant.values())
-                        .flatMap(v -> Stream.of(
-                                new TurbineModelBuilder(v),
-                                new TurbineGlassModelBuilder(v),
-                                new TurbineRotorModelBuilder(v)
-                        )),
+                Stream.of(new ReactorModelBuilder.Basic(),
+                        new ReactorGlassModelBuilder.Basic(),
+                        ReactorFuelRodModelBuilder.basic(),
+                        new ReactorModelBuilder.Reinforced(),
+                        new ReactorGlassModelBuilder.Reinforced(),
+                        ReactorFuelRodModelBuilder.reinforced()
+                ),
+                Stream.of(new TurbineModelBuilder.Basic(),
+                        new TurbineGlassModelBuilder.Basic(),
+                        new TurbineRotorModelBuilder.Basic(),
+                        new TurbineModelBuilder.Reinforced(),
+                        new TurbineGlassModelBuilder.Reinforced(),
+                        new TurbineRotorModelBuilder.Reinforced()
+                ),
                 Stream.of(new ReprocessorModelBuilder(),
                         new ReprocessorIOModelBuilder(),
                         new ReprocessorGlassModelBuilder(),
                         new FluidizerModelBuilder(),
+                        new FluidizerIOModelBuilder(),
                         new FluidizerGlassModelBuilder(),
-                        new EnergizerModelBuilder())
+                        new EnergizerModelBuilder()
+                )
         ).collect(ImmutableList.toImmutableList());
     }
 
@@ -294,11 +301,11 @@ public class ClientProxy
     }
 
     private void onRegisterModels(final ModelEvent.RegisterAdditional event) {
-        this._modelBuilders.forEach(b -> b.onRegisterModels(event));
+        this._modelBuilders.get().forEach(b -> b.onRegisterModels(event));
     }
 
     private void onModelBake(final ModelEvent.ModifyBakingResult event) {
-        this._modelBuilders.forEach(builder -> builder.onBakeModels(event));
+        this._modelBuilders.get().forEach(builder -> builder.onBakeModels(event));
     }
 
     private void onItemTooltip(final ItemTooltipEvent event) {
@@ -326,7 +333,7 @@ public class ClientProxy
 
     private static ModBakedModelSupplier s_bakedModelSupplier;
 
-    private List<ICustomModelBuilder> _modelBuilders;
+    private Supplier<List<ICustomModelBuilder>> _modelBuilders;
 
     private Map<Item, Set<Component>> _apiTooltipCache;
 

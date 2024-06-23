@@ -22,12 +22,12 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.IMultiblockReactorVariant;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.ReactorVariant;
 import it.zerono.mods.zerocore.lib.client.model.ICustomModelBuilder;
 import it.zerono.mods.zerocore.lib.client.render.ModRenderHelper;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.client.event.ModelEvent;
 
 import java.util.Map;
@@ -35,7 +35,15 @@ import java.util.Map;
 public class ReactorFuelRodModelBuilder
         implements ICustomModelBuilder {
 
-    public ReactorFuelRodModelBuilder(final IMultiblockReactorVariant variant) {
+    public static ReactorFuelRodModelBuilder basic() {
+        return new ReactorFuelRodModelBuilder(ReactorVariant.Basic);
+    }
+
+    public static ReactorFuelRodModelBuilder reinforced() {
+        return new ReactorFuelRodModelBuilder(ReactorVariant.Reinforced);
+    }
+
+    private ReactorFuelRodModelBuilder(final ReactorVariant variant) {
 
         this._ids = new Object2ObjectArrayMap<>(3);
 
@@ -53,7 +61,7 @@ public class ReactorFuelRodModelBuilder
     @Override
     public void onBakeModels(final ModelEvent.ModifyBakingResult event) {
 
-        final Map<ResourceLocation, BakedModel> registry = event.getModels();
+        final Map<ModelResourceLocation, BakedModel> registry = event.getModels();
 
         final BakedModel missing = ModRenderHelper.getMissingModel(registry);
         final Object2ObjectMap<Direction.Axis, BakedModel> baseModels = new Object2ObjectArrayMap<>(this._ids.size());
@@ -68,13 +76,13 @@ public class ReactorFuelRodModelBuilder
     //endregion
     //region internals
 
-    private static ResourceLocation getBlockStateRL(final IMultiblockReactorVariant variant,
-                                                    final Direction.Axis axis) {
+    private static ModelResourceLocation getBlockStateRL(final IMultiblockReactorVariant variant,
+                                                         final Direction.Axis axis) {
         return new ModelResourceLocation(ExtremeReactors.ROOT_LOCATION.buildWithSuffix(variant.getName() + "_reactorfuelrod"),
                 String.format("axis=%s", axis.getName()));
     }
 
-    private final Object2ObjectMap<Direction.Axis, ResourceLocation> _ids;
+    private final Object2ObjectMap<Direction.Axis, ModelResourceLocation> _ids;
 
     //endregion
 }

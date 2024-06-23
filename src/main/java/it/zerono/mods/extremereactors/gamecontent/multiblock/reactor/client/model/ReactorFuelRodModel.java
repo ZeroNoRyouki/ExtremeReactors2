@@ -1,4 +1,3 @@
-package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.model;
 /*
  * ReactorFuelRodModel
  *
@@ -15,6 +14,8 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.mod
  * Do not remove or edit this header
  *
  */
+
+package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.client.model;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
@@ -33,7 +34,6 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelState;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.client.model.SimpleModelState;
@@ -251,7 +251,7 @@ public class ReactorFuelRodModel
         final BlockElementFace partFace = new BlockElementFace(null, tintIndex, "",  new BlockFaceUV(uv, 0));
 
         return this._faceBakery.bakeQuad(cubeFrom, cubeTo, partFace, sprite, direction, IDENTITY_MODEL_STATE,
-                null, true, FAKE_RESOURCELOCATION);
+                null, true);
     }
 
     private static class ModelSubType {
@@ -276,7 +276,6 @@ public class ReactorFuelRodModel
     }
 
     private static final List<BakedQuad> EMPTY_QUADS = ObjectLists.emptyList();
-    private static final ResourceLocation FAKE_RESOURCELOCATION = ResourceLocation.parse("fake");
     private static final ModelState IDENTITY_MODEL_STATE = new SimpleModelState(Transformation.identity(), false);
 
     private final StampedLock _lock;
