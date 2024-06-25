@@ -50,7 +50,7 @@ public class Client {
         disableApiTooltips = builder
                 .comment("If true, no (advanced) tooltips will be added to blocks and items that can be used inside the Reactor or Turbine or as a fuel source.")
                 .translation("config.bigreactors.client.disableapitooltips")
-                .define("disableTurbineParticles", false);
+                .define("disableApiTooltips", false);
 
         disablePatchouliTweaks = builder
                 .comment("If true, no custom Patchouli components will be added and the book will stop to work correctly. Enable this if you are having problems with newer versions of Patchouli")
