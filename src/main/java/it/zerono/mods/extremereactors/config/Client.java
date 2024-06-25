@@ -26,7 +26,6 @@ import java.util.Calendar;
 
 public class Client {
 
-//    public final ForgeConfigSpec.BooleanValue disableTurbineRotorRender;
     public final ForgeConfigSpec.BooleanValue disableReactorParticles;
     public final ForgeConfigSpec.BooleanValue disableTurbineParticles;
     public final ForgeConfigSpec.BooleanValue disableApiTooltips;
@@ -37,12 +36,6 @@ public class Client {
     Client(final ForgeConfigSpec.Builder builder) {
 
         builder.comment("Client only settings").push("client");
-
-//        disableTurbineRotorRender = builder
-//                .comment("If true, disables the rendering of the rotor animation of an active Turbine. Restart needed.")
-//                .translation("config.bigreactors.client.disableturbinerotorrender")
-//                .worldRestart()
-//                .define("disableTurbineRotorRender", false);
 
         disableReactorParticles = builder
                 .comment("If true, disables all particle effects in the Reactor.")
@@ -57,7 +50,7 @@ public class Client {
         disableApiTooltips = builder
                 .comment("If true, no (advanced) tooltips will be added to blocks and items that can be used inside the Reactor or Turbine or as a fuel source.")
                 .translation("config.bigreactors.client.disableapitooltips")
-                .define("disableTurbineParticles", false);
+                .define("disableApiTooltips", false);
 
         disablePatchouliTweaks = builder
                 .comment("If true, no custom Patchouli components will be added and the book will stop to work correctly. Enable this if you are having problems with newer versions of Patchouli")
