@@ -35,14 +35,16 @@ public class Energizer {
                         "Lower this if your server's players are building ginormous Energizer.")
                 .translation("config.bigreactors.energizer.maxenergizerheight")
                 .worldRestart()
-                .defineInRange("maxEnergizerHeight", 16, 3, EnergizerVariant.MULTIBLOCK_MAX_SIZE);
+                .defineInRange("maxEnergizerHeight", EnergizerVariant.MULTIBLOCK_MAX_SIZE, 3,
+                        EnergizerVariant.MULTIBLOCK_MAX_SIZE);
 
         this.maxEnergizerSize = builder
                 .comment("The maximum valid size of a Energizer in the X/Z plane, in blocks.",
                         "Lower this if your server's players are building ginormous Energizer.")
                 .translation("config.bigreactors.energizer.maxenergizersize")
                 .worldRestart()
-                .defineInRange("maxEnergizerSize", 16, 3, EnergizerVariant.MULTIBLOCK_MAX_SIZE);
+                .defineInRange("maxEnergizerSize", EnergizerVariant.MULTIBLOCK_MAX_SIZE, 3,
+                        EnergizerVariant.MULTIBLOCK_MAX_SIZE);
 
         builder.pop();
     }
