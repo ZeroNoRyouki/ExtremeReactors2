@@ -148,14 +148,14 @@ public final class ReactantsRegistry {
 
             // remove from list
 
-            Arrays.stream(wrapper.ReactorReactants.Remove)
+            wrapper.ReactorReactants.removals()
                     .filter(name -> !Strings.isNullOrEmpty(name))
                     .forEach(ReactantsRegistry::remove);
         }
 
         // add new values
 
-        Arrays.stream(wrapper.ReactorReactants.Add)
+        wrapper.ReactorReactants.additions()
                 .filter(Objects::nonNull)
                 .forEach((it.zerono.mods.extremereactors.api.internal.modpack.wrapper.Reactant w) -> {
 

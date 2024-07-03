@@ -277,14 +277,14 @@ public final class ModeratorsRegistry {
 
             // remove from list
 
-            Arrays.stream(wrapperSection.Remove)
+            wrapperSection.removals()
                     .filter(name -> !Strings.isNullOrEmpty(name))
                     .forEach(removeAction);
         }
 
         // add new values
 
-        Arrays.stream(wrapperSection.Add)
+        wrapperSection.additions()
                 .filter(Objects::nonNull)
                 .forEach(addAction);
     }

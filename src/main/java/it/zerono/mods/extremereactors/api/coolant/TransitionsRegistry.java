@@ -192,14 +192,14 @@ public final class TransitionsRegistry {
 
             // remove from list
 
-            Arrays.stream(wrapper.FluidTransitions.Remove)
+            wrapper.FluidTransitions.removals()
                     .filter(name -> !Strings.isNullOrEmpty(name))
                     .forEach(TransitionsRegistry::remove);
         }
 
         // add new
 
-        Arrays.stream(wrapper.FluidTransitions.Add)
+        wrapper.FluidTransitions.additions()
                 .filter(Objects::nonNull)
                 .forEach(mapping -> register(mapping.Source, mapping.SourceQuantity, mapping.Product, mapping.ProductQuantity));
     }
