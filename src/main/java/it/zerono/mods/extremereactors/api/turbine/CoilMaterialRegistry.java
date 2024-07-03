@@ -180,14 +180,14 @@ public class CoilMaterialRegistry {
 
             // remove from list
 
-            Arrays.stream(wrapper.TurbineCoils.Remove)
+            wrapper.TurbineCoils.removals()
                     .filter(name -> !Strings.isNullOrEmpty(name))
                     .forEach(CoilMaterialRegistry::remove);
         }
 
         // add new values
 
-        Arrays.stream(wrapper.TurbineCoils.Add)
+        wrapper.TurbineCoils.additions()
                 .filter(Objects::nonNull)
                 .forEach((it.zerono.mods.extremereactors.api.internal.modpack.wrapper.CoilMaterial w) ->
                         register(w.BlockTagId, w.Efficiency, w.Bonus, w.ExtractionRate));

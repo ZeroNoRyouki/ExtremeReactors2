@@ -121,14 +121,14 @@ public final class ReactionsRegistry {
 
             // remove from list
 
-            Arrays.stream(wrapper.ReactorReactantReaction.Remove)
+            wrapper.ReactorReactantReaction.removals()
                     .filter(name -> !Strings.isNullOrEmpty(name))
                     .forEach(ReactionsRegistry::remove);
         }
 
         // add new values
 
-        Arrays.stream(wrapper.ReactorReactantReaction.Add)
+        wrapper.ReactorReactantReaction.additions()
                 .filter(Objects::nonNull)
                 .forEach((it.zerono.mods.extremereactors.api.internal.modpack.wrapper.Reaction w) ->
                         register(w.SourceReactant, w.ProductReactant, w.Reactivity, w.FissionRate));
