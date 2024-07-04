@@ -38,7 +38,7 @@ public enum TurbineVariant
             .setTranslationKey("variant.bigreactors.turbine.basic")
             .setBlockPropertiesFixer(bp -> bp.strength(3.0F, 6.0F))
             .setPartEnergyCapacity(10_000)
-            .setEnergyGenerationEfficiency(0.75f)
+            .setEnergyGenerationEfficiency(0.8f)
             .setMaxEnergyExtractionRate(50_000)
             .setMaxChargerRate(500)
             .setRadiationAttenuation(0.9f)
@@ -57,7 +57,7 @@ public enum TurbineVariant
             .setTranslationKey("variant.bigreactors.turbine.reinforced")
             .setBlockPropertiesFixer(bp -> bp.strength(6.0F, 6.0F))
             .setPartEnergyCapacity(20_000)
-            .setEnergyGenerationEfficiency(0.85f)
+            .setEnergyGenerationEfficiency(1f)
             .setMaxEnergyExtractionRate(5_000_000)
             .setMaxChargerRate(5000)
             .setRadiationAttenuation(0.75f)
@@ -266,7 +266,7 @@ public enum TurbineVariant
 
         public Builder setEnergyGenerationEfficiency(final float efficiency) {
 
-//            Preconditions.checkArgument(efficiency > 0.0f && efficiency < 1.0f);
+            Preconditions.checkArgument(efficiency > 0.0f && efficiency <= 1.0f);
             this._energyGenerationEfficiency = efficiency;
             return this;
         }
