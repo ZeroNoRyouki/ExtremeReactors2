@@ -32,6 +32,7 @@ import it.zerono.mods.extremereactors.api.turbine.CoilMaterial;
 import it.zerono.mods.extremereactors.api.turbine.CoilMaterialRegistry;
 import it.zerono.mods.zerocore.lib.data.gfx.Colour;
 import it.zerono.mods.zerocore.lib.tag.TagsHelper;
+import it.zerono.mods.zerocore.lib.text.TextHelper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
@@ -40,14 +41,19 @@ import net.minecraft.commands.arguments.ResourceLocationArgument;
 import net.minecraft.commands.arguments.blocks.BlockInput;
 import net.minecraft.commands.arguments.blocks.BlockStateArgument;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.ComponentUtils;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Field;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 public final class ExtremeReactorsCommand {
 
@@ -79,10 +85,12 @@ public final class ExtremeReactorsCommand {
                                                 (Reactant r, Float v) -> r.getFuelData().setFuelUnitsPerFissionEvent(v))))
                                 )
                         )
+                        .then(Commands.literal("list").executes(ctx ->
+                                displayNamesList(ctx, ExtremeReactorsCommand::getReactantsNames)))
                 )
                 .then(Commands.literal("moderators")
                         .then(Commands.literal("get")
-                                .then(blockParam(buildContext).executes(ExtremeReactorsCommand::getModerator))
+                                .then(greedyNameParam().executes(ExtremeReactorsCommand::getModerator))
                         )
                         .then(Commands.literal("set")
                                 .then(blockParam(buildContext)
@@ -96,6 +104,8 @@ public final class ExtremeReactorsCommand {
                                                 context -> setModeratorValue(context, Moderator::getHeatConductivity, Moderator::setHeatConductivity)))
                                 )
                         )
+                        .then(Commands.literal("list").executes(ctx ->
+                                displayNamesList(ctx, ModeratorsRegistry::getModeratorsNames)))
                 )
                 .then(Commands.literal("reaction")
                         .then(Commands.literal("get")
@@ -107,6 +117,8 @@ public final class ExtremeReactorsCommand {
                                         .then(floatCommand("fissionRate", 0.0001f, context -> setReactionValue(context, "_fissionRate", getFloat(context))))
                                 )
                         )
+                        .then(Commands.literal("list").executes(ctx ->
+                                displayNamesList(ctx, ReactionsRegistry::getReactionsNames)))
                 )
                 .then(Commands.literal("coils")
                         .then(Commands.literal("get")
@@ -122,6 +134,8 @@ public final class ExtremeReactorsCommand {
                                                 CoilMaterial::getEnergyExtractionRate, CoilMaterial::setEnergyExtractionRate)))
                                 )
                         )
+                        .then(Commands.literal("list").executes(ctx ->
+                                displayNamesList(ctx, CoilMaterialRegistry::getCoilsNames)))
                 )
         );
     }
@@ -152,6 +166,10 @@ public final class ExtremeReactorsCommand {
 
     private static RequiredArgumentBuilder<CommandSourceStack, String> nameParam() {
         return Commands.argument(PARAM_NAME, StringArgumentType.string());
+    }
+
+    private static RequiredArgumentBuilder<CommandSourceStack, String> greedyNameParam() {
+        return Commands.argument(PARAM_NAME, StringArgumentType.greedyString());
     }
 
     private static RequiredArgumentBuilder<CommandSourceStack, BlockInput> blockParam(CommandBuildContext context) {
@@ -252,15 +270,22 @@ public final class ExtremeReactorsCommand {
         return text;
     }
 
+    private static List<String> getReactantsNames() {
+        return ReactantsRegistry.getReactants().stream()
+                .map(Reactant::getName)
+                .sorted(String::compareTo)
+                .toList();
+    }
+
     //endregion
     //region moderators
 
     private static int getModerator(final CommandContext<CommandSourceStack> context) {
 
-        final BlockState state = getBlock(context).getState();
+        final var name = getName(context);
 
-        context.getSource().sendSuccess(() -> ModeratorsRegistry.getFrom(state)
-                .map(moderator -> getTextFrom(state, moderator))
+        context.getSource().sendSuccess(() -> ModeratorsRegistry.getFromName(name)
+                .map(moderator -> getTextFrom(name, moderator))
                 .orElse(Component.literal("Moderator not found")), true);
         return 0;
     }
@@ -276,9 +301,10 @@ public final class ExtremeReactorsCommand {
 
         return 0;
     }
-    private static Component getTextFrom(BlockState state, Moderator moderator) {
+
+    private static Component getTextFrom(String name, Moderator moderator) {
         return Component.literal("[")
-                .append(Component.empty().withStyle(ChatFormatting.BOLD).append(state.getBlock().getName()))
+                .append(Component.empty().withStyle(ChatFormatting.BOLD).append(name))
                 .append("] ")
                 .append(Component.literal("absorption: ").withStyle(ChatFormatting.ITALIC))
                 .append(String.format("%f; ", moderator.getAbsorption()))
@@ -373,6 +399,41 @@ public final class ExtremeReactorsCommand {
 
         setter.accept(data, value);
         return Component.literal(String.format("Value set to %f", getter.apply(data)));
+    }
+
+    private static int displayNamesList(CommandContext<CommandSourceStack> context,
+                                        Supplier<@NotNull List<String>> listFactory) {
+
+        final var source = context.getSource();
+
+        source.sendSuccess(() -> TextHelper.literal("--BEGIN--:"), true);
+        buildNamesList(listFactory).forEach(chunk -> source.sendSuccess(() -> chunk, true));
+        source.sendSuccess(() -> TextHelper.literal("--END--:"), true);
+        return 0;
+    }
+
+    private static List<@NotNull Component> buildNamesList(Supplier<@NotNull List<String>> listFactory) {
+
+        final List<@NotNull Component> output = new LinkedList<>();
+        final var separator = TextHelper.literal(" ");
+        final var source = listFactory.get();
+        MutableComponent chunk = null;
+
+        for (int idx = 0; idx < source.size(); ++idx) {
+
+            final var name = source.get(idx);
+
+            if (null == chunk || 0 == idx % 10) {
+
+                chunk = Component.empty();
+                output.add(chunk);
+            }
+
+            chunk.append(ComponentUtils.copyOnClickText(name));
+            chunk.append(separator);
+        }
+
+        return output;
     }
 
     private static final String PARAM_NAME = "name";

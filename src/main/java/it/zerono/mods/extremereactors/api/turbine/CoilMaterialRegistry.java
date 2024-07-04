@@ -28,6 +28,7 @@ import it.zerono.mods.extremereactors.api.internal.modpack.wrapper.ApiWrapper;
 import it.zerono.mods.zerocore.lib.tag.TagList;
 import it.zerono.mods.zerocore.lib.tag.TagsHelper;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -193,6 +194,17 @@ public class CoilMaterialRegistry {
                         register(w.BlockTagId, w.Efficiency, w.Bonus, w.ExtractionRate));
     }
 
+    //region /er support
+
+    public static List<String> getCoilsNames() {
+        return s_tags.stream()
+                .map(TagKey::location)
+                .map(ResourceLocation::toString)
+                .sorted(String::compareTo)
+                .toList();
+    }
+
+    //endregion
     //region internals
 
     private static final TagList<Block> s_tags = TagList.blocks();

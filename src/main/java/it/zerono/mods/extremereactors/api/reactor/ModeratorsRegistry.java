@@ -250,6 +250,46 @@ public final class ModeratorsRegistry {
                         registerFluid(w.TagId, w.Absorption, w.HeatEfficiency, w.Moderation, w.HeatConductivity));
     }
 
+    //region /er support
+
+    public static Optional<Moderator> getFromName(String name) {
+
+        if (Strings.isNullOrEmpty(name)) {
+            return Optional.empty();
+        }
+
+        final var id = new ResourceLocation(name);
+
+        // try first as a fluid registration id...
+
+        if (s_moderatorFluidsData.containsKey(id)) {
+            return Optional.of(s_moderatorFluidsData.get(id));
+        }
+
+        // ... then as block-tag id
+
+        return Optional.ofNullable(s_moderatorBlocksData.get(TagsHelper.BLOCKS.createKey(id)));
+    }
+
+    public static List<String> getModeratorsNames() {
+
+        final List<String> list = new LinkedList<>();
+
+        s_moderatorFluidsData.keySet().stream()
+                .map(ResourceLocation::toString)
+                .forEach(list::add);
+
+        s_moderatorBlocksTags.stream()
+                .map(TagKey::location)
+                .map(ResourceLocation::toString)
+                .forEach(list::add);
+
+        list.sort(String::compareTo);
+
+        return list;
+    }
+
+    //endregion
     //region internals
 
     private static final TagList<Block> s_moderatorBlocksTags;
