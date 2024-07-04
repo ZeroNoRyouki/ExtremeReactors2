@@ -39,13 +39,13 @@ public enum ReactorVariant
             .setMaxChargerRate(250)
             .setRadiationAttenuation(0.9f)
             .setResidualRadiationAttenuation(0.1f)
-            .setSolidFuelConversionEfficiency(0.5f)),
+            .setSolidFuelConversionEfficiency(1f)),
 
     Reinforced(Builder.create(1000) // using 1000 here so the config values will win
             .setTranslationKey("variant.bigreactors.reactor.reinforced")
             .setBlockPropertiesFixer(bp -> bp.strength(6.0F, 6.0F))
             .setPartEnergyCapacity(30000)
-            .setEnergyGenerationEfficiency(0.85f)
+            .setEnergyGenerationEfficiency(1f)
             .setMaxEnergyExtractionRate(5000000)
             .setMaxChargerRate(5000)
             .setRadiationAttenuation(0.75f)
@@ -53,8 +53,8 @@ public enum ReactorVariant
             .setPartFluidCapacity(1000)
             .setMaxFluidCapacity(200000)
             .setVaporGenerationEfficiency(0.85f)
-            .setSolidFuelConversionEfficiency(0.75f)
-            .setFluidFuelConversionEfficiency(0.95f)),
+            .setSolidFuelConversionEfficiency(1f)
+            .setFluidFuelConversionEfficiency(1f)),
     ;
 
     //region IMultiblockFluidGeneratorVariant
@@ -214,7 +214,7 @@ public enum ReactorVariant
 
         public Builder setEnergyGenerationEfficiency(final float efficiency) {
 
-            Preconditions.checkArgument(efficiency > 0.0f && efficiency < 1.0f);
+            Preconditions.checkArgument(efficiency > 0.0f && efficiency <= 1.0f);
             this._energyGenerationEfficiency = efficiency;
             return this;
         }
@@ -249,14 +249,14 @@ public enum ReactorVariant
 
         public Builder setSolidFuelConversionEfficiency(final float efficiency) {
 
-            Preconditions.checkArgument(efficiency > 0.0f && efficiency < 1.0f);
+            Preconditions.checkArgument(efficiency > 0.0f && efficiency <= 1.0f);
             this._solidFuelConversionEfficiency = efficiency;
             return this;
         }
 
         public Builder setFluidFuelConversionEfficiency(final float efficiency) {
 
-            Preconditions.checkArgument(efficiency > 0.0f && efficiency < 1.0f);
+            Preconditions.checkArgument(efficiency > 0.0f && efficiency <= 1.0f);
             this._fluidFuelConversionEfficiency = efficiency;
             return this;
         }
