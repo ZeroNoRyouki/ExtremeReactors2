@@ -203,6 +203,7 @@ public class ExtremeReactors {
 
         event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, Content.TileEntityTypes.ENERGIZER_POWERPORT_FE.get(),
                 ExtremeReactors::getEnergyStorageCapability);
+        IComputerCraftService.SERVICE.get().registerCapabilityProvider(event, Content.TileEntityTypes.ENERGIZER_COMPUTERPORT.get());
     }
 
     @Nullable

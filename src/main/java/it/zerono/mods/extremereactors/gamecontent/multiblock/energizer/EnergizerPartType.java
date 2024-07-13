@@ -44,7 +44,8 @@ public enum EnergizerPartType
 
     StatusDisplay(() -> Content.TileEntityTypes.ENERGIZER_STATUS_DISPLAY::get, GenericDeviceBlock::new),
 
-    // TODO: Computer port
+    ComputerPort(() -> Content.TileEntityTypes.ENERGIZER_COMPUTERPORT::get, GenericDeviceBlock::new),
+
     ;
 
     EnergizerPartType(Supplier<@NotNull Supplier<@NotNull BlockEntityType<?>>> tileTypeSupplier,

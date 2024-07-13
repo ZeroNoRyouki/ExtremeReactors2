@@ -469,6 +469,9 @@ public final class Content {
         public static final Supplier<GenericDeviceBlock<MultiBlockEnergizer, IEnergizerPartType>> ENERGIZER_STATUS_DISPLAY =
                 registerEnergizerBlock("energizerstatus", EnergizerPartType.StatusDisplay);
 
+        public static final Supplier<GenericDeviceBlock<MultiBlockEnergizer, IEnergizerPartType>> ENERGIZER_COMPUTERPORT =
+                registerEnergizerBlock("energizercomputerport", EnergizerPartType.ComputerPort);
+
         //endregion
         //region internals
 
@@ -719,6 +722,7 @@ public final class Content {
         public static final Supplier<BlockItem> ENERGIZER_POWERPORT_FE = registerItemBlock("energizerpowerport_fe", () -> Blocks.ENERGIZER_POWERPORT_FE::get);
         public static final Supplier<BlockItem> ENERGIZER_CHARGINGPORT_FE = registerItemBlock("energizerchargingport_fe", () -> Blocks.ENERGIZER_CHARGINGPORT_FE::get);
         public static final Supplier<BlockItem> ENERGIZER_STATUS_DISPLAY = registerItemBlock("energizerstatus", () -> Blocks.ENERGIZER_STATUS_DISPLAY::get);
+        public static final Supplier<BlockItem> ENERGIZER_COMPUTERPORT = registerItemBlock("energizercomputerport", () -> Blocks.ENERGIZER_COMPUTERPORT::get);
 
         //endregion
         //region misc
@@ -1209,6 +1213,9 @@ public final class Content {
         public static final Supplier<BlockEntityType<EnergizerStatusDisplayEntity>> ENERGIZER_STATUS_DISPLAY =
                 registerBlockEntity("energizerstatus", EnergizerStatusDisplayEntity::new, () -> Blocks.ENERGIZER_STATUS_DISPLAY::get);
 
+        public static final Supplier<BlockEntityType<EnergizerComputerPortEntity>> ENERGIZER_COMPUTERPORT =
+                registerBlockEntity("energizercomputerport", EnergizerComputerPortEntity::new, () -> Blocks.ENERGIZER_COMPUTERPORT::get);
+
         //endregion
         //region internals
 
@@ -1453,7 +1460,7 @@ public final class Content {
                         acceptAll(output, Items.ENERGY_CORE, Blocks.ENERGIZER_CELL,
                                 Blocks.ENERGIZER_CASING, Blocks.ENERGIZER_CONTROLLER,
                                 Blocks.ENERGIZER_POWERPORT_FE, Blocks.ENERGIZER_CHARGINGPORT_FE,
-                                Blocks.ENERGIZER_STATUS_DISPLAY);
+                                Blocks.ENERGIZER_STATUS_DISPLAY, Blocks.ENERGIZER_COMPUTERPORT);
                     })
                     .build()
             );

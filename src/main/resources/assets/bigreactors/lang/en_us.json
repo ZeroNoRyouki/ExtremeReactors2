@@ -188,6 +188,7 @@
     "block.bigreactors.energizerstatus": "Energizer Status Display",
     "block.bigreactors.energizerchargingportfe": "Energizer FE Charging Port",
     "block.bigreactors.energizerpowerportfe": "Energizer FE Power Port",
+    "block.bigreactors.energizercomputerport": "Energizer Computer Port",
     "block.bigreactors.energizercell": "Energy Cell",
 
     "_comment": "Reactor parts names (for GUIs)",

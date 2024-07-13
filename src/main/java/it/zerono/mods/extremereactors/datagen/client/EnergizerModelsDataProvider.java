@@ -46,9 +46,20 @@ public class EnergizerModelsDataProvider
         this.controller(Content.Blocks.ENERGIZER_CONTROLLER, folder);
         this.powerPort(Content.Blocks.ENERGIZER_POWERPORT_FE, "powerportfe", folder);
         this.genericPart(Content.Blocks.ENERGIZER_CHARGINGPORT_FE, "charging", folder, "_assembled");
+        this.computerPort(folder);
 
         this.simpleItem(Content.Items.ENERGY_CORE);
         this.simpleBlock(Content.Blocks.ENERGIZER_CELL);
+    }
+
+    //endregion
+    //region internals
+
+    protected void computerPort(String subFolder) {
+
+        this.genericPart(Content.Blocks.ENERGIZER_COMPUTERPORT, "computerport", subFolder);
+        this.genericPartModel("computerport_assembled_connected", subFolder);
+        this.genericPartModel("computerport_assembled_disconnected", subFolder);
     }
 
     //endregion

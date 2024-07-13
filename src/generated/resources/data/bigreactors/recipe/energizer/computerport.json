@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "C": {
+      "item": "bigreactors:energizercasing"
+    },
+    "D": {
+      "item": "minecraft:glowstone"
+    },
+    "G": {
+      "tag": "forge:ingots/gold"
+    },
+    "R": {
+      "tag": "forge:gems/lapis"
+    },
+    "X": {
+      "tag": "forge:dyes/blue"
+    }
+  },
+  "pattern": [
+    "CXC",
+    "DRD",
+    "CGC"
+  ],
+  "result": {
+    "item": "bigreactors:energizercomputerport"
+  },
+  "show_notification": true
+}

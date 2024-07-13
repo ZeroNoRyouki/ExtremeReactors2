@@ -87,6 +87,7 @@
     "bigreactors:energizercontroller",
     "bigreactors:energizerpowerportfe",
     "bigreactors:energizerchargingportfe",
-    "bigreactors:energizerstatus"
+    "bigreactors:energizerstatus",
+    "bigreactors:energizercomputerport"
   ]
 }

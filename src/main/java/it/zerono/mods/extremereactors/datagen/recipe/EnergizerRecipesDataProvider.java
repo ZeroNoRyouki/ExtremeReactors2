@@ -51,6 +51,7 @@ public class EnergizerRecipesDataProvider
                 Tags.Items.INGOTS_IRON, Tags.Items.DUSTS_GLOWSTONE);
         this.port(builder, "chargingport_fe", Content.Items.ENERGIZER_CHARGINGPORT_FE, () -> Items.LAPIS_BLOCK,
                 Tags.Items.INGOTS_IRON, Tags.Items.STORAGE_BLOCKS_REDSTONE);
+        this.computerPort(builder);
 
         // energy core
         this.shaped(RecipeCategory.MISC, Content.Items.ENERGY_CORE)
@@ -122,6 +123,22 @@ public class EnergizerRecipesDataProvider
                 .unlockedBy("has_item", has(Content.Items.ENERGIZER_CASING.get()))
                 .unlockedBy("has_item2", has(item1))
                 .save(builder, this.energizerRoot().buildWithSuffix(name));
+    }
+
+    private void computerPort(RecipeOutput builder) {
+        this.shaped(RecipeCategory.BUILDING_BLOCKS, Content.Items.ENERGIZER_COMPUTERPORT)
+                .define('C', Content.Items.ENERGIZER_CASING.get())
+                .define('G', Tags.Items.INGOTS_GOLD)
+                .define('R', Tags.Items.GEMS_LAPIS)
+                .define('D', Items.GLOWSTONE)
+                .define('X', Tags.Items.DYES_BLUE)
+                .pattern("CXC")
+                .pattern("DRD")
+                .pattern("CGC")
+                .unlockedBy("has_item", has(Content.Items.ENERGIZER_CASING.get()))
+                .unlockedBy("has_item2", has(Tags.Items.DUSTS_GLOWSTONE))
+                .unlockedBy("has_item3", has(Tags.Items.DYES_BLUE))
+                .save(builder, this.energizerRoot().buildWithSuffix("computerport"));
     }
 
     //endregion
