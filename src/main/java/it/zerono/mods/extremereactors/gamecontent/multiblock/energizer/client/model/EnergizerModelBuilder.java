@@ -79,6 +79,10 @@ public class EnergizerModelBuilder
 
         this.addBlockWithVariants(modelToReplaceIdGetter, variantModelIdGetter, EnergizerPartType.ChargingPortFE,
                 "chargingportfe", "charging_assembled");
+
+        this.addBlockWithVariants(modelToReplaceIdGetter, variantModelIdGetter, EnergizerPartType.ComputerPort,
+                "computerport", "computerport_assembled_disconnected",
+                "computerport_assembled_connected");
     }
 
     //region internals

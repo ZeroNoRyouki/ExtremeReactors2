@@ -100,6 +100,7 @@ public class BlockSubProvider
                 Content.Blocks.FLUIDIZER_POWERPORT);
 
         this.dropSelf(Content.Blocks.ENERGIZER_CELL, Content.Blocks.ENERGIZER_CASING, Content.Blocks.ENERGIZER_CONTROLLER,
-                Content.Blocks.ENERGIZER_POWERPORT_FE, Content.Blocks.ENERGIZER_CHARGINGPORT_FE, Content.Blocks.ENERGIZER_STATUS_DISPLAY);
+                Content.Blocks.ENERGIZER_POWERPORT_FE, Content.Blocks.ENERGIZER_CHARGINGPORT_FE,
+                Content.Blocks.ENERGIZER_STATUS_DISPLAY, Content.Blocks.ENERGIZER_COMPUTERPORT);
     }
 }
