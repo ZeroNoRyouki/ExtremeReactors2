@@ -124,9 +124,20 @@ final class ReactorGameData {
         ModeratorsRegistry.registerSolid("c:storage_blocks/platinum", 0.57f, 0.86f, 1.58f, IHeatEntity.CONDUCTIVITY_EMERALD);
         ModeratorsRegistry.registerSolid("c:storage_blocks/enderium", 0.60f, 0.88f, 1.60f, IHeatEntity.CONDUCTIVITY_DIAMOND);
         //blockTitanium
-        //blockDraconium
-        //blockDraconiumAwakened
+        ModeratorsRegistry.registerSolid("c:storage_blocks/draconium", 0.59f, 0.88f, 1.60f, 3.3f);
+        ModeratorsRegistry.registerSolid("c:storage_blocks/draconium_awakened", 0.76f, 0.88f, 1.78f, 4.8f);
         ModeratorsRegistry.registerSolid("c:storage_blocks/graphite", 0.10f, 0.50f, 2.00f, IHeatEntity.CONDUCTIVITY_GOLD);
+
+        // Thermal Extra
+        ModeratorsRegistry.registerSolid("c:storage_blocks/dragonsteel", 0.55f, 0.81f, 1.46f, IHeatEntity.CONDUCTIVITY_SILVER);
+        ModeratorsRegistry.registerSolid("c:storage_blocks/twinite", 0.50f, 0.78f, 1.42f, IHeatEntity.CONDUCTIVITY_COPPER);
+        ModeratorsRegistry.registerSolid("c:storage_blocks/shellite", 0.52f, 0.78f, 1.42f, IHeatEntity.CONDUCTIVITY_GOLD);
+
+        // allthemodium
+        ModeratorsRegistry.registerSolid("c:storage_blocks/allthemodium", 0.697f, 0.942f, 3.84f, 3.65f);
+        ModeratorsRegistry.registerSolid("c:storage_blocks/vibranium", 0.24f, 0.81f, 7.47f, 4.38f);
+        ModeratorsRegistry.registerSolid("c:storage_blocks/unobtainium", 0.972f, 0.91f, 3.074f, IHeatEntity.CONDUCTIVITY_GRAPHENE);
+
         ModeratorsRegistry.registerSolid("minecraft:ice", 0.33f, 0.33f, 1.15f, IHeatEntity.CONDUCTIVITY_WATER);
         ModeratorsRegistry.registerSolid("bigreactors:dry_ice", 0.42f, 0.52f, 1.32f, IHeatEntity.CONDUCTIVITY_WATER);
 
@@ -168,6 +179,11 @@ final class ReactorGameData {
         ModeratorsRegistry.registerFluid("thermal:redstone", 0.77f, 0.56f, 1.61f, IHeatEntity.CONDUCTIVITY_EMERALD); // Destabilized Redstone
         ModeratorsRegistry.registerFluid("thermal:redstone_flowing", 0.75f, 0.55f, 1.60f, IHeatEntity.CONDUCTIVITY_EMERALD);
 
+        // allthemodium
+        ModeratorsRegistry.registerFluid("allthemodium:molten_allthemodium", 0.697f, 0.942f, 3.84f, 3.65f);
+        ModeratorsRegistry.registerFluid("allthemodium:molten_vibranium", 0.24f, 0.81f, 7.47f, 4.38f);
+        ModeratorsRegistry.registerFluid("allthemodium:molten_unobtainium", 0.972f, 0.91f, 3.074f, IHeatEntity.CONDUCTIVITY_GRAPHENE);
+
         /*
 
         ReactorInterior.registerFluid("liquidredstone", 0.65f, 0.45f, 1.50f, IHeatEntity.conductivityEmerald); // Substratum Liquid Redstone (toned down because a bit cheap on the crafting side)
@@ -196,8 +212,6 @@ final class ReactorGameData {
 //        ReactorInterior.registerBlock("blockElectrumFlux", 0.54f, 0.83f, 1.48f, 2.4f); // Between gold and emerald
 //        ReactorInterior.registerBlock("blockShiny", 0.57f, 0.86f, 1.58f, IHeatEntity.conductivityEmerald); // Thermal Foundation Shiny block
 //        ReactorInterior.registerBlock("blockTitanium", 0.58f, 0.87f, 1.59f, 2.7f); // Mariculture
-//        ReactorInterior.registerBlock("blockDraconium", 0.59f, 0.88f, 1.60f, 3.3f);
-//        ReactorInterior.registerBlock("blockDraconiumAwakened", 0.76f, 0.88f, 1.78f, 4.8f);
 //            ReactorInterior.registerBlock("blockMithril", 0.53f, 0.81f, 1.45f, IHeatEntity.conductivitySilver);
 //            ReactorInterior.registerBlock("blockOrichalcum", 0.52f, 0.83f, 1.46f, 1.7f);    // Between silver and gold
 //            ReactorInterior.registerBlock("blockQuicksilver", 0.53f, 0.84f, 1.48f, IHeatEntity.conductivityGold);
