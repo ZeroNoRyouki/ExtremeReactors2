@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "bigreactors:energizercasing"
-            ]
+            "items": "bigreactors:energizercasing"
           }
         ]
       },
@@ -17,7 +15,7 @@
       "conditions": {
         "items": [
           {
-            "tag": "forge:dusts/glowstone"
+            "items": "#c:dusts/glowstone"
           }
         ]
       },
@@ -27,7 +25,7 @@
       "conditions": {
         "items": [
           {
-            "tag": "forge:dyes/blue"
+            "items": "#c:dyes/blue"
           }
         ]
       },
@@ -42,16 +40,15 @@
   },
   "requirements": [
     [
+      "has_the_recipe",
       "has_item",
       "has_item2",
-      "has_item3",
-      "has_the_recipe"
+      "has_item3"
     ]
   ],
   "rewards": {
     "recipes": [
       "bigreactors:energizer/computerport"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

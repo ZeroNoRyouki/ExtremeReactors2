@@ -9,13 +9,13 @@
       "item": "minecraft:glowstone"
     },
     "G": {
-      "tag": "forge:ingots/gold"
+      "tag": "c:ingots/gold"
     },
     "R": {
-      "tag": "forge:gems/lapis"
+      "tag": "c:gems/lapis"
     },
     "X": {
-      "tag": "forge:dyes/blue"
+      "tag": "c:dyes/blue"
     }
   },
   "pattern": [
@@ -24,7 +24,7 @@
     "CGC"
   ],
   "result": {
-    "item": "bigreactors:energizercomputerport"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "bigreactors:energizercomputerport"
+  }
 }
