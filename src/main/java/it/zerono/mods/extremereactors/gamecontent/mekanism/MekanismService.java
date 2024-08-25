@@ -6,7 +6,7 @@ import it.zerono.mods.zerocore.base.multiblock.part.io.fluid.IFluidPort;
 import it.zerono.mods.zerocore.base.multiblock.part.io.fluid.IFluidPortHandler;
 import it.zerono.mods.zerocore.lib.data.IoMode;
 import it.zerono.mods.zerocore.lib.multiblock.cuboid.AbstractCuboidMultiblockController;
-import mekanism.api.chemical.gas.IGasHandler;
+import mekanism.api.chemical.IChemicalHandler;
 import mekanism.common.capabilities.Capabilities;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -25,7 +25,7 @@ public class MekanismService
     @Override
     public <BE extends BlockEntity & IFluidPort> void registerGasCapabilityProvider(RegisterCapabilitiesEvent event,
                                                                                     BlockEntityType<BE> blockEntityType) {
-        event.registerBlockEntity(Capabilities.GAS.block(), blockEntityType,
-                (be, context) -> be.getFluidPortHandler() instanceof IGasHandler handler ? handler : null);
+        event.registerBlockEntity(Capabilities.CHEMICAL.block(), blockEntityType,
+                (be, context) -> be.getFluidPortHandler() instanceof IChemicalHandler handler ? handler : null);
     }
 }

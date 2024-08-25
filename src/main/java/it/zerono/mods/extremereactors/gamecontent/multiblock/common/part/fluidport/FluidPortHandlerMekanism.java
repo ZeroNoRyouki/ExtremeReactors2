@@ -32,9 +32,9 @@ import it.zerono.mods.zerocore.lib.data.IoMode;
 import it.zerono.mods.zerocore.lib.fluid.handler.FluidHandlerForwarder;
 import it.zerono.mods.zerocore.lib.multiblock.cuboid.AbstractCuboidMultiblockController;
 import mekanism.api.Action;
-import mekanism.api.chemical.gas.Gas;
-import mekanism.api.chemical.gas.GasStack;
-import mekanism.api.chemical.gas.IGasHandler;
+import mekanism.api.chemical.Chemical;
+import mekanism.api.chemical.ChemicalStack;
+import mekanism.api.chemical.IChemicalHandler;
 import mekanism.api.recipes.RotaryRecipe;
 import mekanism.common.capabilities.Capabilities;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -54,13 +54,13 @@ import java.util.function.Function;
 public class FluidPortHandlerMekanism<Controller extends AbstractCuboidMultiblockController<Controller>,
         Port extends AbstractMultiblockEntity<Controller> & IFluidPort>
     extends AbstractFluidPortHandler<Controller, Port>
-    implements IGasHandler {
+    implements IChemicalHandler {
 
     public FluidPortHandlerMekanism(Port port) {
 
         super(port, IoMode.Passive);
         this._capabilityForwarder = new FluidHandlerForwarder(EmptyFluidHandler.INSTANCE);
-        this._remoteCapabilitySource = new IOPortBlockCapabilitySource<>(port, Capabilities.GAS.block());
+        this._remoteCapabilitySource = new IOPortBlockCapabilitySource<>(port, Capabilities.CHEMICAL.block());
     }
 
     //region IFluidPortHandler
@@ -113,59 +113,59 @@ public class FluidPortHandlerMekanism<Controller extends AbstractCuboidMultibloc
     }
 
     //endregion
-    //region IGasHandler
+    //region IChemicalHandler
 
     @Override
-    public int getTanks() {
+    public int getChemicalTanks() {
         return 1;
     }
 
     @Override
-    public GasStack getChemicalInTank(int idx) {
-        return 0 != idx ? GasStack.EMPTY : getGasStack(this._capabilityForwarder.getFluidInTank(0));
+    public ChemicalStack getChemicalInTank(int idx) {
+        return 0 != idx ? ChemicalStack.EMPTY : getGasStack(this._capabilityForwarder.getFluidInTank(0));
     }
 
     @Override
-    public void setChemicalInTank(int idx, GasStack stack) {
+    public void setChemicalInTank(int idx, ChemicalStack stack) {
         // no insertions
     }
 
     @Override
-    public long getTankCapacity(int idx) {
+    public long getChemicalTankCapacity(int idx) {
         return 0 == idx ? this._capabilityForwarder.getTankCapacity(0) : 0;
     }
 
     @Override
-    public boolean isValid(int idx, GasStack stack) {
+    public boolean isValid(int idx, ChemicalStack stack) {
         // no insertions
         return false;
     }
 
     @Override
-    public GasStack insertChemical(int idx, GasStack stack, Action action) {
+    public ChemicalStack insertChemical(int idx, ChemicalStack stack, Action action) {
         // no insertions
         return stack;
     }
 
     @Override
-    public GasStack extractChemical(int idx, long amount, Action action) {
+    public ChemicalStack extractChemical(int idx, long amount, Action action) {
 
         final FluidStack currentStack = this._capabilityForwarder.getFluidInTank(0);
 
         if (0 != idx || currentStack.isEmpty()) {
-            return GasStack.EMPTY;
+            return ChemicalStack.EMPTY;
         }
 
-        final IMapping<Fluid, Gas> fluidMapping = getFluidMapping(currentStack.getFluid());
+        final IMapping<Fluid, Chemical> fluidMapping = getFluidMapping(currentStack.getFluid());
 
         if (null == fluidMapping) {
-            return GasStack.EMPTY;
+            return ChemicalStack.EMPTY;
         }
 
-        final IMapping<Gas, Fluid> gasMapping = getGasMapping(fluidMapping.getProduct());
+        final IMapping<Chemical, Fluid> gasMapping = getGasMapping(fluidMapping.getProduct());
 
         if (null == gasMapping) {
-            return GasStack.EMPTY;
+            return ChemicalStack.EMPTY;
         }
 
         final int amountToRemove = gasMapping.getProductAmount((int)Math.min(amount, Integer.MAX_VALUE));
@@ -177,19 +177,19 @@ public class FluidPortHandlerMekanism<Controller extends AbstractCuboidMultibloc
     //endregion
     //region internals
 
-    private static GasStack getGasStack(final FluidStack fluidStack) {
-        return fluidStack.isEmpty() ? GasStack.EMPTY : getGasStack(fluidStack.getFluid(), fluidStack.getAmount());
+    private static ChemicalStack getGasStack(final FluidStack fluidStack) {
+        return fluidStack.isEmpty() ? ChemicalStack.EMPTY : getGasStack(fluidStack.getFluid(), fluidStack.getAmount());
     }
 
-    private static GasStack getGasStack(final Fluid fluid, final int amount) {
+    private static ChemicalStack getGasStack(final Fluid fluid, final int amount) {
 
-        final IMapping<Fluid, Gas> mapping = getFluidMapping(fluid);
+        final IMapping<Fluid, Chemical> mapping = getFluidMapping(fluid);
 
-        return null != mapping ? new GasStack(mapping.getProduct(), mapping.getProductAmount(amount)) : GasStack.EMPTY;
+        return null != mapping ? new ChemicalStack(mapping.getProduct(), mapping.getProductAmount(amount)) : ChemicalStack.EMPTY;
     }
 
     @Nullable
-    private static IMapping<Fluid, Gas> getFluidMapping(final Fluid fluid) {
+    private static IMapping<Fluid, Chemical> getFluidMapping(final Fluid fluid) {
 
         if (null == s_fluidToGas) {
             buildMappings();
@@ -199,7 +199,7 @@ public class FluidPortHandlerMekanism<Controller extends AbstractCuboidMultibloc
     }
 
     @Nullable
-    private static IMapping<Gas, Fluid> getGasMapping(final Gas gas) {
+    private static IMapping<Chemical, Fluid> getGasMapping(final Chemical gas) {
 
         if (null == s_gasToFluid) {
             buildMappings();
@@ -224,16 +224,16 @@ public class FluidPortHandlerMekanism<Controller extends AbstractCuboidMultibloc
                 server.getRecipeManager()
                         .getAllRecipesFor(type).stream()
                         .map(RecipeHolder::value)
-                        .filter(RotaryRecipe::hasFluidToGas)
+                        .filter(RotaryRecipe::hasFluidToChemical)
                         .forEach(rotaryRecipe -> {
 
-                            final GasStack gasStack = rotaryRecipe.getGasOutputDefinition().get(0);
+                            final ChemicalStack gasStack = rotaryRecipe.getChemicalOutputDefinition().get(0);
 
                             rotaryRecipe.getFluidInput().getRepresentations().stream()
                                     .filter(fluidStack -> FluidMappingsRegistry.hasVaporFrom(fluidStack.getFluid()))
                                     .forEach(fluidStack -> {
 
-                                        final IMapping<Fluid, Gas> mapping = IMapping.of(fluidStack.getFluid(), fluidStack.getAmount(),
+                                        final IMapping<Fluid, Chemical> mapping = IMapping.of(fluidStack.getFluid(), fluidStack.getAmount(),
                                                 gasStack.getChemical(), (int) gasStack.getAmount());
 
                                         s_fluidToGas.put(fluidStack.getFluid(), mapping);
@@ -244,11 +244,11 @@ public class FluidPortHandlerMekanism<Controller extends AbstractCuboidMultibloc
         });
     }
 
-    private static Map<Fluid, IMapping<Fluid, Gas>> s_fluidToGas;
-    private static Map<Gas, IMapping<Gas, Fluid>> s_gasToFluid;
+    private static Map<Fluid, IMapping<Fluid, Chemical>> s_fluidToGas;
+    private static Map<Chemical, IMapping<Chemical, Fluid>> s_gasToFluid;
 
     private final FluidHandlerForwarder _capabilityForwarder;
-    private final IOPortBlockCapabilitySource<Controller, Port, IGasHandler> _remoteCapabilitySource;
+    private final IOPortBlockCapabilitySource<Controller, Port, IChemicalHandler> _remoteCapabilitySource;
 
     //endregion
 }
