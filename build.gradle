@@ -133,7 +133,7 @@ repositories {
 
     // cc-tweaked
     maven {
-        url 'https://squiddev.cc/maven/'
+        url 'https://maven.squiddev.cc'
     }
 
     // patchouli
