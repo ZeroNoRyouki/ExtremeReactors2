@@ -1028,7 +1028,7 @@ public final class Content {
         public static final Supplier<BlockEntityType<ReactorCreativeWaterGenerator>> REACTOR_CREATIVE_WATER_GENERATOR =
                 registerBlockEntity("reactorcreativewatergenerator",
                         ReactorCreativeWaterGenerator::new,
-                        () -> Blocks.REACTOR_FLUIDPORT_FORGE_PASSIVE_REINFORCED::get);
+                        () -> Blocks.REACTOR_CREATIVE_WATER_GENERATOR_REINFORCED::get);
 
         public static final Supplier<BlockEntityType<ReactorPowerTapEntity>> REACTOR_POWERTAP_FE_ACTIVE =
                 registerBlockEntity("reactorpowertap_fe_active",
