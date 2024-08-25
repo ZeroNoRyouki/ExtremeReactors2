@@ -1105,7 +1105,8 @@ public final class Content {
         public static final Supplier<BlockEntityType<TurbineCreativeSteamGenerator>> TURBINE_CREATIVE_STEAM_GENERATOR =
                 registerBlockEntity("turbinecreativesteamgenerator",
                         TurbineCreativeSteamGenerator::new,
-                        () -> Blocks.TURBINE_CREATIVE_STEAM_GENERATOR_BASIC::get);
+                        () -> Blocks.TURBINE_CREATIVE_STEAM_GENERATOR_BASIC::get,
+                        () -> Blocks.TURBINE_CREATIVE_STEAM_GENERATOR_REINFORCED::get);
 
         public static final Supplier<BlockEntityType<TurbinePowerTapEntity>> TURBINE_POWERTAP_FE_ACTIVE =
                 registerBlockEntity("turbinepowertap_fe_active",
