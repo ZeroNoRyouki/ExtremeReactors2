@@ -26,7 +26,18 @@ public class ItemTagsDataProvider
     public void build(HolderLookup.Provider registryLookup,
                       Function<@NotNull TagKey<Item>, @NotNull ModIntrinsicTagAppender<Item>> builder) {
 
-        builder.apply(ContentTags.Items.ORE_YELLORITE).add(Content.Items.YELLORITE_ORE_BLOCK);
+        builder.apply(ContentTags.Items.ORE_YELLORITE)
+                .add(Content.Items.YELLORITE_ORE_BLOCK)
+                .add(Content.Items.DEEPSLATE_YELLORITE_ORE_BLOCK);
+        builder.apply(ContentTags.Items.ORE_ANGLESITE)
+                .add(Content.Items.ANGLESITE_ORE_BLOCK);
+        builder.apply(ContentTags.Items.ORE_BENITOITE)
+                .add(Content.Items.BENITOITE_ORE_BLOCK);
+        builder.apply(Tags.Items.ORES)
+                .add(Content.Items.YELLORITE_ORE_BLOCK)
+                .add(Content.Items.DEEPSLATE_YELLORITE_ORE_BLOCK)
+                .add(Content.Items.ANGLESITE_ORE_BLOCK)
+                .add(Content.Items.BENITOITE_ORE_BLOCK);
 
         builder.apply(Tags.Items.ORES_IN_GROUND_STONE).add(Content.Items.YELLORITE_ORE_BLOCK);
         builder.apply(Tags.Items.ORES_IN_GROUND_DEEPSLATE).add(Content.Items.DEEPSLATE_YELLORITE_ORE_BLOCK);
@@ -57,11 +68,18 @@ public class ItemTagsDataProvider
         builder.apply(TagsHelper.TAG_WRENCH).add(Content.Items.WRENCH);
 
         builder.apply(Tags.Items.INGOTS).add(Content.Items.YELLORIUM_INGOT, Content.Items.CYANITE_INGOT,
-                Content.Items.GRAPHITE_INGOT, Content.Items.BLUTONIUM_INGOT, Content.Items.MAGENTITE_INGOT);
+                Content.Items.GRAPHITE_INGOT, Content.Items.BLUTONIUM_INGOT, Content.Items.MAGENTITE_INGOT,
+                Content.Items.LUDICRITE_INGOT, Content.Items.RIDICULITE_INGOT, Content.Items.INANITE_INGOT,
+                Content.Items.INSANITE_INGOT);
 
         builder.apply(ContentTags.Items.INGOTS_URANIUM).add(Content.Items.YELLORIUM_INGOT);
         builder.apply(ContentTags.Items.INGOTS_PLUTONIUM).add(Content.Items.BLUTONIUM_INGOT);
         builder.apply(TagsHelper.ITEMS.createCommonKey("ores/uranium")).add(Content.Items.YELLORITE_ORE_BLOCK);
+
+        builder.apply(Tags.Items.STORAGE_BLOCKS)
+                .add(Content.Items.YELLORIUM_BLOCK, Content.Items.CYANITE_BLOCK,
+                        Content.Items.BLUTONIUM_BLOCK, Content.Items.MAGENTITE_BLOCK,
+                        Content.Items.RAW_YELLORIUM_BLOCK, Content.Items.GRAPHITE_BLOCK);
 
         builder.apply(ContentTags.Items.USING_REACTOR_CASING_BASIC).add(Content.Items.REACTOR_CONTROLLER_BASIC,
                 Content.Items.REACTOR_CONTROLROD_BASIC, Content.Items.REACTOR_SOLID_ACCESSPORT_BASIC,

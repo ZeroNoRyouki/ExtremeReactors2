@@ -32,6 +32,8 @@ public class ContentTags {
     public static final class Blocks {
 
         public static final TagKey<Block> ORE_YELLORITE = common("ores/yellorite");
+        public static final TagKey<Block> ORE_ANGLESITE = common("ores/anglesite");
+        public static final TagKey<Block> ORE_BENITOITE = common("ores/benitoite");
 
         public static final TagKey<Block> BLOCKS_YELLORIUM = common("storage_blocks/yellorium");
         public static final TagKey<Block> BLOCKS_RAW_YELLORIUM = common("storage_blocks/raw_yellorium");
@@ -56,6 +58,8 @@ public class ContentTags {
     public static final class Items {
 
 		public static final TagKey<Item> ORE_YELLORITE = common("ores/yellorite");
+        public static final TagKey<Item> ORE_ANGLESITE = common("ores/anglesite");
+        public static final TagKey<Item> ORE_BENITOITE = common("ores/benitoite");
         public static final TagKey<Item> RAW_MATERIALS_YELLORIUM = common("raw_materials/yellorium");
 
         public static final TagKey<Item> INGOTS_YELLORIUM = common("ingots/yellorium");

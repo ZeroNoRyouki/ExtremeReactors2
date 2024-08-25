@@ -40,7 +40,12 @@ public class BlockTagsDataProvider
         builder.apply(ContentTags.Blocks.BLOCKS_INANITE).add(Content.Blocks.INANITE_BLOCK);
         builder.apply(ContentTags.Blocks.BLOCKS_INSANITE).add(Content.Blocks.INSANITE_BLOCK);
 
-        builder.apply(ContentTags.Blocks.ORE_YELLORITE).add(Content.Blocks.YELLORITE_ORE_BLOCK);
+        builder.apply(ContentTags.Blocks.ORE_YELLORITE)
+                .add(Content.Blocks.YELLORITE_ORE_BLOCK, Content.Blocks.DEEPSLATE_YELLORITE_ORE_BLOCK);
+        builder.apply(ContentTags.Blocks.ORE_ANGLESITE)
+                .add(Content.Blocks.ANGLESITE_ORE_BLOCK);
+        builder.apply(ContentTags.Blocks.ORE_BENITOITE)
+                .add(Content.Blocks.BENITOITE_ORE_BLOCK);
         builder.apply(Tags.Blocks.ORES).add(Content.Blocks.YELLORITE_ORE_BLOCK,
                 Content.Blocks.ANGLESITE_ORE_BLOCK, Content.Blocks.BENITOITE_ORE_BLOCK);
         builder.apply(TagsHelper.BLOCKS.createCommonKey("ores/uranium")).add(Content.Blocks.YELLORITE_ORE_BLOCK);
@@ -49,6 +54,11 @@ public class BlockTagsDataProvider
                 .addOptional(ResourceLocation.parse("ftbic:enderium_block"));
 
         builder.apply(ContentTags.Blocks.BLOCKS_YELLORIUM).add(Content.Blocks.YELLORIUM_BLOCK);
+
+        builder.apply(Tags.Blocks.STORAGE_BLOCKS)
+                .add(Content.Blocks.YELLORIUM_BLOCK, Content.Blocks.CYANITE_BLOCK,
+                        Content.Blocks.BLUTONIUM_BLOCK, Content.Blocks.MAGENTITE_BLOCK,
+                        Content.Blocks.RAW_YELLORIUM_BLOCK, Content.Blocks.GRAPHITE_BLOCK);
 
         Content.Blocks.getAll().forEach(s -> {
 
