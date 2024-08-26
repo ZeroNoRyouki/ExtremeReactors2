@@ -519,7 +519,9 @@ public class MultiblockFluidizer
         // do not call setMachineActive() here
         this._active = false;
 
-        this.markMultiblockForRenderUpdate();
+        if (this.calledByLogicalClient()) {
+            this.markMultiblockForRenderUpdate();
+        }
     }
 
     /**

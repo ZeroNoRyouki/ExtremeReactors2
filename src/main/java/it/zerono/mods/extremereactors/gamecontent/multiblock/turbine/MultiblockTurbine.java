@@ -649,7 +649,9 @@ public class MultiblockTurbine
         this._data.onTurbineDisassembled();
         this._rpmUpdateTracker.setValue(0f);
 
-        this.markMultiblockForRenderUpdate();
+        if (this.calledByLogicalClient()) {
+            this.markMultiblockForRenderUpdate();
+        }
     }
 
     @Override

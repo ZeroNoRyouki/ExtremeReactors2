@@ -446,7 +446,9 @@ public class MultiblockReprocessor
 
         this._collector = null;
 
-        this.markMultiblockForRenderUpdate();
+        if (this.calledByLogicalClient()) {
+            this.markMultiblockForRenderUpdate();
+        }
     }
 
     /**
