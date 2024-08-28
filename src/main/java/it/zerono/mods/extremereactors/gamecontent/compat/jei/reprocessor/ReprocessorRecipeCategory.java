@@ -35,6 +35,7 @@ import it.zerono.mods.zerocore.lib.compat.jei.drawable.ProgressBarDrawable;
 import it.zerono.mods.zerocore.lib.data.geometry.Rectangle;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
+import mezz.jei.api.gui.builder.ITooltipBuilder;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.neoforge.NeoForgeTypes;
@@ -108,14 +109,12 @@ public class ReprocessorRecipeCategory
     }
 
     @Override
-    public List<Component> getTooltipStrings(final ReprocessorRecipe recipe, final IRecipeSlotsView recipeSlotsView,
-                                             final double mouseX, final double mouseY) {
+    public void getTooltip(ITooltipBuilder builder, ReprocessorRecipe recipe, IRecipeSlotsView recipeSlotsView,
+                           double mouseX, double mouseY) {
 
         if (this._powerBarArea.contains(mouseX, mouseY)) {
-            return this._powerBarTooltips;
+            builder.addAll(this._powerBarTooltips);
         }
-
-        return ObjectLists.emptyList();
     }
 
     //endregion

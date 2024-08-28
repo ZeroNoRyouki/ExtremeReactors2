@@ -117,13 +117,13 @@ public class ExtremeReactorsJeiPlugin
     public void registerIngredients(final IModIngredientRegistration registration) {
 
         registration.register(REACTANT_INGREDIENT_TYPE, ReactantsRegistry.getReactants(),
-                new ReactantIngredientHelper(), new ReactantIngredientRenderer());
+                new ReactantIngredientHelper(), new ReactantIngredientRenderer(), Reactant.CODECS.codec());
 
         registration.register(COOLANT_INGREDIENT_TYPE, FluidsRegistry.getCoolants(),
-                new CoolantIngredientHelper(), new CoolantIngredientRenderer());
+                new CoolantIngredientHelper(), new CoolantIngredientRenderer(), Coolant.CODECS.codec());
 
         registration.register(VAPOR_INGREDIENT_TYPE, FluidsRegistry.getVapors(),
-                new VaporIngredientHelper(), new VaporIngredientRenderer());
+                new VaporIngredientHelper(), new VaporIngredientRenderer(), Vapor.CODECS.codec());
     }
 
     @Override

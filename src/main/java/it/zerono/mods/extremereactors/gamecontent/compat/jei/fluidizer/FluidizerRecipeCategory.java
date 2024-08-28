@@ -43,6 +43,7 @@ import it.zerono.mods.zerocore.lib.data.geometry.Rectangle;
 import it.zerono.mods.zerocore.lib.recipe.ModRecipe;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
+import mezz.jei.api.gui.builder.ITooltipBuilder;
 import mezz.jei.api.gui.drawable.IDrawableAnimated;
 import mezz.jei.api.gui.drawable.IDrawableStatic;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
@@ -168,13 +169,13 @@ public abstract class FluidizerRecipeCategory<T extends ModRecipe & IFluidizerRe
     }
 
     @Override
-    public List<Component> getTooltipStrings(final ModRecipe recipe, final IRecipeSlotsView recipeSlotsView,
-                                             final double mouseX, final double mouseY) {
-        return this._tooltips.entrySet().stream()
+    public void getTooltip(ITooltipBuilder builder, ModRecipe recipe, IRecipeSlotsView recipeSlotsView,
+                           double mouseX, double mouseY) {
+        builder.addAll(this._tooltips.entrySet().stream()
                 .filter(e -> e.getKey().contains(mouseX, mouseY))
                 .map(Map.Entry::getValue)
                 .findAny()
-                .orElse(ObjectLists.emptyList());
+                .orElse(ObjectLists.emptyList()));
     }
 
     //endregion
