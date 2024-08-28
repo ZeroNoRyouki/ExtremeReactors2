@@ -185,7 +185,7 @@ dependencies {
 //    implementation fg.deobf("curse.maven:constructionwand-399558:4455720")
 }
 
-task extremereactors_apiJar(type: Jar) {
+task apiJar(type: Jar) {
 
     from(sourceSets.main.allJava) {
         include 'it/zerono/mods/extremereactors/api/**'
@@ -195,6 +195,10 @@ task extremereactors_apiJar(type: Jar) {
     }
 
     archiveClassifier = 'api'
+}
+
+artifacts {
+    archives apiJar
 }
 
 jar {
@@ -216,10 +220,10 @@ publishing {
         register('mavenJava', MavenPublication) {
 
             artifactId base.archivesName.get()
+
             from components.java
 
-            artifact jar
-            artifact extremereactors_apiJar
+            artifact apiJar
         }
     }
 
