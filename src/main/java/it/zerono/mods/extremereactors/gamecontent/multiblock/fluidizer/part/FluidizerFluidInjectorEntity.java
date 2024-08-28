@@ -34,6 +34,7 @@ import it.zerono.mods.zerocore.lib.fluid.FluidHelper;
 import it.zerono.mods.zerocore.lib.fluid.FluidStackHolder;
 import it.zerono.mods.zerocore.lib.recipe.ingredient.IRecipeIngredientSource;
 import it.zerono.mods.zerocore.lib.recipe.ingredient.RecipeIngredientSourceWrapper;
+import it.zerono.mods.zerocore.lib.text.TextHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentMap;
@@ -102,12 +103,11 @@ public class FluidizerFluidInjectorEntity
             if (component.isEmpty(0)) {
                 text = BaseHelper.emptyValue();
             } else {
-                text = Component.translatable("gui.bigreactors.reactor.fluidaccessport.item.reactant",
+                text = TextHelper.translatable("gui.bigreactors.fluidizer.fluidinjector.component.content",
                         FluidHelper.getFluidName(component.getStack(0)), component.getAmount(0));
             }
 
-            appender.accept(Component.translatable("gui.bigreactors.generic.fuel.label")
-                    .append(text.setStyle(CommonConstants.STYLE_TOOLTIP_VALUE)));
+            appender.accept(text.setStyle(CommonConstants.STYLE_TOOLTIP_VALUE));
         }
     }
 

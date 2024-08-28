@@ -465,6 +465,9 @@
     "gui.bigreactors.fluidizer.controller.on.title": "Включить жидкостный аппарат",
     "gui.bigreactors.fluidizer.controller.off.title": "Выключить жидкостный аппарат",
 
+    "gui.bigreactors.fluidizer.solidinjector.component.content": "%1$s [%2$d]",
+    "gui.bigreactors.fluidizer.fluidinjector.component.content": "%1$s [%2$d mB]",
+
     "gui.bigreactors.generator.chargingport.eject.tooltip.title": "Ручное извлечение",
     "gui.bigreactors.generator.chargingport.eject.tooltip.body": "Ручное извлечение предмета из слота ввода и помещение его в слот вывода.",
 

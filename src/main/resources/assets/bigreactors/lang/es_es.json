@@ -468,6 +468,9 @@
     "gui.bigreactors.fluidizer.controller.on.title": "Encienda el Fluidizador",
     "gui.bigreactors.fluidizer.controller.off.title": "Apague el Fluidizador",
 
+    "gui.bigreactors.fluidizer.solidinjector.component.content": "%1$s [%2$d]",
+    "gui.bigreactors.fluidizer.fluidinjector.component.content": "%1$s [%2$d mB]",
+
     "gui.bigreactors.generator.chargingport.eject.tooltip.title": "Eyección Manual",
     "gui.bigreactors.generator.chargingport.eject.tooltip.body": "Eyecta el item manualmente del slot de entrada y lo pone en el slot de salida.",
 
