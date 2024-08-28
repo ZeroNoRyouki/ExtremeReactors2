@@ -16,6 +16,12 @@ package it.zerono.mods.extremereactors.api.reactor;
  *
  */
 
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import io.netty.buffer.ByteBuf;
+import it.zerono.mods.zerocore.lib.data.ModCodecs;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.util.Mth;
 
 import java.util.Objects;
@@ -28,6 +34,23 @@ public class FuelProperties {
 
     public static final FuelProperties DEFAULT = new FuelProperties(1.5f, 0.5f, 1.0f, 0.01f, 0.0007f);
     public static final FuelProperties INVALID = new FuelProperties(1.0f, 0.0f, 1.0f, 0.0f, 0.0f);
+
+    public static final ModCodecs<FuelProperties, ByteBuf> CODECS = new ModCodecs<>(
+            RecordCodecBuilder.create(instance -> instance.group(
+                            Codec.FLOAT.fieldOf("moderation").forGetter(FuelProperties::getModerationFactor),
+                            Codec.FLOAT.fieldOf("absorption").forGetter(FuelProperties::getAbsorptionCoefficient),
+                            Codec.FLOAT.fieldOf("hardness").forGetter(FuelProperties::getHardnessDivisor),
+                            Codec.FLOAT.fieldOf("fissionevents").forGetter(FuelProperties::getFissionEventsPerFuelUnit),
+                            Codec.FLOAT.fieldOf("fuelunits").forGetter(FuelProperties::getFuelUnitsPerFissionEvent))
+                    .apply(instance, FuelProperties::new)),
+            StreamCodec.composite(
+                    ByteBufCodecs.FLOAT, FuelProperties::getModerationFactor,
+                    ByteBufCodecs.FLOAT, FuelProperties::getAbsorptionCoefficient,
+                    ByteBufCodecs.FLOAT, FuelProperties::getHardnessDivisor,
+                    ByteBufCodecs.FLOAT, FuelProperties::getFissionEventsPerFuelUnit,
+                    ByteBufCodecs.FLOAT, FuelProperties::getFuelUnitsPerFissionEvent,
+                    FuelProperties::new)
+    );
 
     /**
      * Construct a new FuelProperties

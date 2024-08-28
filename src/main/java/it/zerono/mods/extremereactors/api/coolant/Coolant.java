@@ -18,8 +18,14 @@
 
 package it.zerono.mods.extremereactors.api.coolant;
 
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import io.netty.buffer.ByteBuf;
 import it.zerono.mods.extremereactors.api.internal.AbstractNamedValue;
+import it.zerono.mods.zerocore.lib.data.ModCodecs;
 import it.zerono.mods.zerocore.lib.data.gfx.Colour;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 
 /**
  * Describe the properties of a coolant, ie a fluid that can be used inside a Reactor
@@ -29,6 +35,23 @@ public class Coolant
     extends AbstractNamedValue {
 
     public static final Coolant EMPTY = new Coolant("empty", Colour.WHITE, Float.MAX_VALUE, 0.0f, "gui.zerocore.base.generic.empty");
+
+    public static final ModCodecs<Coolant, ByteBuf> CODECS = new ModCodecs<>(
+            RecordCodecBuilder.create(instance -> instance.group(
+                            Codec.STRING.fieldOf("name").forGetter(AbstractNamedValue::getName),
+                            Colour.CODECS.field("colour", Coolant::getColour),
+                            Codec.FLOAT.fieldOf("boiling").forGetter(Coolant::getBoilingPoint),
+                            Codec.FLOAT.fieldOf("enthalpy").forGetter(Coolant::getEnthalpyOfVaporization),
+                            Codec.STRING.fieldOf("translation").forGetter(AbstractNamedValue::getTranslationKey))
+                    .apply(instance, Coolant::new)),
+            StreamCodec.composite(
+                    ByteBufCodecs.STRING_UTF8, AbstractNamedValue::getName,
+                    Colour.CODECS.streamCodec(), Coolant::getColour,
+                    ByteBufCodecs.FLOAT, Coolant::getBoilingPoint,
+                    ByteBufCodecs.FLOAT, Coolant::getEnthalpyOfVaporization,
+                    ByteBufCodecs.STRING_UTF8, AbstractNamedValue::getTranslationKey,
+                    Coolant::new)
+    );
 
     /**
      * Construct a new Coolant

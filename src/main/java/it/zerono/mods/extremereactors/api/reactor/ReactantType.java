@@ -18,13 +18,28 @@
 
 package it.zerono.mods.extremereactors.api.reactor;
 
+import io.netty.buffer.ByteBuf;
+import it.zerono.mods.zerocore.lib.data.ModCodecs;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.util.ByIdMap;
+import net.minecraft.util.StringRepresentable;
+
+import java.util.function.IntFunction;
+
 /**
  * The type of Reactant. Fuel-Reactants are converted to Waste-Reactants inside a Reactor Fuel Rods
  */
-public enum ReactantType {
+public enum ReactantType
+        implements StringRepresentable {
 
     Fuel(0xbcba50),
     Waste(0x4d92b5);
+
+    public static final IntFunction<ReactantType> BY_ID = ByIdMap.continuous(Enum::ordinal, values(),
+            ByIdMap.OutOfBoundsStrategy.ZERO);
+    public static final ModCodecs<ReactantType, ByteBuf> CODECS = new ModCodecs<>(
+            StringRepresentable.fromEnum(ReactantType::values),
+            ByteBufCodecs.idMapper(BY_ID, Enum::ordinal));
 
     public boolean isFuel() {
         return Fuel == this;
@@ -38,6 +53,13 @@ public enum ReactantType {
         return this._rgbDefaultColor;
     }
 
+    //region StringRepresentable
+
+    public String getSerializedName() {
+        return this.name();
+    }
+
+    //endregion
     //region internals
 
     ReactantType(int defaultColour) {

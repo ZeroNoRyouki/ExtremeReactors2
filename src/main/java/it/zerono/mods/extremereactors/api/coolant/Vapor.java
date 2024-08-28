@@ -18,13 +18,34 @@
 
 package it.zerono.mods.extremereactors.api.coolant;
 
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import io.netty.buffer.ByteBuf;
 import it.zerono.mods.extremereactors.api.internal.AbstractNamedValue;
+import it.zerono.mods.zerocore.lib.data.ModCodecs;
 import it.zerono.mods.zerocore.lib.data.gfx.Colour;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 
 public class Vapor
         extends AbstractNamedValue {
 
     public static final Vapor EMPTY = new Vapor("empty", Colour.WHITE, 0.0f, "gui.zerocore.base.generic.empty");
+
+    public static final ModCodecs<Vapor, ByteBuf> CODECS = new ModCodecs<>(
+            RecordCodecBuilder.create(instance -> instance.group(
+                            Codec.STRING.fieldOf("name").forGetter(AbstractNamedValue::getName),
+                            Colour.CODECS.field("colour", Vapor::getColour),
+                            Codec.FLOAT.fieldOf("density").forGetter(Vapor::getFluidEnergyDensity),
+                            Codec.STRING.fieldOf("translation").forGetter(AbstractNamedValue::getTranslationKey))
+                    .apply(instance, Vapor::new)),
+            StreamCodec.composite(
+                    ByteBufCodecs.STRING_UTF8, AbstractNamedValue::getName,
+                    Colour.CODECS.streamCodec(), Vapor::getColour,
+                    ByteBufCodecs.FLOAT, Vapor::getFluidEnergyDensity,
+                    ByteBufCodecs.STRING_UTF8, AbstractNamedValue::getTranslationKey,
+                    Vapor::new)
+    );
 
     /**
      * Construct a new Vapor
