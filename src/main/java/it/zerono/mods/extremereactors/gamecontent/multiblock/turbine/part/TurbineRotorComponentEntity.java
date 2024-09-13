@@ -114,7 +114,7 @@ public class TurbineRotorComponentEntity
      */
     @Override
     public void onMachineActivated() {
-        this.markForRenderUpdate();
+        this.callOnLogicalClient(this::markForRenderUpdate);
     }
 
     /**
@@ -123,7 +123,7 @@ public class TurbineRotorComponentEntity
      */
     @Override
     public void onMachineDeactivated() {
-        this.markForRenderUpdate();
+        this.callOnLogicalClient(this::markForRenderUpdate);
     }
 
     //endregion
