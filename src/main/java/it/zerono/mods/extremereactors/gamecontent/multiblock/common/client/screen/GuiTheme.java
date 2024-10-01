@@ -20,53 +20,60 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.scre
 
 import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.zerocore.lib.client.gui.Theme;
-import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraft.server.packs.resources.ResourceManager;
-import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
+import net.minecraft.util.profiling.ProfilerFiller;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
 import java.util.function.Supplier;
 
 public enum GuiTheme
-        implements Supplier<@NotNull Theme>, ResourceManagerReloadListener {
+        implements Supplier<@NotNull Theme>, PreparableReloadListener {
 
     ER;
+
+    GuiTheme() {
+        this._theme = Theme.DEFAULT;
+    }
 
     //region NonNullSupplier<Theme>
 
     @NotNull
     @Override
     public Theme get() {
-
-        if (null == this._theme) {
-            this.reload(Minecraft.getInstance().getResourceManager());
-        }
-
         return this._theme;
     }
 
     //endregion
-    //region ResourceManagerReloadListener
+    //region PreparableReloadListener
 
     @Override
-    public void onResourceManagerReload(ResourceManager resourceManager) {
-        this.reload(resourceManager);
+    public CompletableFuture<Void> reload(PreparationBarrier barrier, ResourceManager resourceManager,
+                                          ProfilerFiller prepareProfiler, ProfilerFiller applyProfiler,
+                                          Executor prepareExecutor, Executor applyExecutor) {
+        return CompletableFuture.supplyAsync(() -> loadTheme(resourceManager), prepareExecutor)
+                .thenCompose(barrier::wait)
+                .thenAcceptAsync(this::setTheme, applyExecutor);
     }
 
     //endregion
     //region internals
 
-    private void reload(ResourceManager resourceManager) {
-        this._theme = resourceManager.getResource(ID)
+    private static Theme loadTheme(ResourceManager manager) {
+        return manager.getResource(ID)
                 .map(Theme::read)
                 .orElse(Theme.DEFAULT);
     }
 
+    private void setTheme(Theme theme) {
+        this._theme = theme;
+    }
+
     private final static ResourceLocation ID = ExtremeReactors.ROOT_LOCATION.buildWithSuffix("er_gui_theme.json");
 
-    @Nullable
     private Theme _theme;
 
     //endregion
