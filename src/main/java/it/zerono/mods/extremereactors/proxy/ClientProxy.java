@@ -30,6 +30,7 @@ import it.zerono.mods.extremereactors.config.Config;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.compat.patchouli.PatchouliCompat;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.CachedSprites;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.GuiTheme;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.energizer.client.model.EnergizerModelBuilder;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.energizer.client.screen.EnergizerChargingPortScreen;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.energizer.client.screen.EnergizerControllerScreen;
@@ -117,6 +118,7 @@ public class ClientProxy
         bus.addListener(EventPriority.LOWEST, this::onVanillaTagsUpdated);
 
         CodeHelper.addResourceReloadListener(this);
+        CodeHelper.addResourceReloadListener(GuiTheme.ER);
     }
 
     public static Supplier<BakedModel> getModelSupplier(final ResourceLocation modelId) {
