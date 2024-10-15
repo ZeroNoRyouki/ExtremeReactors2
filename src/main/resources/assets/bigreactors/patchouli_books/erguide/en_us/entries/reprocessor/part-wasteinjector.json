@@ -10,7 +10,7 @@
             "item": "bigreactors:reprocessorwasteinjector",
             "link_recipe": true,
             "title" : "Waste Injector",
-            "text": "The Waste Injector allow you to insert waste material from the Reactor into the Reprocessor.$(br2)The graphical interface can be used to insert materials manually or you can connect a pipe of sort to insert waste into the injector"
+            "text": "The Waste Injector allows you to insert waste material from the Reactor into the Reprocessor.$(br2)The graphical interface can be used to insert materials manually, or you can connect a pipe of some sort to insert waste into the injector."
         },
         {
             "type": "crafting-part_usage",

@@ -10,7 +10,7 @@
         },
         {
             "type": "patchouli:text",
-            "text": "The Power Taps installed in your Reactor or Turbine define the output energy system of the machine.$(br2)Currently the mod come with a $(l:bigreactors:reactor/part-forgepowertap)Forge Energy Power Tap$(/l) that sends out $(bold)Forge Energy$() units.$(br2)Other power systems can easily be supported by adding new types of Power Taps."
+            "text": "The Power Taps installed in your Reactor or Turbine define the output energy system of the machine.$(br2)Currently, the mod comes with a $(l:bigreactors/part-forgepowertap)Forge Energy Power Tap$(/l) that sends out $(bold)Forge Energy$() units.$(br2)Other power systems can easily be supported by adding new types of Power Taps."
         }
     ]
 }

@@ -10,7 +10,7 @@
             "item": "bigreactors:fluidizerfluidinjector",
             "link_recipe": true,
             "title" : "Fluid Injector",
-            "text": "The Fluid Injector allow you to insert existing fluid fuels into the Fluidizer to mix them and create a new fuel."
+            "text": "The Fluid Injector allows you to insert existing fluid fuels into the Fluidizer to mix them and create a new fuel."
         },
         {
             "type": "crafting-part_usage",

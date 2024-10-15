@@ -10,7 +10,7 @@
             "item": "bigreactors:fluidizerpowerport",
             "link_recipe": true,
             "title" : "Power Port",
-            "text": "The Power Port allow you to provide the energy needed to power the Fluidizer.$(br2)Any Forge Energy compatible cable or generator can be connected to the Power Port."
+            "text": "The Power Port allows you to provide the energy needed to power the Fluidizer.$(br2)Any Forge Energy-compatible cable or generator can be connected to the Power Port."
         },
         {
             "type": "crafting-part_usage",

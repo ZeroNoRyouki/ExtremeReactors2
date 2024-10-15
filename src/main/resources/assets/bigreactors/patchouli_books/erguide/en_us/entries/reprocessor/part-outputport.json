@@ -10,7 +10,7 @@
             "item": "bigreactors:reprocessoroutputport",
             "link_recipe": true,
             "title" : "Output Port",
-            "text": "The Output Port allow you to extract the re-processed material from the Reprocessor.$(br2)The graphical interface can be used to extract materials manually or you can connect a pipe of sort to extract them automatically."
+            "text": "The Output Port allows you to extract the re-processed material from the Reprocessor.$(br2)The graphical interface can be used to extract materials manually, or you can connect a pipe of some sort to extract them automatically."
         },
         {
             "type": "crafting-part_usage",

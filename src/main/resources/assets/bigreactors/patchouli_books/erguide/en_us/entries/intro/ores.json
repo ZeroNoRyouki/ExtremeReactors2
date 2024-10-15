@@ -7,7 +7,7 @@
         {
             "type": "bigreactors:spotlight-smelting",
             "spotlightItem": "bigreactors:yellorite_ore",
-            "spotlightText": "The usual source of fuel that will power your Reactors.$(br2)Yellorite can be found in almost all biomes and can be smelted to produce Yellorium ingots.",
+            "spotlightText": "The usual source of fuel that will power your Reactors is Yellorite.$(br2)Yellorite can be found in almost all biomes and can be smelted to produce Yellorium ingots.",
             "recipe": "bigreactors:smelting/yellorium_from_ore"
         },
         {
@@ -19,7 +19,7 @@
         {
             "type": "bigreactors:spotlight-item",
             "spotlightItem": "bigreactors:anglesite_ore",
-            "spotlightText": "You need to reach the end of your journey to find this elusive crystals, even if you still don't know how you could use them to your advantage.",
+            "spotlightText": "You need to reach the end of your journey to find these elusive crystals, even if you still don't know how you could use them to your advantage.",
             "smallItem": "bigreactors:anglesite_crystal"
         }
     ]

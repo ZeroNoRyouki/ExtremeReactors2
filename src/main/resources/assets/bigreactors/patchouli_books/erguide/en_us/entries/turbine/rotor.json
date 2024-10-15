@@ -7,7 +7,7 @@
     "pages": [
         {
             "type": "patchouli:text",
-            "text": "The Rotor is the most important component of your Turbine as its design will have a direct impact on the $(l:bigreactors:turbine/innerworking)energy production$(/l) of the Turbine.$(br2)A Rotor is built using four types of blocks:$(li)a single $(l:bigreactors:turbine/part-rotorbearing)Rotor Bearing$(/l)$(li)some $(l:bigreactors:turbine/part-rotorshaft)Rotor Shaft$(/l) blocks$(li)a number of $(l:bigreactors:turbine/part-rotorblade)Rotor Blades$(/l)$(li)a single $(l:bigreactors:turbine/part-casing)Housing$(/l) block."
+            "text": "The Rotor is the most important component of your Turbine, as its design will have a direct impact on the $(l:bigreactors:turbine/innerworking)energy production$(/l) of the Turbine.$(br2)A Rotor is built using four types of blocks:$(li)a single $(l:bigreactors:turbine/part-rotorbearing)Rotor Bearing$(/l)$(li)some $(l:bigreactors:turbine/part-rotorshaft)Rotor Shaft$(/l) blocks$(li)a number of $(l:bigreactors:turbine/part-rotorblade)Rotor Blades$(/l)$(li)a single $(l:bigreactors:turbine/part-casing)Housing$(/l) block."
         },
         {
             "type": "bigreactors:zcmultiblock",
