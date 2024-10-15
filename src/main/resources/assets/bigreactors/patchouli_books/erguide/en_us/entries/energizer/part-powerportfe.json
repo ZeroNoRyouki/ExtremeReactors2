@@ -1,0 +1,22 @@
+{
+    "name": "FE Power Port",
+    "icon": "bigreactors:energizerpowerport_fe",
+    "category": "bigreactors:energizer-parts",
+    "read_by_default": true,
+    "sortnum": 6,
+    "pages": [
+        {
+            "type": "spotlight",
+            "item": "bigreactors:energizerpowerport_fe",
+            "link_recipe": true,
+            "title" : "FE Power Port",
+            "text": "The FE Power Port allows you to insert and extract energy from the Energizer.$(br2)Any Forge Energy-compatible cable or generator can be connected to the FE Power Port."
+        },
+        {
+            "type": "crafting-part_usage",
+            "crafting.title1": "FE Power Port",
+            "crafting.recipe1": "bigreactors:energizer/powerport_fe",
+            "usage.text": "$(l)Mandatory:$() no$(br)$(l)Valid positions:$() any face (not on frame)$(br)$(l)Graphical interface:$() yes"
+        }
+    ]
+}

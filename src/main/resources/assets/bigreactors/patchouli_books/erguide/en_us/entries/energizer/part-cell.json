@@ -1,0 +1,22 @@
+{
+  "name": "Energy Cell",
+  "icon": "bigreactors:energizercell",
+  "category": "bigreactors:energizer-parts",
+  "read_by_default": true,
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "spotlight",
+      "item": "bigreactors:energizercell",
+      "link_recipe": true,
+      "title" : "Energy Cell",
+      "text": "Energy Cells are the storage components of the Energizer and must be used to completely fill the interior volume of the machine."
+    },
+    {
+      "type": "crafting-part_usage",
+      "crafting.title1": "Energy Cell",
+      "crafting.recipe1": "bigreactors:energizer/energizercell",
+      "usage.text": "$(l)Mandatory:$() yes$(br)$(l)Valid positions:$() inside the Energizer$(br)$(l)Graphical interface:$() no"
+    }
+  ]
+}

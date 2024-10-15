@@ -21,6 +21,8 @@ package it.zerono.mods.extremereactors.gamecontent.compat.patchouli;
 import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.config.Config;
 import it.zerono.mods.extremereactors.gamecontent.Content;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.energizer.EnergizerPartType;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.energizer.MultiBlockEnergizer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.FluidizerPartType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.MultiblockFluidizer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.IReactorPartType;
@@ -380,6 +382,57 @@ public final class PatchouliCompat {
                 bs -> bs.getBlock().defaultBlockState(),
                 bs -> (bs.getBlock() instanceof MultiblockPartBlock) ?
                         CuboidPartVariantsModelData.from(((MultiblockPartBlock<MultiblockFluidizer, FluidizerPartType>)bs.getBlock()).getPartType().ordinal(), 0, BlockFacings.ALL) :
+                        ModelData.EMPTY
+        );
+
+        //noinspection unchecked
+        Patchouli.registerMultiblock(ExtremeReactors.ROOT_LOCATION.buildWithSuffix("bookenergizer"),
+                PatchouliAPI.get().makeMultiblock(new String[][] {
+                                {
+                                        "CCCCC",
+                                        "CCCPC",
+                                        "CXCCC",
+                                        "CICCC",
+                                        "CCCCC",
+                                },
+                                {
+                                        "CCCCC",
+                                        "O   C",
+                                        "C   C",
+                                        "I   C",
+                                        "CCCCC",
+                                },
+                                {
+                                        "CCCCC",
+                                        "C   C",
+                                        "C   O",
+                                        "C   C",
+                                        "CPCCC",
+                                },
+                                {
+                                        "CCCCC",
+                                        "C   P",
+                                        "P   C",
+                                        "C   C",
+                                        "CCCCC",
+                                },
+                                {
+                                        "CCCCC",
+                                        "CCCCC",
+                                        "CC0CC",
+                                        "CCCCC",
+                                        "CCCCC",
+                                }
+                        },
+                        '0', Content.Blocks.ENERGIZER_CASING.get(),
+                        'C', Content.Blocks.ENERGIZER_CASING.get(),
+                        'P', Content.Blocks.ENERGIZER_POWERPORT_FE.get(),
+                        'O', Content.Blocks.ENERGIZER_CHARGINGPORT_FE.get(),
+                        'I', Content.Blocks.ENERGIZER_COMPUTERPORT.get(),
+                        'X', Content.Blocks.ENERGIZER_CONTROLLER.get()),
+                bs -> bs.getBlock().defaultBlockState(),
+                bs -> (bs.getBlock() instanceof MultiblockPartBlock) ?
+                        CuboidPartVariantsModelData.from(((MultiblockPartBlock<MultiBlockEnergizer, EnergizerPartType>)bs.getBlock()).getPartType().ordinal(), 0, BlockFacings.ALL) :
                         ModelData.EMPTY
         );
     }

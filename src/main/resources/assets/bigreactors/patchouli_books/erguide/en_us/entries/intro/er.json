@@ -1,0 +1,32 @@
+{
+    "name": "Extreme Reactors",
+    "icon": "bigreactors:basic_reactorcasing",
+    "category": "bigreactors:intro",
+
+    "pages": [
+        {
+            "type": "patchouli:text",
+            "text": "Welcome to the $(bold)Extreme Reactors$() mod for Minecraft, a powerful addition to your gameplay experience that enables you to harness the immense power of nuclear energy through advanced reactor and turbine systems. This mod introduces complex energy generation mechanics that allow you to create efficient, high-capacity power solutions tailored to your needs."
+        },
+        {
+            "type": "patchouli:text",
+            "text": "$(bold)Overview$()$(br)In $(bold)Extreme Reactors$(), you will have the ability to build and manage both Reactors and Turbines, using a variety of components and configurations to optimize energy production. The mod simulates energy mechanics and fluid dynamics, creating a sophisticated environment for energy management."
+        },
+        {
+            "type": "patchouli:text",
+            "text": "$(bold)Key Components$()$(li)$(o)$(bold)Reactors:$() These are the core of your energy generation setup. You can choose between actively and passively cooled reactors, each with distinct operational characteristics and energy outputs. Learn how to manage fuel types, control rod insertion, and waste management to maintain optimal reactor performance.$(li)$(o)$(bold)Turbines:$() Complementing your Reactors, Turbines convert vapor into energy through intricate rotor assemblies. With multiple designs, from basic to reinforced variants, you can scale your turbine systems to meet high energy demands while managing fluid input and output effectively."
+        },
+        {
+            "type": "patchouli:text",
+            "text": "$(bold)Automation and Control$()$(br)Automation is essential for maximizing efficiency in your energy systems. Utilize Redstone signals to control reactor operations and turbine functionalities, allowing for seamless integration with other Minecraft machinery. The mod offers various ports and interfaces for fluid, energy, and waste management, enabling you to automate your entire setup."
+        },
+        {
+            "type": "patchouli:text",
+            "text": "$(bold)Building and Configuration$()$(br)Constructing your Reactors and Turbines requires specific components, such as casing blocks, rotor shafts, induction coils, and various ports. This manual will guide you through the assembly process, providing detailed instructions on how to configure each element for optimal performance."
+        },
+        {
+            "type": "patchouli:text",
+            "text": "$(bold)Getting Started$()$(br)As you embark on your journey with $(bold)Extreme Reactors$(), you will discover the intricate balance of energy generation and management. Whether you are a seasoned player or new to the world of modded Minecraft, this manual will provide you with the knowledge and tools needed to master the art of nuclear energy production."
+        }
+    ]
+}

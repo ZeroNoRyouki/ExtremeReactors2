@@ -1,0 +1,22 @@
+{
+    "name": "Computer Port",
+    "icon": "bigreactors:energizercomputerport",
+    "category": "bigreactors:energizer-parts",
+    "read_by_default": true,
+    "sortnum": 9,
+    "pages": [
+        {
+            "type": "patchouli:spotlight",
+            "item": "bigreactors:energizercomputerport",
+            "link_recipe": true,
+            "title" : "Computer Port",
+            "text": "The Computer Port allows you to connect your Energizer to a computer, enabling you to gather information on the status of the Energizer.$(br2)A standard set of methods is exposed to the connected computer, and you can use them to query the status of the Energizer."
+        },
+        {
+            "type": "crafting-part_usage",
+            "crafting.title1": "Computer Port",
+            "crafting.recipe1": "bigreactors:energizer/computerport",
+            "usage.text": "$(l)Mandatory:$() no$(br)$(l)Valid positions:$() any face (not on frame)$(br)$(l)Graphical interface:$() no"
+        }
+    ]
+}
