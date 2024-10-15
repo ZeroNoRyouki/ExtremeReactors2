@@ -387,8 +387,12 @@ public final class PatchouliCompat {
         );
 
         //noinspection unchecked
-        Patchouli.registerMultiblock(ExtremeReactors.ROOT_LOCATION.buildWithSuffix("bookenergizer"),
-                PatchouliAPI.get().makeMultiblock(new String[][] {
+        patchouli.registerMultiblock(ExtremeReactors.ROOT_LOCATION.buildWithSuffix("bookenergizer"),
+                bs -> bs.getBlock().defaultBlockState(),
+                bs -> (bs.getBlock() instanceof MultiblockPartBlock) ?
+                        CuboidPartVariantsModelData.from(((MultiblockPartBlock<MultiBlockEnergizer, EnergizerPartType>)bs.getBlock()).getPartType().ordinal(), 0, BlockFacings.ALL) :
+                        ModelData.EMPTY,
+                new String[][] {
                                 {
                                         "CCCCC",
                                         "CCCPC",
@@ -430,11 +434,7 @@ public final class PatchouliCompat {
                         'P', Content.Blocks.ENERGIZER_POWERPORT_FE.get(),
                         'O', Content.Blocks.ENERGIZER_CHARGINGPORT_FE.get(),
                         'I', Content.Blocks.ENERGIZER_COMPUTERPORT.get(),
-                        'X', Content.Blocks.ENERGIZER_CONTROLLER.get()),
-                bs -> bs.getBlock().defaultBlockState(),
-                bs -> (bs.getBlock() instanceof MultiblockPartBlock) ?
-                        CuboidPartVariantsModelData.from(((MultiblockPartBlock<MultiBlockEnergizer, EnergizerPartType>)bs.getBlock()).getPartType().ordinal(), 0, BlockFacings.ALL) :
-                        ModelData.EMPTY
+                        'X', Content.Blocks.ENERGIZER_CONTROLLER.get()
         );
     }
 
