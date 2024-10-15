@@ -1,0 +1,7 @@
+{
+    "name": "Energizer parts",
+    "description": "An Energizer is constructed using the following parts.",
+    "icon": "bigreactors:energizercontroller",
+    "parent": "bigreactors:energizer",
+    "sortnum": 6
+}

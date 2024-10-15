@@ -1,0 +1,17 @@
+{
+    "name": "How to build",
+    "icon": "bigreactors:energizercell",
+    "category": "bigreactors:energizer",
+    "read_by_default": true,
+    "sortnum": 2,
+    "pages": [
+        {
+            "type": "text",
+            "text": "The Energizer is a 3x3x3 (minimum size) machine built from Casing blocks and a combination of other device parts, completely filled with Energy Cells.$(br2)Check each Energizer part page for restrictions on where each part can be placed."
+        },
+        {
+            "type": "zcmultiblock",
+            "multiblock_id" : "bigreactors:bookenergizer"
+        }
+    ]
+}

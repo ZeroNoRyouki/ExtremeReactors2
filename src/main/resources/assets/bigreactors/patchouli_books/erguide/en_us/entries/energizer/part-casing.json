@@ -1,0 +1,22 @@
+{
+    "name": "Casing",
+    "icon": "bigreactors:energizercasing",
+    "category": "bigreactors:energizer-parts",
+    "read_by_default": true,
+    "sortnum": 1,
+    "pages": [
+        {
+            "type": "spotlight",
+            "item": "bigreactors:energizercasing",
+            "link_recipe": true,
+            "title" : "Casing",
+            "text": "Casing blocks are the building blocks of the Energizer.$(br2)They are required to build its frame and faces, and are also used to craft the other parts."
+        },
+        {
+            "type": "crafting-part_usage",
+            "crafting.title1": "Casing",
+            "crafting.recipe1": "bigreactors:energizer/casing",
+            "usage.text": "$(l)Mandatory:$() they are required to build the frame and the faces$(br)$(l)Valid positions:$() any$(br)$(l)Graphical interface:$() no"
+        }
+    ]
+}
