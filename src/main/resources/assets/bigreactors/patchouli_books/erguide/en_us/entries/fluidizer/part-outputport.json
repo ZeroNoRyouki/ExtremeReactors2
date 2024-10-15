@@ -10,7 +10,7 @@
             "item": "bigreactors:fluidizeroutputport",
             "link_recipe": true,
             "title" : "Output Port",
-            "text": "The Output Port allow you to extract the fluid fuel from the Fluidizer.$(br2)You can connect a pipe of sort to extract the fuel automatically."
+            "text": "The Output Port allows you to extract the fluid fuel from the Fluidizer.$(br2)You can connect a pipe of any sort to extract the fuel automatically."
         },
         {
             "type": "crafting-part_usage",

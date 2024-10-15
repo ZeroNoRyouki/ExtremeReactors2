@@ -10,11 +10,11 @@
             "item": "bigreactors:reinforced_reactorcontroller",
             "link_recipe": true,
             "title" : "Controller",
-            "text": "The Controller is your main interface to the Reactor.$(br2)Right click on the Controller to open it's graphical user interface and from there you can turn the Reactor on or off, check how much reactant is present in the Fuel Rods, how hot the Reactor is and so on."
+            "text": "The Controller is your main interface to the Reactor.$(br2)Right-click on the Controller to open its graphical user interface, and from there, you can turn the Reactor on or off, check how much reactant is present in the Fuel Rods, how hot the Reactor is, and so on."
         },
         {
             "type": "patchouli:text",
-            "text": "Depending on the operational mode of the Reactor, you can also check the status of its internal energy buffer and production ratio for $(l:bigreactors:reactor/passive)passively cooled$(/l) Reactors or the amount of coolant and vapor present in an $(l:bigreactors:reactor/active)actively cooled$(/l) Reactor.$(br2)If you hover on a control in the interface, a tooltip will be displayed with additional information or an explanatory text for that control."
+            "text": "Depending on the operational mode of the Reactor, you can also check the status of its internal energy buffer and production ratio for $(l:bigreactors/passive)passively cooled$(/l) Reactors or the amount of coolant and vapor present in an $(l:bigreactors/active)actively cooled$(/l) Reactor.$(br2)If you hover over a control in the interface, a tooltip will be displayed with additional information or explanatory text for that control."
         },
         {
             "type": "bigreactors:crafting1x",

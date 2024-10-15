@@ -10,7 +10,7 @@
             "item": "bigreactors:reinforced_reactorglass",
             "link_recipe": true,
             "title" : "Glass",
-            "text": "Glass blocks are decorative blocks that can be used, instead of a Casing block, to show the interior of the Reactor."
+            "text": "Glass blocks are decorative elements that can be used in place of Casing blocks to showcase the interior of the Reactor."
         },
         {
             "type": "bigreactors:crafting1x",

@@ -10,7 +10,7 @@
             "item": "bigreactors:reprocessorcasing",
             "link_recipe": true,
             "title" : "Casing",
-            "text": "Casing blocks are the building blocks of the Reprocessor.$(br2)They are required to build its frame and are also used to craft the other parts. Casing blocks can also be used to fill the faces of the Reprocessor if you don't like glass too much."
+            "text": "Casing blocks are the fundamental building blocks of the Reprocessor.$(br2)They are essential for constructing its frame and are also used to craft the other parts. Additionally, casing blocks can be used to fill the faces of the Reprocessor if you prefer not to use glass."
         },
         {
             "type": "crafting-part_usage",

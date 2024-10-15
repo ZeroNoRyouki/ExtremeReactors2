@@ -14,7 +14,7 @@
         },
         {
             "type": "crafting-text",
-            "text": "A $(l:bigreactors:misc/wrench)wrench$(/l) can be used to change the Port mode.$(br2)Unlike with the Solid Access Port, there is no loss of material using the Fuel Injection Port.",
+            "text": "A $(l:bigreactors/wrench)wrench$(/l) can be used to change the Port mode.$(br2)Unlike with the Solid Access Port, there is no loss of material using the Fuel Injection Port.",
             "title1": "Reinforced",
             "recipe": "bigreactors:reactor/reinforced/fluidaccessport"
         },

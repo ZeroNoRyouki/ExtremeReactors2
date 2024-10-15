@@ -10,11 +10,11 @@
             "item": "bigreactors:reinforced_reactorpowertapfe_passive",
             "link_recipe": true,
             "title" : "Forge Energy Power Tap",
-            "text": "The Forge Energy Power Tap allows you to extract energy from a $(l:bigreactors:reactor/passive)passively cooled$(/l) Reactor.$(br2)As the name implies, this Power Tap outputs energy using the Forge Energy $(l:bigreactors:misc/powersystem)power system$(/l) and so it can be connected only to pipes or machines compatible with that system."
+            "text": "The Forge Energy Power Tap allows you to extract energy from a $(l:bigreactors/passive)passively cooled$(/l) Reactor. This Power Tap outputs energy using the Forge Energy $(l:bigreactors/powersystem)power system$(/l), meaning it can only be connected to pipes or machines that are compatible with that system."
         },
         {
             "type": "patchouli:text",
-            "text": "Only one $(l:bigreactors:misc/powersystem)power system$(/l) can be used for each Reactor and so only one type of Power Tap can be used to build a single Reactor.$(br2)The Power Tap is available in both $(l:bigreactors:misc/passiveactiveparts)passive and active$(/l) forms."
+            "text": "Only one $(l:bigreactors/powersystem)power system$(/l) can be used for each Reactor, which means only one type of Power Tap can be utilized in a single Reactor build. The Power Tap is available in both $(l:bigreactors/passiveactiveparts)passive and active$(/l) forms."
         },
         {
             "type": "bigreactors:crafting1x",

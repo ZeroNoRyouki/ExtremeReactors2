@@ -10,7 +10,7 @@
             "item": "bigreactors:fluidizerglass",
             "link_recipe": true,
             "title" : "Glass",
-            "text": "Glass blocks are decorative blocks that can be used, instead of a Casing block, to show the interior of the Fluidizer."
+            "text": "Glass blocks are decorative blocks that can be used instead of a Casing block to showcase the interior of the Fluidizer."
         },
         {
             "type": "crafting-part_usage",

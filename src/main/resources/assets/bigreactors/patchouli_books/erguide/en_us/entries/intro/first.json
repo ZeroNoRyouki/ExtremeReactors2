@@ -6,7 +6,7 @@
     "pages": [
         {
             "type": "patchouli:text",
-            "text": "The Reactor is a multiblock machine whose primary job is to produce energy, and a lot of it.$(br2)A multiblock machine is composed by many different blocks that you will place in the world next to each others.$(br2)To craft and power the Reactor you need Yellorium ingots, so go mine some Yellorite Ore and smelt it right away!"
+            "text": "The Reactor is a multiblock machine whose primary job is to produce energy—and a lot of it.$(br2)A multiblock machine is composed of many different blocks that you will place in the world next to each other.$(br2)To craft and power the Reactor, you need Yellorium ingots, so go mine some Yellorite Ore and smelt it right away!"
         },
         {
             "type": "bigreactors:zcmultiblock",
@@ -14,7 +14,7 @@
         },
         {
             "type": "patchouli:text",
-            "text": "To build your first Reactor you need to craft the following Basic Reactor blocks:$(br2)$(li)22x Casing$(li)1x Controller$(li)1x Control Rod$(li)1x Fuel Rod$(li)1x Solid Access Port$(li)1x Active Forge Energy Power Tap$(br2)The Glass block is actually optional and can be replaced by another Casing block."
+            "text": "To build your first Reactor, you need to craft the following Basic Reactor blocks:$(br2)$(li)22x Casing$(li)1x Controller$(li)1x Control Rod$(li)1x Fuel Rod$(li)1x Solid Access Port$(li)1x Active Forge Energy Power Tap$(br2)The Glass block is optional and can be replaced by another Casing block."
         },
         {
             "type": "bigreactors:crafting1x",
@@ -41,7 +41,7 @@
             "type": "bigreactors:crafting-text",
             "title": "Forge Power Tap",
             "recipe": "bigreactors:reactor/basic/activetap_fe",
-            "text": "Once you have crafted all the required blocks, you are ready to build your first Reactor.$(br2)Place the blocks in your world using the following diagram, putting the Fuel Rod in the center with a Casing below."
+            "text": "Once you have crafted all the required blocks, you are ready to build your first Reactor.$(br2)Place the blocks in your world using the following diagram, placing the Fuel Rod in the center with a Casing below."
         },
         {
             "type": "bigreactors:zcmultiblock",
@@ -49,7 +49,7 @@
         },
         {
             "type": "patchouli:text",
-            "text": "If all goes well, when you place the last block the Reactor will form and you can now open the Controller interface by right-clicking on the Controller block.$(br2)If nothing happens, right click on any block you placed down: you will get an error message that should explain what the problem is. Once you have fixed it, you should have a formed Reactor or another error message waiting for you."
+            "text": "If all goes well, when you place the last block, the Reactor will form, and you can then open the Controller interface by right-clicking on the Controller block.$(br2)If nothing happens, right-click on any block you placed: you will receive an error message that should explain what the problem is. Once you have fixed it, you should have a formed Reactor or another error message waiting for you."
         },
         {
             "type": "patchouli:text",
@@ -57,11 +57,11 @@
         },
         {
             "type": "patchouli:text",
-            "text": "As the Reactor heats up, energy is slowly being produced and the internal energy buffer filled.$(br2)To use the energy stored inside the Reactor you need to connect some sort of energy pipe or a machine to the Active Forge Power Tap.$(br)The Power Tap will send out energy to the connected block (if it can accept it)"
+            "text": "As the Reactor heats up, energy is slowly produced, and the internal energy buffer is filled.$(br2)To use the energy stored inside the Reactor, you need to connect some sort of energy pipe or a machine to the Active Forge Power Tap.$(br)The Power Tap will send out energy to the connected block (if it can accept it)."
         },
         {
             "type": "patchouli:text",
-            "text": "Congratulations, you have built your first Reactor!$(br2)Use it to generate all the energy you need for your early game needs and them move on to build other Reactors and Turbines after you have read the remainder of this handbook."
+            "text": "Congratulations, you have built your first Reactor!$(br2)Use it to generate all the energy you need for your early game needs, and then move on to build other Reactors and Turbines after you have read the remainder of this handbook."
         }
     ]
 }

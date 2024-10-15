@@ -10,7 +10,7 @@
             "item": "bigreactors:reinforced_reactorcreativewatergenerator",
             "link_recipe": true,
             "title" : "Water Generator",
-            "text": "The Water Generator is a creative only part that acts as a constant source of water for an $(l:bigreactors:reactor/active)actively cooled$(/l) Reactor.$(br2)This part automatically supplies one bucket of water to the Coolant Fluid Tank, but only when the Reactor is turned on."
+            "text": "The Water Generator is a creative-only part that acts as a constant source of water for an $(l:bigreactors/active)actively cooled$(/l) Reactor.$(br2)This part automatically supplies one bucket of water to the Coolant Fluid Tank, but only when the Reactor is turned on."
         },
         {
             "type": "bigreactors:part_usage",

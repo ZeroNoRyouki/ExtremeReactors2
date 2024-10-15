@@ -10,11 +10,11 @@
             "item": "bigreactors:reprocessorcontroller",
             "link_recipe": true,
             "title" : "Controller",
-            "text": "The Controller is your main interface to the Reprocessor.$(br2)Right click on the Controller to open it's graphical user interface and from there you can turn the Reprocessor on or off, check how much fluids and energy are present in the machine and the status of the current re-processing job."
+            "text": "The Controller is your main interface to the Reprocessor.$(br2) Right-click on the Controller to open its graphical user interface. From there, you can turn the Reprocessor on or off, check the amounts of fluids and energy present in the machine, and monitor the status of the current reprocessing job."
         },
         {
             "type": "crafting-text",
-            "text": "If you hover on a control in the interface, a tooltip will be displayed with additional information or an explanatory text for that control.$(br2)",
+            "text": "If you hover over a control in the interface, a tooltip will appear, providing additional information or explanatory text for that control.$(br2)",
             "title": "Controller",
             "recipe": "bigreactors:reprocessor/controller"
         },

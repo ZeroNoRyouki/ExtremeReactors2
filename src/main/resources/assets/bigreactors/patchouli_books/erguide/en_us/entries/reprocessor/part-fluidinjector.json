@@ -10,7 +10,7 @@
             "item": "bigreactors:reprocessorfluidinjector",
             "link_recipe": true,
             "title" : "Fluid Injector",
-            "text": "The Fluid Injector allow you to insert the fluid needed to re-process wastes into the Reprocessor.$(br2)Different waste types may require different fluids."
+            "text": "The Fluid Injector allows you to insert the fluids needed to reprocess waste materials into the Reprocessor.$(br2) Different waste types may require different fluids."
         },
         {
             "type": "crafting-part_usage",

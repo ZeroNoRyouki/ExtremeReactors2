@@ -10,7 +10,7 @@
             "item": "bigreactors:fluidizersolidinjector",
             "link_recipe": true,
             "title" : "Solid Injector",
-            "text": "The Solid Injector allow you to insert existing solid fuel sources (like ingots) into the Fluidizer to convert them to fluid or mix them and create a new fuel."
+            "text": "The Solid Injector allows you to insert existing solid fuel sources (like ingots) into the Fluidizer to convert them to fluid or mix them to create a new fuel."
         },
         {
             "type": "crafting-part_usage",
