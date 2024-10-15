@@ -164,8 +164,8 @@ dependencies {
     runtimeOnly("cc.tweaked:cc-tweaked-${project.minecraft_version}-forge:${project.cctweaked_version}")
 
     // patchouli
-//    compileOnly "vazkii.patchouli:Patchouli:${project.patchouli_version}-NEOFORGE"
-//    runtimeOnly "vazkii.patchouli:Patchouli:${project.patchouli_version}-NEOFORGE"
+    compileOnly "vazkii.patchouli:Patchouli:${project.patchouli_version}-NEOFORGE"
+    runtimeOnly "vazkii.patchouli:Patchouli:${project.patchouli_version}-NEOFORGE"
 
     // mekanism
     compileOnly "mekanism:Mekanism:${project.mekanism_version}"
