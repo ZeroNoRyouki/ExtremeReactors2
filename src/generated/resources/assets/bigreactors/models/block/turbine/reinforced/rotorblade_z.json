@@ -2,6 +2,7 @@
   "parent": "bigreactors:block/turbine/rotor_blade_z",
   "textures": {
     "0": "bigreactors:block/turbine/reinforced/rotorblade",
-    "1": "bigreactors:block/turbine/reinforced/rotorblade"
+    "1": "bigreactors:block/turbine/reinforced/rotorblade",
+    "particle": "bigreactors:block/turbine/reinforced/rotorblade"
   }
 }
