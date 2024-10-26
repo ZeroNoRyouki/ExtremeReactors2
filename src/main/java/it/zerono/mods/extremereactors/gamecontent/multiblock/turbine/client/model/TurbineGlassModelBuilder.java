@@ -38,6 +38,8 @@ public class TurbineGlassModelBuilder
         for (final BlockFacingsProperty facing : BlockFacingsProperty.values()) {
             this.addVariant(TurbinePartType.Glass.ordinal(), getBlockStateRL(variant, facing));
         }
+
+        this.setFallbackModelData(TurbinePartType.Glass.ordinal(), BlockFacingsProperty.None.ordinal());
     }
 
     //region internals

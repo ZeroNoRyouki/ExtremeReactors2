@@ -56,6 +56,8 @@ public class TurbineRotorModelBuilder
         for (final RotorShaftState state : RotorShaftState.VALUES) {
             this.addVariant(TurbinePartType.RotorShaft.ordinal(), getBlockStateRL(variant, state));
         }
+
+        this.setFallbackModelData(TurbinePartType.RotorShaft.ordinal(), RotorShaftState.Y_NOBLADES.ordinal());
     }
 
     public static ResourceLocation getBlockStateRL(final IMultiblockTurbineVariant variant, final RotorBladeState blockStateVariant) {

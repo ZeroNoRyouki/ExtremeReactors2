@@ -37,6 +37,8 @@ public class ReactorGlassModelBuilder extends BlockVariantsModelBuilder {
         for (final BlockFacingsProperty facing : BlockFacingsProperty.values()) {
             this.addVariant(ReactorPartType.Glass.ordinal(), getBlockStateRL(variant, facing));
         }
+
+        this.setFallbackModelData(ReactorPartType.Glass.ordinal(), BlockFacingsProperty.None.ordinal());
     }
 
     //region internals

@@ -22,6 +22,7 @@ import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.model.AbstractMultiblockModelBuilder;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.TurbinePartType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.TurbineVariant;
+import it.zerono.mods.zerocore.lib.block.property.BlockFacingsProperty;
 import it.zerono.mods.zerocore.lib.data.ResourceLocationBuilder;
 
 import java.util.function.Predicate;
@@ -93,5 +94,7 @@ public class TurbineModelBuilder
                 "redstoneport_on");
 
         this.addBlockWithVariants(TurbinePartType.ChargingPortFE, variant, isPartCompatible, "chargingportfe");
+
+        this.setFallbackModelData(TurbinePartType.Casing.ordinal(), BlockFacingsProperty.None.ordinal());
     }
 }

@@ -19,6 +19,7 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.energizer.client.m
 
 import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.energizer.EnergizerPartType;
+import it.zerono.mods.zerocore.lib.block.property.BlockFacingsProperty;
 import it.zerono.mods.zerocore.lib.client.model.multiblock.CuboidPartVariantsModelBuilder;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.resources.ResourceLocation;
@@ -83,6 +84,8 @@ public class EnergizerModelBuilder
         this.addBlockWithVariants(modelToReplaceIdGetter, variantModelIdGetter, EnergizerPartType.ComputerPort,
                 "computerport", "computerport_assembled_disconnected",
                 "computerport_assembled_connected");
+
+        this.setFallbackModelData(EnergizerPartType.Casing.ordinal(), BlockFacingsProperty.None.ordinal());
     }
 
     //region internals

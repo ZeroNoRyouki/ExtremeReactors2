@@ -23,6 +23,7 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.model
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.IReactorPartType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.ReactorPartType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.ReactorVariant;
+import it.zerono.mods.zerocore.lib.block.property.BlockFacingsProperty;
 import it.zerono.mods.zerocore.lib.data.ResourceLocationBuilder;
 
 import java.util.Set;
@@ -115,5 +116,7 @@ public class ReactorModelBuilder
                 "redstoneport_on");
 
         this.addBlockWithVariants(ReactorPartType.ChargingPortFE, variant, isPartCompatible, "chargingportfe");
+
+        this.setFallbackModelData(ReactorPartType.Casing.ordinal(), BlockFacingsProperty.None.ordinal());
     }
 }

@@ -38,6 +38,8 @@ public class FluidizerGlassModelBuilder
         for (final BlockFacingsProperty facing : BlockFacingsProperty.values()) {
             this.addVariant(FluidizerPartType.Glass.ordinal(), getBlockStateRL(facing));
         }
+
+        this.setFallbackModelData(FluidizerPartType.Glass.ordinal(), BlockFacingsProperty.None.ordinal());
     }
 
     //region internals

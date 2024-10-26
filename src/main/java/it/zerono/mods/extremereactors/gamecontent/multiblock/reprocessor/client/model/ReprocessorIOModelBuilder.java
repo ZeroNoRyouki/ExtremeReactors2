@@ -20,6 +20,7 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.client
 
 import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.ReprocessorPartType;
+import it.zerono.mods.zerocore.lib.block.property.BlockFacingsProperty;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.resources.ResourceLocation;
 
@@ -44,5 +45,7 @@ public class ReprocessorIOModelBuilder
                 "wasteinjector", "wasteinjector_connected");
         this.addBlockWithVariants(modelToReplaceIdGetter, variantModelIdGetter, ReprocessorPartType.Collector,
                 "collector");
+
+        this.setFallbackModelData(ReprocessorPartType.WasteInjector.ordinal(), BlockFacingsProperty.None.ordinal());
     }
 }

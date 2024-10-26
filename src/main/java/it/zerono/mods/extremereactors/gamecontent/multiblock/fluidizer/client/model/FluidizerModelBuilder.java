@@ -20,6 +20,7 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.client.m
 
 import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.FluidizerPartType;
+import it.zerono.mods.zerocore.lib.block.property.BlockFacingsProperty;
 import it.zerono.mods.zerocore.lib.client.model.multiblock.CuboidPartVariantsModelBuilder;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.resources.ResourceLocation;
@@ -79,6 +80,8 @@ public class FluidizerModelBuilder
                 "fluidinjector", "fluidinjector_connected");
         this.addBlockWithVariants(modelToReplaceIdGetter, variantModelIdGetter, FluidizerPartType.OutputPort,
                 "outputport", "outputport_connected");
+
+        this.setFallbackModelData(FluidizerPartType.Casing.ordinal(), BlockFacingsProperty.None.ordinal());
     }
 
     //region internals

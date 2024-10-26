@@ -37,6 +37,8 @@ public class ReprocessorGlassModelBuilder
         for (final BlockFacingsProperty facing : BlockFacingsProperty.values()) {
             this.addVariant(ReprocessorPartType.Glass.ordinal(), getBlockStateRL(facing));
         }
+
+        this.setFallbackModelData(ReprocessorPartType.Glass.ordinal(), BlockFacingsProperty.None.ordinal());
     }
 
     //region internals
