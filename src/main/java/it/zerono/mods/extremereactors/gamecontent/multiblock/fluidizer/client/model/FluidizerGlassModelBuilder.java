@@ -31,6 +31,8 @@ public class FluidizerGlassModelBuilder
 
     @Override
     public void build() {
+
         this.addGlass(Content.Blocks.FLUIDIZER_GLASS.get());
+        this.setFallbackModelData(Content.Blocks.FLUIDIZER_GLASS.get());
     }
 }

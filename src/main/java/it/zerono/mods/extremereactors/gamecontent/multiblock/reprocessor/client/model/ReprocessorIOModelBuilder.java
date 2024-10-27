@@ -32,5 +32,7 @@ public class ReprocessorIOModelBuilder
 
         this.addIoPort(Content.Blocks.REPROCESSOR_COLLECTOR.get());
         this.addIoPort(Content.Blocks.REPROCESSOR_WASTEINJECTOR.get(), "wasteinjector_connected");
+
+        this.setFallbackModelData(Content.Blocks.REPROCESSOR_COLLECTOR.get());
     }
 }

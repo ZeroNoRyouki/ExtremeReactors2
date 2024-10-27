@@ -35,7 +35,9 @@ public abstract class ReactorGlassModelBuilder
 
         @Override
         public void build() {
+
             this.addGlass(Content.Blocks.REACTOR_GLASS_BASIC.get());
+            this.setFallbackModelData(Content.Blocks.REACTOR_GLASS_BASIC.get());
         }
     }
 
@@ -48,7 +50,9 @@ public abstract class ReactorGlassModelBuilder
 
         @Override
         public void build() {
+
             this.addGlass(Content.Blocks.REACTOR_GLASS_REINFORCED.get());
+            this.setFallbackModelData(Content.Blocks.REACTOR_GLASS_REINFORCED.get());
         }
     }
 

@@ -39,5 +39,7 @@ public class EnergizerModelBuilder
                 "powerportfe_assembled_output", "powerportfe_assembled_output_connected");
         this.addIoPort(Content.Blocks.ENERGIZER_COMPUTERPORT.get(), "computerport_assembled_disconnected",
                 "computerport_assembled_connected");
+
+        this.setFallbackModelData(Content.Blocks.ENERGIZER_CASING.get());
     }
 }

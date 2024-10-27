@@ -15,5 +15,7 @@ public class FluidizerIOModelBuilder
         this.addIoPort(Content.Blocks.FLUIDIZER_SOLIDINJECTOR.get(), "solidinjector_connected");
         this.addIoPort(Content.Blocks.FLUIDIZER_FLUIDINJECTOR.get(), "fluidinjector_connected");
         this.addIoPort(Content.Blocks.FLUIDIZER_OUTPUTPORT.get(), "outputport_connected");
+
+        this.setFallbackModelData(Content.Blocks.FLUIDIZER_OUTPUTPORT.get());
     }
 }

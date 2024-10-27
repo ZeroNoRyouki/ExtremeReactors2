@@ -47,6 +47,8 @@ public abstract class ReactorModelBuilder
                     "accessport_solid_in_connected",
                     "accessport_solid_out",
                     "accessport_solid_out_connected");
+
+            this.setFallbackModelData(Content.Blocks.REACTOR_CASING_BASIC.get());
         }
     }
 
@@ -89,6 +91,8 @@ public abstract class ReactorModelBuilder
                     "fluidport_mekanism_passive_cold_connected",
                     "fluidport_mekanism_passive_hot",
                     "fluidport_mekanism_passive_hot_connected");
+
+            this.setFallbackModelData(Content.Blocks.REACTOR_CASING_REINFORCED.get());
         }
     }
 

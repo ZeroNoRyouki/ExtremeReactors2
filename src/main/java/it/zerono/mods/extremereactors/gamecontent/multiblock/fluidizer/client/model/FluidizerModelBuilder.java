@@ -39,5 +39,7 @@ public class FluidizerModelBuilder
         this.addCasing(Content.Blocks.FLUIDIZER_CASING.get());
         this.addController(Content.Blocks.FLUIDIZER_CONTROLLER.get());
         this.addIoPort(Content.Blocks.FLUIDIZER_POWERPORT.get());
+
+        this.setFallbackModelData(Content.Blocks.FLUIDIZER_CASING.get());
     }
 }
