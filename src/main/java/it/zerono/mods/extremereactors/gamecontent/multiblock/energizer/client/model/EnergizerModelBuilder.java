@@ -78,6 +78,11 @@ public class EnergizerModelBuilder
                 "powerportfe_assembled_input", "powerportfe_assembled_input_connected",
                 "powerportfe_assembled_output", "powerportfe_assembled_output_connected");
 
+        this.addBlockWithVariants(modelToReplaceIdGetter, variantModelIdGetter, EnergizerPartType.ActivePowerPortFE,
+                "powerportfe_active", "powerportfe_active_input",
+                "powerportfe_active_assembled_input", "powerportfe_active_assembled_input_connected",
+                "powerportfe_active_assembled_output", "powerportfe_active_assembled_output_connected");
+
         this.addBlockWithVariants(modelToReplaceIdGetter, variantModelIdGetter, EnergizerPartType.ChargingPortFE,
                 "chargingportfe", "charging_assembled");
 

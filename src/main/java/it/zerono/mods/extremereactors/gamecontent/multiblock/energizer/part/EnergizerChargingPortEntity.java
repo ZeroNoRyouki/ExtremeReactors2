@@ -45,6 +45,7 @@ public class EnergizerChargingPortEntity
                                        BlockPos position, BlockState blockState) {
 
         super(entityType, position, blockState);
+        this.setIoDirection(IoDirection.Output);
         this.setHandler(IChargingPortHandler.create(system, this, 1, 1));
 
         this.setCommandDispatcher(TileCommandDispatcher.<EnergizerChargingPortEntity>builder()
@@ -68,8 +69,8 @@ public class EnergizerChargingPortEntity
     }
 
     @Override
-    public void setIoDirection(IoDirection direction) {
-        // ignore
+    public IoDirection getIoDirection() {
+        return IoDirection.Output;
     }
 
     //endregion

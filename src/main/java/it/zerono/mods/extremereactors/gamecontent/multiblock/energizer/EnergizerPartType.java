@@ -32,13 +32,16 @@ public enum EnergizerPartType
     Casing(() -> Content.TileEntityTypes.ENERGIZER_CASING::get, MultiblockPartBlock::new),
 
     Controller(() -> Content.TileEntityTypes.ENERGIZER_CONTROLLER::get,
-            GenericDeviceBlock::new, "block.bigreactors.energizercontroller"),
+            GenericDeviceBlock::new, "part.bigreactors.energizer.controller"),
 
     PowerPortFE(() -> Content.TileEntityTypes.ENERGIZER_POWERPORT_FE::get,
-            PowerTapBlock::new, "block.bigreactors.energizerpowerportfe"),
+            PowerTapBlock::new, "part.bigreactors.energizer.powerportfe"),
+
+    ActivePowerPortFE(() -> Content.TileEntityTypes.ENERGIZER_POWERPORT_FE_ACTIVE::get,
+            PowerTapBlock::new, "part.bigreactors.energizer.powerportfe_active"),
 
     ChargingPortFE(() -> Content.TileEntityTypes.ENERGIZER_CHARGINGPORT_FE::get,
-            PowerTapBlock::new, "block.bigreactors.energizerchargingportfe"),
+            PowerTapBlock::new, "part.bigreactors.energizer.chargingportfe"),
 
     StatusDisplay(() -> Content.TileEntityTypes.ENERGIZER_STATUS_DISPLAY::get, GenericDeviceBlock::new),
 
