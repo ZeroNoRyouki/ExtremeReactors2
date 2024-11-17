@@ -83,17 +83,32 @@ public abstract class AbstractEnergyGeneratorMultiblockController<Controller ext
             return WideAmount.ZERO;
         }
 
-        energyAmount = energyAmount.divide(powerTaps.size()).toImmutable();
-
-        WideAmount amountDistributed = WideAmount.ZERO;
+        final IPowerPortHandler[] outputHandlers = new IPowerPortHandler[powerTaps.size()];
+        int outputHandlersCount = 0;
 
         for (final IPowerPort port : powerTaps) {
 
             final IPowerPortHandler handler = port.getPowerPortHandler();
 
-            if (handler.isActive() && handler.isConnected()) {
-                amountDistributed = amountDistributed.add(handler.outputEnergy(energyAmount));
+            if (handler.isActive() && port.getIoDirection().isOutput() && handler.isConnected()) {
+                outputHandlers[outputHandlersCount++] = handler;
             }
+        }
+
+        if (0 == outputHandlersCount) {
+            return WideAmount.ZERO;
+        }
+
+        if (1 != outputHandlersCount) {
+            energyAmount = energyAmount.divide(outputHandlersCount);
+        }
+
+        energyAmount = energyAmount.toImmutable();
+
+        WideAmount amountDistributed = WideAmount.ZERO;
+
+        for (int idx = 0; idx < outputHandlersCount; ++idx) {
+            amountDistributed = amountDistributed.add(outputHandlers[idx].outputEnergy(energyAmount));
         }
 
         return amountDistributed;
