@@ -1,0 +1,22 @@
+{
+  "name": "Active FE Power Port",
+  "icon": "bigreactors:energizerpowerport_fe_active",
+  "category": "bigreactors:energizer-parts",
+  "read_by_default": true,
+  "sortnum": 6,
+  "pages": [
+    {
+      "type": "spotlight",
+      "item": "bigreactors:energizerpowerport_fe_active",
+      "link_recipe": true,
+      "title" : "Active FE Power Port",
+      "text": "The Active FE Power Port allows you to insert and extract energy from the Energizer.$(br2)Any Forge Energy-compatible cable or machine can be connected to the Active FE Power Port. The port will automatically transfer energy to the connected block if it supports it."
+    },
+    {
+      "type": "crafting-part_usage",
+      "crafting.title1": "Active FE Power Port",
+      "crafting.recipe1": "bigreactors:energizer/powerport_fe_active",
+      "usage.text": "$(l)Mandatory:$() no$(br)$(l)Valid positions:$() any face (not on frame)$(br)$(l)Graphical interface:$() yes"
+    }
+  ]
+}
