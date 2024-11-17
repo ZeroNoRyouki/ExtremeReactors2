@@ -37,6 +37,9 @@ public class EnergizerModelBuilder
         this.addIoPort(Content.Blocks.ENERGIZER_POWERPORT_FE.get(),
                 "powerportfe_assembled_input", "powerportfe_assembled_input_connected",
                 "powerportfe_assembled_output", "powerportfe_assembled_output_connected");
+        this.addIoPort(Content.Blocks.ENERGIZER_POWERPORT_FE_ACTIVE.get(),
+                "powerportfe_active_assembled_input", "powerportfe_active_assembled_input_connected",
+                "powerportfe_active_assembled_output", "powerportfe_active_assembled_output_connected");
         this.addIoPort(Content.Blocks.ENERGIZER_COMPUTERPORT.get(), "computerport_assembled_disconnected",
                 "computerport_assembled_connected");
 

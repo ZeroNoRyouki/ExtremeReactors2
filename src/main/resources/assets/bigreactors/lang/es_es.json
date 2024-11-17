@@ -181,6 +181,16 @@
     "block.bigreactors.fluidizeroutputport": "Puerto de salida de Fluidizador",
     "block.bigreactors.fluidizerpowerport": "Puerto de alimentación de Fluidizador",
 
+    "_comment": "Blocks - energizer parts",
+    "block.bigreactors.energizercasing": "Energizer Casing",
+    "block.bigreactors.energizercontroller": "Energizer Controller",
+    "block.bigreactors.energizerstatus": "Energizer Status Display",
+    "block.bigreactors.energizerchargingportfe": "Energizer FE Charging Port",
+    "block.bigreactors.energizerpowerportfe": "Energizer Passive FE Power Port",
+    "block.bigreactors.energizerpowerportfe_active": "Energizer Active FE Power Port",
+    "block.bigreactors.energizercomputerport": "Energizer Computer Port",
+    "block.bigreactors.energizercell": "Energy Cell",
+
     "_comment": "Reactor parts names (for GUIs)",
     "part.bigreactors.reactor.controller": "Controlador",
     "part.bigreactors.reactor.controlrod": "Barra de Control",
@@ -197,6 +207,12 @@
     "part.bigreactors.turbine.fluidport_forge_passive": "Puerto de Fluidos (Pasivo)",
     "part.bigreactors.turbine.redstoneport": "Puerto de Redstone",
     "part.bigreactors.turbine.chargingport_fe": "Puerto de Carga (FE)",
+
+    "_comment": "Energizer parts names (for GUIs)",
+    "part.bigreactors.energizer.controller": "Controller",
+    "part.bigreactors.energizer.powerportfe": "FE Power Port (Passive)",
+    "part.bigreactors.energizer.powerportfe_active": "FE Power Port (Active)",
+    "part.bigreactors.energizer.chargingportfe": "Charging Port (FE)",
 
     "_comment": "variants names",
     "variant.bigreactors.reactor.basic": "Básico",

@@ -463,6 +463,9 @@ public final class Content {
         public static final Supplier<PowerTapBlock<MultiBlockEnergizer, IEnergizerPartType>> ENERGIZER_POWERPORT_FE =
                 registerEnergizerBlock("energizerpowerportfe", EnergizerPartType.PowerPortFE);
 
+        public static final Supplier<PowerTapBlock<MultiBlockEnergizer, IEnergizerPartType>> ENERGIZER_POWERPORT_FE_ACTIVE =
+                registerEnergizerBlock("energizerpowerportfe_active", EnergizerPartType.ActivePowerPortFE);
+
         public static final Supplier<PowerTapBlock<MultiBlockEnergizer, IEnergizerPartType>> ENERGIZER_CHARGINGPORT_FE =
                 registerEnergizerBlock("energizerchargingportfe", EnergizerPartType.ChargingPortFE);
 
@@ -720,6 +723,7 @@ public final class Content {
         public static final Supplier<BlockItem> ENERGIZER_CASING = registerItemBlock("energizercasing", () -> Blocks.ENERGIZER_CASING::get);
         public static final Supplier<BlockItem> ENERGIZER_CONTROLLER = registerItemBlock("energizercontroller", () -> Blocks.ENERGIZER_CONTROLLER::get);
         public static final Supplier<BlockItem> ENERGIZER_POWERPORT_FE = registerItemBlock("energizerpowerport_fe", () -> Blocks.ENERGIZER_POWERPORT_FE::get);
+        public static final Supplier<BlockItem> ENERGIZER_POWERPORT_FE_ACTIVE = registerItemBlock("energizerpowerport_fe_active", () -> Blocks.ENERGIZER_POWERPORT_FE_ACTIVE::get);
         public static final Supplier<BlockItem> ENERGIZER_CHARGINGPORT_FE = registerItemBlock("energizerchargingport_fe", () -> Blocks.ENERGIZER_CHARGINGPORT_FE::get);
         public static final Supplier<BlockItem> ENERGIZER_STATUS_DISPLAY = registerItemBlock("energizerstatus", () -> Blocks.ENERGIZER_STATUS_DISPLAY::get);
         public static final Supplier<BlockItem> ENERGIZER_COMPUTERPORT = registerItemBlock("energizercomputerport", () -> Blocks.ENERGIZER_COMPUTERPORT::get);
@@ -1201,9 +1205,15 @@ public final class Content {
 
         public static final Supplier<BlockEntityType<EnergizerPowerPortEntity>> ENERGIZER_POWERPORT_FE =
                 registerBlockEntity("energizerpowerport_fe",
-                        (position, state) -> new EnergizerPowerPortEntity(EnergySystem.ForgeEnergy,
+                        (position, state) -> new EnergizerPowerPortEntity(EnergySystem.ForgeEnergy, IoMode.Passive,
                                 TileEntityTypes.ENERGIZER_POWERPORT_FE.get(), position, state),
                         () -> Blocks.ENERGIZER_POWERPORT_FE::get);
+
+        public static final Supplier<BlockEntityType<EnergizerPowerPortEntity>> ENERGIZER_POWERPORT_FE_ACTIVE =
+                registerBlockEntity("energizerpowerport_fe_active",
+                        (position, state) -> new EnergizerPowerPortEntity(EnergySystem.ForgeEnergy, IoMode.Active,
+                                TileEntityTypes.ENERGIZER_POWERPORT_FE_ACTIVE.get(), position, state),
+                        () -> Blocks.ENERGIZER_POWERPORT_FE_ACTIVE::get);
 
         public static final Supplier<BlockEntityType<EnergizerChargingPortEntity>> ENERGIZER_CHARGINGPORT_FE =
                 registerBlockEntity("energizerchargingport_fe",
@@ -1460,8 +1470,8 @@ public final class Content {
 
                         acceptAll(output, Items.ENERGY_CORE, Blocks.ENERGIZER_CELL,
                                 Blocks.ENERGIZER_CASING, Blocks.ENERGIZER_CONTROLLER,
-                                Blocks.ENERGIZER_POWERPORT_FE, Blocks.ENERGIZER_CHARGINGPORT_FE,
-                                Blocks.ENERGIZER_STATUS_DISPLAY, Blocks.ENERGIZER_COMPUTERPORT);
+                                Blocks.ENERGIZER_POWERPORT_FE, Blocks.ENERGIZER_POWERPORT_FE_ACTIVE, Blocks.ENERGIZER_CHARGINGPORT_FE,
+                                Blocks.ENERGIZER_COMPUTERPORT);
                     })
                     .build()
             );
