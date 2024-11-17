@@ -50,6 +50,8 @@ public class EnergizerRecipesDataProvider
         this.controller(builder);
         this.port(builder, "powerport_fe", Content.Items.ENERGIZER_POWERPORT_FE, () -> Items.REDSTONE_BLOCK,
                 Tags.Items.INGOTS_IRON, Tags.Items.DUSTS_GLOWSTONE);
+        this.port(builder, "powerport_fe_active", Content.Items.ENERGIZER_POWERPORT_FE_ACTIVE, () -> Items.REDSTONE_BLOCK,
+                Tags.Items.INGOTS_IRON, Tags.Items.GEMS_LAPIS);
         this.port(builder, "chargingport_fe", Content.Items.ENERGIZER_CHARGINGPORT_FE, () -> Items.LAPIS_BLOCK,
                 Tags.Items.INGOTS_IRON, Tags.Items.STORAGE_BLOCKS_REDSTONE);
         this.computerPort(builder);
