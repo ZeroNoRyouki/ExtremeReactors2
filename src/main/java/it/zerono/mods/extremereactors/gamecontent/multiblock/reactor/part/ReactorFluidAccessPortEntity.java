@@ -127,8 +127,8 @@ public class ReactorFluidAccessPortEntity
         if (null != component) {
 
             appender.accept(Component.translatable(component.direction().isInput() ?
-                    "gui.bigreactors.reactor.fluidaccessport.directioninput.line1" :
-                    "gui.bigreactors.reactor.fluidaccessport.directionoutput.line1")
+                    "gui.bigreactors.reactor.fluidaccessport.directioninput.tooltip.title" :
+                    "gui.bigreactors.reactor.fluidaccessport.directionoutput.tooltip.title")
                     .setStyle(CommonConstants.STYLE_TOOLTIP_VALUE));
 
             appender.accept(getTankTooltip(component.fuel(), "gui.bigreactors.generic.fuel.label"));
