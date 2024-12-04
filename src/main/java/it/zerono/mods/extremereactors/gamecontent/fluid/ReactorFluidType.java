@@ -1,17 +1,12 @@
 package it.zerono.mods.extremereactors.gamecontent.fluid;
 
 import it.zerono.mods.extremereactors.ExtremeReactors;
-import it.zerono.mods.extremereactors.gamecontent.CommonConstants;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.Reactants;
-import it.zerono.mods.zerocore.lib.fluid.SimpleFluidTypeRenderProperties;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.pathfinder.PathType;
-import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.neoforged.neoforge.common.SoundActions;
 import net.neoforged.neoforge.fluids.FluidType;
-
-import java.util.function.Consumer;
 
 public class ReactorFluidType
         extends FluidType {
@@ -24,14 +19,10 @@ public class ReactorFluidType
         return of(reactant.getReactantName(), reactant.getColour(), reactant.getFluidDensity(), reactant.getFluidLightLevel(), reactant.getRarity());
     }
 
-    //region FluidType
-
-    @Override
-    public void initializeClient(final Consumer<IClientFluidTypeExtensions> consumer) {
-        consumer.accept(new RenderProperties());
+    public int getTintColor() {
+        return this._tintColour;
     }
 
-    //endregion
     //region internals
 
     private ReactorFluidType(final String registrationName, final int tint, final int density, final int lightLevel, final Rarity rarity) {
@@ -54,24 +45,6 @@ public class ReactorFluidType
                 .rarity(rarity));
 
         this._tintColour = tint;
-    }
-
-    private class RenderProperties
-            extends SimpleFluidTypeRenderProperties {
-
-        public RenderProperties() {
-            super(0, CommonConstants.FLUID_TEXTURE_SOURCE_WATER, CommonConstants.FLUID_TEXTURE_FLOWING_WATER,
-                    CommonConstants.FLUID_TEXTURE_OVERLAY_WATER);
-        }
-
-        //region SimpleFluidTypeRenderProperties
-
-        @Override
-        public int getTintColor() {
-            return _tintColour;
-        }
-
-        //endregion
     }
 
     private final int _tintColour;

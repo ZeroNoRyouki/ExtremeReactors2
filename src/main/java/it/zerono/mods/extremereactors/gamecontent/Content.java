@@ -807,6 +807,10 @@ public final class Content {
             FLUID_TYPES.register(bus);
         }
 
+        public static void forEachType(Consumer<@NotNull FluidType> consumer) {
+            FLUID_TYPES.getEntries().forEach(holder -> consumer.accept(holder.get()));
+        }
+
         public static Supplier<FluidType> STEAM_FLUID_TYPE = FLUID_TYPES.register("steam",
                 () -> new FluidType(FluidType.Properties.create()
                         .descriptionId("fluid." + ExtremeReactors.MOD_ID + ".steam")

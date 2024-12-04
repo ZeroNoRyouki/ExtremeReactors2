@@ -30,6 +30,8 @@ import it.zerono.mods.extremereactors.api.turbine.CoilMaterialRegistry;
 import it.zerono.mods.extremereactors.config.Config;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.compat.patchouli.PatchouliCompat;
+import it.zerono.mods.extremereactors.gamecontent.fluid.ReactorFluidRenderProperties;
+import it.zerono.mods.extremereactors.gamecontent.fluid.ReactorFluidType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.CachedSprites;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.GuiTheme;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.energizer.client.model.EnergizerModelBuilder;
@@ -86,6 +88,7 @@ import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.ModelEvent;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
+import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.AddReloadListenerEvent;
 import net.neoforged.neoforge.event.TagsUpdatedEvent;
@@ -120,6 +123,7 @@ public class ClientProxy
         modEventBus.addListener(ClientProxy::onRegisterBlockColorHandlers);
         modEventBus.addListener(ClientProxy::onRegisterItemColorHandlers);
         modEventBus.addListener(ClientProxy::onRegisterMenuScreensEvent);
+        modEventBus.addListener(ClientProxy::onRegisterClientExtensionsEvent);
 
         NeoForge.EVENT_BUS.addListener(this::onAddReloadListener);
         NeoForge.EVENT_BUS.addListener(this::onItemTooltip);
@@ -284,6 +288,15 @@ public class ClientProxy
         event.register(Content.ContainerTypes.ENERGIZER_CONTROLLER.get(), EnergizerControllerScreen::new);
         event.register(Content.ContainerTypes.ENERGIZER_POWERPORT.get(), EnergizerPowerPortScreen::new);
         event.register(Content.ContainerTypes.ENERGIZER_CHARGINGPORT.get(), EnergizerChargingPortScreen::new);
+    }
+
+    private static void onRegisterClientExtensionsEvent(RegisterClientExtensionsEvent event) {
+        Content.Fluids.forEachType(type -> {
+
+            if (type instanceof ReactorFluidType reactorFluidType) {
+                event.registerFluidType(new ReactorFluidRenderProperties(reactorFluidType), reactorFluidType);
+            }
+        });
     }
 
     private void onAddReloadListener(AddReloadListenerEvent event) {
