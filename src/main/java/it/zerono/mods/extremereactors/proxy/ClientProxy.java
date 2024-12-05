@@ -28,6 +28,7 @@ import it.zerono.mods.extremereactors.api.reactor.ModeratorsRegistry;
 import it.zerono.mods.extremereactors.api.reactor.ReactantMappingsRegistry;
 import it.zerono.mods.extremereactors.api.turbine.CoilMaterialRegistry;
 import it.zerono.mods.extremereactors.config.Config;
+import it.zerono.mods.extremereactors.gamecontent.CommonConstants;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.compat.patchouli.PatchouliCompat;
 import it.zerono.mods.extremereactors.gamecontent.fluid.ReactorFluidRenderProperties;
@@ -70,6 +71,7 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.client.scre
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.client.screen.TurbineRedstonePortScreen;
 import it.zerono.mods.zerocore.lib.client.model.ICustomModelBuilder;
 import it.zerono.mods.zerocore.lib.client.model.ModBakedModelSupplier;
+import it.zerono.mods.zerocore.lib.fluid.SimpleFluidTypeRenderProperties;
 import it.zerono.mods.zerocore.lib.item.TintedBucketItem;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
@@ -291,12 +293,17 @@ public class ClientProxy
     }
 
     private static void onRegisterClientExtensionsEvent(RegisterClientExtensionsEvent event) {
+
         Content.Fluids.forEachType(type -> {
 
             if (type instanceof ReactorFluidType reactorFluidType) {
                 event.registerFluidType(new ReactorFluidRenderProperties(reactorFluidType), reactorFluidType);
             }
         });
+
+        event.registerFluidType(new SimpleFluidTypeRenderProperties(0xffffffff,
+                        CommonConstants.FLUID_TEXTURE_SOURCE_WATER, CommonConstants.FLUID_TEXTURE_FLOWING_WATER,
+                        CommonConstants.FLUID_TEXTURE_OVERLAY_WATER), Content.Fluids.STEAM_FLUID_TYPE.get());
     }
 
     private void onAddReloadListener(AddReloadListenerEvent event) {

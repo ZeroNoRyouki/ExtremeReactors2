@@ -82,7 +82,6 @@ import it.zerono.mods.zerocore.lib.data.IoDirection;
 import it.zerono.mods.zerocore.lib.data.IoMode;
 import it.zerono.mods.zerocore.lib.data.ModCodecs;
 import it.zerono.mods.zerocore.lib.energy.EnergySystem;
-import it.zerono.mods.zerocore.lib.fluid.SimpleFluidTypeRenderProperties;
 import it.zerono.mods.zerocore.lib.item.ModItem;
 import it.zerono.mods.zerocore.lib.item.TintedBucketItem;
 import it.zerono.mods.zerocore.lib.recipe.ModRecipe;
@@ -118,7 +117,6 @@ import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.level.pathfinder.PathType;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.neoforged.neoforge.common.SoundActions;
 import net.neoforged.neoforge.common.extensions.IMenuTypeExtension;
 import net.neoforged.neoforge.common.world.BiomeModifier;
@@ -828,14 +826,7 @@ public final class Content {
                         .sound(SoundActions.BUCKET_EMPTY, SoundEvents.BUCKET_EMPTY)
                         .canHydrate(false)
                         .temperature(100)
-                        .rarity(Rarity.COMMON)) {
-
-                    @Override
-                    public void initializeClient(final Consumer<IClientFluidTypeExtensions> consumer) {
-                        consumer.accept(new SimpleFluidTypeRenderProperties(0xffffffff, CommonConstants.FLUID_TEXTURE_SOURCE_WATER,
-                                CommonConstants.FLUID_TEXTURE_FLOWING_WATER, CommonConstants.FLUID_TEXTURE_OVERLAY_WATER));
-                    }
-                });
+                        .rarity(Rarity.COMMON)));
 
         public static final Supplier<FlowingFluid> STEAM_SOURCE = registerSteam("steam", BaseFlowingFluid.Source::new);
         public static final Supplier<FlowingFluid> STEAM_FLOWING = registerSteam("steam_flowing", BaseFlowingFluid.Flowing::new);
