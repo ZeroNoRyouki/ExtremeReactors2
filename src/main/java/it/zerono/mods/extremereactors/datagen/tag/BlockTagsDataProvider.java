@@ -46,7 +46,7 @@ public class BlockTagsDataProvider
                 .add(Content.Blocks.ANGLESITE_ORE_BLOCK);
         builder.apply(ContentTags.Blocks.ORE_BENITOITE)
                 .add(Content.Blocks.BENITOITE_ORE_BLOCK);
-        builder.apply(Tags.Blocks.ORES).add(Content.Blocks.YELLORITE_ORE_BLOCK,
+        builder.apply(Tags.Blocks.ORES).add(Content.Blocks.YELLORITE_ORE_BLOCK, Content.Blocks.DEEPSLATE_YELLORITE_ORE_BLOCK,
                 Content.Blocks.ANGLESITE_ORE_BLOCK, Content.Blocks.BENITOITE_ORE_BLOCK);
         builder.apply(TagsHelper.BLOCKS.createCommonKey("ores/uranium")).add(Content.Blocks.YELLORITE_ORE_BLOCK);
 

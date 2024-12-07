@@ -44,11 +44,11 @@ public class EnergizerPowerPortEntity
         extends AbstractEnergizerPowerPortEntity
         implements MenuProvider, INeighborChangeListener {
 
-    public EnergizerPowerPortEntity(EnergySystem system, BlockEntityType<?> entityType,
+    public EnergizerPowerPortEntity(EnergySystem system, IoMode mode, BlockEntityType<?> entityType,
                                     BlockPos position, BlockState blockState) {
 
         super(entityType, position, blockState);
-        this.setHandler(IPowerPortHandler.create(system, IoMode.Passive, this));
+        this.setHandler(IPowerPortHandler.create(system, mode, this));
 
         this.setCommandDispatcher(TileCommandDispatcher.<EnergizerPowerPortEntity>builder()
                 .addServerHandler(CommonConstants.COMMAND_SET_INPUT, tile -> tile.setIoDirection(IoDirection.Input))

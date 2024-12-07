@@ -178,6 +178,16 @@
     "block.bigreactors.fluidizeroutputport": "Porta di uscita del Fluidizer",
     "block.bigreactors.fluidizerpowerport": "Porta di alimentazione del Fluidizer",
 
+    "_comment": "Blocks - energizer parts",
+    "block.bigreactors.energizercasing": "Involucro dell'Energizer",
+    "block.bigreactors.energizercontroller": "Pannello di controllo dell'Energizer",
+    "block.bigreactors.energizerstatus": "Energizer Status Display",
+    "block.bigreactors.energizerchargingportfe": "Porta di ricarica FE dell'Energizer",
+    "block.bigreactors.energizerpowerportfe": "Porta passiva di energia FE dell'Energizer",
+    "block.bigreactors.energizerpowerportfe_active": "Porta attiva di energia FE dell'Energizer",
+    "block.bigreactors.energizercomputerport": "Interfaccia per computer dell'Energizer",
+    "block.bigreactors.energizercell": "Cella di energia",
+
     "_comment": "Reactor parts names (for GUIs)",
     "part.bigreactors.reactor.controller": "Pannello di controllo",
     "part.bigreactors.reactor.controlrod": "Barre di controllo",
@@ -194,6 +204,12 @@
     "part.bigreactors.turbine.fluidport_forge_passive": "Porta per fluidi Forge (Passiva)",
     "part.bigreactors.turbine.redstoneport": "Interfaccia Redstone",
     "part.bigreactors.turbine.chargingport_fe": "Porta di ricarica (FE)",
+
+    "_comment": "Energizer parts names (for GUIs)",
+    "part.bigreactors.energizer.controller": "Pannello di controllo",
+    "part.bigreactors.energizer.powerportfe": "Porta energia FE (Passiva)",
+    "part.bigreactors.energizer.powerportfe_active": "Porta energia FE (Attiva)",
+    "part.bigreactors.energizer.chargingportfe": "Porta di ricarica (FE)",
 
     "_comment": "variants names",
     "variant.bigreactors.reactor.basic": "Base",

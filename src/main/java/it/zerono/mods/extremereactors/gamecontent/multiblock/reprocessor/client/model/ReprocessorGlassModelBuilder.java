@@ -31,6 +31,8 @@ public class ReprocessorGlassModelBuilder
 
     @Override
     public void build() {
+
         this.addGlass(Content.Blocks.REPROCESSOR_GLASS.get());
+        this.setFallbackModelData(Content.Blocks.REPROCESSOR_GLASS.get());
     }
 }

@@ -28,8 +28,11 @@ import it.zerono.mods.extremereactors.api.reactor.ModeratorsRegistry;
 import it.zerono.mods.extremereactors.api.reactor.ReactantMappingsRegistry;
 import it.zerono.mods.extremereactors.api.turbine.CoilMaterialRegistry;
 import it.zerono.mods.extremereactors.config.Config;
+import it.zerono.mods.extremereactors.gamecontent.CommonConstants;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.compat.patchouli.PatchouliCompat;
+import it.zerono.mods.extremereactors.gamecontent.fluid.ReactorFluidRenderProperties;
+import it.zerono.mods.extremereactors.gamecontent.fluid.ReactorFluidType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.CachedSprites;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.client.screen.GuiTheme;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.energizer.client.model.EnergizerModelBuilder;
@@ -68,6 +71,7 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.client.scre
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.client.screen.TurbineRedstonePortScreen;
 import it.zerono.mods.zerocore.lib.client.model.ICustomModelBuilder;
 import it.zerono.mods.zerocore.lib.client.model.ModBakedModelSupplier;
+import it.zerono.mods.zerocore.lib.fluid.SimpleFluidTypeRenderProperties;
 import it.zerono.mods.zerocore.lib.item.TintedBucketItem;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
@@ -86,6 +90,7 @@ import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.ModelEvent;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
+import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.AddReloadListenerEvent;
 import net.neoforged.neoforge.event.TagsUpdatedEvent;
@@ -120,6 +125,7 @@ public class ClientProxy
         modEventBus.addListener(ClientProxy::onRegisterBlockColorHandlers);
         modEventBus.addListener(ClientProxy::onRegisterItemColorHandlers);
         modEventBus.addListener(ClientProxy::onRegisterMenuScreensEvent);
+        modEventBus.addListener(ClientProxy::onRegisterClientExtensionsEvent);
 
         NeoForge.EVENT_BUS.addListener(this::onAddReloadListener);
         NeoForge.EVENT_BUS.addListener(this::onItemTooltip);
@@ -284,6 +290,20 @@ public class ClientProxy
         event.register(Content.ContainerTypes.ENERGIZER_CONTROLLER.get(), EnergizerControllerScreen::new);
         event.register(Content.ContainerTypes.ENERGIZER_POWERPORT.get(), EnergizerPowerPortScreen::new);
         event.register(Content.ContainerTypes.ENERGIZER_CHARGINGPORT.get(), EnergizerChargingPortScreen::new);
+    }
+
+    private static void onRegisterClientExtensionsEvent(RegisterClientExtensionsEvent event) {
+
+        Content.Fluids.forEachType(type -> {
+
+            if (type instanceof ReactorFluidType reactorFluidType) {
+                event.registerFluidType(new ReactorFluidRenderProperties(reactorFluidType), reactorFluidType);
+            }
+        });
+
+        event.registerFluidType(new SimpleFluidTypeRenderProperties(0xffffffff,
+                        CommonConstants.FLUID_TEXTURE_SOURCE_WATER, CommonConstants.FLUID_TEXTURE_FLOWING_WATER,
+                        CommonConstants.FLUID_TEXTURE_OVERLAY_WATER), Content.Fluids.STEAM_FLUID_TYPE.get());
     }
 
     private void onAddReloadListener(AddReloadListenerEvent event) {

@@ -79,28 +79,32 @@ public class TurbineModelsDataProvider
         final var texture = idBuilder.buildWithSuffix("rotorshaft");
         final var z0c = this.models()
                 .model(idBuilder.buildWithSuffix("rotorshaft_z_0c"))
-                .parent(ParentModel.of(this.turbineRoot().buildWithSuffix("rotor_shaft_z_0c"), "0", "1"))
+                .parent(ParentModel.of(this.turbineRoot().buildWithSuffix("rotor_shaft_z_0c"), "0", "1", "particle"))
                 .texture("0", texture)
                 .texture("1", texture)
+                .texture("particle", texture)
                 .build();
         final var z2c = this.models()
                 .model(idBuilder.buildWithSuffix("rotorshaft_z_2c"))
-                .parent(ParentModel.of(this.turbineRoot().buildWithSuffix("rotor_shaft_z_2c"), "0", "1"))
+                .parent(ParentModel.of(this.turbineRoot().buildWithSuffix("rotor_shaft_z_2c"), "0", "1", "particle"))
                 .texture("0", texture)
                 .texture("1", texture)
+                .texture("particle", texture)
                 .build();
         final var z2cy = this.models()
                 .model(idBuilder.buildWithSuffix("rotorshaft_z_2cy"))
-                .parent(ParentModel.of(this.turbineRoot().buildWithSuffix("rotor_shaft_z_2cy"), "0", "1"))
+                .parent(ParentModel.of(this.turbineRoot().buildWithSuffix("rotor_shaft_z_2cy"), "0", "1", "particle"))
                 .texture("0", texture)
                 .texture("1", texture)
+                .texture("particle", texture)
                 .build();
         final var z4c = this.models()
                 .model(idBuilder.buildWithSuffix("rotorshaft_z_4c"))
                 .delegateFor(block)
-                .parent(ParentModel.of(this.turbineRoot().buildWithSuffix("rotor_shaft_z_4c"), "0", "1"))
+                .parent(ParentModel.of(this.turbineRoot().buildWithSuffix("rotor_shaft_z_4c"), "0", "1", "particle"))
                 .texture("0", texture)
                 .texture("1", texture)
+                .texture("particle", texture)
                 .build();
 
         this.multiVariant(block)
@@ -143,15 +147,17 @@ public class TurbineModelsDataProvider
         final var z = this.models()
                 .model(idBuilder.buildWithSuffix("rotorblade_z"))
                 .delegateFor(block)
-                .parent(ParentModel.of(this.turbineRoot().buildWithSuffix("rotor_blade_z"), "0", "1"))
+                .parent(ParentModel.of(this.turbineRoot().buildWithSuffix("rotor_blade_z"), "0", "1", "particle"))
                 .texture("0", texture)
                 .texture("1", texture)
+                .texture("particle", texture)
                 .build();
         final var zy = this.models()
                 .model(idBuilder.buildWithSuffix("rotorblade_zy"))
-                .parent(ParentModel.of(this.turbineRoot().buildWithSuffix("rotor_blade_zy"), "0", "1"))
+                .parent(ParentModel.of(this.turbineRoot().buildWithSuffix("rotor_blade_zy"), "0", "1", "particle"))
                 .texture("0", texture)
                 .texture("1", texture)
+                .texture("particle", texture)
                 .build();
 
         this.multiVariant(block)

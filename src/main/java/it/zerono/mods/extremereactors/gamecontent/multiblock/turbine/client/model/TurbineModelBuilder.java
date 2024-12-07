@@ -52,6 +52,8 @@ public abstract class TurbineModelBuilder
                     "fluidport_forge_passive_cold_connected",
                     "fluidport_forge_passive_hot",
                     "fluidport_forge_passive_hot_connected");
+
+            this.setFallbackModelData(Content.Blocks.TURBINE_CASING_BASIC.get());
         }
     }
 
@@ -82,6 +84,8 @@ public abstract class TurbineModelBuilder
                     "fluidport_forge_passive_cold_connected",
                     "fluidport_forge_passive_hot",
                     "fluidport_forge_passive_hot_connected");
+
+            this.setFallbackModelData(Content.Blocks.TURBINE_CASING_REINFORCED.get());
         }
     }
 

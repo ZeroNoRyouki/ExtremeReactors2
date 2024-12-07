@@ -56,6 +56,7 @@ public abstract class TurbineRotorModelBuilder
 
             this.addBlade(Content.Blocks.TURBINE_ROTORBLADE_BASIC.get());
             this.addShaft(Content.Blocks.TURBINE_ROTORSHAFT_BASIC.get());
+            this.setFallbackModelData(Content.Blocks.TURBINE_ROTORSHAFT_BASIC.get());
         }
     }
 
@@ -71,6 +72,7 @@ public abstract class TurbineRotorModelBuilder
 
             this.addBlade(Content.Blocks.TURBINE_ROTORBLADE_REINFORCED.get());
             this.addShaft(Content.Blocks.TURBINE_ROTORSHAFT_REINFORCED.get());
+            this.setFallbackModelData(Content.Blocks.TURBINE_ROTORSHAFT_REINFORCED.get());
         }
     }
 
@@ -106,7 +108,7 @@ public abstract class TurbineRotorModelBuilder
 
         final var blockId = BuiltInRegistries.BLOCK.getKey(component);
         final var originalModel = componentModelResourceLocation(blockId, defaultProperty);
-        final ModelResourceLocation[] additionalModels = new ModelResourceLocation[properties.length - 1+1];
+        final ModelResourceLocation[] additionalModels = new ModelResourceLocation[properties.length];
 
         Arrays.setAll(additionalModels, idx -> componentModelResourceLocation(blockId, properties[idx]));
         this.addBlock(component.getPartType().getByteHashCode(), originalModel, true, additionalModels);

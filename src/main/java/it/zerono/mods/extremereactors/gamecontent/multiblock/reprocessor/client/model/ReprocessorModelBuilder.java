@@ -42,5 +42,7 @@ public class ReprocessorModelBuilder
         this.addIoPort(Content.Blocks.REPROCESSOR_POWERPORT.get());
         this.addIoPort(Content.Blocks.REPROCESSOR_FLUIDINJECTOR.get(), "fluidinjector_connected");
         this.addIoPort(Content.Blocks.REPROCESSOR_OUTPUTPORT.get(), "outputport_connected");
+
+        this.setFallbackModelData(Content.Blocks.REPROCESSOR_CASING.get());
     }
 }

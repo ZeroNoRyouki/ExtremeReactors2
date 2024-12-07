@@ -35,7 +35,9 @@ public abstract class TurbineGlassModelBuilder
 
         @Override
         public void build() {
+
             this.addGlass(Content.Blocks.TURBINE_GLASS_BASIC.get());
+            this.setFallbackModelData(Content.Blocks.TURBINE_GLASS_BASIC.get());
         }
     }
 
@@ -48,7 +50,9 @@ public abstract class TurbineGlassModelBuilder
 
         @Override
         public void build() {
+
             this.addGlass(Content.Blocks.TURBINE_GLASS_REINFORCED.get());
+            this.setFallbackModelData(Content.Blocks.TURBINE_GLASS_REINFORCED.get());
         }
     }
 

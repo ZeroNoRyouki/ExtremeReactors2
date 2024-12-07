@@ -2,6 +2,7 @@
   "parent": "bigreactors:block/turbine/rotor_shaft_z_0c",
   "textures": {
     "0": "bigreactors:block/turbine/basic/rotorshaft",
-    "1": "bigreactors:block/turbine/basic/rotorshaft"
+    "1": "bigreactors:block/turbine/basic/rotorshaft",
+    "particle": "bigreactors:block/turbine/basic/rotorshaft"
   }
 }

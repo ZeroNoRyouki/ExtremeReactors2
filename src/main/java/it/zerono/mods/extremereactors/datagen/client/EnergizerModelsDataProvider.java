@@ -45,6 +45,7 @@ public class EnergizerModelsDataProvider
         this.multiblockFrame(Content.Blocks.ENERGIZER_CASING, "casing", folder);
         this.controller(Content.Blocks.ENERGIZER_CONTROLLER, folder);
         this.powerPort(Content.Blocks.ENERGIZER_POWERPORT_FE, "powerportfe", folder);
+        this.powerPort(Content.Blocks.ENERGIZER_POWERPORT_FE_ACTIVE, "powerportfe_active", folder);
         this.genericPart(Content.Blocks.ENERGIZER_CHARGINGPORT_FE, "charging", folder, "_assembled");
         this.computerPort(folder);
 

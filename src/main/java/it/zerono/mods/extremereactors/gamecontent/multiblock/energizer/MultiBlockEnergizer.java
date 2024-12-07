@@ -25,6 +25,7 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.common.AbstractEner
 import it.zerono.mods.extremereactors.gamecontent.multiblock.energizer.part.AbstractEnergizerEntity;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.energizer.part.EnergizerChargingPortEntity;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.energizer.part.EnergizerControllerEntity;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.energizer.part.EnergizerPowerPortEntity;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.energizer.variant.EnergizerVariant;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.energizer.variant.IMultiblockEnergizerVariant;
 import it.zerono.mods.zerocore.base.multiblock.part.io.power.IPowerPort;
@@ -62,7 +63,7 @@ public class MultiBlockEnergizer
 
         super(world);
         this._meteredBuffer = (MeteredWideEnergyBuffer) this.getEnergyBuffer();
-        this._attachedChargingPorts = ObjectLists.emptyList();
+        this._outputPowerPorts = ObjectLists.emptyList();
     }
 
     @Override
@@ -209,13 +210,13 @@ public class MultiBlockEnergizer
     @Override
     protected void onPartAdded(IMultiblockPart<MultiBlockEnergizer> newPart) {
 
-        if (newPart instanceof EnergizerChargingPortEntity) {
+        if (newPart instanceof EnergizerChargingPortEntity || newPart instanceof EnergizerPowerPortEntity) {
 
-            if (ObjectLists.<IPowerPort>emptyList() == this._attachedChargingPorts) {
-                this._attachedChargingPorts = new ObjectArrayList<>(4);
+            if (ObjectLists.<IPowerPort>emptyList() == this._outputPowerPorts) {
+                this._outputPowerPorts = new ObjectArrayList<>(4);
             }
 
-            this._attachedChargingPorts.add((IPowerPort) newPart);
+            this._outputPowerPorts.add((IPowerPort) newPart);
         }
     }
 
@@ -227,9 +228,9 @@ public class MultiBlockEnergizer
     @Override
     protected void onPartRemoved(IMultiblockPart<MultiBlockEnergizer> oldPart) {
 
-        if (oldPart instanceof EnergizerChargingPortEntity &&
-                ObjectLists.<IPowerPort>emptyList() != this._attachedChargingPorts) {
-            this._attachedChargingPorts.remove(oldPart);
+        if ((oldPart instanceof EnergizerChargingPortEntity || oldPart instanceof EnergizerPowerPortEntity) &&
+                ObjectLists.<IPowerPort>emptyList() != this._outputPowerPorts) {
+            this._outputPowerPorts.remove(oldPart);
         }
     }
 
@@ -305,7 +306,7 @@ public class MultiBlockEnergizer
 
     @Override
     protected void onAssimilated(IMultiblockController<MultiBlockEnergizer> assimilator) {
-        this._attachedChargingPorts.clear();
+        this._outputPowerPorts.clear();
     }
 
     @Override
@@ -386,7 +387,7 @@ public class MultiBlockEnergizer
 
         final WideEnergyBuffer energyBuffer = this.getEnergyBuffer();
         final WideAmount amountDistributed = distributeEnergyEqually(energyBuffer.getEnergyStored(),
-                this._attachedChargingPorts);
+                this._outputPowerPorts);
 
         if (amountDistributed.greaterThan(WideAmount.ZERO)) {
             energyBuffer.shrink(amountDistributed);
@@ -394,7 +395,7 @@ public class MultiBlockEnergizer
     }
 
     private final MeteredWideEnergyBuffer _meteredBuffer;
-    private List<IPowerPort> _attachedChargingPorts;
+    private List<IPowerPort> _outputPowerPorts;
 
     //endregion
 }
