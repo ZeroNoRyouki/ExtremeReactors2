@@ -58,6 +58,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
+import net.minecraft.util.profiling.Profiler;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -267,7 +268,7 @@ public class MultiblockReactor
     @Override
     public void performOutputCycle() {
 
-        final ProfilerFiller profiler = this.getWorld().getProfiler();
+        final ProfilerFiller profiler = Profiler.get();
 
         if (this.getOperationalMode().isPassive()) {
 
@@ -291,7 +292,7 @@ public class MultiblockReactor
     @Override
     public boolean performInputCycle() {
 
-        final ProfilerFiller profiler = this.getWorld().getProfiler();
+        final ProfilerFiller profiler = Profiler.get();
         boolean changed = false;
 
         if (this.getOperationalMode().isActive()) {
@@ -693,7 +694,7 @@ public class MultiblockReactor
     @Override
     protected void sendClientUpdates() {
 
-        final ProfilerFiller profiler = this.getWorld().getProfiler();
+        final ProfilerFiller profiler = Profiler.get();
 
         profiler.push("sendTickUpdate");
         this.sendUpdates();
@@ -969,7 +970,7 @@ public class MultiblockReactor
     @Override
     protected boolean updateServer() {
 
-        final ProfilerFiller profiler = this.getWorld().getProfiler();
+        final ProfilerFiller profiler = Profiler.get();
 
         profiler.push("Extreme Reactors|Reactor update"); // main section
 

@@ -33,6 +33,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.util.profiling.Profiler;
 import net.minecraft.util.profiling.ProfilerFiller;
 
 import java.util.Optional;
@@ -56,7 +57,7 @@ public class ReactorLogic
      */
     public boolean update() {
 
-        final ProfilerFiller profiler = this._reactor.getWorld().getProfiler();
+        final ProfilerFiller profiler = Profiler.get();
         final IHeat reactorHeat = this.getReactorHeat();
 
         //TODO variants

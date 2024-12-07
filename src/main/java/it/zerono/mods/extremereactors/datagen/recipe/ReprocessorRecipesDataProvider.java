@@ -1,90 +1,75 @@
 package it.zerono.mods.extremereactors.datagen.recipe;
 
-import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.ContentTags;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.recipe.ReprocessorRecipe;
-import it.zerono.mods.zerocore.lib.data.ResourceLocationBuilder;
-import it.zerono.mods.zerocore.lib.datagen.provider.recipe.TwoToOneRecipeBuilder;
-import it.zerono.mods.zerocore.lib.recipe.ingredient.FluidStackRecipeIngredient;
-import it.zerono.mods.zerocore.lib.recipe.ingredient.ItemStackRecipeIngredient;
+import it.zerono.mods.zerocore.lib.datagen.provider.recipe.ModRecipeProviderRunner;
+import it.zerono.mods.zerocore.lib.recipe.ingredient.FluidRecipeIngredient;
+import it.zerono.mods.zerocore.lib.recipe.ingredient.ItemRecipeIngredient;
 import it.zerono.mods.zerocore.lib.recipe.result.ItemStackRecipeResult;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.common.Tags;
 
-import java.util.concurrent.CompletableFuture;
-import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
 public class ReprocessorRecipesDataProvider
         extends AbstractRecipesDataProvider {
 
-    public ReprocessorRecipesDataProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registryLookup,
-                                          ResourceLocationBuilder modLocationRoot) {
-        super(ExtremeReactors.MOD_ID, "Reprocessor recipes", output, registryLookup, modLocationRoot);
+    public ReprocessorRecipesDataProvider(ModRecipeProviderRunner<ReprocessorRecipesDataProvider> mainProvider,
+                                          HolderLookup.Provider registryLookupProvider, RecipeOutput output) {
+        super(mainProvider, registryLookupProvider, output);
     }
 
     @Override
-    protected void buildRecipes(RecipeOutput output) {
+    protected void buildRecipes() {
 
         final var idBuilder = this.reprocessorRoot();
 
         // machine recipes
 
-        this.reprocessor(ItemStackRecipeIngredient.from(Content.Items.CYANITE_INGOT, 2),
-                        FluidStackRecipeIngredient.from(Fluids.WATER, 1000),
-                        ItemStackRecipeResult.from(Content.Items.BLUTONIUM_INGOT.get()))
-                .accept(output, idBuilder.buildWithSuffix("cyanite_to_blutonium"));
+        this.reprocessor(Content.Items.CYANITE_INGOT, 2, Fluids.WATER, 1000,
+                Content.Items.BLUTONIUM_INGOT, "cyanite_to_blutonium");
 
-        this.reprocessor(ItemStackRecipeIngredient.from(Content.Items.BLUTONIUM_INGOT, 2),
-                        FluidStackRecipeIngredient.from(Content.Fluids.CYANITE_SOURCE.get(), 1000),
-                        ItemStackRecipeResult.from(Content.Items.LUDICRITE_INGOT.get()))
-                .accept(output, idBuilder.buildWithSuffix("blutonium_to_ludicrite"));
+        this.reprocessor(Content.Items.BLUTONIUM_INGOT, 2, Content.Fluids.CYANITE_SOURCE, 1000,
+                Content.Items.LUDICRITE_INGOT, "blutonium_to_ludicrite");
 
-        this.reprocessor(ItemStackRecipeIngredient.from(Content.Items.LUDICRITE_INGOT, 2),
-                        FluidStackRecipeIngredient.from(Content.Fluids.MAGENTITE_SOURCE.get(), 1000),
-                        ItemStackRecipeResult.from(Content.Items.RIDICULITE_INGOT.get()))
-                .accept(output, idBuilder.buildWithSuffix("ludicrite_to_ridiculite"));
+        this.reprocessor(Content.Items.LUDICRITE_INGOT, 2, Content.Fluids.MAGENTITE_SOURCE, 1000,
+                Content.Items.RIDICULITE_INGOT, "ludicrite_to_ridiculite");
 
-        this.reprocessor(ItemStackRecipeIngredient.from(Content.Items.RIDICULITE_INGOT, 2),
-                        FluidStackRecipeIngredient.from(Content.Fluids.ROSSINITE_SOURCE.get(), 1000),
-                        ItemStackRecipeResult.from(Content.Items.INANITE_INGOT.get()))
-                .accept(output, idBuilder.buildWithSuffix("ridiculite_to_inanite"));
+        this.reprocessor(Content.Items.RIDICULITE_INGOT, 2, Content.Fluids.ROSSINITE_SOURCE, 1000,
+                Content.Items.INANITE_INGOT, "ridiculite_to_inanite");
 
-        this.reprocessor(ItemStackRecipeIngredient.from(Content.Items.BENITOITE_CRYSTAL.get(), 16),
-                        FluidStackRecipeIngredient.from(Content.Fluids.ROSSINITE_SOURCE.get(), 2000),
-                        ItemStackRecipeResult.from(Content.Items.INSANITE_INGOT.get()))
-                .accept(output, idBuilder.buildWithSuffix("rossinite_to_insanite"));
+        this.reprocessor(Content.Items.BENITOITE_CRYSTAL, 16, Content.Fluids.ROSSINITE_SOURCE, 2000,
+                Content.Items.INSANITE_INGOT, "rossinite_to_insanite");
 
         // reprocessor blocks
 
-        this.casing(output);
-        this.glass(output);
-        this.controller(output);
-        this.port(output, "wasteinjector", Content.Items.REPROCESSOR_WASTEINJECTOR, Items.STICKY_PISTON,
+        this.casing();
+        this.glass();
+        this.controller();
+        this.port("wasteinjector", Content.Items.REPROCESSOR_WASTEINJECTOR, Items.STICKY_PISTON,
                 ContentTags.Items.INGOTS_CYANITE, Tags.Items.DUSTS_REDSTONE);
-        this.port(output, "fluidinjector", Content.Items.REPROCESSOR_FLUIDINJECTOR, Items.PISTON,
+        this.port("fluidinjector", Content.Items.REPROCESSOR_FLUIDINJECTOR, Items.PISTON,
                 Tags.Items.GEMS_PRISMARINE, Tags.Items.GEMS_LAPIS);
-        this.port(output, "outputport", Content.Items.REPROCESSOR_OUTPUTPORT, Items.DISPENSER,
+        this.port("outputport", Content.Items.REPROCESSOR_OUTPUTPORT, Items.DISPENSER,
                 Tags.Items.STORAGE_BLOCKS_LAPIS, Tags.Items.CHESTS);
-        this.port(output, "powerport", Content.Items.REPROCESSOR_POWERPORT, Items.REPEATER,
+        this.port("powerport", Content.Items.REPROCESSOR_POWERPORT, Items.REPEATER,
                 Tags.Items.STORAGE_BLOCKS_REDSTONE, Tags.Items.GEMS_DIAMOND);
-        this.port(output, "collector", Content.Items.REPROCESSOR_COLLECTOR, Items.HOPPER,
+        this.port("collector", Content.Items.REPROCESSOR_COLLECTOR, Items.HOPPER,
                 Tags.Items.INGOTS_IRON, Tags.Items.INGOTS_NETHERITE);
     }
 
     //region internals
 
-    private void casing(RecipeOutput output) {
+    private void casing() {
         this.shaped(RecipeCategory.BUILDING_BLOCKS, Content.Items.REPROCESSOR_CASING)
                 .define('I', Tags.Items.INGOTS_IRON)
                 .define('W', Items.WATER_BUCKET)
@@ -93,19 +78,19 @@ public class ReprocessorRecipesDataProvider
                 .pattern("CWC")
                 .pattern("ICI")
                 .unlockedBy("has_item", has(Tags.Items.INGOTS_IRON))
-                .save(output, this.reprocessorRoot().buildWithSuffix("casing"));
+                .save(this.output, recipeKeyFrom(this.reprocessorRoot().buildWithSuffix("casing")));
     }
 
-    private void glass(RecipeOutput output) {
+    private void glass() {
         this.shaped(RecipeCategory.BUILDING_BLOCKS, Content.Items.REPROCESSOR_GLASS)
                 .define('C', Content.Items.REPROCESSOR_CASING.get())
                 .define('G', Tags.Items.GLASS_BLOCKS)
                 .pattern("GCG")
                 .unlockedBy("has_item", has(Content.Items.REPROCESSOR_CASING.get()))
-                .save(output, this.reprocessorRoot().buildWithSuffix("glass"));
+                .save(this.output, recipeKeyFrom(this.reprocessorRoot().buildWithSuffix("glass")));
     }
 
-    private void controller(RecipeOutput output) {
+    private void controller() {
         this.shaped(RecipeCategory.BUILDING_BLOCKS, Content.Items.REPROCESSOR_CONTROLLER)
                 .define('C', Content.Items.REPROCESSOR_CASING.get())
                 .define('Y', ContentTags.Items.INGOTS_CYANITE)
@@ -117,10 +102,10 @@ public class ReprocessorRecipesDataProvider
                 .pattern("CPC")
                 .unlockedBy("has_item", has(Content.Items.REPROCESSOR_CASING.get()))
                 .unlockedBy("has_item2", has(Tags.Items.GEMS_PRISMARINE))
-                .save(output, this.reprocessorRoot().buildWithSuffix("controller"));
+                .save(this.output, recipeKeyFrom(this.reprocessorRoot().buildWithSuffix("controller")));
     }
 
-    private void port(RecipeOutput output, String name, Supplier<? extends ItemLike> result,
+    private void port(String name, Supplier<? extends ItemLike> result,
                       ItemLike item1, TagKey<Item> tag2, TagKey<Item> tag3) {
         this.shaped(RecipeCategory.BUILDING_BLOCKS, result)
                 .define('C', Content.Items.REPROCESSOR_CASING.get())
@@ -132,13 +117,21 @@ public class ReprocessorRecipesDataProvider
                 .pattern("C2C")
                 .unlockedBy("has_item", has(Content.Items.REPROCESSOR_CASING.get()))
                 .unlockedBy("has_item2", has(item1))
-                .save(output, this.reprocessorRoot().buildWithSuffix(name));
+                .save(this.output, recipeKeyFrom(this.reprocessorRoot().buildWithSuffix(name)));
     }
 
-    protected BiConsumer<RecipeOutput, ResourceLocation> reprocessor(ItemStackRecipeIngredient ingot,
-                                                                     FluidStackRecipeIngredient fluid,
-                                                                     ItemStackRecipeResult result) {
-        return new TwoToOneRecipeBuilder<>(ingot, fluid, result, ReprocessorRecipe::new)::build;
+    protected void reprocessor(Supplier<? extends ItemLike> ingot, int ingotCount, Supplier<? extends Fluid> fluid,
+                               int fluidAmount, Supplier<? extends ItemLike> result, String name) {
+        reprocessor(ingot, ingotCount, fluid.get(), fluidAmount, result, name);
+    }
+
+    protected void reprocessor(Supplier<? extends ItemLike> ingot, int ingotCount, Fluid fluid,
+                               int fluidAmount, Supplier<? extends ItemLike> result, String name) {
+        this.twoToOne(ItemRecipeIngredient.of(ingotCount, ingot),
+                        FluidRecipeIngredient.of(fluidAmount, fluid),
+                        ItemStackRecipeResult.from(result),
+                        ReprocessorRecipe::new)
+                .build(this.output, recipeKeyFrom(this.reprocessorRoot().buildWithSuffix(name)));
     }
 
     //endregion

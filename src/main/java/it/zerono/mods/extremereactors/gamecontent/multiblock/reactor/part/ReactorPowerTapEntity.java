@@ -26,6 +26,8 @@ import it.zerono.mods.zerocore.lib.energy.EnergySystem;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.redstone.Orientation;
+import org.jetbrains.annotations.Nullable;
 
 public class ReactorPowerTapEntity
         extends AbstractReactorPowerTapEntity
@@ -40,15 +42,8 @@ public class ReactorPowerTapEntity
 
     //region INeighborChangeListener
 
-    /**
-     * Called when a neighboring Block on a side of this TileEntity changes
-     *
-     * @param state            the BlockState of this TileEntity block
-     * @param neighborPosition position of neighbor
-     * @param isMoving ???
-     */
     @Override
-    public void onNeighborBlockChanged(BlockState state, BlockPos neighborPosition, boolean isMoving) {
+    public void onNeighborBlockChanged(BlockState state, @Nullable Orientation orientation, boolean isMoving) {
 
         if (this.isConnected()) {
             this.getPowerPortHandler().onPortChanged();

@@ -64,6 +64,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.redstone.Orientation;
 import net.neoforged.fml.LogicalSide;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.fluids.FluidStack;
@@ -328,14 +329,8 @@ public class ReactorFluidAccessPortEntity
     //endregion
     //region INeighborChangeListener
 
-    /**
-     * Called when a neighboring Block on a side of this TileEntity changes
-     *
-     * @param state            the BlockState of this TileEntity block
-     * @param neighborPosition position of neighbor
-     */
     @Override
-    public void onNeighborBlockChanged(BlockState state, BlockPos neighborPosition, boolean isMoving) {
+    public void onNeighborBlockChanged(BlockState state, @Nullable Orientation orientation, boolean isMoving) {
         this.requestClientRenderUpdate();
     }
 

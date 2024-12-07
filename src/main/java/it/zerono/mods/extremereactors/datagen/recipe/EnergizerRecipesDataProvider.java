@@ -17,12 +17,10 @@
 
 package it.zerono.mods.extremereactors.datagen.recipe;
 
-import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.extremereactors.gamecontent.ContentTags;
-import it.zerono.mods.zerocore.lib.data.ResourceLocationBuilder;
+import it.zerono.mods.zerocore.lib.datagen.provider.recipe.ModRecipeProviderRunner;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.tags.TagKey;
@@ -31,27 +29,26 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 import net.neoforged.neoforge.common.Tags;
 
-import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
 
 public class EnergizerRecipesDataProvider
         extends AbstractRecipesDataProvider {
 
-    public EnergizerRecipesDataProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registryLookup,
-                                        ResourceLocationBuilder modLocationRoot) {
-        super(ExtremeReactors.MOD_ID, "Energizer recipes", output, registryLookup, modLocationRoot);
+    public EnergizerRecipesDataProvider(ModRecipeProviderRunner<EnergizerRecipesDataProvider> mainProvider,
+                                        HolderLookup.Provider registryLookupProvider, RecipeOutput output) {
+        super(mainProvider, registryLookupProvider, output);
     }
 
     @Override
-    protected void buildRecipes(RecipeOutput builder) {
+    protected void buildRecipes() {
 
-        this.casing(builder);
-        this.controller(builder);
-        this.port(builder, "powerport_fe", Content.Items.ENERGIZER_POWERPORT_FE, () -> Items.REDSTONE_BLOCK,
+        this.casing();
+        this.controller();
+        this.port("powerport_fe", Content.Items.ENERGIZER_POWERPORT_FE, () -> Items.REDSTONE_BLOCK,
                 Tags.Items.INGOTS_IRON, Tags.Items.DUSTS_GLOWSTONE);
-        this.port(builder, "chargingport_fe", Content.Items.ENERGIZER_CHARGINGPORT_FE, () -> Items.LAPIS_BLOCK,
+        this.port("chargingport_fe", Content.Items.ENERGIZER_CHARGINGPORT_FE, () -> Items.LAPIS_BLOCK,
                 Tags.Items.INGOTS_IRON, Tags.Items.STORAGE_BLOCKS_REDSTONE);
-        this.computerPort(builder);
+        this.computerPort();
 
         // energy core
         this.shaped(RecipeCategory.MISC, Content.Items.ENERGY_CORE)
@@ -64,7 +61,7 @@ public class EnergizerRecipesDataProvider
                 .pattern("ARA")
                 .unlockedBy("has_item", has(ContentTags.Items.BLOCKS_MAGENTITE))
                 .unlockedBy("has_item2", has(Content.Items.ANGLESITE_CRYSTAL.get()))
-                .save(builder, this.energizerRoot().buildWithSuffix("energycore"));
+                .save(this.output, recipeKeyFrom(this.energizerRoot().buildWithSuffix("energycore")));
 
         // energy cell
         this.shaped(RecipeCategory.MISC, Content.Items.ENERGY_CELL)
@@ -77,12 +74,12 @@ public class EnergizerRecipesDataProvider
                 .pattern("BGB")
                 .unlockedBy("has_item", has(Content.Items.ENERGY_CORE.get()))
                 .unlockedBy("has_item2", has(Content.Items.ANGLESITE_CRYSTAL.get()))
-                .save(builder, this.energizerRoot().buildWithSuffix("energizercell"));
+                .save(this.output, recipeKeyFrom(this.energizerRoot().buildWithSuffix("energizercell")));
     }
 
     //region internals
 
-    private void casing(RecipeOutput builder) {
+    private void casing() {
         this.shaped(RecipeCategory.BUILDING_BLOCKS, Content.Items.ENERGIZER_CASING)
                 .define('I', Tags.Items.INGOTS_IRON)
                 .define('G', Tags.Items.STORAGE_BLOCKS_GOLD)
@@ -92,10 +89,10 @@ public class EnergizerRecipesDataProvider
                 .pattern("IRI")
                 .unlockedBy("has_item", has(Tags.Items.STORAGE_BLOCKS_GOLD))
                 .unlockedBy("has_item2", has(Items.REDSTONE_BLOCK))
-                .save(builder, this.energizerRoot().buildWithSuffix("casing"));
+                .save(this.output, recipeKeyFrom(this.energizerRoot().buildWithSuffix("casing")));
     }
 
-    private void controller(RecipeOutput builder) {
+    private void controller() {
         this.shaped(RecipeCategory.BUILDING_BLOCKS, Content.Items.ENERGIZER_CONTROLLER)
                 .define('C', Content.Items.ENERGIZER_CASING.get())
                 .define('G', Tags.Items.INGOTS_GOLD)
@@ -107,10 +104,10 @@ public class EnergizerRecipesDataProvider
                 .pattern("CGC")
                 .unlockedBy("has_item", has(Content.Items.ENERGIZER_CASING.get()))
                 .unlockedBy("has_item2", has(Tags.Items.DUSTS_GLOWSTONE))
-                .save(builder, this.energizerRoot().buildWithSuffix("controller"));
+                .save(this.output, recipeKeyFrom(this.energizerRoot().buildWithSuffix("controller")));
     }
 
-    private void port(RecipeOutput builder, String name, Supplier<? extends ItemLike> result,
+    private void port(String name, Supplier<? extends ItemLike> result,
                       ItemLike item1, TagKey<Item> tag2, TagKey<Item> tag3) {
         this.shaped(RecipeCategory.BUILDING_BLOCKS, result)
                 .define('C', Content.Items.ENERGIZER_CASING.get())
@@ -122,10 +119,10 @@ public class EnergizerRecipesDataProvider
                 .pattern("C2C")
                 .unlockedBy("has_item", has(Content.Items.ENERGIZER_CASING.get()))
                 .unlockedBy("has_item2", has(item1))
-                .save(builder, this.energizerRoot().buildWithSuffix(name));
+                .save(this.output, recipeKeyFrom(this.energizerRoot().buildWithSuffix(name)));
     }
 
-    private void computerPort(RecipeOutput builder) {
+    private void computerPort() {
         this.shaped(RecipeCategory.BUILDING_BLOCKS, Content.Items.ENERGIZER_COMPUTERPORT)
                 .define('C', Content.Items.ENERGIZER_CASING.get())
                 .define('G', Tags.Items.INGOTS_GOLD)
@@ -138,7 +135,7 @@ public class EnergizerRecipesDataProvider
                 .unlockedBy("has_item", has(Content.Items.ENERGIZER_CASING.get()))
                 .unlockedBy("has_item2", has(Tags.Items.DUSTS_GLOWSTONE))
                 .unlockedBy("has_item3", has(Tags.Items.DYES_BLUE))
-                .save(builder, this.energizerRoot().buildWithSuffix("computerport"));
+                .save(this.output, recipeKeyFrom(this.energizerRoot().buildWithSuffix("computerport")));
     }
 
     //endregion

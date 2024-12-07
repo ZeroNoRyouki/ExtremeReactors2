@@ -55,6 +55,7 @@ import it.zerono.mods.zerocore.lib.recipe.result.RecipeResultTargetWrapper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.util.profiling.Profiler;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -282,7 +283,7 @@ public class MultiblockReprocessor
     @Override
     protected boolean updateServer() {
 
-        final ProfilerFiller profiler = this.getWorld().getProfiler();
+        final ProfilerFiller profiler = Profiler.get();
         boolean updated = false;
 
         profiler.push("Extreme Reactors|Reprocessor update"); // main section
@@ -605,6 +606,7 @@ public class MultiblockReprocessor
 
         return Content.Recipes.REPROCESSOR_RECIPE_TYPE.get()
                 .findFirst(recipe -> recipe.test(this._wasteInventory.getStackInSlot(0), this._fluidTank.getFluidInTank(0)))
+                .map(net.minecraft.world.item.crafting.RecipeHolder::value)
                 .map(recipe -> new ReprocessorHeldRecipe(recipe, holder, this._wasteIngredientSource,
                         this._fluidIngredientSource, this._outputTarget))
                 .orElse(null);
@@ -614,7 +616,7 @@ public class MultiblockReprocessor
         return this.isMachineActive() &&
                 this.areRecipeIngredientsAvailable() &&
                 this._energyBuffer.getEnergyStored() >= TICK_ENERGY_COST &&
-                this._outputTarget.countStorableResults(recipe.getResult()) > 0;
+                this._outputTarget.countStorableResults(recipe.result()) > 0;
     }
 
     private boolean hasIngredientsChanged() {
@@ -668,8 +670,8 @@ public class MultiblockReprocessor
     }
 
     private boolean areRecipeIngredientsAvailable(ReprocessorRecipe recipe) {
-        return recipe.getIngredient1().test(this._wasteInventory.getStackInSlot(0)) &&
-                recipe.getIngredient2().test(this._fluidTank.getFluid());
+        return recipe.ingredient1().test(this._wasteInventory.getStackInSlot(0)) &&
+                recipe.ingredient2().test(this._fluidTank.getFluid());
     }
 
     private final ItemStackHandler _outputInventory;

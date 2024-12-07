@@ -82,10 +82,10 @@ import it.zerono.mods.zerocore.lib.data.IoDirection;
 import it.zerono.mods.zerocore.lib.data.IoMode;
 import it.zerono.mods.zerocore.lib.data.ModCodecs;
 import it.zerono.mods.zerocore.lib.energy.EnergySystem;
-import it.zerono.mods.zerocore.lib.fluid.SimpleFluidTypeRenderProperties;
 import it.zerono.mods.zerocore.lib.item.ModItem;
 import it.zerono.mods.zerocore.lib.item.TintedBucketItem;
-import it.zerono.mods.zerocore.lib.recipe.ModRecipe;
+import it.zerono.mods.zerocore.lib.multiblock.IMultiblockPart;
+import it.zerono.mods.zerocore.lib.recipe.IModRecipe;
 import it.zerono.mods.zerocore.lib.recipe.ModRecipeType;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
@@ -118,7 +118,6 @@ import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.level.pathfinder.PathType;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.neoforged.neoforge.common.SoundActions;
 import net.neoforged.neoforge.common.extensions.IMenuTypeExtension;
 import net.neoforged.neoforge.common.world.BiomeModifier;
@@ -132,7 +131,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
 import java.util.function.BiFunction;
-import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -155,7 +153,7 @@ public final class Content {
 
     public static final class Blocks {
 
-        private static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(BuiltInRegistries.BLOCK, ExtremeReactors.MOD_ID);
+        private static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(ExtremeReactors.MOD_ID);
 
         static void initialize(final IEventBus bus) {
             BLOCKS.register(bus);
@@ -190,18 +188,18 @@ public final class Content {
         //endregion
         //region fluids
 
-        public static final Supplier<LiquidBlock> STEAM = BLOCKS.register("steam",
-                () -> new LiquidBlock(Fluids.STEAM_SOURCE.get(),
-                        Block.Properties.of()
-                                .mapColor(MapColor.WATER)
-                                .replaceable()
-                                .pushReaction(PushReaction.DESTROY)
-                                .liquid()
-                                .noCollission()
-                                .lightLevel($ -> 6)
-                                .strength(100.0F)
-                                .noLootTable()
-                ));
+        public static final Supplier<LiquidBlock> STEAM = BLOCKS.registerBlock("steam",
+                properties -> new LiquidBlock(Fluids.STEAM_SOURCE.get(), properties),
+                Block.Properties.of()
+                        .mapColor(MapColor.WATER)
+                        .replaceable()
+                        .pushReaction(PushReaction.DESTROY)
+                        .liquid()
+                        .noCollission()
+                        .lightLevel($ -> 6)
+                        .strength(100.0F)
+                        .noLootTable()
+        );
 
         //region reactants
 
@@ -476,8 +474,12 @@ public final class Content {
         //region internals
 
         private static Supplier<ModBlock> registerMetalBlock(final String name, final DyeColor color) {
-            return BLOCKS.register(name,
-                    () -> new ModBlock(Block.Properties.of().mapColor(color).sound(SoundType.METAL)));
+
+            final var properties = BlockBehaviour.Properties.of()
+                    .mapColor(color)
+                    .sound(SoundType.METAL);
+
+            return BLOCKS.registerBlock(name, ModBlock::new, properties);
         }
 
         private static Supplier<ModBlock> registerOreBlock(final String name, final DyeColor color) {
@@ -486,13 +488,15 @@ public final class Content {
 
         private static Supplier<ModBlock> registerOreBlock(final String name, final DyeColor color,
                                                            final int minDroppedXP, final int maxDroppedXP) {
-            return BLOCKS.register(name,
-                    () -> new ModOreBlock(Block.Properties.of()
-                            .mapColor(color)
-                            .sound(SoundType.STONE)
-                            .requiresCorrectToolForDrops()
-                            .instrument(NoteBlockInstrument.BASEDRUM)
-                            .strength(3.0F, 3.0F), minDroppedXP, maxDroppedXP));
+
+            final var properties = BlockBehaviour.Properties.of()
+                    .mapColor(color)
+                    .sound(SoundType.STONE)
+                    .requiresCorrectToolForDrops()
+                    .instrument(NoteBlockInstrument.BASEDRUM)
+                    .strength(3.0F, 3.0F);
+
+            return BLOCKS.registerBlock(name, prop -> new ModOreBlock(prop, minDroppedXP, maxDroppedXP), properties);
         }
 
         @SuppressWarnings("unchecked")
@@ -500,7 +504,8 @@ public final class Content {
         Supplier<T> registerReactorBlock(final String name,
                                          final ReactorVariant variant,
                                          final IReactorPartType partType) {
-            return BLOCKS.register(name, () -> (T) (partType.createBlock(variant)));
+            return BLOCKS.registerBlock(name, properties -> (T) (partType.createBlock(variant, properties)),
+                    variant.getDefaultBlockProperties());
         }
 
         @SuppressWarnings("unchecked")
@@ -508,42 +513,48 @@ public final class Content {
         Supplier<T> registerTurbineBlock(final String name,
                                          final TurbineVariant variant,
                                          final ITurbinePartType partType) {
-            return BLOCKS.register(name, () -> (T) (partType.createBlock(variant)));
+            return BLOCKS.registerBlock(name, properties -> (T) (partType.createBlock(variant, properties)),
+                    variant.getDefaultBlockProperties());
         }
 
         @SuppressWarnings("unchecked")
         private static <T extends MultiblockPartBlock<MultiblockReprocessor, IReprocessorPartType>>
         Supplier<T> registerReprocessorBlock(final String name, final ReprocessorPartType partType) {
-            return BLOCKS.register(name, () -> (T) (partType.createBlock()));
+            return BLOCKS.registerBlock(name, properties -> (T) (partType.createBlock(properties)),
+                    IMultiblockPart.getDefaultBlockProperties());
         }
 
         @SuppressWarnings("unchecked")
         private static <T extends MultiblockPartBlock<MultiblockFluidizer, IFluidizerPartType>>
         Supplier<T> registerFluidizerBlock(final String name, final FluidizerPartType partType) {
-            return BLOCKS.register(name, () -> (T) (partType.createBlock()));
+            return BLOCKS.registerBlock(name, properties -> (T) (partType.createBlock(properties)),
+                    IMultiblockPart.getDefaultBlockProperties());
         }
 
         @SuppressWarnings("unchecked")
         private static <T extends MultiblockPartBlock<MultiBlockEnergizer, IEnergizerPartType>>
         Supplier<T> registerEnergizerBlock(String name, EnergizerPartType partType) {
-            return BLOCKS.register(name, () -> (T) (partType.createBlock(EnergizerVariant.INSTANCE)));
+            return BLOCKS.registerBlock(name, properties -> (T) (partType.createBlock(EnergizerVariant.INSTANCE, properties)),
+                    EnergizerVariant.INSTANCE.getDefaultBlockProperties());
         }
 
         private static Supplier<LiquidBlock> registerModeratorLiquidBlock(String name,
                                                                           Supplier<@NotNull FlowingFluid> source) {
-            return BLOCKS.register(name, () -> new LiquidBlock(source.get(), BlockBehaviour.Properties.of()
-                    .mapColor(MapColor.WATER)
-                    .replaceable()
-                    .pushReaction(PushReaction.DESTROY)
-                    .liquid()
-                    .noCollission()
-                    .strength(100.0F)
-                    .noLootTable()));
+            return BLOCKS.registerBlock(name, properties -> new LiquidBlock(source.get(), properties),
+                    BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.WATER)
+                            .replaceable()
+                            .pushReaction(PushReaction.DESTROY)
+                            .liquid()
+                            .noCollission()
+                            .strength(100.0F)
+                            .noLootTable());
         }
 
         private static Supplier<ReactantFluidBlock> registerReactantFluidBlock(final Reactants reactant,
                                                                                final Supplier<? extends FlowingFluid> fluid) {
-            return BLOCKS.register(reactant.getFluidName(), () -> new ReactantFluidBlock(reactant, fluid));
+            return BLOCKS.registerBlock(reactant.getFluidName(),
+                    properties -> new ReactantFluidBlock(reactant, fluid, properties));
         }
 
         //endregion
@@ -552,7 +563,7 @@ public final class Content {
     @SuppressWarnings("unused")
     public static final class Items {
 
-        private static final DeferredRegister<Item> ITEMS = DeferredRegister.create(BuiltInRegistries.ITEM, ExtremeReactors.MOD_ID);
+        private static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(ExtremeReactors.MOD_ID);
 
         static void initialize(final IEventBus bus) {
             ITEMS.register(bus);
@@ -737,26 +748,33 @@ public final class Content {
         }
 
         private static Supplier<ModItem> registerItemGeneric(final String name, final int maxStack) {
-            return ITEMS.register(name,
-                    () -> new ModItem(new Item.Properties().stacksTo(maxStack)));
+
+            final var properties = new Item.Properties().stacksTo(maxStack);
+
+            return ITEMS.registerItem(name, ModItem::new, properties);
         }
 
         private static Supplier<BlockItem> registerItemBlock(final String name,
                                                              final Supplier<Supplier<ModBlock>> blockSupplier) {
-            return ITEMS.register(name,
-                    () -> blockSupplier.get().get().createBlockItem(new Item.Properties().stacksTo(64)));
+
+            final var properties = new Item.Properties().stacksTo(64);
+
+            return ITEMS.registerItem(name, prop -> blockSupplier.get().get().createBlockItem(prop),
+                    properties);
         }
 
         private static Supplier<TintedBucketItem> registerTintedBucket(String name,
                                                                        Supplier<? extends Fluid> sourceFluid) {
-            return ITEMS.register(name, () -> new TintedBucketItem(sourceFluid.get(), bucketProperties()));
+            return ITEMS.registerItem(name, properties -> new TintedBucketItem(sourceFluid.get(), properties),
+                    bucketProperties());
         }
 
         private static Supplier<TintedBucketItem> registerReactantBucket(Reactants reactant,
                                                                          Supplier<? extends Fluid> sourceFluid) {
-            return ITEMS.register(reactant.getBucketName(),
-                    () -> new TintedBucketItem(sourceFluid.get(), bucketProperties(),
-                            (stack, tintIndex) -> 1 == tintIndex ? 0xFF000000 | reactant.getColour() : 0xFFFFFFFF));
+            return ITEMS.registerItem(reactant.getBucketName(),
+                    properties -> new TintedBucketItem(sourceFluid.get(), properties,
+                            (stack, tintIndex) -> 1 == tintIndex ? 0xFF000000 | reactant.getColour() : 0xFFFFFFFF),
+                    bucketProperties());
         }
 
         private static Item.Properties bucketProperties() {
@@ -820,14 +838,7 @@ public final class Content {
                         .sound(SoundActions.BUCKET_EMPTY, SoundEvents.BUCKET_EMPTY)
                         .canHydrate(false)
                         .temperature(100)
-                        .rarity(Rarity.COMMON)) {
-
-                    @Override
-                    public void initializeClient(final Consumer<IClientFluidTypeExtensions> consumer) {
-                        consumer.accept(new SimpleFluidTypeRenderProperties(0xffffffff, CommonConstants.FLUID_TEXTURE_SOURCE_WATER,
-                                CommonConstants.FLUID_TEXTURE_FLOWING_WATER, CommonConstants.FLUID_TEXTURE_OVERLAY_WATER));
-                    }
-                });
+                        .rarity(Rarity.COMMON)));
 
         public static final Supplier<FlowingFluid> STEAM_SOURCE = registerSteam("steam", BaseFlowingFluid.Source::new);
         public static final Supplier<FlowingFluid> STEAM_FLOWING = registerSteam("steam_flowing", BaseFlowingFluid.Flowing::new);
@@ -1235,7 +1246,7 @@ public final class Content {
                     }
                 }
 
-                return BlockEntityType.Builder.of(factory, validBlocks).build(null);
+                return new BlockEntityType<>(factory, validBlocks);
             });
         }
 
@@ -1359,7 +1370,7 @@ public final class Content {
         //endregion
         //region Fluidizer
 
-        public static final Supplier<ModRecipeType<ModRecipe>> FLUIDIZER_RECIPE_TYPE =
+        public static final Supplier<ModRecipeType<IModRecipe>> FLUIDIZER_RECIPE_TYPE =
                 registerRecipe(IFluidizerRecipe.ID);
 
         public static final Supplier<RecipeSerializer<FluidizerSolidRecipe>> FLUIDIZER_SOLID_RECIPE_SERIALIZER =
@@ -1372,7 +1383,7 @@ public final class Content {
         //endregion
         //region internals
 
-        private static <Recipe extends ModRecipe> Supplier<ModRecipeType<Recipe>> registerRecipe(ResourceLocation recipeId) {
+        private static <Recipe extends IModRecipe> Supplier<ModRecipeType<Recipe>> registerRecipe(ResourceLocation recipeId) {
             return RECIPE_TYPES.register(recipeId.getPath(), () -> ModRecipeType.create(recipeId));
         }
 

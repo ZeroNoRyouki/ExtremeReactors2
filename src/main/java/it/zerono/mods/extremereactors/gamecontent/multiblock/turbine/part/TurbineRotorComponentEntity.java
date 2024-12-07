@@ -40,6 +40,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.redstone.Orientation;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -79,18 +81,12 @@ public class TurbineRotorComponentEntity
 
     //region INeighborChangeListener
 
-    /**
-     * Called when a neighboring Block on a side of this TileEntity changes
-     *
-     * @param state            the BlockState of this TileEntity block
-     * @param neighborPosition position of neighbor
-     */
     @Override
-    public void onNeighborBlockChanged(final BlockState state, final BlockPos neighborPosition, final boolean isMoving) {
+    public void onNeighborBlockChanged(final BlockState state, @Nullable Orientation orientation, final boolean isMoving) {
 
-        if (this.getPartWorldOrFail().getBlockState(neighborPosition).getBlock() instanceof TurbineRotorComponentBlock) {
+//        if (this.getPartWorldOrFail().getBlockState(neighborPosition).getBlock() instanceof TurbineRotorComponentBlock) {
             this.requestClientRenderUpdate();
-        }
+//        }
     }
 
     //endregion

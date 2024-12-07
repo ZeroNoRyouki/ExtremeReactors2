@@ -52,6 +52,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.redstone.Orientation;
 import net.neoforged.fml.LogicalSide;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.items.IItemHandler;
@@ -327,15 +328,8 @@ public class ReactorSolidAccessPortEntity
     //endregion
     //region INeighborChangeListener
 
-    /**
-     * Called when a neighboring Block on a side of this TileEntity changes
-     *
-     * @param state            the BlockState of this TileEntity block
-     * @param neighborPosition position of neighbor
-     * @param isMoving
-     */
     @Override
-    public void onNeighborBlockChanged(BlockState state, BlockPos neighborPosition, boolean isMoving) {
+    public void onNeighborBlockChanged(BlockState state, @Nullable Orientation orientation, boolean isMoving) {
         this.requestClientRenderUpdate();
     }
 

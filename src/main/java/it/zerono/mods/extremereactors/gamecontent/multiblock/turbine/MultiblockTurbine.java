@@ -49,6 +49,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Mth;
+import net.minecraft.util.profiling.Profiler;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -168,7 +169,7 @@ public class MultiblockTurbine
     @Override
     public void performOutputCycle() {
 
-        final ProfilerFiller profiler = this.getWorld().getProfiler();
+        final ProfilerFiller profiler = Profiler.get();
 
         // Distribute available power equally to all the Power Taps
         profiler.push("Power");
@@ -187,7 +188,7 @@ public class MultiblockTurbine
     @Override
     public void performInputCycle() {
 
-        final ProfilerFiller profiler = this.getWorld().getProfiler();
+        final ProfilerFiller profiler = Profiler.get();
 
         // Acquire new fluids from Active Fluid Ports in input mode
         profiler.push("Vapor");
@@ -485,7 +486,7 @@ public class MultiblockTurbine
     @Override
     protected boolean updateServer() {
 
-        final ProfilerFiller profiler = this.getWorld().getProfiler();
+        final ProfilerFiller profiler = Profiler.get();
 
         profiler.push("Extreme Reactors|Turbine update"); // main section
 

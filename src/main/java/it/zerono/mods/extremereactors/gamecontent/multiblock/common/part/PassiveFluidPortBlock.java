@@ -23,7 +23,7 @@ import it.zerono.mods.zerocore.lib.block.multiblock.IMultiblockPartType;
 import it.zerono.mods.zerocore.lib.multiblock.IMultiblockController;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -42,8 +42,8 @@ public class PassiveFluidPortBlock<Controller extends IMultiblockController<Cont
     //region Block
 
     @Override
-    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level world, BlockPos position,
-                                              Player player, InteractionHand hand, BlockHitResult hit) {
+    protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level world, BlockPos position,
+                                          Player player, InteractionHand hand, BlockHitResult hit) {
 
         if (InteractionHand.MAIN_HAND == hand) {
 
@@ -54,7 +54,7 @@ public class PassiveFluidPortBlock<Controller extends IMultiblockController<Cont
                 if (FluidUtil.getFluidHandler(world, position, null)
                         .map(port -> FluidUtil.interactWithFluidHandler(player, hand, port))
                         .orElse(false)) {
-                    return ItemInteractionResult.SUCCESS;
+                    return InteractionResult.SUCCESS;
                 }
             }
         }

@@ -40,6 +40,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.redstone.Orientation;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.fluids.capability.templates.EmptyFluidHandler;
 import org.jetbrains.annotations.Nullable;
@@ -71,15 +72,8 @@ public class TurbineFluidPortEntity
     //endregion
     //region INeighborChangeListener
 
-    /**
-     * Called when a neighboring Block on a side of this TileEntity changes
-     *
-     * @param state the BlockState of this TileEntity block
-     * @param neighborPosition position of neighbor
-     * @param isMoving ?
-     */
     @Override
-    public void onNeighborBlockChanged(final BlockState state, final BlockPos neighborPosition, final boolean isMoving) {
+    public void onNeighborBlockChanged(final BlockState state, @Nullable Orientation orientation, final boolean isMoving) {
 
         this.getFluidPortHandler().onPortChanged();
         this.requestClientRenderUpdate();

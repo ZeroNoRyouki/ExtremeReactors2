@@ -37,6 +37,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.redstone.Orientation;
 import org.jetbrains.annotations.Nullable;
 
 public class EnergizerPowerPortEntity
@@ -95,7 +96,7 @@ public class EnergizerPowerPortEntity
     //region INeighborChangeListener
 
     @Override
-    public void onNeighborBlockChanged(BlockState state, BlockPos neighborPosition, boolean isMoving) {
+    public void onNeighborBlockChanged(BlockState state, @Nullable Orientation orientation, boolean isMoving) {
 
         if (this.isConnected()) {
             this.getPowerPortHandler().onPortChanged();

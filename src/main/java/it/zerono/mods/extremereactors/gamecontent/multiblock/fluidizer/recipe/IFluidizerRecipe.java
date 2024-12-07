@@ -19,7 +19,7 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.recipe;
 
 import it.zerono.mods.extremereactors.ExtremeReactors;
-import it.zerono.mods.zerocore.lib.recipe.ModRecipe;
+import it.zerono.mods.zerocore.lib.recipe.IModRecipe;
 import it.zerono.mods.zerocore.lib.recipe.holder.IHeldRecipe;
 import it.zerono.mods.zerocore.lib.recipe.result.FluidStackRecipeResult;
 import net.minecraft.resources.ResourceLocation;
@@ -29,7 +29,7 @@ public interface IFluidizerRecipe {
 
     ResourceLocation ID = ExtremeReactors.ROOT_LOCATION.buildWithSuffix("fluidizer");
 
-    interface Held<Recipe extends ModRecipe & IFluidizerRecipe> extends IHeldRecipe<Recipe> {
+    interface Held<Recipe extends IModRecipe & IFluidizerRecipe> extends IHeldRecipe<Recipe> {
     }
 
     enum Type {
@@ -70,7 +70,7 @@ public interface IFluidizerRecipe {
 
     Type getRecipeType();
 
-    FluidStackRecipeResult getResult();
+    FluidStackRecipeResult result();
 
     int getEnergyUsageMultiplier();
 

@@ -22,6 +22,7 @@ import it.zerono.mods.extremereactors.api.coolant.Vapor;
 import it.zerono.mods.extremereactors.config.Config;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.IFluidContainer;
 import it.zerono.mods.zerocore.lib.energy.WideEnergyBuffer;
+import net.minecraft.util.profiling.Profiler;
 import net.minecraft.util.profiling.ProfilerFiller;
 
 public class TurbineLogic {
@@ -38,7 +39,7 @@ public class TurbineLogic {
      */
     public void update() {
 
-        final ProfilerFiller profiler = this._turbine.getWorld().getProfiler();
+        final ProfilerFiller profiler = Profiler.get();
         final IFluidContainer fc = this._turbine.getFluidContainer();
         final VentSetting ventSetting = this._data.getVentSetting();
 

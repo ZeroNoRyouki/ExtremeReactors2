@@ -29,6 +29,7 @@ import it.zerono.mods.extremereactors.api.internal.modpack.wrapper.ApiWrapper;
 import it.zerono.mods.zerocore.lib.fluid.FluidHelper;
 import it.zerono.mods.zerocore.lib.tag.TagList;
 import it.zerono.mods.zerocore.lib.tag.TagsHelper;
+import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -227,7 +228,8 @@ public final class ModeratorsRegistry {
         s_moderatorFluidsData.keySet().stream()
                 .filter(BuiltInRegistries.FLUID::containsKey)
                 .map(BuiltInRegistries.FLUID::get)
-                .filter(Objects::nonNull)
+                .flatMap(Optional::stream)
+                .map(Holder.Reference::value)
                 .map(Fluid::getBucket)
                 .forEach(item -> tooltipsMap.computeIfAbsent(item, k -> setSupplier.get()).add(TOOLTIP_MODERATOR));
     }

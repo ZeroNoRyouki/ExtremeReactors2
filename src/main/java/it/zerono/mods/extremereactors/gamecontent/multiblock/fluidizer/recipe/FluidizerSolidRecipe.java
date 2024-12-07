@@ -18,32 +18,38 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.recipe;
 
+import com.google.common.base.Preconditions;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.zerocore.lib.data.stack.OperationMode;
-import it.zerono.mods.zerocore.lib.recipe.AbstractOneToOneRecipe;
-import it.zerono.mods.zerocore.lib.recipe.ModRecipe;
+import it.zerono.mods.zerocore.lib.recipe.IModRecipe;
+import it.zerono.mods.zerocore.lib.recipe.IOneToOneModRecipe;
 import it.zerono.mods.zerocore.lib.recipe.holder.AbstractHeldRecipe;
 import it.zerono.mods.zerocore.lib.recipe.holder.IRecipeHolder;
 import it.zerono.mods.zerocore.lib.recipe.ingredient.IRecipeIngredientSource;
-import it.zerono.mods.zerocore.lib.recipe.ingredient.ItemStackRecipeIngredient;
+import it.zerono.mods.zerocore.lib.recipe.ingredient.ItemRecipeIngredient;
 import it.zerono.mods.zerocore.lib.recipe.result.FluidStackRecipeResult;
 import it.zerono.mods.zerocore.lib.recipe.result.IRecipeResultTarget;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.neoforged.neoforge.fluids.FluidStack;
+import org.jetbrains.annotations.NotNull;
 
-public class FluidizerSolidRecipe
-        extends AbstractOneToOneRecipe<ItemStack, FluidStack, ItemStackRecipeIngredient, FluidStackRecipeResult>
-        implements IFluidizerRecipe {
+import java.util.function.Supplier;
 
-    public FluidizerSolidRecipe(ItemStackRecipeIngredient ingredient, FluidStackRecipeResult result) {
+public record FluidizerSolidRecipe(ItemRecipeIngredient ingredient, FluidStackRecipeResult result)
+        implements IFluidizerRecipe, IOneToOneModRecipe<ItemStack, FluidStack, ItemRecipeIngredient, FluidStackRecipeResult> {
 
-        super(ingredient, result);
+    public FluidizerSolidRecipe {
+
+        Preconditions.checkArgument(!ingredient.isEmpty(), "Ingredient must not be empty");
+        Preconditions.checkArgument(!result.isEmpty(), "Result must not be empty");
+
         s_maxResultAmount = Math.max(s_maxResultAmount, result.getAmount());
     }
 
-    public static boolean lookup(final ModRecipe recipe, final IRecipeIngredientSource<ItemStack> source) {
+    public static boolean lookup(final IModRecipe recipe, final IRecipeIngredientSource<ItemStack> source) {
         return recipe instanceof FluidizerSolidRecipe && ((FluidizerSolidRecipe)recipe).test(source.getIngredient());
     }
 
@@ -57,16 +63,16 @@ public class FluidizerSolidRecipe
     }
 
     public boolean match(final ItemStack stack) {
-        return this.getIngredient().test(stack);
+        return this.ingredient().test(stack);
     }
 
     public boolean matchIgnoreAmount(final ItemStack stack) {
-        return this.getIngredient().testIgnoreAmount(stack);
+        return this.ingredient().testIgnoreAmount(stack);
     }
 
     public static RecipeSerializer<FluidizerSolidRecipe> createSerializer() {
-        return AbstractOneToOneRecipe.createSerializer(
-                "ingredient", ItemStackRecipeIngredient.CODECS,
+        return IOneToOneModRecipe.createOneToOneSerializer(
+                "ingredient", ItemRecipeIngredient.CODECS,
                 "result", FluidStackRecipeResult.CODECS,
                 FluidizerSolidRecipe::new);
     }
@@ -75,11 +81,11 @@ public class FluidizerSolidRecipe
 
     @Override
     public int getEnergyUsageMultiplier() {
-        return this.getEnergyUsageMultiplier(this.getResult().getResult());
+        return this.getEnergyUsageMultiplier(this.result().getResult());
     }
 
     //endregion
-    //region AbstractOneToOneRecipe
+    //region IOneToOneModRecipe<ItemStack, FluidStack, ItemRecipeIngredient, FluidStackRecipeResult>
 
     @Override
     public RecipeSerializer<FluidizerSolidRecipe> getSerializer() {
@@ -87,8 +93,13 @@ public class FluidizerSolidRecipe
     }
 
     @Override
-    public RecipeType<?> getType() {
+    public RecipeType<IModRecipe> getType() {
         return Content.Recipes.FLUIDIZER_RECIPE_TYPE.get();
+    }
+
+    @Override
+    public Supplier<? extends @NotNull Item> getRecipeIcon() {
+        return Content.Items.FLUIDIZER_SOLIDINJECTOR;
     }
 
     //endregion
@@ -117,12 +128,12 @@ public class FluidizerSolidRecipe
         public void onRecipeProcessed() {
 
             final FluidizerSolidRecipe recipe = this.getRecipe();
-            final ItemStack item = this._itemSource.getMatchFrom(recipe.getIngredient());
+            final ItemStack item = this._itemSource.getMatchFrom(recipe.ingredient());
 
             if (!item.isEmpty()) {
 
                 this._itemSource.consumeIngredient(item);
-                this._outputTarget.setResult(recipe.getResult(), OperationMode.Execute);
+                this._outputTarget.setResult(recipe.result(), OperationMode.Execute);
             }
         }
 

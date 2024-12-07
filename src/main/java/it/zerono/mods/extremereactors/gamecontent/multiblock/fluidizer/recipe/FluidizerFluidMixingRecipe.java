@@ -18,32 +18,40 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.recipe;
 
+import com.google.common.base.Preconditions;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.zerocore.lib.data.stack.OperationMode;
-import it.zerono.mods.zerocore.lib.recipe.AbstractTwoToOneRecipe;
-import it.zerono.mods.zerocore.lib.recipe.ModRecipe;
+import it.zerono.mods.zerocore.lib.recipe.IModRecipe;
+import it.zerono.mods.zerocore.lib.recipe.ITwoToOneModRecipe;
 import it.zerono.mods.zerocore.lib.recipe.holder.AbstractHeldRecipe;
 import it.zerono.mods.zerocore.lib.recipe.holder.IRecipeHolder;
-import it.zerono.mods.zerocore.lib.recipe.ingredient.FluidStackRecipeIngredient;
+import it.zerono.mods.zerocore.lib.recipe.ingredient.FluidRecipeIngredient;
 import it.zerono.mods.zerocore.lib.recipe.ingredient.IRecipeIngredientSource;
 import it.zerono.mods.zerocore.lib.recipe.result.FluidStackRecipeResult;
 import it.zerono.mods.zerocore.lib.recipe.result.IRecipeResultTarget;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.neoforged.neoforge.fluids.FluidStack;
+import org.jetbrains.annotations.NotNull;
 
-public class FluidizerFluidMixingRecipe
-        extends AbstractTwoToOneRecipe<FluidStack, FluidStack, FluidStack, FluidStackRecipeIngredient, FluidStackRecipeIngredient, FluidStackRecipeResult>
-        implements IFluidizerRecipe {
+import java.util.function.Supplier;
 
-    public FluidizerFluidMixingRecipe(FluidStackRecipeIngredient ingredient1, FluidStackRecipeIngredient ingredient2,
-                                      FluidStackRecipeResult result) {
+public record FluidizerFluidMixingRecipe(FluidRecipeIngredient ingredient1, FluidRecipeIngredient ingredient2,
+                                         FluidStackRecipeResult result)
+        implements IFluidizerRecipe, 
+            ITwoToOneModRecipe<FluidStack, FluidStack, FluidStack, FluidRecipeIngredient, FluidRecipeIngredient, FluidStackRecipeResult> {
 
-        super(ingredient1, ingredient2, result);
+    public FluidizerFluidMixingRecipe {
+
+        Preconditions.checkArgument(!ingredient1.isEmpty(), "Ingredient 1 must not be empty");
+        Preconditions.checkArgument(!ingredient2.isEmpty(), "Ingredient 2 must not be empty");
+        Preconditions.checkArgument(!result.isEmpty(), "Result must not be empty");
+
         s_maxResultAmount = Math.max(s_maxResultAmount, result.getAmount());
     }
 
-    public static boolean lookup(final ModRecipe recipe, final IRecipeIngredientSource<FluidStack> source1,
+    public static boolean lookup(final IModRecipe recipe, final IRecipeIngredientSource<FluidStack> source1,
                                  final IRecipeIngredientSource<FluidStack> source2) {
         return recipe instanceof FluidizerFluidMixingRecipe &&
                 ((FluidizerFluidMixingRecipe)recipe).test(source1.getIngredient(), source2.getIngredient());
@@ -62,7 +70,7 @@ public class FluidizerFluidMixingRecipe
      * Check if the provided stack match one of the recipe ingredients
      */
     public boolean match(final FluidStack stack) {
-        return this.getIngredient1().test(stack) || this.getIngredient2().test(stack);
+        return this.ingredient1().test(stack) || this.ingredient2().test(stack);
     }
 
     /**
@@ -70,8 +78,8 @@ public class FluidizerFluidMixingRecipe
      */
     public boolean match(final FluidStack stack1, final FluidStack stack2) {
 
-        final FluidStackRecipeIngredient ingredient1 = this.getIngredient1();
-        final FluidStackRecipeIngredient ingredient2 = this.getIngredient2();
+        final FluidRecipeIngredient ingredient1 = this.ingredient1();
+        final FluidRecipeIngredient ingredient2 = this.ingredient2();
 
         return ingredient1.test(stack1) && ingredient2.test(stack2);
     }
@@ -80,13 +88,13 @@ public class FluidizerFluidMixingRecipe
      * Check if the provided stack match one of the recipe ingredients ignoring the stack size
      */
     public boolean matchIgnoreAmount(final FluidStack stack) {
-        return this.getIngredient1().testIgnoreAmount(stack) || this.getIngredient2().testIgnoreAmount(stack);
+        return this.ingredient1().testIgnoreAmount(stack) || this.ingredient2().testIgnoreAmount(stack);
     }
 
     public static RecipeSerializer<FluidizerFluidMixingRecipe> createSerializer() {
-        return AbstractTwoToOneRecipe.createSerializer(
-                "ingredient1", FluidStackRecipeIngredient.CODECS,
-                "ingredient2", FluidStackRecipeIngredient.CODECS,
+        return ITwoToOneModRecipe.createTwoToOneSerializer(
+                "ingredient1", FluidRecipeIngredient.CODECS,
+                "ingredient2", FluidRecipeIngredient.CODECS,
                 "result", FluidStackRecipeResult.CODECS,
                 FluidizerFluidMixingRecipe::new);
     }
@@ -95,11 +103,11 @@ public class FluidizerFluidMixingRecipe
 
     @Override
     public int getEnergyUsageMultiplier() {
-        return this.getEnergyUsageMultiplier(this.getResult().getResult());
+        return this.getEnergyUsageMultiplier(this.result().getResult());
     }
 
     //endregion
-    //region AbstractTwoToOneRecipe
+    //region ITwoToOneModRecipe<FluidStack, FluidStack, FluidStack, FluidRecipeIngredient, FluidRecipeIngredient, FluidStackRecipeResult>
 
     @Override
     public RecipeSerializer<FluidizerFluidMixingRecipe> getSerializer() {
@@ -107,8 +115,13 @@ public class FluidizerFluidMixingRecipe
     }
 
     @Override
-    public RecipeType<?> getType() {
+    public RecipeType<IModRecipe> getType() {
         return Content.Recipes.FLUIDIZER_RECIPE_TYPE.get();
+    }
+
+    @Override
+    public Supplier<? extends @NotNull Item> getRecipeIcon() {
+        return Content.Items.FLUIDIZER_SOLIDINJECTOR;
     }
 
     //endregion
@@ -138,14 +151,14 @@ public class FluidizerFluidMixingRecipe
         public void onRecipeProcessed() {
 
             final FluidizerFluidMixingRecipe recipe = this.getRecipe();
-            final FluidStack fluid1 = this._fluid1Source.getMatchFrom(recipe.getIngredient1());
-            final FluidStack fluid2 = this._fluid2Source.getMatchFrom(recipe.getIngredient2());
+            final FluidStack fluid1 = this._fluid1Source.getMatchFrom(recipe.ingredient1());
+            final FluidStack fluid2 = this._fluid2Source.getMatchFrom(recipe.ingredient2());
 
             if (!fluid1.isEmpty() && !fluid2.isEmpty()) {
 
                 this._fluid1Source.consumeIngredient(fluid1);
                 this._fluid2Source.consumeIngredient(fluid2);
-                this._outputTarget.setResult(recipe.getResult(), OperationMode.Execute);
+                this._outputTarget.setResult(recipe.result(), OperationMode.Execute);
             }
         }
 

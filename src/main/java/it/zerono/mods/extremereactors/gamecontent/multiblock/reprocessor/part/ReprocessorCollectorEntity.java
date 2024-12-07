@@ -52,10 +52,10 @@ public class ReprocessorCollectorEntity
 
         if (null != currentRecipe) {
 
-            final List<ItemStack> ingredients = currentRecipe.getIngredient1().getMatchingElements();
+            final List<ItemStack> ingredients = currentRecipe.ingredient1().getMatchingElements();
 
-            this._recipeSourceItem = ingredients.isEmpty() ? ItemStack.EMPTY : ingredients.get(0);
-            this._recipeProductItem = currentRecipe.getResult().getResult();
+            this._recipeSourceItem = ingredients.isEmpty() ? ItemStack.EMPTY : ingredients.getFirst();
+            this._recipeProductItem = currentRecipe.result().getResult();
 
         } else {
 
@@ -163,7 +163,6 @@ public class ReprocessorCollectorEntity
         }
     }
 
-    @Nullable
     private static ItemStack syncItem(final CompoundTag data, final String name) {
 
         Item item;

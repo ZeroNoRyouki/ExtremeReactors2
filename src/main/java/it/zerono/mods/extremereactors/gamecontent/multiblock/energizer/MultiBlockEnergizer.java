@@ -46,6 +46,7 @@ import it.zerono.mods.zerocore.lib.multiblock.validation.IMultiblockValidator;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.util.profiling.Profiler;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -190,7 +191,7 @@ public class MultiBlockEnergizer
     @Override
     protected void sendClientUpdates() {
 
-        final ProfilerFiller profiler = this.getWorld().getProfiler();
+        final ProfilerFiller profiler = Profiler.get();
 
         profiler.push("sendTickUpdate");
         this.sendUpdates();
@@ -310,7 +311,7 @@ public class MultiBlockEnergizer
     @Override
     protected boolean updateServer() {
 
-        final ProfilerFiller profiler = this.getWorld().getProfiler();
+        final ProfilerFiller profiler = Profiler.get();
 
         profiler.push("Extreme Reactors|Energizer update"); // main section
 

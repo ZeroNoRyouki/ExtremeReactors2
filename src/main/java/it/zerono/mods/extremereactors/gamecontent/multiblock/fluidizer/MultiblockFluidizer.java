@@ -60,8 +60,10 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.profiling.Profiler;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
 import net.neoforged.fml.LogicalSide;
 import net.neoforged.neoforge.fluids.FluidStack;
@@ -199,7 +201,7 @@ public class MultiblockFluidizer
         return this.isMachineActive() &&
                 this._ingredientsAvailable.getAsBoolean() &&
                 this._energyBuffer.getEnergyStored().intValue() >= Config.COMMON.fluidizer.energyPerRecipeTick.get() &&
-                this._fluidTarget.countStorableResults(recipe.getResult()) > 0;
+                this._fluidTarget.countStorableResults(recipe.result()) > 0;
     }
 
     @Override
@@ -332,7 +334,7 @@ public class MultiblockFluidizer
     @Override
     protected boolean updateServer() {
 
-        final ProfilerFiller profiler = this.getWorld().getProfiler();
+        final ProfilerFiller profiler = Profiler.get();
         boolean updated = false;
 
         profiler.push("Extreme Reactors|Fluidizer update"); // main section
@@ -686,10 +688,11 @@ public class MultiblockFluidizer
 
         this._ingredientsChanged = false;
 
-        final IRecipeIngredientSource<ItemStack> source = this._solidSources.get(0);
+        final IRecipeIngredientSource<ItemStack> source = this._solidSources.getFirst();
 
         return Content.Recipes.FLUIDIZER_RECIPE_TYPE.get()
                 .findFirst(recipe -> FluidizerSolidRecipe.lookup(recipe, source))
+                .map(RecipeHolder::value)
                 .map(recipe -> (FluidizerSolidRecipe)recipe)
                 .map(recipe -> new FluidizerSolidRecipe.HeldRecipe(recipe, holder, source, this._fluidTarget))
                 .orElse(null);
@@ -705,6 +708,7 @@ public class MultiblockFluidizer
 
         return Content.Recipes.FLUIDIZER_RECIPE_TYPE.get()
                 .findFirst(recipe -> FluidizerSolidMixingRecipe.lookup(recipe, source1, source2))
+                .map(RecipeHolder::value)
                 .map(recipe -> (FluidizerSolidMixingRecipe)recipe)
                 .map(recipe -> new FluidizerSolidMixingRecipe.HeldRecipe(recipe, holder, source1, source2, this._fluidTarget))
                 .orElse(null);
@@ -720,6 +724,7 @@ public class MultiblockFluidizer
 
         return Content.Recipes.FLUIDIZER_RECIPE_TYPE.get()
                 .findFirst(recipe -> FluidizerFluidMixingRecipe.lookup(recipe, source1, source2))
+                .map(RecipeHolder::value)
                 .map(recipe -> (FluidizerFluidMixingRecipe)recipe)
                 .map(recipe -> new FluidizerFluidMixingRecipe.HeldRecipe(recipe, holder, source1, source2, this._fluidTarget))
                 .orElse(null);

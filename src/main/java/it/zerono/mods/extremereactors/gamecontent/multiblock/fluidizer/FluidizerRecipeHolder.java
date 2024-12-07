@@ -24,7 +24,7 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.recipe.Fl
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.recipe.FluidizerSolidRecipe;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.recipe.IFluidizerRecipe;
 import it.zerono.mods.zerocore.lib.IDebugMessages;
-import it.zerono.mods.zerocore.lib.recipe.ModRecipe;
+import it.zerono.mods.zerocore.lib.recipe.IModRecipe;
 import it.zerono.mods.zerocore.lib.recipe.holder.IHeldRecipe;
 import it.zerono.mods.zerocore.lib.recipe.holder.IRecipeHolder;
 import it.zerono.mods.zerocore.lib.recipe.holder.RecipeHolder;
@@ -36,7 +36,7 @@ import net.neoforged.neoforge.fluids.FluidStack;
 
 import java.util.function.Function;
 
-class FluidizerRecipeHolder<Recipe extends ModRecipe & IFluidizerRecipe>
+class FluidizerRecipeHolder<Recipe extends IModRecipe & IFluidizerRecipe>
         implements IFluidizerRecipeHolder {
 
     public static IFluidizerRecipeHolder solid(final IFluidizerRecipeHolder.Callbacks callbacks,

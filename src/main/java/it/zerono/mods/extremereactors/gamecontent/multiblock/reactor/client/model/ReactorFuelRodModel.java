@@ -130,8 +130,8 @@ public class ReactorFuelRodModel
     }
 
     @Override
-    public ItemOverrides getOverrides() {
-        return this._subTypes[0]._baseModel.getOverrides();
+    public BakedOverrides overrides() {
+        return this._subTypes[0]._baseModel.overrides();
     }
 
     @Override
@@ -251,7 +251,7 @@ public class ReactorFuelRodModel
         final BlockElementFace partFace = new BlockElementFace(null, tintIndex, "",  new BlockFaceUV(uv, 0));
 
         return this._faceBakery.bakeQuad(cubeFrom, cubeTo, partFace, sprite, direction, IDENTITY_MODEL_STATE,
-                null, true);
+                null, true, -1);
     }
 
     private static class ModelSubType {

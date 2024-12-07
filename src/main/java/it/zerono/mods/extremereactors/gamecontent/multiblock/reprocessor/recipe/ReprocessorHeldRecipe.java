@@ -51,14 +51,14 @@ public class ReprocessorHeldRecipe
     public void onRecipeProcessed() {
 
         final ReprocessorRecipe recipe = this.getRecipe();
-        final ItemStack waste = this._wasteIngredientSource.getMatchFrom(recipe.getIngredient1());
-        final FluidStack fluid = this._fluidIngredientSource.getMatchFrom(recipe.getIngredient2());
+        final ItemStack waste = this._wasteIngredientSource.getMatchFrom(recipe.ingredient1());
+        final FluidStack fluid = this._fluidIngredientSource.getMatchFrom(recipe.ingredient2());
 
         if (!waste.isEmpty() && !fluid.isEmpty()) {
 
             this._wasteIngredientSource.consumeIngredient(waste);
             this._fluidIngredientSource.consumeIngredient(fluid);
-            this._outputTarget.setResult(recipe.getResult(), OperationMode.Execute);
+            this._outputTarget.setResult(recipe.result(), OperationMode.Execute);
         }
     }
 

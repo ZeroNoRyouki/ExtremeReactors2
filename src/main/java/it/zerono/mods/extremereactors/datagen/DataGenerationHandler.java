@@ -19,6 +19,7 @@
 package it.zerono.mods.extremereactors.datagen;
 
 import it.zerono.mods.extremereactors.datagen.loot.BlockSubProvider;
+import it.zerono.mods.extremereactors.datagen.recipe.*;
 import it.zerono.mods.extremereactors.datagen.tag.BlockTagsDataProvider;
 import it.zerono.mods.extremereactors.datagen.tag.FluidTagsDataProvider;
 import it.zerono.mods.extremereactors.datagen.tag.ItemTagsDataProvider;
@@ -45,12 +46,12 @@ public class DataGenerationHandler
 
         // recipes
 
-        generator.addProvider(it.zerono.mods.extremereactors.datagen.recipe.GenericRecipesDataProvider::new);
-        generator.addProvider(it.zerono.mods.extremereactors.datagen.recipe.ReactorRecipesDataProvider::new);
-        generator.addProvider(it.zerono.mods.extremereactors.datagen.recipe.TurbineRecipesDataProvider::new);
-        generator.addProvider(it.zerono.mods.extremereactors.datagen.recipe.ReprocessorRecipesDataProvider::new);
-        generator.addProvider(it.zerono.mods.extremereactors.datagen.recipe.FluidizerRecipesDataProvider::new);
-        generator.addProvider(it.zerono.mods.extremereactors.datagen.recipe.EnergizerRecipesDataProvider::new);
+        generator.addRecipeProvider("Generic recipes", GenericRecipesDataProvider::new);
+        generator.addRecipeProvider("Reactor recipes", ReactorRecipesDataProvider::new);
+        generator.addRecipeProvider("Turbine recipes", TurbineRecipesDataProvider::new);
+        generator.addRecipeProvider("Reprocessor recipes", ReprocessorRecipesDataProvider::new);
+        generator.addRecipeProvider("Fluidizer recipes", FluidizerRecipesDataProvider::new);
+        generator.addRecipeProvider("Energizer recipes", EnergizerRecipesDataProvider::new);
 
         // atlas
 

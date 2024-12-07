@@ -23,7 +23,6 @@ import it.zerono.mods.zerocore.lib.client.gui.Theme;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraft.server.packs.resources.ResourceManager;
-import net.minecraft.util.profiling.ProfilerFiller;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.CompletableFuture;
@@ -52,7 +51,6 @@ public enum GuiTheme
 
     @Override
     public CompletableFuture<Void> reload(PreparationBarrier barrier, ResourceManager resourceManager,
-                                          ProfilerFiller prepareProfiler, ProfilerFiller applyProfiler,
                                           Executor prepareExecutor, Executor applyExecutor) {
         return CompletableFuture.supplyAsync(() -> loadTheme(resourceManager), prepareExecutor)
                 .thenCompose(barrier::wait)

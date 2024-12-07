@@ -43,6 +43,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.redstone.Orientation;
 import org.jetbrains.annotations.Nullable;
 
 public class ReactorRedstonePortEntity
@@ -89,14 +90,8 @@ public class ReactorRedstonePortEntity
     //endregion
     //region INeighborChangeListener
 
-    /**
-     * Called when a neighboring Block on a side of this TileEntity changes
-     *
-     * @param state the BlockState of this TileEntity block
-     * @param neighborPosition position of neighbor
-     */
     @Override
-    public void onNeighborBlockChanged(final BlockState state, final BlockPos neighborPosition, final boolean isMoving) {
+    public void onNeighborBlockChanged(final BlockState state, @Nullable Orientation orientation, final boolean isMoving) {
 
         if (!this.isConnected()) {
             return;

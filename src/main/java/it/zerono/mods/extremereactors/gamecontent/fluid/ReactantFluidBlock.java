@@ -18,9 +18,10 @@ import java.util.function.Supplier;
 public class ReactantFluidBlock
         extends LiquidBlock {
 
-    public ReactantFluidBlock(final Reactants reactant, final Supplier<? extends FlowingFluid> fluid) {
+    public ReactantFluidBlock(final Reactants reactant, final Supplier<? extends FlowingFluid> fluid,
+                              final Properties properties) {
 
-        super(fluid.get(), Properties.of()
+        super(fluid.get(), properties
                 .mapColor(MapColor.WATER)
                 .replaceable()
                 .pushReaction(PushReaction.DESTROY)

@@ -18,17 +18,15 @@
 
 package it.zerono.mods.extremereactors.datagen.recipe;
 
-import com.google.common.base.Preconditions;
-import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
 import it.zerono.mods.extremereactors.gamecontent.ContentTags;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.variant.ReactorVariant;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.variant.TurbineVariant;
 import it.zerono.mods.zerocore.lib.data.ResourceLocationBuilder;
 import it.zerono.mods.zerocore.lib.datagen.provider.recipe.ModRecipeProvider;
+import it.zerono.mods.zerocore.lib.datagen.provider.recipe.ModRecipeProviderRunner;
 import it.zerono.mods.zerocore.lib.tag.TagsHelper;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.resources.ResourceLocation;
@@ -38,7 +36,6 @@ import net.minecraft.world.level.ItemLike;
 import net.neoforged.neoforge.common.Tags;
 
 import java.util.Set;
-import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
 
 public abstract class AbstractRecipesDataProvider
@@ -48,18 +45,10 @@ public abstract class AbstractRecipesDataProvider
     protected static final Set<TagKey<Item>> TAGS_YELLORIUM_INGOTS = ImmutableSet.of(ContentTags.Items.INGOTS_YELLORIUM,
         ContentTags.Items.INGOTS_URANIUM);
 
-    protected AbstractRecipesDataProvider(String modId, String name, PackOutput output, CompletableFuture<HolderLookup.Provider> registryLookup,
-                                          ResourceLocationBuilder modLocationRoot) {
+    protected AbstractRecipesDataProvider(ModRecipeProviderRunner<? extends ModRecipeProvider> mainProvider,
+                                          HolderLookup.Provider registryLookupProvider, RecipeOutput output) {
 
-        super(name, output, registryLookup, modLocationRoot);
-        this._modId = modId;
-    }
-
-    protected String group(String name) {
-
-        Preconditions.checkArgument(!Strings.isNullOrEmpty(name), "Name must not be null or empty");
-
-        return this._modId + ":" + name;
+        super(mainProvider, registryLookupProvider, output);
     }
 
     protected ResourceLocationBuilder reactorRoot() {
@@ -102,7 +91,7 @@ public abstract class AbstractRecipesDataProvider
         return this.root().appendPath("energizer");
     }
 
-    protected void chargingPort(RecipeOutput output, ResourceLocation name,
+    protected void chargingPort(ResourceLocation id,
                                 Supplier<? extends ItemLike> result, Supplier<? extends ItemLike> powerTap,
                                 ItemLike item1, ItemLike item2) {
 
@@ -115,12 +104,6 @@ public abstract class AbstractRecipesDataProvider
                 .pattern("GTG")
                 .pattern("212")
                 .unlockedBy("has_item", has(powerTap.get()))
-                .save(output, name);
+                .save(this.output, recipeKeyFrom(id));
     }
-
-    //region internals
-
-    private final String _modId;
-
-    //endregion
 }

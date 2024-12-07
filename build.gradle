@@ -7,8 +7,17 @@ plugins {
     id 'eclipse'
     id 'idea'
     id 'maven-publish'
-    id 'net.neoforged.gradle.userdev' version '7.0.142'
-    id 'net.neoforged.gradle.mixin' version '7.0.142'
+    id 'net.neoforged.gradle.userdev' version '7.0.171'
+    id 'net.neoforged.gradle.mixin' version '7.0.171'
+}
+
+tasks.named('wrapper', Wrapper).configure {
+    // Define wrapper values here so as to not have to always do so when updating gradlew.properties.
+    // Switching this to Wrapper.DistributionType.ALL will download the full gradle sources that comes with
+    // documentation attached on cursor hover of gradle classes and methods. However, this comes with increased
+    // file size for Gradle. If you do switch this to ALL, run the Gradle wrapper task twice afterwards.
+    // (Verify by checking gradle/wrapper/gradle-wrapper.properties to see if distributionUrl now points to `-all`)
+    distributionType = Wrapper.DistributionType.BIN
 }
 
 version = "${project.minecraft_version}-${project.mod_version_major}.${project.mod_version_minor}.${project.mod_version_patch}"
@@ -153,33 +162,25 @@ dependencies {
 
     implementation "it.zerono.mods.zerocore:ZeroCore2:${zerocore_version}"
 
-    // JEI
-    compileOnly("mezz.jei:jei-${project.minecraft_version}-common-api:${project.jei_version}")
-    compileOnly("mezz.jei:jei-${project.minecraft_version}-neoforge-api:${project.jei_version}")
-    runtimeOnly("mezz.jei:jei-${project.minecraft_version}-neoforge:${project.jei_version}")
-
-    // cc-tweaked
-    compileOnly("cc.tweaked:cc-tweaked-${project.minecraft_version}-core-api:${project.cctweaked_version}")
-    compileOnly("cc.tweaked:cc-tweaked-${project.minecraft_version}-forge-api:${project.cctweaked_version}")
-    runtimeOnly("cc.tweaked:cc-tweaked-${project.minecraft_version}-forge:${project.cctweaked_version}")
-
-    // patchouli
-    compileOnly "vazkii.patchouli:Patchouli:${project.patchouli_version}-NEOFORGE"
-    runtimeOnly "vazkii.patchouli:Patchouli:${project.patchouli_version}-NEOFORGE"
-
-    // mekanism
-    compileOnly "mekanism:Mekanism:${project.mekanism_version}"
-
-    runtimeOnly "mekanism:Mekanism:${project.mekanism_version}"
-    runtimeOnly "mekanism:Mekanism:${project.mekanism_version}:additions"
-    runtimeOnly "mekanism:Mekanism:${project.mekanism_version}:generators"
-//    runtimeOnly "mekanism:Mekanism:${project.mekanism_version}:tools"
-
-    // thermal
-//    runtimeOnly fg.deobf("curse.maven:thermalexp-69163:4112130")
-//    runtimeOnly fg.deobf("curse.maven:thermalfnd-222880:4112137")
-//    runtimeOnly fg.deobf("curse.maven:cofhcore-69162:4202944")
-//    runtimeOnly fg.deobf("curse.maven:redarsenal-70631:4121288")
+//    // JEI
+//    compileOnly("mezz.jei:jei-${project.minecraft_version}-common-api:${project.jei_version}")
+//    compileOnly("mezz.jei:jei-${project.minecraft_version}-neoforge-api:${project.jei_version}")
+//    runtimeOnly("mezz.jei:jei-${project.minecraft_version}-neoforge:${project.jei_version}")
+//
+//    // cc-tweaked
+//    compileOnly("cc.tweaked:cc-tweaked-${project.minecraft_version}-core-api:${project.cctweaked_version}")
+//    compileOnly("cc.tweaked:cc-tweaked-${project.minecraft_version}-forge-api:${project.cctweaked_version}")
+//    runtimeOnly("cc.tweaked:cc-tweaked-${project.minecraft_version}-forge:${project.cctweaked_version}")
+//
+//    // patchouli
+//    compileOnly "vazkii.patchouli:Patchouli:${project.patchouli_version}-NEOFORGE"
+//    runtimeOnly "vazkii.patchouli:Patchouli:${project.patchouli_version}-NEOFORGE"
+//
+//    // mekanism
+//    compileOnly "mekanism:Mekanism:${project.mekanism_version}"
+//    runtimeOnly "mekanism:Mekanism:${project.mekanism_version}"
+//    runtimeOnly "mekanism:Mekanism:${project.mekanism_version}:additions"
+//    runtimeOnly "mekanism:Mekanism:${project.mekanism_version}:generators"
 
 	// constructionwand
 //    implementation fg.deobf("curse.maven:constructionwand-399558:4455720")

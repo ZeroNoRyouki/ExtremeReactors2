@@ -18,51 +18,55 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.recipe;
 
+import com.google.common.base.Preconditions;
 import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.gamecontent.Content;
-import it.zerono.mods.zerocore.lib.recipe.AbstractTwoToOneRecipe;
-import it.zerono.mods.zerocore.lib.recipe.ingredient.FluidStackRecipeIngredient;
-import it.zerono.mods.zerocore.lib.recipe.ingredient.ItemStackRecipeIngredient;
+import it.zerono.mods.zerocore.lib.recipe.ITwoToOneModRecipe;
+import it.zerono.mods.zerocore.lib.recipe.ingredient.FluidRecipeIngredient;
+import it.zerono.mods.zerocore.lib.recipe.ingredient.ItemRecipeIngredient;
 import it.zerono.mods.zerocore.lib.recipe.result.ItemStackRecipeResult;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.neoforged.neoforge.fluids.FluidStack;
+import org.jetbrains.annotations.NotNull;
 
-public class ReprocessorRecipe
-        extends AbstractTwoToOneRecipe<ItemStack, FluidStack, ItemStack,
-                    ItemStackRecipeIngredient, FluidStackRecipeIngredient, ItemStackRecipeResult> {
+import java.util.function.Supplier;
+
+public record ReprocessorRecipe(ItemRecipeIngredient ingredient1, FluidRecipeIngredient ingredient2,
+                                ItemStackRecipeResult result)
+        implements ITwoToOneModRecipe<ItemStack, FluidStack, ItemStack,
+                ItemRecipeIngredient, FluidRecipeIngredient, ItemStackRecipeResult> {
 
     public static final String NAME = "reprocessor";
     public static final ResourceLocation ID = ExtremeReactors.ROOT_LOCATION.buildWithSuffix(NAME);
 
-    public ReprocessorRecipe(ItemStackRecipeIngredient ingot, FluidStackRecipeIngredient fluid,
-                             ItemStackRecipeResult result) {
-        super(ingot, fluid, result);
-    }
+    public ReprocessorRecipe {
 
-    public boolean match(final ItemStack stack) {
-        return this.getIngredient1().test(stack);
+        Preconditions.checkArgument(!ingredient1.isEmpty(), "Ingredient 1 must not be empty");
+        Preconditions.checkArgument(!ingredient2.isEmpty(), "Ingredient 2 must not be empty");
+        Preconditions.checkArgument(!result.isEmpty(), "Result must not be empty");
     }
 
     public boolean matchIgnoreAmount(final ItemStack stack) {
-        return this.getIngredient1().testIgnoreAmount(stack);
+        return this.ingredient1().testIgnoreAmount(stack);
     }
 
     public boolean matchIgnoreAmount(final FluidStack stack) {
-        return this.getIngredient2().testIgnoreAmount(stack);
+        return this.ingredient2().testIgnoreAmount(stack);
     }
 
     public static RecipeSerializer<ReprocessorRecipe> createSerializer() {
-        return AbstractTwoToOneRecipe.createSerializer(
-                "waste", ItemStackRecipeIngredient.CODECS,
-                "fluid", FluidStackRecipeIngredient.CODECS,
+        return ITwoToOneModRecipe.createTwoToOneSerializer(
+                "waste", ItemRecipeIngredient.CODECS,
+                "fluid", FluidRecipeIngredient.CODECS,
                 "result", ItemStackRecipeResult.CODECS,
                 ReprocessorRecipe::new);
     }
 
-    //region AbstractTwoToOneRecipe
+    //region ITwoToOneModRecipe<ItemStack, FluidStack, ItemStack, ItemRecipeIngredient, FluidRecipeIngredient, ItemStackRecipeResult>
 
     @Override
     public RecipeSerializer<ReprocessorRecipe> getSerializer() {
@@ -70,8 +74,13 @@ public class ReprocessorRecipe
     }
 
     @Override
-    public RecipeType<?> getType() {
+    public RecipeType<ReprocessorRecipe> getType() {
         return Content.Recipes.REPROCESSOR_RECIPE_TYPE.get();
+    }
+
+    @Override
+    public Supplier<? extends @NotNull Item> getRecipeIcon() {
+        return Content.Items.REPROCESSOR_WASTEINJECTOR;
     }
 
     //endregion
