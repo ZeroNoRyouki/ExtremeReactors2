@@ -762,7 +762,9 @@ public final class Content {
         private static Supplier<BlockItem> registerItemBlock(final String name,
                                                              final Supplier<Supplier<ModBlock>> blockSupplier) {
 
-            final var properties = new Item.Properties().stacksTo(64);
+            final var properties = new Item.Properties()
+                    .stacksTo(64)
+                    .useBlockDescriptionPrefix();
 
             return ITEMS.registerItem(name, prop -> blockSupplier.get().get().createBlockItem(prop),
                     properties);
