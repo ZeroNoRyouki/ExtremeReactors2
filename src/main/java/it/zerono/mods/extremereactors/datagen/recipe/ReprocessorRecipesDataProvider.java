@@ -31,8 +31,6 @@ public class ReprocessorRecipesDataProvider
     @Override
     protected void buildRecipes() {
 
-        final var idBuilder = this.reprocessorRoot();
-
         // machine recipes
 
         this.reprocessor(Content.Items.CYANITE_INGOT, 2, Fluids.WATER, 1000,
