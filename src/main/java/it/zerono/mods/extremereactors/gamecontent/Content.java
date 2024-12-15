@@ -26,6 +26,7 @@ import it.zerono.mods.extremereactors.gamecontent.fluid.ReactantFluidBlock;
 import it.zerono.mods.extremereactors.gamecontent.fluid.ReactorFluidType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.container.ChargingPortContainer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.container.FluidPortContainer;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.PassiveFluidPortBlock;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.PowerTapBlock;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.fluidport.FluidPortType;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.energizer.EnergizerPartType;
@@ -86,7 +87,7 @@ import it.zerono.mods.zerocore.lib.item.ModItem;
 import it.zerono.mods.zerocore.lib.item.TintedBucketItem;
 import it.zerono.mods.zerocore.lib.multiblock.IMultiblockPart;
 import it.zerono.mods.zerocore.lib.recipe.IModRecipe;
-import it.zerono.mods.zerocore.lib.recipe.ModRecipeType;
+import it.zerono.mods.zerocore.lib.recipe.IModRecipeType;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.component.DataComponentType;
@@ -412,7 +413,7 @@ public final class Content {
         public static final Supplier<GenericDeviceBlock<MultiblockReprocessor, IReprocessorPartType>> REPROCESSOR_WASTEINJECTOR =
                 registerReprocessorBlock("reprocessorwasteinjector", ReprocessorPartType.WasteInjector);
 
-        public static final Supplier<GenericDeviceBlock<MultiblockReprocessor, IReprocessorPartType>> REPROCESSOR_FLUIDINJECTOR =
+        public static final Supplier<PassiveFluidPortBlock<MultiblockReprocessor, IReprocessorPartType>> REPROCESSOR_FLUIDINJECTOR =
                 registerReprocessorBlock("reprocessorfluidinjector", ReprocessorPartType.FluidInjector);
 
         public static final Supplier<GenericDeviceBlock<MultiblockReprocessor, IReprocessorPartType>> REPROCESSOR_OUTPUTPORT =
@@ -1378,7 +1379,7 @@ public final class Content {
 
         //region Reprocessor
 
-        public static final Supplier<ModRecipeType<ReprocessorRecipe>> REPROCESSOR_RECIPE_TYPE =
+        public static final Supplier<IModRecipeType<ReprocessorRecipe>> REPROCESSOR_RECIPE_TYPE =
                 registerRecipe(ReprocessorRecipe.ID);
 
         public static final Supplier<RecipeSerializer<ReprocessorRecipe>> REPROCESSOR_RECIPE_SERIALIZER =
@@ -1387,7 +1388,7 @@ public final class Content {
         //endregion
         //region Fluidizer
 
-        public static final Supplier<ModRecipeType<IModRecipe>> FLUIDIZER_RECIPE_TYPE =
+        public static final Supplier<IModRecipeType<IModRecipe>> FLUIDIZER_RECIPE_TYPE =
                 registerRecipe(IFluidizerRecipe.ID);
 
         public static final Supplier<RecipeSerializer<FluidizerSolidRecipe>> FLUIDIZER_SOLID_RECIPE_SERIALIZER =
@@ -1400,8 +1401,8 @@ public final class Content {
         //endregion
         //region internals
 
-        private static <Recipe extends IModRecipe> Supplier<ModRecipeType<Recipe>> registerRecipe(ResourceLocation recipeId) {
-            return RECIPE_TYPES.register(recipeId.getPath(), () -> ModRecipeType.create(recipeId));
+        private static <Recipe extends IModRecipe> Supplier<IModRecipeType<Recipe>> registerRecipe(ResourceLocation recipeId) {
+            return RECIPE_TYPES.register(recipeId.getPath(), () -> IModRecipeType.create(recipeId));
         }
 
         //endregion

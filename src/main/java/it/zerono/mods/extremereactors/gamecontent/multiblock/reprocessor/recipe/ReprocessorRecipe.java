@@ -21,6 +21,7 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor.recipe
 import com.google.common.base.Preconditions;
 import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.gamecontent.Content;
+import it.zerono.mods.zerocore.lib.recipe.IModRecipeType;
 import it.zerono.mods.zerocore.lib.recipe.ITwoToOneModRecipe;
 import it.zerono.mods.zerocore.lib.recipe.ingredient.FluidRecipeIngredient;
 import it.zerono.mods.zerocore.lib.recipe.ingredient.ItemRecipeIngredient;
@@ -29,7 +30,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.RecipeType;
 import net.neoforged.neoforge.fluids.FluidStack;
 import org.jetbrains.annotations.NotNull;
 
@@ -74,7 +74,7 @@ public record ReprocessorRecipe(ItemRecipeIngredient ingredient1, FluidRecipeIng
     }
 
     @Override
-    public RecipeType<ReprocessorRecipe> getType() {
+    public IModRecipeType<ReprocessorRecipe> getType() {
         return Content.Recipes.REPROCESSOR_RECIPE_TYPE.get();
     }
 

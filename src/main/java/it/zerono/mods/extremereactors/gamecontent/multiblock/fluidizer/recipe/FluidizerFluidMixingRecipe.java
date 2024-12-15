@@ -22,6 +22,7 @@ import com.google.common.base.Preconditions;
 import it.zerono.mods.extremereactors.gamecontent.Content;
 import it.zerono.mods.zerocore.lib.data.stack.OperationMode;
 import it.zerono.mods.zerocore.lib.recipe.IModRecipe;
+import it.zerono.mods.zerocore.lib.recipe.IModRecipeType;
 import it.zerono.mods.zerocore.lib.recipe.ITwoToOneModRecipe;
 import it.zerono.mods.zerocore.lib.recipe.holder.AbstractHeldRecipe;
 import it.zerono.mods.zerocore.lib.recipe.holder.IRecipeHolder;
@@ -31,7 +32,6 @@ import it.zerono.mods.zerocore.lib.recipe.result.FluidStackRecipeResult;
 import it.zerono.mods.zerocore.lib.recipe.result.IRecipeResultTarget;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.RecipeType;
 import net.neoforged.neoforge.fluids.FluidStack;
 import org.jetbrains.annotations.NotNull;
 
@@ -115,7 +115,7 @@ public record FluidizerFluidMixingRecipe(FluidRecipeIngredient ingredient1, Flui
     }
 
     @Override
-    public RecipeType<IModRecipe> getType() {
+    public IModRecipeType<IModRecipe> getType() {
         return Content.Recipes.FLUIDIZER_RECIPE_TYPE.get();
     }
 

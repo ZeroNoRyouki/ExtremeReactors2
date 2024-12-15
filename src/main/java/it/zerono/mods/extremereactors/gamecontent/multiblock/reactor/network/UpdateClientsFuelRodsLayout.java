@@ -20,7 +20,7 @@ import io.netty.buffer.ByteBuf;
 import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part.AbstractReactorEntity;
 import it.zerono.mods.zerocore.lib.data.nbt.ISyncableEntity;
-import it.zerono.mods.zerocore.lib.network.AbstractBlockEntityPlayPacket;
+import it.zerono.mods.zerocore.lib.network.payload.AbstractBlockEntityPlayPacket;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.codec.ByteBufCodecs;

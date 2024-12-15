@@ -19,6 +19,7 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.reprocessor;
 
 import it.zerono.mods.extremereactors.gamecontent.Content;
+import it.zerono.mods.extremereactors.gamecontent.multiblock.common.part.PassiveFluidPortBlock;
 import it.zerono.mods.zerocore.base.multiblock.part.GenericDeviceBlock;
 import it.zerono.mods.zerocore.base.multiblock.part.GlassBlock;
 import it.zerono.mods.zerocore.lib.block.multiblock.MultiblockPartBlock;
@@ -46,7 +47,7 @@ public enum ReprocessorPartType
             GenericDeviceBlock::new, "block.bigreactors.reprocessorwasteinjector"),
 
     FluidInjector(() -> Content.TileEntityTypes.REPROCESSOR_FLUIDINJECTOR::get,
-            GenericDeviceBlock::new, "block.bigreactors.reprocessorfluidinjector"),
+            PassiveFluidPortBlock::new, "block.bigreactors.reprocessorfluidinjector"),
 
     OutputPort(() -> Content.TileEntityTypes.REPROCESSOR_OUTPUTPORT::get,
             GenericDeviceBlock::new, "block.bigreactors.reprocessoroutputport"),

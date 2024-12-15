@@ -19,7 +19,7 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.network;
 
 import it.zerono.mods.extremereactors.ExtremeReactors;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.fluidizer.part.AbstractFluidizerEntity;
-import it.zerono.mods.zerocore.lib.network.AbstractBlockEntityPlayPacket;
+import it.zerono.mods.zerocore.lib.network.payload.AbstractBlockEntityPlayPacket;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
