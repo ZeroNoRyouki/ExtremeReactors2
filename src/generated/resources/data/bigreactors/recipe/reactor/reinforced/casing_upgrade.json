@@ -11,15 +11,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "C": {
-      "item": "bigreactors:basic_reactorcasing"
-    },
-    "G": {
-      "tag": "c:ingots/graphite"
-    },
-    "I": {
-      "tag": "c:ingots/steel"
-    }
+    "C": "bigreactors:basic_reactorcasing",
+    "G": "#c:ingots/graphite",
+    "I": "#c:ingots/steel"
   },
   "pattern": [
     "IGI",

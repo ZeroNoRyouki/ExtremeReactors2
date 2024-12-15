@@ -11,12 +11,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "C": {
-      "tag": "c:ingots/cyanite"
-    },
-    "I": {
-      "tag": "c:ingots/steel"
-    }
+    "C": "#c:ingots/cyanite",
+    "I": "#c:ingots/steel"
   },
   "pattern": [
     " I ",

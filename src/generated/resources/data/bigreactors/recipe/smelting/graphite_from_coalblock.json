@@ -4,9 +4,7 @@
   "cookingtime": 1800,
   "experience": 0.9,
   "group": "bigreactors:graphite",
-  "ingredient": {
-    "item": "minecraft:coal_block"
-  },
+  "ingredient": "minecraft:coal_block",
   "result": {
     "count": 1,
     "id": "bigreactors:graphite_block"

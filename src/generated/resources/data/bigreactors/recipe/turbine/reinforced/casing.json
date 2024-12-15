@@ -11,15 +11,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "C": {
-      "tag": "c:storage_blocks/iron"
-    },
-    "G": {
-      "tag": "c:ingots/cyanite"
-    },
-    "I": {
-      "tag": "c:ingots/steel"
-    }
+    "C": "#c:storage_blocks/iron",
+    "G": "#c:ingots/cyanite",
+    "I": "#c:ingots/steel"
   },
   "pattern": [
     "IGI",

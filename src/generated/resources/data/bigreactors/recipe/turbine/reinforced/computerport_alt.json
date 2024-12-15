@@ -8,21 +8,11 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "C": {
-      "item": "bigreactors:reinforced_turbinecasing"
-    },
-    "G": {
-      "tag": "c:storage_blocks/gold"
-    },
-    "M": {
-      "tag": "c:storage_blocks/iron"
-    },
-    "X": {
-      "tag": "c:dusts/glowstone"
-    },
-    "Z": {
-      "tag": "c:gems/lapis"
-    }
+    "C": "bigreactors:reinforced_turbinecasing",
+    "G": "#c:storage_blocks/gold",
+    "M": "#c:storage_blocks/iron",
+    "X": "#c:dusts/glowstone",
+    "Z": "#c:gems/lapis"
   },
   "pattern": [
     "CZC",

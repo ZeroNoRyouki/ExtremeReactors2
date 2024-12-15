@@ -3,15 +3,9 @@
   "category": "equipment",
   "group": "bigreactors:wrench",
   "key": {
-    "D": {
-      "tag": "c:dyes/green"
-    },
-    "I": {
-      "tag": "c:ingots/iron"
-    },
-    "W": {
-      "tag": "minecraft:wool"
-    }
+    "D": "#c:dyes/green",
+    "I": "#c:ingots/iron",
+    "W": "#minecraft:wool"
   },
   "pattern": [
     "DI ",

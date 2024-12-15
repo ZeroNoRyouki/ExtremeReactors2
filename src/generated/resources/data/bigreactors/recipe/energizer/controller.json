@@ -2,21 +2,11 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "C": {
-      "item": "bigreactors:energizercasing"
-    },
-    "D": {
-      "item": "minecraft:glowstone"
-    },
-    "G": {
-      "tag": "c:ingots/gold"
-    },
-    "R": {
-      "item": "minecraft:redstone_torch"
-    },
-    "X": {
-      "item": "minecraft:comparator"
-    }
+    "C": "bigreactors:energizercasing",
+    "D": "minecraft:glowstone",
+    "G": "#c:ingots/gold",
+    "R": "minecraft:redstone_torch",
+    "X": "minecraft:comparator"
   },
   "pattern": [
     "CXC",

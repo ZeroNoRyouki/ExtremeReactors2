@@ -3,12 +3,8 @@
   "category": "building",
   "group": "bigreactors:coil",
   "key": {
-    "I": {
-      "item": "bigreactors:ridiculite_ingot"
-    },
-    "S": {
-      "item": "minecraft:nether_star"
-    }
+    "I": "bigreactors:ridiculite_ingot",
+    "S": "minecraft:nether_star"
   },
   "pattern": [
     "III",

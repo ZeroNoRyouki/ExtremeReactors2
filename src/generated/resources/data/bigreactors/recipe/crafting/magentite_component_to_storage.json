@@ -3,33 +3,15 @@
   "category": "misc",
   "group": "bigreactors:reactants",
   "ingredients": [
-    {
-      "item": "bigreactors:magentite_ingot"
-    },
-    {
-      "item": "bigreactors:magentite_ingot"
-    },
-    {
-      "item": "bigreactors:magentite_ingot"
-    },
-    {
-      "item": "bigreactors:magentite_ingot"
-    },
-    {
-      "item": "bigreactors:magentite_ingot"
-    },
-    {
-      "item": "bigreactors:magentite_ingot"
-    },
-    {
-      "item": "bigreactors:magentite_ingot"
-    },
-    {
-      "item": "bigreactors:magentite_ingot"
-    },
-    {
-      "item": "bigreactors:magentite_ingot"
-    }
+    "bigreactors:magentite_ingot",
+    "bigreactors:magentite_ingot",
+    "bigreactors:magentite_ingot",
+    "bigreactors:magentite_ingot",
+    "bigreactors:magentite_ingot",
+    "bigreactors:magentite_ingot",
+    "bigreactors:magentite_ingot",
+    "bigreactors:magentite_ingot",
+    "bigreactors:magentite_ingot"
   ],
   "result": {
     "count": 1,

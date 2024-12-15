@@ -3,9 +3,7 @@
   "category": "misc",
   "group": "bigreactors:reactants",
   "ingredients": [
-    {
-      "item": "bigreactors:magentite_block"
-    }
+    "bigreactors:magentite_block"
   ],
   "result": {
     "count": 9,

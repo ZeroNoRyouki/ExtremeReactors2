@@ -2,21 +2,11 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "C": {
-      "item": "bigreactors:reprocessorcasing"
-    },
-    "E": {
-      "tag": "c:gems/emerald"
-    },
-    "P": {
-      "tag": "c:gems/prismarine"
-    },
-    "X": {
-      "item": "minecraft:comparator"
-    },
-    "Y": {
-      "tag": "c:ingots/cyanite"
-    }
+    "C": "bigreactors:reprocessorcasing",
+    "E": "#c:gems/emerald",
+    "P": "#c:gems/prismarine",
+    "X": "minecraft:comparator",
+    "Y": "#c:ingots/cyanite"
   },
   "pattern": [
     "CXC",

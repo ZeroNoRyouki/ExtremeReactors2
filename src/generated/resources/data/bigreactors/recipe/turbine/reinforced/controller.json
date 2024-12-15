@@ -2,21 +2,11 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "C": {
-      "item": "bigreactors:reinforced_turbinecasing"
-    },
-    "D": {
-      "tag": "c:storage_blocks/diamond"
-    },
-    "R": {
-      "tag": "c:dusts/redstone"
-    },
-    "X": {
-      "item": "minecraft:comparator"
-    },
-    "Y": {
-      "tag": "c:storage_blocks/cyanite"
-    }
+    "C": "bigreactors:reinforced_turbinecasing",
+    "D": "#c:storage_blocks/diamond",
+    "R": "#c:dusts/redstone",
+    "X": "minecraft:comparator",
+    "Y": "#c:storage_blocks/cyanite"
   },
   "pattern": [
     "CXC",

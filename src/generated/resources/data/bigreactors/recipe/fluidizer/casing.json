@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "C": {
-      "tag": "c:ingots/yellorium"
-    },
-    "I": {
-      "tag": "c:ingots/iron"
-    },
-    "W": {
-      "item": "minecraft:water_bucket"
-    }
+    "C": "#c:ingots/yellorium",
+    "I": "#c:ingots/iron",
+    "W": "minecraft:water_bucket"
   },
   "pattern": [
     "ICI",

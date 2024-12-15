@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "C": {
-      "tag": "c:sands/colorless"
-    },
-    "G": {
-      "tag": "c:ingots/graphite"
-    },
-    "I": {
-      "tag": "c:ingots/iron"
-    }
+    "C": "#c:sands/colorless",
+    "G": "#c:ingots/graphite",
+    "I": "#c:ingots/iron"
   },
   "pattern": [
     "IGI",

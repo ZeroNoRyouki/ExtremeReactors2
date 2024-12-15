@@ -11,15 +11,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "C": {
-      "item": "bigreactors:basic_turbinecasing"
-    },
-    "G": {
-      "tag": "c:ingots/cyanite"
-    },
-    "I": {
-      "tag": "c:ingots/steel"
-    }
+    "C": "bigreactors:basic_turbinecasing",
+    "G": "#c:ingots/cyanite",
+    "I": "#c:ingots/steel"
   },
   "pattern": [
     "IGI",

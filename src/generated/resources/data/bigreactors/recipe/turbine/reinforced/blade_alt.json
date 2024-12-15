@@ -8,12 +8,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "C": {
-      "tag": "c:ingots/cyanite"
-    },
-    "I": {
-      "tag": "c:storage_blocks/iron"
-    }
+    "C": "#c:ingots/cyanite",
+    "I": "#c:storage_blocks/iron"
   },
   "pattern": [
     "ICI"

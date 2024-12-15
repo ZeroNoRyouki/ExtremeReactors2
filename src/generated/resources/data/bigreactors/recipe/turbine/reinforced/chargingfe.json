@@ -2,18 +2,10 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "1": {
-      "item": "minecraft:glowstone"
-    },
-    "2": {
-      "item": "minecraft:redstone_block"
-    },
-    "G": {
-      "tag": "c:glass_blocks"
-    },
-    "T": {
-      "item": "bigreactors:reinforced_turbinepowertapfe_active"
-    }
+    "1": "minecraft:glowstone",
+    "2": "minecraft:redstone_block",
+    "G": "#c:glass_blocks",
+    "T": "bigreactors:reinforced_turbinepowertapfe_active"
   },
   "pattern": [
     "212",

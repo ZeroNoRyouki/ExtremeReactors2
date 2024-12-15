@@ -11,18 +11,10 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "G": {
-      "tag": "c:ingots/graphite"
-    },
-    "L": {
-      "tag": "c:glass_blocks"
-    },
-    "M": {
-      "tag": "c:ingots/steel"
-    },
-    "Y": {
-      "tag": "c:ingots/yellorium"
-    }
+    "G": "#c:ingots/graphite",
+    "L": "#c:glass_blocks",
+    "M": "#c:ingots/steel",
+    "Y": "#c:ingots/yellorium"
   },
   "pattern": [
     "MGM",

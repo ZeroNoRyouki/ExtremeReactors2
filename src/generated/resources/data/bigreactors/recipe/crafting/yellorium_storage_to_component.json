@@ -3,9 +3,7 @@
   "category": "misc",
   "group": "bigreactors:reactants",
   "ingredients": [
-    {
-      "item": "bigreactors:yellorium_block"
-    }
+    "bigreactors:yellorium_block"
   ],
   "result": {
     "count": 9,

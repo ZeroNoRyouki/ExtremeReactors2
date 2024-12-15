@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "category": "building",
   "ingredients": [
-    {
-      "tag": "bigreactors:turbine/casing_user/reinforced"
-    }
+    "#bigreactors:turbine/casing_user/reinforced"
   ],
   "result": {
     "count": 4,

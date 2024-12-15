@@ -2,21 +2,11 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "C": {
-      "item": "bigreactors:reinforced_reactorcasing"
-    },
-    "D": {
-      "tag": "c:storage_blocks/diamond"
-    },
-    "R": {
-      "tag": "c:dusts/redstone"
-    },
-    "X": {
-      "item": "minecraft:comparator"
-    },
-    "Y": {
-      "tag": "c:ingots/uranium"
-    }
+    "C": "bigreactors:reinforced_reactorcasing",
+    "D": "#c:storage_blocks/diamond",
+    "R": "#c:dusts/redstone",
+    "X": "minecraft:comparator",
+    "Y": "#c:ingots/uranium"
   },
   "pattern": [
     "CXC",

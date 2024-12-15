@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "B": {
-      "item": "minecraft:redstone_block"
-    },
-    "C": {
-      "item": "bigreactors:reinforced_turbinecasing"
-    },
-    "S": {
-      "item": "minecraft:redstone"
-    }
+    "B": "minecraft:redstone_block",
+    "C": "bigreactors:reinforced_turbinecasing",
+    "S": "minecraft:redstone"
   },
   "pattern": [
     "CBC",

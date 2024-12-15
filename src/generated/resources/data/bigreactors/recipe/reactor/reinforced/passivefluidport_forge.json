@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "B": {
-      "item": "minecraft:lava_bucket"
-    },
-    "C": {
-      "item": "bigreactors:reinforced_reactorcasing"
-    },
-    "S": {
-      "item": "minecraft:water_bucket"
-    }
+    "B": "minecraft:lava_bucket",
+    "C": "bigreactors:reinforced_reactorcasing",
+    "S": "minecraft:water_bucket"
   },
   "pattern": [
     "CSC",

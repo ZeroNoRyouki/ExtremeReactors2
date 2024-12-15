@@ -8,15 +8,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "C": {
-      "item": "bigreactors:basic_reactorcasing"
-    },
-    "G": {
-      "tag": "c:ingots/graphite"
-    },
-    "I": {
-      "tag": "c:storage_blocks/iron"
-    }
+    "C": "bigreactors:basic_reactorcasing",
+    "G": "#c:ingots/graphite",
+    "I": "#c:storage_blocks/iron"
   },
   "pattern": [
     "IGI",

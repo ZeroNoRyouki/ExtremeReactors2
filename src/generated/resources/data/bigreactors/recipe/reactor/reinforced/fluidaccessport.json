@@ -11,21 +11,11 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "C": {
-      "item": "bigreactors:reinforced_reactorcasing"
-    },
-    "H": {
-      "item": "minecraft:hopper"
-    },
-    "M": {
-      "tag": "c:ingots/steel"
-    },
-    "W": {
-      "item": "minecraft:bucket"
-    },
-    "X": {
-      "item": "minecraft:piston"
-    }
+    "C": "bigreactors:reinforced_reactorcasing",
+    "H": "minecraft:hopper",
+    "M": "#c:ingots/steel",
+    "W": "minecraft:bucket",
+    "X": "minecraft:piston"
   },
   "pattern": [
     "CHC",

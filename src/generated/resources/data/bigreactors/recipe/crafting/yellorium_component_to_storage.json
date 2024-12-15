@@ -3,33 +3,15 @@
   "category": "misc",
   "group": "bigreactors:reactants",
   "ingredients": [
-    {
-      "item": "bigreactors:yellorium_ingot"
-    },
-    {
-      "item": "bigreactors:yellorium_ingot"
-    },
-    {
-      "item": "bigreactors:yellorium_ingot"
-    },
-    {
-      "item": "bigreactors:yellorium_ingot"
-    },
-    {
-      "item": "bigreactors:yellorium_ingot"
-    },
-    {
-      "item": "bigreactors:yellorium_ingot"
-    },
-    {
-      "item": "bigreactors:yellorium_ingot"
-    },
-    {
-      "item": "bigreactors:yellorium_ingot"
-    },
-    {
-      "item": "bigreactors:yellorium_ingot"
-    }
+    "bigreactors:yellorium_ingot",
+    "bigreactors:yellorium_ingot",
+    "bigreactors:yellorium_ingot",
+    "bigreactors:yellorium_ingot",
+    "bigreactors:yellorium_ingot",
+    "bigreactors:yellorium_ingot",
+    "bigreactors:yellorium_ingot",
+    "bigreactors:yellorium_ingot",
+    "bigreactors:yellorium_ingot"
   ],
   "result": {
     "count": 1,

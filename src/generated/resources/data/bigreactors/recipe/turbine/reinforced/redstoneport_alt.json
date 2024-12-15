@@ -8,21 +8,11 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "C": {
-      "item": "bigreactors:reinforced_turbinecasing"
-    },
-    "G": {
-      "tag": "c:ingots/gold"
-    },
-    "M": {
-      "tag": "c:storage_blocks/iron"
-    },
-    "X": {
-      "item": "minecraft:repeater"
-    },
-    "Z": {
-      "item": "minecraft:comparator"
-    }
+    "C": "bigreactors:reinforced_turbinecasing",
+    "G": "#c:ingots/gold",
+    "M": "#c:storage_blocks/iron",
+    "X": "minecraft:repeater",
+    "Z": "minecraft:comparator"
   },
   "pattern": [
     "CZC",

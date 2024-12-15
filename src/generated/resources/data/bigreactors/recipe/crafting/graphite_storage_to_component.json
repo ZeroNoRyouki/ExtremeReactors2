@@ -3,9 +3,7 @@
   "category": "misc",
   "group": "bigreactors:reactants",
   "ingredients": [
-    {
-      "item": "bigreactors:graphite_block"
-    }
+    "bigreactors:graphite_block"
   ],
   "result": {
     "count": 9,

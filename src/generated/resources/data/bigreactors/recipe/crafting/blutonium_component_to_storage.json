@@ -3,33 +3,15 @@
   "category": "misc",
   "group": "bigreactors:reactants",
   "ingredients": [
-    {
-      "item": "bigreactors:blutonium_ingot"
-    },
-    {
-      "item": "bigreactors:blutonium_ingot"
-    },
-    {
-      "item": "bigreactors:blutonium_ingot"
-    },
-    {
-      "item": "bigreactors:blutonium_ingot"
-    },
-    {
-      "item": "bigreactors:blutonium_ingot"
-    },
-    {
-      "item": "bigreactors:blutonium_ingot"
-    },
-    {
-      "item": "bigreactors:blutonium_ingot"
-    },
-    {
-      "item": "bigreactors:blutonium_ingot"
-    },
-    {
-      "item": "bigreactors:blutonium_ingot"
-    }
+    "bigreactors:blutonium_ingot",
+    "bigreactors:blutonium_ingot",
+    "bigreactors:blutonium_ingot",
+    "bigreactors:blutonium_ingot",
+    "bigreactors:blutonium_ingot",
+    "bigreactors:blutonium_ingot",
+    "bigreactors:blutonium_ingot",
+    "bigreactors:blutonium_ingot",
+    "bigreactors:blutonium_ingot"
   ],
   "result": {
     "count": 1,

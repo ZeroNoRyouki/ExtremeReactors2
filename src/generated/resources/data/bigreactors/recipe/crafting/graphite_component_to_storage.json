@@ -3,33 +3,15 @@
   "category": "misc",
   "group": "bigreactors:reactants",
   "ingredients": [
-    {
-      "item": "bigreactors:graphite_ingot"
-    },
-    {
-      "item": "bigreactors:graphite_ingot"
-    },
-    {
-      "item": "bigreactors:graphite_ingot"
-    },
-    {
-      "item": "bigreactors:graphite_ingot"
-    },
-    {
-      "item": "bigreactors:graphite_ingot"
-    },
-    {
-      "item": "bigreactors:graphite_ingot"
-    },
-    {
-      "item": "bigreactors:graphite_ingot"
-    },
-    {
-      "item": "bigreactors:graphite_ingot"
-    },
-    {
-      "item": "bigreactors:graphite_ingot"
-    }
+    "bigreactors:graphite_ingot",
+    "bigreactors:graphite_ingot",
+    "bigreactors:graphite_ingot",
+    "bigreactors:graphite_ingot",
+    "bigreactors:graphite_ingot",
+    "bigreactors:graphite_ingot",
+    "bigreactors:graphite_ingot",
+    "bigreactors:graphite_ingot",
+    "bigreactors:graphite_ingot"
   ],
   "result": {
     "count": 1,

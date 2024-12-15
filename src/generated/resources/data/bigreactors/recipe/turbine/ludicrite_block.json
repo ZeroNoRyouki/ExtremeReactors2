@@ -3,12 +3,8 @@
   "category": "building",
   "group": "bigreactors:coil",
   "key": {
-    "I": {
-      "item": "bigreactors:ludicrite_ingot"
-    },
-    "S": {
-      "item": "minecraft:end_crystal"
-    }
+    "I": "bigreactors:ludicrite_ingot",
+    "S": "minecraft:end_crystal"
   },
   "pattern": [
     "III",

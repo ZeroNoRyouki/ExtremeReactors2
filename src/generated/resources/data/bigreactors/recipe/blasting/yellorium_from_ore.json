@@ -4,9 +4,7 @@
   "cookingtime": 100,
   "experience": 1.0,
   "group": "bigreactors:yellorium",
-  "ingredient": {
-    "item": "bigreactors:yellorite_ore"
-  },
+  "ingredient": "bigreactors:yellorite_ore",
   "result": {
     "count": 1,
     "id": "bigreactors:yellorium_ingot"

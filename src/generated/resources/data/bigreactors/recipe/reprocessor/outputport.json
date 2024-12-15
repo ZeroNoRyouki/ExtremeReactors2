@@ -2,18 +2,10 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "1": {
-      "item": "minecraft:dispenser"
-    },
-    "2": {
-      "tag": "c:storage_blocks/lapis"
-    },
-    "3": {
-      "tag": "c:chests"
-    },
-    "C": {
-      "item": "bigreactors:reprocessorcasing"
-    }
+    "1": "minecraft:dispenser",
+    "2": "#c:storage_blocks/lapis",
+    "3": "#c:chests",
+    "C": "bigreactors:reprocessorcasing"
   },
   "pattern": [
     "C2C",

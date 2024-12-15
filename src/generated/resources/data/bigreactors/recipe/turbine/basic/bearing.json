@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "B": {
-      "tag": "c:storage_blocks/iron"
-    },
-    "I": {
-      "tag": "c:ingots/iron"
-    },
-    "R": {
-      "item": "minecraft:redstone_block"
-    }
+    "B": "#c:storage_blocks/iron",
+    "I": "#c:ingots/iron",
+    "R": "minecraft:redstone_block"
   },
   "pattern": [
     "IRI",

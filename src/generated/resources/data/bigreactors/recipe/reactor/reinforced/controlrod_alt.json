@@ -8,21 +8,11 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "C": {
-      "item": "bigreactors:reinforced_reactorcasing"
-    },
-    "G": {
-      "tag": "c:ingots/graphite"
-    },
-    "M": {
-      "tag": "c:storage_blocks/iron"
-    },
-    "R": {
-      "tag": "c:dusts/redstone"
-    },
-    "X": {
-      "item": "minecraft:piston"
-    }
+    "C": "bigreactors:reinforced_reactorcasing",
+    "G": "#c:ingots/graphite",
+    "M": "#c:storage_blocks/iron",
+    "R": "#c:dusts/redstone",
+    "X": "minecraft:piston"
   },
   "pattern": [
     "CRC",

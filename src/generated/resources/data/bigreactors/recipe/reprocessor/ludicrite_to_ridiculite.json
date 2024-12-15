@@ -2,7 +2,7 @@
   "type": "bigreactors:reprocessor",
   "fluid": {
     "amount": 1000,
-    "id": "bigreactors:magentite"
+    "ingredient": "bigreactors:magentite"
   },
   "result": {
     "count": 1,
@@ -10,22 +10,6 @@
   },
   "waste": {
     "count": 2,
-    "ingredient": {
-      "type": "neoforge:components",
-      "components": {
-        "minecraft:attribute_modifiers": {
-          "modifiers": []
-        },
-        "minecraft:enchantments": {
-          "levels": {}
-        },
-        "minecraft:lore": [],
-        "minecraft:max_stack_size": 64,
-        "minecraft:rarity": "common",
-        "minecraft:repair_cost": 0
-      },
-      "items": "bigreactors:ludicrite_ingot",
-      "strict": true
-    }
+    "ingredient": "bigreactors:ludicrite_ingot"
   }
 }

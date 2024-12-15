@@ -3,33 +3,15 @@
   "category": "misc",
   "group": "bigreactors:raw_yellorium",
   "ingredients": [
-    {
-      "item": "bigreactors:raw_yellorium"
-    },
-    {
-      "item": "bigreactors:raw_yellorium"
-    },
-    {
-      "item": "bigreactors:raw_yellorium"
-    },
-    {
-      "item": "bigreactors:raw_yellorium"
-    },
-    {
-      "item": "bigreactors:raw_yellorium"
-    },
-    {
-      "item": "bigreactors:raw_yellorium"
-    },
-    {
-      "item": "bigreactors:raw_yellorium"
-    },
-    {
-      "item": "bigreactors:raw_yellorium"
-    },
-    {
-      "item": "bigreactors:raw_yellorium"
-    }
+    "bigreactors:raw_yellorium",
+    "bigreactors:raw_yellorium",
+    "bigreactors:raw_yellorium",
+    "bigreactors:raw_yellorium",
+    "bigreactors:raw_yellorium",
+    "bigreactors:raw_yellorium",
+    "bigreactors:raw_yellorium",
+    "bigreactors:raw_yellorium",
+    "bigreactors:raw_yellorium"
   ],
   "result": {
     "count": 1,

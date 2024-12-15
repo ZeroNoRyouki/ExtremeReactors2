@@ -3,9 +3,7 @@
   "category": "misc",
   "group": "bigreactors:reactants",
   "ingredients": [
-    {
-      "item": "bigreactors:cyanite_block"
-    }
+    "bigreactors:cyanite_block"
   ],
   "result": {
     "count": 9,

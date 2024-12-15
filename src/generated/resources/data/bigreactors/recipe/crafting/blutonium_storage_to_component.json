@@ -3,9 +3,7 @@
   "category": "misc",
   "group": "bigreactors:reactants",
   "ingredients": [
-    {
-      "item": "bigreactors:blutonium_block"
-    }
+    "bigreactors:blutonium_block"
   ],
   "result": {
     "count": 9,

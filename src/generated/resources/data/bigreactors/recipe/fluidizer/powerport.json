@@ -2,18 +2,10 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "1": {
-      "item": "minecraft:repeater"
-    },
-    "2": {
-      "tag": "c:storage_blocks/redstone"
-    },
-    "3": {
-      "tag": "c:gems/diamond"
-    },
-    "C": {
-      "item": "bigreactors:fluidizercasing"
-    }
+    "1": "minecraft:repeater",
+    "2": "#c:storage_blocks/redstone",
+    "3": "#c:gems/diamond",
+    "C": "bigreactors:fluidizercasing"
   },
   "pattern": [
     "C2C",

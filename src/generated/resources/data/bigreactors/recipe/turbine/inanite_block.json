@@ -3,12 +3,8 @@
   "category": "building",
   "group": "bigreactors:coil",
   "key": {
-    "I": {
-      "item": "bigreactors:inanite_ingot"
-    },
-    "S": {
-      "item": "minecraft:netherite_block"
-    }
+    "I": "bigreactors:inanite_ingot",
+    "S": "minecraft:netherite_block"
   },
   "pattern": [
     "III",

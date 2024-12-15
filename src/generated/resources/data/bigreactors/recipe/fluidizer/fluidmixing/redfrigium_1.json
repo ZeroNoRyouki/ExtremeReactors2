@@ -2,11 +2,11 @@
   "type": "bigreactors:fluidizerfluidmixing",
   "ingredient1": {
     "amount": 1000,
-    "id": "bigreactors:cryomisi"
+    "ingredient": "bigreactors:cryomisi"
   },
   "ingredient2": {
     "amount": 1000,
-    "id": "bigreactors:tangerium"
+    "ingredient": "bigreactors:tangerium"
   },
   "result": {
     "amount": 2000,

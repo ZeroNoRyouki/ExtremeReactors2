@@ -3,12 +3,8 @@
   "category": "building",
   "group": "bigreactors:coil",
   "key": {
-    "I": {
-      "item": "bigreactors:insanite_ingot"
-    },
-    "S": {
-      "item": "bigreactors:inanite_block"
-    }
+    "I": "bigreactors:insanite_ingot",
+    "S": "bigreactors:inanite_block"
   },
   "pattern": [
     "III",

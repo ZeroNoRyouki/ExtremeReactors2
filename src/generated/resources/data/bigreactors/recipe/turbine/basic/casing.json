@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "C": {
-      "tag": "c:storage_blocks/redstone"
-    },
-    "G": {
-      "tag": "c:ingots/cyanite"
-    },
-    "I": {
-      "tag": "c:ingots/iron"
-    }
+    "C": "#c:storage_blocks/redstone",
+    "G": "#c:ingots/cyanite",
+    "I": "#c:ingots/iron"
   },
   "pattern": [
     "IGI",
