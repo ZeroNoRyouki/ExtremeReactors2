@@ -63,16 +63,8 @@ public class Stats implements ISyncableEntity {
         this._fuelConsumedLastTick = value;
     }
 
-    void changeFuelConsumedLastTick(float delta) {
-        this._fuelConsumedLastTick += delta;
-    }
-
     void setAmountGeneratedLastTick(double value) {
         this._amountGeneratedLastTick = value;
-    }
-
-    void changeAmountGeneratedLastTick(double delta) {
-        this._amountGeneratedLastTick += delta;
     }
 
     //region ISyncableEntity

@@ -42,8 +42,6 @@ public class TurbineLogic {
         final IFluidContainer fc = this._turbine.getFluidContainer();
         final VentSetting ventSetting = this._data.getVentSetting();
 
-        this.resetStats();
-
         // Generate energy based on vapor
 
         int vaporAmount = 0; // mB. Based on water, actually. Probably higher for steam. Measure it.
@@ -156,17 +154,10 @@ public class TurbineLogic {
                 Config.COMMON.turbine.turbinePowerProductionMultiplier.get();
 
         this._energyBuffer.grow(rawEnergy);
-        this._data.changeEnergyGeneratedLastTick(rawEnergy);
+        this._data.setEnergyGeneratedLastTick(rawEnergy);
     }
 
     //endregion
-
-    private void resetStats() {
-
-        this._data.setEnergyGeneratedLastTick(0f);
-        this._data.setFluidConsumedLastTick(0);
-        this._data.setRotorEfficiencyLastTick(1.0f);
-    }
 
     private final ITurbineReader _turbine;
     private final TurbineData _data;

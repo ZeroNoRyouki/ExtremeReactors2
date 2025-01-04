@@ -68,9 +68,6 @@ public class ReactorLogic
         final double startingReactorHeat = reactorHeat.getAsDouble();
         final WideAmount startingEnergy = this._energyBuffer.getEnergyStored();
 
-        this.getUiStats().setAmountGeneratedLastTick(0);
-        this.getUiStats().setFuelConsumedLastTick(0);
-
         //////////////////////////////////////////////////////////////////////////////
         // IRRADIATION
         //////////////////////////////////////////////////////////////////////////////
@@ -223,6 +220,8 @@ public class ReactorLogic
 
         if (source.isLinked()) {
             this.performIrradiationFrom(source);
+        } else {
+            this.getUiStats().setFuelConsumedLastTick(0);
         }
     }
 
@@ -239,7 +238,7 @@ public class ReactorLogic
             // Assimilate results of radiation
             this.getFuelHeat().add(data.getFuelHeatChange(this.getFuelRodsCount()));
             this.getReactorHeat().add(data.getEnvironmentHeatChange(this.getReactorVolume()));
-            this.getUiStats().changeFuelConsumedLastTick(data.fuelUsage);
+            this.getUiStats().setFuelConsumedLastTick(data.fuelUsage);
         });
     }
 
@@ -329,7 +328,7 @@ public class ReactorLogic
                 this._reactor.getVariant().getEnergyGenerationEfficiency();
 
         this._energyBuffer.grow(rawEnergy);
-        this.getUiStats().changeAmountGeneratedLastTick(rawEnergy);
+        this.getUiStats().setAmountGeneratedLastTick(rawEnergy);
     }
 
     //endregion

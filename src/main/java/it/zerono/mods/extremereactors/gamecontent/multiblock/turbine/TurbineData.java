@@ -277,10 +277,6 @@ public class TurbineData
         this._energyGeneratedLastTick = energy;
     }
 
-    void changeEnergyGeneratedLastTick(final double delta) {
-        this._energyGeneratedLastTick += delta;
-    }
-
     public void setFluidConsumedLastTick(final int fluid) {
         this._fluidConsumedLastTick = fluid;
     }
