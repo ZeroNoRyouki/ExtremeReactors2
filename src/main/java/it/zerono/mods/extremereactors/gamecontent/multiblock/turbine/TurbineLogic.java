@@ -19,7 +19,6 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.turbine;
 
 import it.zerono.mods.extremereactors.api.coolant.Vapor;
-import it.zerono.mods.extremereactors.config.Config;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.IFluidContainer;
 import it.zerono.mods.zerocore.lib.energy.WideEnergyBuffer;
 import net.minecraft.util.profiling.ProfilerFiller;
@@ -152,8 +151,7 @@ public class TurbineLogic {
      */
     private void generateEnergy(double rawEnergy) {
 
-        rawEnergy = rawEnergy * Config.COMMON.general.powerProductionMultiplier.get() *
-                Config.COMMON.turbine.turbinePowerProductionMultiplier.get();
+        rawEnergy = rawEnergy * MultiblockTurbine.getAdjustedPowerProductionMultiplier();
 
         this._energyBuffer.grow(rawEnergy);
         this._data.changeEnergyGeneratedLastTick(rawEnergy);

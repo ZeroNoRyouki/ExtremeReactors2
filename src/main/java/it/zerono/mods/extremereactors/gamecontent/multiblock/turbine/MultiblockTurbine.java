@@ -23,6 +23,7 @@ import com.google.common.collect.Sets;
 import it.zerono.mods.extremereactors.Log;
 import it.zerono.mods.extremereactors.api.turbine.CoilMaterial;
 import it.zerono.mods.extremereactors.api.turbine.CoilMaterialRegistry;
+import it.zerono.mods.extremereactors.config.Config;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.*;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.part.*;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.turbine.rotor.RotorComponentType;
@@ -85,6 +86,11 @@ public class MultiblockTurbine
         this._validationFoundCoils = Sets.newHashSet();
 
         this._logic = new TurbineLogic(this, this._data, this.getEnergyBuffer());
+    }
+
+    public static double getAdjustedPowerProductionMultiplier() {
+        return Config.COMMON.general.powerProductionMultiplier.get() *
+                Config.COMMON.turbine.turbinePowerProductionMultiplier.get();
     }
 
     /**
@@ -612,7 +618,8 @@ public class MultiblockTurbine
 
         //resize energy buffer
 
-        this.getEnergyBuffer().setCapacity(WideAmount.from((long) this.getVariant().getPartEnergyCapacity() * this.getPartsCount()));
+        this.getEnergyBuffer().setCapacity(WideAmount.from((long) this.getVariant().getPartEnergyCapacity() *
+                this.getPartsCount() * MultiblockTurbine.getAdjustedPowerProductionMultiplier()));
         this.getEnergyBuffer().setMaxExtract(this.getVariant().getMaxEnergyExtractionRate());
 
         this.resizeFluidContainer();
