@@ -323,8 +323,7 @@ public class ReactorLogic
      */
     private void generateEnergy(double rawEnergy) {
 
-        rawEnergy = rawEnergy * Config.COMMON.general.powerProductionMultiplier.get() *
-                Config.COMMON.reactor.reactorPowerProductionMultiplier.get() *
+        rawEnergy = rawEnergy * MultiblockReactor.getAdjustedPowerProductionMultiplier() *
                 this._reactor.getVariant().getEnergyGenerationEfficiency();
 
         this._energyBuffer.grow(rawEnergy);

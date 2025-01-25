@@ -29,6 +29,7 @@ import it.zerono.mods.extremereactors.api.reactor.*;
 import it.zerono.mods.extremereactors.api.reactor.radiation.EnergyConversion;
 import it.zerono.mods.extremereactors.api.reactor.radiation.IRadiationModerator;
 import it.zerono.mods.extremereactors.api.reactor.radiation.IrradiationData;
+import it.zerono.mods.extremereactors.config.Config;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.*;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.network.UpdateClientsFuelRodsLayout;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part.*;
@@ -108,6 +109,11 @@ public class MultiblockReactor
 
         this._sendUpdateFuelRodsLayoutDelayedRunnable = CodeHelper.delayedRunnable(this::sendUpdateFuelRodsLayout, 20 * 10);
         this._sendUpdateFuelRodsLayout = false;
+    }
+
+    public static double getAdjustedPowerProductionMultiplier() {
+        return Config.COMMON.general.powerProductionMultiplier.get() *
+                Config.COMMON.reactor.reactorPowerProductionMultiplier.get();
     }
 
     /**
@@ -822,7 +828,11 @@ public class MultiblockReactor
 
         //resize energy buffer
 
-        this.getEnergyBuffer().setCapacity(WideAmount.from((long) this.getVariant().getPartEnergyCapacity() * this.getPartsCount()));
+        final double multiplier = MultiblockReactor.getAdjustedPowerProductionMultiplier() *
+                this.getVariant().getEnergyGenerationEfficiency();
+
+        this.getEnergyBuffer().setCapacity(WideAmount.from((long) this.getVariant().getPartEnergyCapacity() *
+                this.getPartsCount() * multiplier));
         this.getEnergyBuffer().setMaxExtract(this.getVariant().getMaxEnergyExtractionRate());
 
         //TODO check/fix
