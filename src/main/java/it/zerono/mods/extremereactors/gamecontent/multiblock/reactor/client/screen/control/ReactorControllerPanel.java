@@ -35,7 +35,6 @@ import it.zerono.mods.zerocore.lib.client.gui.layout.HorizontalAlignment;
 import it.zerono.mods.zerocore.lib.client.gui.layout.VerticalAlignment;
 import it.zerono.mods.zerocore.lib.client.gui.layout.VerticalLayoutEngine;
 import it.zerono.mods.zerocore.lib.client.gui.sprite.ISprite;
-import it.zerono.mods.zerocore.lib.data.WideAmount;
 import it.zerono.mods.zerocore.lib.functional.ComponentSupplier;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModContainer;
 import it.zerono.mods.zerocore.lib.text.TextHelper;
@@ -128,9 +127,8 @@ public class ReactorControllerPanel
     private static EnergyBar energyBar(ModContainerScreen<? extends ModContainer> gui, IReactorControllerContainer container) {
 
         final EnergyBar bar = new EnergyBar(gui, "energyBar", container.getOutputEnergySystem(),
-                WideAmount.ZERO, container.energyStored(), "gui.bigreactors.reactor_turbine.controller.energybar.tooltip.body");
+                container.energyCapacity(), container.energyStored(), "gui.bigreactors.reactor_turbine.controller.energybar.tooltip.body");
 
-        bar.bindMaxValue(container.energyCapacity());
         return bar;
     }
 

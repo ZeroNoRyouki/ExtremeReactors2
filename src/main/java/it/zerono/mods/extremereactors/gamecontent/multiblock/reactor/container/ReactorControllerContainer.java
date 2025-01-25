@@ -25,6 +25,7 @@ import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.WasteEjecti
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.container.data.ReactantStackData;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part.ReactorControllerEntity;
 import it.zerono.mods.zerocore.lib.block.AbstractModBlockEntity;
+import it.zerono.mods.zerocore.lib.data.WideAmount;
 import it.zerono.mods.zerocore.lib.energy.EnergySystem;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ContainerFactory;
 import it.zerono.mods.zerocore.lib.item.inventory.container.ModTileContainer;
@@ -49,7 +50,7 @@ public class ReactorControllerContainer
 
         this._reactantCapacity = IntData.immutable(this, reactor.getCapacity());
         this._fluidCapacity = IntData.immutable(this, reactor.getFluidContainer().getCapacity());
-        this._energyCapacity = WideAmountData.immutable(this, reactor.getCapacity(this._outputEnergySystem));
+        this._energyCapacity = reactor.getCapacity(this._outputEnergySystem);
         this._fuelRodsCount = IntData.immutable(this, reactor.getFuelRodsCount());
 
         this._active = BooleanData.of(this, reactor::isMachineActive, reactor::setMachineActive);
@@ -95,7 +96,7 @@ public class ReactorControllerContainer
     }
 
     @Override
-    public WideAmountData energyCapacity() {
+    public WideAmount energyCapacity() {
         return this._energyCapacity;
     }
 
@@ -174,7 +175,7 @@ public class ReactorControllerContainer
 
     private final IntData _reactantCapacity;
     private final IntData _fluidCapacity;
-    private final WideAmountData _energyCapacity;
+    private final WideAmount _energyCapacity;
     private final IntData _fuelRodsCount;
     private final OperationalMode _reactorMode;
     private final EnergySystem _outputEnergySystem;
