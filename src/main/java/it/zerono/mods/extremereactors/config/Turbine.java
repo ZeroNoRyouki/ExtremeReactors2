@@ -80,7 +80,7 @@ public class Turbine {
                         "Stacks with powerProductionMultiplier.")
                 .translation("config.bigreactors.turbine.turbinepowerproductionmultiplier")
                 .worldRestart()
-                .defineInRange("turbinePowerProductionMultiplier", 1.0, 0.5, 10.0);
+                .defineInRange("turbinePowerProductionMultiplier", 1.0, 0.005, 100.0);
 
         builder.pop();
     }

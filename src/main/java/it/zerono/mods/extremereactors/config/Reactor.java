@@ -49,7 +49,7 @@ public class Reactor {
                 .comment("A multiplier for balancing Reactor power production. Stacks with powerProductionMultiplier.")
                 .translation("config.bigreactors.reactor.reactorpowerproductionmultiplier")
                 .worldRestart()
-                .defineInRange("reactorPowerProductionMultiplier", 1.0, 0.5, 100.0);
+                .defineInRange("reactorPowerProductionMultiplier", 1.0, 0.005, 100.0);
 
         builder.pop();
     }

@@ -40,7 +40,7 @@ public class General {
                 .comment("A multiplier for balancing overall power production from Extreme Reactors generators.")
                 .translation("config.bigreactors.general.powerproductionmultiplier")
                 .worldRestart()
-                .defineInRange("powerProductionMultiplier", 1.0, 0.5, 100.0);
+                .defineInRange("powerProductionMultiplier", 1.0, 0.005, 100.0);
 
         this.ticksPerRedstoneUpdate = builder
                 .comment("Number of ticks between updates for the Redstone Port.")
