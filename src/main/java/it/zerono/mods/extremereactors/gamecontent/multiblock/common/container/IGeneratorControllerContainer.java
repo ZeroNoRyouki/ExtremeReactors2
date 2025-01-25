@@ -18,6 +18,7 @@
 
 package it.zerono.mods.extremereactors.gamecontent.multiblock.common.container;
 
+import it.zerono.mods.zerocore.lib.data.WideAmount;
 import it.zerono.mods.zerocore.lib.energy.EnergySystem;
 import it.zerono.mods.zerocore.lib.item.inventory.container.data.BooleanData;
 import it.zerono.mods.zerocore.lib.item.inventory.container.data.DoubleData;
@@ -30,7 +31,7 @@ public interface IGeneratorControllerContainer {
 
     EnergySystem getOutputEnergySystem();
 
-    WideAmountData energyCapacity();
+    WideAmount energyCapacity();
 
     WideAmountData energyStored();
 
