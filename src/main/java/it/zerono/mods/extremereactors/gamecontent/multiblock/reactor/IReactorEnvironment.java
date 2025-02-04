@@ -20,6 +20,7 @@ package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor;
 
 import it.zerono.mods.extremereactors.api.reactor.radiation.IRadiationModerator;
 import net.minecraft.core.BlockPos;
+import org.jetbrains.annotations.Nullable;
 
 public interface IReactorEnvironment {
 
@@ -35,6 +36,7 @@ public interface IReactorEnvironment {
 
     float getReactorHeatLossCoefficient();
 
+    @Nullable
     IIrradiationSource getNextIrradiationSource();
 
     /**

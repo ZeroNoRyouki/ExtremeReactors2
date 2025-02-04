@@ -65,6 +65,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fml.LogicalSide;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Optional;
@@ -342,6 +343,7 @@ public class MultiblockReactor
     }
 
     @Override
+    @Nullable
     public IIrradiationSource getNextIrradiationSource() {
         return this._attachedFuelRods.getNextIrradiationSource();
     }
