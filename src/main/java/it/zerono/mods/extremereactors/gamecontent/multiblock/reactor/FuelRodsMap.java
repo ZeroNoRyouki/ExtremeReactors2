@@ -23,6 +23,7 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.IntSet;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.part.ReactorFuelRodEntity;
 import it.zerono.mods.zerocore.lib.data.UnmodifiableChildrenIterator;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Collections;
 import java.util.Iterator;
@@ -87,13 +88,14 @@ public class FuelRodsMap
         return (float) rate;
     }
 
+    @Nullable
     public IIrradiationSource getNextIrradiationSource() {
 
         if (null == this._nextSource || !this._nextSource.hasNext()) {
             this._nextSource = this.iterator();
         }
 
-        return this._nextSource.next();
+        return this._nextSource.hasNext() ? this._nextSource.next() : null;
     }
 
     public void markFuelRodsForRenderUpdate() {

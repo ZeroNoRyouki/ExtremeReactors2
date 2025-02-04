@@ -218,7 +218,7 @@ public class ReactorLogic
 
         final IIrradiationSource source = this._reactor.getEnvironment().getNextIrradiationSource();
 
-        if (source.isLinked()) {
+        if (null != source && source.isLinked()) {
             this.performIrradiationFrom(source);
         } else {
             this.getUiStats().setFuelConsumedLastTick(0);
