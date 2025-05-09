@@ -44,7 +44,7 @@ sourceSets.test {
 
 runs {
 
-    def runPath = Paths.get(System.getenv('mc_runs'), "forge")
+    def runPath = Paths.get("forge")
 
     if (!Files.exists(runPath)) {
 

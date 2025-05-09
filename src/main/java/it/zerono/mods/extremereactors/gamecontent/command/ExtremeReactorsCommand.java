@@ -47,9 +47,14 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
 import java.lang.reflect.Field;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
@@ -106,6 +111,7 @@ public final class ExtremeReactorsCommand {
                         )
                         .then(Commands.literal("list").executes(ctx ->
                                 displayNamesList(ctx, ModeratorsRegistry::getModeratorsNames)))
+                        .then(Commands.literal("export").executes(ExtremeReactorsCommand::exportModerators))
                 )
                 .then(Commands.literal("reaction")
                         .then(Commands.literal("get")
@@ -314,6 +320,56 @@ public final class ExtremeReactorsCommand {
                 .append(String.format("%f; ", moderator.getModeration()))
                 .append(Component.literal("heatConductivity: ").withStyle(ChatFormatting.ITALIC))
                 .append(String.format("%f; ", moderator.getHeatConductivity()));
+    }
+
+    private static int exportModerators(final CommandContext<CommandSourceStack> context) {
+
+        final CommandSourceStack source = context.getSource();
+        final Path gameDirectory = source.getServer().getServerDirectory();
+        final Path exportDirectory = gameDirectory.resolve("ExtremeReactors");
+        final Path exportFile = exportDirectory.resolve("moderators.csv");
+
+        try {
+
+            if (!Files.exists(exportDirectory)) {
+                Files.createDirectories(exportDirectory);
+            }
+
+            try (BufferedWriter writer = Files.newBufferedWriter(exportFile)) {
+
+                // Header
+                writer.write("Name,Absorption,HeatEfficiency,Moderation,HeatConductivity\n");
+
+                // Data
+                for (final String name : ModeratorsRegistry.getModeratorsNames()) {
+                    ModeratorsRegistry.getFromName(name).ifPresent(moderator -> {
+                        try {
+                            // Use Locale.US to ensure '.' is used as decimal separator
+                            writer.write(String.format(Locale.US, "%s,%.6f,%.6f,%.6f,%.6f\n",
+                                    name,
+                                    moderator.getAbsorption(),
+                                    moderator.getHeatEfficiency(),
+                                    moderator.getModeration(),
+                                    moderator.getHeatConductivity()));
+                        } catch (IOException e) {
+                            Log.LOGGER.error("Error writing moderator data to CSV: " + name, e);
+                        }
+                    });
+                }
+
+                source.sendSuccess(() -> Component.literal("Moderators exported to " + exportFile), true);
+
+            } catch (IOException e) {
+                Log.LOGGER.error("Failed to write moderators CSV file", e);
+                source.sendFailure(Component.literal("Failed to export moderators: " + e.getMessage()));
+            }
+
+        } catch (IOException e) {
+            Log.LOGGER.error("Failed to create export directory for moderators CSV", e);
+            source.sendFailure(Component.literal("Failed to create export directory: " + e.getMessage()));
+        }
+
+        return 0;
     }
 
     //endregion
