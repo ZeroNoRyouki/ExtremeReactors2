@@ -46,6 +46,12 @@ import java.util.function.Supplier;
 @SuppressWarnings({"WeakerAccess"})
 public class CoilMaterialRegistry {
 
+    private static final TagList<Block> s_tags = TagList.blocks();
+    private static final Map<TagKey<Block>, CoilMaterial> s_materials = new Object2ObjectArrayMap<>(32);
+    private static final Component TOOLTIP_COIL = Component.translatable("api.bigreactors.reactor.tooltip.coil").setStyle(ExtremeReactorsAPI.STYLE_TOOLTIP);
+    private static final Marker MARKER = MarkerManager.getMarker("API/CoilMaterialRegistry").addParents(ExtremeReactorsAPI.MARKER);
+    private static final Marker WRAPPER = MarkerManager.getMarker("ModPack API Wrapper").addParents(MARKER);
+
     /**
      * Check if a CoilMaterial is registered for the given block Tag
      *
@@ -99,6 +105,8 @@ public class CoilMaterialRegistry {
         register(TagsHelper.BLOCKS.createKey(tagId), efficiency, bonus, extractionRate);
     }
 
+    //region /er support
+
     /**
      * Register a Block Tag as permissible in a Turbine's inductor coil.
      * All blocks that match this Tag will be permissible.
@@ -136,6 +144,9 @@ public class CoilMaterialRegistry {
         Preconditions.checkArgument(!Strings.isNullOrEmpty(tagId));
         remove(TagsHelper.BLOCKS.createKey(tagId));
     }
+
+    //endregion
+    //region internals
 
     /**
      * Remove a previously registered CoilMaterial.
@@ -193,8 +204,6 @@ public class CoilMaterialRegistry {
                         register(w.BlockTagId, w.Efficiency, w.Bonus, w.ExtractionRate));
     }
 
-    //region /er support
-
     public static List<String> getCoilsNames() {
         return s_tags.stream()
                 .map(TagKey::location)
@@ -203,16 +212,10 @@ public class CoilMaterialRegistry {
                 .toList();
     }
 
-    //endregion
-    //region internals
-
-    private static final TagList<Block> s_tags = TagList.blocks();
-    private static final Map<TagKey<Block>, CoilMaterial> s_materials = new Object2ObjectArrayMap<>(32);
-
-    private static final Component TOOLTIP_COIL = Component.translatable("api.bigreactors.reactor.tooltip.coil").setStyle(ExtremeReactorsAPI.STYLE_TOOLTIP);
-
-    private static final Marker MARKER = MarkerManager.getMarker("API/CoilMaterialRegistry").addParents(ExtremeReactorsAPI.MARKER);
-    private static final Marker WRAPPER = MarkerManager.getMarker("ModPack API Wrapper").addParents(MARKER);
+    public static List<TagKey<Block>> getCoilTagKeys() {
+        return s_tags.stream().toList();
+    }
 
     //endregion
 }
+
