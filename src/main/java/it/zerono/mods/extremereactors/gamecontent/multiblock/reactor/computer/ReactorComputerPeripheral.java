@@ -19,6 +19,7 @@
 package it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.computer;
 
 import com.google.common.collect.Maps;
+import it.unimi.dsi.fastutil.objects.Object2IntArrayMap;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.common.IFluidContainer;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.IReactorReader;
 import it.zerono.mods.extremereactors.gamecontent.multiblock.reactor.MultiblockReactor;
@@ -120,8 +121,18 @@ public class ReactorComputerPeripheral
 
         methodConsumer.accept(new ComputerMethod<>("getControlRodLocation", wrapControllerValue((c, arguments) ->
                 CodeHelper.optionalMap(c.getMinimumCoord(),
-                    c.getControlRodByIndex(LuaHelper.getIntFromArgs(arguments, 0)).map(ReactorControlRodEntity::getWorldPosition),
-                    (minCoords, rodCoords) -> rodCoords.subtract(minCoords)
+                        c.getControlRodByIndex(LuaHelper.getIntFromArgs(arguments, 0)).map(ReactorControlRodEntity::getWorldPosition),
+                        (minCoords, rodCoords) -> {
+
+                            final var position = rodCoords.subtract(minCoords);
+                            final Map<String, Integer> result = new Object2IntArrayMap<>(3);
+
+                            result.put("x", position.getX());
+                            result.put("y", position.getY());
+                            result.put("z", position.getZ());
+
+                            return result;
+                        }
                 ).orElse(null)), 1));
 
         methodConsumer.accept(new ComputerMethod<>("getEnergyCapacity", wrapControllerValue(c -> c.getCapacity(c.getOutputEnergySystem()).doubleValue())));
