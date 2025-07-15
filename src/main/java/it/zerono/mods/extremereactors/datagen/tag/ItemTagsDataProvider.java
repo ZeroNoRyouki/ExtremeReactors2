@@ -44,6 +44,7 @@ public class ItemTagsDataProvider
         builder.apply(Tags.Items.ORES_IN_GROUND_NETHERRACK).add(Content.Items.BENITOITE_ORE_BLOCK);
         builder.apply(Tags.Items.RAW_MATERIALS).add(Content.Items.RAW_YELLORIUM);
         builder.apply(ContentTags.Items.RAW_MATERIALS_YELLORIUM).add(Content.Items.RAW_YELLORIUM);
+        builder.apply(ContentTags.Items.RAW_MATERIALS_URANIUM).add(Content.Items.RAW_YELLORIUM);
 
         builder.apply(ContentTags.Items.INGOTS_YELLORIUM).add(Content.Items.YELLORIUM_INGOT);
         builder.apply(ContentTags.Items.INGOTS_CYANITE).add(Content.Items.CYANITE_INGOT);
@@ -56,6 +57,7 @@ public class ItemTagsDataProvider
         builder.apply(ContentTags.Items.INGOTS_INSANITE).add(Content.Items.INSANITE_INGOT);
 
         builder.apply(ContentTags.Items.BLOCKS_YELLORIUM).add(Content.Items.YELLORIUM_BLOCK);
+        builder.apply(TagsHelper.ITEMS.createKey("forge:storage_blocks/uranium")).add(Content.Items.YELLORIUM_BLOCK);
         builder.apply(ContentTags.Items.BLOCKS_CYANITE).add(Content.Items.CYANITE_BLOCK);
         builder.apply(ContentTags.Items.BLOCKS_GRAPHITE).add(Content.Items.GRAPHITE_BLOCK);
         builder.apply(ContentTags.Items.BLOCKS_BLUTONIUM).add(Content.Items.BLUTONIUM_BLOCK);
@@ -74,12 +76,16 @@ public class ItemTagsDataProvider
 
         builder.apply(ContentTags.Items.INGOTS_URANIUM).add(Content.Items.YELLORIUM_INGOT);
         builder.apply(ContentTags.Items.INGOTS_PLUTONIUM).add(Content.Items.BLUTONIUM_INGOT);
-        builder.apply(TagsHelper.ITEMS.createCommonKey("ores/uranium")).add(Content.Items.YELLORITE_ORE_BLOCK);
+        builder.apply(TagsHelper.ITEMS.createCommonKey("ores/uranium"))
+                .add(Content.Items.YELLORITE_ORE_BLOCK)
+                .add(Content.Items.DEEPSLATE_YELLORITE_ORE_BLOCK);
 
         builder.apply(Tags.Items.STORAGE_BLOCKS)
                 .add(Content.Items.YELLORIUM_BLOCK, Content.Items.CYANITE_BLOCK,
                         Content.Items.BLUTONIUM_BLOCK, Content.Items.MAGENTITE_BLOCK,
                         Content.Items.RAW_YELLORIUM_BLOCK, Content.Items.GRAPHITE_BLOCK);
+
+        builder.apply(TagsHelper.ITEMS.createKey("c:storage_blocks/raw_uranium")).add(Content.Items.RAW_YELLORIUM_BLOCK);
 
         builder.apply(ContentTags.Items.USING_REACTOR_CASING_BASIC).add(Content.Items.REACTOR_CONTROLLER_BASIC,
                 Content.Items.REACTOR_CONTROLROD_BASIC, Content.Items.REACTOR_SOLID_ACCESSPORT_BASIC,

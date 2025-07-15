@@ -61,6 +61,7 @@ public class ContentTags {
         public static final TagKey<Item> ORE_ANGLESITE = common("ores/anglesite");
         public static final TagKey<Item> ORE_BENITOITE = common("ores/benitoite");
         public static final TagKey<Item> RAW_MATERIALS_YELLORIUM = common("raw_materials/yellorium");
+        public static final TagKey<Item> RAW_MATERIALS_URANIUM = common("raw_materials/uranium");
 
         public static final TagKey<Item> INGOTS_YELLORIUM = common("ingots/yellorium");
         public static final TagKey<Item> INGOTS_CYANITE = common("ingots/cyanite");
@@ -74,19 +75,6 @@ public class ContentTags {
 
         public static final TagKey<Item> INGOTS_URANIUM = common("ingots/uranium");
         public static final TagKey<Item> INGOTS_PLUTONIUM = common("ingots/plutonium");
-
-        public static final TagKey<Item> NUGGETS_YELLORIUM = common("nuggets/yellorium");
-        public static final TagKey<Item> NUGGETS_BLUTONIUM = common("nuggets/blutonium");
-
-        public static final TagKey<Item> DUSTS_YELLORIUM = common("dusts/yellorium");
-        public static final TagKey<Item> DUSTS_CYANITE = common("dusts/cyanite");
-        public static final TagKey<Item> DUSTS_GRAPHITE = common("dusts/graphite");
-        public static final TagKey<Item> DUSTS_BLUTONIUM = common("dusts/blutonium");
-        public static final TagKey<Item> DUSTS_MAGENTITE = common("dusts/magentite");
-        public static final TagKey<Item> DUSTS_LUDICRITE = common("dusts/ludicrite");
-        public static final TagKey<Item> DUSTS_RIDICULITE = common("dusts/ridiculite");
-        public static final TagKey<Item> DUSTS_INANITE = common("dusts/inanite");
-        public static final TagKey<Item> DUSTS_INSANITE = common("dusts/insanite");
 
         public static final TagKey<Item> BLOCKS_YELLORIUM = common("storage_blocks/yellorium");
         public static final TagKey<Item> BLOCKS_CYANITE = common("storage_blocks/cyanite");
