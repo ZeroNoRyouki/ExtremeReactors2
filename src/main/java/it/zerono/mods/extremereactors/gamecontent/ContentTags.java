@@ -58,6 +58,7 @@ public class ContentTags {
 
 		public static final TagKey<Item> ORE_YELLORITE = forgeTag("ores/yellorite");
         public static final TagKey<Item> RAW_MATERIALS_YELLORIUM = forgeTag("raw_materials/yellorium");
+        public static final TagKey<Item> RAW_MATERIALS_URANIUM = forgeTag("raw_materials/uranium");
 
         public static final TagKey<Item> INGOTS_YELLORIUM = forgeTag("ingots/yellorium");
         public static final TagKey<Item> INGOTS_CYANITE = forgeTag("ingots/cyanite");

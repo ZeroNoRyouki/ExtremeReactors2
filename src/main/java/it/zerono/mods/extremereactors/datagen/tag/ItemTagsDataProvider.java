@@ -24,13 +24,16 @@ public class ItemTagsDataProvider
     public void build(HolderLookup.Provider registryLookup,
                       NonNullFunction<TagKey<Item>, ModIntrinsicTagAppender<Item>> builder) {
 
-        builder.apply(ContentTags.Items.ORE_YELLORITE).add(Content.Items.YELLORITE_ORE_BLOCK);
+        builder.apply(ContentTags.Items.ORE_YELLORITE).add(Content.Items.YELLORITE_ORE_BLOCK,
+                Content.Items.DEEPSLATE_YELLORITE_ORE_BLOCK);
 
         builder.apply(Tags.Items.ORES_IN_GROUND_STONE).add(Content.Items.YELLORITE_ORE_BLOCK);
         builder.apply(Tags.Items.ORES_IN_GROUND_DEEPSLATE).add(Content.Items.DEEPSLATE_YELLORITE_ORE_BLOCK);
+        builder.apply(Tags.Items.ORES).add(Content.Items.YELLORITE_ORE_BLOCK, Content.Items.DEEPSLATE_YELLORITE_ORE_BLOCK);
         builder.apply(Tags.Items.ORES_IN_GROUND_NETHERRACK).add(Content.Items.BENITOITE_ORE_BLOCK);
         builder.apply(Tags.Items.RAW_MATERIALS).add(Content.Items.RAW_YELLORIUM);
         builder.apply(ContentTags.Items.RAW_MATERIALS_YELLORIUM).add(Content.Items.RAW_YELLORIUM);
+        builder.apply(ContentTags.Items.RAW_MATERIALS_URANIUM).add(Content.Items.RAW_YELLORIUM);
 
         builder.apply(ContentTags.Items.INGOTS_YELLORIUM).add(Content.Items.YELLORIUM_INGOT);
         builder.apply(ContentTags.Items.INGOTS_CYANITE).add(Content.Items.CYANITE_INGOT);
@@ -57,6 +60,7 @@ public class ItemTagsDataProvider
         builder.apply(ContentTags.Items.DUSTS_INSANITE).add(Content.Items.INSANITE_DUST);
 
         builder.apply(ContentTags.Items.BLOCKS_YELLORIUM).add(Content.Items.YELLORIUM_BLOCK);
+        builder.apply(TagsHelper.ITEMS.createKey("forge:storage_blocks/uranium")).add(Content.Items.YELLORIUM_BLOCK);
         builder.apply(ContentTags.Items.BLOCKS_CYANITE).add(Content.Items.CYANITE_BLOCK);
         builder.apply(ContentTags.Items.BLOCKS_GRAPHITE).add(Content.Items.GRAPHITE_BLOCK);
         builder.apply(ContentTags.Items.BLOCKS_BLUTONIUM).add(Content.Items.BLUTONIUM_BLOCK);
@@ -78,7 +82,9 @@ public class ItemTagsDataProvider
         builder.apply(TagsHelper.ITEMS.createKey("forge:ingots/uranium")).add(Content.Items.YELLORIUM_INGOT);
         builder.apply(TagsHelper.ITEMS.createKey("forge:dusts/plutonium")).add(Content.Items.BLUTONIUM_DUST);
         builder.apply(TagsHelper.ITEMS.createKey("forge:ingots/plutonium")).add(Content.Items.BLUTONIUM_INGOT);
-        builder.apply(TagsHelper.ITEMS.createKey("forge:ores/uranium")).add(Content.Items.YELLORITE_ORE_BLOCK);
+        builder.apply(TagsHelper.ITEMS.createKey("forge:ores/uranium")).add(Content.Items.YELLORITE_ORE_BLOCK,
+                Content.Items.DEEPSLATE_YELLORITE_ORE_BLOCK);
+        builder.apply(TagsHelper.ITEMS.createKey("forge:storage_blocks/raw_uranium")).add(Content.Items.RAW_YELLORIUM_BLOCK);
 
         builder.apply(ContentTags.Items.USING_REACTOR_CASING_BASIC).add(Content.Items.REACTOR_CONTROLLER_BASIC,
                 Content.Items.REACTOR_CONTROLROD_BASIC, Content.Items.REACTOR_SOLID_ACCESSPORT_BASIC,
