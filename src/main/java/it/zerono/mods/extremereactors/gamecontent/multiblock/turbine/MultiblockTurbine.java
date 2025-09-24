@@ -642,10 +642,10 @@ public class MultiblockTurbine
     @Override
     protected void onMachineDisassembled() {
 
-        this.setMachineActive(false);
-
-        // do not call setMachineActive() here
-        this._active = false;
+//        this.setMachineActive(false);
+//
+//        // do not call setMachineActive() here
+//        this._active = false;
 
         this._data.onTurbineDisassembled();
         this._rpmUpdateTracker.setValue(0f);

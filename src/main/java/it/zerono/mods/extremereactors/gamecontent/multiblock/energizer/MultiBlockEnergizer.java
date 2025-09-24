@@ -48,6 +48,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.fml.LogicalSide;
 
@@ -263,10 +264,10 @@ public class MultiBlockEnergizer
     @Override
     protected void onMachineDisassembled() {
 
-        this.setMachineActive(false);
-
-        // do not call setMachineActive() here
-        this._active = false;
+//        this.setMachineActive(false);
+//
+//        // do not call setMachineActive() here
+//        this._active = false;
 
         this.markMultiblockForRenderUpdate();
     }
