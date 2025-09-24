@@ -866,10 +866,10 @@ public class MultiblockReactor
     @Override
     protected void onMachineDisassembled() {
 
-        this.setMachineActive(false);
-
-        // do not call setMachineActive() here
-        this._active = false;
+//        this.setMachineActive(false);
+//
+//        // do not call setMachineActive() here
+//        this._active = false;
 
         if (this.calledByLogicalClient()) {
             this.markMultiblockForRenderUpdate();
