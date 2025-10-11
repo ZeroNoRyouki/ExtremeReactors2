@@ -1,19 +1,19 @@
 {
     "_comment": "Extreme Reactors 2 Language File - Portuguese (Brazil)",
-    "_comment": "@author SAMUELPV",
+    "_comment": "@author SAMUELPV, PrincessStellar",
     "_comment": "-- please don't translate the _comment lines ! --",
 
     "itemGroup.bigreactors.general": "Extreme Reactors",
     "itemGroup.bigreactors.reactor": "Extreme Reactors - Partes do Reator",
     "itemGroup.bigreactors.turbine": "Extreme Reactors - Partes da Turbina",
 
-    "reactant.bigreactors.yellorium": "Yellório (reactant)",
-    "reactant.bigreactors.cyanite": "Cianite (reactant)",
-    "reactant.bigreactors.blutonium": "Blutônio (reactant)",
-    "reactant.bigreactors.magentite": "Magentite (reactant)",
-    "reactant.bigreactors.verderium": "Verderium (reactant)",
-    "reactant.bigreactors.rossinite": "Rossinite (reactant)",
-    "coolant.bigreactors.water": "Água (coolant)",
+    "reactant.bigreactors.yellorium": "Yellório (reagente)",
+    "reactant.bigreactors.cyanite": "Cianite (reagente)",
+    "reactant.bigreactors.blutonium": "Blutônio (reagente)",
+    "reactant.bigreactors.magentite": "Magentite (reagente)",
+    "reactant.bigreactors.verderium": "Verderium (reagente)",
+    "reactant.bigreactors.rossinite": "Rossinite (reagente)",
+    "coolant.bigreactors.water": "Água (refrigerante)",
     "vapor.bigreactors.steam": "Vapor (vapor)",
 
     "_comment": "Items - ingots",
@@ -59,6 +59,7 @@
     "item.bigreactors.tangerium_bucket": "Balde de Tangerium",
     "item.bigreactors.redfrigium_bucket": "Balde de Redfrigium",
     "item.bigreactors.raw_yellorium": "Yellório cru",
+    "item.bigreactors.energycore": "Núcleo de Energia",
 
     "_comment": "Fluids",
     "fluid.bigreactors.water": "Água",
@@ -85,7 +86,7 @@
 
     "_comment": "Blocks - metal blocks / ores",
     "block.bigreactors.yellorium_block": "Bloco de Yellório",
-    "block.bigreactors.raw_yellorium_block": "Bloco de Yellório cru",
+    "block.bigreactors.raw_yellorium_block": "Bloco de Yellório Cru",
     "block.bigreactors.cyanite_block": "Bloco de Cianite",
     "block.bigreactors.blutonium_block": "Bloco de Blutônio",
     "block.bigreactors.magentite_block": "Bloco de Magentite",
@@ -182,37 +183,37 @@
     "block.bigreactors.fluidizerpowerport": "Porta de Alimentação do Fluidizador",
 
     "_comment": "Blocks - energizer parts",
-    "block.bigreactors.energizercasing": "Energizer Casing",
-    "block.bigreactors.energizercontroller": "Energizer Controller",
-    "block.bigreactors.energizerstatus": "Energizer Status Display",
-    "block.bigreactors.energizerchargingportfe": "Energizer FE Charging Port",
-    "block.bigreactors.energizerpowerportfe": "Energizer Passive FE Power Port",
-    "block.bigreactors.energizerpowerportfe_active": "Energizer Active FE Power Port",
-    "block.bigreactors.energizercomputerport": "Energizer Computer Port",
-    "block.bigreactors.energizercell": "Energy Cell",
+    "block.bigreactors.energizercasing": "Estrutura do Energizador",
+    "block.bigreactors.energizercontroller": "Controlador do Energizador",
+    "block.bigreactors.energizerstatus": "Tela de Status do Energizador",
+    "block.bigreactors.energizerchargingportfe": "Porta de Carregamento de FE do Energizador",
+    "block.bigreactors.energizerpowerportfe": "Porta de Energia Passiva de FE do Energizador",
+    "block.bigreactors.energizerpowerportfe_active": "Porta de Energia Ativa de FE do Energizador",
+    "block.bigreactors.energizercomputerport": "Porta de Computador do Energizador",
+    "block.bigreactors.energizercell": "Célula de Energia",
 
     "_comment": "Reactor parts names (for GUIs)",
     "part.bigreactors.reactor.controller": "Controlador",
     "part.bigreactors.reactor.controlrod": "Haste de Controle",
-    "part.bigreactors.reactor.solidaccessport": "Porta de Acesso de Sólidos",
+    "part.bigreactors.reactor.solidaccessport": "Porta de Acesso Sólido",
     "part.bigreactors.reactor.fluidaccessport": "Porta de Injeção de Combustível",
-    "part.bigreactors.reactor.fluidport_forge_active": "Porta de Refrigerante (Ativo)",
-    "part.bigreactors.reactor.fluidport_forge_passive": "Porta de Refrigerante (Passivo)",
+    "part.bigreactors.reactor.fluidport_forge_active": "Porta de Fluido (Ativa)",
+    "part.bigreactors.reactor.fluidport_forge_passive": "Porta de Fluido (Passiva)",
     "part.bigreactors.reactor.redstoneport": "Porta de Redstone",
-    "part.bigreactors.reactor.chargingport_fe": "Porto de Carregamento (FE)",
+    "part.bigreactors.reactor.chargingport_fe": "Porta de Carregamento (FE)",
 
     "_comment": "Turbine parts names (for GUIs)",
     "part.bigreactors.turbine.controller": "Controlador",
-    "part.bigreactors.turbine.fluidport_forge_active": "Porta de Refrigerante (Ativo)",
-    "part.bigreactors.turbine.fluidport_forge_passive": "Porta de Refrigerante (Passivo)",
+    "part.bigreactors.turbine.fluidport_forge_active": "Porta de Fluido (Ativa)",
+    "part.bigreactors.turbine.fluidport_forge_passive": "Porta de Fluido (Passiva)",
     "part.bigreactors.turbine.redstoneport": "Porta de Redstone",
-    "part.bigreactors.turbine.chargingport_fe": "Porto de Carregamento (FE)",
+    "part.bigreactors.turbine.chargingport_fe": "Porta de Carregamento (FE)",
 
     "_comment": "Energizer parts names (for GUIs)",
-    "part.bigreactors.energizer.controller": "Controller",
-    "part.bigreactors.energizer.powerportfe": "FE Power Port (Passive)",
-    "part.bigreactors.energizer.powerportfe_active": "FE Power Port (Active)",
-    "part.bigreactors.energizer.chargingportfe": "Charging Port (FE)",
+    "part.bigreactors.energizer.controller": "Controlador",
+    "part.bigreactors.energizer.powerportfe": "Porta de Energia FE (Passiva)",
+    "part.bigreactors.energizer.powerportfe_active": "Porta de Energia FE (Ativa)",
+    "part.bigreactors.energizer.chargingportfe": "Porta de Carregamento (FE)",
 
     "_comment": "variants names",
     "variant.bigreactors.reactor.basic": "Básico",
@@ -233,6 +234,8 @@
     "gui.bigreactors.reprocessor.inactive": "O Reprocessador está inativo",
     "gui.bigreactors.fluidizer.active": "O Fluidificador está ATIVO",
     "gui.bigreactors.fluidizer.inactive": "O Fluidificador está inativo",
+    "gui.bigreactors.energizer.active": "O Energizador está ATIVO",
+    "gui.bigreactors.energizer.inactive": "O Energizador está inativo",
     "gui.bigreactors.show_recipes.tooltip.title": "Mostrar receitas",
 
     "gui.bigreactors.reactor.controller.fuelusage.tooltip.title": "Taxa de Queima de Combustível",
@@ -256,7 +259,7 @@
 
     "gui.bigreactors.reactor.controller.casingheatbar.tooltip.title": "Calor do Revestimento",
     "gui.bigreactors.reactor.controller.casingheatbar.tooltip.value": "  @0",
-    "gui.bigreactors.reactor.controller.casingheatbar.tooltip.body": "Calor do revestimento do Reator. O calor elevado aumenta a produção de energia e a conversão do refrigerante.",
+    "gui.bigreactors.reactor.controller.casingheatbar.tooltip.body": "Calor da estrutura do reator. Altas temperaturas aumentam a produção de energia e a conversão do refrigerante.",
 
     "gui.bigreactors.reactor_turbine.controller.energybar.tooltip.body": "A energia gerada é armazenada no buffer esperando para ser entregue aos consumidores conectados às Saídas de Energia.\n\nSe o buffer estiver cheio, qualquer energia recém-gerada será perdida.",
 
@@ -270,7 +273,7 @@
     "gui.bigreactors.reactor.controller.coolantbar.tooltip.value2b": " / @2",
     "gui.bigreactors.reactor.controller.coolantbar.tooltip.value3a": "  @3",
     "gui.bigreactors.reactor.controller.coolantbar.tooltip.value3b": "% cheio",
-    "gui.bigreactors.reactor.controller.coolantbar.tooltip.body": "O calor do revestimento superaquece o refrigerante neste tanque e gera vapor.",
+    "gui.bigreactors.reactor.controller.coolantbar.tooltip.body": "O calor da estrutura vai superaquecer o refrigerante neste tanque e gerar vapor.",
 
     "gui.bigreactors.reactor.controller.vaporbar.tooltip.title": "Tanque de Fluido de Vapor",
     "gui.bigreactors.reactor.controller.vaporbar.tooltip.value1": "  @0",
@@ -278,7 +281,7 @@
     "gui.bigreactors.reactor.controller.vaporbar.tooltip.value2b": " / @2",
     "gui.bigreactors.reactor.controller.vaporbar.tooltip.value3a": "  @3",
     "gui.bigreactors.reactor.controller.vaporbar.tooltip.value3b": "% cheio",
-    "gui.bigreactors.reactor.controller.vaporbar.tooltip.body": "O refrigerante superaquecido bombeará para este tanque e deve ser extraído usando as Portas de Fluido.",
+    "gui.bigreactors.reactor.controller.vaporbar.tooltip.body": "O refrigerante superaquecido será bombeado para este tanque e deve ser extraído usando Portas de Fluido.",
 
     "gui.bigreactors.reactor.controller.vaporratio.tooltip.title": "Saída de Vapor",
     "gui.bigreactors.reactor.controller.vaporratio.tooltip.value": "  @0",
@@ -487,6 +490,33 @@
     "gui.bigreactors.fluidizer.solidinjector.component.content": "%1$s [%2$d]",
     "gui.bigreactors.fluidizer.fluidinjector.component.content": "%1$s [%2$d mB]",
 
+    "gui.bigreactors.energizer.controller.on.title": "Ligue o Energizador",
+    "gui.bigreactors.energizer.controller.off.title": "Desligue o Energizador",
+
+    "gui.bigreactors.energizer.controller.energybar.tooltip.body": "Pode demorar um pouco...",
+
+    "gui.bigreactors.energizer.controller.io.tooltip.title": "E/S de energia",
+    "gui.bigreactors.energizer.controller.io.tooltip.value": "  @0",
+    "gui.bigreactors.energizer.controller.io.tooltip.body": "A quantidade de energia inserida ou extraída do Energizador",
+
+    "gui.bigreactors.energizer.controller.capacity.tooltip.title": "Capacidade de armazenamento",
+    "gui.bigreactors.energizer.controller.capacity.tooltip.value": "  %1$s",
+    "gui.bigreactors.energizer.controller.capacity.tooltip.body": "A quantidade máxima de energia que pode ser armazenada neste Energizador",
+
+    "gui.bigreactors.energizer.controller.input.tooltip.title": "Energia inserida",
+    "gui.bigreactors.energizer.controller.input.tooltip.value": "  @0",
+    "gui.bigreactors.energizer.controller.input.tooltip.body": "A quantidade de energia inserida no Energizador",
+
+    "gui.bigreactors.energizer.controller.output.tooltip.title": "Energia extraída",
+    "gui.bigreactors.energizer.controller.output.tooltip.value": "  @0",
+    "gui.bigreactors.energizer.controller.output.tooltip.body": "A quantidade de energia extraída do Energizador",
+
+    "gui.bigreactors.energizer.powerport.directioninput.tooltip.title": "Modo de Entrada",
+    "gui.bigreactors.energizer.powerport.directioninput.tooltip.body": "Define esta Porta de Energia para o modo de entrada.",
+
+    "gui.bigreactors.energizer.powerport.directionoutput.tooltip.title": "Mode de Saída",
+    "gui.bigreactors.energizer.powerport.directionoutput.tooltip.body": "Define esta Porta de Energia para o modo de saída.",
+
     "gui.bigreactors.generator.chargingport.eject.tooltip.title": "Ejeção manual",
     "gui.bigreactors.generator.chargingport.eject.tooltip.body": "Ejeta manualmente o item do slot de entrada e o coloca no slot de saída.",
 
@@ -560,6 +590,13 @@
     "multiblock.validation.fluidizer.invalid_part_for_interior": "Esta peça não pode ser colocada no interior do Fluidificador",
     "multiblock.validation.fluidizer.invalid_block": "%1$s não é um bloco válido para o Fluidificador",
 
+    "_comment": "Multiblock validation errors (energizers)",
+    "multiblock.validation.energizer.invalid_part_for_interior": "Essa peça do Energizador não pode ser colocada no interior do Energizador.",
+    "multiblock.validation.energizer.invalid_block_for_interior": "%1$s não é válido para o interior do Energizador.",
+    "multiblock.validation.energizer.invalid_block_for_exterior": "%1$s não é válido para o exterior do Energizador.",
+    "multiblock.validation.energizer.too_few_controllers": "Controladores insuficientes. Energizadores requerem pelo menos um.",
+    "multiblock.validation.energizer.invalid_frame_block": "Apenas a carcaça pode ser usada como parte da estrutura de um Energizador.",
+
     "_comment": "Configs",
     "config.bigreactors.compatibility": "Compatibilidade",
     "config.bigreactors.general": "Geral",
@@ -588,6 +625,9 @@
     "config.bigreactors.fluidizer.maxfluidizerheight": "Altura Máx. (Y)",
     "config.bigreactors.fluidizer.maxfluidizersize": "Tamanho Máx. (X/Z)",
     "config.bigreactors.fluidizer.energyperrecipetick": "Energia por tick de receita",
+
+    "config.bigreactors.energizer.maxenergizerheight": "Altura máxima (Y)",
+    "config.bigreactors.energizer.maxenergizersize": "Tamanho máximo (X/Z)",
 
     "config.bigreactors.recipes.registercharcoalforsmelting": "Fundir carvão vegetal em grafite",
     "config.bigreactors.recipes.registerCoalForSmelting": "Fundir carvão em grafite",
