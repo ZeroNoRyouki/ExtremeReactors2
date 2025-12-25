@@ -17,15 +17,15 @@
     "vapor.bigreactors.steam": "Vapor (vapor)",
 
     "_comment": "Items - ingots",
-    "item.bigreactors.yellorium_ingot": "Barra de Yellório",
-    "item.bigreactors.cyanite_ingot": "Barra de Cianita",
-    "item.bigreactors.blutonium_ingot": "Barra de Blutônio",
-    "item.bigreactors.magentite_ingot": "Barra de Magentita",
-    "item.bigreactors.graphite_ingot": "Barra de Grafite",
-    "item.bigreactors.ludicrite_ingot": "Barra de Ludicrita",
-    "item.bigreactors.ridiculite_ingot": "Barra de Ridiculita",
-    "item.bigreactors.inanite_ingot": "Barra de Inanita",
-    "item.bigreactors.insanite_ingot": "Barra de Insanita",
+    "item.bigreactors.yellorium_ingot": "Lingote de Yellório",
+    "item.bigreactors.cyanite_ingot": "Lingote de Cianita",
+    "item.bigreactors.blutonium_ingot": "Lingote de Blutônio",
+    "item.bigreactors.magentite_ingot": "Lingote de Magentita",
+    "item.bigreactors.graphite_ingot": "Lingote de Grafite",
+    "item.bigreactors.ludicrite_ingot": "Lingote de Ludicrita",
+    "item.bigreactors.ridiculite_ingot": "Lingote de Ridiculita",
+    "item.bigreactors.inanite_ingot": "Lingote de Inanita",
+    "item.bigreactors.insanite_ingot": "Lingote de Insanita",
 
     "_comment": "Items - nuggets",
     "item.bigreactors.yellorium_nugget": "Pepita de Yellório",
@@ -672,3 +672,4 @@
     "compat.bigreactors.jei.coolantmappings.recipecategory.title": "Fluido <=> Refrigerante",
     "compat.bigreactors.jei.vapormappings.recipecategory.title": "Fluido <=> Vapor"
 }
+
