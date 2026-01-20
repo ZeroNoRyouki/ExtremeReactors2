@@ -44,18 +44,37 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentUtils;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
 import java.lang.reflect.Field;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
 public final class ExtremeReactorsCommand {
+
+    private static final String PARAM_NAME = "name";
+
+    //region internals
+    private static final String PARAM_TAG = "tag";
+
+    //region commands & parameters
+    private static final String PARAM_BLOCK = "block";
+    private static final String PARAM_VALUE = "value";
+
+    private ExtremeReactorsCommand() {
+    }
 
     public static void register(final CommandDispatcher<CommandSourceStack> dispatcher, CommandBuildContext buildContext) {
 
@@ -87,6 +106,7 @@ public final class ExtremeReactorsCommand {
                         )
                         .then(Commands.literal("list").executes(ctx ->
                                 displayNamesList(ctx, ExtremeReactorsCommand::getReactantsNames)))
+                        .then(Commands.literal("export").executes(ExtremeReactorsCommand::exportReactants))
                 )
                 .then(Commands.literal("moderators")
                         .then(Commands.literal("get")
@@ -106,6 +126,7 @@ public final class ExtremeReactorsCommand {
                         )
                         .then(Commands.literal("list").executes(ctx ->
                                 displayNamesList(ctx, ModeratorsRegistry::getModeratorsNames)))
+                        .then(Commands.literal("export").executes(ExtremeReactorsCommand::exportModerators))
                 )
                 .then(Commands.literal("reaction")
                         .then(Commands.literal("get")
@@ -119,6 +140,7 @@ public final class ExtremeReactorsCommand {
                         )
                         .then(Commands.literal("list").executes(ctx ->
                                 displayNamesList(ctx, ReactionsRegistry::getReactionsNames)))
+                        .then(Commands.literal("export").executes(ExtremeReactorsCommand::exportReactions))
                 )
                 .then(Commands.literal("coils")
                         .then(Commands.literal("get")
@@ -136,16 +158,10 @@ public final class ExtremeReactorsCommand {
                         )
                         .then(Commands.literal("list").executes(ctx ->
                                 displayNamesList(ctx, CoilMaterialRegistry::getCoilsNames)))
+                        .then(Commands.literal("export").executes(ExtremeReactorsCommand::exportCoils))
                 )
         );
     }
-
-    //region internals
-
-    private ExtremeReactorsCommand() {
-    }
-
-    //region commands & parameters
 
     private static ArgumentBuilder<CommandSourceStack, LiteralArgumentBuilder<CommandSourceStack>> stringCommand(final String propertyName,
                                                                                                                  final Command<CommandSourceStack> cmd) {
@@ -184,6 +200,9 @@ public final class ExtremeReactorsCommand {
         return StringArgumentType.getString(context, PARAM_NAME);
     }
 
+    //endregion
+    //region reactants
+
     private static BlockInput getBlock(final CommandContext<CommandSourceStack> context) {
         return BlockStateArgument.getBlock(context, PARAM_BLOCK);
     }
@@ -200,9 +219,6 @@ public final class ExtremeReactorsCommand {
         return FloatArgumentType.getFloat(context, PARAM_VALUE);
     }
 
-    //endregion
-    //region reactants
-
     private static int getReactant(final CommandContext<CommandSourceStack> context) {
 
         context.getSource().sendSuccess(() -> ReactantsRegistry.get(getName(context))
@@ -214,7 +230,7 @@ public final class ExtremeReactorsCommand {
     private static int setReactantColour(final CommandContext<CommandSourceStack> context) {
 
         context.getSource().sendSuccess(() -> ReactantsRegistry.get(getName(context))
-                .map(r -> setReactantColour(r, (int)Long.parseLong(getString(context), 16)))
+                .map(r -> setReactantColour(r, (int) Long.parseLong(getString(context), 16)))
                 .orElse(Component.literal("Reactant not found")), true);
         return 0;
     }
@@ -235,6 +251,9 @@ public final class ExtremeReactorsCommand {
             return Component.literal("Exception raised while setting colour field");
         }
     }
+
+    //endregion
+    //region moderators
 
     private static int setReactantFuelValue(final CommandContext<CommandSourceStack> context, final Function<Reactant, Float> getter,
                                             final BiConsumer<Reactant, Float> setter) {
@@ -277,8 +296,61 @@ public final class ExtremeReactorsCommand {
                 .toList();
     }
 
+    private static int exportReactants(final CommandContext<CommandSourceStack> context) {
+
+        final CommandSourceStack sourceCmd = context.getSource();
+        final Path gameDirectory = sourceCmd.getServer().getServerDirectory();
+        final Path exportDirectory = gameDirectory.resolve("ExtremeReactors");
+        final Path exportFile = exportDirectory.resolve("reactants.csv");
+
+        try {
+
+            if (!Files.exists(exportDirectory)) {
+                Files.createDirectories(exportDirectory);
+            }
+
+            try (BufferedWriter writer = Files.newBufferedWriter(exportFile)) {
+
+                // Header
+                writer.write("Name,Type,Color,Moderation,Absorption,Hardness,FissionEventsPerFuelUnit,FuelUnitsPerFissionEvent\n");
+
+                // Data
+                for (final String name : getReactantsNames()) {
+                    ReactantsRegistry.get(name).ifPresent(reactant -> {
+                        try {
+                            final FuelProperties fuelProps = reactant.test(ReactantType.Fuel) ? reactant.getFuelData() : null;
+                            writer.write(String.format(Locale.US, "%s,%s,%08X,%.6f,%.6f,%.6f,%.6f,%.6f\n",
+                                    reactant.getName(),
+                                    reactant.getType(),
+                                    reactant.getColour().toRGBA(),
+                                    null != fuelProps ? fuelProps.getModerationFactor() : 0.0f,
+                                    null != fuelProps ? fuelProps.getAbsorptionCoefficient() : 0.0f,
+                                    null != fuelProps ? fuelProps.getHardnessDivisor() : 0.0f,
+                                    null != fuelProps ? fuelProps.getFissionEventsPerFuelUnit() : 0.0f,
+                                    null != fuelProps ? fuelProps.getFuelUnitsPerFissionEvent() : 0.0f));
+                        } catch (IOException e) {
+                            Log.LOGGER.error("Error writing reactant data to CSV: " + name, e);
+                        }
+                    });
+                }
+
+                sourceCmd.sendSuccess(() -> Component.literal("Reactants exported to " + exportFile), true);
+
+            } catch (IOException e) {
+                Log.LOGGER.error("Failed to write reactants CSV file", e);
+                sourceCmd.sendFailure(Component.literal("Failed to export reactants: " + e.getMessage()));
+            }
+
+        } catch (IOException e) {
+            Log.LOGGER.error("Failed to create export directory for reactants CSV", e);
+            sourceCmd.sendFailure(Component.literal("Failed to create export directory: " + e.getMessage()));
+        }
+
+        return 0;
+    }
+
     //endregion
-    //region moderators
+    //region reactions
 
     private static int getModerator(final CommandContext<CommandSourceStack> context) {
 
@@ -316,8 +388,58 @@ public final class ExtremeReactorsCommand {
                 .append(String.format("%f; ", moderator.getHeatConductivity()));
     }
 
+    private static int exportModerators(final CommandContext<CommandSourceStack> context) {
+
+        final CommandSourceStack source = context.getSource();
+        final Path gameDirectory = source.getServer().getServerDirectory();
+        final Path exportDirectory = gameDirectory.resolve("ExtremeReactors");
+        final Path exportFile = exportDirectory.resolve("moderators.csv");
+
+        try {
+
+            if (!Files.exists(exportDirectory)) {
+                Files.createDirectories(exportDirectory);
+            }
+
+            try (BufferedWriter writer = Files.newBufferedWriter(exportFile)) {
+
+                // Header
+                writer.write("Name,Absorption,HeatEfficiency,Moderation,HeatConductivity\n");
+
+                // Data
+                for (final String name : ModeratorsRegistry.getModeratorsNames()) {
+                    ModeratorsRegistry.getFromName(name).ifPresent(moderator -> {
+                        try {
+                            // Use Locale.US to ensure '.' is used as decimal separator
+                            writer.write(String.format(Locale.US, "%s,%.6f,%.6f,%.6f,%.6f\n",
+                                    name,
+                                    moderator.getAbsorption(),
+                                    moderator.getHeatEfficiency(),
+                                    moderator.getModeration(),
+                                    moderator.getHeatConductivity()));
+                        } catch (IOException e) {
+                            Log.LOGGER.error("Error writing moderator data to CSV: " + name, e);
+                        }
+                    });
+                }
+
+                source.sendSuccess(() -> Component.literal("Moderators exported to " + exportFile), true);
+
+            } catch (IOException e) {
+                Log.LOGGER.error("Failed to write moderators CSV file", e);
+                source.sendFailure(Component.literal("Failed to export moderators: " + e.getMessage()));
+            }
+
+        } catch (IOException e) {
+            Log.LOGGER.error("Failed to create export directory for moderators CSV", e);
+            source.sendFailure(Component.literal("Failed to create export directory: " + e.getMessage()));
+        }
+
+        return 0;
+    }
+
     //endregion
-    //region reactions
+    //region coils
 
     private static int getReaction(final CommandContext<CommandSourceStack> context) {
 
@@ -360,8 +482,55 @@ public final class ExtremeReactorsCommand {
         return 0;
     }
 
-    //endregion
-    //region coils
+    private static int exportReactions(final CommandContext<CommandSourceStack> context) {
+
+        final CommandSourceStack sourceCmd = context.getSource();
+        final Path gameDirectory = sourceCmd.getServer().getServerDirectory();
+        final Path exportDirectory = gameDirectory.resolve("ExtremeReactors");
+        final Path exportFile = exportDirectory.resolve("reactions.csv");
+
+        try {
+
+            if (!Files.exists(exportDirectory)) {
+                Files.createDirectories(exportDirectory);
+            }
+
+            try (BufferedWriter writer = Files.newBufferedWriter(exportFile)) {
+
+                // Header
+                writer.write("Source,Product,Reactivity,FissionRate\n");
+
+                // Data
+                for (final String reactantName : ReactionsRegistry.getReactionsNames()) {
+                    ReactantsRegistry.get(reactantName)
+                            .flatMap(ReactionsRegistry::get)
+                            .ifPresent(reaction -> {
+                                try {
+                                    writer.write(String.format(Locale.US, "%s,%s,%.6f,%.6f\n",
+                                            reaction.getSource().getName(),
+                                            reaction.getProduct().getName(),
+                                            reaction.getReactivity(),
+                                            reaction.getFissionRate()));
+                                } catch (IOException e) {
+                                    Log.LOGGER.error("Error writing reaction data to CSV: " + reactantName, e);
+                                }
+                            });
+                }
+
+                sourceCmd.sendSuccess(() -> Component.literal("Reactions exported to " + exportFile), true);
+
+            } catch (IOException e) {
+                Log.LOGGER.error("Failed to write reactions CSV file", e);
+                sourceCmd.sendFailure(Component.literal("Failed to export reactions: " + e.getMessage()));
+            }
+
+        } catch (IOException e) {
+            Log.LOGGER.error("Failed to create export directory for reactions CSV", e);
+            sourceCmd.sendFailure(Component.literal("Failed to create export directory: " + e.getMessage()));
+        }
+
+        return 0;
+    }
 
     private static int getCoil(final CommandContext<CommandSourceStack> context) {
 
@@ -370,6 +539,8 @@ public final class ExtremeReactorsCommand {
                 .orElse(Component.literal("Coil not found")), true);
         return 0;
     }
+
+    //endregion
 
     private static int setCoilValue(final CommandContext<CommandSourceStack> context, final Function<CoilMaterial, Float> getter,
                                     final BiConsumer<CoilMaterial, Float> setter) {
@@ -392,7 +563,53 @@ public final class ExtremeReactorsCommand {
         return CoilMaterialRegistry.get(TagsHelper.BLOCKS.createKey(getTagId(context)));
     }
 
-    //endregion
+    private static int exportCoils(final CommandContext<CommandSourceStack> context) {
+
+        final CommandSourceStack sourceCmd = context.getSource();
+        final Path gameDirectory = sourceCmd.getServer().getServerDirectory();
+        final Path exportDirectory = gameDirectory.resolve("ExtremeReactors");
+        final Path exportFile = exportDirectory.resolve("coils.csv");
+
+        try {
+
+            if (!Files.exists(exportDirectory)) {
+                Files.createDirectories(exportDirectory);
+            }
+
+            try (BufferedWriter writer = Files.newBufferedWriter(exportFile)) {
+
+                // Header
+                writer.write("Name,Efficiency,Bonus,EnergyExtractionRate\n");
+
+                // Data
+                for (final TagKey<Block> coilTagKey : CoilMaterialRegistry.getCoilTagKeys()) {
+                    CoilMaterialRegistry.get(coilTagKey).ifPresent(coil -> {
+                        try {
+                            writer.write(String.format(Locale.US, "%s,%.6f,%.6f,%.6f\n",
+                                    coilTagKey.location(),
+                                    coil.getEfficiency(),
+                                    coil.getBonus(),
+                                    coil.getEnergyExtractionRate()));
+                        } catch (IOException e) {
+                            Log.LOGGER.error("Error writing coil data to CSV: " + coilTagKey.location(), e);
+                        }
+                    });
+                }
+
+                sourceCmd.sendSuccess(() -> Component.literal("Coils exported to " + exportFile), true);
+
+            } catch (IOException e) {
+                Log.LOGGER.error("Failed to write coils CSV file", e);
+                sourceCmd.sendFailure(Component.literal("Failed to export coils: " + e.getMessage()));
+            }
+
+        } catch (IOException e) {
+            Log.LOGGER.error("Failed to create export directory for coils CSV", e);
+            sourceCmd.sendFailure(Component.literal("Failed to create export directory: " + e.getMessage()));
+        }
+
+        return 0;
+    }
 
     private static <T> Component setValue(final T data, final float value, final Function<T, Float> getter,
                                           final BiConsumer<T, Float> setter) {
@@ -435,11 +652,6 @@ public final class ExtremeReactorsCommand {
 
         return output;
     }
-
-    private static final String PARAM_NAME = "name";
-    private static final String PARAM_TAG = "tag";
-    private static final String PARAM_BLOCK = "block";
-    private static final String PARAM_VALUE = "value";
 
     //endregion
 }
